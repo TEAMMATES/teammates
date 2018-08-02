@@ -5370,15 +5370,15 @@
                                               <table class="table fixed-table-layout table-striped table-bordered data-table margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                   <tr>
-                                                    <th style="width: 10%; min-width: 67px;" id="button_sortFromTeam" class="button-sort-none toggle-sort">
+                                                    <th style="width: 10%; min-width: 67px;" id="button_sortFromTeam" class="button-sort-none">
                                                       Team<span class="icon-sort unsorted"></span></th>
-                                                      <th style="width: 10%; min-width: 65px;" id="button_sortFromName" class="button-sort-none toggle-sort">
+                                                      <th style="width: 10%; min-width: 65px;" id="button_sortFromName" class="button-sort-none">
                                                         Giver<span class="icon-sort unsorted"></span></th>
-                                                        <th style="width: 10%; min-width: 67px;" id="button_sortToTeam" class="button-sort-ascending toggle-sort">
+                                                        <th style="width: 10%; min-width: 67px;" id="button_sortToTeam" class="button-sort-ascending">
                                                           Team<span class="icon-sort unsorted"></span></th>
-                                                          <th style="width: 10%; min-width: 90px;" id="button_sortToName" class="button-sort-none toggle-sort">
+                                                          <th style="width: 10%; min-width: 90px;" id="button_sortToName" class="button-sort-none">
                                                             Recipient<span class="icon-sort unsorted"></span></th>
-                                                            <th style="width: 45%; min-width: 95px;" id="button_sortFeedback" class="button-sort-none toggle-sort">
+                                                            <th style="width: 45%; min-width: 95px;" id="button_sortFeedback" class="button-sort-none">
                                                               Feedback<span class="icon-sort unsorted"></span></th>
                                                               <th style="width: 15%; min-width: 75px;" class="action-header">
                                                               Actions</th>
@@ -5401,14 +5401,10 @@
                                                               <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                               <td class="word-wrap-break text-preserve-space">a) Strongly Disagree <span class="color-neutral"><i>(Choice 1)</i></span><br>b) Agree <span class="color-neutral"><i>(Choice 3)</i></span><br></td>
                                                               <td>
-                                                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="jean@example.com">
+                                                                <form class="inline" method="post">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
-                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-2-1-1" data-recipientindex="2" data-giverindex="1" data-qnindex="1">
+                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-2-1-1" data-recipientindex="2" data-giverindex="1" data-qnindex="1" disabled>
                                                                   Add Comment
                                                                 </button>
                                                                 <div class="modal fade" id="commentModal-2-1-1" role="dialog">
@@ -5525,13 +5521,9 @@
                                                               <td class="word-wrap-break text-preserve-space">a) Agree <span class="color-neutral"><i>(Choice 3)</i></span><br>b) Disagree <span class="color-neutral"><i>(Choice 2)</i></span><br></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="jean@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
-                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-3-1-1" data-recipientindex="3" data-giverindex="1" data-qnindex="1">
+                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-3-1-1" data-recipientindex="3" data-giverindex="1" data-qnindex="1" disabled>
                                                                   Add Comment
                                                                 </button>
                                                                 <div class="modal fade" id="commentModal-3-1-1" role="dialog">
@@ -5648,13 +5640,9 @@
                                                               <td class="word-wrap-break text-preserve-space">a) Strongly Disagree <span class="color-neutral"><i>(Choice 1)</i></span><br>b) Agree <span class="color-neutral"><i>(Choice 3)</i></span><br></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="ravi@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
-                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-1-2-1" data-recipientindex="1" data-giverindex="2" data-qnindex="1">
+                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-1-2-1" data-recipientindex="1" data-giverindex="2" data-qnindex="1" disabled>
                                                                   Add Comment
                                                                 </button>
                                                                 <div class="modal fade" id="commentModal-1-2-1" role="dialog">
@@ -5771,13 +5759,9 @@
                                                               <td class="word-wrap-break text-preserve-space">a) Strongly Disagree <span class="color-neutral"><i>(Choice 1)</i></span><br>b) Agree <span class="color-neutral"><i>(Choice 3)</i></span><br></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="ravi@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
-                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-3-2-1" data-recipientindex="3" data-giverindex="2" data-qnindex="1">
+                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-3-2-1" data-recipientindex="3" data-giverindex="2" data-qnindex="1" disabled>
                                                                   Add Comment
                                                                 </button>
                                                                 <div class="modal fade" id="commentModal-3-2-1" role="dialog">
@@ -5894,13 +5878,9 @@
                                                               <td class="word-wrap-break text-preserve-space">a) Disagree <span class="color-neutral"><i>(Choice 2)</i></span><br>b) Agree <span class="color-neutral"><i>(Choice 3)</i></span><br></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="tom@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
-                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-1-3-1" data-recipientindex="1" data-giverindex="3" data-qnindex="1">
+                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-1-3-1" data-recipientindex="1" data-giverindex="3" data-qnindex="1" disabled>
                                                                   Add Comment
                                                                 </button>
                                                                 <div class="modal fade" id="commentModal-1-3-1" role="dialog">
@@ -6017,13 +5997,9 @@
                                                               <td class="word-wrap-break text-preserve-space">a) Strongly Agree <span class="color-neutral"><i>(Choice 4)</i></span><br>b) Strongly Agree <span class="color-neutral"><i>(Choice 4)</i></span><br></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="tom@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
-                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-2-3-1" data-recipientindex="2" data-giverindex="3" data-qnindex="1">
+                                                                <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;" data-toggle="modal" data-target="#commentModal-2-3-1" data-recipientindex="2" data-giverindex="3" data-qnindex="1" disabled>
                                                                   Add Comment
                                                                 </button>
                                                                 <div class="modal fade" id="commentModal-2-3-1" role="dialog">
@@ -6140,11 +6116,7 @@
                                                               <td class="word-wrap-break text-preserve-space color-neutral"><i>No Response</i></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="ling@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
                                                               </td>
                                                             </tr>
@@ -6165,11 +6137,7 @@
                                                               <td class="word-wrap-break text-preserve-space color-neutral"><i>No Response</i></td>
                                                               <td>
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student">
-                                                                  <input type="hidden" name="courseid" value="CS3424">
-                                                                  <input type="hidden" name="fsname" value="New session">
-                                                                  <input type="hidden" name="moderatedquestionid" value="ahF0ZWFtbWF0ZXMtc3VrYW50YXIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgJykCww">
-                                                                  <input type="hidden" name="moderatedperson" value="desmond@example.com">
+                                                                  <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled>
                                                                 </form>
                                                               </td>
                                                             </tr>
