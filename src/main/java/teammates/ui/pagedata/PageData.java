@@ -366,7 +366,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseRestoreRecoveryCourseLink(String courseId) {
+    public String getInstructorCourseRestoreSoftDeletedCourseLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
@@ -376,7 +376,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseRestoreAllRecoveryCoursesLink() {
+    public String getInstructorCourseRestoreAllSoftDeletedCoursesLink() {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
@@ -385,7 +385,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseDeleteRecoveryCourseLink(String courseId) {
+    public String getInstructorCourseDeleteSoftDeletedCourseLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
@@ -395,7 +395,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseDeleteAllRecoveryCoursesLink() {
+    public String getInstructorCourseDeleteAllSoftDeletedCoursesLink() {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
@@ -564,7 +564,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackRestoreRecoverySessionLink(String courseId, String feedbackSessionName) {
+    public String getInstructorFeedbackRestoreSoftDeletedSessionLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -575,7 +575,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackRestoreAllRecoverySessionsLink() {
+    public String getInstructorFeedbackRestoreAllSoftDeletedSessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);
@@ -584,7 +584,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackDeleteRecoverySessionLink(String courseId, String feedbackSessionName) {
+    public String getInstructorFeedbackDeleteSoftDeletedSessionLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -595,7 +595,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackDeleteAllRecoverySessionsLink() {
+    public String getInstructorFeedbackDeleteAllSoftDeletedSessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);

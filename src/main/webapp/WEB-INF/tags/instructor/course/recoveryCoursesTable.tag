@@ -2,7 +2,7 @@
 <%@ tag description="instructorCourse - Recovery courses table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ attribute name="recoveryCourses" type="teammates.ui.template.RecoveryCoursesTable" required="true" %>
+<%@ attribute name="recoveryCourses" type="teammates.ui.template.SoftDeletedCoursesTable" required="true" %>
 
 <c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
 <table class="table table-bordered table-striped margin-0" id="tableRecoveryCourses">

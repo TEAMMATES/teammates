@@ -15,7 +15,7 @@
     </div>
     <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px session-delete-all-link color-negative<c:if test="${not data.instructorAllowedToModify}"> disabled</c:if>"
        id="btn-session-deleteall"
-       href="${data.instructorFeedbackDeleteAllRecoverySessionsLink}"
+       href="${data.instructorFeedbackDeleteAllSoftDeletedSessionsLink}"
        title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE_ALL %>"
        data-toggle="tooltip"
        data-placement="top">
@@ -24,7 +24,7 @@
     </a>
     <a class="btn btn-default btn-xs pull-right pull-down<c:if test="${not data.instructorAllowedToModify}"> disabled</c:if>"
        id="btn-session-restoreall"
-       href="${data.instructorFeedbackRestoreAllRecoverySessionsLink}"
+       href="${data.instructorFeedbackRestoreAllSoftDeletedSessionsLink}"
        title="<%= Const.Tooltips.FEEDBACK_SESSION_RESTORE_ALL %>"
        data-toggle="tooltip"
        data-placement="top">
@@ -37,7 +37,7 @@
   </div>
   <div id="recoverySessionsBodyCollapse" class="panel-collapse collapse">
     <div class="panel-body padding-0">
-      <feedbacks:recoveryFeedbackSessionsTable recoveryFsList="${data.recoveryFsList}"/>
+      <feedbacks:recoveryFeedbackSessionsTable recoveryFsList="${data.softDeletedFsList}"/>
     </div>
   </div>
 </div>

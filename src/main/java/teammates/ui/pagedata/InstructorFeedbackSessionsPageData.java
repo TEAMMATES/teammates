@@ -17,8 +17,8 @@ import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.InstructorFeedbackSessionActions;
-import teammates.ui.template.RecoveryFeedbackSessionsTable;
-import teammates.ui.template.RecoveryFeedbackSessionsTableRow;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTable;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTableRow;
 
 public class InstructorFeedbackSessionsPageData extends PageData {
 
@@ -27,7 +27,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private boolean isUsingAjax;
 
     private FeedbackSessionsTable fsList;
-    private RecoveryFeedbackSessionsTable recoveryFsList;
+    private SoftDeletedFeedbackSessionsTable softDeletedFsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
     private List<CourseAttributes> courseAttributes;
@@ -53,7 +53,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession,
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
-                     List<FeedbackSessionAttributes> recoveryFeedbackSessions,
+                     List<FeedbackSessionAttributes> softDeletedFeedbackSessions,
                      Map<String, InstructorAttributes> instructors,
                      FeedbackSessionAttributes defaultFormValues, String sessionTemplateType,
                      String highlightedFeedbackSession) {
@@ -74,26 +74,26 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         courseAttributes = courses;
 
-        this.recoveryFsList = convertToRecoveryFeedbackSessionsTable(recoveryFeedbackSessions);
+        this.softDeletedFsList = convertToSoftDeletedFeedbackSessionsTable(softDeletedFeedbackSessions);
     }
 
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession,
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                          List<FeedbackSessionAttributes> recoveryFeedbackSessions,
+                                          List<FeedbackSessionAttributes> softDeletedFeedbackSessions,
                                           Map<String, InstructorAttributes> instructors,
                                           FeedbackSessionAttributes defaultFormValues, String sessionTemplateType) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, recoveryFeedbackSessions, instructors,
+        init(courses, courseIdForNewSession, existingFeedbackSessions, softDeletedFeedbackSessions, instructors,
                 defaultFormValues, sessionTemplateType, null);
     }
 
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession,
                                              List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                             List<FeedbackSessionAttributes> recoveryFeedbackSessions,
+                                             List<FeedbackSessionAttributes> softDeletedFeedbackSessions,
                                              Map<String, InstructorAttributes> instructors,
                                              String highlightedFeedbackSession) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, recoveryFeedbackSessions, instructors,
+        init(courses, courseIdForNewSession, existingFeedbackSessions, softDeletedFeedbackSessions, instructors,
                 null, null, highlightedFeedbackSession);
     }
 
@@ -222,8 +222,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return fsList;
     }
 
-    public RecoveryFeedbackSessionsTable getRecoveryFsList() {
-        return recoveryFsList;
+    public SoftDeletedFeedbackSessionsTable getSoftDeletedFsList() {
+        return softDeletedFsList;
     }
 
     public FeedbackSessionsForm getNewFsForm() {
@@ -239,7 +239,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     public boolean isInstructorAllowedToModify() {
-        return getRecoveryFsList().getRows().stream()
+        return getSoftDeletedFsList().getRows().stream()
                 .allMatch(session -> instructorsForCourses.get(session.getCourseId())
                         .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
     }
@@ -347,8 +347,9 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         this.isUsingAjax = isUsingAjax;
     }
 
-    private RecoveryFeedbackSessionsTable convertToRecoveryFeedbackSessionsTable(List<FeedbackSessionAttributes> sessions) {
-        RecoveryFeedbackSessionsTable recoveryFeedbackSessionsTable = new RecoveryFeedbackSessionsTable();
+    private SoftDeletedFeedbackSessionsTable convertToSoftDeletedFeedbackSessionsTable(
+            List<FeedbackSessionAttributes> sessions) {
+        SoftDeletedFeedbackSessionsTable softDeletedFeedbackSessionsTable = new SoftDeletedFeedbackSessionsTable();
 
         int idx = -1;
 
@@ -357,14 +358,14 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
             List<ElementTag> actionsParam = new ArrayList<>();
 
-            String restoreLink = getInstructorFeedbackRestoreRecoverySessionLink(session.getCourseId(),
+            String restoreLink = getInstructorFeedbackRestoreSoftDeletedSessionLink(session.getCourseId(),
                     session.getSessionName());
             Boolean hasRestorePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_session_restore" + idx, "",
                     restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, !hasRestorePermission);
 
-            String deleteLink = getInstructorFeedbackDeleteRecoverySessionLink(session.getCourseId(),
+            String deleteLink = getInstructorFeedbackDeleteSoftDeletedSessionLink(session.getCourseId(),
                     session.getSessionName());
             Boolean hasDeletePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -377,7 +378,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
             actionsParam.add(restoreButton);
             actionsParam.add(deleteButton);
 
-            RecoveryFeedbackSessionsTableRow row = new RecoveryFeedbackSessionsTableRow(
+            SoftDeletedFeedbackSessionsTableRow row = new SoftDeletedFeedbackSessionsTableRow(
                     SanitizationHelper.sanitizeForHtml(session.getCourseId()),
                     SanitizationHelper.sanitizeForHtml(session.getSessionName()),
                     session.getCreatedTimeDateString(),
@@ -388,10 +389,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                     session.getDeletedTimeFullDateTimeString(),
                     this.getInstructorCourseStatsLink(session.getCourseId()),
                     actionsParam);
-            recoveryFeedbackSessionsTable.getRows().add(row);
+            softDeletedFeedbackSessionsTable.getRows().add(row);
         }
 
-        return recoveryFeedbackSessionsTable;
+        return softDeletedFeedbackSessionsTable;
     }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,

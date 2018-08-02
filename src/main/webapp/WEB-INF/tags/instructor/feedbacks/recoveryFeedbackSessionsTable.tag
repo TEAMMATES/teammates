@@ -2,7 +2,7 @@
 <%@ tag description="instructorFeedbacks - recovery feedback sessions table/list" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ attribute name="recoveryFsList" type="teammates.ui.template.RecoveryFeedbackSessionsTable" required="true" %>
+<%@ attribute name="recoveryFsList" type="teammates.ui.template.SoftDeletedFeedbackSessionsTable" required="true" %>
 
 <c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
 <table class="table table-bordered table-striped margin-0" id="tableRecoveryFeedbackSessions">

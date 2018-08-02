@@ -91,7 +91,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         addAttributeIf(true, archive, "data-course-id", courseId);
 
         ElementTag delete = createButton("Delete",
-                                         className + "delete-for-test course-move-to-recovery-link",
+                                         className + "delete-for-test course-move-to-recycle-bin-link",
                                          getInstructorCourseDeleteLink(courseId, true),
                                          Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN);
         addAttributeIf(true, delete, "data-course-id", courseId);

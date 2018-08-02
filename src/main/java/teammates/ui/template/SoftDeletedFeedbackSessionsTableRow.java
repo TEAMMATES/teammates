@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
-public class RecoveryFeedbackSessionsTableRow {
+public class SoftDeletedFeedbackSessionsTableRow {
     private String courseId;
     private String sessionName;
     private String createdTimeDateString;
@@ -14,7 +14,7 @@ public class RecoveryFeedbackSessionsTableRow {
     private String href;
     private List<ElementTag> actions;
 
-    public RecoveryFeedbackSessionsTableRow(String courseIdParam, String sessionNameParam,
+    public SoftDeletedFeedbackSessionsTableRow(String courseIdParam, String sessionNameParam,
             String createdTimeDateStringParam, String createdTimeDateStampParam, String createdTimeFullDateTimeStringParam,
             String deletedTimeDateStringParam, String deletedTimeDateStampParam, String deletedTimeFullDateTimeStringParam,
             String href, List<ElementTag> actionsParam) {
