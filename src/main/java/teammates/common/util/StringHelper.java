@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -178,11 +177,6 @@ public final class StringHelper {
         return list.stream()
                 .map(s -> s.toString())
                 .collect(Collectors.joining(delimiter));
-    }
-
-    public static String toDecimalFormatString(double doubleVal) {
-        DecimalFormat df = new DecimalFormat("0.###");
-        return df.format(doubleVal);
     }
 
     @Deprecated

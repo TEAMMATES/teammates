@@ -19,7 +19,8 @@ public class LogMessageGenerator {
     public static final Pattern PATTERN_ACTION_NAME = Pattern.compile("^/\\S+?/(?<actionName>[^\\s\\?]*)");
     public static final String PATTERN_ACTION_NAME_GROUP = "actionName";
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID);
+    private static final DateTimeFormatter FORMATTER =
+            TeammatesDateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID);
 
     /**
      * Generates the log message for an *Action.

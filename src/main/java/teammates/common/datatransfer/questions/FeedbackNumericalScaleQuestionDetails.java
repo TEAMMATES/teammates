@@ -2,10 +2,12 @@ package teammates.common.datatransfer.questions;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
+import teammates.common.util.TeammatesDecimalFormat;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -95,7 +97,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
-                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.STEP, TeammatesDecimalFormat.format(step, "0.###"),
                 Slots.EXISTING_ANSWER, numscaleResponseDetails.getAnswerString(),
                 Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -115,7 +117,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
-                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.STEP, TeammatesDecimalFormat.format(step, "0.###"),
                 Slots.EXISTING_ANSWER, "",
                 Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -131,7 +133,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
-                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.STEP, TeammatesDecimalFormat.format(step, "0.###"),
                 Slots.POSSIBLE_VALUES, getPossibleValuesStringEdit(),
                 Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
@@ -211,6 +213,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         StringBuilder fragmentHtml = new StringBuilder();
 
@@ -279,6 +282,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
@@ -693,17 +697,17 @@ public class FeedbackNumericalScaleQuestionDetails extends
         StringBuilder possibleValuesString = new StringBuilder();
         if (possibleValuesCount > 6) {
             possibleValuesString
-                .append(StringHelper.toDecimalFormatString(minScale)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + 2 * step)).append(", ..., ")
-                .append(StringHelper.toDecimalFormatString(maxScale - 2 * step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(maxScale - step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(maxScale));
+                .append(TeammatesDecimalFormat.format(minScale, "0.###")).append(", ")
+                .append(TeammatesDecimalFormat.format(minScale + step, "0.###")).append(", ")
+                .append(TeammatesDecimalFormat.format(minScale + 2 * step, "0.###")).append(", ..., ")
+                .append(TeammatesDecimalFormat.format(maxScale - 2 * step, "0.###")).append(", ")
+                .append(TeammatesDecimalFormat.format(maxScale - step, "0.###")).append(", ")
+                .append(TeammatesDecimalFormat.format(maxScale, "0.###"));
         } else {
             possibleValuesString.append(Integer.toString(minScale));
             cur = minScale + step;
             while (maxScale - cur >= -1e-9) {
-                possibleValuesString.append(", ").append(StringHelper.toDecimalFormatString(cur));
+                possibleValuesString.append(", ").append(TeammatesDecimalFormat.format(cur, "0.###"));
                 cur += step;
             }
         }

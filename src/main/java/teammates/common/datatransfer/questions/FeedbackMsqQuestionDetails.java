@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -23,6 +22,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TeammatesDecimalFormat;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -489,7 +489,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
-        DecimalFormat weightFormat = new DecimalFormat("#.##");
 
         String optionFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < msqChoices.size(); i++) {
@@ -510,13 +509,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     Templates.populateTemplate(weightFragmentTemplate,
                             Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.MSQ_WEIGHT, hasAssignedWeights ? weightFormat.format(msqWeights.get(i)) : "0",
+                            Slots.MSQ_WEIGHT, hasAssignedWeights
+                                    ? TeammatesDecimalFormat.format(msqWeights.get(i), "#.##") : "0",
                             Slots.MSQ_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT);
             weightFragmentHtml.append(weightFragment).append(System.lineSeparator());
         }
 
         // Create MSQ other weight value
-        String msqOtherWeightValue = hasAssignedWeights && otherEnabled ? weightFormat.format(msqOtherWeight) : "0";
+        String msqOtherWeightValue = hasAssignedWeights && otherEnabled
+                ? TeammatesDecimalFormat.format(msqOtherWeight, "#.##") : "0";
 
         boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
         boolean isMinSelectableChoicesDisabled = minSelectableChoices == Integer.MIN_VALUE;
@@ -641,7 +642,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (numChoicesSelected == -1) {
             return "";
         }
-        DecimalFormat df = new DecimalFormat("#.##");
 
         StringBuilder fragments = new StringBuilder();
 
@@ -655,18 +655,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // If weights are allowed, show the corresponding weights of a choice.
             String weightString = "";
             if ("Other".equals(key)) {
-                weightString = hasAssignedWeights ? df.format(msqOtherWeight) : "-";
+                weightString = hasAssignedWeights ? TeammatesDecimalFormat.format(msqOtherWeight, "#.##") : "-";
             } else {
-                weightString = hasAssignedWeights ? df.format(msqWeights.get(msqChoices.indexOf(key))) : "-";
+                weightString = hasAssignedWeights
+                        ? TeammatesDecimalFormat.format(msqWeights.get(msqChoices.indexOf(key)), "#.##") : "-";
             }
             // Reuse Mcq result template until there is any reason to use a separate template.
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
                     Slots.MCQ_WEIGHT, weightString,
                     Slots.COUNT, Integer.toString(count),
-                    Slots.PERCENTAGE, df.format(100 * divideOrReturnZero(count, numChoicesSelected)),
-                    Slots.WEIGHTED_PERCENTAGE,
-                            hasAssignedWeights ? df.format(weightedPercentagePerOption.get(key)) : "-"));
+                    Slots.PERCENTAGE,
+                            TeammatesDecimalFormat.format(100 * divideOrReturnZero(count, numChoicesSelected), "#.##"),
+                    Slots.WEIGHTED_PERCENTAGE, hasAssignedWeights
+                            ? TeammatesDecimalFormat.format(weightedPercentagePerOption.get(key), "#.##") : "-"));
         }
 
         // If weights are assigned, create the per recipient statistics table,

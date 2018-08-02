@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -21,6 +20,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TeammatesDecimalFormat;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -385,7 +385,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MCQ_EDIT_FORM_OPTIONFRAGMENT;
-        DecimalFormat weightFormat = new DecimalFormat("#.##");
 
         // Create MCQ options
         for (int i = 0; i < numOfMcqChoices; i++) {
@@ -406,13 +405,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     Templates.populateTemplate(weightFragmentTemplate,
                             Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.MCQ_WEIGHT, hasAssignedWeights ? weightFormat.format(mcqWeights.get(i)) : "0",
+                            Slots.MCQ_WEIGHT, hasAssignedWeights
+                                    ? TeammatesDecimalFormat.format(mcqWeights.get(i), "#.##") : "0",
                             Slots.MCQ_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT);
             weightFragmentHtml.append(weightFragment).append(System.lineSeparator());
         }
 
         // Create MCQ other weight value
-        String mcqOtherWeightValue = hasAssignedWeights && otherEnabled ? weightFormat.format(mcqOtherWeight) : "0";
+        String mcqOtherWeightValue = hasAssignedWeights && otherEnabled
+                ? TeammatesDecimalFormat.format(mcqOtherWeight, "#.##") : "0";
 
         return Templates.populateTemplate(
                 FormTemplates.MCQ_EDIT_FORM,
@@ -522,25 +523,24 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 hasAssignedWeights ? mcqStats.calculateWeightedPercentagePerOption(answerFrequency)
                 : new LinkedHashMap<>();
 
-        DecimalFormat df = new DecimalFormat("#.##");
-
         for (String key : answerFrequency.keySet()) {
             int count = answerFrequency.get(key);
             // If weights are allowed, show the corresponding weights of a choice.
             String weightString = "";
             if ("Other".equals(key)) {
-                weightString = hasAssignedWeights ? df.format(mcqOtherWeight) : "-";
+                weightString = hasAssignedWeights ? TeammatesDecimalFormat.format(mcqOtherWeight, "#.##") : "-";
             } else {
-                weightString = hasAssignedWeights ? df.format(mcqWeights.get(mcqChoices.indexOf(key))) : "-";
+                weightString = hasAssignedWeights
+                        ? TeammatesDecimalFormat.format(mcqWeights.get(mcqChoices.indexOf(key)), "#.##") : "-";
             }
 
             responseSummaryFragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
                     Slots.MCQ_WEIGHT, weightString,
                     Slots.COUNT, Integer.toString(count),
-                    Slots.PERCENTAGE, df.format(100 * (double) count / responses.size()),
-                    Slots.WEIGHTED_PERCENTAGE,
-                            hasAssignedWeights ? df.format(weightedPercentagePerOption.get(key)) : "-"));
+                    Slots.PERCENTAGE, TeammatesDecimalFormat.format(100 * (double) count / responses.size(), "#.##"),
+                    Slots.WEIGHTED_PERCENTAGE, hasAssignedWeights
+                            ? TeammatesDecimalFormat.format(weightedPercentagePerOption.get(key), "#.##") : "-"));
         }
 
         // If weights are assigned, create the per recipient statistics table,
@@ -770,7 +770,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             Assumption.assertTrue("Weights should be enabled when calling the function", hasAssignedWeights);
             List<String> recipientStats = new ArrayList<>();
-            DecimalFormat df = new DecimalFormat("0.00");
 
             String recipientName = bundle.getNameForEmail(recipientEmail);
             String recipientTeam = bundle.getTeamNameForEmail(recipientEmail);
@@ -799,9 +798,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 numOfResponsesForThisRecipient += responseCount;
             }
 
-            recipientStats.add(df.format(total));
+            recipientStats.add(TeammatesDecimalFormat.format(total, "0.00"));
             average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
-            recipientStats.add(df.format(average));
+            recipientStats.add(TeammatesDecimalFormat.format(average, "0.00"));
 
             return recipientStats;
         }
@@ -817,16 +816,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
          */
         public String getRecipientStatsHeaderHtml() {
             StringBuilder headerBuilder = new StringBuilder(100);
-            DecimalFormat df = new DecimalFormat("#.##");
             StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
             for (int i = 0; i < choices.size(); i++) {
-                String weight = df.format(weights.get(i));
+                String weight = TeammatesDecimalFormat.format(weights.get(i), "#.##");
                 String html = getRecipientStatsHeaderFragmentHtml(choices.get(i) + " [" + weight + "]");
                 choicesHtmlBuilder.append(html);
             }
             if (otherEnabled) {
-                String otherWeightString = df.format(otherWeight);
+                String otherWeightString = TeammatesDecimalFormat.format(otherWeight, "#.##");
                 String html = getRecipientStatsHeaderFragmentHtml("Other" + " [" + otherWeightString + "]");
                 choicesHtmlBuilder.append(html);
             }
@@ -848,7 +846,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String header = "";
 
             StringBuilder fragments = new StringBuilder();
-            DecimalFormat df = new DecimalFormat("#.##");
 
             // If weights are assigned, CSV file should include 'Weight' and 'Weighted Percentage' column as well.
             if (hasAssignedWeights) {
@@ -859,23 +856,26 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     int responseCount = answerFrequency.get(key);
                     String weightString = "";
                     if ("Other".equals(key)) {
-                        weightString = df.format(otherWeight);
+                        weightString = TeammatesDecimalFormat.format(otherWeight, "#.##");
                     } else {
-                        weightString = df.format(weights.get(choices.indexOf(key)));
+                        weightString = TeammatesDecimalFormat.format(weights.get(choices.indexOf(key)), "#.##");
                     }
 
                     fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                              .append(SanitizationHelper.sanitizeForCsv(weightString)).append(',')
                              .append(Integer.toString(responseCount)).append(',')
-                             .append(df.format(100 * (double) responseCount / totalResponseCount)).append(',')
-                             .append(df.format(weightedPercentagePerOption.get(key))).append(System.lineSeparator());
+                             .append(TeammatesDecimalFormat
+                                     .format(100 * (double) responseCount / totalResponseCount, "#.##")).append(',')
+                             .append(TeammatesDecimalFormat
+                                     .format(weightedPercentagePerOption.get(key), "#.##")).append(System.lineSeparator());
                 }
             } else {
                 header = "Choice, Response Count, Percentage (%)";
 
                 answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                         .append(value.toString()).append(',')
-                        .append(df.format(100 * (double) value / totalResponseCount)).append(System.lineSeparator()));
+                        .append(TeammatesDecimalFormat.format(100 * (double) value / totalResponseCount, "#.##"))
+                        .append(System.lineSeparator()));
             }
 
             return header + System.lineSeparator() + fragments.toString();
@@ -883,16 +883,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         public String getPerRecipientResponseStatsHeaderCsv() {
             StringBuilder header = new StringBuilder(100);
-            DecimalFormat df = new DecimalFormat("#.##");
 
             header.append("Team, Recipient Name,");
 
             for (int i = 0; i < numOfChoices; i++) {
-                String choiceString = choices.get(i) + " [" + df.format(weights.get(i)) + "]";
+                String choiceString = choices.get(i) + " [" + TeammatesDecimalFormat.format(weights.get(i), "#.##") + "]";
                 header.append(SanitizationHelper.sanitizeForCsv(choiceString)).append(',');
             }
             if (otherEnabled) {
-                String otherOptionString = "Other [" + df.format(otherWeight) + "]";
+                String otherOptionString = "Other [" + TeammatesDecimalFormat.format(otherWeight, "#.##") + "]";
                 header.append(SanitizationHelper.sanitizeForCsv(otherOptionString)).append(',');
             }
             header.append("Total, Average").append(System.lineSeparator());
