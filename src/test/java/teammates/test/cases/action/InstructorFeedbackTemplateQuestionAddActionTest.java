@@ -29,8 +29,11 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        // split out into smaller tests
+    }
 
-        ______TS("Typical case for adding template question 1");
+    @Test
+    public void testAddTypicalTemplateQuestion() {
 
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -57,15 +60,15 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
-                                    + "instructorFeedbackTemplateQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Added Feedback Template Question for Feedback Session:<span class=\"bold\">"
-                                    + "(First feedback session)</span> for Course "
-                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                                    + " created.<br><span class=\"bold\">Team contribution question:</span> "
-                                    + "Your estimate of how much each team member has contributed.|||"
-                                    + "/page/instructorFeedbackTemplateQuestionAdd";
+                + "instructorFeedbackTemplateQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Added Feedback Template Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Team contribution question:</span> "
+                + "Your estimate of how much each team member has contributed.|||"
+                + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         Logic logic = new Logic();
