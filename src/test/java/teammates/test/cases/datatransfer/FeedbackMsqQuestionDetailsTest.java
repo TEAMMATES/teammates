@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
@@ -410,5 +414,93 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertFalse(msqDetails.hasAssignedWeights());
         assertTrue(msqDetails.getMsqWeights().isEmpty());
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
+    }
+
+    @Test
+    public void testCreateQuestionDetails_msqTypeQuestion_createdSuccessfully() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MSQ question" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MSQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", new String[] { "msq option" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MSQ);
+
+        assertEquals(feedbackQuestionDetails.getQuestionType(), FeedbackQuestionType.MSQ);
+        assertTrue(feedbackQuestionDetails instanceof FeedbackMsqQuestionDetails);
+        assertEquals("MSQ question", feedbackQuestionDetails.getQuestionText());
+    }
+
+    @Test
+    public void testGetQuestionWithExistingResponseSubmissionFormHtml_responsePresent_htmlTagsPresent() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MSQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MSQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", new String[] { "msq option 1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", new String[] { "msq option 2" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", new String[] { "msq option 1" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MSQ);
+
+        FeedbackResponseDetails responseDetails =
+                FeedbackResponseDetails.createResponseDetails(
+                        new String[] { "msq option 1" },
+                        FeedbackQuestionType.MSQ,
+                        feedbackQuestionDetails, requestParameters, 1, 0);
+
+        String result = feedbackQuestionDetails.getQuestionWithExistingResponseSubmissionFormHtml(true, 1,
+                0, "test.course", 1, responseDetails,
+                StudentAttributes.builder("test.course", "test", "test@gmail.com").build());
+        assertTrue(result.contains("checked")); // Checking if response is selected
+        assertTrue(result.contains("msq option 1")); // Check if option is showed in HTML
+    }
+
+    @Test
+    public void testGetQuestionWithoutExistingResponseSubmissionFormHtml_noResponse_htmlTagsPresent() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MSQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", new String[] { "msq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "MSQ" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MSQ);
+
+        String result = feedbackQuestionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(true, 1,
+                0, "test.course", 0,
+                StudentAttributes.builder("test.course", "test", "test@gmail.com").build());
+        assertFalse(result.contains("checked")); // Checking if response is not present now
+
+    }
+
+    @Test
+    public void testGetQuestionAdditionalInfo_additionalInfoPresent_htmlTagsPresent() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MSQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MSQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", new String[] { "msq option" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MSQ);
+
+        String result = feedbackQuestionDetails.getQuestionAdditionalInfoHtml(1, "");
+        assertTrue(result.contains("[more]"));
+        assertTrue(result.contains("<li>msq option</li>"));
     }
 }

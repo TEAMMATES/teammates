@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
@@ -410,5 +414,92 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertFalse(mcqDetails.hasAssignedWeights());
         assertTrue(mcqDetails.getMcqWeights().isEmpty());
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
+    }
+
+    @Test
+    public void testCreateQuestionDetails_mcqTypeQuestion_createdSuccessfully() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ question" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
+
+        assertEquals(feedbackQuestionDetails.getQuestionType(), FeedbackQuestionType.MCQ);
+        assertTrue(feedbackQuestionDetails instanceof FeedbackMcqQuestionDetails);
+        assertEquals("MCQ question", feedbackQuestionDetails.getQuestionText());
+    }
+
+    @Test
+    public void testGetQuestionWithExistingResponseSubmissionFormHtml_responsePresent_htmlTagsPresent() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", new String[] { "mcq option" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
+
+        FeedbackResponseDetails responseDetails =
+                FeedbackResponseDetails.createResponseDetails(
+                        new String[] { "mcq option" },
+                        FeedbackQuestionType.MCQ,
+                        feedbackQuestionDetails, requestParameters, 1, 0);
+
+        String result = feedbackQuestionDetails.getQuestionWithExistingResponseSubmissionFormHtml(true, 1,
+                0, "test.course", 1, responseDetails,
+                StudentAttributes.builder("test.course", "test", "test@gmail.com").build());
+        assertTrue(result.contains("checked")); // Checking if response is selected
+        assertTrue(result.contains("mcq option")); // Check if option is showed in HTML
+    }
+
+    @Test
+    public void testGetQuestionWithoutExistingResponseSubmissionFormHtml_noResponse_htmlTagsPresent() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
+
+        String result = feedbackQuestionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(true, 1,
+                0, "test.course", 0,
+                StudentAttributes.builder("test.course", "test", "test@gmail.com").build());
+        assertFalse(result.contains("checked")); // Checking if response is not present now
+
+    }
+
+    @Test
+    public void testGetQuestionAdditionalInfo_additionalInfoPresent_htmlTagsPresent() {
+        HashMap<String, String[]> requestParameters = new HashMap<>();
+
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
+
+        String result = feedbackQuestionDetails.getQuestionAdditionalInfoHtml(1, "");
+        assertTrue(result.contains("[more]"));
+        assertTrue(result.contains("<li>mcq option</li>"));
     }
 }

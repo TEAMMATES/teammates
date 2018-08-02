@@ -1048,7 +1048,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    boolean hasAssignedWeights() {
+    public boolean hasAssignedWeights() {
         return hasAssignedWeights;
     }
 
