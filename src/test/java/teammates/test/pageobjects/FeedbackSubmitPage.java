@@ -60,14 +60,14 @@ public class FeedbackSubmitPage extends AppPage {
         Select selectElement = new Select(browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
         WebElement selectedOption = selectElement.getFirstSelectedOption();
-        return selectedOption.getText();
+        return selectedOption.getAttribute("textContent");
     }
 
     public String getRecipientTextDropdownByValue(int qnNumber, int responseNumber, String value) {
         By optionSelector = By.cssSelector("select[name='responserecipient-" + qnNumber + "-" + responseNumber
                 + "'] " + "option[value='" + value + "']");
         WebElement optionElement = browser.driver.findElement(optionSelector);
-        return optionElement.getText();
+        return optionElement.getAttribute("textContent");
     }
 
     public void clickShowSectionTeamCheckBox(int qnNumber) {
