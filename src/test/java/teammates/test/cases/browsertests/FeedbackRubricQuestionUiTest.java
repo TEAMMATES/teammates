@@ -554,7 +554,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void testRubricWeightsFeature() throws Exception {
         testRubricWeightsFeature_shouldToggleStateCorrectly();
         testRubricWeightsFeature_shouldHaveCorrectDefaultValue();
-        testRubricWeightsFeature_shouldAddWeightsCorrectly();
+        testRubricWeightsFeature_newQuestion_shouldAddWeightsCorrectly();
+        testRubricWeightsFeature_existingQuestion_shouldAddWeightsCorrectly();
     }
 
     private void testRubricWeightsFeature_shouldToggleStateCorrectly() {
@@ -616,7 +617,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
-    private void testRubricWeightsFeature_shouldAddWeightsCorrectly() throws Exception {
+    private void testRubricWeightsFeature_newQuestion_shouldAddWeightsCorrectly() throws Exception {
         ______TS("Success: Add weights for default subQuestions and choices");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
@@ -646,12 +647,18 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(2, weights.size());
         assertEquals(4, weights.get(0).size());
         assertEquals(4, weights.get(1).size());
-        // Check weight values for one subquestion as both subquestions have same weights.
+        // Check weight values.
         assertEquals(0.1, weights.get(0).get(0));
         assertEquals(0.2, weights.get(0).get(1));
         assertEquals(0.3, weights.get(0).get(2));
         assertEquals(0.4, weights.get(0).get(3));
+        assertEquals(0.1, weights.get(1).get(0));
+        assertEquals(0.2, weights.get(1).get(1));
+        assertEquals(0.3, weights.get(1).get(2));
+        assertEquals(0.4, weights.get(1).get(3));
+    }
 
+    private void testRubricWeightsFeature_existingQuestion_shouldAddWeightsCorrectly() throws Exception {
         ______TS("Success: Add weights for subquestion added by 'Add Row' button");
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddRubricRowLink(1);
@@ -667,9 +674,9 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         // Check that weights have been added successfully
-        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
-        questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
-        weights = questionDetails.getRubricWeights();
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackRubricQuestionDetails questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        List<List<Double>> weights = questionDetails.getRubricWeights();
         assertEquals(3, weights.size());
         assertEquals(4, weights.get(2).size());
         // Check weights for each cell

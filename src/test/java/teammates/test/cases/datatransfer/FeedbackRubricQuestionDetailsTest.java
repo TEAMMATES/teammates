@@ -13,18 +13,12 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.Const;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.entity.FeedbackQuestion;
+import teammates.test.cases.BaseTestCase;
 
 /**
  * SUT: {@link FeedbackRubricQuestionDetails}.
  */
-public class FeedbackRubricQuestionDetailsTest extends BaseAttributesTest {
-
-    @Override
-    public void testToEntity() {
-        // Nothing to do here.
-    }
+public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
@@ -158,6 +152,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseAttributesTest {
         // Check weights for SubQn-0 (for cell-0-1)
         assertEquals(2.50, rubricDetails.getRubricWeights().get(0).get(0));
         // Check weights for SubQn-1 (for cell-1-0, cell 1-1).
+        assertEquals(2, rubricDetails.getRubricWeights().get(1).size());
         assertEquals(1.00, rubricDetails.getRubricWeights().get(1).get(0));
         assertEquals(2.00, rubricDetails.getRubricWeights().get(1).get(1));
     }
@@ -206,7 +201,10 @@ public class FeedbackRubricQuestionDetailsTest extends BaseAttributesTest {
 
         assertTrue(rubricDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.RUBRIC));
         assertTrue(rubricDetails.hasAssignedWeights());
+        // Check for the size of the weight list.
         assertEquals(2, rubricDetails.getRubricWeights().size());
+        assertEquals(2, rubricDetails.getRubricWeights().get(0).size());
+        assertEquals(2, rubricDetails.getRubricWeights().get(1).size());
         // Check weight list for correct values.
         assertEquals(1.50, rubricDetails.getRubricWeights().get(0).get(0));
         assertEquals(2.50, rubricDetails.getRubricWeights().get(0).get(1));
@@ -281,7 +279,6 @@ public class FeedbackRubricQuestionDetailsTest extends BaseAttributesTest {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
 
-        FeedbackQuestionsDb fqdb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.builder()
                 .withCourseId("testingCourse")
                 .withCreatorEmail("instructor@email.com")
@@ -297,10 +294,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseAttributesTest {
                 .withShowResponseTo(new ArrayList<>(participants))
                 .build();
 
-        FeedbackQuestion question = fqdb.createEntityWithoutExistenceCheck(fqa);
-
-        FeedbackQuestionAttributes attr = FeedbackQuestionAttributes.valueOf(question);
-        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) attr.getQuestionDetails();
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) fqa.getQuestionDetails();
 
         // The rubricWeights in this question are: [1.2, 1.84],
         // After converting it to new format, the list should be,

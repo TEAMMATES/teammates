@@ -862,7 +862,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         if (hasAssignedWeights) {
             csv.append(System.lineSeparator())
                 .append("Per Recipient Statistics").append(System.lineSeparator())
-                .append(getRecipientStatsCsvHeader())
+                .append(getPerRecipientStatisticsHeader())
                 .append(getPerRecipientStatisticsCsv(responses, bundle));
         }
 
@@ -917,7 +917,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "Choice Value";
     }
 
-    public String getRecipientStatsCsvHeader() {
+    public String getPerRecipientStatisticsHeader() {
         StringBuilder header = new StringBuilder(100);
         String headerFragment = "Team,Recipient Name,Recipient's Email,Sub Question,";
 
@@ -1144,17 +1144,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
         int[] respondentsPerSubQuestion;
-        List<List<Double>> rubricWeightsForEachCell;
+        List<List<Double>> weights;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
-            Assumption.assertTrue(hasAssignedWeights);
+            Assumption.assertTrue("Per Recipient Stats is only available when weights are enabled", hasAssignedWeights);
             this.recipientEmail = recipientEmail;
             this.recipientName = recipientName;
             this.recipientTeam = recipientTeam;
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
             totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
             respondentsPerSubQuestion = new int[getNumOfRubricSubQuestions()];
-            this.rubricWeightsForEachCell = getRubricWeights();
+            weights = getRubricWeights();
         }
 
         public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
@@ -1169,7 +1169,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
                 if (choice >= 0) {
                     ++numOfResponsesPerSubQuestionPerChoice[i][choice];
-                    totalPerSubQuestion[i] += rubricWeightsForEachCell.get(i).get(choice);
+                    totalPerSubQuestion[i] += weights.get(i).get(choice);
                     respondentsPerSubQuestion[i]++;
                 }
             }
@@ -1199,7 +1199,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // and the corresponding weight of that choice of the specific sub-question.
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
                 String responseFrequencyAndWeight = Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i])
-                        + " [" + dfWeight.format(rubricWeightsForEachCell.get(subQuestion).get(i)) + "]";
+                        + " [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]";
                 cols.add(responseFrequencyAndWeight);
             }
 
@@ -1253,7 +1253,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Append number of responses per subQuestion per rubric choice
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
                 csv.append(',').append(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]))
-                    .append(" [" + dfWeight.format(rubricWeightsForEachCell.get(subQuestion).get(i)) + "]");
+                    .append(" [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]");
             }
 
             // Append aggregate statistics
