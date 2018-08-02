@@ -72,7 +72,7 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         FeedbackQuestionAttributes fqa = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(),
-                fs.getCourseId(), 1);
+                fs.getCourseId(), 6);
         assertNotNull(fqa);
     }
 
@@ -184,6 +184,10 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                                     + "Comments about your contribution (shown to other teammates)|||"
                                     + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, action.getLogMessage(), adminUserId);
+
+        FeedbackQuestionAttributes fqa = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(),
+                fs.getCourseId(), 6);
+        assertNotNull(fqa);
     }
 
     protected String getPageResultDestination(
