@@ -1056,9 +1056,6 @@ function bindAddTemplateQnEvents() {
         $button.click(() => {
             if (numCheckboxChecked > 0) {
                 $('#addTemplateQuestionModalForm').submit();
-            } else {
-                setStatusMessage('No questions are selected to be added', BootstrapContextualColors.DANGER);
-                $('#addTemplateQuestionModal').modal('hide');
             }
         });
     });
