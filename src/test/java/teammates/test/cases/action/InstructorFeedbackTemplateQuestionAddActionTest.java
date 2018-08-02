@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackTemplateQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -71,8 +71,8 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                 + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
-        Logic logic = new Logic();
-        FeedbackQuestionAttributes fqa = logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        FeedbackQuestionAttributes fqa = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(),
+                fs.getCourseId(), 1);
         assertNotNull(fqa);
     }
 
