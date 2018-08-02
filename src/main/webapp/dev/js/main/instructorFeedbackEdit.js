@@ -43,6 +43,7 @@ import {
     bindConstSumOptionsRadioButtons,
     changeConstSumDistributePointsFor,
     hideConstSumOptionTable,
+    makeConstSumOptionsReorderable,
     removeConstSumOption,
     showConstSumOptionTable,
     toggleConstSumDistributePointsOptions,
@@ -88,6 +89,7 @@ import {
     bindRankEvents,
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
+    makeRankOptionsReorderable,
     removeRankOption,
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
@@ -596,6 +598,9 @@ function enableNewQuestion() {
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
+
+    makeConstSumOptionsReorderable(NEW_QUESTION);
+    makeRankOptionsReorderable(NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
@@ -1237,6 +1242,22 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     });
 }
 
+/**
+ * Enables options of different question types
+ * to be reordered using a drag and drog mechanism
+ */
+function makeQuestionOptionsReorderable() {
+    const numQuestions = $('.questionTable').length;
+    for (let i = 1; i <= numQuestions; i += 1) {
+        const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
+        if (qnType === 'CONSTSUM') {
+            makeConstSumOptionsReorderable(i);
+        } else if (qnType === 'RANK_OPTIONS') {
+            makeRankOptionsReorderable(i);
+        }
+    }
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -1252,6 +1273,7 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
+    makeQuestionOptionsReorderable();
 
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
