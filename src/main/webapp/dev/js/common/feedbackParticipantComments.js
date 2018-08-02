@@ -64,7 +64,7 @@ function showResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex
     $(`#showResponseCommentAddForm${id}`).closest('div').show();
     $(`#showResponseCommentAddForm${id}`).show();
 
-    const responseCommentAddFormId = `responseCommentAddForm${id}`;
+    const responseCommentAddFormId = `responsecommentaddtext${id}`;
     const responseCommentEditor = tinymce.get(responseCommentAddFormId);
     if (responseCommentEditor === null) {
         richTextEditorBuilder.initEditor(`#${responseCommentAddFormId}`, {
@@ -73,7 +73,7 @@ function showResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex
     } else {
         responseCommentEditor.setContent('');
     }
-    $(`#responseCommentAddForm${id}`).focus();
+    $(`#responsecommentaddtext${id}`).focus();
 }
 
 function hideResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex) {
