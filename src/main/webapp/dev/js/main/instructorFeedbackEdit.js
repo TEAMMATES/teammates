@@ -1042,7 +1042,7 @@ function bindCopyEvents() {
 }
 
 function bindAddTemplateQnEvents() {
-    $('.panel-title').click(function (e) {
+    $('#addTemplateQuestionModal .panel-title').click(function (e) {
         if (!$(e.target).is('input')) {
             $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
         }
