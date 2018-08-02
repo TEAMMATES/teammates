@@ -1377,7 +1377,7 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
             });
             evaluees.sort(nameComparator);
         }
-        
+
         // refresh dropdown list
         $(`select[name='responserecipient-${qnNum}-${i}']`).empty().append(evaluees);
         // retain selected option
