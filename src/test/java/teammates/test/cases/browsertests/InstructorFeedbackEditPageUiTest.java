@@ -247,6 +247,36 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(expectedString);
+
+        ______TS("Test discard changes to feedback session");
+
+        By feedbackSessionEditFormSection = By.id("form_feedbacksession");
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
+        // Edit and save FS to accommodate changes to DOM due to enableEditFS() and disableEditFS() JS methods.
+        feedbackEditPage.clickSaveSessionButton();
+
+        // Make changes to Feedback session
+        feedbackEditPage.clickEditSessionButton();
+        editedSession.setStartTime(Const.TIME_REPRESENTS_NOW);
+        editedSession.setEndTime(Const.TIME_REPRESENTS_LATER);
+        editedSession.setInstructions(new Text("Made some more changes"));
+        editedSession.setGracePeriodMinutes(15);
+        feedbackEditPage.editFeedbackSession(
+                editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
+                editedSession.getInstructions(), editedSession.getGracePeriodMinutes(), false);
+
+        // Click discard changes button, then click cancel and verify html
+        feedbackEditPage.clickFsDiscardChangesButton();
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
+
+        // Click discard changes button, then click ok and verify html
+        feedbackEditPage.clickFsDiscardChangesButton();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
+
     }
 
     private void testNewQuestionLink() {

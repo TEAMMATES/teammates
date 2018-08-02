@@ -89,6 +89,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "fsDeleteLink")
     private WebElement fsDeleteLink;
 
+    @FindBy(id = "fsDiscardChangesLink")
+    private WebElement fsDiscardChangesLink;
+
     @FindBy(id = "button_openframe")
     private WebElement openNewQuestionButton;
 
@@ -664,6 +667,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickFsCopyButton() {
         fscopyButton.click();
+    }
+
+    public void clickFsDiscardChangesButton() {
+        click(fsDiscardChangesLink);
     }
 
     /**
@@ -1276,7 +1283,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
+    public void editFeedbackSession(
+            LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod, boolean isToBeSaved) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");
@@ -1295,8 +1303,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
 
-        click(fsSaveLink);
+        if (isToBeSaved) {
+            click(fsSaveLink);
+        }
         waitForPageToLoad();
+    }
+
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
+        editFeedbackSession(startTime, endTime, instructions, gracePeriod, true);
     }
 
     public String getFeedbackSessionEndTimeValue() {
@@ -2030,6 +2044,14 @@ public class InstructorFeedbackEditPage extends AppPage {
                                                       .findElements(By.tagName("tr"))
                                                       .get(rowIndex + 1);
         click(row);
+    }
+
+    public boolean isVisible(By locator) {
+        return browser.driver.findElement(locator).isDisplayed();
+    }
+
+    public boolean isHidden(By locator) {
+        return !browser.driver.findElement(locator).isDisplayed();
     }
 
     public void waitForCopyTableToLoad() {
