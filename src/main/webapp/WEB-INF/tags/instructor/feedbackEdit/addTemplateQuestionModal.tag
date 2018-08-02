@@ -50,7 +50,9 @@
                             </label>
                           </h5>
                           <div class="col-sm-10">
-                            <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question" disabled="" data-original-title="Please enter the question for users to give feedback about.">${templateQn.qnText}</textarea>
+                            <div data-toggle="tooltip" data-placement="top" data-original-title="Please enter the question for users to give feedback about.">
+                              <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" title="" placeholder="A concise version of the question" disabled="">${templateQn.qnText}</textarea>
+                            </div>
                           </div>
                         </div>
                         <div class="form-group" style="padding: 0 15px;">
