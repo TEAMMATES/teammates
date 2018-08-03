@@ -1568,8 +1568,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                         getResponseCommentVisibilityString(frcAttributes, question),
                         getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                         responseVisibilityMap, bundle.commentGiverEmailToNameTable, bundle.getTimeZone(), question);
-        if (isInstructorAllowedToEditAndDeleteComment
-                    && !frcAttributes.isCommentFromFeedbackParticipant) {
+        if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEditDelete();
         }
 

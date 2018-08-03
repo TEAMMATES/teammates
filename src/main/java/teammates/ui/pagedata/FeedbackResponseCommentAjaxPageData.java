@@ -27,7 +27,6 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public Map<String, String> commentGiverNameToEmailTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
-    public FeedbackParticipantType commentGiverType;
     public ZoneId sessionTimeZone;
 
     public FeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
@@ -71,10 +70,6 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
                 + "] (last edited " + (isGiverAnonymous ? "" : "by " + editorName + " ") + "at "
                 + TimeHelper.formatDateTimeForDisplay(comment.lastEditedAt, sessionTimeZone)
                 + ")";
-    }
-
-    public FeedbackParticipantType getCommentGiverType() {
-        return commentGiverType;
     }
 
 }

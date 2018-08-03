@@ -935,7 +935,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
-        String instructorComment = fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
@@ -972,6 +971,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             // To show instructor comment only once for each response.
             if (i == 0) {
+                String instructorComment =
+                        fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
                 detailedResponsesRow.append(instructorComment);
             }
             detailedResponsesRow.append(System.lineSeparator());

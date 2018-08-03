@@ -846,12 +846,12 @@ public class PageData {
     }
 
     /**
-     * Builds template that will be used by respondents to add comments to their responses.
+     * Builds template that will be used by feedbackParticipant/Instructor to add comments to responses.
      *
      * @param question question of response
-     * @param responseId id of response
-     * @param giverName name of person/team giving comment
-     * @param recipientName name of person/team receiving comment
+     * @param responseId id of response (can be empty)
+     * @param giverName name of person/team giving comment (empty for feedback participant comments)
+     * @param recipientName name of person/team receiving comment (empty for feedback participant comments)
      * @param timezone Time zone
      * @param isCommentFromFeedbackParticipant true if comment giver is feedback participant
      * @return Feedback response comment add form template
