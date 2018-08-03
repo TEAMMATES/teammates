@@ -12,26 +12,31 @@ import {
     BootstrapContextualColors as StatusType,
 } from './const';
 
-function deleteCommentRow(deleteButton) {
-    const deletedCommentRow = deleteButton.closest('li');
-    deletedCommentRow.closest('div').find('span.errorMessage').remove();
+function deleteCommentRow(qnIndex, responseIndex) {
+    const id = `-${qnIndex}-${responseIndex}`;
+    const deletedCommentRow = $(`#responseCommentRow${id}`);
+    deletedCommentRow.closest('div').find('span#errorMessage').remove();
     deletedCommentRow.closest('div').hide();
     deletedCommentRow.remove();
 }
 
-function showErrorMessage(deleteButton, errorMessage) {
-    deleteButton.closest('ul').after(`<span id="errorMessage" class="pull-right ">${errorMessage}</span>`);
+function showErrorMessage(qnIndex, responseIndex, errorMessage) {
+    const id = `-${qnIndex}-${responseIndex}`;
+    $(`#responseCommentTable${id}`).after(`<span id="errorMessage" class="pull-right ">${errorMessage}</span>`);
+    const deleteButton = $(`#commentdelete${id}`);
     deleteButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
 }
 
-function deleteCommentRowAndShowAddCommentButton(submitButton) {
-    const commentId = `-${submitButton.data('qnindex')}-${submitButton.data('responseindex')}`;
-    deleteCommentRow(submitButton);
+function deleteCommentRowAndShowAddCommentButton(qnIndex, responseIndex) {
+    const commentId = `-${qnIndex}-${responseIndex}`;
+    deleteCommentRow(qnIndex, responseIndex);
     $(`#button_add_comment${commentId}`).closest('div').show();
 }
 
 const deleteCommentHandlerForFeedbackParticipant = (e) => {
     const deleteButton = $(e.currentTarget);
+    const qnIndex = deleteButton.data('qnindex');
+    const responseIndex = deleteButton.data('responseindex');
     e.preventDefault();
 
     showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
@@ -44,13 +49,13 @@ const deleteCommentHandlerForFeedbackParticipant = (e) => {
                 deleteButton.html('<img src="/images/ajax-loader.gif"/>');
             },
             error() {
-                showErrorMessage(deleteButton, 'Failed to delete comment. Please try again.');
+                showErrorMessage(qnIndex, responseIndex, 'Failed to delete comment. Please try again.');
             },
             success(data) {
                 if (data.isError) {
-                    showErrorMessage(deleteButton, data.errorMessage);
+                    showErrorMessage(qnIndex, responseIndex, data.errorMessage);
                 } else {
-                    deleteCommentRowAndShowAddCommentButton(deleteButton);
+                    deleteCommentRowAndShowAddCommentButton(qnIndex, responseIndex);
                 }
             },
         });
@@ -84,7 +89,7 @@ function hideResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex
 
 function showResponseCommentEditFormForFeedbackParticipant(qnIndex, responseIndex) {
     const id = `-${qnIndex}-${responseIndex}`;
-    const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
+    const $commentBar = $(`#commentBar${id}`);
     $commentBar.hide();
     $(`#plainCommentText${id}`).hide();
     $(`#responseCommentEditForm${id} > div > textarea`).val($(`#plainCommentText${id}`).text());
@@ -104,7 +109,7 @@ function showResponseCommentEditFormForFeedbackParticipant(qnIndex, responseInde
 
 function hideResponseCommentEditFormForFeedbackParticipant(qnIndex, responseIndex) {
     const id = `-${qnIndex}-${responseIndex}`;
-    const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
+    const $commentBar = $(`#commentBar${id}`);
     $commentBar.show();
     $(`#plainCommentText${id}`).show();
     $(`#responseCommentEditForm${id}`).hide();
