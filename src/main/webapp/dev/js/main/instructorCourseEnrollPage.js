@@ -424,10 +424,16 @@ function expandCollapseNewStudentsPanel() {
     enrollHandsontable.render();
 }
 
-dataHandsontable.addHook('afterChange', function () {
-    console.log('after change');
-    console.log(dataHandsontable.getData());
-});
+/**
+ *  Selects/Unselects all checkboxes.
+ */
+function checkBoxHandler(event) {
+    const isSelectAll = event.target.id === 'button_selectall';
+    const rows = dataHandsontable.countRows();
+    for (let currRow = 0; currRow < rows; currRow++) {
+        dataHandsontable.setDataAtCell(currRow, 6, isSelectAll ? true : false);
+    }
+}
 
 $(document).ready(() => {
     prepareInstructorPages();
@@ -457,6 +463,10 @@ $(document).ready(() => {
     });
 
     $('#button_enroll').click(updateEnrollDataDump);
+
+    $('#button_selectall').on('click', checkBoxHandler);
+    $('#button_unselectall').on('click', checkBoxHandler);
+
     $('#button_updatestudents').bind('click', (event) => {
         console.log("state before ajax");
         console.log(dataHandsontable.getData());

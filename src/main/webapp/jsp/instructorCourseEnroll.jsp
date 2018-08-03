@@ -64,7 +64,22 @@
               </div>
               <textarea class="form-control" id="massupdatestudents" name="massupdatestudents"></textarea>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-primary btn-md existing-students"
+                          id="button_selectall">
+                    Select all
+                  </button>
+                  <button type="button" class="btn btn-primary btn-md existing-students"
+                          id="button_unselectall">
+                    Unselect all
+                  </button>
+                </div>
+                <div class="col-md-6">
+                  <button class="btn btn-danger btn-md pull-right existing-students"
+                          id="button_deletestudents">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Delete selected
+                  </button>
                   <button class="btn btn-primary btn-md pull-right existing-students"
                             id="button_updatestudents">
                       Update
