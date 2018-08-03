@@ -709,32 +709,23 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
                                                                int[][] responseFrequency, float[][] rubricStats) {
 
-        DecimalFormat df = new DecimalFormat("#");
         DecimalFormat dfAverage = new DecimalFormat("0.00");
-        DecimalFormat weightFormat = new DecimalFormat("#.##");
 
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
 
         StringBuilder tableBodyHtml = new StringBuilder();
 
-        List<List<Double>> weights = getRubricWeights();
-
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
 
             for (int j = 0; j < numOfRubricChoices; j++) {
-                StringBuilder percentageFrequencyString = new StringBuilder();
-                // Add percentage Frequency, response frequency and if weights are assigned, then add weights.
-                percentageFrequencyString
-                        .append((isSubQuestionRespondedTo
-                                        ? df.format(rubricStats[i][j] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
-                                + " (" + responseFrequency[i][j] + ")"
-                                + (hasAssignedWeights ? " [" + weightFormat.format(weights.get(i).get(j)) + "]" : ""));
+                String percentageFrequencyString =
+                        getPercentageFrequencyString(isSubQuestionRespondedTo, rubricStats, responseFrequency, i, j);
 
                 String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, percentageFrequencyString.toString());
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, percentageFrequencyString);
                 tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
 
             }
@@ -798,6 +789,23 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return receivedResponses;
     }
 
+    /**
+     * Returns a string containing percentage Frequency, response frequency,
+     * and if weights are assigned, then weights.
+
+     */
+    private String getPercentageFrequencyString(boolean isSubQuestionRespondedTo, float[][] rubricStats,
+            int[][] responseFrequency, int subQnIndex, int choiceIndex) {
+        DecimalFormat df = new DecimalFormat("#");
+        DecimalFormat dfWeight = new DecimalFormat("#.##");
+        List<List<Double>> weights = getRubricWeights();
+
+        return (isSubQuestionRespondedTo
+                ? df.format(rubricStats[subQnIndex][choiceIndex] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
+                + " (" + responseFrequency[subQnIndex][choiceIndex] + ")"
+                + (hasAssignedWeights ? " [" + dfWeight.format(weights.get(subQnIndex).get(choiceIndex)) + "]" : "");
+    }
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -808,7 +816,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder csv = new StringBuilder();
-        DecimalFormat dfWeight = new DecimalFormat("#.##");
 
         // table header
         for (int i = 0; i < rubricChoices.size(); i++) {
@@ -825,28 +832,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         csv.append(System.lineSeparator());
 
         // table body
-        DecimalFormat df = new DecimalFormat("#");
         DecimalFormat dfAverage = new DecimalFormat("0.00");
 
         int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responses, this);
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(this,
                 responseFrequency);
-        List<List<Double>> weights = getRubricWeights();
 
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
             csv.append(SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
             for (int j = 0; j < rubricChoices.size(); j++) {
-                StringBuilder percentageFrequencyString = new StringBuilder();
-                // Add percentage Frequency, response frequency and if weights are assigned, then add weights.
-                percentageFrequencyString
-                        .append((isSubQuestionRespondedTo
-                                        ? df.format(rubricStats[i][j] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
-                                + " (" + responseFrequency[i][j] + ")"
-                                + (hasAssignedWeights ? " [" + dfWeight.format(weights.get(i).get(j)) + "]" : ""));
+                String percentageFrequencyString =
+                        getPercentageFrequencyString(isSubQuestionRespondedTo, rubricStats, responseFrequency, i, j);
 
-                csv.append(',').append(percentageFrequencyString.toString());
+                csv.append(',').append(percentageFrequencyString);
             }
 
             if (hasAssignedWeights) {
