@@ -5,13 +5,12 @@
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
-<%@ attribute name="responseIndex" %>
-<%@ attribute name="qnIndex" %>
-<%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
+<%@ attribute name="responseIndex" type="java.lang.Integer" %>
+<%@ attribute name="qnIndex" type="java.lang.Integer" %>
 <%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="submittable" %>
-<%@ attribute name="isPreview" %>
-<%@ attribute name="isModeration" %>
+<%@ attribute name="isSubmittable" type="java.lang.Boolean" %>
+<%@ attribute name="isPreview" type="java.lang.Boolean" %>
+<%@ attribute name="isModeration" type="java.lang.Boolean" %>
 
 <c:set var="divId" value="${qnIndex}-${responseIndex}" />
 <c:set var="deleteLink"><%= Const.ActionURIs.FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE %></c:set>
@@ -35,7 +34,7 @@
            type="button"
            id="commentdelete-${divId}"
            class="btn btn-default btn-xs icon-button
-           <c:if test="${isPreview or (not submittable)}">disabled</c:if>"
+           <c:if test="${isPreview or (not isSubmittable)}">disabled</c:if>"
            data-toggle="tooltip"
            data-placement="top"
            data-responseindex="${responseIndex}"
@@ -56,7 +55,7 @@
         <a type="button"
            id="commentedit-${divId}"
                 class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form
-                <c:if test="${not isSessionOpenForSubmission}"> disabled</c:if>"
+                <c:if test="${isPreview or (not isSubmittable)}"> disabled</c:if>"
                 data-responseindex="${responseIndex}" data-qnindex="${qnIndex}"
            data-toggle="tooltip"
            data-placement="top"

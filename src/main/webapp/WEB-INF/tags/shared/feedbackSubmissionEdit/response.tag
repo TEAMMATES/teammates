@@ -76,13 +76,12 @@
         <c:if test="${hasFeedbackParticipantCommentOnResponse}">
           <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
               responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
-              moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-              isPreview="${data.preview}" submittable="${data.submittable}" isModeration="${data.moderation}"/>
+              moderatedPersonEmail="${moderatedPersonEmail}"
+              isPreview="${data.preview}" isSubmittable="${data.submittable}" isModeration="${data.moderation}"/>
         </c:if>
 
         <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}"
-            responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
-            isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
+            responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"/>
       </ul>
     </div>
   </c:if>

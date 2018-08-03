@@ -6,8 +6,6 @@
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="responseIndex" required="true" %>
 <%@ attribute name="qnIndex" required="true" %>
-<%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="isModeration" %>
 
 <c:set var="divId" value="${qnIndex}-${responseIndex}" />
 <li class="list-group-item list-group-item-warning"
