@@ -308,6 +308,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         for (FeedbackResponseCommentAttributes frc : commentsToSave) {
             try {
                 logic.createFeedbackResponseComment(frc);
+                logic.putDocument(frc);
                 statusToAdmin += this.getClass().getName() + ":<br>"
                         + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
                         + "in course/feedback session: " + frc.courseId + "/"
