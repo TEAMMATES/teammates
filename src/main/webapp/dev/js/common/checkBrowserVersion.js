@@ -73,20 +73,19 @@ function checkBrowserVersion() {
 
     if (!supported) {
         const unsupportedBrowserErrorString =
-            `You are currently using ${browserName} v.${majorVersion}. `
-            + 'This web browser is not officially supported by TEAMMATES. '
-            + 'In case this web browser does not display the webpage correctly, '
-            + 'you may wish to view it in the following supported browsers: <br>'
-            + '<table>'
-                + '<tr>'
-                    + `<td width="50%"> - ${MSIE} ${MSIE_LOWEST_VERSION}+</td>`
-                    + `<td> - ${CHROME} ${CHROME_LOWEST_VERSION}+</td>`
-                + '</tr>'
-                + '<tr>'
-                    + `<td> - ${FIREFOX} ${FIREFOX_LOWEST_VERSION}+</td>`
-                    + `<td> - ${SAFARI} ${SAFARI_LOWEST_VERSION}+</td>`
-                + '</tr>'
-            + '</table>';
+            '<div class="alert alert-warning text-bold">'
+                + '<span class="glyphicon glyphicon-info-sign"></span>'
+                + 'Please note that TEAMMATES works best in recent versions of Chrome or Firefox<br><br>'
+                + 'We support the following browsers:<br>'
+                + '<div>'
+                    + '<ul>'
+                        + `<li><label>${CHROME}:</label> ${CHROME_LOWEST_VERSION}+</li>`
+                        + `<li><label>${FIREFOX}:</label> ${FIREFOX_LOWEST_VERSION}+</li>`
+                        + `<li><label>${SAFARI}:</label> ${SAFARI_LOWEST_VERSION}+</li>`
+                        + `<li><label>${MSIE}:</label> ${MSIE_LOWEST_VERSION}+</li>`
+                    + '</ul>'
+                + '</div>'
+            + '</div>';
 
         const message = $('#browserMessage');
         message.css('display', 'block');
