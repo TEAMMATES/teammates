@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -44,6 +44,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {
+        // see prepareData()
+    }
+
+    @BeforeMethod
+    protected void prepareData() {
         testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
         removeAndRestoreDataBundle(testData);
 
@@ -57,10 +62,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
-    }
 
-    @BeforeClass
-    public void classSetup() {
         feedbackEditPage = getFeedbackEditPage();
     }
 
