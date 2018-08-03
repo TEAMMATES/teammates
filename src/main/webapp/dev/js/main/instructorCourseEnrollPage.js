@@ -30,7 +30,7 @@ import {
 } from '../common/statusMessage';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
-const dataHandsontable = new Handsontable(dataContainer, {
+let dataHandsontable = new Handsontable(dataContainer, {
     readOnly: true,
     height: 400,
     autoWrapRow: true,
@@ -305,6 +305,33 @@ function triggerAndProcessAjaxSaveAction(event) {
 }
 
 /**
+ * Hides the panel and reset dataHandsontable. Used after the "Enroll students" is clicked.
+ */
+function resetDataHandsontable(panelHeading, panelCollapse) {
+    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    if (panelCollapse.hasClass('in')) { // panel is shown
+        panelCollapse.collapse('hide');
+        toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+    }
+    dataHandsontable = new Handsontable(dataContainer, {
+        readOnly: true,
+        height: 400,
+        autoWrapRow: true,
+        preventOverflow: 'horizontal',
+        manualColumnResize: true,
+        manualRowResize: true,
+        rowHeaders: true,
+        colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments'],
+        columnSorting: true,
+        sortIndicator: true,
+        minRows: 20,
+        maxCols: 5,
+        stretchH: 'all',
+    });
+    dataHandsontable.render();
+}
+
+/**
  * Expands "Existing students" panel. Spreadsheet interface would be shown after expansion.
  * An AJAX request would be called to load existing
  * students' data into the spreadsheet interface (if spreadsheet is not empty).
@@ -379,5 +406,12 @@ $(document).ready(() => {
         enrollUnmodifiedStudentsMessagesMap.clear();
         updateDataDump();
         triggerAndProcessAjaxSaveAction(event);
+
+        const existingStudentsPanelHeading =
+                $('#existing-data-spreadsheet');
+        const existingStudentsPanelCollapse =
+                existingStudentsPanelHeading.parent().children('.panel-collapse');
+        resetDataHandsontable(existingStudentsPanelHeading,
+                existingStudentsPanelCollapse);
     });
 });
