@@ -1086,8 +1086,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * and returns a list containing rubric weights.
      */
     public List<List<Double>> getRubricWeights() {
-        // If weights are assigned, and rubricWeightsForEachCell is empty,
-        // that means the question contains legacy data, in which case, covert the legacy data into new format.
+        // If weights are assigned and rubricWeightsForEachCell is empty, that means the question contains legacy data.
+        // In this case, covert the legacy data into new format.
         if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
             if (rubricWeights.size() != numOfRubricChoices || rubricWeights.isEmpty()) {
                 return new ArrayList<>();

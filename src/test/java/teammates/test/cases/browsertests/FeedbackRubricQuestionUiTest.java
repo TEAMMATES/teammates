@@ -71,7 +71,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private void testInstructorResultsPage() throws Exception {
-        ______TS("test instructor results page for rubric question with weights attached");
+        ______TS("Test instructor results page for rubric question with weights attached");
 
         // Question view
         InstructorFeedbackResultsPage instructorResultsPage =
