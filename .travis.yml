@@ -6,7 +6,6 @@ branches:
   only:
     - master
     - release
-    - 6657-refactor-long-methods-numericalscale
 
 notifications:
   email: false
