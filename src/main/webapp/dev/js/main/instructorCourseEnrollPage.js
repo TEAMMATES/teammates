@@ -122,10 +122,10 @@ function statusMessageRowsRenderer(instance, td, row) {
         td.style.background = '#7CFC00';
         text = enrollNewStudentsMessagesMap.get(row);
     } else if (enrollModifiedStudentsMessagesMap.has(row)) {
-        td.style.background = '#ffc20e';
+        td.style.background = '#ffff4c';
         text = enrollModifiedStudentsMessagesMap.get(row);
     } else if (enrollUnmodifiedStudentsMessagesMap.get(row)) {
-        td.style.background = '#ADD8E6';
+        td.style.background = '#c1e1ec';
         text = enrollUnmodifiedStudentsMessagesMap.get(row);
     } else {
         td.style.background = '#FFFFFF';
