@@ -6,6 +6,7 @@
 <%@ attribute name="addInstructorButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="addInstructorPanel" type="teammates.ui.template.CourseEditInstructorPanel" required="true" %>
+<%@ attribute name="addInstructorCancelButton" type="teammates.ui.template.ElementTag" required="true" %>
 
 <div class="align-center">
   <input value="Add New Instructor" ${addInstructorButton.attributesToString}>
@@ -15,6 +16,12 @@
 <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
   <div class="panel-heading">
     <strong>Instructor ${addInstructorPanel.index}:</strong>
+    <div class="pull-right">
+      <div class="display-icon" style="display:inline;"></div>
+      <a ${addInstructorCancelButton.attributesToString}>
+        ${addInstructorCancelButton.content}
+      </a>
+    </div>
   </div>
 
   <div class="panel-body fill-plain">
@@ -79,7 +86,7 @@
               <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                   id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                   value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>" >
-              &nbsp;Manager: Can do everything except for deleting the course
+              &nbsp;Manager: Can do everything except for deleting/restoring the course
               <a href="javascript:;" class="view-role-details"
                   data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
                 View Details

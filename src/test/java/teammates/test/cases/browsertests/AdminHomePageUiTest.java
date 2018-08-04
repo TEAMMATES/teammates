@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.net.URL;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -83,15 +85,20 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorAttributes instructorInBackend = getInstructorWithRetry(demoCourseId, instructor.email);
         assertEquals("Instructor Details must have 3 columns", homePage.getMessageFromResultTable(1));
 
-        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(institute)
-                                        .toAbsoluteString();
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created " + Const.JOIN_LINK,
                 homePage.getMessageFromResultTable(2));
-        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(2)));
+
+        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
+
+        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                                        .withRegistrationKey(encryptedKey)
+                                                        .withInstructorInstitution(institute)
+                                                        .toAbsoluteString();
+        String expectedJoinLinkUrlFileName = new URL(expectedjoinUrl).getFile();
+        String actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(2));
+        String actualJoinLinkUrlFileName = new URL(actualJoinLink).getFile();
+
+        assertEquals(expectedJoinLinkUrlFileName, actualJoinLinkUrlFileName);
 
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
@@ -125,16 +132,21 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.createInstructor(instructor, institute);
 
-        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(institute)
-                                        .toAbsoluteString();
-
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created " + Const.JOIN_LINK,
                 homePage.getMessageFromResultTable(1));
-        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(1)));
+
+        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
+
+        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                                        .withRegistrationKey(encryptedKey)
+                                                        .withInstructorInstitution(institute)
+                                                        .toAbsoluteString();
+        expectedJoinLinkUrlFileName = new URL(expectedjoinUrl).getFile();
+        actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(1));
+        actualJoinLinkUrlFileName = new URL(actualJoinLink).getFile();
+
+        assertEquals(expectedJoinLinkUrlFileName, actualJoinLinkUrlFileName);
+
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(getCourseWithRetry(demoCourseId));
@@ -253,7 +265,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getTextsForAllStatusMessagesToUser()
-                .contains("The course " + demoCourseId + " has been deleted."));
+                .contains("The course " + demoCourseId + " has been deleted. You can restore it from the 'Courses' tab."));
 
         instructorHomePage.logout();
 

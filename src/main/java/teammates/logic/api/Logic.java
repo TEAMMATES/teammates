@@ -323,6 +323,19 @@ public class Logic {
      * * All parameters are non-null.
      * @return null if not found.
      */
+    public InstructorAttributes getInstructorById(String courseId, String email) {
+
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
+
+        return instructorsLogic.getInstructorById(courseId, email);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return null if not found.
+     */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 
         Assumption.assertNotNull(googleId);
@@ -655,12 +668,30 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in.
+     * @return Courses the given instructors is in except for courses in recycle bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
         return coursesLogic.getCoursesForInstructor(instructorList);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses in Recycle Bin that the given instructors is in.
+     */
+    public List<CourseAttributes> getRecoveryCoursesForInstructors(List<InstructorAttributes> instructorList) {
+
+        Assumption.assertNotNull(instructorList);
+        return coursesLogic.getRecoveryCoursesForInstructors(instructorList);
+    }
+
+    public CourseAttributes getRecoveryCourseForInstructor(InstructorAttributes instructor) {
+
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getRecoveryCourseForInstructor(instructor);
     }
 
     /**
@@ -695,8 +726,8 @@ public class Logic {
     }
 
     /**
-     * Deletes the course and all data related to the course
-     * (instructors, students, feedback sessions).
+     * Permanently deletes a course and all data related to the course
+     * (instructors, students, feedback sessions) from Recycle Bin.
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -704,6 +735,43 @@ public class Logic {
     public void deleteCourse(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Permanently deletes all courses and all data related to these courses
+     * (instructors, students, feedback sessions) from Recycle Bin.
+     */
+    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.deleteAllCoursesCascade(instructorList);
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     * All data related will not be deleted.
+     */
+    public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.moveCourseToRecovery(courseId);
+    }
+
+    /**
+     * Restores a course and all data related to the course from Recycle Bin by
+     * its given corresponding ID.
+     */
+    public void restoreCourseFromRecovery(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.restoreCourseFromRecovery(courseId);
+    }
+
+    /**
+     * Restores all courses and all data related to these courses from Recycle Bin.
+     */
+    public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.restoreAllCoursesFromRecovery(instructorList);
     }
 
     /**

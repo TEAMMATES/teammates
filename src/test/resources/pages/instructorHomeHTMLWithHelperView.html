@@ -41,6 +41,16 @@
                 (Select the student(s) you want to remind)
               </small>
             </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group" id="studentList">
@@ -131,15 +141,10 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Students
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
-                <li>
-                  <a class="btn-tm-actions course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="left" data-toggle="tooltip" disabled="" href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS1101&user=CHomeUiT.instructor.tmms" title="">
-                    Enroll
-                  </a>
-                </li>
                 <li>
                   <a class="btn-tm-actions course-view-for-test" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS1101&user=CHomeUiT.instructor.tmms" title="">
                     View / Edit
@@ -150,7 +155,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Instructors
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -163,22 +168,8 @@
             </div>
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
-                Sessions
-                <span class="caret dropdown-toggle">
-                </span>
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="btn-tm-actions course-add-eval-for-test" data-original-title="Add a feedback session for the course" data-placement="left" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackSessionsPage?user=CHomeUiT.instructor.tmms&courseid=CHomeUiT.CS1101" title="">
-                    Add
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="dropdown courses-table-dropdown">
-              <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Course
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -190,11 +181,6 @@
                 <li>
                   <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS1101&user=CHomeUiT.instructor.tmms" title="">
                     View / Edit
-                  </a>
-                </li>
-                <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="CHomeUiT.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
-                    Delete
                   </a>
                 </li>
               </ul>
@@ -282,7 +268,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Students
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -301,7 +287,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Instructors
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -315,7 +301,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Sessions
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -329,7 +315,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Course
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -344,7 +330,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="CHomeUiT.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-move-to-recovery-link" data-course-id="CHomeUiT.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
@@ -464,6 +450,18 @@
                           Publish Results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="First Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -558,6 +556,18 @@
                           Publish Results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="Second Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -650,6 +660,18 @@
                       <li>
                         <a class="session-publish-for-test" data-fsname="Third Feedback Session" data-sending-published-email="true" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}">
                           Publish Results
+                        </a>
+                      </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="Third Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
                         </a>
                       </li>
                     </ul>
@@ -749,6 +771,18 @@
                       <li>
                         <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Fourth Feedback Session" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
                           Resend link to view results
+                        </a>
+                      </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="Fourth Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
                         </a>
                       </li>
                     </ul>

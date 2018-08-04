@@ -60,6 +60,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testCourseLinks();
         testSearchAction();
         testSortAction();
+        testDownloadAction();
         testRemindActions();
         testPublishUnpublishResendLinkActions();
         testArchiveCourseAction();
@@ -220,6 +221,36 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
 
+    }
+
+    private void testDownloadAction() throws Exception {
+
+        // Test that download result button exist in homePage
+        homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getSessionName());
+
+        ______TS("Typical case: download report");
+
+        AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                .withUserId("CHomeUiT.instructor.tmms")
+                .withCourseId(feedbackSessionClosed.getCourseId())
+                .withSessionName(feedbackSessionClosed.getSessionName());
+
+        homePage.verifyDownloadLink(reportUrl);
+
+        ______TS("Typical case: download report unsuccessfully due to missing parameters");
+
+        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                .withUserId("CHomeUiT.instructor.tmms");
+        browser.driver.get(reportUrl.toAbsoluteString());
+        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
+        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
+        // Verify an error page is returned due to missing parameters in URL
+        assertTrue("Expected url is Unauthorised page, but is " + afterReportDownloadUrl,
+                        afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
+
+        // Redirect to the instructor home page after showing error page
+        loginAsCommonInstructor();
     }
 
     private void testRemindActions() {
@@ -515,8 +546,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getCourse(courseId));
 
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
-        assertNull(BackDoor.getCourse(courseId));
+        assertNotNull(BackDoor.getCourse(courseId));
+
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
+
+        BackDoor.deleteCourse(courseId);
 
         //delete the other course as well
         courseId = testData.courses.get("CHomeUiT.CS1101").getId();

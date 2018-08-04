@@ -522,7 +522,8 @@ function getCountryCode(countryName) {
     if (countryName in codeToCountryName) {
         // the country name is actually an alpha 3 code
         return countryName;
-    } else if (countryName in countryToCode) {
+    }
+    if (countryName in countryToCode) {
         // country name is defined, return the corresponding alpha 3 code
         return countryToCode[countryName];
     }

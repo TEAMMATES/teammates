@@ -176,7 +176,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
 
         //List of teams with at least one response
         List<String> teamNames = getTeamsWithAtLeastOneResponse(actualResponses, bundle);
@@ -235,7 +235,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -324,7 +324,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -399,7 +399,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                     + SanitizationHelper.sanitizeForCsv(displayEmail) + ","
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
-                    + SanitizationHelper.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx))
+                    + getNormalizedPointsListDescending(incomingPoints, studentIndx)
                     + System.lineSeparator();
 
             // Replace all Unset values
@@ -416,12 +416,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         sortedMap.forEach((key, value) -> contribFragments.append(value));
 
         String csvPointsExplanation =
-                "In the points given below, an equal share is equal to 100 points. "
-                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + System.lineSeparator()
+                SanitizationHelper.sanitizeForCsv("In the points given below, an equal share is equal to 100 points. "
+                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".") + System.lineSeparator()
                 + "Claimed Contribution (CC) = the contribution claimed by the student." + System.lineSeparator()
                 + "Perceived Contribution (PC) = the average value of student's contribution "
                 + "as perceived by the team members." + System.lineSeparator()
-                + "Team, Name, Email, CC, PC, Ratings Recieved" + System.lineSeparator();
+                + "Team, Name, Email, CC, PC, Ratings Received" + System.lineSeparator();
         return csvPointsExplanation + contribFragments + System.lineSeparator();
     }
 
@@ -440,7 +440,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
 
-        List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> responses = bundle.getActualResponsesSortedByGqr(question);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
 
@@ -463,7 +463,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
 
-        List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> responses = bundle.getActualResponsesSortedByGqr(question);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
 
@@ -580,22 +580,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
         }
         return teamNames;
-    }
-
-    private List<FeedbackResponseAttributes> getActualResponses(
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responses;
-        String questionId = question.getId();
-        //Get all actual responses for this question.
-        responses = new ArrayList<>();
-        for (FeedbackResponseAttributes response : bundle.actualResponses) {
-            if (response.feedbackQuestionId.equals(questionId)) {
-                responses.add(response);
-            }
-        }
-        responses.sort(bundle.compareByGiverRecipientQuestion);
-        return responses;
     }
 
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index) {

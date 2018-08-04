@@ -479,7 +479,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverSection =", section)
-                .filter("receiverSection =", section)
                 .list());
 
         feedbackResponses.addAll(load()

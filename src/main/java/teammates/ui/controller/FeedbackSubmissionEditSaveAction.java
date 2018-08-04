@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +31,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
@@ -76,6 +78,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         String userTeamForCourse = getUserTeamForCourse();
         String userSectionForCourse = getUserSectionForCourse();
+        List<Integer> questionsWithMissingAnswers = new ArrayList<>();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 
@@ -129,7 +132,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     continue;
                 }
 
+                // If there are duplicate values in recipient list (except empty strings),
+                // trigger this error.
+                // Note: If response for a recipient is left out, the recipient is then empty string,
+                // due to partial submission feature, there can be multiple recipient with no resposnes,
+                // in that case, there can be multiple empty strings which should not be counted.
+                if (!StringHelper.isEmpty(response.recipient) && responsesRecipients.contains(response.recipient)) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
+                    continue;
+                }
                 responsesRecipients.add(response.recipient);
+
                 // if the answer is not empty but the recipient is empty
                 if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
@@ -144,6 +157,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }
+            }
+
+            if (responsesForQuestion.isEmpty() && numOfResponsesToGet > 0) {
+                // add the question index to show user unanswered questions
+                questionsWithMissingAnswers.add(questionIndx);
             }
 
             List<String> questionSpecificErrors =
@@ -177,6 +195,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
+            if (!questionsWithMissingAnswers.isEmpty()) {
+                statusToUser.add(new StatusMessage(getUnansweredQuestionMessage(questionsWithMissingAnswers),
+                        StatusMessageColor.INFO));
+            }
         }
 
         if (isUserRespondentOfSession()) {
@@ -354,6 +376,20 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         return response;
+    }
+
+    private String getUnansweredQuestionMessage(List<Integer> questionsWithMissingAnswers) {
+        StringBuilder incompleteQuestionsMessage = new StringBuilder(Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS);
+        Iterator questions = questionsWithMissingAnswers.iterator();
+        while (questions.hasNext()) {
+            incompleteQuestionsMessage.append(questions.next().toString());
+            if (questions.hasNext()) {
+                incompleteQuestionsMessage.append(", ");
+            } else {
+                incompleteQuestionsMessage.append('.');
+            }
+        }
+        return incompleteQuestionsMessage.toString();
     }
 
     /**
