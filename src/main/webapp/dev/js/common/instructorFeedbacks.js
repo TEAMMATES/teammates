@@ -126,6 +126,13 @@ function formatResponsesVisibilityGroup() {
     });
 }
 
+/**
+ * Constructs the modal text for different advanced settings that can be set
+ * while creating a feedback session
+ * @param generalInfo general information regarding the setting
+ * @param options different options for the setting
+ * @returns {string} modal body html
+ */
 function createAdvancedSettingsModalText(generalInfo, options) {
     let optionList = '<ul>';
     for (let i = 0; i < options.length; i += 1) {
@@ -141,6 +148,10 @@ function createAdvancedSettingsModalText(generalInfo, options) {
     return modalText;
 }
 
+/**
+ * Initializes the modal providing more information on different options
+ * for setting visibility of a feedback session
+ */
 function setupSessionVisibilityInfoModal() {
     const generalInfo = `<p>${FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION}</p>`;
     const atOption = `<p><label>At:</label> ${FEEDBACK_SESSION_RESULTSVISIBLE_CUSTOM}</p>`;
@@ -153,6 +164,10 @@ function setupSessionVisibilityInfoModal() {
     });
 }
 
+/**
+ * Initializes the modal providing more information on different options
+ * for settings visibility of responses of a feedback session
+ */
 function setupResponsesVisibilityInfoModal() {
     const generalInfo = `<p>${FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION}</p>`;
     const atOption = `<p><label>At:</label> ${FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM}</p>`;
@@ -166,6 +181,10 @@ function setupResponsesVisibilityInfoModal() {
     });
 }
 
+/**
+ * Initializes the modal providing more information on different options
+ * for sending email notifications to students on important events
+ */
 function setupSendingEmailsInfoModal() {
     const generalInfo = `<p>${FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION}</p>`;
     const sessionOpenOption = `<p><label>Session opening reminder:</label> ${FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN}</p>`;
