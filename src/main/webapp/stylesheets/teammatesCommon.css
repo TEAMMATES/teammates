@@ -304,6 +304,10 @@ input.inline {
     padding: 0;
 }
 
+.padding-7px {
+    padding: 7px;
+}
+
 .padding-15px {
     padding: 15px;
 }
