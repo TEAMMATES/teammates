@@ -30,6 +30,7 @@ public final class Const {
     public static final String JOIN_LINK = "[Join Link]";
 
     public static final String NONE_OF_THE_ABOVE = "None of the above";
+    public static final String DELETION_DATE_NOT_APPLICABLE = "Not Applicable";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
@@ -159,6 +160,10 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
@@ -224,7 +229,16 @@ public final class Const {
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
+        public static final String COURSE_MOVE_TO_RECOVERY =
+                "Delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE =
+                "Permanently delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE_ALL =
+                "Permanently delete all courses and their corresponding students and sessions";
+        public static final String COURSE_RESTORE =
+                "Restore the deleted course and its corresponding students and sessions";
+        public static final String COURSE_RESTORE_ALL =
+                "Restore all deleted courses and their corresponding students and sessions";
         public static final String COURSE_ARCHIVE =
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
@@ -237,6 +251,7 @@ public final class Const {
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_CANCEL_EDIT = "Cancel editing instructor details";
+        public static final String COURSE_INSTRUCTOR_CANCEL_ADD = "Cancel adding an instructor";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
 
@@ -382,6 +397,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
+        public static final String FEEDBACK_QUESTION_DUPLICATE =
+                "Make a copy of the existing question and add to the current feedback session.";
         public static final String FEEDBACK_QUESTION_EDIT =
                 "Edit the existing question. Do remember to save the changes before moving on to editing another question.";
         public static final String FEEDBACK_QUESTION_DISCARDCHANGES =
@@ -409,8 +426,12 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
+        public static final String FEEDBACK_QUESTION_MSQ_ASSIGN_WEIGHTS =
+                "Assign weights to the choices for calculating statistics.";
         public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
                 "Assign weights to the columns for calculating statistics.";
+        public static final String FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS =
+                "Assign weights to the choices for calculating statistics.";
 
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
@@ -491,6 +512,9 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
         public static final String MCQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
+        public static final String MCQ_ERROR_INVALID_WEIGHT =
+                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
+                + " must be valid non-negative numbers with precision up to 2 decimal places.";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -507,6 +531,9 @@ public final class Const {
                 "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
         public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
                 "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
+        public static final String MSQ_ERROR_INVALID_WEIGHT =
+                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
+                + " must be valid numbers with precision up to 2 decimal places.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -698,6 +725,7 @@ public final class Const {
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
+        public static final String FEEDBACK_QUESTION_NUMBER_STATIC = "questionnum-static";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
         public static final String FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH = "recommendedlength";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
@@ -707,6 +735,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER = "mcqIsOtherOptionAnswer";
+        public static final String FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED = "mcqHasAssignedWeights";
+        public static final String FEEDBACK_QUESTION_MCQ_WEIGHT = "mcqWeight";
+        public static final String FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT = "mcqOtherWeight";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
@@ -715,6 +746,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES = "msqMinSelectableChoices";
         public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES = "msqEnableMaxSelectableChoices";
         public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES = "msqEnableMinSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED = "msqHasAssignedWeights";
+        public static final String FEEDBACK_QUESTION_MSQ_WEIGHT = "msqWeight";
+        public static final String FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT = "msqOtherWeight";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
@@ -922,6 +956,12 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE = "/page/instructorRecoveryRestoreCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL =
+                "/page/instructorRecoveryRestoreAllCourses";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE = "/page/instructorRecoveryDeleteCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL =
+                "/page/instructorRecoveryDeleteAllCourses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
@@ -1269,9 +1309,17 @@ public final class Const {
                 COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>"
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
-        public static final String COURSE_DELETED = "The course %s has been deleted.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
+                "The course %s has been deleted. You can restore it from the 'Courses' tab.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN =
+                "The course %s has been deleted. You can restore it from the deleted courses table below.";
+        public static final String COURSE_RESTORED = "The course %s has been restored.";
+        public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
+        public static final String COURSE_DELETED =
+                "The course %s has been permanently deleted.";
+        public static final String COURSE_ALL_DELETED = "All courses have been permanently deleted.";
         public static final String COURSE_EMPTY =
-                "You have not created any courses yet. Use the form above to create a course.";
+                "You do not seem to have any courses. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS =
                 "You have not created any courses yet, or you have no active courses. Go <a href=\""
                 + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
@@ -1364,6 +1412,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
                 "The feedback session has been deleted and is no longer accessible.";
+        public static final String FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED = "This session has more responses than "
+                + "that can be downloaded in one go. Please download responses for one question at a time instead. "
+                + "To download responses for a specific question, click on the corresponding question number.";
         public static final String FEEDBACK_SESSION_PUBLISHED =
                 "The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
@@ -1389,6 +1440,7 @@ public final class Const {
                 "You have not created any sessions yet. Use the form above to create a session.";
 
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
+        public static final String FEEDBACK_QUESTION_DUPLICATED = "The question has been duplicated below.";
         public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question have been updated.";
         public static final String FEEDBACK_QUESTION_DELETED = "The question has been deleted.";
         public static final String FEEDBACK_QUESTION_EMPTY =
@@ -1411,6 +1463,8 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT =
                 "Trying to update recipient to an invalid recipient for question %d.";
+        public static final String FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT =
+                "Trying to update response for a recipient who already has a response for question %d.";
 
         public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN =
                 "<strong>The feedback session is currently not open for submissions.</strong> "
@@ -1420,6 +1474,8 @@ public final class Const {
                 "Note that you can use the Submit button to save responses already entered, "
                 + "and continue to answer remaining questions after that. "
                 + "You may also edit your submission any number of times before the closing time of this session.";
+        public static final String FEEDBACK_UNANSWERED_QUESTIONS = "Note that some questions are yet to be answered. "
+                + "They are: ";
 
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW =
                 "You have received feedback from others. Please see below.";

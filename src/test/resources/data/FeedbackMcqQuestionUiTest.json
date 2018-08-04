@@ -13,6 +13,34 @@
       "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1.tmms": {
+      "googleId": "FMcqQnUiT.student1",
+      "name": "student1 In Course1</td></div>'\"",
+      "isInstructor": false,
+      "email": "student1InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student2.tmms": {
+      "googleId": "FMcqQnUiT.student2",
+      "name": "student2 In Course1",
+      "isInstructor": false,
+      "email": "student2InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student3.tmms": {
+      "googleId": "FMcqQnUiT.student3",
+      "name": "student3",
+      "isInstructor": false,
+      "email": "student3InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student4.tmms": {
+      "googleId": "FMcqQnUiT.student4",
+      "name": "student4",
+      "isInstructor": false,
+      "email": "student4InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -55,6 +83,38 @@
       "name": "Alice Betsy</td></div>'\"",
       "comments": "This student's name is Alice Betsy</td></div>'\"",
       "team": "Team </option><option value=\"dump\">1'"
+    },
+    "student1.tmms@FMcqQnUiT.CS2104": {
+      "googleId": "FMcqQnUiT.student1",
+      "email": "student1InCourse1@gmail.tmt",
+      "course": "FMcqQnUiT.CS2104",
+      "name": "student1",
+      "comments": "comment for student1InCourse1</td></div>'\"",
+      "team": "Team 1"
+    },
+    "student2.tmms@FMcqQnUiT.CS2104": {
+      "googleId": "FMcqQnUiT.student2",
+      "email": "student2InCourse1@gmail.tmt",
+      "course": "FMcqQnUiT.CS2104",
+      "name": "student2",
+      "comments": "",
+      "team": "Team 1"
+    },
+    "student3.tmms@FMcqQnUiT.CS2104": {
+      "googleId": "FMcqQnUiT.student3",
+      "email": "student3InCourse1@gmail.tmt",
+      "course": "FMcqQnUiT.CS2104",
+      "name": "student3",
+      "comments": "",
+      "team": "Team 1"
+    },
+    "student4.tmms@FMcqQnUiT.CS2104": {
+      "googleId": "FMcqQnUiT.student4",
+      "email": "student4InCourse1@gmail.tmt",
+      "course": "FMcqQnUiT.CS2104",
+      "name": "student4",
+      "comments": "",
+      "team": "Team 1"
     }
   },
   "feedbackSessions": {
@@ -79,10 +139,144 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
+    },
+    "mcqSession": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Please answer the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
     }
   },
-  "feedbackQuestions": {},
-  "feedbackResponses": {},
+  "feedbackQuestions": {
+    "qn1InSession2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"Question without weights attached!\"}"
+      },
+      "questionNumber": 1,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InSession2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.5,3.0],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"Question with weights attached!\"}"
+      },
+      "questionNumber": 2,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "response1ForQ1S2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response2ForQ1S2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response3ForQ1S2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response1ForQ2S2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response2ForQ2S2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response3ForQ2S2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    }
+  },
   "feedbackResponseComments": {},
   "profiles": {}
 }

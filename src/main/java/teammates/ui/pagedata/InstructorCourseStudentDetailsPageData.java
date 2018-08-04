@@ -18,7 +18,7 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
             String pictureUrl = getPictureUrl(studentProfile.pictureKey);
             this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
         }
-        this.studentInfoTable = new StudentInfoTable(student, hasSection);
+        this.studentInfoTable = new StudentInfoTable(student, getInstructorCourseDetailsLink(student.course), hasSection);
     }
 
     public StudentProfile getStudentProfile() {

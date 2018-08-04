@@ -30,9 +30,7 @@
           <a class='nav students' data-link="instructorStudent" href="${data.instructorStudentListLink}">Students</a>
         </li>
         <li<c:if test="${fn:contains(data.getClass(), 'Search')}"> class="active"</c:if>>
-          <a class='nav search' data-link="instructorSearch" href="${data.instructorSearchLink}">
-            Search
-          </a>
+          <a class='nav search' data-link="instructorSearch" href="${data.instructorSearchLink}">Search</a>
         </li>
         <li>
           <a class="nav help" href="/instructorHelp.jsp" target="_blank" rel="noopener noreferrer">Help</a>

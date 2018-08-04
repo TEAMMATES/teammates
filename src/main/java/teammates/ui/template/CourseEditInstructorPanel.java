@@ -18,6 +18,7 @@ public class CourseEditInstructorPanel {
     private ElementTag resendInviteButton;
     private ElementTag editButton;
     private ElementTag cancelButton;
+    private ElementTag cancelAddInstructorButton;
     private ElementTag deleteButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
@@ -171,6 +172,14 @@ public class CourseEditInstructorPanel {
         return cancelButton;
     }
 
+    public void setCancelAddInstructorButton(ElementTag cancelAddInstructorButton) {
+        this.cancelAddInstructorButton = cancelAddInstructorButton;
+    }
+
+    public ElementTag getCancelAddInstructorButton() {
+        return cancelAddInstructorButton;
+    }
+
     public void setDeleteButton(ElementTag deleteButton) {
         this.deleteButton = deleteButton;
     }
@@ -231,7 +240,7 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup1ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<>();
 
-        permissionInputGroup.add(createCheckBox("Edit/Delete Course",
+        permissionInputGroup.add(createCheckBox("Edit/Delete/Restore Course",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
 
         permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors",

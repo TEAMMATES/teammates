@@ -1,0 +1,257 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "googleId": "idOfInstructor1OfCourse1",
+      "name": "Instructor 1 of Course 1",
+      "isInstructor": true,
+      "email": "instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InCourse1": {
+      "googleId": "student1InCourse1",
+      "name": "Student 1 in course 1",
+      "isInstructor": false,
+      "email": "student1InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "studentProfile": {
+        "googleId": "student1InCourse1",
+        "shortName": "Stud1",
+        "email": "i.m.stud1@gmail.tmt",
+        "institute": "TEAMMATES Test Institute 1",
+        "nationality": "American",
+        "gender": "male",
+        "moreInfo": "I am just a student :P",
+        "pictureKey": "asdf34&hfn3!@"
+      }
+    },
+    "student2InCourse1": {
+      "googleId": "student2InCourse1",
+      "name": "Student in two courses",
+      "isInstructor": false,
+      "email": "student2InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student3InCourse1": {
+      "googleId": "student3InCourse1",
+      "email": "student3InCourse1@gmail.tmt",
+      "course": "idOfTypicalCourse1",
+      "name": "student3 In Course1",
+      "comments": "",
+      "team": "Team 1.1</td></div>'\"",
+      "section": "Section 1"
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "createdAt": "2012-04-01T23:58:00Z",
+      "id": "idOfTypicalCourse1",
+      "name": "Typical Course 1 with 2 Evals",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "googleId": "idOfInstructor1OfCourse1",
+      "courseId": "idOfTypicalCourse1",
+      "name": "Instructor1 Course1",
+      "email": "instructor1@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "feedbackSessions": {
+    "session1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "What is the best selling point of your product?"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "Rate 1 other student's product"
+      },
+      "questionNumber": 2,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn3InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn3InSession1InCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "My comments on the class"
+      },
+      "questionNumber": 3,
+      "questionType": "TEXT",
+      "giverType": "SELF",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "response1ForQ1S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackResponseId": "response1ForQ1S1C1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "Student 1 self feedback."
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "response2ForQ1S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackResponseId": "response1ForQ1S1C1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "I'm cool'"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "response1ForQ2S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackResponseId": "response1ForQ2S1C1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response from student 2 to student 1."
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "response2ForQ2S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackResponseId": "response2ForQ2S1C1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response from student 1 to student 2."
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "response3ForQ2S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackResponseId": "response3ForQ2S1C1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response from student 3 \"to\" student 2.\r\nMultiline test."
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    }
+  },
+  "profiles": {}
+}

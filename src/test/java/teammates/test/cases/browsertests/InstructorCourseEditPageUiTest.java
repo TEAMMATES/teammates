@@ -25,6 +25,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     private String instructorId;
     private String courseId;
+    private String newInstructorName;
+    private String newInstructorEmail;
 
     @Override
     protected void prepareTestData() {
@@ -32,6 +34,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         removeAndRestoreDataBundle(testData);
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
+        newInstructorName = "Teammates Instructor";
+        newInstructorEmail = "InsCrsEdit.instructor@gmail.tmt";
     }
 
     @Test
@@ -44,6 +48,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testInputValidation();
 
         testInviteInstructorAction();
+        testCancelAddInstructor();
         testAddInstructorAction();
         testEditInstructorAction();
         testCancelEditInstructorAction();
@@ -160,13 +165,47 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
+    private void testCancelAddInstructor() {
+
+        ______TS("Click cancel button upon new form created");
+        courseEditPage.clickShowNewInstructorFormButton();
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
+        courseEditPage.clickCancelAddInstructorLink();
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        ______TS("Click cancel button after filling all fields of the form");
+        int newInstructorIndex = 8;
+        courseEditPage.clickShowNewInstructorFormButton();
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        courseEditPage.fillNewInstructorName(newInstructorName);
+        courseEditPage.fillNewInstructorEmail(newInstructorEmail);
+        courseEditPage.fillNewInstructorDisplayName("Test Display");
+        courseEditPage.selectRoleForNewInstructor(newInstructorIndex, "Observer");
+
+        courseEditPage.clickCancelAddInstructorLink();
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        ______TS("Confirm form is reset to default values");
+        courseEditPage.clickShowNewInstructorFormButton();
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        assertEquals("", courseEditPage.getNewInstructorName());
+        assertEquals("", courseEditPage.getNewInstructorEmail());
+
+        assertTrue(courseEditPage.verifyAddInstructorFormDefaultValues(newInstructorIndex));
+
+        courseEditPage.clickCancelAddInstructorLink();
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
+    }
+
     private void testAddInstructorAction() throws Exception {
 
         ______TS("success: add an instructor with privileges");
 
         courseEditPage.clickShowNewInstructorFormButton();
-        courseEditPage.fillNewInstructorName("Teammates Instructor");
-        courseEditPage.fillNewInstructorEmail("InsCrsEdit.instructor@gmail.tmt");
+        courseEditPage.fillNewInstructorName(newInstructorName);
+        courseEditPage.fillNewInstructorEmail(newInstructorEmail);
 
         int newInstructorIndex = 8;
 
@@ -762,16 +801,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // TODO: use navigateTo instead
         courseEditPage = getCourseEditPage();
 
-        ______TS("delete course then cancel");
+        ______TS("delete course");
 
-        courseEditPage.clickDeleteCourseLinkAndCancel();
+        InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLink();
         assertNotNull(BackDoor.getCourse(courseId));
-
-        ______TS("delete course then proceed");
-
-        InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
         assertTrue(coursePage.getTextsForAllStatusMessagesToUser()
-                .contains(String.format(Const.StatusMessages.COURSE_DELETED, courseId)));
+                .contains(String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN, courseId)));
     }
 
     private void testUnregisteredInstructorEmailNotEditable() {

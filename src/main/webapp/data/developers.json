@@ -59,8 +59,9 @@
       "username": "95adityajain"
     },
     {
+      "multiple": true,
       "name": "Adrian Siwiec",
-      "username": "pierreSquared"
+      "username": "AdrianSiwiec"
     },
     {
       "name": "Ahsan Bagwan",
@@ -313,6 +314,10 @@
       "username": "clmcdonald"
     },
     {
+      "multiple": true,
+      "username": "cybersol795"
+    },
+    {
       "name": "Daniel Esponda",
       "username": "desponda"
     },
@@ -477,6 +482,11 @@
       "username": "Harshvardhan58"
     },
     {
+      "multiple": true,
+      "name": "Hector Aguilar",
+      "username": "ah91086"
+    },
+    {
       "major": true,
       "name": "Hirday Gupta",
       "username": "HirdayGupta",
@@ -515,6 +525,7 @@
       "username": "theitrain"
     },
     {
+      "multiple": true,
       "name": "Jacob Li",
       "username": "jacoblipech"
     },
@@ -848,6 +859,7 @@
       "name": "Mohit Singh Kanwal"
     },
     {
+      "multiple": true,
       "name": "Mudit Gupta",
       "username": "mg14777"
     },
@@ -862,6 +874,11 @@
     {
       "name": "Naman Tiwari",
       "username": "Naman-sopho"
+    },
+    {
+      "multiple": true,
+      "name": "Nashmia Riaz",
+      "username": "nashmia-riaz"
     },
     {
       "name": "Nassim Bou Ghannam",
@@ -963,6 +980,10 @@
     {
       "name": "Paweł Bąk",
       "username": "baczus0"
+    },
+    {
+      "name": "Pedro Lara Benitez",
+      "username": "pedrolarben"
     },
     {
       "multiple": true,
@@ -1194,6 +1215,10 @@
       "username": "shubhampkj"
     },
     {
+      "name": "Shubham Kadlag",
+      "username": "shubhamkadlag"
+    },
+    {
       "name": "Shubham Nishad",
       "username": "shubhamnishad97"
     },
@@ -1416,6 +1441,11 @@
       "username": "ihsavru"
     },
     {
+      "multiple": true,
+      "name": "Vaggelis Malandrakis",
+      "username": "Vaggelis-Malandrakis"
+    },
+    {
       "name": "Vaibhav Desai"
     },
     {
@@ -1491,6 +1521,10 @@
       "multiple": true,
       "name": "Yasiru Nilan",
       "username": "yasirunilan"
+    },
+    {
+      "name": "Yatri Patel",
+      "username": "yatri1609"
     },
     {
       "multiple": true,
