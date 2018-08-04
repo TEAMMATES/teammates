@@ -28,6 +28,9 @@ import {
     bindUncommonSettingsEvents,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
+    setupResponsesVisibilityInfoModal,
+    setupSendingEmailsInfoModal,
+    setupSessionVisibilityInfoModal,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 } from '../common/instructorFeedbacks';
@@ -265,6 +268,10 @@ const ajaxRequest = function (e) {
 function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
+
+    setupResponsesVisibilityInfoModal();
+    setupSendingEmailsInfoModal();
+    setupSessionVisibilityInfoModal();
 
     selectDefaultStartDateTime();
     loadSessionsByAjax();
