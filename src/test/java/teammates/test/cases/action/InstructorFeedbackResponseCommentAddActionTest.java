@@ -88,6 +88,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertFalse(frc.isCommentFromFeedbackParticipant);
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
 
         ______TS("typical successful case for unpublished session empty giver permissions");
 
@@ -252,6 +253,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertFalse(frc.isCommentFromFeedbackParticipant);
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
 
         ______TS("Unsuccessful case: empty comment text");
 

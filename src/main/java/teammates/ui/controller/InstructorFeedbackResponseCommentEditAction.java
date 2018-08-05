@@ -61,6 +61,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 .withReceiverSection(response.recipientSection)
                 .withCommentFromFeedbackParticipant(false)
                 .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withVisibilityFollowingFeedbackQuestion(false)
                 .build();
 
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));

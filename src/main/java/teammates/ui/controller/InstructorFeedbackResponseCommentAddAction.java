@@ -81,6 +81,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 .withReceiverSection(response.recipientSection)
                 .withCommentFromFeedbackParticipant(false)
                 .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withVisibilityFollowingFeedbackQuestion(false)
                 .build();
 
         // Set up visibility settings
