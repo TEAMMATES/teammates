@@ -308,7 +308,7 @@ public class FeedbackResponseCommentRow {
             case RECEIVER:
                 peopleCanView.append("response recipient, ");
                 break;
-            case OWN_TEAM:
+            case OWN_TEAM_MEMBERS:
                 peopleCanView.append("response giver's team, ");
                 break;
             case RECEIVER_TEAM_MEMBERS:
@@ -319,6 +319,9 @@ public class FeedbackResponseCommentRow {
                 break;
             case INSTRUCTORS:
                 peopleCanView.append("instructors, ");
+                break;
+            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                peopleCanView.append("response giver's team members and response giver, ");
                 break;
             default:
                 break;
