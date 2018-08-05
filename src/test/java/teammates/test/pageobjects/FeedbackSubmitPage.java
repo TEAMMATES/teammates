@@ -306,9 +306,7 @@ public class FeedbackSubmitPage extends AppPage {
      * @param commentIdSuffix suffix id of comment delete button
      */
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        final WebElement deleteCommentButton =
-                commentRow.findElement(By.tagName("div")).findElement(By.id("commentdelete" + commentIdSuffix));
+        WebElement deleteCommentButton = browser.driver.findElement(By.id("commentdelete" + commentIdSuffix));
         click(deleteCommentButton);
         waitForConfirmationModalAndClickOk();
     }

@@ -758,8 +758,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     protected FeedbackResponseCommentAttributes getFeedbackParticipantComment(String responseId) {
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
         List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
-        return frcList.stream()
+        frcList = frcList.stream()
                 .filter(comment -> comment.isCommentFromFeedbackParticipant)
-                .collect(Collectors.toList()).get(0);
+                .collect(Collectors.toList());
+        if (frcList.isEmpty()) {
+            return null;
+        }
+        return frcList.get(0);
     }
 }

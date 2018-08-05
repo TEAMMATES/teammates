@@ -39,7 +39,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
     }
 
     @Override
-    @Test
     public void testExecuteAndPostProcess() {
         // See each independent test case
     }
@@ -213,7 +212,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
     }
 
     @Override
-    @Test
     protected void testAccessControl() throws Exception {
         // See each independent test case
     }

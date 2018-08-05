@@ -1,9 +1,13 @@
 package teammates.test.cases.action;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -80,6 +84,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        FeedbackResponseCommentAttributes frc = getInstructorComment(response.getId(), "Comment to first response");
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
 
         ______TS("typical successful case for unpublished session empty giver permissions");
 
@@ -240,6 +248,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        frc = getInstructorComment(response.getId(), "Comment to first response, published session");
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
 
         ______TS("Unsuccessful case: empty comment text");
 
@@ -307,5 +319,20 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         // remove the comment
         frcDb.deleteEntity(comment);
+    }
+
+    /**
+     * Filters instructor comment according to comment text from all comments on a response.
+     *
+     * @param responseId response id of response
+     * @param commentText comment text
+     * @return feedback participant comment
+     */
+    private FeedbackResponseCommentAttributes getInstructorComment(String responseId, String commentText) {
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
+        return frcList.stream()
+                       .filter(comment -> comment.commentText.getValue().equals(commentText))
+                       .collect(Collectors.toList()).get(0);
     }
 }
