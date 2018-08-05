@@ -792,7 +792,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Returns a string containing percentage Frequency, response frequency,
      * and if weights are assigned, then weights.
-
      */
     private String getPercentageFrequencyString(boolean isSubQuestionRespondedTo, float[][] rubricStats,
             int[][] responseFrequency, int subQnIndex, int choiceIndex) {
