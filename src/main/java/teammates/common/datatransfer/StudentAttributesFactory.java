@@ -105,7 +105,7 @@ public class StudentAttributesFactory {
 
         String paramSection;
 
-        if (hasSection && columns.length > sectionColumnIndex) {
+        if (hasSection && columns.length > sectionColumnIndex && !columns[sectionColumnIndex].isEmpty()) {
             paramSection = StringHelper.removeExtraSpace(columns[sectionColumnIndex]);
         } else {
             paramSection = Const.DEFAULT_SECTION;
