@@ -1,7 +1,7 @@
 /* global elasticlunr:true */
 
 const questionMap = {};
-const numResultsPerPage = 5;
+const numResultsPerPage = 10;
 
 let index = null;
 let curPage = 1;
@@ -198,7 +198,7 @@ function renderPage(page) {
 /**
  * Resets the page to default version and clears the search box.
  */
-function resetSearch() {
+function displayDefaultAndClearSearchBox() {
     $('#searchQuery').val('');
     $('#searchMetaData').text('');
     $('#searchResults').empty().hide();
@@ -219,7 +219,7 @@ function searchQuestions() {
     $('#pagingControls').empty();
     $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
     if (query === '') {
-        resetSearch();
+        displayDefaultAndClearSearchBox();
         return;
     }
     // different fields are given a boost value to specify their relative importance
@@ -344,9 +344,9 @@ $(document).ready(() => {
     bindPanelCollapseLinksAndAnchor();
     prepareQuestionsForSearch();
     bindEnterKeyForSearchBox();
-    resetSearch();
+    displayDefaultAndClearSearchBox();
 });
 
 window.searchQuestions = searchQuestions;
-window.resetSearch = resetSearch;
+window.displayDefaultAndClearSearchBox = displayDefaultAndClearSearchBox;
 window.renderPage = renderPage;

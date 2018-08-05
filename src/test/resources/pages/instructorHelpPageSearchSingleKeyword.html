@@ -56,7 +56,7 @@
               <span class="glyphicon glyphicon-search">
               </span>
             </button>
-            <button class="btn btn-default" id="reset" onclick="resetSearch()" type="submit">
+            <button class="btn btn-default" id="reset" onclick="displayDefaultAndClearSearchBox()" type="submit">
               <span class="glyphicon glyphicon-remove">
               </span>
             </button>
@@ -505,7 +505,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-teams" style="display: none;">
+    <div class="panel panel-default" id="course-teams" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-teams-body" data-toggle="collapse">
         <h3 class="panel-title">
           What should I do if my
@@ -533,7 +533,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-add-instructor" style="display: none;">
+    <div class="panel panel-default" id="course-add-instructor" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-add-instructor-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I add instructors to my
@@ -787,7 +787,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-add-students" style="display: none;">
+    <div class="panel panel-default" id="course-add-students" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-add-students-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I add students to a
@@ -848,7 +848,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-view-students" style="display: none;">
+    <div class="panel panel-default" id="course-view-students" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-view-students-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view a list of students in a
@@ -918,7 +918,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-edit-instructor" style="display: none;">
+    <div class="panel panel-default" id="course-edit-instructor" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-edit-instructor-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I edit the information of an instructor in my
@@ -12198,20 +12198,8 @@
         <button class="btn btn-default hidden-xs" onclick="renderPage(3)" type="button">
           3
         </button>
-        <button class="btn btn-default hidden-xs" onclick="renderPage(4)" type="button">
+        <button class="btn btn-default" onclick="renderPage(4)" type="button">
           4
-        </button>
-        <button class="btn btn-default hidden-xs" onclick="renderPage(5)" type="button">
-          5
-        </button>
-        <button class="btn btn-default hidden-xs" onclick="renderPage(6)" type="button">
-          6
-        </button>
-        <button class="btn btn-default hidden-xs" onclick="renderPage(7)" type="button">
-          7
-        </button>
-        <button class="btn btn-default" onclick="renderPage(8)" type="button">
-          8
         </button>
         <button class="btn btn-default" id="nextPage" onclick="renderPage('next')" type="button">
           <span class="glyphicon glyphicon-chevron-right">

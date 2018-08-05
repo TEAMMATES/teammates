@@ -56,7 +56,7 @@
               <span class="glyphicon glyphicon-search">
               </span>
             </button>
-            <button class="btn btn-default" id="reset" onclick="resetSearch()" type="submit">
+            <button class="btn btn-default" id="reset" onclick="displayDefaultAndClearSearchBox()" type="submit">
               <span class="glyphicon glyphicon-remove">
               </span>
             </button>
@@ -342,7 +342,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-sections" style="display: none;">
+    <div class="panel panel-default" id="course-sections" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-sections-body" data-toggle="collapse">
         <h3 class="panel-title">
           What are sections meant for?
@@ -379,7 +379,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="student-view-responses" style="display: none;">
+    <div class="panel panel-default" id="student-view-responses" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#student-view-responses-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view all the responses a student has given and received?
@@ -418,7 +418,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="session-view-responses" style="display: none;">
+    <div class="panel panel-default" id="session-view-responses" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#session-view-responses-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view all the responses a student has given and received?
@@ -457,7 +457,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-change-student-section" style="display: none;">
+    <div class="panel panel-default" id="course-change-student-section" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#course-change-student-section-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I change a student's section?
@@ -517,7 +517,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="student-view-profile" style="display: none;">
+    <div class="panel panel-default" id="student-view-profile" style="display: block;">
       <div class="panel-heading cursor-pointer" data-target="#student-view-profile-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view a student's profile?
@@ -896,9 +896,6 @@
         </button>
         <button class="btn btn-default" onclick="renderPage(2)" type="button">
           2
-        </button>
-        <button class="btn btn-default" onclick="renderPage(3)" type="button">
-          3
         </button>
         <button class="btn btn-default" id="nextPage" onclick="renderPage('next')" type="button">
           <span class="glyphicon glyphicon-chevron-right">

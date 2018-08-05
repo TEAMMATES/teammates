@@ -41,7 +41,7 @@
               <button id="search" class="btn btn-default" type="submit" onclick="searchQuestions()">
                 <span class="glyphicon glyphicon-search"></span>
               </button>
-              <button id="reset" class="btn btn-default" type="submit" onclick="resetSearch()"><span class="glyphicon glyphicon-remove"></span></button>
+              <button id="reset" class="btn btn-default" type="submit" onclick="displayDefaultAndClearSearchBox()"><span class="glyphicon glyphicon-remove"></span></button>
             </span>
         </div>
       </div>
