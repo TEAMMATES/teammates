@@ -117,7 +117,7 @@ function addMsqOption(questionNum) {
 
     const choiceFragment = (`
     <div class="margin-bottom-7px" id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
-        <div class="input-group">
+        <div class="input-group width-100-pc">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-resize-vertical"></span>
                 <input type="checkbox" disabled>

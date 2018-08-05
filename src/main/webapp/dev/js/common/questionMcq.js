@@ -12,7 +12,7 @@ function addMcqOption(questionNum) {
 
     const choiceFragment = (`
     <div class="margin-bottom-7px" id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
-        <div class="input-group">
+        <div class="input-group width-100-pc">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-resize-vertical"></span>
                 <input type="radio" class="disabled_radio" disabled>
@@ -56,9 +56,7 @@ function addMcqOption(questionNum) {
 
 function removeMcqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
-    const $mcqChoices = $(`#mcqChoices-${questionNum}`);
-    // count number of child rows the table has
-    const numberOfOptions = $mcqChoices.children('div').length;
+    const numberOfOptions = $(`#mcqChoices-${questionNum}`).children('div').length;
     const $thisChoice = $(`#mcqOptionRow-${index}-${questionNum}`);
     const $thisWeight = $(`#mcqWeight-${index}-${questionNum}`);
 
