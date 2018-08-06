@@ -12,19 +12,11 @@
 <%@ attribute name="isPreview" type="java.lang.Boolean" %>
 <%@ attribute name="isModeration" type="java.lang.Boolean" %>
 
-<c:choose>
-  <c:when test="${not empty qnIndex && not empty responseIndex}">
-    <c:set var="divId" value="${qnIndex}-${responseIndex}" />
-  </c:when>
-  <c:otherwise>
-    <c:set var="divId" value="${frc.commentId}" />
-  </c:otherwise>
-</c:choose>
-
+<c:set var="divId" value="${qnIndex}-${responseIndex}" />
 <c:set var="deleteLink"><%= Const.ActionURIs.FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE %></c:set>
 
-<li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
-  <div id="commentBar-${divId}" class="row">
+<li class="list-group-item list-group-item-warning" <c:if test="${not empty qnIndex && not empty responseIndex}">id="responseCommentRow-${divId}"</c:if>>
+  <div <c:if test="${not empty qnIndex && not empty responseIndex}">id="commentBar-${divId}"</c:if> class="row">
     <div class="col-xs-10">
     <span class="text-muted">
           Comment by response giver.
@@ -74,7 +66,7 @@
     </div>
   </div>
   <%-- Do not add whitespace between the opening and closing tags --%>
-  <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
+  <div <c:if test="${not empty qnIndex && not empty responseIndex}">id="plainCommentText-${divId}"</c:if> style="margin-left: 15px;">${frc.commentText}</div>
   <c:if test="${frc.editDeleteEnabled}">
     <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
     <shared:feedbackResponseCommentFormForFeedbackParticipant responseIndex="${responseIndex}" qnIndex="${qnIndex}"
