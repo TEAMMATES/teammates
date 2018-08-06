@@ -27,7 +27,6 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     }
 
     @Override
-    @Test
     public void testExecuteAndPostProcess() {
         // split out into smaller tests
     }
