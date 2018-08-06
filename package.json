@@ -2,7 +2,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --prod && npm run assets",
+    "build:silent": "ng build --prod --progress=false && npm run assets",
+    "assets": "rm -rf src/main/webapp/assets && mv src/main/webapp/dist/assets src/main/webapp/assets",
     "test": "ng test",
     "coverage": "ng test --watch=false --code-coverage --browsers ChromeHeadless",
     "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.json",
@@ -27,6 +29,7 @@
     "core-js": "^2.5.7",
     "moment": "^2.22.2",
     "rxjs": "^6.2.2",
+    "ua-parser-js": "^0.7.18",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

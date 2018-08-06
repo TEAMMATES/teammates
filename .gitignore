@@ -21,6 +21,7 @@ libs/
 src/main/webapp/js
 src/main/webapp/test/*.js
 src/main/webapp/dist
+src/main/webapp/assets
 node_modules/
 npm-debug.log
 package-lock.json

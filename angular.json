@@ -38,6 +38,10 @@
                   "with": "src/web/environments/environment.prod.ts"
                 }
               ],
+              "assets": [
+                { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
+              ],
+              "deployUrl": "dist/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
