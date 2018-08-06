@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 import teammates.ui.template.StudentInfoTable;
@@ -19,6 +20,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
+    private String courseDetailsLink;
     private boolean hasSection;
 
     @Test
@@ -68,7 +70,8 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(inputStudent.section, studentInfoTable.getSection());
         assertEquals(inputStudent.team, studentInfoTable.getTeam());
         assertEquals(inputStudent.comments, studentInfoTable.getComments());
-        assertEquals(inputStudent.course, studentInfoTable.getCourse());
+        assertEquals(inputStudent.course, studentInfoTable.getCourseId());
+        assertEquals(courseDetailsLink, studentInfoTable.getCourseDetailsLink());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
@@ -85,6 +88,10 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String courseId = "CourseForJohnDoe";
         String team = "TeamForJohnDoe";
         String section = "SectionForJohnDoe";
+
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        this.courseDetailsLink = link;
 
         inputStudent = StudentAttributes
                 .builder(courseId, name, email)

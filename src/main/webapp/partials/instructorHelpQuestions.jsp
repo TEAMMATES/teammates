@@ -4110,7 +4110,7 @@
                                       </span>
                                     </span>
                                   </div>
-                                  <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+                                  <div class="panel-collapse collapse" id="panelBodyCollapse-1">
                                     <div class="panel-body padding-0" id="questionBody-0">
 
                                       <div class="resultStatistics">
