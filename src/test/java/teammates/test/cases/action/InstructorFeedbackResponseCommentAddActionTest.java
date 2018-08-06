@@ -84,7 +84,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        FeedbackResponseCommentAttributes frc = getInstructorComment(response.getId(), "Comment to first response");
+        List<FeedbackResponseCommentAttributes> frcList =
+                getInstructorComments(response.getId(), "Comment to first response");
+        assertEquals(1, frcList.size());
+        FeedbackResponseCommentAttributes frc = frcList.get(0);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertFalse(frc.isCommentFromFeedbackParticipant);
@@ -249,7 +252,9 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        frc = getInstructorComment(response.getId(), "Comment to first response, published session");
+        frcList = getInstructorComments(response.getId(), "Comment to first response, published session");
+        assertEquals(1, frcList.size());
+        frc = frcList.get(0);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertFalse(frc.isCommentFromFeedbackParticipant);
@@ -324,17 +329,18 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
     }
 
     /**
-     * Filters instructor comment according to comment text from all comments on a response.
+     * Filters instructor comments according to comment text from all comments on a response.
      *
      * @param responseId response id of response
      * @param commentText comment text
-     * @return feedback participant comment
+     * @return instructor comments
      */
-    private FeedbackResponseCommentAttributes getInstructorComment(String responseId, String commentText) {
+    private List<FeedbackResponseCommentAttributes> getInstructorComments(String responseId, String commentText) {
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
         List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
-        return frcList.stream()
+        frcList = frcList.stream()
                        .filter(comment -> comment.commentText.getValue().equals(commentText))
-                       .collect(Collectors.toList()).get(0);
+                       .collect(Collectors.toList());
+        return frcList;
     }
 }
