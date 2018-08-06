@@ -1576,7 +1576,7 @@ public class Logic {
 
     /**
      * Generates template feedback questions for an instructor in the session.<br>
-     * Returns an empty list if there are no questions
+     * Returns an empty list if there are no questions for the template
      * for the session.
      * Preconditions: <br>
      * * All parameters are non-null.
