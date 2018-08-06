@@ -872,7 +872,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isTemplateQuestionPanelExpanded(int qnNumber) {
         // need to wait for the panel to be fully expanded before checking the class
-        waitForElementPresence(By.className("in"));
+        waitForTextContainedInElementPresence(By.className("in"), Integer.toString(qnNumber));
         return browser.driver.findElement(By.id("addTemplateQuestion-" + qnNumber))
                 .findElement(By.className("in")).isDisplayed();
     }
