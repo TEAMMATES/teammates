@@ -12,7 +12,15 @@
 <%@ attribute name="isPreview" type="java.lang.Boolean" %>
 <%@ attribute name="isModeration" type="java.lang.Boolean" %>
 
-<c:set var="divId" value="${qnIndex}-${responseIndex}" />
+<c:choose>
+  <c:when test="${not empty qnIndex && not empty responseIndex}">
+    <c:set var="divId" value="${qnIndex}-${responseIndex}" />
+  </c:when>
+  <c:otherwise>
+    <c:set var="divId" value="${frc.commentId}" />
+  </c:otherwise>
+</c:choose>
+
 <c:set var="deleteLink"><%= Const.ActionURIs.FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE %></c:set>
 
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
