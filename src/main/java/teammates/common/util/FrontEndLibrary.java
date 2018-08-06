@@ -23,6 +23,7 @@ public final class FrontEndLibrary {
     public static final String JQUERY_HIGHLIGHT;
     public static final String JQUERY_PRINTTHIS;
     public static final String JQUERY_UI;
+    public static final String MARK_JS;
     public static final String MOMENT;
     public static final String QUNIT_CSS;
     public static final String QUNIT;
@@ -58,6 +59,7 @@ public final class FrontEndLibrary {
         JQUERY_HIGHLIGHT = getLibrarySource("jquery-highlight", "jquery.highlight.js");
         JQUERY_PRINTTHIS = getLibrarySource("printthis", "printThis.js");
         JQUERY_UI = getLibrarySource("jquery-ui-dist", "jquery-ui.min.js");
+        MARK_JS = getLibrarySource("mark.js", "dist/jquery.mark.min.js");
         MOMENT = getLibrarySource("moment", "min/moment.min.js");
         QUNIT_CSS = getLibrarySource("qunit", "qunit/qunit.css");
         QUNIT = getLibrarySource("qunit", "qunit/qunit.js");

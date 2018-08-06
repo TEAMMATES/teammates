@@ -19,7 +19,6 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
-import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.LoginPage;
 
 /**

@@ -11,6 +11,10 @@ code {
     background-color: #F5F5F5;
 }
 
+mark {
+    background-color: #FF8;
+}
+
 .edit-uncommon-settings-button:hover {
     cursor: pointer;
 }

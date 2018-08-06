@@ -45,6 +45,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.ELASTICLUNR%>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.MARK_JS%>"></script>
     ${jsIncludes}
   </body>
 </html>
