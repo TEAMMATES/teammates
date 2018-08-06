@@ -1054,9 +1054,7 @@ function bindAddTemplateQnEvents() {
 
         $button.prop('disabled', numCheckboxChecked <= 0);
         $button.click(() => {
-            if (numCheckboxChecked > 0) {
-                $('#addTemplateQuestionModalForm').submit();
-            }
+            $('#addTemplateQuestionModalForm').submit();
         });
     });
 }
