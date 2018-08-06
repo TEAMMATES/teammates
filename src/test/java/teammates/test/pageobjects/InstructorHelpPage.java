@@ -16,7 +16,7 @@ public class InstructorHelpPage extends AppPage {
 
     public void inputSearchQuery(String query) {
         WebElement searchBox = getSearchBox();
-        searchBox.sendKeys(query);
+        fillTextBox(searchBox, query);
     }
 
     public void clickSearchButton() {

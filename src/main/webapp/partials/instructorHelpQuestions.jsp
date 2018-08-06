@@ -1,7 +1,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="questions">Questions</h2>
-<div id="contentHolder">
+<div class="contentHolder">
   <div class="panel-group">
     <div class="panel panel-default" id="question-essay">
       <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#question-essay-body">

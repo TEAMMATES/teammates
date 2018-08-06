@@ -3,6 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 
 /**
@@ -18,7 +20,8 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
 
     @BeforeClass
     public void classSetup() {
-        helpPage = getInstructorHelpPage();
+        helpPage = AppPage.getNewPageInstance(browser, createUrl(Const.ActionURIs.INSTRUCTOR_HELP_PAGE + ".jsp"),
+                                                InstructorHelpPage.class);
     }
 
     @Test

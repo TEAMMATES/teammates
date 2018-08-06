@@ -159,15 +159,6 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     }
 
     /**
-     * Navigates to application's help page for instructors
-     * and gives {@Link InstructorHelpPage} instance based on it.
-     */
-    protected InstructorHelpPage getInstructorHelpPage() {
-        return AppPage.getNewPageInstance(browser, createUrl(Const.ActionURIs.INSTRUCTOR_HELP_PAGE + ".jsp"),
-                                            InstructorHelpPage.class);
-    }
-
-    /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {

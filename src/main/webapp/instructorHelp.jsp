@@ -8,7 +8,7 @@
 <t:helpPage jsIncludes="${jsIncludes}">
   <h1>Help for Instructors</h1>
   <a name="#top"></a>
-  <div id="contentHolder">
+  <div class="contentHolder">
     <p>
       Have questions about how to use TEAMMATES? This page answers some frequently asked questions.<br>
       If you are new to TEAMMATES, our <a href="/gettingStarted.jsp">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.<br>
@@ -38,10 +38,10 @@
         <div class="input-group input-group-lg">
             <input type="text" class="form-control" placeholder="How can we help?" id="searchQuery" autocomplete="off">
             <span class="input-group-btn">
-              <button id="search" class="btn btn-default" type="submit" onclick="searchQuestions()">
+              <button id="search" class="btn btn-default" type="submit">
                 <span class="glyphicon glyphicon-search"></span>
               </button>
-              <button id="reset" class="btn btn-default" type="submit" onclick="displayDefaultAndClearSearchBox()"><span class="glyphicon glyphicon-remove"></span></button>
+              <button id="clear" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
             </span>
         </div>
       </div>

@@ -44,10 +44,10 @@ function prepareQuestionsForSearch() {
     let questionCount = 0;
 
     function addQuestionsForTopic(topic) {
-        const topicContentElement = $(topic).next();
+        const topicContentElement = $(topic).next('.contentHolder');
 
         topicContentElement.find('.panel-group').each((idx, subTopic) => {
-            const subTopicText = $(subTopic).prev().text();
+            const subTopicText = $(subTopic).prev('h3').text();
             const subTopicQuestions = $(subTopic).children();
 
             let subTopicTags = subTopicText.split(' ').map((word) => {
@@ -60,19 +60,15 @@ function prepareQuestionsForSearch() {
                 }
                 return elasticlunr.stemmer(lowerCaseWord);
             });
-            subTopicTags = $.grep(subTopicTags, (tag) => {
-                if (tag !== '') {
-                    return true;
-                }
-                return false;
-            });
+            subTopicTags = $.grep(subTopicTags, tag => tag !== '');
 
             for (let i = 0; i < subTopicQuestions.length; i += 1) {
                 const question = $(subTopicQuestions[i]);
                 const htmlId = question.attr('id');
                 const tagsSeenSoFar = {};
 
-                let questionTags = subTopicTags.concat(htmlId.split('-'));
+                let questionTags = [];
+                $.merge($.merge(questionTags, subTopicTags), htmlId.split('-'));
                 questionTags = $.grep(questionTags, (item) => {
                     if (tagsSeenSoFar[item]) {
                         return false;
@@ -209,12 +205,30 @@ function displayDefaultAndClearSearchBox() {
     $('#topics').show();
 }
 
+function bindPagingButtons() {
+    function bindPageButton(pageButton, pageNo) {
+        $(pageButton).on('click', () => {
+            renderPage(pageNo);
+        });
+    }
+    $('#pagingControls').find('button').each((idx, pageButton) => {
+        if ($(pageButton).text() !== '...') {
+            if ($(pageButton).attr('id') === 'prevPage') {
+                bindPageButton(pageButton, 'prev');
+            } else if ($(pageButton).attr('id') === 'nextPage') {
+                bindPageButton(pageButton, 'next');
+            } else {
+                bindPageButton(pageButton, idx);
+            }
+        }
+    });
+}
+
 /**
  * Searches for the query specified in the search box
  */
 function searchQuestions() {
     const query = $('#searchQuery').val();
-
     $('#searchResults').empty();
     $('#pagingControls').empty();
     $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
@@ -232,17 +246,17 @@ function searchQuestions() {
         },
         bool: 'AND',
     });
+
     // add relevant panels to search results
     $.each(results, (idx, result) => {
         const { htmlId } = questionMap[result.ref];
-        const questionPanel = $(`#${htmlId}`)[0];
+        const questionPanel = $(`#${htmlId}`).get(0);
         $('#searchResults').append(questionPanel.outerHTML);
     });
 
     // highlight matches for keyword in the search results
     function highlightKeyword(keyword) {
         const highlightRegex = new RegExp(keyword, 'gi');
-
         function highlighter(elem) {
             const childTextElements = $(elem).contents().filter(function () {
                 // recursively search and highlight matches for element node
@@ -300,15 +314,16 @@ function searchQuestions() {
             return;
         }
 
-        let buttonHtml = '<button type="button" class="btn btn-default" id="prevPage" onclick="renderPage(\'prev\')">'
+        let buttonHtml = '<button type="button" class="btn btn-default" id="prevPage">'
                          + '<span class="glyphicon glyphicon-chevron-left"></span></button>';
         for (let i = 0; i < numPages; i += 1) {
-            buttonHtml += `<button type='button' class='btn btn-default' onclick='renderPage(${i + 1})'>${i + 1}</button>`;
+            buttonHtml += `<button type='button' class='btn btn-default'>${i + 1}</button>`;
         }
-        buttonHtml += '<button type="button" class="btn btn-default" id="nextPage" onclick="renderPage(\'next\')">'
+        buttonHtml += '<button type="button" class="btn btn-default" id="nextPage">'
                      + '<span class="glyphicon glyphicon-chevron-right"></span></button>';
         $('#pagingControls').html(buttonHtml);
         $('#pagingControls').addClass('padding-15px margin-bottom-35px');
+        bindPagingButtons();
     }
 
     // highlight each keyword of query in search results
@@ -329,7 +344,8 @@ function searchQuestions() {
 }
 
 /**
- * Simulates clicking of search button on pressing Enter key.
+ * Simulates clicking of search button on pressing Enter key where
+ * 13 is the Unicode character code for enter key.
  */
 function bindEnterKeyForSearchBox() {
     $('#searchQuery').keypress((e) => {
@@ -339,14 +355,24 @@ function bindEnterKeyForSearchBox() {
     });
 }
 
+function bindSearchButton() {
+    $('#search').on('click', () => {
+        searchQuestions();
+    });
+}
+
+function bindClearSearchButton() {
+    $('#clear').on('click', () => {
+        displayDefaultAndClearSearchBox();
+    });
+}
+
 $(document).ready(() => {
     syncPanelCollapseWithUrlHash();
     bindPanelCollapseLinksAndAnchor();
     prepareQuestionsForSearch();
     bindEnterKeyForSearchBox();
+    bindSearchButton();
+    bindClearSearchButton();
     displayDefaultAndClearSearchBox();
 });
-
-window.searchQuestions = searchQuestions;
-window.displayDefaultAndClearSearchBox = displayDefaultAndClearSearchBox;
-window.renderPage = renderPage;
