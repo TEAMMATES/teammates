@@ -6,9 +6,10 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 /**
- * This class uses the information from feedbackSessionTeamEvaluationTemplate.json
- * to generate necessary information to render the correct information for pages
- * like addTemplateQuestionModal.tag in the form of instructorHelpSessions.jsp.
+ * View Model for instructor/feedbackEdit/addTemplateQuestionsModal.tag
+ *
+ * <p>Generates template question details, feedback path, visibility options and other descriptive information
+ * for each specific question.
  */
 public class FeedbackTemplateQuestionInfo {
 
