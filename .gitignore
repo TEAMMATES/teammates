@@ -20,6 +20,7 @@ chromedriver*
 libs/
 src/main/webapp/js
 src/main/webapp/test/*.js
+src/main/webapp/dist
 node_modules/
 npm-debug.log
 package-lock.json
@@ -30,6 +31,8 @@ src/test/current testng.xml
 src/main/webapp/WEB-INF/classes
 src/client/java/teammates/client/scripts/scalabilitytests/data/
 *.exe
+
+coverage/*
 
 ### Gradle ###
 .gradle
