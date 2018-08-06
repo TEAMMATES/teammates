@@ -330,9 +330,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // check if each question panel is expandable
         feedbackEditPage.clickTemplateQuestionPanel(1);
         assertTrue(feedbackEditPage.isTemplateQuestionPanelExpanded(1));
+        assertFalse("Cannot click before selecting a question",
+                feedbackEditPage.isAddTemplateQuestionButtonEnabled());
 
         feedbackEditPage.clickTemplateQuestionModalCheckBox(1);
-
         assertTrue("Can click after selecting a question",
                 feedbackEditPage.isAddTemplateQuestionButtonEnabled());
         feedbackEditPage.clickAddTemplateQuestionButton();
