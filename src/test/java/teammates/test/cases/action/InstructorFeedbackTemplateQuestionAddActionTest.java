@@ -78,9 +78,41 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     @Test
     public void testIncompleteParameters() {
 
+        ______TS("Missing course, session name and question number");
+
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
+
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        ______TS("Missing question number");
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+        };
+
+        InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
+        RedirectResult result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        true),
+                result.getDestinationWithParams());
+
+        assertEquals("No template questions are indicated to be added", result.getStatusMessage());
+
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
+                + "instructorFeedbackTemplateQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "|||/page/instructorFeedbackTemplateQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -109,40 +141,6 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
         } catch (NumberFormatException e) {
             ignoreExpectedException();
         }
-    }
-
-    @Test
-    public void testNoTemplateQuestionIndicated() {
-
-        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-        };
-
-        InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
-        RedirectResult result = getRedirectResult(action);
-
-        assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                        instructor1ofCourse1.courseId,
-                        "First+feedback+session",
-                        instructor1ofCourse1.googleId,
-                        true),
-                result.getDestinationWithParams());
-
-        assertEquals("No template questions are indicated to be added", result.getStatusMessage());
-
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
-                                    + "instructorFeedbackTemplateQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "|||/page/instructorFeedbackTemplateQuestionAdd";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
