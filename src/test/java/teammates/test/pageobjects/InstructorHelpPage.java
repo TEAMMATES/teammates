@@ -40,7 +40,7 @@ public class InstructorHelpPage extends AppPage {
     }
 
     private WebElement getResetButton() {
-        return browser.driver.findElement(By.id("reset"));
+        return browser.driver.findElement(By.id("clear"));
     }
 
     private WebElement getSearchButton() {

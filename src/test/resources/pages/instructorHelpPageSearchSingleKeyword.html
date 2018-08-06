@@ -4,7 +4,7 @@
   </h1>
   <a name="#top">
   </a>
-  <div id="contentHolder">
+  <div class="contentHolder">
     <p>
       Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
       <br>
@@ -52,11 +52,11 @@
         <div class="input-group input-group-lg">
           <input autocomplete="off" class="form-control" id="searchQuery" placeholder="How can we help?" type="text">
           <span class="input-group-btn">
-            <button class="btn btn-default" id="search" onclick="searchQuestions()" type="submit">
+            <button class="btn btn-default" id="search" type="submit">
               <span class="glyphicon glyphicon-search">
               </span>
             </button>
-            <button class="btn btn-default" id="reset" onclick="displayDefaultAndClearSearchBox()" type="submit">
+            <button class="btn btn-default" id="clear" type="submit">
               <span class="glyphicon glyphicon-remove">
               </span>
             </button>
@@ -78,9 +78,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-archive-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I archive a
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -88,21 +88,21 @@
         <div class="panel-body">
           <p>
             When a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             has ended, you can archive it so that it doesn't appear in your home page.
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             , student and session details of an archived
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             .
           </p>
           <p>
@@ -111,23 +111,23 @@
               Home
             </b>
             page, you will see panels for each
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             and a table of feedback sessions inside it, similar to the example below.
             <br>
             Click on the
             <button class="btn btn-primary btn-xs" type="button">
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               <span class="caret">
               </span>
             </button>
             button on the card heading of the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you want to archive.
             <br>
             Then select
@@ -142,30 +142,30 @@
           </p>
           <p>
             You can also archive a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             from the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page.
             <br>
             Under 'Active
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             s', click on the
             <button class="btn btn-default btn-xs" type="button">
               Archive
             </button>
             button in the row corresponding to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you want to archive.
           </p>
           <div class="bs-example">
@@ -202,9 +202,9 @@
                       </div>
                       <div class="dropdown courses-table-dropdown">
                         <button class="btn btn-primary btn-xs" type="button">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           <span class="caret">
                           </span>
                         </button>
@@ -222,9 +222,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-unarchive-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I unarchive an archived
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -232,21 +232,21 @@
         <div class="panel-body">
           <p>
             To unarchive a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , first
             <a class="collapse-link" data-target="#course-view-archived-body" href="#course-view-archived">
               view the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
             </a>
             that you would like to unarchive in the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page.
@@ -256,9 +256,9 @@
               Unarchive
             </button>
             button corresponding to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you want to unarchive.
           </p>
           <div class="bs-example">
@@ -266,26 +266,26 @@
               <span class="glyphicon glyphicon-floppy-disk">
               </span>
               Archived
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </h2>
             <table class="table table-bordered table-striped">
               <thead>
                 <tr class="fill-info">
                   <th class="button-sort-none" onclick="toggleSort(this);">
-                    <span class="highlight">
+                    <mark data-markjs="true">
                       Course
-                    </span>
+                    </mark>
                     ID
                     <span class="icon-sort unsorted">
                     </span>
                   </th>
                   <th class="button-sort-none" onclick="toggleSort(this);">
-                    <span class="highlight">
+                    <mark data-markjs="true">
                       Course
-                    </span>
+                    </mark>
                     Name
                     <span class="icon-sort unsorted">
                     </span>
@@ -330,9 +330,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-view-archived-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           s I have archived?
         </h3>
       </div>
@@ -340,14 +340,14 @@
         <div class="panel-body">
           <p>
             You can view all your archived
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s by navigating to the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page.
@@ -355,9 +355,9 @@
             Scroll to the
             <b>
               Archived
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </b>
             heading, which looks similar to this:
@@ -367,26 +367,26 @@
               <span class="glyphicon glyphicon-floppy-disk">
               </span>
               Archived
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </h2>
             <table class="table table-bordered table-striped">
               <thead>
                 <tr class="fill-info">
                   <th class="button-sort-none" onclick="toggleSort(this);">
-                    <span class="highlight">
+                    <mark data-markjs="true">
                       Course
-                    </span>
+                    </mark>
                     ID
                     <span class="icon-sort unsorted">
                     </span>
                   </th>
                   <th class="button-sort-none" onclick="toggleSort(this);">
-                    <span class="highlight">
+                    <mark data-markjs="true">
                       Course
-                    </span>
+                    </mark>
                     Name
                     <span class="icon-sort unsorted">
                     </span>
@@ -426,19 +426,19 @@
           </div>
           <p>
             The
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s you have previously archived are listed here. In order to access information in an archived
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             ,
             <a class="collapse-link" data-target="#course-unarchive-body" href="#course-unarchive">
               unarchive the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
             </a>
             .
           </p>
@@ -449,9 +449,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-restore-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I restore a deleted
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -459,21 +459,21 @@
         <div class="panel-body">
           <p>
             To restore a deleted
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , first
             <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">
               view the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
             </a>
             that you would like to restore in the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page.
@@ -483,9 +483,9 @@
               Restore
             </button>
             button corresponding to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you want to restore.
           </p>
           <div class="bs-example">
@@ -493,9 +493,9 @@
               <span class="glyphicon glyphicon-trash">
               </span>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </h2>
             <div class="panel">
@@ -528,17 +528,17 @@
                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                       <tr>
                         <th class="button-sort-none" onclick="toggleSort(this);">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           ID
                           <span class="icon-sort unsorted">
                           </span>
                         </th>
                         <th class="button-sort-none" onclick="toggleSort(this);">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           Name
                           <span class="icon-sort unsorted">
                           </span>
@@ -589,13 +589,13 @@
           </div>
           <p>
             After restoring the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , all the information relevant to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             (e.g. instructors, sessions, students) will also be restored.
           </p>
         </div>
@@ -605,9 +605,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-delete-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I permanently delete a
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -615,21 +615,21 @@
         <div class="panel-body">
           <p>
             To permanently delete a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , first
             <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">
               view the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
             </a>
             that you would like to permanently delete in the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page.
@@ -639,9 +639,9 @@
               Delete Permanently
             </button>
             button corresponding to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you want to delete.
           </p>
           <div class="bs-example">
@@ -649,9 +649,9 @@
               <span class="glyphicon glyphicon-trash">
               </span>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </h2>
             <div class="panel">
@@ -684,17 +684,17 @@
                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                       <tr>
                         <th class="button-sort-none" onclick="toggleSort(this);">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           ID
                           <span class="icon-sort unsorted">
                           </span>
                         </th>
                         <th class="button-sort-none" onclick="toggleSort(this);">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           Name
                           <span class="icon-sort unsorted">
                           </span>
@@ -745,13 +745,13 @@
           </div>
           <p>
             After deleting the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , all the information relevant to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             (e.g. instructors, sessions, students) will also be permanently deleted.
           </p>
         </div>
@@ -761,9 +761,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-delete-students-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I delete students from a
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -771,9 +771,9 @@
         <div class="panel-body">
           <p>
             To remove Student A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B:
           </p>
           <ol>
@@ -782,9 +782,9 @@
                 View the student list
               </a>
               of
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B.
             </li>
             <li>
@@ -800,9 +800,9 @@
                 OK
               </b>
               to confirm that you would like to delete Student A from
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B.
             </li>
           </ol>
@@ -813,9 +813,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-size-body" data-toggle="collapse">
         <h3 class="panel-title">
           Is there a size limit for a
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -823,9 +823,9 @@
         <div class="panel-body">
           <p>
             No. However, if
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s with an enrollment of more than 100 students need to be
             <a class="collapse-link" data-target="#course-enroll-sections-body" href="#course-enroll-sections">
               divided into sections
@@ -841,9 +841,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-teams-body" data-toggle="collapse">
         <h3 class="panel-title">
           What should I do if my
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           doesn’t have teams?
         </h3>
       </div>
@@ -851,9 +851,9 @@
         <div class="panel-body">
           <p>
             When you enroll students in a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , TEAMMATES requires you to specify a
             <b>
               Team
@@ -869,9 +869,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-add-students-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I add students to a
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -879,9 +879,9 @@
         <div class="panel-body">
           <p>
             There are two ways to enroll students in a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             :
           </p>
           <ul>
@@ -895,9 +895,9 @@
                 Students
               </button>
               button of the corresponding
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               , and choose
               <b>
                 Enroll
@@ -907,9 +907,9 @@
             <li>
               From the
               <b>
-                <span class="highlight">
+                <mark data-markjs="true">
                   Course
-                </span>
+                </mark>
                 s
               </b>
               page, click on the
@@ -917,9 +917,9 @@
                 Enroll
               </button>
               button of the corresponding
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               .
             </li>
           </ul>
@@ -930,9 +930,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-add-instructor-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I add instructors to my
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -945,9 +945,9 @@
             </b>
             or
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page, click the
@@ -955,26 +955,26 @@
               Edit
             </button>
             button of the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you would like to edit. You will be directed to the
             <b>
               Edit
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
             </b>
             page, which will look similar to the example below.
             <br>
             Here, you can add new instructors to the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , edit existing instructors' details, and delete instructors from the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             , depending on your access privileges.
           </p>
           <div class="bs-example">
@@ -1143,9 +1143,9 @@
                           <br>
                           <input id="instructorrole2forinstructor2" name="instructorrole" type="radio" value="Manager">
                            Manager: Can do everything except for deleting/restoring the
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           <a href="javascript:;">
                             View Details
                           </a>
@@ -1184,9 +1184,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-view-deleted-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           s I have deleted?
         </h3>
       </div>
@@ -1194,14 +1194,14 @@
         <div class="panel-body">
           <p>
             You can view all your deleted
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s by navigating to the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page.
@@ -1209,9 +1209,9 @@
             Scroll to the
             <b>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </b>
             heading, which looks similar to this:
@@ -1221,9 +1221,9 @@
               <span class="glyphicon glyphicon-trash">
               </span>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </h2>
             <div class="panel">
@@ -1256,17 +1256,17 @@
                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                       <tr>
                         <th class="button-sort-none" onclick="toggleSort(this);">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           ID
                           <span class="icon-sort unsorted">
                           </span>
                         </th>
                         <th class="button-sort-none" onclick="toggleSort(this);">
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             Course
-                          </span>
+                          </mark>
                           Name
                           <span class="icon-sort unsorted">
                           </span>
@@ -1317,19 +1317,19 @@
           </div>
           <p>
             The
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s you have previously deleted are listed here. In order to access information in a deleted
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             ,
             <a class="collapse-link" data-target="#course-restore-body" href="#course-restore">
               restore the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
             </a>
             .
           </p>
@@ -1340,9 +1340,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-all-action-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I restore/delete all
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           s from Recycle Bin?
         </h3>
       </div>
@@ -1352,20 +1352,20 @@
             First
             <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">
               view the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
             </a>
             and check for
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s in Recycle Bin.
             <br>
             To restore all
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s, click on the
             <a class="btn btn-default btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
               <span class="glyphicon glyphicon-ok">
@@ -1377,15 +1377,15 @@
             button in
             <b>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </b>
             heading; to delete all
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s, click on the
             <a class="btn btn-default btn-xs color-negative" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
               <span class="glyphicon glyphicon-remove">
@@ -1397,9 +1397,9 @@
             button in
             <b>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </b>
             heading.
@@ -1409,9 +1409,9 @@
               <span class="glyphicon glyphicon-trash">
               </span>
               Deleted
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               s
             </h2>
             <div class="panel">
@@ -1451,9 +1451,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-view-students-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I view a list of students in a
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -1461,16 +1461,16 @@
         <div class="panel-body">
           <p>
             There are two ways to access the list of students in a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             .
           </p>
           <p>
             To view the list of students in
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             A:
           </p>
           <ul>
@@ -1480,9 +1480,9 @@
                 Home
               </b>
               page, find the panel corresponding to
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               A. On the right hand side, click
               <button class="btn btn-primary btn-xs">
                 Students
@@ -1498,9 +1498,9 @@
             <li>
               From the
               <b>
-                <span class="highlight">
+                <mark data-markjs="true">
                   Course
-                </span>
+                </mark>
                 s
               </b>
               page, click
@@ -1508,9 +1508,9 @@
                 View
               </button>
               button of the row corresponding to
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               A.
             </li>
           </ul>
@@ -1521,9 +1521,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-edit-instructor-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I edit the information of an instructor in my
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -1531,20 +1531,20 @@
         <div class="panel-body">
           <p>
             To edit the name, email and visible role of Instructor A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B, first go to the
             <b>
               Edit
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
             </b>
             page of
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B.
             <br>
             From your
@@ -1553,9 +1553,9 @@
             </b>
             or
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page, click the
@@ -1563,15 +1563,15 @@
               Edit
             </button>
             button of the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             you would like to edit. You will be directed to the
             <b>
               Edit
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
             </b>
             page.
             <br>
@@ -1612,9 +1612,9 @@
       <div class="panel-heading cursor-pointer" data-target="#course-disappear-body" data-toggle="collapse">
         <h3 class="panel-title">
           What should I do if a student says his/her
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           s have disappeared from the system?
         </h3>
       </div>
@@ -1634,9 +1634,9 @@
       <div class="panel-heading cursor-pointer" data-target="#student-search-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I search for a student in my
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -1741,9 +1741,9 @@
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <strong>
-                      <span class="highlight">
+                      <mark data-markjs="true">
                         Course
-                      </span>
+                      </mark>
                       name appears here
                     </strong>
                   </div>
@@ -1857,9 +1857,9 @@
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <strong>
-                      <span class="highlight">
+                      <mark data-markjs="true">
                         Course
-                      </span>
+                      </mark>
                       name appears here
                     </strong>
                   </div>
@@ -2144,9 +2144,9 @@
       <div class="panel-heading cursor-pointer" data-target="#student-email-body" data-toggle="collapse">
         <h3 class="panel-title">
           How do I email a student or students in my
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           ?
         </h3>
       </div>
@@ -2184,17 +2184,17 @@
         <div class="panel-body">
           <p>
             Sections are used to organize students in
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s with significantly large numbers of students. It is mandatory for
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             s with more than 100 students to organize students into sections.
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             s with less than 100 students do not need to be split into sections.
           </p>
           <p>
@@ -2228,17 +2228,17 @@
                 Co-owner
               </b>
               : is able to perform any action on the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               , including deleting the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               . When you create a new
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               , your access level is Co-owner. This is the highest access level.
             </li>
             <li>
@@ -2246,9 +2246,9 @@
                 Manager
               </b>
               : has the same privileges as a Co-owner except that s/he is not allowed to delete the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               .
             </li>
             <li>
@@ -2256,9 +2256,9 @@
                 Observer
               </b>
               : can view the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               's information, but cannot edit or submit information
             </li>
             <li>
@@ -2290,9 +2290,9 @@
         <div class="panel-body">
           <p>
             To edit the section Student A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B is enrolled in:
           </p>
           <ol>
@@ -2302,13 +2302,13 @@
                 Students
               </b>
               page and click
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B's panel heading. You will see a list of students enrolled in
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B.
             </li>
             <li>
@@ -2354,9 +2354,9 @@
             </b>
             column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data. To view more information, go to the
             <b>
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               s
             </b>
             page, click on the
@@ -2364,9 +2364,9 @@
               Enroll
             </button>
             button for any
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             and scroll down to the
             <b>
               More Info
@@ -2395,9 +2395,9 @@
           </p>
           <p>
             If a
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             has sections, you can customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.
             <br>
             In the panel for section-level privilege settings, use the section checkboxes to apply your chosen settings to more than one section.
@@ -2495,9 +2495,9 @@
                           <br>
                           <input id="instructorrole2forinstructor1" name="instructorrole" type="radio" value="Manager">
                            Manager: Can do everything except for deleting/restoring the
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                            
                           <a href="javascript:;">
                             View Details
@@ -2533,9 +2533,9 @@
                                 <div class="col-sm-3">
                                   <input name="canmodifycourse" type="checkbox" value="true">
                                   Edit/Delete/Restore
-                                  <span class="highlight">
+                                  <mark data-markjs="true">
                                     Course
-                                  </span>
+                                  </mark>
                                 </div>
                                 <div class="col-sm-3">
                                   <input name="canmodifyinstructor" type="checkbox" value="true">
@@ -2675,9 +2675,9 @@
                                         <tr>
                                           <td class="text-center text-bold" colspan="4">
                                             No sessions in this
-                                            <span class="highlight">
+                                            <mark data-markjs="true">
                                               course
-                                            </span>
+                                            </mark>
                                             for you to configure
                                           </td>
                                         </tr>
@@ -2717,9 +2717,9 @@
         <div class="panel-body">
           <p>
             To view the responses that Student A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B has given and received:
           </p>
           <ol>
@@ -2729,13 +2729,13 @@
                 Students
               </b>
               page and click the panel heading for
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B. You will see a list of students enrolled in the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               .
             </li>
             <li>
@@ -2759,9 +2759,9 @@
         <div class="panel-body">
           <p>
             To view the responses that Student A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B has given and received:
           </p>
           <ol>
@@ -2771,13 +2771,13 @@
                 Students
               </b>
               page and click the panel heading for
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B. You will see a list of students enrolled in the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               .
             </li>
             <li>
@@ -3047,9 +3047,9 @@
                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -3073,9 +3073,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -3083,9 +3083,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -3098,9 +3098,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -3114,9 +3114,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -3129,9 +3129,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -3381,9 +3381,9 @@
                         </li>
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -3556,9 +3556,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -3566,9 +3566,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -3581,9 +3581,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -3597,9 +3597,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -3612,9 +3612,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -3862,9 +3862,9 @@
                       <ul class="text-muted background-color-warning">
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, and your name.
                         </li>
                       </ul>
@@ -4184,16 +4184,16 @@
                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
                         Instructors in the
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                       </button>
                       <ul class="dropdown-menu">
                         <li class="dropdown-header">
@@ -4213,9 +4213,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -4223,9 +4223,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -4238,9 +4238,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -4254,9 +4254,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -4269,9 +4269,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -4526,9 +4526,9 @@
                         </li>
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -4975,9 +4975,9 @@
                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -5001,9 +5001,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -5011,9 +5011,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -5026,9 +5026,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -5042,9 +5042,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -5057,9 +5057,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -5306,9 +5306,9 @@
                       <ul class="text-muted background-color-warning">
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -5648,9 +5648,9 @@
                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -5674,9 +5674,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -5684,9 +5684,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -5699,9 +5699,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -5715,9 +5715,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -5730,9 +5730,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -5897,9 +5897,9 @@
                       <ul class="text-muted background-color-warning">
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -5927,9 +5927,9 @@
         <div class="panel-body">
           <p>
             To edit the name, section, team, contact email, or instructor comments of Student A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B:
           </p>
           <ol>
@@ -5939,13 +5939,13 @@
                 Students
               </b>
               page and click the panel heading for
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B. You will see a list of students enrolled in
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B.
             </li>
             <li>
@@ -5969,9 +5969,9 @@
           </ol>
           <p>
             Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             .
           </p>
           <div class="bs-example">
@@ -6279,9 +6279,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -6289,9 +6289,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -6304,9 +6304,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -6320,9 +6320,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -6335,9 +6335,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -6502,9 +6502,9 @@
                       <ul class="text-muted background-color-warning">
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -6783,9 +6783,9 @@
                     <div class="col-sm-12 feedback-path-dropdown btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -6809,9 +6809,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -6819,9 +6819,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -6834,9 +6834,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -6850,9 +6850,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -6865,9 +6865,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -6940,9 +6940,9 @@
                         </li>
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -6991,16 +6991,16 @@
                   <ul class="text-muted">
                     <li class="unordered">
                       Other students in the
-                      <span class="highlight">
+                      <mark data-markjs="true">
                         course
-                      </span>
+                      </mark>
                       can see your response, the name of the recipient, and your name.
                     </li>
                     <li class="unordered">
                       Instructors in this
-                      <span class="highlight">
+                      <mark data-markjs="true">
                         course
-                      </span>
+                      </mark>
                       can see your response, the name of the recipient, and your name.
                     </li>
                   </ul>
@@ -7565,9 +7565,9 @@
                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -7591,9 +7591,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -7601,9 +7601,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -7616,9 +7616,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -7632,9 +7632,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -7647,9 +7647,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -7904,9 +7904,9 @@
                         </li>
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -8047,9 +8047,9 @@
         <div class="panel-body">
           <p>
             To view the profile of Student A from
-            <span class="highlight">
+            <mark data-markjs="true">
               Course
-            </span>
+            </mark>
             B:
           </p>
           <ol>
@@ -8059,13 +8059,13 @@
                 Students
               </b>
               page and click the panel heading for
-              <span class="highlight">
+              <mark data-markjs="true">
                 Course
-              </span>
+              </mark>
               B. You will see a list of students enrolled in the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               .
             </li>
             <li>
@@ -8192,9 +8192,9 @@
           </div>
           <p>
             The student's profile page displays the student's details and
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             -related information, such as:
           </p>
           <ul>
@@ -8203,9 +8203,9 @@
                 Section name
               </b>
               : the name of the section you enrolled the student in. This only appears if sections are created for the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               .
             </li>
             <li>
@@ -8298,9 +8298,9 @@
       <div class="panel-collapse collapse" id="session-search-body">
         <div class="panel-body">
           You can search for questions, responses to a question and comments on responses in any of your
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           s. To do so:
           <ol>
             <li>
@@ -8347,9 +8347,9 @@
                   <div class="col-md-2">
                     <strong>
                       Session: Session 1 (
-                      <span class="highlight">
+                      <mark data-markjs="true">
                         Course
-                      </span>
+                      </mark>
                       1)
                     </strong>
                   </div>
@@ -8583,9 +8583,9 @@
                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -8609,9 +8609,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -8619,9 +8619,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -8634,9 +8634,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -8650,9 +8650,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu">
@@ -8665,9 +8665,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -8928,9 +8928,9 @@
                         </li>
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -9743,9 +9743,9 @@
               generating options
             </b>
             based on the list of students, teams and instructors in the
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             .
           </p>
           <p>
@@ -9760,9 +9760,9 @@
             </li>
             <li>
               Specify answer options by writing them manually, or generate options from your
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               's list of students, instructors or teams
             </li>
             <li>
@@ -9970,9 +9970,9 @@
                     <div class="feedback-path-dropdown btn-group">
                       <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
                         Students in this
-                        <span class="highlight">
+                        <mark data-markjs="true">
                           course
-                        </span>
+                        </mark>
                         will give feedback on
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
@@ -9996,9 +9996,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -10006,9 +10006,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Students in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
@@ -10021,9 +10021,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
                                 Giver's team members
@@ -10037,9 +10037,9 @@
                         <li class="dropdown-submenu">
                           <a>
                             Instructors in this
-                            <span class="highlight">
+                            <mark data-markjs="true">
                               course
-                            </span>
+                            </mark>
                             will give feedback on...
                           </a>
                           <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
@@ -10052,9 +10052,9 @@
                               </a>
                               <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
                                 Instructors in the
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   course
-                                </span>
+                                </mark>
                               </a>
                             </li>
                           </ul>
@@ -10306,9 +10306,9 @@
                       <ul class="text-muted background-color-warning">
                         <li>
                           Instructors in this
-                          <span class="highlight">
+                          <mark data-markjs="true">
                             course
-                          </span>
+                          </mark>
                           can see your response, the name of the recipient, and your name.
                         </li>
                       </ul>
@@ -11861,9 +11861,9 @@
         <div class="panel-body">
           <p>
             Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your
-            <span class="highlight">
+            <mark data-markjs="true">
               course
-            </span>
+            </mark>
             while minimizing any negative effects. Here are some of the things you could do:
           </p>
           <ul>
@@ -11873,13 +11873,13 @@
               </b>
               <br>
               Rather than have only one peer evaluation at the end of the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               , have several peer evaluations at different points of the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               . This way, students get frequent peer-feedback about their contribution, giving them plenty of chances to correct their conduct as necessary.
               <br>
               <br>
@@ -11919,9 +11919,9 @@
               <br>
               <i>
                 It is OK to do less than an equal share of the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this
-                <span class="highlight">
+                <mark data-markjs="true">
                   course
-                </span>
+                </mark>
                 . How you prioritize your work is your own business.
               </i>
               <br>
@@ -11952,9 +11952,9 @@
       <div class="panel-collapse collapse" id="session-preview-body">
         <div class="panel-body">
           To see what the current session looks like to anyone in the
-          <span class="highlight">
+          <mark data-markjs="true">
             course
-          </span>
+          </mark>
           when they are submitting responses, use the
           <b>
             Preview
@@ -12080,15 +12080,15 @@
             <li>
               <b>
                 Select the
-                <span class="highlight">
+                <mark data-markjs="true">
                   course
-                </span>
+                </mark>
                 ID
               </b>
               of the
-              <span class="highlight">
+              <mark data-markjs="true">
                 course
-              </span>
+              </mark>
               for which the session will be created.
             </li>
             <li>
@@ -12180,9 +12180,9 @@
                           <div class="form-group">
                             <h5 class="col-sm-4">
                               <label class="control-label" for="courseid">
-                                <span class="highlight">
+                                <mark data-markjs="true">
                                   Course
-                                </span>
+                                </mark>
                                 ID
                               </label>
                             </h5>
@@ -12781,26 +12781,26 @@
   <div class="row">
     <div class="col-sm-12 align-center">
       <div class="btn-group btn-group-sm padding-15px margin-bottom-35px" id="pagingControls">
-        <button class="btn btn-default" disabled="" id="prevPage" onclick="renderPage('prev')" type="button">
+        <button class="btn btn-default hidden-xs" data="prevPage" type="button">
           <span class="glyphicon glyphicon-chevron-left">
           </span>
         </button>
-        <button class="btn btn-primary" disabled="" onclick="renderPage(1)" type="button">
+        <button class="btn btn-primary" disabled="" type="button">
           1
         </button>
-        <button class="btn btn-default" onclick="renderPage(2)" type="button">
+        <button class="btn btn-default" type="button">
           2
         </button>
         <button class="btn visible-xs" disabled="" type="button">
           ...
         </button>
-        <button class="btn btn-default hidden-xs" onclick="renderPage(3)" type="button">
+        <button class="btn btn-default hidden-xs" type="button">
           3
         </button>
-        <button class="btn btn-default" onclick="renderPage(4)" type="button">
+        <button class="btn btn-default" type="button">
           4
         </button>
-        <button class="btn btn-default" id="nextPage" onclick="renderPage('next')" type="button">
+        <button class="btn btn-default hidden-xs" data="nextPage" type="button">
           <span class="glyphicon glyphicon-chevron-right">
           </span>
         </button>
@@ -12811,7 +12811,7 @@
     <h2 class="text-color-primary" id="students">
       Students
     </h2>
-    <div id="contentHolder">
+    <div class="contentHolder">
       <h3>
         Student Records
       </h3>
@@ -13763,7 +13763,7 @@
     <h2 class="text-color-primary" id="courses">
       Courses
     </h2>
-    <div id="contentHolder">
+    <div class="contentHolder">
       <h3>
         Enrolling Students in Courses
       </h3>
@@ -15446,7 +15446,7 @@
     <h2 class="text-color-primary" id="sessions">
       Sessions
     </h2>
-    <div id="contentHolder">
+    <div class="contentHolder">
       <h3>
         Setting Up Sessions
       </h3>
@@ -17857,7 +17857,7 @@
     <h2 class="text-color-primary" id="questions">
       Questions
     </h2>
-    <div id="contentHolder">
+    <div class="contentHolder">
       <div class="panel-group">
         <div class="panel panel-default" id="question-essay">
           <div class="panel-heading cursor-pointer" data-target="#question-essay-body" data-toggle="collapse">
