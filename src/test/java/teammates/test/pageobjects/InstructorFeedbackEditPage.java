@@ -1435,10 +1435,12 @@ public class InstructorFeedbackEditPage extends AppPage {
                 + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
 
         Actions builder = new Actions(browser.driver);
-        builder.clickAndHold(draggedOptionElement).perform();
-        builder.moveToElement(targetElement, 0, 10).perform(); // drag option 10 units below target
-        builder.moveToElement(targetElement).perform(); // drag option to target
-        builder.moveToElement(targetElement, 0, -10).release().perform(); // drag option 10 units above target and release
+        // drag option 10 units above target and release
+        builder.clickAndHold(draggedOptionElement)
+                .moveToElement(targetElement, 0, -10)
+                .release()
+                .build()
+                .perform();
     }
 
     public boolean isMsqWeightBoxFocused(int qnNumber, int choiceIndex) {
