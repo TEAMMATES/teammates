@@ -473,18 +473,65 @@ function backupQuestion(questionNum) {
  * @param questionNum question number
  */
 function setupSortableQuestionOptionsGrid(qnType, questionNum) {
-    $(`#${qnType}Choices-${questionNum}`).sortable({
-        cursor: 'move',
-        update() {
-            $(this).children().each(function (index) {
-                $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
-                $(this).find(`input[id^="${qnType}Option-"]`).attr({
-                    name: `${qnType}Option-${index}`,
-                    id: `${qnType}Option-${index}-${questionNum}`,
-                });
-                $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
-                        `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
+    const optionsElement = $(`#${qnType}Choices-${questionNum}`);
+    const weightsElement = $(`#${qnType}Weights-${questionNum}`);
+    const isWeightsCheckboxPresent = $(`#${qnType}HasAssignedWeights-${questionNum}`).length > 0;
+    const isWeightsCheckboxTicked = $(`#${qnType}HasAssignedWeights-${questionNum}`).is(':checked');
+    const optionWeightsMap = {};
+
+    let numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
+    function buildOptionWeightsMap() {
+        numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
+        if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
+            for (let i = 0; i < numOptions; i += 1) {
+                const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
+                const weight = weightsElement.find(`input[type='number']:eq(${i})`).val();
+
+                optionWeightsMap[optionName] = weight;
+            }
+        }
+    }
+
+    function reorderOptionWeights() {
+        if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
+            for (let i = 0; i < numOptions; i += 1) {
+                const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
+                const newWeight = optionWeightsMap[optionName];
+                weightsElement.find(`input[type='number']:eq(${i})`).val(newWeight);
+            }
+        }
+    }
+    function updateOptionAttributes(options) {
+        options.children().each(function (index) {
+            $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
+            $(this).find(`input[id^="${qnType}Option-"]`).attr({
+                name: `${qnType}Option-${index}`,
+                id: `${qnType}Option-${index}-${questionNum}`,
             });
+            $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
+                    `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
+        });
+    }
+    function updateWeightAttributes(weights) {
+        if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
+            weights.children().each(function (index) {
+                $(this).find(`input[id^="${qnType}Weight-"]`).attr({
+                    name: `${qnType}Weight-${index}`,
+                    id: `${qnType}Weight-${index}-${questionNum}`,
+                });
+            });
+        }
+    }
+
+    optionsElement.sortable({
+        cursor: 'move',
+        start() {
+            buildOptionWeightsMap();
+        },
+        update() {
+            reorderOptionWeights();
+            updateOptionAttributes(optionsElement);
+            updateWeightAttributes(weightsElement);
         },
     });
 }
