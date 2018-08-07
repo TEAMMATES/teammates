@@ -1684,7 +1684,7 @@ public class FeedbackSessionResultsBundle {
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (!frc.isCommentFromFeedbackParticipant) {
                 commentRow.append("," + commentGiverEmailToNameTable.get(frc.commentGiver) + ","
-                                          + frc.convertCommentTextToStringForCsv());
+                                          + frc.getCommentAsCsvString());
             }
         }
         return commentRow.toString();
@@ -1703,7 +1703,7 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (frc.isCommentFromFeedbackParticipant) {
-                return frc.convertCommentTextToStringForCsv();
+                return frc.getCommentAsCsvString();
             }
         }
         return "";

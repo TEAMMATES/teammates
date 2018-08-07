@@ -102,7 +102,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
                 .builder("course", "name", "email", text)
                 .build();
-        String commentText = feedbackAttributes.convertCommentTextToStringForCsv();
+        String commentText = feedbackAttributes.getCommentAsCsvString();
         assertEquals("\"aaa , bb\"\"b, c\"\"\"\"cc hello Images Link: http://test.com/test.png \"", commentText);
     }
 
@@ -112,7 +112,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
                 .builder("course", "name", "email", text)
                 .build();
-        String commentText = feedbackAttributes.convertCommentTextToStringForHtml();
+        String commentText = feedbackAttributes.getCommentAsHtmlString();
         assertEquals("hello Images Link: http:&#x2f;&#x2f;test.com&#x2f;test.png ", commentText);
     }
 }

@@ -71,35 +71,35 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             return;
         }
 
-        if (frc.isCommentFromFeedbackParticipant) {
-            switch (frc.commentGiverType) {
-            case INSTRUCTORS:
-                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-                if (instructor == null) {
-                    throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
-                }
-                gateKeeper.verifyOwnership(frc, instructor.email);
-                break;
-            case STUDENTS:
-                StudentAttributes student = getStudent();
-                if (student == null) {
-                    throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
-                }
-                gateKeeper.verifyOwnership(frc, student.email);
-                break;
-            case TEAMS:
-                StudentAttributes studentOfTeam = getStudent();
-                if (studentOfTeam == null) {
-                    throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
-                }
-                gateKeeper.verifyOwnership(frc, studentOfTeam.team);
-                break;
-            default:
-                Assumption.fail("Invalid comment giver type");
-                break;
-            }
-        } else {
+        if (!frc.isCommentFromFeedbackParticipant) {
             throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] not given by feedback participant.");
+        }
+
+        switch (frc.commentGiverType) {
+        case INSTRUCTORS:
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            if (instructor == null) {
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
+            }
+            gateKeeper.verifyOwnership(frc, instructor.email);
+            break;
+        case STUDENTS:
+            StudentAttributes student = getStudent();
+            if (student == null) {
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+            }
+            gateKeeper.verifyOwnership(frc, student.email);
+            break;
+        case TEAMS:
+            StudentAttributes studentOfTeam = getStudent();
+            if (studentOfTeam == null) {
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+            }
+            gateKeeper.verifyOwnership(frc, studentOfTeam.team);
+            break;
+        default:
+            Assumption.fail("Invalid comment giver type");
+            break;
         }
     }
 

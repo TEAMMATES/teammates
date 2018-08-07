@@ -27,8 +27,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     // Required fields
     public String courseId;
     public String feedbackSessionName;
-    // commentGiver holds email of student/instructor if comment giver is student/instructor
-    // and name of team if comment giver is a team
+    /**
+     * Contains the email of student/instructor if comment giver is student/instructor
+     * and name of team if comment giver is a team.
+     */
     public String commentGiver;
     public Text commentText;
 
@@ -108,7 +110,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      *
      * @return Comment in form of string
      */
-    public String convertCommentTextToStringForCsv() {
+    public String getCommentAsCsvString() {
         String htmlText = commentText.getValue();
         StringBuilder comment = new StringBuilder(200);
         comment.append(Jsoup.parse(htmlText).text());
@@ -121,7 +123,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      *
      * @return Comment in form of string
      */
-    public String convertCommentTextToStringForHtml() {
+    public String getCommentAsHtmlString() {
         String htmlText = commentText.getValue();
         StringBuilder comment = new StringBuilder(200);
         comment.append(Jsoup.parse(htmlText).text());

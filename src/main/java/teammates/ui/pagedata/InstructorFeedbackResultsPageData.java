@@ -1542,7 +1542,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
             if (frca.isCommentFromFeedbackParticipant) {
-                return frca.convertCommentTextToStringForHtml();
+                return frca.getCommentAsHtmlString();
             }
         }
         return "";

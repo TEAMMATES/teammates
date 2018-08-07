@@ -52,19 +52,19 @@ public class FeedbackResponseRow {
                 if (frc.isCommentFromFeedbackParticipant) {
                     feedbackParticipantComment =
                             new FeedbackResponseCommentRow(frc, question, false);
-                } else {
-                    String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
-                    String showGiverNameToString =
-                            StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
-                    String recipientName = results.getNameForEmail(response.recipient);
-                    String giverEmail = frc.commentGiver;
-                    Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
-                    FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
-                            giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                            commentGiverEmailToNameTable, results.getTimeZone(), question);
-                    responseCommentRow.enableEditDelete();
-                    this.instructorComments.add(responseCommentRow);
+                    continue;
                 }
+                String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
+                String showGiverNameToString =
+                        StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
+                String recipientName = results.getNameForEmail(response.recipient);
+                String giverEmail = frc.commentGiver;
+                Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
+                FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
+                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
+                        commentGiverEmailToNameTable, results.getTimeZone(), question);
+                responseCommentRow.enableEditDelete();
+                this.instructorComments.add(responseCommentRow);
             }
         }
     }
