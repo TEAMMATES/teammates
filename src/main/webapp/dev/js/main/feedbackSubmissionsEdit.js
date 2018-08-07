@@ -1304,13 +1304,7 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         const e1Name = e1.text;
         const e2Name = e2.text;
 
-        let result = 0;
-        if (e1Name > e2Name) {
-            result = 1;
-        } else if (e1Name < e2Name) {
-            result = -1;
-        }
-        return result;
+        return e1Name.localeCompare(e2Name);
     }
 
     function sectionTeamComparator(e1, e2) {
@@ -1330,22 +1324,18 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         const e1Name = $(e1).attr('name');
         const e2Name = $(e2).attr('name');
 
+        const sectionResult = e1Section.localeCompare(e2Section);
+        const teamResult = e1Team.localeCompare(e2Team);
+        const nameResult = e1Name.localeCompare(e2Name);
+
         // sort based on lexicographical ordering of section followed by team and name
-        let result = 0;
-        if (e1Section > e2Section) {
-            result = 1;
-        } else if (e1Section < e2Section) {
-            result = -1;
-        } else if (e1Team > e2Team) {
-            result = 1;
-        } else if (e1Team < e2Team) {
-            result = -1;
-        } else if (e1Name > e2Name) {
-            result = 1;
-        } else if (e1Name < e2Name) {
-            result = -1;
+        if (sectionResult !== 0) {
+            return sectionResult;
         }
-        return result;
+        if (teamResult !== 0) {
+            return teamResult;
+        }
+        return nameResult;
     }
 
     // iterate through each dropdown list and add/remove section and team fields
