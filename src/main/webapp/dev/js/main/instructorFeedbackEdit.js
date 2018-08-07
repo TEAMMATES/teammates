@@ -466,6 +466,30 @@ function backupQuestion(questionNum) {
 }
 
 /**
+ * Sets up the sortable question options grid. Binds an update event to the option elements
+ * which is triggered whenever the order of elements changes. The event handler updates the
+ * ids of elements to match the new order.
+ * @param qnType type of question
+ * @param questionNum question number
+ */
+function setupSortableQuestionOptionsGrid(qnType, questionNum) {
+    $(`#${qnType}Choices-${questionNum}`).sortable({
+        cursor: 'move',
+        update() {
+            $(this).children().each(function (index) {
+                $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
+                $(this).find(`input[id^="${qnType}Option-"]`).attr({
+                    name: `${qnType}Option-${index}`,
+                    id: `${qnType}Option-${index}-${questionNum}`,
+                });
+                $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
+                        `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
+            });
+        },
+    });
+}
+
+/**
  * Enables question fields and "save changes" button for the given question number,
  * and hides the edit link.
  * @param questionNum
@@ -543,30 +567,6 @@ function enableQuestion(questionNum) {
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
     hideInvalidRankRecipientFeedbackPaths(questionNum);
-}
-
-/**
- * Sets up the sortable question options grid. Binds an update event to the option elements
- * which is triggered whenever the order of elements changes. The event handler updates the
- * ids of elements to match the new order.
- * @param qnType type of question
- * @param questionNum question number
- */
-function setupSortableQuestionOptionsGrid(qnType, questionNum) {
-    $(`#${qnType}Choices-${questionNum}`).sortable({
-        cursor: 'move',
-        update() {
-            $(this).children().each(function (index) {
-                $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
-                $(this).find(`input[id^="${qnType}Option-"]`).attr({
-                    name: `${qnType}Option-${index}`,
-                    id: `${qnType}Option-${index}-${questionNum}`,
-                });
-                $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
-                        `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
-            });
-        },
-    });
 }
 
 /**
