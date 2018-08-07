@@ -963,8 +963,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", "3",
         };
 
         List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
@@ -983,15 +985,15 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 result.getDestinationWithParams());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                                    + "instructorFeedbackQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
-                                    + "(First feedback session)</span> for Course "
-                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                                    + " created.<br><span class=\"bold\">Rubric question:</span> "
-                                    + "Please choose the most appropriate choices for the sub-questions below."
-                                    + "|||/page/instructorFeedbackQuestionAdd";
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Rubric question:</span> "
+                + "Please choose the most appropriate choices for the sub-questions below."
+                + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Rubric choices without weights attached");
@@ -1018,15 +1020,15 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                                    + "instructorFeedbackQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
-                                    + "(First feedback session)</span> for Course "
-                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                                    + " created.<br><span class=\"bold\">Rubric question:</span> "
-                                    + "Please choose the most appropriate choices for the sub-questions below."
-                                    + "|||/page/instructorFeedbackQuestionAdd";
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Rubric question:</span> "
+                + "Please choose the most appropriate choices for the sub-questions below."
+                + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Number of weights is less than number of choices");
@@ -1035,8 +1037,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
                 // This weight is removed so that rubricChoice-0 does not have a attached weight
-                // Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
+                // Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", "3",
         };
         requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(requestedParams, params);
@@ -1056,10 +1060,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, result.getStatusMessage());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                                    + "instructorFeedbackQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Unknown|||/page/instructorFeedbackQuestionAdd";
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Unknown|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
