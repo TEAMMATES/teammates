@@ -501,6 +501,11 @@ function enableQuestion(questionNum) {
     toggleMcqGeneratedOptions($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).get(0), questionNum);
     toggleMsqGeneratedOptions($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).get(0), questionNum);
 
+    setupSortableQuestionOptionsGrid('mcq', questionNum);
+    setupSortableQuestionOptionsGrid('msq', questionNum);
+    setupSortableQuestionOptionsGrid('constSum', questionNum);
+    setupSortableQuestionOptionsGrid('rank', questionNum);
+
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {
@@ -562,27 +567,6 @@ function setupSortableQuestionOptionsGrid(qnType, questionNum) {
             });
         },
     });
-}
-
-/**
- * Enables options of different question types
- * to be reordered using a drag and drog mechanism
- */
-function makeQuestionOptionsReorderable() {
-    const numQuestions = $('.questionTable').length;
-    for (let i = 1; i <= numQuestions; i += 1) {
-        const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
-
-        if (qnType === 'MCQ') {
-            setupSortableQuestionOptionsGrid('mcq', i);
-        } else if (qnType === 'MSQ') {
-            setupSortableQuestionOptionsGrid('msq', i);
-        } else if (qnType === 'CONSTSUM') {
-            setupSortableQuestionOptionsGrid('constSum', i);
-        } else if (qnType === 'RANK_OPTIONS') {
-            setupSortableQuestionOptionsGrid('rank', i);
-        }
-    }
 }
 
 /**
@@ -1302,7 +1286,6 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
-    makeQuestionOptionsReorderable();
 
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
