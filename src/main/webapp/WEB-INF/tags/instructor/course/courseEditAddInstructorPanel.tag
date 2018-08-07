@@ -86,7 +86,7 @@
               <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                   id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                   value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>" >
-              &nbsp;Manager: Can do everything except for deleting the course
+              &nbsp;Manager: Can do everything except for deleting/restoring the course
               <a href="javascript:;" class="view-role-details"
                   data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
                 View Details

@@ -1021,7 +1021,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
                         "style", "min-width: 95px;");
-        ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
+        ElementTag actionElement =
+                new ElementTag("Actions", "class", "action-header", "style", "width: 15%; min-width: 75px;");
 
         columnTags.add(photoElement);
         columnTags.add(giverTeamElement);
@@ -1154,7 +1155,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             configureResponseRow(response.giver, response.recipient, responseRow);
 
-            if (isFirstGroupedByGiver && question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
+            if (question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
                 List<String> responseGiverRecipientList = new ArrayList<>(bundle.emailNameTable.keySet());
                 Collections.sort(responseGiverRecipientList);
                 Map<String, Integer> responseGiverRecipientIndex = new HashMap<>();

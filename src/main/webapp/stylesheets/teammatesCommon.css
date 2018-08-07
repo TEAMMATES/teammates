@@ -296,6 +296,10 @@ input.inline {
     margin-top: 7px;
 }
 
+.margin-top-10px {
+    margin-top: 10px;
+}
+
 .margin-top-15px {
     margin-top: 15px;
 }
@@ -366,6 +370,12 @@ input.inline {
 .padding-top-0,
 .padding-top-0.checkbox {
     padding-top: 0;
+}
+
+.form-group.student-info-row {
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom: 1px solid #CCC;
 }
 
 .text-large {
