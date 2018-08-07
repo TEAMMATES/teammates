@@ -589,7 +589,7 @@ public final class Const {
         public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION =
                 "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a "
+                "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
     }
