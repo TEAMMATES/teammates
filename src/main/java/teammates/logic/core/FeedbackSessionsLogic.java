@@ -1526,6 +1526,7 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Soft-deletes a specific feedback session to Recycle Bin.
+     * @return Soft-deletion time of the feedback session.
      */
     public Instant moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
