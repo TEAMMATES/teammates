@@ -1781,9 +1781,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("rubricSession");
-        FeedbackQuestionAttributes fqBeforeEdit = FeedbackQuestionsLogic
-                                            .inst()
-                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        FeedbackQuestionAttributes fqBeforeEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
         String[] requiredParams = {
@@ -1857,9 +1856,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(r.isError);
 
         // Check that weights have been modified correctly after edit.
-        FeedbackQuestionAttributes fqAfterEdit = FeedbackQuestionsLogic
-                .inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        FeedbackQuestionAttributes fqAfterEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackRubricQuestionDetails questionAfterEdit = (FeedbackRubricQuestionDetails) fqAfterEdit.getQuestionDetails();
         List<List<Double>> weightsAfter = questionAfterEdit.getRubricWeights();
         // Check weight list dimenstion.
@@ -1877,9 +1875,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         ______TS("Failure case: Edit rubric weight");
 
-        fqBeforeEdit = FeedbackQuestionsLogic
-                .inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        fqBeforeEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         // There are already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fqBeforeEdit.getId()).isEmpty());
@@ -1934,9 +1931,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertTrue(r.isError);
 
         // Check that weights list persist old values after editing weights failed.
-        fqAfterEdit = FeedbackQuestionsLogic
-                .inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        fqAfterEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         questionAfterEdit = (FeedbackRubricQuestionDetails) fqAfterEdit.getQuestionDetails();
         weightsAfter = questionAfterEdit.getRubricWeights();
         // Check weight list dimenstion.

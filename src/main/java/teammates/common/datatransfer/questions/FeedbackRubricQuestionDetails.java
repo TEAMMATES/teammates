@@ -145,7 +145,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     try {
                         rubricWeightsForEachCell.get(weightRows).add(Double.parseDouble(weight));
                     } catch (NumberFormatException e) {
-                        log.warning("Failed to parse weight for rubric question " + weight);
+                        log.severe("Failed to parse weight for rubric question " + weight);
                     }
                 }
             }
