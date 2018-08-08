@@ -37,20 +37,20 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
     @BeforeClass
     public void classSetup() throws Exception {
-        addQuestionsToDb();
-        addResponsesToDb();
+        addQuestionsAndResponsesToDb();
         fras = dataBundle.feedbackResponses;
     }
 
-    private void addQuestionsToDb() throws InvalidParametersException, EntityAlreadyExistsException {
+    private void addQuestionsAndResponsesToDb() throws InvalidParametersException, EntityAlreadyExistsException {
+
+        // Add questions to DB
         Set<String> keys = dataBundle.feedbackQuestions.keySet();
         for (String i : keys) {
             fqDb.createEntity(dataBundle.feedbackQuestions.get(i));
         }
-    }
 
-    private void addResponsesToDb() throws Exception {
-        Set<String> keys = dataBundle.feedbackResponses.keySet();
+        // Add responses for corresponding question to DB
+        keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
             FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get(i);
 
