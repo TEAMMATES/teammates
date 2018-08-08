@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,6 +12,7 @@ import teammates.test.pageobjects.InstructorHelpPage;
  * SUT: {@link InstructorHelpPage}.
  */
 public class InstructorHelpPageUiTest extends BaseUiTestCase {
+    private static final By SEARCH_RESULTS = By.id("searchResults");
     private InstructorHelpPage helpPage;
 
     @Override
@@ -46,7 +48,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
         String searchContent = "course";
         helpPage.inputSearchQuery(searchContent);
         helpPage.clickSearchButton();
-        helpPage.verifyHtmlMainContent("/instructorHelpPageSearchSingleKeyword.html");
+        helpPage.verifyHtmlPart(SEARCH_RESULTS, "/instructorHelpPageSearchSingleKeyword.html");
 
         ______TS("search for multiple keywords");
 
@@ -54,8 +56,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
         helpPage.clearSearchBox();
         helpPage.inputSearchQuery(searchContent);
         helpPage.clickSearchButton();
-        String searchResultsMultipleKeywords = helpPage.getSearchResults();
-        helpPage.verifyHtmlMainContent("/instructorHelpPageSearchMultipleKeywords.html");
+        helpPage.verifyHtmlPart(SEARCH_RESULTS, "/instructorHelpPageSearchMultipleKeywords.html");
 
         ______TS("check case insensitivity of query");
 
@@ -63,7 +64,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
         helpPage.clearSearchBox();
         helpPage.inputSearchQuery(searchContent);
         helpPage.clickSearchButton();
-        assertEquals(searchResultsMultipleKeywords, helpPage.getSearchResults());
+        helpPage.verifyHtmlPart(SEARCH_RESULTS, "/instructorHelpPageSearchMultipleKeywords.html");
 
         ______TS("reset search");
 
