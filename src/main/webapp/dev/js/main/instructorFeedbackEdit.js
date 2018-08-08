@@ -1042,6 +1042,8 @@ function bindCopyEvents() {
 }
 
 function bindAddTemplateQnEvents() {
+    const $button = $('#button_add_template_submit');
+
     $('#addTemplateQuestionModal .panel-title').click(function (e) {
         if (!$(e.target).is('input')) {
             $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
@@ -1050,12 +1052,12 @@ function bindAddTemplateQnEvents() {
 
     $('[id^="addTemplateQuestion-"]').click(() => {
         const numCheckboxChecked = $('input[name="templatequestionnum"]:checked').length;
-        const $button = $('#button_add_template_submit');
 
         $button.prop('disabled', numCheckboxChecked <= 0);
-        $button.click(() => {
-            $('#addTemplateQuestionModalForm').submit();
-        });
+    });
+
+    $button.click(() => {
+        $('#addTemplateQuestionModalForm').submit();
     });
 }
 
