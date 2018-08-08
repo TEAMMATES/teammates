@@ -65,17 +65,7 @@ function prepareQuestionsForSearch() {
             for (let i = 0; i < subTopicQuestions.length; i += 1) {
                 const question = $(subTopicQuestions[i]);
                 const htmlId = question.attr('id');
-                const tagsSeenSoFar = {};
-
-                let questionTags = [];
-                $.merge($.merge(questionTags, subTopicTags), htmlId.split('-'));
-                questionTags = $.grep(questionTags, (item) => {
-                    if (tagsSeenSoFar[item]) {
-                        return false;
-                    }
-                    tagsSeenSoFar[item] = true;
-                    return item;
-                });
+                const questionTags = [...new Set([...subTopicTags, ...htmlId.split('-')])];
 
                 questionMap[questionCount] = {
                     id: questionCount,
@@ -110,8 +100,7 @@ function prepareQuestionsForSearch() {
 /**
  * Renders the search results of the specified page and
  * re-initializes the pagination toolbar to highlight the new page.
- * For Previous and Next buttons the function is simply called recursively
- * after incrementing the page counter.
+ *
  * @param page current page to be rendered
  */
 function renderPage(page) {
@@ -136,11 +125,11 @@ function renderPage(page) {
             (curPage - 1) * numResultsPerPage + numResultsPerPage));
 
     // hide all search results by default
-    searchResultElements.each(function () {
+    searchResultElements.each(() => {
         $(this).hide();
     });
     // show search results belonging to current page
-    pageElements.each(function () {
+    pageElements.each(() => {
         $(this).show();
     });
     // render paging controls
@@ -256,7 +245,7 @@ function searchQuestions() {
 
     // highlight matches for keyword in the search results
     function highlightKeyword(keyword) {
-        $('#searchResults').find('.panel.panel-default').each(function () {
+        $('#searchResults').find('.panel.panel-default').each(() => {
             // highlight heading and body matches for query
             $(this).mark(keyword);
         });
@@ -299,12 +288,9 @@ function searchQuestions() {
     $('#topics').hide();
 }
 
-/**
- * Simulates clicking of search button on pressing Enter key where
- * 13 is the Unicode character code for enter key.
- */
 function bindEnterKeyForSearchBox() {
     $('#searchQuery').keypress((e) => {
+        // 13 is the Unicode character code for enter key
         if (e.keyCode === 13) {
             $('#search').click();
         }
