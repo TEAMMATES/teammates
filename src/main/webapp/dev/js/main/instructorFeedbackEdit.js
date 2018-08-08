@@ -403,7 +403,7 @@ function disableQuestion(questionNum) {
     toggleAssignWeightsRow($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
     if (!hasAssignedWeights(questionNum)) {
-        $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
+        $currentQuestionTable.find(`.rubricWeights-${questionNum}`).hide();
     }
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
@@ -587,9 +587,9 @@ function enableNewQuestion() {
     // If instructor had assigned rubric weights before,
     // then display the weights row, otherwise hide it.
     if (hasAssignedWeights(NEW_QUESTION)) {
-        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
+        $newQuestionTable.find(`.rubricWeights-${NEW_QUESTION}`).show();
     } else {
-        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+        $newQuestionTable.find(`.rubricWeights-${NEW_QUESTION}`).hide();
     }
 
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
