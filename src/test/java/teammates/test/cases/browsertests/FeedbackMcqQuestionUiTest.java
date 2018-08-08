@@ -320,6 +320,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMcqOptionForNewQuestion(2, "Choice 3");
         feedbackEditPage.fillMcqOptionForNewQuestion(3, "Choice 4");
 
+        feedbackEditPage.clickMcqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.fillMcqWeightBox(NEW_QUESTION_INDEX, 0, "10");
+        feedbackEditPage.fillMcqWeightBox(NEW_QUESTION_INDEX, 1, "20");
+        feedbackEditPage.fillMcqWeightBox(NEW_QUESTION_INDEX, 2, "30");
+        feedbackEditPage.fillMcqWeightBox(NEW_QUESTION_INDEX, 3, "40");
+
         ______TS("MCQ: reorder existing options");
 
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
@@ -328,18 +334,21 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 .questionMetaData.getValue());
         assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                      mcqQuestionDetails.get("mcqChoices").toString());
+        assertEquals("[30,10,20,40]", mcqQuestionDetails.get("mcqWeights").toString());
 
         ______TS("MCQ: add option and reorder");
 
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreMcqOptionLink(1);
         feedbackEditPage.fillMcqOption(1, 4, "New Choice");
+        feedbackEditPage.fillMcqWeightBox(1, 4, "50");
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         mcqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                 .questionMetaData.getValue());
         assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                      mcqQuestionDetails.get("mcqChoices").toString());
+        assertEquals("[30,50,10,20,40]", mcqQuestionDetails.get("mcqWeights").toString());
 
         ______TS("MCQ: delete option and reorder");
 
@@ -352,6 +361,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 .questionMetaData.getValue());
         assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
                      mcqQuestionDetails.get("mcqChoices").toString());
+        assertEquals("[30,40,50,20]", mcqQuestionDetails.get("mcqWeights").toString());
 
         ______TS("MCQ: add, delete and reorder options");
 
@@ -361,6 +371,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreMcqOptionLink(1);
         feedbackEditPage.fillMcqOption(1, 4, "New Choice");
         feedbackEditPage.fillMcqOption(1, 5, "Newer Choice");
+        feedbackEditPage.fillMcqWeightBox(1, 4, "50");
+        feedbackEditPage.fillMcqWeightBox(1, 5, "60");
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -368,6 +380,24 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 .questionMetaData.getValue());
         assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
                      mcqQuestionDetails.get("mcqChoices").toString());
+        assertEquals("[60,50,30,40,20]", mcqQuestionDetails.get("mcqWeights").toString());
+
+        ______TS("MCQ: weights should be reordered when checkbox is unticked");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 5, "Newest Choice");
+        feedbackEditPage.fillMcqWeightBox(1, 5, "70");
+        feedbackEditPage.clickMcqHasAssignWeightsCheckbox(1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 3, 1);
+        feedbackEditPage.clickMcqHasAssignWeightsCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        mcqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 2\",\"Choice 3\",\"Newer Choice\",\"New Choice\",\"Choice 4\",\"Newest Choice\"]",
+                     mcqQuestionDetails.get("mcqChoices").toString());
+        assertEquals("[20,30,60,50,40,70]", mcqQuestionDetails.get("mcqWeights").toString());
 
         ______TS("MCQ: delete question");
 

@@ -531,6 +531,12 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMsqOptionForNewQuestion(2, "Choice 3");
         feedbackEditPage.fillMsqOptionForNewQuestion(3, "Choice 4");
 
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 0, "10");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 1, "20");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 2, "30");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 3, "40");
+
         ______TS("MSQ: reorder existing options");
 
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
@@ -545,12 +551,14 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreMsqOptionLink(1);
         feedbackEditPage.fillMsqOption(1, 4, "New Choice");
+        feedbackEditPage.fillMsqWeightBox(1, 4, "50");
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                 .questionMetaData.getValue());
         assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[30,50,10,20,40]", msqQuestionDetails.get("msqWeights").toString());
 
         ______TS("MSQ: delete option and reorder");
 
@@ -563,6 +571,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 .questionMetaData.getValue());
         assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
                 msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[30,40,50,20]", msqQuestionDetails.get("msqWeights").toString());
 
         ______TS("MSQ: add, delete and reorder options");
 
@@ -572,6 +581,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreMsqOptionLink(1);
         feedbackEditPage.fillMsqOption(1, 4, "New Choice");
         feedbackEditPage.fillMsqOption(1, 5, "Newer Choice");
+        feedbackEditPage.fillMsqWeightBox(1, 4, "50");
+        feedbackEditPage.fillMsqWeightBox(1, 5, "60");
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -579,6 +590,24 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 .questionMetaData.getValue());
         assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
                 msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[60,50,30,40,20]", msqQuestionDetails.get("msqWeights").toString());
+
+        ______TS("MSQ: weights should be reordered when checkbox is unticked");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 5, "Newest Choice");
+        feedbackEditPage.fillMsqWeightBox(1, 5, "70");
+        feedbackEditPage.clickMsqHasAssignWeightsCheckbox(1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 3, 1);
+        feedbackEditPage.clickMsqHasAssignWeightsCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+               .questionMetaData.getValue());
+        assertEquals("[\"Choice 2\",\"Choice 3\",\"Newer Choice\",\"New Choice\",\"Choice 4\",\"Newest Choice\"]",
+                    msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[20,30,60,50,40,70]", msqQuestionDetails.get("msqWeights").toString());
 
         ______TS("MSQ: delete question");
 

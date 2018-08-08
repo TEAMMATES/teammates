@@ -478,13 +478,11 @@ function setupSortableQuestionOptionsGrid(qnType, questionNum) {
     const optionWeightsMap = {};
 
     let isWeightsCheckboxPresent = false;
-    let isWeightsCheckboxTicked = false;
     let numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
     function buildOptionWeightsMap() {
         isWeightsCheckboxPresent = $(`#${qnType}HasAssignedWeights-${questionNum}`).length > 0;
-        isWeightsCheckboxTicked = $(`#${qnType}HasAssignedWeights-${questionNum}`).is(':checked');
         numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
-        if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
+        if (isWeightsCheckboxPresent) {
             for (let i = 0; i < numOptions; i += 1) {
                 const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
                 const weight = weightsElement.find(`input[type='number']:eq(${i})`).val();
@@ -495,7 +493,7 @@ function setupSortableQuestionOptionsGrid(qnType, questionNum) {
     }
 
     function reorderOptionWeights() {
-        if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
+        if (isWeightsCheckboxPresent) {
             for (let i = 0; i < numOptions; i += 1) {
                 const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
                 const newWeight = optionWeightsMap[optionName];
@@ -515,7 +513,7 @@ function setupSortableQuestionOptionsGrid(qnType, questionNum) {
         });
     }
     function updateWeightAttributes(weights) {
-        if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
+        if (isWeightsCheckboxPresent) {
             weights.children().each(function (index) {
                 $(this).find(`input[id^="${qnType}Weight-"]`).attr({
                     name: `${qnType}Weight-${index}`,
