@@ -125,19 +125,19 @@ function renderPage(page) {
             (curPage - 1) * numResultsPerPage + numResultsPerPage));
 
     // hide all search results by default
-    searchResultElements.each(() => {
-        $(this).hide();
+    searchResultElements.each((_, resultElem) => {
+        $(resultElem).hide();
     });
     // show search results belonging to current page
-    pageElements.each(() => {
-        $(this).show();
+    pageElements.each((_, pageElem) => {
+        $(pageElem).show();
     });
     // render paging controls
     $('#pagingControls').children().each((idx, button) => {
         let pageNum = $(button).text();
 
         // previous and next buttons should always be visible and enabled
-        if ($(button).attr('id') === 'prevPage' || $(button).attr('id') === 'nextPage') {
+        if ($(button).attr('data') === 'prevPage' || $(button).attr('data') === 'nextPage') {
             $(button).removeClass('hidden-xs');
             $(button).prop('disabled', false);
         } else if (pageNum === '...') { // remove redundant ellipses
@@ -173,10 +173,10 @@ function renderPage(page) {
 
     // disable prev and next buttons for first and last page respectively
     if (curPage === 1) {
-        $('#prevPage').prop('disabled', true);
+        $('button[data="prevPage"]').prop('disabled', true);
     }
     if (curPage === numPages) {
-        $('#nextPage').prop('disabled', true);
+        $('button[data="nextPage"]').prop('disabled', true);
     }
 }
 
@@ -245,9 +245,9 @@ function searchQuestions() {
 
     // highlight matches for keyword in the search results
     function highlightKeyword(keyword) {
-        $('#searchResults').find('.panel.panel-default').each(() => {
+        $('#searchResults').find('.panel.panel-default').each((_, resultPanel) => {
             // highlight heading and body matches for query
-            $(this).mark(keyword);
+            $(resultPanel).mark(keyword);
         });
     }
 
