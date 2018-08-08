@@ -1,7 +1,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="courses">Courses</h2>
-<div id="contentHolder">
+<div class="contentHolder">
   <h3>Enrolling Students in Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-add-students">

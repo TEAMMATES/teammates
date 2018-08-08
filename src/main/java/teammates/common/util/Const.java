@@ -452,6 +452,8 @@ public final class Const {
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
         public static final String COMMENT_DELETE = "Delete this comment";
+        public static final String COMMENT_ADD_FOR_FEEDBACK_PARTICIPANT =
+                "Add comment to explain your feedback response. It is optional.";
 
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
 
@@ -814,6 +816,7 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ADD_TEXT = "responsecommentaddtext";
 
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
@@ -952,6 +955,7 @@ public final class Const {
 
         public static final String LOGOUT = "/logout";
 
+        public static final String INSTRUCTOR_HELP_PAGE = "/instructorHelp";
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
@@ -1034,6 +1038,9 @@ public final class Const {
 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
+
+        public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
+                "/page/feedbackParticipantFeedbackResponseCommentDelete";
 
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
