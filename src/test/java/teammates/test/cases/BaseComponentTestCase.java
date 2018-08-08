@@ -72,7 +72,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
+        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
     }
 
     @Override

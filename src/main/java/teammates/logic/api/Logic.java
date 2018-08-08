@@ -1287,18 +1287,6 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
     }
 
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
-    }
-
     /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that a student can view/submit as a
@@ -1921,7 +1909,7 @@ public class Logic {
     }
 
     public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(feedbackResponses);
         feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
@@ -2254,4 +2242,12 @@ public class Logic {
         return studentsLogic.getSectionForTeam(courseId, teamName);
     }
 
+    /**
+     * Returns a list of feedback comments associated with feedbackResponseId.
+     *
+     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
+    }
 }
