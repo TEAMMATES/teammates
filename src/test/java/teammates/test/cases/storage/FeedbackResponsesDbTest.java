@@ -19,6 +19,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -116,7 +117,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(fra);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackResponsesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+            AssertHelper.assertContains(String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
                                                       fra.getEntityTypeAsString())
                                             + fra.getIdentificationString(),
                                         e.getMessage());
@@ -791,7 +792,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.updateFeedbackResponse(nonexistantFr);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(FeedbackResponsesDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
+            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
         }
 
         ______TS("standard success case");

@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -236,7 +237,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
             accountsDb.updateAccount(a);
             signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
+            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
         }
 
         ______TS("failure: invalid parameters");

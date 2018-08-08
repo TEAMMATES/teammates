@@ -78,7 +78,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             instructorsDb.createEntity(i);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(InstructorsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Instructor"),
+            AssertHelper.assertContains(String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Instructor"),
                                         e.getMessage());
         }
 

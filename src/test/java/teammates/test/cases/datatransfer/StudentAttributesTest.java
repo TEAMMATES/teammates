@@ -131,7 +131,7 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .builder("courseId1", "   name 1   ", "   email@email.com  ")
                 .withSection("  sect 1 ").withComments("  comment 1  ").withTeam("  team 1   ")
                 .build();
-        verifyStudentContent(expected, (CourseStudent) studentUnderTest.toEntity());
+        verifyStudentContent(expected, studentUnderTest.toEntity());
 
         ______TS("Typical case: contains google id");
         expected = generateTypicalStudentObject();
@@ -141,13 +141,13 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .withComments("comment 1").withTeam("team 1")
                 .build();
 
-        verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
 
         ______TS("Typical case: initialize from entity");
         expected = generateTypicalStudentObject();
         studentUnderTest = StudentAttributes.valueOf(expected);
 
-        verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
 
         ______TS("Failure case: empty course id");
         invalidStudent = StudentAttributes

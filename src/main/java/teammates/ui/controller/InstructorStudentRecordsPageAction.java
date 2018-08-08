@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Assumption;
@@ -41,7 +42,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         filterFeedbackSessions(courseId, sessions, instructor, student);
 
-        sessions.sort(FeedbackSessionAttributes.DESCENDING_ORDER);
+        sessions.sort(SessionAttributes.DESCENDING_ORDER);
 
         StudentProfileAttributes studentProfile = null;
 

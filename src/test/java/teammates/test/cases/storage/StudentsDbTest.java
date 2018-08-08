@@ -12,6 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -106,7 +107,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(
                     String.format(
-                            StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                            EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
                             s.getEntityTypeAsString())
                             + s.getIdentificationString(), e.getMessage());
         }
@@ -190,7 +191,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                                                          "blah", "blah");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
+            assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
                          e.getMessage());
         }
 
