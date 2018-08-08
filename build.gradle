@@ -17,7 +17,6 @@ def checkstyleVersion = "8.10.1"
 def pmdVersion = "6.5.0"
 def findbugsVersion = "3.0.1"
 def jacocoVersion = "0.8.1"
-def guavaVersion = "22.0"
 
 buildscript {
     repositories {
@@ -30,24 +29,6 @@ buildscript {
 
 configurations {
     staticAnalysis
-}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            // Replace all instances of Guava JDK5 Backport with vanilla Guava.
-            // We have to be very careful when updating libraries that depend on Guava and make sure
-            // the Guava version used in every library is not too far away from the Guava JDK5 Backport
-            // because Guava is not fully backwards compatible due to its deprecation policy.
-            // Currently, the only instance of `guava-jdk5` is used by `google-api-client`.
-            // This has been fixed in https://github.com/google/google-api-java-client/pull/1070 but has
-            // not been released as of the time of writing. Once the new version (>1.23.0) is released,
-            // we can update the `google-api-client` dependency and remove this block of code.
-            if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava-jdk5') {
-                details.useTarget 'com.google.guava:guava:${guavaVersion}'
-            }
-        }
-    }
 }
 
 repositories {
@@ -69,7 +50,7 @@ dependencies {
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.5",
-                    "com.google.guava:guava:${guavaVersion}",
+                    "com.google.guava:guava:26.0-jre",
                     objectify,
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
                     "com.mailjet:mailjet-client:4.1.1",
@@ -85,16 +66,17 @@ dependencies {
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
+                    "org.apache.commons:commons-lang3:3.8",
                     "org.httpunit:httpunit:1.7.2",
-                    "org.seleniumhq.selenium:selenium-java:2.53.1",
+                    "org.seleniumhq.selenium:selenium-java:3.14.0",
                     testng,
                     "org.kohsuke:wordnet-random-name:1.3",
                     // For access of Google APIs such as HTTP transport, authentication and JSON parsing
-                    "com.google.api-client:google-api-client:1.23.0",
+                    "com.google.api-client:google-api-client:1.25.0",
                     // For supporting authorization code flow locally
-                    "com.google.oauth-client:google-oauth-client-jetty:1.23.0",
+                    "com.google.oauth-client:google-oauth-client-jetty:1.25.0",
                     // For using Gmail API
-                    "com.google.apis:google-api-services-gmail:v1-rev91-1.23.0"
+                    "com.google.apis:google-api-services-gmail:v1-rev95-1.25.0"
 
 }
 
@@ -112,11 +94,13 @@ sourceSets {
     test {
         java {
             srcDir "src/test/java"
+            srcDir "src/e2e/java"
             srcDir "src/client/java"
             include "**/*.java"
         }
         resources {
             srcDir "src/test/resources"
+            srcDir "src/e2e/resources"
             exclude "**/*.java"
         }
     }
@@ -680,7 +664,7 @@ task jacocoReport(type: JacocoReport) {
     }
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "**/*Filter.class", "**/*Servlet.class"])
+            fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "teammates/e2e/**/*", "**/*Filter.class", "**/*Servlet.class"])
         })
     }
     dependsOn jacocoMerge

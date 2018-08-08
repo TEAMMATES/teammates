@@ -13,6 +13,7 @@ appengine-generated
 *.ext
 appengine-web.xml
 chromedriver*
+geckodriver*
 *.bin
 *.bak
 *.db

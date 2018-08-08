@@ -1,4 +1,4 @@
-package teammates.test.pageobjects;
+package teammates.e2e.pageobjects;
 
 import java.util.Stack;
 
@@ -17,17 +17,15 @@ import teammates.test.driver.TestProperties;
 public class Browser {
 
     /**
-     * The {@link WebDriver} object that drives the Browser instance.
+     * Indicates to the {@link BrowserPool} that this object is currently being used
+     * and not ready to be reused by another test.
      */
-    public WebDriver driver;
+    boolean isInUse;
 
     /**
-     * Indicated to the {@link BrowserPool} that this object is currently being
-     * used and not ready to be reused by another test.
+     * The {@link WebDriver} object that drives the Browser instance.
      */
-    public boolean isInUse;
-
-    public boolean isAdminLoggedIn;
+    private WebDriver driver;
 
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
@@ -35,10 +33,9 @@ public class Browser {
     private final Stack<String> windowHandles = new Stack<>();
 
     public Browser() {
-        this.driver = createWebDriver();
-        this.driver.manage().window().maximize();
+        driver = createWebDriver();
+        driver.manage().window().maximize();
         isInUse = false;
-        isAdminLoggedIn = false;
     }
 
     /**
@@ -56,8 +53,7 @@ public class Browser {
     }
 
     /**
-     * Closes the current browser window and switches back to the last window
-     * used previously.
+     * Closes the current browser window and switches back to the last window used previously.
      */
     public void closeCurrentWindowAndSwitchToParentWindow() {
         driver.close();
@@ -69,7 +65,7 @@ public class Browser {
 
         String browser = TestProperties.BROWSER;
         if (TestProperties.BROWSER_FIREFOX.equals(browser)) {
-            System.out.println("Using Firefox.");
+            System.out.println("Using Firefox with driver path: " + TestProperties.GECKODRIVER_PATH);
             String firefoxPath = TestProperties.FIREFOX_PATH;
             if (!firefoxPath.isEmpty()) {
                 System.out.println("Custom path: " + firefoxPath);
@@ -89,19 +85,19 @@ public class Browser {
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
             return new FirefoxDriver(options);
+        }
 
-        } else if (TestProperties.BROWSER_CHROME.equals(browser)) {
+        if (TestProperties.BROWSER_CHROME.equals(browser)) {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
-
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--allow-file-access-from-files");
             return new ChromeDriver(options);
         }
+
         System.out.println("Using " + browser + " is not supported!");
         return null;
-
     }
 
 }
