@@ -202,7 +202,8 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     public void testAccessControl() {
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "1"
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
