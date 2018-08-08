@@ -4,12 +4,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -437,7 +435,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * Note: this only verifies the new comment text is added and only <strong>approximately</strong>
      * checks the state of the added comment based on implementation.
      */
-    public void waitForFeedbackResponseCommentAdded(String commentRowIdSuffix, String commentText, String giverName) {
+    public void waitAndVerifyForFeedbackResponseCommentAdded(String commentRowIdSuffix, String commentText,
+            String giverName) {
         waitForCommentRowContentEquals(commentRowIdSuffix, commentText, giverName);
         // Checks approximately that the added comment is constructed correctly
         assertTrue(isElementPresent(By.id("responseCommentEditForm" + commentRowIdSuffix)));
@@ -446,17 +445,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForCommentFormErrorMessageEquals(String commentTableIdSuffix, String errorMessage) {
         WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
         assertEquals(errorMessage, errorMessageSpan.getText());
-    }
-
-    public void verifyRowMissing(String rowIdSuffix) {
-        try {
-            waitForAjaxLoaderGifToDisappear();
-            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
-            fail("Row expected to be missing found.");
-        } catch (NoSuchElementException expected) {
-            // row expected to be missing
-            return;
-        }
     }
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) throws MaximumRetriesExceededException {

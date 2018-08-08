@@ -53,6 +53,10 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
         map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
         map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE, InstructorCourseRestoreRecoveryCourseAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL, InstructorCourseRestoreAllRecoveryCoursesAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE, InstructorCourseDeleteRecoveryCourseAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL, InstructorCourseDeleteAllRecoveryCoursesAction.class);
         map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
         map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
@@ -120,6 +124,8 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
+        map(FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE,
+                FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
         map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
         map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
         map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);

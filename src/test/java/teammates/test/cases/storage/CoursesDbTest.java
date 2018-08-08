@@ -1,6 +1,8 @@
 package teammates.test.cases.storage;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -112,6 +114,34 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetCourses() throws InvalidParametersException {
+        CourseAttributes c = createNewCourse();
+        List<String> courseIds = new ArrayList<>();
+
+        ______TS("Success: get an existent course");
+
+        courseIds.add(c.getId());
+        List<CourseAttributes> retrieved = coursesDb.getCourses(courseIds);
+        assertEquals(1, retrieved.size());
+
+        ______TS("Failure: get a non-existent course");
+
+        courseIds.remove(c.getId());
+        courseIds.add("non-existent-course");
+        retrieved = coursesDb.getCourses(courseIds);
+        assertEquals(0, retrieved.size());
+
+        ______TS("Failure: get null parameters");
+
+        try {
+            coursesDb.getCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
     public void testUpdateCourse() throws Exception {
 
         ______TS("Failure: null paramater");
@@ -155,13 +185,16 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
 
         CourseAttributes c = createNewCourse();
+        c.setDeletedAt();
         CourseAttributes updatedCourse = CourseAttributes
                 .builder(c.getId(), c.getName() + " updated", ZoneId.of("UTC"))
+                .withDeletedAt(c.deletedAt)
                 .build();
 
         coursesDb.updateCourse(updatedCourse);
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertEquals(c.getName() + " updated", retrieved.getName());
+        assertEquals(c.deletedAt, retrieved.deletedAt);
     }
 
     @Test

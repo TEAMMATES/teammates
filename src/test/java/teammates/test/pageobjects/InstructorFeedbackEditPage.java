@@ -424,9 +424,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id(elemId)).getAttribute("value");
     }
 
-    private String getRubricWeight(int qnNumber, int colNumber) {
+    private String getRubricWeight(int qnNumber, int subQnIndex, int colNumber) {
         String idSuffix = getIdSuffix(qnNumber);
-        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + colNumber;
+        String elemId =
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + subQnIndex + "-" + colNumber;
 
         return browser.driver.findElement(By.id(elemId)).getAttribute("value");
     }
@@ -443,19 +444,31 @@ public class InstructorFeedbackEditPage extends AppPage {
         return !browser.driver.findElements(By.id(getRubricDescriptionBoxId(qnNumber, subQnIndex, choiceIndex))).isEmpty();
     }
 
+    /**
+     * Returns an array of the specified rubric column values.
+     * The values are organized in the array in the following manner:
+     * <p>
+     *   <strong>If weights are assigned: </strong>
+     *   [rubricChoice, rubricDescription-0, rubricWeight-0, rubricDescription-1, rubricWeights-1,...]
+     * </p>
+     * <p>
+     *   <strong>If weights are not assigned: </strong>
+     *   [rubricChoice, rubricDescription-0, rubricDescription-1, ...]
+     * </p>
+     */
     public String[] getRubricColValues(int qnNumber, int choiceIndex) {
         List<String> col = new ArrayList<>();
 
         col.add(getRubricChoice(qnNumber, choiceIndex));
 
-        if (isRubricWeightsEnabled(qnNumber)) {
-            col.add(getRubricWeight(qnNumber, choiceIndex));
-        }
-
         int subQnIndex = 0;
 
         while (isRubricDescriptionBoxPresent(qnNumber, subQnIndex, choiceIndex)) {
             col.add(getRubricDescription(qnNumber, subQnIndex, choiceIndex));
+
+            if (isRubricWeightsEnabled(qnNumber)) {
+                col.add(getRubricWeight(qnNumber, subQnIndex, choiceIndex));
+            }
             subQnIndex++;
         }
 
@@ -499,24 +512,23 @@ public class InstructorFeedbackEditPage extends AppPage {
      *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     public void verifyRubricQuestion(int qnNumber, int[] colIndexes, String[]... columns) {
-        // checking rubric column values - choice, weight, descriptions
+        // checking rubric column values - choice, description-0, weight-0, description-1, weight-1,....
         for (int i = 0; i < colIndexes.length; i++) {
             int colIndex = colIndexes[i];
             String[] colValues = columns[i];
-            int rubDescriptionIndex = 1;
-
             assertTrue(getRubricChoice(qnNumber, colIndex).equals(colValues[0]));
 
-            if (isRubricWeightsEnabled(qnNumber)) {
-                assertTrue(getRubricWeight(qnNumber, colIndex).equals(colValues[1]));
-                rubDescriptionIndex = 2; // rubric descriptions start from index 2
-            }
-
+            int index = 1;
             int subQnIndex = 0;
 
-            while (rubDescriptionIndex < colValues.length) {
-                assertTrue(getRubricDescription(qnNumber, subQnIndex, colIndex).equals(colValues[rubDescriptionIndex]));
-                rubDescriptionIndex++;
+            while (index < colValues.length) {
+                assertTrue(getRubricDescription(qnNumber, subQnIndex, colIndex).equals(colValues[index]));
+                index++;
+
+                if (isRubricWeightsEnabled(qnNumber)) {
+                    assertTrue(getRubricWeight(qnNumber, subQnIndex, colIndex).equals(colValues[index]));
+                    index++;
+                }
                 subQnIndex++;
             }
         }
@@ -534,19 +546,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void fillRubricColumn(int qnNumber, int choiceIndex, String[] values) {
         fillRubricChoiceBox(values[0], qnNumber, choiceIndex);
 
-        int rubDescriptionIndex = 1;
-
-        if (isRubricWeightsEnabled(qnNumber)) {
-            fillRubricWeightBox(values[1], qnNumber, choiceIndex);
-            rubDescriptionIndex = 2; // rubric descriptions start from index 2
-        }
-
+        int index = 1;
         int subQnIndex = 0;
 
-        while (rubDescriptionIndex < values.length) {
-            fillRubricDescriptionBox(values[rubDescriptionIndex], qnNumber, subQnIndex, choiceIndex);
+        // If weights are assigned, then rubric description values are at the odd indexes (i.e. 1,3,5,..),
+        // and rubric weights are at the even indexes (i.e. 2,4,..).
+        // Otherwise rubric description starts with index 1.
+        while (index < values.length) {
+            fillRubricDescriptionBox(values[index], qnNumber, subQnIndex, choiceIndex);
+            index++;
+
+            if (isRubricWeightsEnabled(qnNumber)) {
+                fillRubricWeightBox(values[index], qnNumber, subQnIndex, choiceIndex);
+                index++;
+            }
             subQnIndex++;
-            rubDescriptionIndex++;
         }
     }
 
@@ -587,26 +601,27 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, choice);
     }
 
-    public WebElement getRubricWeightBox(int qnNumber, int choiceIndex) {
+    public WebElement getRubricWeightBox(int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
-        String elementId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
+        String elementId =
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
 
         return browser.driver.findElement(By.id(elementId));
     }
 
-    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
-        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
+    public void fillRubricWeightBox(String weight, int qnNumber, int subQnIndex, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, subQnIndex, choiceIndex);
         fillTextBox(weightBox, weight);
     }
 
-    public boolean isRubricWeightBoxFocused(int qnNumber, int choiceIndex) {
-        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
+    public boolean isRubricWeightBoxFocused(int qnNumber, int subQnIndex, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, subQnIndex, choiceIndex);
 
         return weightBox.equals(browser.driver.switchTo().activeElement());
     }
 
-    public void fillRubricWeightBoxForNewQuestion(String weight, int choiceIndex) {
-        fillRubricWeightBox(weight, NEW_QUESTION_NUM, choiceIndex);
+    public void fillRubricWeightBoxForNewQuestion(String weight, int subQnIndex, int choiceIndex) {
+        fillRubricWeightBox(weight, NEW_QUESTION_NUM, subQnIndex, choiceIndex);
     }
 
     private String getRubricDescriptionBoxId(int qnNumber, int subQnIndex, int choiceIndex) {

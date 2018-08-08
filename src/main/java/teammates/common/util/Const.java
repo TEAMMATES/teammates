@@ -30,6 +30,7 @@ public final class Const {
     public static final String JOIN_LINK = "[Join Link]";
 
     public static final String NONE_OF_THE_ABOVE = "None of the above";
+    public static final String DELETION_DATE_NOT_APPLICABLE = "Not Applicable";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
@@ -159,6 +160,10 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
@@ -224,7 +229,16 @@ public final class Const {
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
+        public static final String COURSE_MOVE_TO_RECOVERY =
+                "Delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE =
+                "Permanently delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE_ALL =
+                "Permanently delete all courses and their corresponding students and sessions";
+        public static final String COURSE_RESTORE =
+                "Restore the deleted course and its corresponding students and sessions";
+        public static final String COURSE_RESTORE_ALL =
+                "Restore all deleted courses and their corresponding students and sessions";
         public static final String COURSE_ARCHIVE =
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
@@ -438,6 +452,8 @@ public final class Const {
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
         public static final String COMMENT_DELETE = "Delete this comment";
+        public static final String COMMENT_ADD_FOR_FEEDBACK_PARTICIPANT =
+                "Add comment to explain your feedback response. It is optional.";
 
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
 
@@ -575,7 +591,7 @@ public final class Const {
         public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION =
                 "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a "
+                "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
     }
@@ -799,6 +815,7 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ADD_TEXT = "responsecommentaddtext";
 
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
@@ -939,11 +956,18 @@ public final class Const {
 
         public static final String LOGOUT = "/logout";
 
+        public static final String INSTRUCTOR_HELP_PAGE = "/instructorHelp";
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE = "/page/instructorRecoveryRestoreCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL =
+                "/page/instructorRecoveryRestoreAllCourses";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE = "/page/instructorRecoveryDeleteCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL =
+                "/page/instructorRecoveryDeleteAllCourses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
@@ -1014,6 +1038,9 @@ public final class Const {
 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
+
+        public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
+                "/page/feedbackParticipantFeedbackResponseCommentDelete";
 
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
@@ -1291,9 +1318,17 @@ public final class Const {
                 COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>"
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
-        public static final String COURSE_DELETED = "The course %s has been deleted.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
+                "The course %s has been deleted. You can restore it from the 'Courses' tab.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN =
+                "The course %s has been deleted. You can restore it from the deleted courses table below.";
+        public static final String COURSE_RESTORED = "The course %s has been restored.";
+        public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
+        public static final String COURSE_DELETED =
+                "The course %s has been permanently deleted.";
+        public static final String COURSE_ALL_DELETED = "All courses have been permanently deleted.";
         public static final String COURSE_EMPTY =
-                "You have not created any courses yet. Use the form above to create a course.";
+                "You do not seem to have any courses. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS =
                 "You have not created any courses yet, or you have no active courses. Go <a href=\""
                 + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
