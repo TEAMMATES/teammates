@@ -2058,8 +2058,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickTemplateQuestionModalCheckBox(int questionNum) {
-        WebElement questionCheckBox = browser.driver.findElement(By.id("addTemplateQuestionModalForm"))
-                .findElement(By.id("addTemplateQuestion-" + questionNum))
+        WebElement questionCheckBox = browser.driver.findElement(By.id("addTemplateQuestion-" + questionNum))
                 .findElement(By.cssSelector("input"));
 
         click(questionCheckBox);
