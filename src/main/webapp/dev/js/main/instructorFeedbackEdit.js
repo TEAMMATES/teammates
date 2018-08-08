@@ -475,12 +475,14 @@ function backupQuestion(questionNum) {
 function setupSortableQuestionOptionsGrid(qnType, questionNum) {
     const optionsElement = $(`#${qnType}Choices-${questionNum}`);
     const weightsElement = $(`#${qnType}Weights-${questionNum}`);
-    const isWeightsCheckboxPresent = $(`#${qnType}HasAssignedWeights-${questionNum}`).length > 0;
-    const isWeightsCheckboxTicked = $(`#${qnType}HasAssignedWeights-${questionNum}`).is(':checked');
     const optionWeightsMap = {};
 
+    let isWeightsCheckboxPresent = false;
+    let isWeightsCheckboxTicked = false;
     let numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
     function buildOptionWeightsMap() {
+        isWeightsCheckboxPresent = $(`#${qnType}HasAssignedWeights-${questionNum}`).length > 0;
+        isWeightsCheckboxTicked = $(`#${qnType}HasAssignedWeights-${questionNum}`).is(':checked');
         numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
         if (isWeightsCheckboxPresent && isWeightsCheckboxTicked) {
             for (let i = 0; i < numOptions; i += 1) {
