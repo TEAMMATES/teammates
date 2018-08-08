@@ -332,7 +332,7 @@ function bindCourseMoveToRecoveryLinks() {
         };
 
         showModalConfirmation('Confirm moving course to recovery', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.WARNING);
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.WARNING);
     });
 }
 
