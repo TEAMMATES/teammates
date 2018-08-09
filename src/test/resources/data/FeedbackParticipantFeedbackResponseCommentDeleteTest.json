@@ -270,6 +270,28 @@
       "showRecipientNameTo": [
         "RECEIVER"
       ]
+    },
+    "qn5InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 5,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -331,6 +353,17 @@
       },
       "giverSection": "Section A",
       "recipientSection": "Section A"
+    },
+    "response1ForQ5": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "feedbackQuestionId": "5",
+      "feedbackQuestionType": "MSQ",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -408,6 +441,24 @@
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Team 1 comment"
+      }
+    },
+    "comment2FromStudent1OnS1Q5R1": {
+      "courseId": "idOfCourse1",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "5",
+      "commentGiver": "student1InCourse1@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "commentGiverType": "STUDENTS",
+      "feedbackResponseId": "5%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-01T23:59:00Z",
+      "commentText": {
+        "value": "Student 1 comment on MSQ response"
       }
     }
   },

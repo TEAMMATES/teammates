@@ -832,7 +832,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
 
-        ______TS("Save new comment on response");
+        ______TS("Save new comment on MCQ response");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -861,7 +861,78 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
 
-        ______TS("Update response comment");
+        ______TS("Update MCQ response comment");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + "-1-0", "Edited comment",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + "-1-0", frc.getId().toString()
+        };
+
+        result = getRedirectResult(getAction(submissionParams));
+
+        assertFalse(result.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
+
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, result.isError,
+                "FSQTT.idOfInstructor1OfCourse1"), result.getDestinationWithParams());
+
+        frc = getFeedbackParticipantComment(fr.getId());
+        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+
+        ______TS("Save new comment on MSQ response");
+
+        fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 2);
+        assertNotNull("Feedback question not found in database", fq);
+
+        fr = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
+        assertNotNull("Feedback response not found in database", fr);
+
+        instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-1-0", "New comment"
+        };
+
+        result = getRedirectResult(getAction(submissionParams));
+
+        assertFalse(result.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, result.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+        frc = getFeedbackParticipantComment(fr.getId());
+        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+
+        ______TS("Update MSQ response comment");
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",

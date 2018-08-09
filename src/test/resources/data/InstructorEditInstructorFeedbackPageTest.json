@@ -428,6 +428,28 @@
         "INSTRUCTORS"
       ]
     },
+    "qn7InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IEIFPTCourse",
+      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 7,
+      "questionType": "MSQ",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IEIFPTCourse",
@@ -577,6 +599,17 @@
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response1ForQ7": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IEIFPTCourse",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "MSQ",
+      "giver": "IEIFPTCoursehelper1@gmail.tmt",
+      "recipient": "IEIFPTCoursehelper1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
       }
     },
     "response1ForS2Q1": {

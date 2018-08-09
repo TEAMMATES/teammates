@@ -598,6 +598,17 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
+    "response1ForQ7": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "MSQ",
+      "giver": "student1InIESFPTCourse@gmail.tmt",
+      "recipient": "student1InIESFPTCourse@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"isOther\":false,\"answers\":[\"student1InIESFPTCourse@gmail.tmt (Team 1.1</td></div>'\")\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
+      }
+    },
     "response1ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
