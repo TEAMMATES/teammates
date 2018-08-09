@@ -147,11 +147,13 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(3, 0, "It's good");
         submitPage.addFeedbackParticipantComment("-3-0", "Comment without response");
 
+        submitPage.addFeedbackParticipantComment("-4-0", "Comment without response");
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3, 4.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3, 4.");
         submitPage.verifyCommentRowMissing("-3-0");
+        submitPage.verifyCommentRowMissing("-4-0");
     }
 
     private void testAddCommentsToQuestionsWithResponses() {
@@ -161,12 +163,16 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.chooseMcqOption(3, 0, "It's good");
         submitPage.addFeedbackParticipantComment("-3-0", "New MCQ Comment 1");
+        submitPage.toggleMsqOption(4, 0, "student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")");
+        submitPage.toggleMsqOption(4, 0, "student2 In Course1 (Team 2.1)");
+        submitPage.addFeedbackParticipantComment("-4-0", "New MSQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
         submitPage.verifyCommentRowContent("-3-0", "New MCQ Comment 1");
+        submitPage.verifyCommentRowContent("-4-0", "New MSQ Comment 1");
     }
 
     private void testEditCommentsActionAfterAddingComments() {
@@ -175,11 +181,13 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.editFeedbackParticipantComment("-3-0", "Edited MCQ Comment 1");
+        submitPage.editFeedbackParticipantComment("-4-0", "Edited MSQ Comment 1");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
         submitPage.verifyCommentRowContent("-3-0", "Edited MCQ Comment 1");
+        submitPage.verifyCommentRowContent("-4-0", "Edited MSQ Comment 1");
     }
 
     private void testDeleteCommentsActionAfterEditingComments() {
@@ -188,7 +196,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.deleteFeedbackResponseComment("-3-0");
-        submitPage.verifyCommentRowMissing("-0-3-0");
+        submitPage.verifyCommentRowMissing("-3-0");
+        submitPage.deleteFeedbackResponseComment("-4-0");
+        submitPage.verifyCommentRowMissing("-4-0");
     }
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(

@@ -327,7 +327,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
+        /// Adds comment on MCQ responses
         submitPage.addFeedbackParticipantComment("-5-0", "Comment without response");
+        // Adds comment on MSQ responses
+        submitPage.addFeedbackParticipantComment("-7-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -337,12 +340,14 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
         submitPage.verifyCommentRowMissing("-5-0");
+        submitPage.verifyCommentRowMissing("-7-0");
     }
 
     private void testAddCommentsToQuestionsWithResponses() {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
+        // Adds comments on MCQ responses
         submitPage.selectRecipient(6, 0, "Teammates Test2");
         submitPage.chooseMcqOption(6, 0, "Algo");
         submitPage.selectRecipient(6, 1, "Teammates Test3");
@@ -355,44 +360,47 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackParticipantComment("-6-1", "New MCQ Comment 2");
         submitPage.addFeedbackParticipantComment("-9-0", "New MCQ Comment 3");
 
+        // Adds comments on MSQ responses
+        submitPage.toggleMsqOption(7, 0, "Algo");
+        submitPage.toggleMsqOption(7, 0, "UI");
+        submitPage.addFeedbackParticipantComment("-7-0", "New MSQ Comment 1");
+
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS
-                        + "1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
+                        + "1, 2, 3, 4, 5, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
         submitPage.verifyCommentRowContent("-6-0", "New MCQ Comment 1");
         submitPage.verifyCommentRowContent("-6-1", "New MCQ Comment 2");
         submitPage.verifyCommentRowContent("-9-0", "New MCQ Comment 3");
-
+        submitPage.verifyCommentRowContent("-7-0", "New MSQ Comment 1");
     }
 
     private void testEditCommentsActionAfterAddingComments() {
-        ______TS("edit comments on responses and verify added comments action");
-
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
         submitPage.editFeedbackParticipantComment("-6-0", "Edited MCQ Comment 1");
         submitPage.editFeedbackParticipantComment("-6-1", "Edited MCQ Comment 2");
         submitPage.editFeedbackParticipantComment("-9-0", "Edited MCQ Comment 3");
+        submitPage.editFeedbackParticipantComment("-7-0", "Edited MSQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS
-                        + "1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
+                        + "1, 2, 3, 4, 5, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
         submitPage.verifyCommentRowContent("-6-0", "Edited MCQ Comment 1");
         submitPage.verifyCommentRowContent("-6-1", "Edited MCQ Comment 2");
         submitPage.verifyCommentRowContent("-9-0", "Edited MCQ Comment 3");
+        submitPage.verifyCommentRowContent("-7-0", "Edited MSQ Comment 1");
     }
 
     private void testDeleteCommentsActionAfterEditingComments() {
-        ______TS("delete comments on responses and verify edited comments action");
-
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
@@ -403,6 +411,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyCommentRowMissing("-6-1");
         submitPage.deleteFeedbackResponseComment("-9-0");
         submitPage.verifyCommentRowMissing("-9-0");
+        submitPage.deleteFeedbackResponseComment("-7-0");
+        submitPage.verifyCommentRowMissing("-7-0");
     }
 
     /**

@@ -554,7 +554,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
+        // Adds comments on MCQ responses
         submitPage.addFeedbackParticipantComment("-6-0", "Comment without response");
+        // Adds comments on MSQ responses
+        submitPage.addFeedbackParticipantComment("-9-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal(
@@ -563,42 +566,60 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, "
                         + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
         submitPage.verifyCommentRowMissing("-6-0");
+        submitPage.verifyCommentRowMissing("-9-0");
     }
 
     private void testAddCommentsToQuestionsWithResponses() {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
+        // Adds comments on MCQ responses
         submitPage.chooseMcqOption(6, 0, "UI");
         submitPage.chooseMcqOption(7, 1, "UI");
         submitPage.addFeedbackParticipantComment("-6-0", "New MCQ Comment 1");
         submitPage.addFeedbackParticipantComment("-7-1", "New MCQ team Comment 2");
 
+        // Adds comments on MSQ responses
+        submitPage.toggleMsqOption(9, 0, "Algo");
+        submitPage.toggleMsqOption(9, 0, "UI");
+        submitPage.toggleMsqOption(11, 0, "Charlie Davis (Team 2)");
+        submitPage.toggleMsqOption(11, 0, "Benny Charles (Team >'\"< 1</td></div>'\")");
+        submitPage.addFeedbackParticipantComment("-9-0", "New MSQ Comment 1");
+        submitPage.addFeedbackParticipantComment("-11-0", "New MSQ Comment 2");
+
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, 9, "
-                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, "
+                + "10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 8, 9, "
-                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 8, "
+                + "10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
         submitPage.verifyCommentRowContent("-6-0", "New MCQ Comment 1");
         submitPage.verifyCommentRowContent("-7-0", "New MCQ team Comment 2");
+        submitPage.verifyCommentRowContent("-9-0", "New MSQ Comment 1");
+        submitPage.verifyCommentRowContent("-11-0", "New MSQ Comment 2");
     }
 
     private void testEditCommentsActionAfterAddingComments() {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
+        // MCQ
         submitPage.editFeedbackParticipantComment("-6-0", "Edited MCQ Comment 1");
         submitPage.editFeedbackParticipantComment("-7-0", "Edited MCQ team Comment 2");
+        // MSQ
+        submitPage.editFeedbackParticipantComment("-9-0", "Edited MSQ Comment 1");
+        submitPage.editFeedbackParticipantComment("-11-0", "Edited MSQ Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, 9, "
-                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, "
+                + "10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 8, 9, "
-                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 8, "
+                + "10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
         submitPage.verifyCommentRowContent("-6-0", "Edited MCQ Comment 1");
         submitPage.verifyCommentRowContent("-7-0", "Edited MCQ team Comment 2");
+        submitPage.verifyCommentRowContent("-9-0", "Edited MSQ Comment 1");
+        submitPage.verifyCommentRowContent("-11-0", "Edited MSQ Comment 2");
     }
 
     private void testDeleteCommentsActionAfterEditingComments() {
@@ -609,6 +630,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyCommentRowMissing("-6-0");
         submitPage.deleteFeedbackResponseComment("-7-0");
         submitPage.verifyCommentRowMissing("-7-0");
+        submitPage.deleteFeedbackResponseComment("-9-0");
+        submitPage.verifyCommentRowMissing("-9-0");
+        submitPage.deleteFeedbackResponseComment("-11-0");
+        submitPage.verifyCommentRowMissing("-11-0");
     }
 
     private void testInputValidation() {
