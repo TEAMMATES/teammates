@@ -327,7 +327,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
-        /// Adds comment on MCQ responses
+        // Adds comment on MCQ responses
         submitPage.addFeedbackParticipantComment("-5-0", "Comment without response");
         // Adds comment on MSQ responses
         submitPage.addFeedbackParticipantComment("-7-0", "Comment without response");
