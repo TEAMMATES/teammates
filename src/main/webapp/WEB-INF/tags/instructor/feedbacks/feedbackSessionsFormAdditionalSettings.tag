@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-xs-12 col-md-6">
         <div class="row">
-          <div class="col-xs-5">
+          <div class="col-xs-12">
             <label class="label-control">Make session visible </label>
             <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
                   id="sessionVisibleCustomInfo"
@@ -77,7 +77,7 @@
 
       <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
         <div class="row">
-          <div class="col-xs-5">
+          <div class="col-xs-12">
             <label class="label-control">Make responses visible</label>
             <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
                   id="responsesVisibleCustomInfo"
