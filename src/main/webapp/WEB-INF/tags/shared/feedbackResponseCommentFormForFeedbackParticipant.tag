@@ -21,11 +21,10 @@
       </p>
     </div>
     <div class="col-xs-2">
-      <a type="button" class="btn btn-default btn-xs icon-button pull-right hide-frc-${fn:toLowerCase(formType)}-form"
+      <button type="button" class="close pull-right hide-frc-${fn:toLowerCase(formType)}-form"
          data-responseindex="${responseIndex}" data-qnindex="${qnIndex}" data-toggle="tooltip"
-         title="<%= Const.Tooltips.COMMENT_DISCARD_CHANGES %>">
-      <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-      </a>
+         title="<%= Const.Tooltips.COMMENT_DISCARD_CHANGES %>">&times;
+      </button>
     </div>
   </div>
   <div class="form-group">
