@@ -10,7 +10,7 @@
     "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.json",
     "lint:json": "jsonlint-cli src/web/**/*.json src/main/resources/*.json src/test/resources/data/*.json",
     "lint:css": "stylelint \"src/web/**/*.scss\" --config static-analysis/teammates-stylelint.yml",
-    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.scss\" \"src/**/*.ts\" \"src/**/*.java\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
+    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.ts\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
     "lint": "npm run lint:ts && npm run lint:json && npm run lint:css && npm run lint:spaces"
   },
   "private": true,

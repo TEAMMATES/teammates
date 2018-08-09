@@ -5,3 +5,4 @@ rules:
     number-leading-zero: "never"
     indentation: 2
     no-empty-source: null
+    max-empty-lines: 1
