@@ -757,12 +757,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
                 giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                                  teamMember, teamMemberNameWithTeamNameAppended,
-                                 new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(),
+                                 new ArrayList<>(),
                                  moderationButton);
             } else {
                 giverPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
                                 teamMember, bundle.getFullNameFromRoster(teamMember),
-                                new ArrayList<InstructorFeedbackResultsQuestionTable>(),
+                                new ArrayList<>(),
                                 getStudentProfilePictureLink(teamMember, instructor.courseId),
                                 viewType.isPrimaryGroupingOfGiverType(), moderationButton);
             }
@@ -784,12 +784,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
                 giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                                  teamMember, teamMemberWithTeamNameAppended,
-                                 new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(),
+                                 new ArrayList<>(),
                                  null);
 
             } else {
                 giverPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
-                                 new ArrayList<InstructorFeedbackResultsQuestionTable>(),
+                                 new ArrayList<>(),
                                  getStudentProfilePictureLink(teamMember, instructor.courseId),
                                  viewType.isPrimaryGroupingOfGiverType(), teamMember,
                                  bundle.getFullNameFromRoster(teamMember));

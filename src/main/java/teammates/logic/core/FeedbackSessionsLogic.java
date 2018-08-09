@@ -142,8 +142,8 @@ public final class FeedbackSessionsLogic {
         copiedFeedbackSession.setCourseId(newCourseId);
         copiedFeedbackSession.setTimeZone(newTimeZone);
         copiedFeedbackSession.setCreatedTime(Instant.now());
-        copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
-        copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
+        copiedFeedbackSession.setRespondingInstructorList(new HashSet<>());
+        copiedFeedbackSession.setRespondingStudentList(new HashSet<>());
         fsDb.createEntity(copiedFeedbackSession);
 
         List<FeedbackQuestionAttributes> feedbackQuestions =
