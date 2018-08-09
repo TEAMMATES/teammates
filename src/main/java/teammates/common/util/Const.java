@@ -718,8 +718,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_SENDEMAILS_ATCLOSED = "sendEmailsAtClosed";
         public static final String FEEDBACK_SESSION_SENDEMAILS_ONPUBLISH = "sendEmailsOnPublish";
 
-
-
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
