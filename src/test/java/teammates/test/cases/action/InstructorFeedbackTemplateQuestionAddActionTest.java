@@ -84,9 +84,9 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
 
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-
         ______TS("Missing question number");
+
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
