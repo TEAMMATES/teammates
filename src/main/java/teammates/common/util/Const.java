@@ -305,14 +305,14 @@ public final class Const {
                 "Click this icon to see more info on responses visibility";
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_INFO =
                 "Click this icon to see more info on sending email reminders";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION = "This option allows you to select when you"
-                + " want the questions for the feedback session to be visible to users who need to participate."
-                + " Users cannot submit their responses until the submission opening time.";
+        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION = "This option allows you to select"
+                + " when you want the questions for the feedback session to be visible to users who need to"
+                + " participate. Users cannot submit their responses until the submission opening time.";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLE_CUSTOM = "Select this option to enter in a specific"
                 + " date and time when the feedback session will become visible. Note that you can make a session visible"
                 + " before it is open for submissions so that users can preview the questions.";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN = "Select this option to have the feedback session become"
-                + " visible when it is open for submissions.";
+        public static final String FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN = "Select this option to have the feedback"
+                + " session become visible when it is open for submissions.";
         public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION = "Please select when the responses"
                 + " for the feedback session will be visible to the designated recipients. You can select the response"
                 + " visibility for each type of user and question later.";
@@ -328,8 +328,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN = "Select this option to automatically send an"
                 + " email to students to notify them when the feedback session is open for submissions. Emails are sent"
                 + " within 15 minutes once the session opens.";
-        public static final String FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED = "Select this option to automatically send"
-                + " an email to students to remind them to submit their responses 24 hours before the end of the feedback session.";
+        public static final String FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED = "Select this option to automatically send an"
+                + " email to students to remind them to submit their responses 24 hours"
+                + " before the end of the feedback session.";
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH = "Select this option to automatically send"
                 + " an email to students to notify them when the feedback session results are published.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
