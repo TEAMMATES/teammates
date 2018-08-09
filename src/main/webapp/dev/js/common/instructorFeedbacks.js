@@ -6,34 +6,6 @@ import {
     ParamsNames,
 } from './const';
 
-const FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION = 'This option allows you to select when you'
-        + ' want the questions for the feedback session to be visible to users who need to participate.'
-        + ' Users cannot submit their responses until the submission opening time.';
-const FEEDBACK_SESSION_RESULTSVISIBLE_CUSTOM = 'Select this option to enter in a specific date and time when'
-        + ' the feedback session will become visible. Note that you can make a session visible'
-        + ' before it is open for submissions so that users can preview the questions.';
-const FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN = 'Select this option to have the feedback session become'
-        + ' visible when it is open for submissions.';
-const FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION = 'Please select when the responses for the feedback'
-        + ' session will be visible to the designated recipients. You can select the response visibility for'
-        + ' each type of user and question later.';
-const FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM = 'Select this option to use a self defined time for when the'
-        + ' responses of the feedback session will be visible to the designated recipients.';
-const FEEDBACK_SESSION_RESPONSESVISIBLE_ONSUBMIT = 'Select this option to have the feedback responses be immediately'
-        + ' visible to others as soon as they are submitted. Note that who can see the responses depends on the feedback'
-        + ' path of the question.';
-const FEEDBACK_SESSION_RESPONSESVISIBLE_LATER = 'Select this option if you intend to manually publish the'
-        + ' responses for this session later on.';
-const FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION = 'This setting allows you to automatically send email notifications'
-        + ' to students on important events.';
-const FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN = 'Select this option to automatically send an email to students'
-        + ' to notify them when the feedback session is open for submissions. Emails are sent within 15 minutes'
-        + ' once the session opens.';
-const FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED = 'Select this option to automatically send an email to students to remind'
-        + ' them to submit their responses 24 hours before the end of the feedback session.';
-const FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH = 'Select this option to automatically send an email to students to notify'
-        + ' them when the feedback session results are published.';
-
 function updateUncommonSettingsSessionVisibilityInfo() {
     const info = 'Session is visible at submission opening time, '
              + 'responses are only visible when you publish the results.';
@@ -153,9 +125,12 @@ function createAdvancedSettingsModalText(generalInfo, options) {
  * for setting visibility of a feedback session
  */
 function setupSessionVisibilityInfoModal() {
-    const generalInfo = `<p>${FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION}</p>`;
-    const atOption = `<p><label>At:</label> ${FEEDBACK_SESSION_RESULTSVISIBLE_CUSTOM}</p>`;
-    const openTimeOption = `<p><label>Submission opening time:</label> ${FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN}</p>`;
+    const sessionVisibilityDescription = $(`#${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY}`).val();
+    const sessionVisibilityCustom = $(`#${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY_CUSTOM}`).val();
+    const sessionVisibilityAtOpen = $(`#${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY_ATOPEN}`).val();
+    const generalInfo = `<p>${sessionVisibilityDescription}</p>`;
+    const atOption = `<p><label>At:</label> ${sessionVisibilityCustom}</p>`;
+    const openTimeOption = `<p><label>Submission opening time:</label> ${sessionVisibilityAtOpen}</p>`;
     const options = [atOption, openTimeOption];
     const modalText = createAdvancedSettingsModalText(generalInfo, options);
 
@@ -169,10 +144,14 @@ function setupSessionVisibilityInfoModal() {
  * for settings visibility of responses of a feedback session
  */
 function setupResponsesVisibilityInfoModal() {
-    const generalInfo = `<p>${FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION}</p>`;
-    const atOption = `<p><label>At:</label> ${FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM}</p>`;
-    const onResponseSubmissionOption = `<p><label>Immediately:</label> ${FEEDBACK_SESSION_RESPONSESVISIBLE_ONSUBMIT}</p>`;
-    const publishManualOption = `<p><label>Not now:</label> ${FEEDBACK_SESSION_RESPONSESVISIBLE_LATER}</p>`;
+    const responsesVisibilityDescription = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY}`).val();
+    const responsesVisibilityCustom = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_CUSTOM}`).val();
+    const responsesVisibilityImmediately = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_IMMEDIATELY}`).val();
+    const responsesVisibilityLater = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_LATER}`).val();
+    const generalInfo = `<p>${responsesVisibilityDescription}</p>`;
+    const atOption = `<p><label>At:</label> ${responsesVisibilityCustom}</p>`;
+    const onResponseSubmissionOption = `<p><label>Immediately:</label> ${responsesVisibilityImmediately}</p>`;
+    const publishManualOption = `<p><label>Not now:</label> ${responsesVisibilityLater}</p>`;
     const options = [atOption, onResponseSubmissionOption, publishManualOption];
     const modalText = createAdvancedSettingsModalText(generalInfo, options);
 
@@ -186,12 +165,14 @@ function setupResponsesVisibilityInfoModal() {
  * for sending email notifications to students on important events
  */
 function setupSendingEmailsInfoModal() {
-    const generalInfo = `<p>${FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION}</p>`;
-    const sessionOpenOption = `<p><label>Session opening reminder:</label> ${FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN}</p>`;
-    const sessionClosedOption = '<p><label>Session closing reminder:</label>'
-            + ` ${FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED}</p>`;
-    const resultsPublishedOption = '<p><label>Results published announcement:</label>'
-            + ` ${FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH}</p>`;
+    const sendEmailsDescription = $(`#${ParamsNames.FEEDBACK_SESSION_SENDEMAILS}`).val();
+    const sendEmailsAtOpen = $(`#${ParamsNames.FEEDBACK_SESSION_SENDEMAILS_ATOPEN}`).val();
+    const sendEmailsAtClosed = $(`#${ParamsNames.FEEDBACK_SESSION_SENDEMAILS_ATCLOSED}`).val();
+    const sendEmailsOnPublish = $(`#${ParamsNames.FEEDBACK_SESSION_SENDEMAILS_ONPUBLISH}`).val();
+    const generalInfo = `<p>${sendEmailsDescription}</p>`;
+    const sessionOpenOption = `<p><label>Session opening reminder:</label> ${sendEmailsAtOpen}</p>`;
+    const sessionClosedOption = `<p><label>Session closing reminder:</label> ${sendEmailsAtClosed}</p>`;
+    const resultsPublishedOption = `<p><label>Results published announcement:</label> ${sendEmailsOnPublish}</p>`;
     const options = [sessionOpenOption, sessionClosedOption, resultsPublishedOption];
     const modalText = createAdvancedSettingsModalText(generalInfo, options);
 
