@@ -25,13 +25,14 @@ public class FeedbackResponseCommentRow {
     private String responseGiverName;
     private String responseRecipientName;
     private String commentGiverName;
+    private boolean isCommentFromFeedbackParticipant;
 
     private String showCommentToString;
     private String showGiverNameToString;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
-    private Map<String, String> instructorEmailNameTable;
+    private Map<String, String> commentGiverEmailToNameTable;
 
     private String visibilityIconString;
     private ZoneId sessionTimeZone;
@@ -39,13 +40,14 @@ public class FeedbackResponseCommentRow {
     private boolean isEditDeleteEnabled;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-            Map<String, String> instructorEmailNameTable, ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
-        this.instructorEmailNameTable = instructorEmailNameTable;
+            Map<String, String> commentGiverEmailToNameTable, ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
+        this.commentGiverEmailToNameTable = commentGiverEmailToNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
         this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
 
         //TODO TO REMOVE AFTER DATA MIGRATION
@@ -53,11 +55,24 @@ public class FeedbackResponseCommentRow {
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
+    // For feedback participant comment
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, FeedbackQuestionAttributes question,
+            boolean isEditDeleteEnabled) {
+        this.commentId = frc.getId();
+        this.commentText = frc.commentText.getValue();
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
+        this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
+        this.courseId = frc.courseId;
+        this.feedbackSessionName = frc.feedbackSessionName;
+        this.feedbackResponseId = frc.feedbackResponseId;
+        this.isEditDeleteEnabled = isEditDeleteEnabled;
+    }
+
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailNameTable,
             ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
-        this(frc, giverDisplay, instructorEmailNameTable, sessionTimeZone, question);
+        this(frc, giverDisplay, commentGiverEmailNameTable, sessionTimeZone, question);
         setDataForAddEditDelete(frc, giverName, recipientName,
                 showCommentToString, showGiverNameToString, responseVisibilities);
     }
@@ -70,6 +85,7 @@ public class FeedbackResponseCommentRow {
                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
         this.sessionTimeZone = sessionTimeZone;
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
@@ -150,6 +166,10 @@ public class FeedbackResponseCommentRow {
 
     public boolean isEditDeleteEnabled() {
         return isEditDeleteEnabled;
+    }
+
+    public boolean isCommentFromFeedbackParticipant() {
+        return isCommentFromFeedbackParticipant;
     }
 
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
@@ -244,7 +264,7 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
-        return instructorEmailNameTable.get(giverEmail);
+        return commentGiverEmailToNameTable.get(giverEmail);
     }
 
     private String getEditedAtText(String lastEditorEmail, Instant createdAt, Instant lastEditedAt) {
@@ -255,7 +275,7 @@ public class FeedbackResponseCommentRow {
         return "(last edited "
                 + (isGiverAnonymous
                     ? ""
-                    : "by " + SanitizationHelper.sanitizeForHtml(instructorEmailNameTable.get(lastEditorEmail)) + " ")
+                    : "by " + SanitizationHelper.sanitizeForHtml(commentGiverEmailToNameTable.get(lastEditorEmail)) + " ")
                 + "at " + TimeHelper.formatDateTimeForDisplay(lastEditedAt, sessionTimeZone) + ")";
     }
 
@@ -288,8 +308,8 @@ public class FeedbackResponseCommentRow {
             case RECEIVER:
                 peopleCanView.append("response recipient, ");
                 break;
-            case OWN_TEAM:
-                peopleCanView.append("response giver's team, ");
+            case OWN_TEAM_MEMBERS:
+                peopleCanView.append("response giver's team members, ");
                 break;
             case RECEIVER_TEAM_MEMBERS:
                 peopleCanView.append("response recipient's team, ");
@@ -299,6 +319,9 @@ public class FeedbackResponseCommentRow {
                 break;
             case INSTRUCTORS:
                 peopleCanView.append("instructors, ");
+                break;
+            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                peopleCanView.append("response giver's team members and response giver, ");
                 break;
             default:
                 break;

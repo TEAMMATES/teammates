@@ -668,12 +668,30 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in.
+     * @return Courses the given instructors is in except for courses in recycle bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
         return coursesLogic.getCoursesForInstructor(instructorList);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses in Recycle Bin that the given instructors is in.
+     */
+    public List<CourseAttributes> getRecoveryCoursesForInstructors(List<InstructorAttributes> instructorList) {
+
+        Assumption.assertNotNull(instructorList);
+        return coursesLogic.getRecoveryCoursesForInstructors(instructorList);
+    }
+
+    public CourseAttributes getRecoveryCourseForInstructor(InstructorAttributes instructor) {
+
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getRecoveryCourseForInstructor(instructor);
     }
 
     /**
@@ -708,8 +726,8 @@ public class Logic {
     }
 
     /**
-     * Deletes the course and all data related to the course
-     * (instructors, students, feedback sessions).
+     * Permanently deletes a course and all data related to the course
+     * (instructors, students, feedback sessions) from Recycle Bin.
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -717,6 +735,43 @@ public class Logic {
     public void deleteCourse(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Permanently deletes all courses and all data related to these courses
+     * (instructors, students, feedback sessions) from Recycle Bin.
+     */
+    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.deleteAllCoursesCascade(instructorList);
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     * All data related will not be deleted.
+     */
+    public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.moveCourseToRecovery(courseId);
+    }
+
+    /**
+     * Restores a course and all data related to the course from Recycle Bin by
+     * its given corresponding ID.
+     */
+    public void restoreCourseFromRecovery(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.restoreCourseFromRecovery(courseId);
+    }
+
+    /**
+     * Restores all courses and all data related to these courses from Recycle Bin.
+     */
+    public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.restoreAllCoursesFromRecovery(instructorList);
     }
 
     /**
@@ -1230,18 +1285,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     /**
@@ -1866,7 +1909,7 @@ public class Logic {
     }
 
     public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(feedbackResponses);
         feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
@@ -2199,4 +2242,12 @@ public class Logic {
         return studentsLogic.getSectionForTeam(courseId, teamName);
     }
 
+    /**
+     * Returns a list of feedback comments associated with feedbackResponseId.
+     *
+     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
+    }
 }

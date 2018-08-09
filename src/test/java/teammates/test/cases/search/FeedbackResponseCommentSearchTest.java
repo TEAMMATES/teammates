@@ -12,7 +12,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
  * SUT: {@link FeedbackResponseCommentsDb},
- *      {@link teammates.storage.search.FeedbackResponseCommentDocument},
+ *      {@link teammates.storage.search.FeedbackResponseCommentSearchDocument},
  *      {@link teammates.storage.search.FeedbackResponseCommentSearchQuery}.
  */
 public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
@@ -78,7 +78,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; confirms deleted comments are not included in results");
 
-        commentsDb.deleteDocument(frc1I3Q1S2C2);
+        commentsDb.deleteDocument(commentsDb.getFeedbackResponseComment(frc1I3Q1S2C2.courseId, frc1I3Q1S2C2.createdAt,
+                frc1I3Q1S2C2.commentGiver));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         verifySearchResults(bundle);
     }
