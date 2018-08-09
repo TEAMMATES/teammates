@@ -550,13 +550,15 @@
       "courseId": "searchUI.idOfTypicalCourse1",
       "feedbackSessionName": "searchUI.First feedback session",
       "feedbackQuestionId": "1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
+      "commentGiver": "searchUI.instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "1%searchUI.student1InCourse1@gmail.tmt%searchUI.student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
@@ -566,7 +568,7 @@
       "courseId": "searchUI.idOfTypicalCourse1",
       "feedbackSessionName": "searchUI.First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "searchUI.instructor2@course1.tmt",
+      "commentGiver": "searchUI.instructor2@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
@@ -575,7 +577,9 @@
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-02T23:59:00Z",
       "commentText": {
         "value": "Anonymous comment to feedback Question 2"
@@ -585,7 +589,7 @@
       "courseId": "searchUI.idOfTypicalCourse1",
       "feedbackSessionName": "searchUI.First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "searchUI.instructor2@course1.tmt",
+      "commentGiver": "searchUI.instructor2@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
@@ -599,7 +603,9 @@
         "INSTRUCTORS",
         "RECEIVER_TEAM_MEMBERS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-03T23:59:00Z",
       "commentText": {
         "value": "Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)"
@@ -609,13 +615,15 @@
       "courseId": "searchUI.idOfTypicalCourse1",
       "feedbackSessionName": "searchUI.First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
+      "commentGiver": "searchUI.instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to feedback Question 2"
@@ -625,7 +633,7 @@
       "courseId": "searchUI.idOfTypicalCourse1",
       "feedbackSessionName": "searchUI.First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "searchUI.instructor2@course1.tmt",
+      "commentGiver": "searchUI.instructor2@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
@@ -635,7 +643,9 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-04T23:59:00Z",
       "commentText": {
         "value": "Instructor 3 edited comment to feedback Question 2"
@@ -647,13 +657,15 @@
       "courseId": "searchUI.idOfTestingSanitizationCourse",
       "feedbackSessionName": "Normal feedback session name",
       "feedbackQuestionId": "1",
-      "giverEmail": "searchUI.instructor1@sanitization.tmt",
+      "commentGiver": "searchUI.instructor1@sanitization.tmt",
       "giverSection": "None",
       "receiverSection": "Section'\"/></td>",
       "feedbackResponseId": "1%searchUI.normal@sanitization.tmt%searchUI.normal@sanitization.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"

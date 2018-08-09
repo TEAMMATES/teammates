@@ -3,6 +3,7 @@ package teammates.test.cases.browsertests;
 import java.time.Instant;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -31,6 +32,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    protected void refreshTestData() {
         testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
@@ -43,6 +49,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testLinks();
         testResponsiveSubmission();
         testModifyData();
+    }
+
+    @Test
+    public void testAddingEditingAndDeletingFeedbackParticipantComments() {
+        testAddCommentsToQuestionsWithoutResponses();
+        testAddCommentsToQuestionsWithResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
     }
 
     private void testLinks() {
@@ -534,6 +548,67 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt",
                                                    "SFSubmitUiT.charlie.d@gmail.tmt"));
+    }
+
+    private void testAddCommentsToQuestionsWithoutResponses() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackParticipantComment("-6-0", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal(
+                "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, "
+                        + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.verifyCommentRowMissing("-6-0");
+    }
+
+    private void testAddCommentsToQuestionsWithResponses() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.chooseMcqOption(6, 0, "UI");
+        submitPage.chooseMcqOption(7, 1, "UI");
+        submitPage.addFeedbackParticipantComment("-6-0", "New MCQ Comment 1");
+        submitPage.addFeedbackParticipantComment("-7-1", "New MCQ team Comment 2");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, 9, "
+                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 8, 9, "
+                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.verifyCommentRowContent("-6-0", "New MCQ Comment 1");
+        submitPage.verifyCommentRowContent("-7-0", "New MCQ team Comment 2");
+    }
+
+    private void testEditCommentsActionAfterAddingComments() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.editFeedbackParticipantComment("-6-0", "Edited MCQ Comment 1");
+        submitPage.editFeedbackParticipantComment("-7-0", "Edited MCQ team Comment 2");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, 9, "
+                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 8, 9, "
+                + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.verifyCommentRowContent("-6-0", "Edited MCQ Comment 1");
+        submitPage.verifyCommentRowContent("-7-0", "Edited MCQ team Comment 2");
+    }
+
+    private void testDeleteCommentsActionAfterEditingComments() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.deleteFeedbackResponseComment("-6-0");
+        submitPage.verifyCommentRowMissing("-6-0");
+        submitPage.deleteFeedbackResponseComment("-7-0");
+        submitPage.verifyCommentRowMissing("-7-0");
     }
 
     private void testInputValidation() {

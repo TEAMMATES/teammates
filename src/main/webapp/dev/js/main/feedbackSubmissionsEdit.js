@@ -38,6 +38,10 @@ import {
     disallowNonNumericEntries,
 } from '../common/ui';
 
+import {
+    registerResponseCommentsEventForFeedbackPage,
+} from '../common/feedbackParticipantComments';
+
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -1404,6 +1408,8 @@ $(document).ready(() => {
     showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
+
+    registerResponseCommentsEventForFeedbackPage();
 });
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;
