@@ -4,7 +4,7 @@
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 process.env.TZ = 'UTC';
 
-module.exports = (config) => {
+module.exports = (config: any): void => {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],

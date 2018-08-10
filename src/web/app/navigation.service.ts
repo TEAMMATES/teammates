@@ -10,17 +10,17 @@ import { Router } from '@angular/router';
 @Injectable()
 export class NavigationService {
 
+  constructor() {}
+
   /**
    * Navigates to the selected URL while taking into account CTRL/CMD/SHIFT keys pressed.
    */
-  navigateTo(router: Router, url: string, event: any, windowParam?: any) {
+  public navigateTo(router: Router, url: string, event: any, windowParam?: any): void {
     if (event.metaKey || event.shiftKey || event.ctrlKey) {
       (windowParam || window).open(url);
     } else {
       router.navigateByUrl(url);
     }
   }
-
-  constructor() {}
 
 }

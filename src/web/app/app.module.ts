@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationService } from './navigation.service';
@@ -14,7 +14,7 @@ import { RequestPageComponent } from './pages-static/request-page/request-page.c
 import { UsermapPageComponent } from './pages-static/usermap-page/usermap-page.component';
 import { PageNotFoundComponent } from './pages-static/page-not-found/page-not-found.component';
 
-const routes = [
+const routes: Routes = [
   {
     path: 'web',
     children: [
@@ -64,6 +64,9 @@ const routes = [
   },
 ];
 
+/**
+ * Root module.
+ */
 @NgModule({
   declarations: [
     AppComponent,

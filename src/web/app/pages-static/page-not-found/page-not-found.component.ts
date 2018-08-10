@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../navigation.service';
 
+/**
+ * "Page not found" page.
+ *
+ * Users will be redirected to this page if they attempt to navigate to an unknown page of the application.
+ */
 @Component({
   selector: 'tm-page-not-found',
   templateUrl: './page-not-found.component.html',

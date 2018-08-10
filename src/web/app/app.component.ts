@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 import * as uaParser from 'ua-parser-js';
 
+/**
+ * Root application page.
+ */
 @Component({
   selector: 'tm-root',
   templateUrl: './app.component.html',
@@ -10,13 +13,29 @@ import * as uaParser from 'ua-parser-js';
 })
 export class AppComponent implements OnInit {
 
-  isCollapsed = true;
-  isUnsupportedBrowser: boolean;
-  browser: string;
+  /**
+   * Used by ng-bootstrap to determine if the navbar needs to be collapsed.
+   */
+  public isCollapsed: boolean = true;
 
-  // Angular browser support: https://angular.io/guide/browser-support
-  // Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
-  minimumVersions = {
+  /**
+   * True if the browser used by user is not supported.
+   */
+  public isUnsupportedBrowser: boolean;
+
+  /**
+   * Browser used by user.
+   */
+  public browser: string;
+
+  /**
+   * Minimum versions of browsers supported.
+   *
+   * Angular browser support: https://angular.io/guide/browser-support
+   *
+   * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
+   */
+  public minimumVersions: any = {
     Chrome: 45,
     IE: 10,
     Firefox: 40,
@@ -24,20 +43,23 @@ export class AppComponent implements OnInit {
     // Opera: ??
   };
 
-  checkBrowserVersion() {
-    const browser = uaParser(navigator.userAgent).browser;
+  constructor(private router: Router, private navigationService: NavigationService) {}
+
+  private checkBrowserVersion(): void {
+    const browser: any = uaParser(navigator.userAgent).browser;
     this.browser = `${browser.name} ${browser.version}`;
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
   }
 
-  navigateTo(url: string, event: any) {
+  /**
+   * Navigates user to another page.
+   */
+  public navigateTo(url: string, event: any): void {
     this.navigationService.navigateTo(this.router, url, event);
   }
 
-  constructor(private router: Router, private navigationService: NavigationService) {}
-
-  ngOnInit() {
+  public ngOnInit(): void {
     this.checkBrowserVersion();
   }
 

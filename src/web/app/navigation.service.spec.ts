@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
 class MockWindow {
-  open(url) {
+  /**
+   * Stub method.
+   */
+  public open(url: string): string {
     return url;
   }
 }
@@ -15,7 +18,7 @@ describe('NavigationService', () => {
   beforeEach(() => {
     spyRouter = jasmine.createSpyObj('Router', {
       navigateByUrl: {
-        then: (fn) => {
+        then: (fn: () => void): void => {
           fn();
         },
       },

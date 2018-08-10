@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NavigationService } from '../../navigation.service';
 
+/**
+ * Index page.
+ */
 @Component({
   selector: 'tm-index-page',
   templateUrl: './index-page.component.html',
@@ -10,38 +13,46 @@ import { NavigationService } from '../../navigation.service';
 })
 export class IndexPageComponent implements OnInit {
 
-  testimonial: any;
-  testimonials: any[];
-  testimonialIndex = -1;
-  submissionsNumber = '10,000,000+';
+  /**
+   * The user testimonial currently displayed.
+   */
+  public testimonial: any;
 
-  navigateTo(url: string, event: any) {
-    this.navigationService.navigateTo(this.router, url, event);
-  }
+  /**
+   * The number of feedback response submissions displayed.
+   */
+  public submissionsNumber: string = '10,000,000+';
+  private testimonials: any[];
+  private testimonialIndex: number = -1;
 
   constructor(private router: Router, private navigationService: NavigationService,
       private httpClient: HttpClient) {}
 
-  ngOnInit() {
-    this.httpClient.get('./assets/data/index.json').subscribe(resObj => {
-      const res = resObj as any;
+  /**
+   * Navigates user to another page.
+   */
+  public navigateTo(url: string, event: any): void {
+    this.navigationService.navigateTo(this.router, url, event);
+  }
 
-      const formatNumber = (n) => {
-        let number = String(n);
-        const expression = /(\d+)(\d{3})/;
+  public ngOnInit(): void {
+    this.httpClient.get('./assets/data/index.json').subscribe((res: any) => {
+      const formatNumber: (n: number) => string = (n: number): string => {
+        let number: string = String(n);
+        const expression: any = /(\d+)(\d{3})/;
         while (expression.test(number)) {
           number = number.replace(expression, '$1,$2');
         }
         return number;
       };
 
-      const timeElapsed = new Date().getTime() - new Date(res.submissionsBaseDate).getTime();
+      const timeElapsed: number = new Date().getTime() - new Date(res.submissionsBaseDate).getTime();
       this.submissionsNumber = formatNumber(
           res.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * res.submissionsRate);
 
       this.testimonials = res.testimonials;
 
-      const cycleTestimonial = () => {
+      const cycleTestimonial: () => void = (): void => {
         this.testimonialIndex = (this.testimonialIndex + 1) % this.testimonials.length;
         this.testimonial = this.testimonials[this.testimonialIndex];
       };
