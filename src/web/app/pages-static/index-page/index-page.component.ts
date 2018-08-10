@@ -36,7 +36,8 @@ export class IndexPageComponent implements OnInit {
       };
 
       const timeElapsed = new Date().getTime() - new Date(res.submissionsBaseDate).getTime();
-      this.submissionsNumber = formatNumber(res.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * res.submissionsRate);
+      this.submissionsNumber = formatNumber(
+          res.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * res.submissionsRate);
 
       this.testimonials = res.testimonials;
 

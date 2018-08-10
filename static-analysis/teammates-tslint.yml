@@ -1,0 +1,11 @@
+rulesDirectory:
+- ../node_modules/codelyzer
+
+extends: tslint-config-airbnb
+
+rules:
+  align: false
+  max-line-length: [
+    true,
+    125
+  ]

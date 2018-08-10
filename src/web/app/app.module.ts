@@ -17,43 +17,45 @@ import { PageNotFoundComponent } from './pages-static/page-not-found/page-not-fo
 const routes = [
   {
     path: 'web',
-    children: [{
-      path: 'home',
-      component: IndexPageComponent,
-    },
-    {
-      path: 'request',
-      component: RequestPageComponent,
-    },
-    {
-      path: 'features',
-      component: FeaturesPageComponent,
-    },
-    {
-      path: 'about',
-      component: AboutPageComponent,
-    },
-    {
-      path: 'contact',
-      component: ContactPageComponent,
-    },
-    {
-      path: 'terms',
-      component: TermsPageComponent,
-    },
-    {
-      path: 'usermap',
-      component: UsermapPageComponent,
-    },
-    {
-      path: '',
-      pathMatch: 'full',
-      redirectTo: 'home',
-    },
-    {
-      path: '**',
-      component: PageNotFoundComponent,
-    }],
+    children: [
+      {
+        path: 'home',
+        component: IndexPageComponent,
+      },
+      {
+        path: 'request',
+        component: RequestPageComponent,
+      },
+      {
+        path: 'features',
+        component: FeaturesPageComponent,
+      },
+      {
+        path: 'about',
+        component: AboutPageComponent,
+      },
+      {
+        path: 'contact',
+        component: ContactPageComponent,
+      },
+      {
+        path: 'terms',
+        component: TermsPageComponent,
+      },
+      {
+        path: 'usermap',
+        component: UsermapPageComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home',
+      },
+      {
+        path: '**',
+        component: PageNotFoundComponent,
+      },
+    ],
   },
   {
     path: '',
@@ -85,4 +87,4 @@ const routes = [
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

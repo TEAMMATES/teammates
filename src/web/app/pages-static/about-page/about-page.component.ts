@@ -50,8 +50,10 @@ export class AboutPageComponent implements OnInit {
       this.committers = res.committers.filter(n => !n.endPeriod).map(this.setUrl);
       this.pastCommitters = res.committers.filter(n => n.endPeriod).map(this.setUrl);
       this.majorContributors = res.contributors.filter(n => n.major).map(this.setUrl);
-      this.multipleContributors = res.contributors.filter(n => !n.major && n.multiple).map(this.setUrl).map(this.setDisplayedName);
-      this.singleContributors = res.contributors.filter(n => !n.major && !n.multiple).map(this.setUrl).map(this.setDisplayedName);
+      this.multipleContributors = res.contributors.filter(n => !n.major && n.multiple)
+          .map(this.setUrl).map(this.setDisplayedName);
+      this.singleContributors = res.contributors.filter(n => !n.major && !n.multiple)
+          .map(this.setUrl).map(this.setDisplayedName);
     });
   }
 

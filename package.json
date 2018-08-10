@@ -7,10 +7,10 @@
     "assets": "rm -rf src/main/webapp/assets && mv src/main/webapp/dist/assets src/main/webapp/assets",
     "test": "ng test",
     "coverage": "ng test --watch=false --code-coverage --browsers ChromeHeadless",
-    "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.json",
+    "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.yml",
     "lint:json": "jsonlint-cli src/web/**/*.json src/main/resources/*.json src/test/resources/data/*.json",
     "lint:css": "stylelint \"src/web/**/*.scss\" --config static-analysis/teammates-stylelint.yml",
-    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.ts\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
+    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
     "lint": "npm run lint:ts && npm run lint:json && npm run lint:css && npm run lint:spaces"
   },
   "private": true,
@@ -57,6 +57,7 @@
     "stylelint-config-standard": "^18.2.0",
     "ts-node": "~7.0.1",
     "tslint": "~5.11.0",
+    "tslint-config-airbnb": "~5.10.0",
     "typescript": "~2.9.2"
   }
 }

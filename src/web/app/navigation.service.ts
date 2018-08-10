@@ -13,9 +13,9 @@ export class NavigationService {
   /**
    * Navigates to the selected URL while taking into account CTRL/CMD/SHIFT keys pressed.
    */
-  navigateTo(router: Router, url: string, event: any, _window?: any) {
+  navigateTo(router: Router, url: string, event: any, windowParam?: any) {
     if (event.metaKey || event.shiftKey || event.ctrlKey) {
-      (_window || window).open(url);
+      (windowParam || window).open(url);
     } else {
       router.navigateByUrl(url);
     }

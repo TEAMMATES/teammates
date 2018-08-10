@@ -70,7 +70,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
 
      ![eclipsesetupguide-7.png](images/eclipsesetupguide-7.png)
 
-   * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
+   * Indentation: 2 spaces are used in place of tabs for indentations. For Java and XML, 4 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * TypeScript: `TypeScript → Formatter → Indent size`.
@@ -143,13 +143,13 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
 1. Configure the following project-specific settings (all can be found in `IntelliJ IDEA → Preferences → ...`):
 
-   * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
+   * Indentation: 2 spaces are used in place of tabs for indentations. For Java and XML, 4 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      1. Go to `Editor → Code Style`.
      1. Select `Project` for `Scheme` if you do not wish to make the settings the default for your IDE.
      1. For `Java`, `TypeScript`, `JSON`, `CSS`, `XML`, and `HTML`:
-        * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
-        * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.
+        * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `2`, `2`, and `4` respectively.
+        * For `Java` and `XML`, the numbers are `4`, `4`, and `8` instead.
 
    * Text encoding: `UTF-8` is used for text encoding.
      Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
