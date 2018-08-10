@@ -10,10 +10,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
@@ -27,6 +29,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.RedirectResult;
@@ -1299,6 +1302,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     public void testSaveAndUpdateFeedbackParticipantCommentsOnResponse() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
@@ -1347,6 +1351,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+        // Verifies that comment is searchable
+        ArrayList<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(dataBundle.instructors.get("instructor1OfCourse1"));
+        FeedbackResponseCommentSearchResultBundle bundle = frcDb.search("\"New comment\"", instructors);
+        assertEquals(1, bundle.numberOfResults);
+        verifySearchResults(bundle, frc);
 
         ______TS("Update response comment");
 
@@ -1381,6 +1391,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+        // Verifies that comment is searchable
+        bundle = frcDb.search("\"Edited comment\"", instructors);
+        assertEquals(1, bundle.numberOfResults);
+        verifySearchResults(bundle, frc);
 
         ______TS("Test feedback participant comments not allowed in Text type questions");
 
