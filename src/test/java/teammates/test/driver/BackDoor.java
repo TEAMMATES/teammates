@@ -84,7 +84,7 @@ public final class BackDoor {
      * Extending this method to remove data outside its associated data would introduce
      * unnecessary complications such as extra costs and knowing exactly how much data to remove. Removing too much data
      * would not just incur higher datastore costs but we can make tests unexpectedly pass(fail) when the data is expected to
-     * be* not present(present) in another test.
+     * be not present(present) in another test.
      *
      * <p>Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests. However,
      * removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently access the
