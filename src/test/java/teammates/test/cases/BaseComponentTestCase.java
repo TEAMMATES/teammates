@@ -133,7 +133,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
      * @param expected the expected results for the search query.
      */
     protected static void verifySearchResults(FeedbackResponseCommentSearchResultBundle actual,
-                                            FeedbackResponseCommentAttributes... expected) {
+            FeedbackResponseCommentAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.comments.size());
         FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
