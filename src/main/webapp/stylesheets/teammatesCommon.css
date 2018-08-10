@@ -924,6 +924,10 @@ Prevents content overflow in navbar. */
     display: none;
 }
 
+#deleteselectedstudents {
+    display: none;
+}
+
 #button_updatestudents {
     display: none;
     margin-right: 5px;
