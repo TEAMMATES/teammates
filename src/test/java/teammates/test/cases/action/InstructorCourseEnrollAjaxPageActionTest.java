@@ -33,7 +33,6 @@ public class InstructorCourseEnrollAjaxPageActionTest extends BaseActionTest {
         ______TS("typical successful case");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COURSE_INDEX, "1",
         };
         InstructorCourseEnrollAjaxPageAction action = getAction(submissionParams);
         AjaxResult ajaxResult = getAjaxResult(action);
