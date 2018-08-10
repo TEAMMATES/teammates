@@ -68,6 +68,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE, InstructorCourseEnrollAjaxPageAction.class);
+        map(INSTRUCTOR_COURSE_ENROLL_AJAX_DELETE, InstructorCourseEnrollAjaxDeleteAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_AJAX_UPDATE_PAGE, InstructorCourseEnrollAjaxUpdatePageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
