@@ -1,11 +1,8 @@
 package teammates.test.cases.action;
 
-import java.util.ArrayList;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -39,7 +36,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
     protected void refreshTestData() {
         dataBundle = loadDataBundle("/FeedbackParticipantFeedbackResponseCommentDeleteTest.json");
         removeAndRestoreDataBundle(dataBundle);
-        putDocuments(dataBundle);
     }
 
     @Override
@@ -106,21 +102,16 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-        assertNull(frcDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
+        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
-        // Verifies that comment is not searchable
-        ArrayList<InstructorAttributes> instructors = new ArrayList<>();
-        instructors.add(instructor);
-        FeedbackResponseCommentSearchResultBundle bundle = frcDb.search("\"Instructor 1 comment\"", instructors);
-        assertEquals(0, bundle.numberOfResults);
     }
 
     private FeedbackResponseCommentAttributes getCommentFromInstructor1AsFeedbackParticipant() {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
@@ -134,7 +125,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 dataBundle.feedbackResponseComments.get("comment1FromInstructor1");
         FeedbackResponseCommentAttributes frc =
-                frcDb.getFeedbackResponseComment(feedbackResponseComment.courseId,
+                feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.courseId,
                         feedbackResponseComment.createdAt, feedbackResponseComment.commentGiver);
         frc.feedbackResponseId = feedbackResponse.getId();
         return frc;
@@ -154,8 +145,8 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 dataBundle.feedbackResponseComments.get("comment1FromStudent1");
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-        feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
+        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -172,14 +163,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         FeedbackResponseCommentAjaxPageData data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
-        assertNull(frcDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
-        // Verifies that comment is not searchable
-        ArrayList<InstructorAttributes> instructors = new ArrayList<>();
-        instructors.add(dataBundle.instructors.get("instructor1InCourse1"));
-        FeedbackResponseCommentSearchResultBundle bundle = frcDb.search("\"Student 1 comment\"", instructors);
-        assertEquals(0, bundle.numberOfResults);
     }
 
     @Test
@@ -196,8 +182,8 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 dataBundle.feedbackResponseComments.get("comment1FromTeam1");
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-        feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
+        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -214,14 +200,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         FeedbackResponseCommentAjaxPageData data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
-        assertNull(frcDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
-        // Verifies that comment is not searchable
-        ArrayList<InstructorAttributes> instructors = new ArrayList<>();
-        instructors.add(dataBundle.instructors.get("instructor1InCourse1"));
-        FeedbackResponseCommentSearchResultBundle bundle = frcDb.search("\"Team 1 comment\"", instructors);
-        assertEquals(0, bundle.numberOfResults);
     }
 
     @Override
