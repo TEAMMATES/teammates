@@ -14,11 +14,17 @@
 <c:set var="divId" value="${qnIndex}-${responseIndex}" />
 
 <div class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
-  <div class="form-group form-inline">
-    <div class="form-group text-muted" style="margin-left:1em;">
+  <div class="row">
+    <div class="col-xs-10 text-muted">
       <p>
         Your comment about the above response
       </p>
+    </div>
+    <div class="col-xs-2">
+      <button type="button" class="close pull-right hide-frc-${fn:toLowerCase(formType)}-form"
+         data-responseindex="${responseIndex}" data-qnindex="${qnIndex}" data-toggle="tooltip"
+         title="<%= Const.Tooltips.COMMENT_DISCARD_CHANGES %>">&times;
+      </button>
     </div>
   </div>
   <div class="form-group">
@@ -26,10 +32,6 @@
       ${frc.commentText}
     </div>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
-  </div>
-  <div class="col-sm-offset-5">
-    <input type="button" class="btn btn-default hide-frc-${fn:toLowerCase(formType)}-form"
-           value="Cancel" data-responseindex="${responseIndex}" data-qnindex="${qnIndex}">
   </div>
   <c:if test="${isEditForm}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}">
