@@ -79,7 +79,8 @@ public final class BackDoor {
      * associated data in the datastore to debug the failure.
      *
      * <p>This means that removing the data bundle on startup is not always sufficient because a test only knows how
-     * to remove its associated data. This is why some tests would fail when they use the same account and use different data.
+     * to remove its associated data.
+     * This is why some tests would fail when they use the same account and use different data.
      * Extending this method to remove data outside its associated data would introduce
      * unnecessary complications such as extra costs and knowing exactly how much data to remove. Removing too much data
      * would not just incur higher datastore costs but we can make tests unexpectedly pass(fail) when the data is expected to
