@@ -2,6 +2,7 @@ package teammates.ui.pagedata;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,6 +14,7 @@ public class InstructorCourseEnrollPageData extends PageData {
     private boolean isOpenOrPublishedEmailSentForTheCourse;
     private HashMap<String, String> successfulUpdatedLines = new HashMap<>();
     private HashMap<String, String> errorUpdatedLines = new HashMap<>();
+    private ArrayList<String> deletedStudents = new ArrayList<>();
 
     public InstructorCourseEnrollPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -52,5 +54,11 @@ public class InstructorCourseEnrollPageData extends PageData {
 
     public void setErrorUpdatedLines(HashMap<String, String> errorUpdatedLines) {
         this.errorUpdatedLines = errorUpdatedLines;
+    }
+
+    public ArrayList<String> getDeletedStudents() { return deletedStudents; }
+
+    public void setDeletedStudents(ArrayList<String> deletedStudents) {
+        this.deletedStudents = deletedStudents;
     }
 }
