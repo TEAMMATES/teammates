@@ -14,6 +14,7 @@ const Const = {
     StatusMessages: {
         INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
         MASS_UPDATE_LINE_EMPTY: "You did not update any existing students' information.",
+        DELETED_SELECTED_LINE_EMPTY: "You did not select any existing students to delete.",
     },
 };
 
