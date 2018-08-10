@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -1665,5 +1666,30 @@ public abstract class AppPage {
             executeScript("const event = new Event(arguments[1], {bubbles: true});"
                     + "arguments[0].dispatchEvent(event);", element, CHANGE_EVENT);
         }
+    }
+
+    /**
+     * Verifies that comment row doesn't exist for given rowIdSuffix.
+     *
+     * @param rowIdSuffix suffix id of comment row
+     */
+    public void verifyCommentRowMissing(String rowIdSuffix) {
+        try {
+            waitForAjaxLoaderGifToDisappear();
+            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
+            fail("Row expected to be missing found.");
+        } catch (NoSuchElementException expected) {
+            // row expected to be missing
+        }
+    }
+
+    /**
+     * Verifies the comment text.
+     *
+     * @param commentRowIdSuffix suffix id of comment delete button
+     * @param commentText comment text to be verified
+     */
+    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
     }
 }

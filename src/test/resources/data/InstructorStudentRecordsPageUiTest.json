@@ -530,6 +530,28 @@
         "INSTRUCTORS"
       ]
     },
+    "qn4InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "ISR.CS2104",
+      "creatorEmail": "teammates.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}"
+      },
+      "questionNumber": 4,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "ISR.CS2104",
@@ -646,6 +668,17 @@
       "responseMetaData": {
         "value": "Charlie did alot of work."
       }
+    },
+    "response6": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "ISR.CS2104",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "MCQ",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -653,7 +686,7 @@
       "courseId": "ISR.CS2104",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.test2@gmail.tmt",
+      "commentGiver": "teammates.test2@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
@@ -663,7 +696,9 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-02T23:59:00Z",
       "commentText": {
         "value": "First comment to Alice about feedback to Benny from different instructor"
@@ -673,13 +708,15 @@
       "courseId": "ISR.CS2104",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.test@gmail.tmt",
+      "commentGiver": "teammates.test@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor second comment to Alice about feedback to Benny"
@@ -691,16 +728,54 @@
       "courseId": "ISR.CS2104",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.test@gmail.tmt",
+      "commentGiver": "teammates.test@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-02T23:59:00Z",
       "commentText": {
         "value": "Instructor third comment to Alice about feedback to Benny"
+      }
+    },
+    "comment1OnR1Q4S1C2": {
+      "courseId": "ISR.CS2104",
+      "feedbackSessionName": "First feedback session",
+      "feedbackQuestionId": "4",
+      "commentGiver": "benny.c.tmms@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "4%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Benny's comment to alice"
+      }
+    },
+    "comment1FromT1C1ToR1Q4S1C1": {
+      "courseId": "ISR.CS2104",
+      "feedbackSessionName": "First feedback session",
+      "feedbackQuestionId": "4",
+      "commentGiver": "teammates.test@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "4%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2026-03-02T23:59:00Z",
+      "commentText": {
+        "value": "Instructor comment to Benny about feedback to Alice"
       }
     }
   },
