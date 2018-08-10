@@ -14,6 +14,7 @@
     "printthis": "0.1.5",
     "qunit": "2.6.1",
     "tinymce": "4.7.13",
-    "topojson": "1.6.27"
+    "topojson": "1.6.27",
+    "ua-parser-js": "0.7.18"
   }
 }

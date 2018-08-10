@@ -27,6 +27,7 @@ public final class FrontEndLibrary {
     public static final String QUNIT;
     public static final String TINYMCE;
     public static final String TOPOJSON;
+    public static final String UA_PARSER_JS;
     public static final String WORLDMAP;
 
     private static final JsonObject DEPENDENCIES_CONFIG;
@@ -61,6 +62,7 @@ public final class FrontEndLibrary {
         QUNIT = getLibrarySource("qunit", "qunit/qunit.js");
         TINYMCE = getLibrarySource("tinymce", "tinymce.min.js");
         TOPOJSON = getLibrarySource("topojson", "build/topojson.min.js");
+        UA_PARSER_JS = getLibrarySource("ua-parser-js", "src/ua-parser.min.js");
         WORLDMAP = getLibrarySource("datamaps", "src/js/data/world.hires.topo.json");
     }
 

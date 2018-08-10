@@ -65,6 +65,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.UA_PARSER_JS %>"></script>
     ${jsIncludes}
   </body>
 </html>
