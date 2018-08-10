@@ -606,7 +606,7 @@
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"student1InIESFPTCourse@gmail.tmt (Team 1.1</td></div>'\")\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
+        "value": "{\"isOther\":false,\"answers\":[\"student2 In Course1 (Team 2.1)\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
       }
     },
     "response1ForS2Q1": {
