@@ -27,9 +27,12 @@ import {
     displayErrorExecutingAjaxUpdate,
     getSpreadsheetLength,
     toggleStudentsPanel,
+    collapseStudentsPanel,
+    toggleChevronImage,
     getUpdatedStudentRows,
     getNewEmailList,
     showPasteModalBox,
+    showDeleteSuccessModalBox,
 } from '../common/instructorEnroll';
 
 import {
@@ -38,7 +41,7 @@ import {
 } from '../common/statusMessage';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
-const dataHandsontable = new Handsontable(dataContainer, {
+let dataHandsontable = new Handsontable(dataContainer, {
     height: 400,
     autoWrapRow: true,
     preventOverflow: 'horizontal',
@@ -109,6 +112,8 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 let existingStudentsData = null;
 let errorMessagesMap = new Map();
 let successfulMessagesMap = new Map();
+const oldEmailColumnIndex = 3;
+const checkboxColumnIndex = 6;
 
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
@@ -256,7 +261,6 @@ function processAjaxUpdateData() {
                 } else { // successful update of students
                     clearStatusMessages();
                     updateDataHandsontableCellSettings(resetDefaultViewRenderer);
-                    const oldEmailColumnIndex = 3;
 
                     // Updates any error or successful messages to process later
                     if (!jQuery.isEmptyObject(data.errorUpdatedLines)) {
@@ -435,6 +439,117 @@ function checkBoxHandler(event) {
     }
 }
 
+/**
+ * Deletes selected list of student data through an AJAX request.
+ * @returns {Promise} the state of the result from the AJAX request
+ */
+function getAjaxDeletedStudentsList() {
+    return new Promise((resolve, reject) => {
+        const $spreadsheetForm = $('#student-data-spreadsheet-form');
+        $.ajax({
+            type: 'POST',
+            url: '/page/instructorCourseEnrollAjaxDelete',
+            cache: false,
+            data: {
+                courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
+                deleteselectedstudents: $spreadsheetForm.find(`#deleteselectedstudents`).val(),
+            },
+        })
+                .done(resolve)
+                .fail(reject);
+    });
+}
+
+/**
+ * Hides the panel and reset dataHandsontable. Used after deleting selected students.
+ */
+function resetDataHandsontable() {
+    const panelHeading = $('#existing-data-spreadsheet');
+    const panelCollapse = panelHeading.parent().children('.panel-collapse');
+    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    collapseStudentsPanel(panelCollapse, "Existing Students");
+    toggleChevronImage(panelCollapse, toggleChevron);
+    dataHandsontable = new Handsontable(dataContainer, {
+        height: 400,
+        autoWrapRow: true,
+        preventOverflow: 'horizontal',
+        manualColumnResize: true,
+        manualRowResize: true,
+        rowHeaders: true,
+        colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments', 'Fill in the new email here', ''],
+        columns: [
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { readOnly: true, type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'checkbox' },
+        ],
+        columnSorting: true,
+        sortIndicator: true,
+        minRows: 20,
+        maxCols: 7,
+        stretchH: 'all',
+    });
+    dataHandsontable.render();
+}
+
+/**
+ * Function that does post-processing after submitting an AJAX request to delete students.
+ */
+function processAjaxDeletedStudentsData() {
+    getAjaxDeletedStudentsList()
+            .then(() => {
+                clearStatusMessages();
+                resetDataHandsontable();
+                showDeleteSuccessModalBox();
+            });
+}
+
+/**
+ * Displays the modal box when the user clicks the 'Delete' button.
+ */
+function showDeleteModalBox(submitDeleteText, event) {
+    event.preventDefault();
+    let deleteStudentsEmailList = '';
+    if (submitDeleteText !== '') {
+        deleteStudentsEmailList = getDeleteStudentsEmailList(submitDeleteText);
+    } else {
+        clearStatusMessages();
+        appendNewStatusMessage(Const.StatusMessages.DELETED_SELECTED_LINE_EMPTY,
+                BootstrapContextualColors.DANGER);
+        return;
+    }
+
+    const okCallback = function () {
+        processAjaxDeletedStudentsData();
+    };
+
+    let messageText = `Are you sure you want to remove student(s) with these emails from the course?<br>
+                      ${deleteStudentsEmailList}`;
+
+    showModalConfirmation('Confirm deletion', messageText,
+            okCallback, null, null, null, BootstrapContextualColors.DANGER);
+}
+
+function getDeleteStudentsEmailList(submitDeleteText) {
+    return submitDeleteText.split('\n')
+            .map((email, index) => String(index + 1).concat('. ').concat(email))
+            .join('<br>');
+}
+
+function getCheckedStudentEmails(dataSpreadsheetData) {
+    return dataSpreadsheetData.filter(row => row[checkboxColumnIndex] === true)
+        .map(row => row[oldEmailColumnIndex])
+        .join('\n')
+}
+
+function updateDeleteSelectedDataDump() {
+    console.log(getCheckedStudentEmails(dataHandsontable.getData()));
+    $('#deleteselectedstudents').text(getCheckedStudentEmails(dataHandsontable.getData()));
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
     $('#enroll-spreadsheet').on('click', expandCollapseNewStudentsPanel);
@@ -475,5 +590,9 @@ $(document).ready(() => {
         showUpdateModalBox($('#massupdatestudents').text(), event);
         errorMessagesMap.clear();
         successfulMessagesMap.clear();
+    });
+    $('#button_deletestudents').bind('click', (event) => {
+        updateDeleteSelectedDataDump();
+        showDeleteModalBox($('#deleteselectedstudents').text(), event);
     });
 });

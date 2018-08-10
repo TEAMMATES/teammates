@@ -1,3 +1,11 @@
+import {
+    showModalConfirmation,
+} from './bootboxWrapper';
+
+import {
+    BootstrapContextualColors,
+} from './const';
+
 /**
  * Retrieves updated column header order and generates a header string.
  *
@@ -189,6 +197,17 @@ function getNewEmailList(submitText) {
             .join('<br>');
 }
 
+/**
+ * Shows modal box after deleting selected students.
+ */
+function showDeleteSuccessModalBox() {
+    const messageText = 'Selected students have been deleted. Expand the "Existing Students" panel for the latest copy of students.';
+
+    const okCallback = () => {};
+    showModalConfirmation('Successful deletion', messageText,
+            okCallback, null, null, null, BootstrapContextualColors.SUCCESS);
+}
+
 export {
     getUpdatedHeaderString,
     getUserDataRows,
@@ -199,6 +218,9 @@ export {
     displayErrorExecutingAjaxUpdate,
     getSpreadsheetLength,
     toggleStudentsPanel,
+    collapseStudentsPanel,
+    toggleChevronImage,
     getUpdatedStudentRows,
     getNewEmailList,
+    showDeleteSuccessModalBox,
 };
