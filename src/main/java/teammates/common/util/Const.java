@@ -454,6 +454,7 @@ public final class Const {
         public static final String COMMENT_DELETE = "Delete this comment";
         public static final String COMMENT_ADD_FOR_FEEDBACK_PARTICIPANT =
                 "Add comment to explain your feedback response. It is optional.";
+        public static final String COMMENT_DISCARD_CHANGES = "Discard changes to comment";
 
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
 
