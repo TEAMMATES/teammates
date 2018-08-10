@@ -95,6 +95,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_submit_add")
     private WebElement addNewQuestionButton;
 
+    @FindBy(id = "button_add_template_modal")
+    private WebElement addTemplateModalLoadButton;
+
+    @FindBy(id = "button_add_template_submit")
+    private WebElement addTemplateQuestionButton;
+
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
 
@@ -873,6 +879,25 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
         waitForPageToLoad();
+    }
+
+    public void clickTemplateModalButton() {
+        addTemplateModalLoadButton.click();
+    }
+
+    public boolean isTemplateQuestionPanelExpanded(int qnNumber) {
+        // need to wait for the panel to be fully expanded before checking the class
+        By expandedPanelSelector = By.cssSelector("#addTemplateQuestion-" + qnNumber + " .in");
+        waitForElementPresence(expandedPanelSelector);
+        return browser.driver.findElement(expandedPanelSelector).isDisplayed();
+    }
+
+    public void clickAddTemplateQuestionButton() {
+        click(addTemplateQuestionButton);
+    }
+
+    public boolean isAddTemplateQuestionButtonEnabled() {
+        return addTemplateQuestionButton.isEnabled();
     }
 
     public void clickEditQuestionButton(int qnNumber) {
@@ -2038,6 +2063,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
+    }
+
+    public void clickTemplateQuestionPanel(int questionNum) {
+        WebElement questionPanel = browser.driver.findElement(By.id("addTemplateQuestion-" + questionNum))
+                .findElement(By.className("panel-title"));
+
+        click(questionPanel);
+    }
+
+    public void clickTemplateQuestionModalCheckBox(int questionNum) {
+        WebElement questionCheckBox = browser.driver.findElement(By.id("addTemplateQuestion-" + questionNum))
+                .findElement(By.cssSelector("input"));
+
+        click(questionCheckBox);
     }
 
     public void clickCopyTableAtRow(int rowIndex) {
