@@ -333,9 +333,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         return loginAdminToPage(profileUrl, StudentProfilePage.class);
     }
 
-    /**
-     * Test data removed due to {@link BackDoor#removeAndRestoreDataBundle(DataBundle)}}.
-     */
     @AfterClass
     public void classTearDown() {
         // The courses of test student1 account is not the same as `StudentHomePageUiTest`
@@ -346,6 +343,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // we need to explicitly remove the data bundle of tests.
         // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
         // as the tests can run in any order.
+
+        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
         BackDoor.removeDataBundle(testData);
     }
 

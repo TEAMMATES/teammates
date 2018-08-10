@@ -66,32 +66,30 @@ public final class BackDoor {
     }
 
     /**
-     * Removes and restores given data into the datastore.
+     * Removes and restores given data in the datastore. This method is to be called on test startup.
+     *
+     * <p>Note:  The data associated with the test accounts have to be <strong>manually</strong> removed by removing the data
+     * bundle when a test ends because the test accounts are shared across tests.
+     *
+     * <p>Test data should never be cleared after test in order to prevent incurring additional datastore costs because the
+     * test's data may not be accessed in another test. Also although unlikely in normal conditions, when a test fail to
+     * remove data bundle on teardown, another test should have no reason to fail.
+     *
+     * <p>Another reason not to remove associated data after a test is that in case of test failures, it helps to have the
+     * associated data in the datastore to debug the failure.
+     *
+     * <p>This means that removing the data bundle on startup is not always sufficient because a test only knows how
+     * to remove its associated data. This is why some tests would fail when they use the same account and use different data.
+     * Extending this method to remove data outside its associated data would introduce
+     * unnecessary complications such as extra costs and knowing exactly how much data to remove. Removing too much data
+     * would not just incur higher datastore costs but we can make tests unexpectedly pass(fail) when the data is expected to
+     * be* not present(present) in another test.
+     *
+     * <p>Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests. However,
+     * removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently access the
+     * same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
-
-        // The data associated with the test accounts have to be removed when the test ends because
-        // the test accounts are shared across tests.
-
-        // Test data is never cleared after test in order to save datastore costs as we already remove and restore the data
-        // bundle when the test runs. This raises the question of why we do not remove the data bundle when the class
-        // ends then we do not have to remove it from startup.
-
-        // The reason is that if a test's data is never accessed in another test, there is no need to clear the test's data
-        // to prevent incurring additional datastore costs. Also although unlikely in normal conditions, when a test fails to
-        // tear down (fail to remove data bundle), another test should have no reason to fail.
-        // Another reason not to remove associated data after a test is that in case of test failures,
-        // it helps to have the associated data in the datastore to debug the failure.
-
-        // This means that removing the data bundle on startup is not always sufficient because a test only knows how
-        // to remove its associated data.
-        // Extending removeDataBundle to remove data outside its associated data would introduce unnecessary complications
-        // like extra costs and now knowing exactly how much data to remove.
-
-        // Hence, we need to explicitly remove the data bundle in tests to avoid instability of tests.
-        // The problem of shared data of the same account being used in tests is hence being resolved preventing test data
-        // from this test affecting the subsequent run tests.
-
         removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);

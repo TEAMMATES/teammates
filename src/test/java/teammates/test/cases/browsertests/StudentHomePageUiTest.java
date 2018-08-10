@@ -200,11 +200,18 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    /**
-     * Test data removed due to {@link BackDoor#removeAndRestoreDataBundle(DataBundle)}}.
-     */
     @AfterClass
     public void classTearDown() {
+        // The courses of test student1 account is not the same as `StudentProfilePageUiTest`
+        // so it has to be cleared before running that test. This is the reason why `StudentProfilePageUiTest`
+        // would fail if we don't remove the data bundle in this test.
+
+        // Since the account of user being logged in is shared in this test and `StudentProfilePageUiTest`,
+        // we need to explicitly remove the data bundle of tests.
+        // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
+        // as the tests can run in any order.
+
+        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
         BackDoor.removeDataBundle(testData);
     }
 
