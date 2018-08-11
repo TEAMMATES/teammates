@@ -1,19 +1,17 @@
 /* global UAParser:true */
 
 /**
- * Function to check browser version and alert if browser version is lower than supported
- * Adapted from http://www.javascripter.net/faq/browsern.htm
- *
+ * Function to check whether user's browser is in the
+ * list of recommended browsers and issue a warning otherwise
  */
-
-function checkBrowserVersion() {
+function checkBrowser() {
     const uaParser = new UAParser();
     const browser = uaParser.getBrowser().name;
-    const supportedBrowsers = ['Chrome', 'Firefox', 'Safari', 'Edge'];
-    const isSupported = supportedBrowsers.indexOf(browser) !== -1;
+    const recommendedBrowsers = ['Chrome', 'Firefox', 'Safari', 'Edge'];
+    const isSupported = recommendedBrowsers.indexOf(browser) !== -1;
 
     if (!isSupported) {
-        const unsupportedBrowserErrorString =
+        const discouragedBrowserErrorString =
             '<div class="alert alert-warning text-bold">'
                 + '<span class="glyphicon glyphicon-info-sign padding-7px"></span>'
                 + 'Please note that TEAMMATES works best in recent versions of Chrome, Firefox, Safari and Microsoft Edge'
@@ -21,10 +19,10 @@ function checkBrowserVersion() {
         const message = $('#browserMessage');
 
         message.css('display', 'block');
-        message.html(unsupportedBrowserErrorString);
+        message.html(discouragedBrowserErrorString);
     }
 }
 
 export {
-    checkBrowserVersion,
+    checkBrowser,
 };

@@ -1,5 +1,5 @@
 import {
-    checkBrowserVersion,
+    checkBrowser,
 } from '../common/checkBrowserVersion';
 
 // TESTIMONIALS
@@ -73,7 +73,7 @@ $('document').ready(() => {
     loopTestimonials();
     window.setInterval(loopTestimonials, LOOP_INTERVAL);
 
-    checkBrowserVersion();
+    checkBrowser();
 });
 
 export {
