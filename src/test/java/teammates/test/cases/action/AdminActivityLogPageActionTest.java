@@ -282,6 +282,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         action = getAction("filterQuery", query);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 11, 1, YESTERDAY);
+        verifyLocalTimeInStatusMessage(statusMessage, YESTERDAY, ZoneId.of("Africa/Johannesburg"));
 
         // test statusMessage with `to`
         query = "to:" + formatAdminDate(YESTERDAY);

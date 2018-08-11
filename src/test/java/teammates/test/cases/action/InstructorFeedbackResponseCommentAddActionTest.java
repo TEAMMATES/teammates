@@ -1,9 +1,13 @@
 package teammates.test.cases.action;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -17,7 +21,7 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
 import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * SUT: {@link InstructorFeedbackResponseCommentAddAction}.
@@ -76,10 +80,18 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        FeedbackResponseCommentAjaxPageData data =
+                (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        List<FeedbackResponseCommentAttributes> frcList =
+                getInstructorComments(response.getId(), "Comment to first response");
+        assertEquals(1, frcList.size());
+        FeedbackResponseCommentAttributes frc = frcList.get(0);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
 
         ______TS("typical successful case for unpublished session empty giver permissions");
 
@@ -96,7 +108,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -114,7 +126,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -131,7 +143,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -148,7 +160,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -165,7 +177,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -182,7 +194,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -199,7 +211,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -216,7 +228,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -237,9 +249,16 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        frcList = getInstructorComments(response.getId(), "Comment to first response, published session");
+        assertEquals(1, frcList.size());
+        frc = frcList.get(0);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
 
         ______TS("Unsuccessful case: empty comment text");
 
@@ -256,7 +275,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         action = getAction(submissionParams);
         AjaxResult ajaxResult = getAjaxResult(action);
         assertEquals("", ajaxResult.getStatusMessage());
-        data = (InstructorFeedbackResponseCommentAjaxPageData) ajaxResult.data;
+        data = (FeedbackResponseCommentAjaxPageData) ajaxResult.data;
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
 
@@ -307,5 +326,21 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         // remove the comment
         frcDb.deleteEntity(comment);
+    }
+
+    /**
+     * Filters instructor comments according to comment text from all comments on a response.
+     *
+     * @param responseId response id of response
+     * @param commentText comment text
+     * @return instructor comments
+     */
+    private List<FeedbackResponseCommentAttributes> getInstructorComments(String responseId, String commentText) {
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
+        frcList = frcList.stream()
+                       .filter(comment -> comment.commentText.getValue().equals(commentText))
+                       .collect(Collectors.toList());
+        return frcList;
     }
 }

@@ -1762,7 +1762,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "1",
-      "giverEmail": "SFResultsUiT.instr@gmail.tmt",
+      "commentGiver": "SFResultsUiT.instr@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
@@ -1772,7 +1772,9 @@
       "showGiverNameTo": [
         "STUDENTS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor first comment to Alice"
@@ -1784,7 +1786,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "1",
-      "giverEmail": "SFResultsUiT.instr@gmail.tmt",
+      "commentGiver": "SFResultsUiT.instr@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
@@ -1794,10 +1796,48 @@
       "showGiverNameTo": [
         "STUDENTS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-02T23:59:00Z",
       "commentText": {
         "value": "Instructor second comment to Alice"
+      }
+    },
+    "comment1OnMCQQuestion1": {
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "SFResultsUiT.alice.b@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-02T23:59:00Z",
+      "commentText": {
+        "value": "Alice comment for herself"
+      }
+    },
+    "comment1OnMCQQuestion2": {
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "2",
+      "commentGiver": "drop.out@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+        "feedbackResponseId": "2%drop.out@gmail.tmt%SFResultsUiT.danny.e@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-02T23:59:00Z",
+      "commentText": {
+        "value": "Drop out comment to danny"
       }
     }
   },

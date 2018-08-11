@@ -102,7 +102,10 @@
         <rate>5/s</rate>
         <bucket-size>20</bucket-size>
         <retry-parameters>
-            <task-retry-limit>2</task-retry-limit>
+            <task-retry-limit>3</task-retry-limit>
+            <min-backoff-seconds>5</min-backoff-seconds>
+            <max-backoff-seconds>40</max-backoff-seconds>
+            <max-doublings>2</max-doublings>
         </retry-parameters>
     </queue>
 
@@ -126,7 +129,10 @@
         <rate>5/s</rate>
         <bucket-size>20</bucket-size>
         <retry-parameters>
-            <task-retry-limit>2</task-retry-limit>
+            <task-retry-limit>3</task-retry-limit>
+            <min-backoff-seconds>5</min-backoff-seconds>
+            <max-backoff-seconds>40</max-backoff-seconds>
+            <max-doublings>2</max-doublings>
         </retry-parameters>
     </queue>
 

@@ -7,11 +7,13 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -50,8 +52,11 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
 
         recipients.put(student.email, Const.USER_NAME_FOR_SELF);
         recipientList.put(question.getId(), recipients);
-
-        pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList);
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses = new HashMap<>();
+        CourseRoster roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()),
+                new ArrayList<>(dataBundle.instructors.values()));
+        pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList,
+                commentsForResponses, roster);
         pageData.bundle.questionResponseBundle.put(question, responses);
     }
 

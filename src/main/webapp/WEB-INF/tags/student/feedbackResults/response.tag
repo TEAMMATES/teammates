@@ -21,7 +21,14 @@
     <td>
       <ul class="list-group comment-list">
         <c:forEach items="${response.comments}" var="comment">
-          <shared:feedbackResponseCommentRow frc="${comment}" />
+          <c:choose>
+            <c:when test="${comment.commentFromFeedbackParticipant}">
+              <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${comment}"/>
+            </c:when>
+            <c:otherwise>
+              <shared:feedbackResponseCommentRow frc="${comment}" />
+            </c:otherwise>
+          </c:choose>
         </c:forEach>
       </ul>
     </td>

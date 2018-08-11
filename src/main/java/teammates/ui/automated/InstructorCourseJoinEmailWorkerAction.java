@@ -7,6 +7,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.logic.api.EmailGenerator;
 
 /**
@@ -39,7 +42,26 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
 
-        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+        // The instructor is queried using the `id`of instructor as it ensures that the
+        // instructor is retrieved (and not null) even if the index building for
+        // saving the new instructor takes more time in GAE.
+        // The instructor `id` can be constructed back using (instructorEmail%courseId)
+        // because instructors' email cannot be changed before joining the course.
+        RetryManager rm = new RetryManager(4);
+        InstructorAttributes instructor = null;
+
+        try {
+            instructor = rm.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
+                @Override
+                public InstructorAttributes run() {
+                    return logic.getInstructorById(courseId, instructorEmail);
+                }
+            });
+        } catch (MaximumRetriesExceededException e) {
+            // This Assumption fail ensures that the task is retried
+            Assumption.fail("If the instructor hasn't been retrieved yet there is some problem in adding of instructor"
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
         Assumption.assertNotNull(instructor);
 
         EmailWrapper email = new EmailGenerator()
