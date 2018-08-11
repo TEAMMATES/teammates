@@ -817,13 +817,14 @@
       "courseId": "CS2104",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",
-      "giverEmail": "teammates.test@gmail.tmt",
+      "commentGiver": "teammates.test@gmail.tmt",
       "giverSection": "Section A",
       "receiverSection": "None",
       "feedbackResponseId": "1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "This instructor's comment to student self feedback"
@@ -833,13 +834,14 @@
       "courseId": "CS2104",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",
-      "giverEmail": "teammates.instr@gmail.tmt",
+      "commentGiver": "teammates.instr@gmail.tmt",
       "giverSection": "Section A",
       "receiverSection": "None",
       "feedbackResponseId": "1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-02T23:59:00Z",
       "commentText": {
         "value": "Other instructor's comment to student self feedback"

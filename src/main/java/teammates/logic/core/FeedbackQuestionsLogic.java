@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -19,7 +22,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.Templates;
 import teammates.storage.api.FeedbackQuestionsDb;
 
 /**
@@ -155,6 +160,26 @@ public final class FeedbackQuestionsLogic {
         }
 
         return true;
+    }
+
+    /**
+     * Gets the list of questions for the specified feedback session template.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
+            String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
+
+        if ("TEAMEVALUATION".equals(templateType)) {
+            String jsonString = Templates.populateTemplate(Templates.FeedbackSessionTemplates.TEAM_EVALUATION,
+                    "${courseId}", courseId,
+                    "${feedbackSessionName}", feedbackSessionName,
+                    "${creatorEmail}", creatorEmail);
+
+            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
+            // obtained a Json String but deserialized everything
+            return JsonUtils.fromJson(jsonString, listType);
+        }
+
+        return new ArrayList<>();
     }
 
     /**

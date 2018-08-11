@@ -99,6 +99,11 @@ public final class InstructorsLogic {
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
+    public InstructorAttributes getInstructorById(String courseId, String email) {
+
+        return instructorsDb.getInstructorById(courseId, email);
+    }
+
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);

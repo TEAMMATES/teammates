@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -31,6 +32,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
@@ -46,6 +48,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
+    protected List<FeedbackResponseCommentAttributes> commentsToSave = new ArrayList<>();
+    protected List<FeedbackResponseCommentAttributes> commentsToUpdate = new ArrayList<>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -131,7 +135,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     continue;
                 }
 
+                // If there are duplicate values in recipient list (except empty strings),
+                // trigger this error.
+                // Note: If response for a recipient is left out, the recipient is then empty string,
+                // due to partial submission feature, there can be multiple recipient with no resposnes,
+                // in that case, there can be multiple empty strings which should not be counted.
+                if (!StringHelper.isEmpty(response.recipient) && responsesRecipients.contains(response.recipient)) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
+                    continue;
+                }
                 responsesRecipients.add(response.recipient);
+
                 // if the answer is not empty but the recipient is empty
                 if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
@@ -145,6 +159,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
+                    extractFeedbackParticipantCommentsData(questionAttributes, questionIndx,
+                            response, responseIndx);
                 }
             }
 
@@ -178,9 +194,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
 
-        saveNewReponses(responsesToSave);
+        saveNewResponses(responsesToSave);
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
+
+        saveNewCommentsByFeedbackParticipant(commentsToSave);
+        updateFeedbackParticipantComments(commentsToUpdate);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -275,13 +294,31 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    private void saveNewReponses(List<FeedbackResponseAttributes> responsesToSave)
-            throws EntityDoesNotExistException {
+    private void saveNewResponses(List<FeedbackResponseAttributes> responsesToSave) {
         try {
             logic.createFeedbackResponses(responsesToSave);
             hasValidResponse = true;
         } catch (InvalidParametersException e) {
             setStatusForException(e);
+        }
+    }
+
+    private void saveNewCommentsByFeedbackParticipant(List<FeedbackResponseCommentAttributes> commentsToSave)
+            throws EntityDoesNotExistException {
+        for (FeedbackResponseCommentAttributes frc : commentsToSave) {
+            try {
+                frc = logic.createFeedbackResponseComment(frc);
+                logic.putDocument(frc);
+                statusToAdmin += this.getClass().getName() + ":<br>"
+                        + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
+                        + "in course/feedback session: " + frc.courseId + "/"
+                        + frc.feedbackSessionName + "<br>"
+                        + "by: " + frc.commentGiver + " at "
+                        + frc.createdAt + "<br>"
+                        + "comment text: " + frc.commentText.getValue();
+            } catch (InvalidParametersException e) {
+                setStatusForException(e);
+            }
         }
     }
 
@@ -298,6 +335,25 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 logic.updateFeedbackResponse(response);
                 hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
+                setStatusForException(e);
+            }
+        }
+    }
+
+    private void updateFeedbackParticipantComments(List<FeedbackResponseCommentAttributes> commentsToUpdate)
+            throws EntityDoesNotExistException {
+        for (FeedbackResponseCommentAttributes feedbackResponseComment : commentsToUpdate) {
+            try {
+                FeedbackResponseCommentAttributes updatedComment =
+                        logic.updateFeedbackResponseComment(feedbackResponseComment);
+                logic.putDocument(updatedComment);
+                statusToAdmin += this.getClass().getName() + ":<br>"
+                        + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                        + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                        + feedbackResponseComment.feedbackSessionName + "<br>"
+                        + "by: " + feedbackResponseComment.commentGiver + "<br>"
+                        + "comment text: " + feedbackResponseComment.commentText.getValue();
+            } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
         }
@@ -365,6 +421,63 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         return response;
+    }
+
+    private void extractFeedbackParticipantCommentsData(FeedbackQuestionAttributes questionAttributes,
+            int questionIndex, FeedbackResponseAttributes response, int responseIndex) {
+        if (!questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+            return;
+        }
+
+        String commentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
+                + "-" + questionIndex + "-" + responseIndex);
+
+        String commentText;
+        // comment id is null when adding new comments
+        if (commentId == null) {
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-"
+                                                       + questionIndex + "-" + responseIndex);
+
+        } else {
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                                       + "-" + questionIndex + "-" + responseIndex);
+        }
+
+        if (commentText == null || commentText.isEmpty()) {
+            return;
+        }
+
+        FeedbackResponseCommentAttributes feedbackResponseComment =
+                FeedbackResponseCommentAttributes
+                        .builder(courseId, feedbackSessionName, response.giver, new Text(commentText))
+                        .withCreatedAt(Instant.now())
+                        .withGiverSection(response.giverSection)
+                        .withReceiverSection(response.recipientSection)
+                        .withCommentFromFeedbackParticipant(true)
+                        .withVisibilityFollowingFeedbackQuestion(true)
+                        .withShowCommentTo(questionAttributes.showResponsesTo)
+                        .withShowGiverNameTo(questionAttributes.showGiverNameTo)
+                        .withFeedbackQuestionId(questionAttributes.getFeedbackQuestionId())
+                        .build();
+
+        // Question giver type can be self (i.e. creator of session) which is equivalent to
+        // instructor as comment giver type.
+        if (questionAttributes.giverType == FeedbackParticipantType.SELF) {
+            feedbackResponseComment.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+        } else {
+            feedbackResponseComment.commentGiverType = questionAttributes.giverType;
+        }
+
+        if (commentId == null) {
+            // Format of response id is feedbackQuestionId%responseGiver%responseReceiver
+            feedbackResponseComment.feedbackResponseId =
+                    feedbackResponseComment.feedbackQuestionId + "%" + response.giver + "%" + response.recipient;
+            commentsToSave.add(feedbackResponseComment);
+        } else {
+            feedbackResponseComment.setId(Long.parseLong(commentId));
+            feedbackResponseComment.feedbackResponseId = response.getId();
+            commentsToUpdate.add(feedbackResponseComment);
+        }
     }
 
     private String getUnansweredQuestionMessage(List<Integer> questionsWithMissingAnswers) {

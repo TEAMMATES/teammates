@@ -16,7 +16,7 @@
               </label>
               <div class="col-lg-8">
                 <p class="form-control-static">
-                  CFResultsUiT.CS2104
+                  IFRResponseCommentUiT.CS2104
                 </p>
               </div>
             </div>
@@ -27,8 +27,9 @@
               <div class="col-lg-8">
                 <p class="form-control-static">
                   First Session
-                  <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&editsessiondetails=true&user=CFResultsUiT.instr">
-                    [Edit]
+                  <a data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=IFRResponseCommentUiT.CS2104&fsname=First+Session&editsessiondetails=true&user=IFRResponseCommentUiT.instr" id="edit_icon_button">
+                    <span class="glyphicon glyphicon-edit">
+                    </span>
                   </a>
                 </p>
               </div>
@@ -67,16 +68,16 @@
                   <div id="feedbackDataButtons">
                     <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
                   </div>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                   <input name="fsname" type="hidden" value="First Session">
-                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=IFRResponseCommentUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=IFRResponseCommentUiT.instr&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -102,9 +103,9 @@
     </div>
   </div>
   <form id="csvToHtmlForm">
-    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+    <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
     <input name="fsname" type="hidden" value="First Session">
-    <input name="user" type="hidden" value="CFResultsUiT.instr">
+    <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
     <input name="frgroupbysection" type="hidden" value="All">
     <input name="csvtohtmltable" type="hidden" value="true">
   </form>
@@ -220,7 +221,7 @@
     </div>
     <div class="modal fade" id="editModal" role="dialog">
       <div class="modal-dialog">
-        <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" method="post">
+        <form action="/page/instructorFeedbackResultsPage?courseid=IFRResponseCommentUiT.CS2104&fsname=First+Session&user=IFRResponseCommentUiT.instr" method="post">
           <div class="modal-content">
             <div class="modal-header alert-info">
               <button class="close" data-dismiss="modal" type="button">
@@ -308,8 +309,8 @@
                 </div>
               </div>
               <input name="fsname" type="hidden" value="First Session">
-              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-              <input name="user" type="hidden" value="CFResultsUiT.instr">
+              <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
+              <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
             </div>
             <div class="modal-footer">
               <button class="btn btn-default" data-dismiss="modal" type="button">
@@ -356,10 +357,10 @@
         </div>
       </div>
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
-        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="recipient-giver-question">
         <input id="showStats-0" name="frshowstats" type="hidden" value="on">
@@ -409,7 +410,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Teammates Test (Instructors)
                             </strong>
@@ -421,11 +422,11 @@
                           To: -
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditInstructorFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditInstructorFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.instr@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.instr@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -464,11 +465,11 @@
                                         </span>
                                       </a>
                                       <input name="fsindex" type="hidden" value="0">
-                                      <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
+                                      <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.instr@gmail.tmt%%GENERAL%">
                                       <input name="responsecommentid" type="hidden" value="${comment.id}">
-                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                       <input name="fsname" type="hidden" value="First Session">
-                                      <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                      <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                       <input name="token" type="hidden" value="${sessionToken}">
                                     </form>
                                     <a class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form" data-frcindex="1" data-giverindex="1" data-original-title="Edit this comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" data-toggle="tooltip" id="commentedit-0-0-1-1-1" title="" type="button">
@@ -547,10 +548,10 @@
                                   </div>
                                   <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.instr@gmail.tmt%%GENERAL%">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -572,11 +573,11 @@
                                         </span>
                                       </a>
                                       <input name="fsindex" type="hidden" value="0">
-                                      <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
+                                      <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.instr@gmail.tmt%%GENERAL%">
                                       <input name="responsecommentid" type="hidden" value="${comment.id}">
-                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                       <input name="fsname" type="hidden" value="First Session">
-                                      <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                      <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                       <input name="token" type="hidden" value="${sessionToken}">
                                     </form>
                                     <a class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form" data-frcindex="2" data-giverindex="1" data-original-title="Edit this comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" data-toggle="tooltip" id="commentedit-0-0-1-1-2" title="" type="button">
@@ -655,10 +656,10 @@
                                   </div>
                                   <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.instr@gmail.tmt%%GENERAL%">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -727,10 +728,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.instr@gmail.tmt%%GENERAL%">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -772,10 +773,10 @@
         </div>
       </div>
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
-        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
         <input name="frgroupbysection" type="hidden" value="Section A">
-        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="recipient-giver-question">
         <input id="showStats-1" name="frshowstats" type="hidden" value="on">
@@ -806,13 +807,13 @@
               <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-2" id="panelHeading-1-2" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
-                      [CFResultsUiT.alice.b@gmail.tmt]
+                    <a class="link-in-dark-bg" href="mailto:IFRResponseCommentUiT.alice.b@gmail.tmt">
+                      [IFRResponseCommentUiT.alice.b@gmail.tmt]
                     </a>
                   </div>
                   <div class="pull-right">
@@ -829,7 +830,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -839,17 +840,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.alice.b@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -878,7 +879,7 @@
                                     <span class="text-muted">
                                       From: Teammates Test2 [Tue, 03 Apr 2012, 07:59 AM SGT] (last edited by Teammates Test at ${datetime.now} SGT)
                                     </span>
-                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, response recipient, response giver's team members, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                     </span>
                                   </div>
                                   <div class="col-xs-2">
@@ -888,11 +889,11 @@
                                         </span>
                                       </a>
                                       <input name="fsindex" type="hidden" value="0">
-                                      <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                                      <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
                                       <input name="responsecommentid" type="hidden" value="${comment.id}">
-                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                       <input name="fsname" type="hidden" value="First Session">
-                                      <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                      <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                       <input name="token" type="hidden" value="${sessionToken}">
                                     </form>
                                     <a class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form" data-frcindex="1" data-giverindex="1" data-original-title="Edit this comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="commentedit-1-0-1-1-1" title="" type="button">
@@ -949,7 +950,7 @@
                                             <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-0-1-1-1">
@@ -1010,12 +1011,12 @@
                                   </div>
                                   <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
-                                  <input name="showresponsecommentsto" type="hidden" value="GIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                                  <input name="showresponsegiverto" type="hidden" value="OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
+                                  <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                                  <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
                                 </form>
                               </li>
@@ -1121,10 +1122,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -1276,10 +1277,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -1438,10 +1439,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -1581,10 +1582,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -1724,10 +1725,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -1742,7 +1743,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Drop out (Team 2)
                             </strong>
@@ -1752,15 +1753,15 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                           </form>
@@ -1900,10 +1901,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -1918,7 +1919,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -1928,17 +1929,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.fred.g@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -2076,10 +2077,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.fred.g@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.fred.g@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -2096,13 +2097,13 @@
               <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-3" id="panelHeading-1-3" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
-                      [CFResultsUiT.benny.c@gmail.tmt]
+                    <a class="link-in-dark-bg" href="mailto:IFRResponseCommentUiT.benny.c@gmail.tmt">
+                      [IFRResponseCommentUiT.benny.c@gmail.tmt]
                     </a>
                   </div>
                   <div class="pull-right">
@@ -2119,7 +2120,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -2129,17 +2130,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.alice.b@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -2168,6 +2169,8 @@
                                     <span class="text-muted">
                                       From: Teammates Test [${datetime.now} SGT] (last edited by Teammates Test at ${datetime.now} SGT)
                                     </span>
+                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, instructors, response recipient, other students in this course, and response giver's team members" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                                    </span>
                                   </div>
                                   <div class="col-xs-2">
                                     <form class="responseCommentDeleteForm pull-right">
@@ -2176,11 +2179,11 @@
                                         </span>
                                       </a>
                                       <input name="fsindex" type="hidden" value="1">
-                                      <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
+                                      <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt">
                                       <input name="responsecommentid" type="hidden" value="${comment.id}">
-                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                       <input name="fsname" type="hidden" value="First Session">
-                                      <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                      <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                       <input name="token" type="hidden" value="${sessionToken}">
                                     </form>
                                     <a class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form" data-frcindex="1" data-giverindex="1" data-original-title="Edit this comment" data-placement="top" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" data-toggle="tooltip" id="commentedit-1-1-1-1-1" title="" type="button">
@@ -2246,10 +2249,10 @@
                                   </div>
                                   <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="1">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS,RECEIVER,STUDENTS,OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS,RECEIVER,STUDENTS,OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -2373,10 +2376,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="1">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -2391,7 +2394,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -2401,17 +2404,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.benny.c@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -2558,10 +2561,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="1">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.benny.c@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -2576,7 +2579,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Drop out (Team 2)
                             </strong>
@@ -2586,15 +2589,15 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                           </form>
@@ -2734,10 +2737,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="1">
-                                  <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -2754,13 +2757,13 @@
               <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-4" id="panelHeading-1-4" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a class="link-in-dark-bg" href="mailto:CFResultsUiT.fred.g@gmail.tmt">
-                      [CFResultsUiT.fred.g@gmail.tmt]
+                    <a class="link-in-dark-bg" href="mailto:IFRResponseCommentUiT.fred.g@gmail.tmt">
+                      [IFRResponseCommentUiT.fred.g@gmail.tmt]
                     </a>
                   </div>
                   <div class="pull-right">
@@ -2777,7 +2780,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -2787,17 +2790,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.alice.b@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -2935,10 +2938,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="2">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.fred.g@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.fred.g@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -2953,7 +2956,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Danny Engrid (Team 2)
                             </strong>
@@ -2963,17 +2966,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.danny.e@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -3111,10 +3114,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="2">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.danny.e@gmail.tmt%CFResultsUiT.fred.g@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.danny.e@gmail.tmt%IFRResponseCommentUiT.fred.g@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -3152,13 +3155,13 @@
               <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-6" id="panelHeading-1-6" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Charlie Dávis (Team 2)
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a class="link-in-dark-bg" href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
-                      [CFResultsUiT.charlie.d@gmail.tmt]
+                    <a class="link-in-dark-bg" href="mailto:IFRResponseCommentUiT.charlie.d@gmail.tmt">
+                      [IFRResponseCommentUiT.charlie.d@gmail.tmt]
                     </a>
                   </div>
                   <div class="pull-right">
@@ -3175,7 +3178,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -3185,17 +3188,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Charlie Dávis (Team 2)
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.benny.c@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -3333,10 +3336,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="3">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.benny.c@gmail.tmt%IFRResponseCommentUiT.charlie.d@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -3351,7 +3354,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -3361,17 +3364,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Charlie Dávis (Team 2)
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.fred.g@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -3509,10 +3512,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="3">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.fred.g@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.fred.g@gmail.tmt%IFRResponseCommentUiT.charlie.d@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -3529,13 +3532,13 @@
               <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-7" id="panelHeading-1-7" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Danny Engrid (Team 2)
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a class="link-in-dark-bg" href="mailto:CFResultsUiT.danny.e@gmail.tmt">
-                      [CFResultsUiT.danny.e@gmail.tmt]
+                    <a class="link-in-dark-bg" href="mailto:IFRResponseCommentUiT.danny.e@gmail.tmt">
+                      [IFRResponseCommentUiT.danny.e@gmail.tmt]
                     </a>
                   </div>
                   <div class="pull-right">
@@ -3552,7 +3555,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -3562,17 +3565,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Danny Engrid (Team 2)
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.benny.c@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -3710,10 +3713,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="4">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.benny.c@gmail.tmt%IFRResponseCommentUiT.danny.e@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -3728,7 +3731,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Drop out (Team 2)
                             </strong>
@@ -3738,15 +3741,15 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Danny Engrid (Team 2)
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                           </form>
@@ -3886,10 +3889,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="4">
-                                  <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%IFRResponseCommentUiT.danny.e@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -3906,7 +3909,7 @@
               <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-8" id="panelHeading-1-8" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Drop out (Team 2)
                     </strong>
@@ -3929,7 +3932,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
@@ -3939,17 +3942,17 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Drop out (Team 2)
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="moderatedperson" type="hidden" value="IFRResponseCommentUiT.alice.b@gmail.tmt">
                           </form>
                         </div>
                       </div>
@@ -4087,10 +4090,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="5">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%drop.out@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%drop.out@gmail.tmt">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -4105,7 +4108,7 @@
                       <div class="col-md-2">
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             <strong>
                               Drop out (Team 2)
                             </strong>
@@ -4115,15 +4118,15 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                           <br class="hidden-xs hidden-sm">
                           To:
-                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                             Drop out (Team 2)
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                           </form>
@@ -4274,9 +4277,9 @@
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="5">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%drop.out@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -4417,9 +4420,9 @@
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="5">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%drop.out@gmail.tmt">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -4464,9 +4467,9 @@
                           To: Team 2
                         </div>
                         <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
-                          <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                          <form action="/page/instructorEditStudentFeedbackPage?user=IFRResponseCommentUiT.instr" class="inline" method="post" target="_blank">
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
                           </form>
@@ -4580,10 +4583,10 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="6">
-                                  <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%Team 2">
-                                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                  <input name="responseid" type="hidden" value="${question.id}%IFRResponseCommentUiT.alice.b@gmail.tmt%Team 2">
+                                  <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
-                                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                  <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
@@ -4600,7 +4603,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-10" id="panelHeading-1-10" style="cursor: pointer;">
                   To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=IFRResponseCommentUiT.instr" data-original-title="" title="">
                     <strong>
                       Extra guy (Team 2)
                     </strong>
@@ -4653,10 +4656,10 @@
         </div>
       </div>
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
-        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
         <input name="frgroupbysection" type="hidden" value="Section B">
-        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="recipient-giver-question">
         <input id="showStats-2" name="frshowstats" type="hidden" value="on">
@@ -4672,7 +4675,7 @@
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DIFRResponseCommentUiT.instr%26courseid%3DIFRResponseCommentUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -4703,7 +4706,7 @@
               Cancel
             </button>
             <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
-            <input name="user" type="hidden" value="CFResultsUiT.instr">
+            <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
           </div>
         </form>
       </div>
@@ -4712,9 +4715,9 @@
   <div class="panel panel-default">
     <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
-        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
-        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">

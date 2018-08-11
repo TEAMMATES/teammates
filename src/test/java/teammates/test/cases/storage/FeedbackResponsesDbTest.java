@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -19,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -29,19 +31,34 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private DataBundle dataBundle = getTypicalDataBundle();
     private Map<String, FeedbackResponseAttributes> fras;
 
     @BeforeClass
     public void classSetup() throws Exception {
-        addResponsesToDb();
+        addQuestionsAndResponsesToDb();
         fras = dataBundle.feedbackResponses;
     }
 
-    private void addResponsesToDb() throws Exception {
-        Set<String> keys = dataBundle.feedbackResponses.keySet();
+    private void addQuestionsAndResponsesToDb() throws InvalidParametersException, EntityAlreadyExistsException {
+
+        // Add questions to DB
+        Set<String> keys = dataBundle.feedbackQuestions.keySet();
         for (String i : keys) {
-            frDb.createEntity(dataBundle.feedbackResponses.get(i));
+            fqDb.createEntity(dataBundle.feedbackQuestions.get(i));
+        }
+
+        // Add responses for corresponding question to DB
+        keys = dataBundle.feedbackResponses.keySet();
+        for (String i : keys) {
+            FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get(i);
+
+            // Update feedbackQuestionId for response
+            FeedbackQuestionAttributes fqa = backDoorLogic.getFeedbackQuestion(fra.feedbackSessionName,
+                    fra.courseId, Integer.valueOf(fra.feedbackQuestionId));
+            fra.feedbackQuestionId = fqa.getId();
+            frDb.createEntity(fra);
         }
     }
 
@@ -217,7 +234,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
-        assertEquals(7, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("null params");
 
@@ -242,7 +259,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1");
 
-        assertEquals(3, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("No responses as they are filtered out");
 

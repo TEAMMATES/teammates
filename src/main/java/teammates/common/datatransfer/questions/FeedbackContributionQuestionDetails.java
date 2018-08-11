@@ -176,7 +176,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
 
         //List of teams with at least one response
         List<String> teamNames = getTeamsWithAtLeastOneResponse(actualResponses, bundle);
@@ -235,7 +235,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -324,7 +324,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -440,7 +440,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
 
-        List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> responses = bundle.getActualResponsesSortedByGqr(question);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
 
@@ -463,7 +463,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
 
-        List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> responses = bundle.getActualResponsesSortedByGqr(question);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
 
@@ -580,22 +580,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
         }
         return teamNames;
-    }
-
-    private List<FeedbackResponseAttributes> getActualResponses(
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responses;
-        String questionId = question.getId();
-        //Get all actual responses for this question.
-        responses = new ArrayList<>();
-        for (FeedbackResponseAttributes response : bundle.actualResponses) {
-            if (response.feedbackQuestionId.equals(questionId)) {
-                responses.add(response);
-            }
-        }
-        responses.sort(bundle.compareByGiverRecipientQuestion);
-        return responses;
     }
 
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index) {
@@ -950,7 +934,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
-    public boolean isCommentsOnResponsesAllowed() {
+    public boolean isInstructorCommentsOnResponsesAllowed() {
+        return false;
+    }
+
+    @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
 }

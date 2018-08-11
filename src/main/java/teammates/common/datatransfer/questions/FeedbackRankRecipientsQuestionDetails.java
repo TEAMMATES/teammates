@@ -12,6 +12,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -238,6 +239,75 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
 
+    /**
+     * Constructs results statistics for each student.
+     * Statistics to student is only shown when visibility setting is permissive enough
+     * i.e., if the ranks for all team members are in the results bundle.
+     */
+    private String getStudentQuestionResultsStatisticsHtml(String studentEmail, FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        // at least should be able to be viewed by other students for team recipient
+        if (question.recipientType.isTeam()
+                    && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                    || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
+            return "";
+        }
+        // at least should be able to be viewed by own team members for non-team recipient
+        if (!question.recipientType.isTeam()
+                    && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                    || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
+            return "";
+        }
+
+        List<FeedbackResponseAttributes> allResponses = bundle.getActualUnsortedResponses(question);
+        Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(allResponses);
+
+        boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM;
+
+        String currentUserTeam = bundle.roster.getStudentForEmail(studentEmail).getTeam();
+        String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
+
+        List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
+        // If response recipient is instructor, responses for current student/team will not exist.
+        if (ranksReceived == null) {
+            return "";
+        }
+
+        Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
+
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(allResponses);
+
+        Map<String, Integer> recipientOverallRankExceptSelf =
+                generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
+
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(allResponses);
+
+        String ranksReceivedAsString = getListOfRanksReceivedAsString(ranksReceived);
+        String overallRank = Integer.toString(recipientOverallRank.get(currentUserIdentifier));
+        String name = bundle.getNameForEmail(currentUserIdentifier);
+
+        String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(currentUserIdentifier)
+                ? Integer.toString(recipientOverallRankExceptSelf.get(currentUserIdentifier)) : "-";
+        String selfRank = recipientSelfRanks.containsKey(currentUserIdentifier)
+                ? Integer.toString(recipientSelfRanks.get(currentUserIdentifier)) : "-";
+
+        String fragments = Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+                Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
+                Slots.TEAM, SanitizationHelper.sanitizeForHtml(currentUserTeam),
+                Slots.RANK_RECIEVED, ranksReceivedAsString,
+                Slots.RANK_SELF, selfRank,
+                Slots.RANK_OVERALL, overallRank,
+                Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf);
+
+        String statsTitle = isRecipientTypeTeam ? "Summary of responses received by your team"
+                : "Summary of responses received by you";
+        return Templates.populateTemplate(FormTemplates.RANK_RESULT_RECIPIENT_STATS,
+                Slots.SUMMARY_TITLE, statsTitle,
+                Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
+                Slots.FRAGMENTS, fragments);
+    }
+
     @Override
     public String getQuestionResultStatisticsHtml(
                         List<FeedbackResponseAttributes> responses,
@@ -246,10 +316,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         FeedbackSessionResultsBundle bundle,
                         String view) {
 
-        if ("student".equals(view) || responses.isEmpty()) {
+        if (responses.isEmpty()) {
             return "";
         }
+        if ("student".equals(view)) {
+            return getStudentQuestionResultsStatisticsHtml(studentEmail, question, bundle);
+        }
+        return getInstructorQuestionResultsStatisticsHtml(responses, bundle);
+    }
 
+    private String getInstructorQuestionResultsStatisticsHtml(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
         StringBuilder fragments = new StringBuilder();
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
@@ -288,6 +366,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         });
 
         return Templates.populateTemplate(templateToUse,
+                Slots.SUMMARY_TITLE, "Response Summary",
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                 Slots.FRAGMENTS, fragments.toString());
 
@@ -493,6 +572,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 .thenComparing(InstructorFeedbackResultsResponseRow::getDisplayableResponse)
                 .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientTeam)
                 .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
+    }
+
+    @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
     }
 
     @Override

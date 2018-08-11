@@ -1787,13 +1787,15 @@
       "courseId": "CFResultsUiT.SanitizedTeam",
       "feedbackSessionName": "Sanitized Session",
       "feedbackQuestionId": "1",
-      "giverEmail": "CFResultsUiT.instr@gmail.tmt",
+      "commentGiver": "CFResultsUiT.instr@gmail.tmt",
+      "commentGiverType": "INSTRUCTORS",
       "giverSection": "None",
       "receiverSection": "Section A</td></div>'\"",
       "feedbackResponseId": "1%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
@@ -1805,7 +1807,8 @@
       "courseId": "CFResultsUiT.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "2",
-      "giverEmail": "CFResultsUiT.instr2@gmail.tmt",
+      "commentGiver": "CFResultsUiT.instr2@gmail.tmt",
+      "commentGiverType": "INSTRUCTORS",
       "giverSection": "Section A",
       "receiverSection": "Section A",
       "feedbackResponseId": "2%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt",
@@ -1824,12 +1827,31 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-02T23:59:00Z",
       "commentText": {
         "value": "Comment to be edited by different instructor."
       },
       "lastEditorEmail": "CFResultsUiT.instr2@gmail.tmt",
       "lastEditedAt": "2012-04-02T23:59:00Z"
+    },
+    "comment1OnResponse6": {
+      "courseId": "CFResultsUiT.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "7",
+      "commentGiver": "CFResultsUiT.alice.b@gmail.tmt",
+      "commentGiverType": "STUDENTS",
+      "giverSection": "Section A",
+      "receiverSection": "Section A",
+      "feedbackResponseId": "7%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2012-04-02T23:59:00Z",
+      "commentText": {
+        "value": "Comment by Alice."
+      }
     }
   },
   "profiles": {}
