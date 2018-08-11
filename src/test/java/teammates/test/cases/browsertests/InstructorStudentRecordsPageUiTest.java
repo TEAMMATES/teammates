@@ -159,7 +159,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("Typical Case: Delete comment");
 
         viewPage.deleteFeedbackResponseComment("-RGQ-1-1-1-3");
-        viewPage.verifyRowMissing("-RGQ-1-1-1-3");
+        viewPage.verifyCommentRowMissing("-RGQ-1-1-1-3");
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {

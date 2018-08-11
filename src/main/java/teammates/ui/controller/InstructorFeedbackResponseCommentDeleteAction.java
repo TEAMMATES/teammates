@@ -5,7 +5,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * Action: Delete {@link FeedbackResponseCommentAttributes}.
@@ -40,8 +40,8 @@ public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFee
                 + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
 
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
+        FeedbackResponseCommentAjaxPageData data =
+                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         return createAjaxResult(data);
     }

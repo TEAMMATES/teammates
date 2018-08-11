@@ -452,6 +452,9 @@ public final class Const {
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
         public static final String COMMENT_DELETE = "Delete this comment";
+        public static final String COMMENT_ADD_FOR_FEEDBACK_PARTICIPANT =
+                "Add comment to explain your feedback response. It is optional.";
+        public static final String COMMENT_DISCARD_CHANGES = "Discard changes to comment";
 
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
 
@@ -589,7 +592,7 @@ public final class Const {
         public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION =
                 "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a "
+                "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
     }
@@ -726,6 +729,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_NUMBER_STATIC = "questionnum-static";
+        public static final String FEEDBACK_QUESTION_TEMPLATE_NUMBER = "templatequestionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
         public static final String FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH = "recommendedlength";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
@@ -813,6 +817,7 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ADD_TEXT = "responsecommentaddtext";
 
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
@@ -951,6 +956,7 @@ public final class Const {
 
         public static final String LOGOUT = "/logout";
 
+        public static final String INSTRUCTOR_HELP_PAGE = "/instructorHelp";
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
@@ -1021,6 +1027,7 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE =
                 "/page/instructorFeedbackQuestionvisibilityMessage";
+        public static final String INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD = "/page/instructorFeedbackTemplateQuestionAdd";
 
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
@@ -1032,6 +1039,9 @@ public final class Const {
 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
+
+        public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
+                "/page/feedbackParticipantFeedbackResponseCommentDelete";
 
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
@@ -1440,6 +1450,8 @@ public final class Const {
                 "You have not created any sessions yet. Use the form above to create a session.";
 
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
+        public static final String FEEDBACK_QUESTION_ADDED_MULTIPLE =
+                "The questions have been added to this feedback session.";
         public static final String FEEDBACK_QUESTION_DUPLICATED = "The question has been duplicated below.";
         public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question have been updated.";
         public static final String FEEDBACK_QUESTION_DELETED = "The question has been deleted.";

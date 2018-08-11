@@ -35,9 +35,13 @@
                       <%-- Note: When an element has class text-preserve-space, do not insert any HTML spaces --%>
                       <div class="pull-left text-preserve-space">${response.responseText}</div>
                     </div>
-                    <c:if test="${not empty response.responseComments}">
+                    <c:if test="${not empty response.feedbackParticipantComment}">
+                      <br>
+                      <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantComment}"/>
+                    </c:if>
+                    <c:if test="${not empty response.instructorComments}">
                       <ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
-                        <c:forEach items="${response.responseComments}" var="responseComment" varStatus="status">
+                        <c:forEach items="${response.instructorComments}" var="responseComment" varStatus="status">
                           <c:if test="${forOrBy == 'by'}">
                             <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${personIndex.index + 1}"
                                 secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="GRQ"/>

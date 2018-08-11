@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -35,6 +36,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
@@ -47,6 +49,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -506,6 +509,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C1", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
+
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse1");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
@@ -517,6 +528,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 2
+        frcList = actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(0, frcList.size());
 
         // Question for students to instructors
         expectedQuestion = getQuestionFromDatastore("qn5InSession1InCourse1");
@@ -608,6 +623,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C2", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
 
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse2");
@@ -1125,13 +1148,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Summary Statistics,",
                 "Choice, Response Count, Percentage (%)",
-                "\"It's good\",1,50",
-                "\"It's perfect\",1,50",
+                "\"It's good\",1,33.33",
+                "\"It's perfect\",2,66.67",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\",\"Student 2 comment\",Instructor1 Course1,\"Instructor 1 comment to student 2\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"It's perfect\",\"Student 3 comment\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
                 "",
@@ -1143,9 +1166,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"It's good\",1,50",
                 "\"It's perfect\",1,50",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"",
-                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\",",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\",",
                 "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
                 "",
                 "",
@@ -1157,8 +1180,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"Teaching style\",0,0",
                 "\"Other\",1,100",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\",",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
@@ -1177,8 +1200,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Team, Recipient Name,\"It's good [1.25]\",\"It's perfect [1.7]\",\"Other [3]\",Total, Average",
                 "Team 1.1</td></div>'\", student1 In Course1</td></div>'\", 1, 0, 0, 1.25, 1.25",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\",",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
@@ -1576,19 +1599,20 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"Please choose the best choice for the following sub-questions.\"",
                 "",
                 "Summary Statistics,",
-                ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
-                "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
-                "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
+                ",\"Yes\",\"No\",Average",
+                "\"a) This student has done a good job.\",67% (2) [1.25],33% (1) [-1.7],0.27",
+                "\"b) This student has tried his/her best.\",75% (3) [1.25],25% (1) [-1.7],0.51",
                 "",
-                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Total,Average",
-                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,1,-1.70,-1.70",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,1,-1.70,-1.70",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,0,0.00,0.00",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
+                "Per Recipient Statistics",
+                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes\",\"No\",Total,Average",
+                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],1 [-1.7],-1.70,-1.70",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",0 [1.25],1 [-1.7],-1.70,-1.70",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",0 [1.25],0 [-1.7],0.00,0.00",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1 [1.25],0 [-1.7],1.25,1.25",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
@@ -1617,17 +1641,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 2,\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\"",
                 "",
                 "Summary Statistics,",
-                ",\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Average",
-                "\"a) This student has done a good job.\",67% (2),33% (1),1.17",
-                "\"b) This student has tried his/her best.\",- (0),- (0),-",
+                ",\"Yes\",\"No\",Average",
+                "\"a) This student has done a good job.\",67% (2) [1.25],33% (1) [1],1.17",
+                "\"b) This student has tried his/her best.\",- (0) [1.25],- (0) [1],-",
                 "",
-                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Total,Average",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,1,1.00,1.00",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
+                "Per Recipient Statistics",
+                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes\",\"No\",Total,Average",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [1],1.25,1.25",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],0 [1],0.00,0.00",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",0 [1.25],1 [1],1.00,1.00",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],0 [1],0.00,0.00",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [1],1.25,1.25",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],0 [1],0.00,0.00",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
@@ -1946,6 +1971,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         return frLogic.getFeedbackResponse(questionId,
                 response.giver, response.recipient);
+    }
+
+    private FeedbackResponseCommentAttributes getCommentFromDatastore(String jsonId, DataBundle bundle) {
+        FeedbackResponseCommentAttributes comment = bundle.feedbackResponseComments.get(jsonId);
+        return frcLogic.getFeedbackResponseComment(comment.feedbackResponseId, comment.commentGiver, comment.createdAt);
     }
 
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {

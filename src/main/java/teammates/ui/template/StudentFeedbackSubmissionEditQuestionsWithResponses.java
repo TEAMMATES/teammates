@@ -7,14 +7,16 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private List<FeedbackSubmissionEditResponse> responses;
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
+    private boolean isFeedbackParticipantCommentsOnResponsesAllowed;
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
-                                    List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
-                                    int maxResponsesPossible) {
+            List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes, int maxResponsesPossible,
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         this.question = question;
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;
         this.maxResponsesPossible = maxResponsesPossible;
+        this.isFeedbackParticipantCommentsOnResponsesAllowed = isFeedbackParticipantCommentsOnResponsesAllowed;
     }
 
     public FeedbackSubmissionEditQuestion getQuestion() {
@@ -31,5 +33,9 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
 
     public int getMaxResponsesPossible() {
         return maxResponsesPossible;
+    }
+
+    public boolean getFeedbackParticipantCommentsOnResponsesAllowed() {
+        return isFeedbackParticipantCommentsOnResponsesAllowed;
     }
 }
