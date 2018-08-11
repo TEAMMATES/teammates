@@ -86,7 +86,7 @@ public final class BackDoor {
      * would not just incur higher datastore costs but we can make tests unexpectedly pass(fail) when the data is expected to
      * be not present(present) in another test.
      *
-     * <p> TODO: Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests.
+     * <p>TODO: Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests.
      * However, removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
