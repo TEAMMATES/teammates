@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -256,9 +257,13 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
             List<InstructorAttributes> instructorList) {
 
+        List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .collect(Collectors.toList());
+
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
+        for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId));
         }
 
@@ -267,6 +272,9 @@ public final class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionListForInstructor(
             InstructorAttributes instructor) {
+        if (coursesLogic.getCourse(instructor.courseId).isCourseDeleted()) {
+            return null;
+        }
         return getFeedbackSessionsListForCourse(instructor.courseId);
     }
 
@@ -294,42 +302,19 @@ public final class FeedbackSessionsLogic {
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
                         courseId, userEmail);
 
-        InstructorAttributes instructorGiver = instructor;
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses = new HashMap<>();
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
 
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
-                    question, instructorGiver, null);
+                    question, instructor, null);
+            updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
         }
 
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
-            String feedbackSessionName, String courseId, String feedbackQuestionId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
-
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
-        }
-
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
-        Map<String, Map<String, String>> recipientList = new HashMap<>();
-
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
-
-        InstructorAttributes instructorGiver = instructor;
-
-        updateBundleAndRecipientListWithResponsesForInstructor(courseId,
-                userEmail, fsa, instructor, bundle, recipientList,
-                question, instructorGiver, null);
-
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
     }
 
     private void updateBundleAndRecipientListWithResponsesForInstructor(
@@ -396,6 +381,10 @@ public final class FeedbackSessionsLogic {
                 courseId);
 
         Set<String> hiddenInstructorEmails = null;
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
+                new HashMap<>();
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
 
         for (FeedbackQuestionAttributes question : questions) {
             if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
@@ -408,9 +397,20 @@ public final class FeedbackSessionsLogic {
 
             updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                     bundle, recipientList, question, hiddenInstructorEmails);
+            updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
+
         }
 
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
+    }
+
+    private void updateBundleWithCommentsForResponses(List<FeedbackResponseAttributes> responses,
+                                                 Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses) {
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseCommentAttributes> comments =
+                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+            commentsForResponses.put(response.getId(), comments);
+        }
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
@@ -440,10 +440,16 @@ public final class FeedbackSessionsLogic {
             hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
         }
 
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
+                new HashMap<>();
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
+
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                 bundle, recipientList, question, hiddenInstructorEmails);
+        updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
 
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
     }
 
     private void updateBundleAndRecipientListWithResponsesForStudent(
@@ -865,8 +871,8 @@ public final class FeedbackSessionsLogic {
         List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
 
-        int maxNumOfResponseComments = getMaxNumberOfResponseComments(allResponses, fsrBundle.getResponseComments());
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfResponseComments));
+        int maxNumOfInstructorComments = getMaxNumberOfInstructorComments(allResponses, fsrBundle.getResponseComments());
+        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfInstructorComments));
 
         for (FeedbackResponseAttributes response : allResponses) {
 
@@ -896,11 +902,7 @@ public final class FeedbackSessionsLogic {
                                                 response.recipient, fsrBundle);
             prevGiver = response.giver;
 
-            // do not show all possible givers and recipients if there are anonymous givers and recipients
-            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
-
-            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
-                    hasCommentsForResponses));
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
         }
 
         // add the rows for the possible givers and recipients who have missing responses
@@ -915,7 +917,7 @@ public final class FeedbackSessionsLogic {
         return exportBuilder;
     }
 
-    private int getMaxNumberOfResponseComments(List<FeedbackResponseAttributes> allResponses,
+    private int getMaxNumberOfInstructorComments(List<FeedbackResponseAttributes> allResponses,
             Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
 
         if (allResponses == null || allResponses.isEmpty()) {
@@ -925,8 +927,13 @@ public final class FeedbackSessionsLogic {
         int maxCommentsNum = 0;
         for (FeedbackResponseAttributes response : allResponses) {
             List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
-            if (commentAttributes != null && maxCommentsNum < commentAttributes.size()) {
-                maxCommentsNum = commentAttributes.size();
+            if (commentAttributes != null) {
+                commentAttributes = commentAttributes.stream()
+                                            .filter(comment -> !comment.isCommentFromFeedbackParticipant)
+                                            .collect(Collectors.toList());
+                if (maxCommentsNum < commentAttributes.size()) {
+                    maxCommentsNum = commentAttributes.size();
+                }
             }
         }
 
@@ -1587,7 +1594,7 @@ public final class FeedbackSessionsLogic {
                     role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+                    frc.commentGiver = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
 
                 if (responseComments.get(frc.feedbackResponseId) == null) {
@@ -1710,7 +1717,7 @@ public final class FeedbackSessionsLogic {
                     userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+                    frc.commentGiver = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
                 List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
                 if (frcList == null) {

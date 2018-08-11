@@ -32,7 +32,7 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         assertEquals(inputStudent.section, studentInfoTable.getSection());
         assertEquals(inputStudent.team, studentInfoTable.getTeam());
         assertEquals(inputStudent.comments, studentInfoTable.getComments());
-        assertEquals(inputStudent.course, studentInfoTable.getCourse());
+        assertEquals(inputStudent.course, studentInfoTable.getCourseId());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 

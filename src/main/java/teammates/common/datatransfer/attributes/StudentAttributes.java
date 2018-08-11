@@ -125,6 +125,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return email;
     }
 
+    public String getCourse() {
+        return course;
+    }
+
     public String getKey() {
         return key;
     }

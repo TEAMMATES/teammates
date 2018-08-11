@@ -879,7 +879,7 @@
                                     <span class="text-muted">
                                       From: Teammates Test2 [Tue, 03 Apr 2012, 07:59 AM SGT] (last edited by Teammates Test at ${datetime.now} SGT)
                                     </span>
-                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, response recipient, response giver's team members, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                     </span>
                                   </div>
                                   <div class="col-xs-2">
@@ -950,7 +950,7 @@
                                             <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-0-1-1-1">
@@ -1015,8 +1015,8 @@
                                   <input name="courseid" type="hidden" value="IFRResponseCommentUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
                                   <input name="user" type="hidden" value="IFRResponseCommentUiT.instr">
-                                  <input name="showresponsecommentsto" type="hidden" value="GIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                                  <input name="showresponsegiverto" type="hidden" value="OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                                  <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                                  <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
                                 </form>
                               </li>
@@ -2169,7 +2169,7 @@
                                     <span class="text-muted">
                                       From: Teammates Test [${datetime.now} SGT] (last edited by Teammates Test at ${datetime.now} SGT)
                                     </span>
-                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, instructors, response recipient, other students in this course, an" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, instructors, response recipient, other students in this course, and response giver's team members" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                     </span>
                                   </div>
                                   <div class="col-xs-2">

@@ -48,7 +48,8 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course idOfTypicalCourse1 has been deleted.", redirectResult.getStatusMessage());
+        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the 'Courses' tab.",
+                redirectResult.getStatusMessage());
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
@@ -56,7 +57,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||"
                                     + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                                    + "instr1@course1.tmt|||Course deleted: idOfTypicalCourse1|||"
+                                    + "instr1@course1.tmt|||Course moved to recycle bin: idOfTypicalCourse1|||"
                                     + "/page/instructorCourseDelete";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
 
@@ -75,14 +76,15 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course icdct.tpa.id1 has been deleted.", redirectResult.getStatusMessage());
+        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the deleted courses table below.",
+                redirectResult.getStatusMessage());
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(0, courseList.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + "Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
+                             + "Course moved to recycle bin: icdct.tpa.id1|||/page/instructorCourseDelete";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, deleteAction.getLogMessage(), adminUserId);
 
         ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
@@ -97,14 +99,15 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course icdct.tpa.id2 has been deleted.", redirectResult.getStatusMessage());
+        assertEquals("The course icdct.tpa.id2 has been deleted. You can restore it from the deleted courses table below.",
+                redirectResult.getStatusMessage());
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(0, courseList.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + "Course deleted: icdct.tpa.id2|||/page/instructorCourseDelete";
+                             + "Course moved to recycle bin: icdct.tpa.id2|||/page/instructorCourseDelete";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, deleteAction.getLogMessage(), adminUserId);
 
     }
@@ -134,6 +137,8 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
 
         /* Test access for admin in masquerade mode */
         CoursesLogic.inst().createCourseAndInstructor(

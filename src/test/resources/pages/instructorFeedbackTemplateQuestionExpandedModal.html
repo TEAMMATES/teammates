@@ -1,0 +1,686 @@
+<div aria-hidden="false" aria-labelledby="addTemplateQuestionModalTitle" class="modal fade in" id="addTemplateQuestionModal" role="dialog" style="display: block;" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">
+            ×
+          </span>
+          <span class="sr-only">
+            Close
+          </span>
+        </button>
+        <h4 class="modal-title" id="addTemplateQuestionModalTitle">
+          Add Template Questions
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form action="/page/instructorFeedbackTemplateQuestionAdd" class="form" id="addTemplateQuestionModalForm" method="post" role="form">
+          <div class="panel panel-default" id="addTemplateQuestion-1">
+            <div class="panel-heading cursor-pointer">
+              <div class="panel-title">
+                <label>
+                  <input name="templatequestionnum" type="checkbox" value="1">
+                </label>
+                Use
+                <b>
+                  peer estimates
+                </b>
+                to determine the
+                <b>
+                  work distribution percentage
+                </b>
+                among team members in
+                <b>
+                  a team activity
+                </b>
+              </div>
+            </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <span>
+                          <strong>
+                            Question
+                          </strong>
+                          <select class="nonDestructive text-primary" disabled="">
+                            <option>
+                              1
+                            </option>
+                          </select>
+                            Team contribution question
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                      <div class="form-group" style="padding: 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="control-label">
+                            Question
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                            <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                              Your estimate of how much each team member has contributed.
+                            </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" style="padding: 0 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="align-left">
+                            [Optional]
+                            <br>
+                            Description
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                            <p>
+                              <br data-mce-bogus="1">
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <br>
+                          <div class="col-sm-6 row">
+                            <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText-1" title="">
+                              <input checked="" id="isNotSureAllowedCheck-1" name="isNotSureAllowedCheck" type="checkbox">
+                              <span style="margin-left: 5px; font-weight: bold;">
+                                Allow response giver to select 'Not Sure' as the answer
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="feedback-path-title">
+                          Feedback Path
+                        </b>
+                        (Who is giving feedback about whom?)
+                      </div>
+                      <div class="feedback-path-dropdown col-sm-12 btn-group">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Students in this course will give feedback on
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                          Giver's team members and Giver
+                        </button>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="visibility-title">
+                          Visibility
+                        </b>
+                        (Who can see the responses?)
+                      </div>
+                      <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Shown anonymously to recipient and team members, visible to instructors
+                        </button>
+                      </div>
+                      <div class="col-sm-12 visibility-message overflow-hidden">
+                        This is the visibility hint as seen by the feedback giver:
+                        <ul class="text-muted background-color-warning">
+                          <li>
+                            The receiving student can see your response, but not your name.
+                          </li>
+                          <li>
+                            Your team members can see your response, but not the name of the recipient, or your name.
+                          </li>
+                          <li>
+                            The recipient's team members can see your response, but not the name of the recipient, or your name.
+                          </li>
+                          <li>
+                            Instructors in this course can see your response, the name of the recipient, and your name.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default" id="addTemplateQuestion-2">
+            <div class="panel-heading cursor-pointer">
+              <div class="panel-title">
+                <label>
+                  <input name="templatequestionnum" type="checkbox" value="2">
+                </label>
+                Ask each student to describe something related to themselves i.e.,
+                <b>
+                  self-reflection
+                </b>
+              </div>
+            </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <span>
+                          <strong>
+                            Question
+                          </strong>
+                          <select class="nonDestructive text-primary" disabled="">
+                            <option>
+                              2
+                            </option>
+                          </select>
+                            Essay question
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                      <div class="form-group" style="padding: 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="control-label">
+                            Question
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                            <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                              Comments about your contribution (shown to other teammates)
+                            </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" style="padding: 0 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="align-left">
+                            [Optional]
+                            <br>
+                            Description
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                            <p>
+                              <br data-mce-bogus="1">
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div>
+                          <br>
+                          <div class="row">
+                            <div class="col-xs-12 question-recommended-length">
+                              [Optional]
+                              <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                Recommended length
+                              </span>
+                              for the response:
+                              <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                              words
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="feedback-path-title">
+                          Feedback Path
+                        </b>
+                        (Who is giving feedback about whom?)
+                      </div>
+                      <div class="feedback-path-dropdown col-sm-12 btn-group">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Students in this course will give feedback on
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                          Giver (Self feedback)
+                        </button>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="visibility-title">
+                          Visibility
+                        </b>
+                        (Who can see the responses?)
+                      </div>
+                      <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Custom visibility option:
+                        </button>
+                      </div>
+                      <div class="col-sm-12 visibility-message overflow-hidden">
+                        This is the visibility hint as seen by the feedback giver:
+                        <ul class="text-muted background-color-warning">
+                          <li>
+                            You can see your own feedback in the results page later on.
+                          </li>
+                          <li>
+                            Your team members can see your response, the name of the recipient, and your name.
+                          </li>
+                          <li>
+                            The recipient's team members can see your response, the name of the recipient, and your name.
+                          </li>
+                          <li>
+                            Instructors in this course can see your response, the name of the recipient, and your name.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default" id="addTemplateQuestion-3">
+            <div class="panel-heading cursor-pointer">
+              <div class="panel-title">
+                <label>
+                  <input name="templatequestionnum" type="checkbox" value="3">
+                </label>
+                Ask each student to give
+                <b>
+                  confidential peer feedback (qualitative)
+                </b>
+                to other
+                <b>
+                  team members
+                </b>
+              </div>
+            </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <span>
+                          <strong>
+                            Question
+                          </strong>
+                          <select class="nonDestructive text-primary" disabled="">
+                            <option>
+                              3
+                            </option>
+                          </select>
+                            Essay question
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                      <div class="form-group" style="padding: 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="control-label">
+                            Question
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                            <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                              Your comments about this teammate (confidential and only shown to instructor)
+                            </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" style="padding: 0 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="align-left">
+                            [Optional]
+                            <br>
+                            Description
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                            <p>
+                              <br data-mce-bogus="1">
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div>
+                          <br>
+                          <div class="row">
+                            <div class="col-xs-12 question-recommended-length">
+                              [Optional]
+                              <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                Recommended length
+                              </span>
+                              for the response:
+                              <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                              words
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="feedback-path-title">
+                          Feedback Path
+                        </b>
+                        (Who is giving feedback about whom?)
+                      </div>
+                      <div class="feedback-path-dropdown col-sm-12 btn-group">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Students in this course will give feedback on
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                          Giver's team members
+                        </button>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="visibility-title">
+                          Visibility
+                        </b>
+                        (Who can see the responses?)
+                      </div>
+                      <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Visible to instructors only
+                        </button>
+                      </div>
+                      <div class="col-sm-12 visibility-message overflow-hidden">
+                        This is the visibility hint as seen by the feedback giver:
+                        <ul class="text-muted background-color-warning">
+                          <li>
+                            Instructors in this course can see your response, the name of the recipient, and your name.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default" id="addTemplateQuestion-4">
+            <div class="panel-heading cursor-pointer">
+              <div class="panel-title">
+                <label>
+                  <input name="templatequestionnum" type="checkbox" value="4">
+                </label>
+                Ask each student to give
+                <b>
+                  confidential feedback (qualitative)
+                </b>
+                about the team behaviour
+              </div>
+            </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <span>
+                          <strong>
+                            Question
+                          </strong>
+                          <select class="nonDestructive text-primary" disabled="">
+                            <option>
+                              4
+                            </option>
+                          </select>
+                            Essay question
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                      <div class="form-group" style="padding: 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="control-label">
+                            Question
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                            <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                              Comments about team dynamics (confidential and only shown to instructor)
+                            </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" style="padding: 0 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="align-left">
+                            [Optional]
+                            <br>
+                            Description
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                            <p>
+                              <br data-mce-bogus="1">
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div>
+                          <br>
+                          <div class="row">
+                            <div class="col-xs-12 question-recommended-length">
+                              [Optional]
+                              <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                Recommended length
+                              </span>
+                              for the response:
+                              <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                              words
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="feedback-path-title">
+                          Feedback Path
+                        </b>
+                        (Who is giving feedback about whom?)
+                      </div>
+                      <div class="feedback-path-dropdown col-sm-12 btn-group">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Students in this course will give feedback on
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                          Giver's team
+                        </button>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="visibility-title">
+                          Visibility
+                        </b>
+                        (Who can see the responses?)
+                      </div>
+                      <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Visible to instructors only
+                        </button>
+                      </div>
+                      <div class="col-sm-12 visibility-message overflow-hidden">
+                        This is the visibility hint as seen by the feedback giver:
+                        <ul class="text-muted background-color-warning">
+                          <li>
+                            Instructors in this course can see your response, the name of the recipient, and your name.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default" id="addTemplateQuestion-5">
+            <div class="panel-heading cursor-pointer">
+              <div class="panel-title">
+                <label>
+                  <input name="templatequestionnum" type="checkbox" value="5">
+                </label>
+                Ask each student to give
+                <b>
+                  comments about other team members, in confidence
+                </b>
+              </div>
+            </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <span>
+                          <strong>
+                            Question
+                          </strong>
+                          <select class="nonDestructive text-primary" disabled="">
+                            <option>
+                              5
+                            </option>
+                          </select>
+                            Essay question
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                      <div class="form-group" style="padding: 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="control-label">
+                            Question
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                            <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                              Your feedback to this teammate (shown anonymously to the teammate)
+                            </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" style="padding: 0 15px;">
+                        <h5 class="col-sm-2">
+                          <label class="align-left">
+                            [Optional]
+                            <br>
+                            Description
+                          </label>
+                        </h5>
+                        <div class="col-sm-10">
+                          <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                            <p>
+                              <br data-mce-bogus="1">
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div>
+                          <br>
+                          <div class="row">
+                            <div class="col-xs-12 question-recommended-length">
+                              [Optional]
+                              <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                Recommended length
+                              </span>
+                              for the response:
+                              <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                              words
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="feedback-path-title">
+                          Feedback Path
+                        </b>
+                        (Who is giving feedback about whom?)
+                      </div>
+                      <div class="feedback-path-dropdown col-sm-12 btn-group">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Students in this course will give feedback on
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                          Giver's team members
+                        </button>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                      <div class="col-sm-12 padding-0 margin-bottom-7px">
+                        <b class="visibility-title">
+                          Visibility
+                        </b>
+                        (Who can see the responses?)
+                      </div>
+                      <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                          Shown anonymously to recipient, visible to instructors
+                        </button>
+                      </div>
+                      <div class="col-sm-12 visibility-message overflow-hidden">
+                        This is the visibility hint as seen by the feedback giver:
+                        <ul class="text-muted background-color-warning">
+                          <li>
+                            The receiving student can see your response, but not your name.
+                          </li>
+                          <li>
+                            Instructors in this course can see your response, the name of the recipient, and your name.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input name="fsname" type="hidden" value="First Session">
+          <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
+          <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+          <input name="token" type="hidden" value="${sessionToken}">
+        </form>
+      </div>
+      <div class="modal-footer margin-0">
+        <button class="btn btn-primary" disabled="" id="button_add_template_submit" type="button">
+          Add
+        </button>
+        <button class="btn btn-default" data-dismiss="modal" type="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
