@@ -10,6 +10,7 @@ import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 
 public class FeedbackSessionQuestionsBundle {
@@ -17,13 +18,18 @@ public class FeedbackSessionQuestionsBundle {
     public FeedbackSessionAttributes feedbackSession;
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
     public Map<String, Map<String, String>> recipientList;
+    public Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses;
+    public CourseRoster roster;
 
-    public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
-            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
-            Map<String, Map<String, String>> recipientList) {
+    public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession, Map<FeedbackQuestionAttributes,
+            List<FeedbackResponseAttributes>> questionResponseBundle, Map<String, Map<String, String>> recipientList,
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, CourseRoster roster) {
+
         this.feedbackSession = feedbackSession;
         this.questionResponseBundle = questionResponseBundle;
         this.recipientList = recipientList;
+        this.commentsForResponses = commentsForResponses;
+        this.roster = roster;
     }
 
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
@@ -113,7 +119,7 @@ public class FeedbackSessionQuestionsBundle {
 
             if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);
-                questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+                questionResponseBundle.put(question, new ArrayList<>());
             }
         }
 
@@ -126,7 +132,11 @@ public class FeedbackSessionQuestionsBundle {
      */
     public void resetAllResponses() {
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
-            questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+            questionResponseBundle.put(question, new ArrayList<>());
         }
+    }
+
+    public CourseRoster getRoster() {
+        return roster;
     }
 }

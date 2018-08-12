@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -9,6 +10,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -72,7 +74,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
+        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
     }
 
     @Override
@@ -123,4 +125,26 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         }
     }
 
+    /*
+     * Verifies that search results match with expected output.
+     * Compares the text for each comment as it is unique.
+     *
+     * @param actual the results from the search query.
+     * @param expected the expected results for the search query.
+     */
+    protected static void verifySearchResults(FeedbackResponseCommentSearchResultBundle actual,
+            FeedbackResponseCommentAttributes... expected) {
+        assertEquals(expected.length, actual.numberOfResults);
+        assertEquals(expected.length, actual.comments.size());
+        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
+        FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
+                                                                     .toArray(new FeedbackResponseCommentAttributes[2]);
+        int i = 0;
+        for (String key : actual.comments.keySet()) {
+            for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
+                assertEquals(sortedComments[i].commentText, comment.commentText);
+                i++;
+            }
+        }
+    }
 }
