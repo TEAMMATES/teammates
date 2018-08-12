@@ -1216,19 +1216,17 @@ function updateRankMessages() {
 }
 
 function prepareRankQuestions() {
+    // Display no instructions and messages when session is closed and not under preview mode
+    if ($('#response_submit_button').is(':disabled')
+        && !isPreview()) {
+        return;
+    }
+
     const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
     for (let i = 0; i < rankQuestionNums.length; i += 1) {
         const qnNum = rankQuestionNums[i];
-
         const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
-
-        // Check if feedback session is open or under preview mode
-        if ($('#response_submit_button').is(':disabled')
-            && !isPreview()) {
-            $(`[id^="rankInputAlert-${qnNum}-"]`).hide();
-            return;
-        }
         const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
 
         // Display instructions and messages only if any constraints are set
