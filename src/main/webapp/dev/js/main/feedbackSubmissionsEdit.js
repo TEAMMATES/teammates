@@ -153,6 +153,47 @@ function focusModeratedQuestion() {
     }
 }
 
+function hideFeedbackParticipantCommentOption(indexSuffix) {
+    if ($(`#responseCommentRow${indexSuffix}`).length) {
+        $(`#responseCommentTable${indexSuffix}`).closest('div').hide();
+    } else if ($(`#showResponseCommentAddForm${indexSuffix}`).is(':visible')) {
+        $(`#responseCommentTable${indexSuffix}`).closest('div').hide();
+    } else {
+        $(`#button_add_comment${indexSuffix}`).closest('div').hide();
+    }
+}
+
+function showFeedbackParticipantCommentOption(indexSuffix) {
+    if ($(`#responseCommentRow${indexSuffix}`).length) {
+        $(`#responseCommentTable${indexSuffix}`).closest('div').show();
+    } else if ($(`#showResponseCommentAddForm${indexSuffix}`).is(':visible')) {
+        // do nothing
+    } else {
+        $(`#button_add_comment${indexSuffix}`).closest('div').show();
+    }
+}
+
+function checkResponsesForFeedbackParticipantComment(indexSuffix) {
+    const radioButton = $(`input[name='responsetext${indexSuffix}']:checked`);
+
+    if (!radioButton.length) {
+        hideFeedbackParticipantCommentOption(indexSuffix);
+    } else if (radioButton.data('text') === 'otherOptionText'
+        && $(`#otherOptionText${indexSuffix}`).val().length === 0) {
+        hideFeedbackParticipantCommentOption(indexSuffix);
+
+        $(`#otherOptionText${indexSuffix}`).keyup(function () {
+            if ($(`#otherOptionText${indexSuffix}`).val().length === 0) {
+                hideFeedbackParticipantCommentOption(indexSuffix);
+            } else {
+                showFeedbackParticipantCommentOption(indexSuffix);
+            }
+        });
+    } else {
+        showFeedbackParticipantCommentOption(indexSuffix);
+    }
+}
+
 function prepareMCQQuestions() {
     const mcqQuestionNums = getQuestionTypeNumbers('MCQ');
 
@@ -172,6 +213,8 @@ function prepareMCQQuestions() {
             $.each(radioButtons[id], (index, radio) => {
                 radioStates[id][radio.value] = $(radio).is(':checked');
             });
+
+            checkResponsesForFeedbackParticipantComment(`-${qnNum}-${j}`);
 
             radioButtons[id].click(function (event) {
                 const $self = $(this);
@@ -202,6 +245,8 @@ function prepareMCQQuestions() {
                         radioStates[name][radio.value] = false;
                     }
                 });
+
+                checkResponsesForFeedbackParticipantComment(indexSuffix);
 
                 event.stopImmediatePropagation();
             });
