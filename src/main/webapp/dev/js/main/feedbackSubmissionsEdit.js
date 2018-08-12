@@ -1006,13 +1006,13 @@ function getMaxOptionsToBeRanked(qnNum) {
 function updateRankQnInstructions(qnNum) {
     const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
     const entityBeingRanked = isDistributingToRecipients ? 'recipients' : 'options';
-    const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+    const isDuplicateRankAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
 
     const instructionElement = $(`#rankInstruction-${qnNum}`);
     let instruction = '';
     const infoIcon = '<span class="glyphicon glyphicon-info-sign padding-right-10px"></span>';
 
-    if (!areDuplicateRanksAllowed) {
+    if (!isDuplicateRankAllowed) {
         instruction += `${infoIcon} Every ${isDistributingToRecipients ? 'recipient' : 'option'} `
                     + 'should be allocated a different rank.<br>';
     }
@@ -1031,7 +1031,7 @@ function updateRankQnInstructions(qnNum) {
 
 function updateRankQnMessages(qnNum) {
     const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
-    const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+    const isDuplicateRankAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
 
     const numOptions = isDistributingToRecipients ? numRecipients
@@ -1091,7 +1091,7 @@ function updateRankQnMessages(qnNum) {
 
         // Don't display messages if all inputs are empty
         if (!allInputsEmpty) {
-            if (!areDuplicateRanksAllowed) {
+            if (!isDuplicateRankAllowed) {
                 // Display message to confirm if all allocated ranks are different
                 if (isAllAnswerUnique) {
                     message += `<span class='text-color-green'> ${approvedIcon} All allocated ranks `
@@ -1231,10 +1231,10 @@ function prepareRankQuestions() {
     for (let i = 0; i < rankQuestionNums.length; i += 1) {
         const qnNum = rankQuestionNums[i];
         const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
-        const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+        const isDuplicateRankAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
 
         // Display instructions and messages only if any constraints are set
-        if (!areDuplicateRanksAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
+        if (!isDuplicateRankAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
             // Add elements for displaying instructions to rank questions
             $(`.constraints-${qnNum}`).each(function () {
                 $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
