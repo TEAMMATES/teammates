@@ -198,9 +198,9 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
 
-        boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
+        boolean shouldShowAvgExcludingSelf = shouldShowAverageExcludingSelf(question, averageExcludingSelf);
 
-        String fragmentTemplateToUse = showAvgExcludingSelf
+        String fragmentTemplateToUse = shouldShowAvgExcludingSelf
                                      ? FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE
                                      : FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
 
@@ -215,7 +215,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
 
             Double userAverageExcludingSelf = averageExcludingSelf.get(recipient);
             String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(showAvgExcludingSelf, df, userAverageExcludingSelf);
+                    getAverageExcludingSelfText(shouldShowAvgExcludingSelf, df, userAverageExcludingSelf);
 
             String recipientName = recipient.equals(Const.GENERAL_QUESTION) ? "General" : bundle.getNameForEmail(recipient);
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
@@ -235,7 +235,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         }
 
         String statsTitle = "Response Summary";
-        String templateToUse = showAvgExcludingSelf
+        String templateToUse = shouldShowAvgExcludingSelf
                              ? FormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FormTemplates.NUMSCALE_RESULT_STATS;
         return Templates.populateTemplate(
@@ -244,6 +244,9 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
                         Slots.STATS_FRAGMENTS, fragmentHtml.toString());
     }
 
+    /**
+     * Returns the recipient list for the student results page.
+     */
     private List<String> getStudentQuestionResultsRecipientList(Map<String, Integer> numResponses,
             String currentUserIdentifier) {
         Set<String> recipientSet = numResponses.keySet();
@@ -338,11 +341,11 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             return "";
         }
 
-        boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
+        boolean shouldShowAvgExcludingSelf = shouldShowAverageExcludingSelf(question, averageExcludingSelf);
         String statsTitle = getStatsTitle(
                 isRecipientTypeGeneral, isRecipientTypeTeam,
                 hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
-        String templateToUse = showAvgExcludingSelf
+        String templateToUse = shouldShowAvgExcludingSelf
                              ? FormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FormTemplates.NUMSCALE_RESULT_STATS;
         return Templates.populateTemplate(templateToUse,
@@ -354,8 +357,8 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             String recipient, String recipientName, String recipientTeam, Map<String, Double> min,
             Map<String, Double> max, Map<String, Double> average, Map<String, Double> averageExcludingSelf) {
 
-        boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
-        String fragmentTemplateToUse = showAvgExcludingSelf
+        boolean shouldShowAvgExcludingSelf = shouldShowAverageExcludingSelf(question, averageExcludingSelf);
+        String fragmentTemplateToUse = shouldShowAvgExcludingSelf
                 ? FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE
                 : FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
         DecimalFormat df = getProperDecimalFormat();
@@ -366,7 +369,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
 
         String averageScoreExcludingSelfText =
-                getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+                getAverageExcludingSelfText(shouldShowAvgExcludingSelf, df, averageScoreExcludingSelf);
 
         return Templates.populateTemplate(
                 fragmentTemplateToUse,
@@ -468,11 +471,11 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
 
-        boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
+        boolean shouldShowAvgExcludingSelf = shouldShowAverageExcludingSelf(question, averageExcludingSelf);
 
         DecimalFormat df = getProperDecimalFormat();
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
-                         + (showAvgExcludingSelf ? ", Average excluding self response" : "")
+                         + (shouldShowAvgExcludingSelf ? ", Average excluding self response" : "")
                          + System.lineSeparator();
 
         StringBuilder csvBody = new StringBuilder();
@@ -487,7 +490,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
 
             Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
             String averageScoreExcludingSelfText =
-                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+                    getAverageExcludingSelfText(shouldShowAvgExcludingSelf, df, averageScoreExcludingSelf);
 
             csvBody.append(SanitizationHelper.sanitizeForCsv(recipientTeam) + ','
                            + SanitizationHelper.sanitizeForCsv(isRecipientGeneral
@@ -497,14 +500,14 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
                            + df.format(average.get(recipient)) + ','
                            + df.format(min.get(recipient)) + ','
                            + df.format(max.get(recipient))
-                           + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
+                           + (shouldShowAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
                            + System.lineSeparator());
         }
 
         return csvHeader + csvBody.toString();
     }
 
-    private boolean showAverageExcludingSelf(
+    private boolean shouldShowAverageExcludingSelf(
             FeedbackQuestionAttributes question, Map<String, Double> averageExcludingSelf) {
 
         if (question.recipientType == FeedbackParticipantType.NONE) {
