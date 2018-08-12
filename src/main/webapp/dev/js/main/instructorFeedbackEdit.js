@@ -403,7 +403,7 @@ function disableQuestion(questionNum) {
     toggleAssignWeightsRow($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
     if (!hasAssignedWeights(questionNum)) {
-        $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
+        $currentQuestionTable.find(`.rubricWeights-${questionNum}`).hide();
     }
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
@@ -587,9 +587,9 @@ function enableNewQuestion() {
     // If instructor had assigned rubric weights before,
     // then display the weights row, otherwise hide it.
     if (hasAssignedWeights(NEW_QUESTION)) {
-        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
+        $newQuestionTable.find(`.rubricWeights-${NEW_QUESTION}`).show();
     } else {
-        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+        $newQuestionTable.find(`.rubricWeights-${NEW_QUESTION}`).hide();
     }
 
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
@@ -1041,6 +1041,26 @@ function bindCopyEvents() {
     });
 }
 
+function bindAddTemplateQnEvents() {
+    const $button = $('#button_add_template_submit');
+
+    $('#addTemplateQuestionModal .panel-title').click(function (e) {
+        if (!$(e.target).is('input')) {
+            $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
+        }
+    });
+
+    $('[id^="addTemplateQuestion-"]').click(() => {
+        const numCheckboxChecked = $('input[name="templatequestionnum"]:checked').length;
+
+        $button.prop('disabled', numCheckboxChecked <= 0);
+    });
+
+    $button.click(() => {
+        $('#addTemplateQuestionModalForm').submit();
+    });
+}
+
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1191,7 +1211,10 @@ function readyFeedbackEditPage() {
             });
 
     $('#add-new-question-dropdown > li').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
+        const questionType = $(this).data('questiontype');
+        if (questionType !== 'TEMPLATE') {
+            showNewQuestionFrame(questionType);
+        }
     });
 
     // Copy Binding
@@ -1199,6 +1222,7 @@ function readyFeedbackEditPage() {
     bindCopyEvents();
     setupQuestionCopyModal();
 
+    bindAddTemplateQnEvents();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
         enableEditFS();

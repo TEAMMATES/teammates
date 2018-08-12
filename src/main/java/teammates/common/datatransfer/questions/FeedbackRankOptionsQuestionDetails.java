@@ -474,6 +474,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
+    }
+
+    @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }

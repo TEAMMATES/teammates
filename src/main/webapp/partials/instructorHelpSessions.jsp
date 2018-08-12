@@ -1,7 +1,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="sessions">Sessions</h2>
-<div id="contentHolder">
+<div class="contentHolder">
   <h3>Setting Up Sessions</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="session-tips">
