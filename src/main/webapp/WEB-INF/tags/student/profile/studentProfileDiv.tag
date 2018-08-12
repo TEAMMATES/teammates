@@ -21,7 +21,7 @@
           data-target="#studentPhotoUploader"
           data-edit="${profile.editingPhoto}">
     </div>
-    <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer"
+    <div class="col-xs-6 col-sm-5 col-md-3"
          title="<%= Const.Tooltips.STUDENT_PROFILE_PICTURE %>"
          data-toggle="tooltip"
          data-placement="top">
