@@ -28,8 +28,10 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
-      ${frc.commentText}
+    <div class="container-fluid">
+      <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
+        ${frc.commentText}
+      </div>
     </div>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
   </div>
