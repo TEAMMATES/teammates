@@ -1034,6 +1034,7 @@ function updateRankQnMessages(qnNum) {
             : parseInt($(`#rankNumOptions-${qnNum}`).val(), 10);
 
     let allocatedRanks;
+    // true when all dropdowns for allocating ranks are empty
     let allInputsEmpty;
     let isAllAnswerUnique;
     let isMinOptionsToBeRankedViolated;
@@ -1223,49 +1224,49 @@ function prepareRankQuestions() {
         const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
 
         // Check if feedback session is open or under preview mode
-        if (!$('#response_submit_button').is(':disabled')
-            || isPreview()) {
-            const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
-
-            // Display instructions and messages only if any constraints are set
-            if (!areDuplicateRanksAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
-                // Add elements for displaying instructions to rank questions
-                $(`.constraints-${qnNum}`).each(function () {
-                    $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
-                            + `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>`);
-                });
-
-                // Add elements for displaying messages/errors based on user input
-                $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
-                    $(this).after(`<div id="rankInputAlert-${qnNum}-${responseIndx}" style="display:none">`
-                            + `<p class="text-color-green padding-left-35px" id="rankMessage-${qnNum}-${responseIndx}"></p>`
-                            + '<hr class="margin-top-0 border-top-dark-gray">');
-                });
-            }
-
-            if (isRankingRecipients) {
-                let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
-                numResponses = parseInt(numResponses, 10);
-                /*
-                 * Only display the last alert block since points
-                 * are distributed among recipients
-                 */
-                $(`#rankInputAlert-${qnNum}-${numResponses - 1}`).show();
-            } else {
-                /*
-                 * Display alert block for each recipient
-                 * since each recipient has its own set of options
-                 */
-                $(`[id^="rankInputAlert-${qnNum}-"]`).show();
-
-                // Add further indentation to options for better layout if recipient name is visible
-                if ($(`.evalueeLabel-${qnNum}`).length) {
-                    $(`[id^="rankSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
-                    $(`[id^="rankSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
-                }
-            }
-        } else {
+        if ($('#response_submit_button').is(':disabled')
+            && !isPreview()) {
             $(`[id^="rankInputAlert-${qnNum}-"]`).hide();
+            return;
+        }
+        const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+
+        // Display instructions and messages only if any constraints are set
+        if (!areDuplicateRanksAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
+            // Add elements for displaying instructions to rank questions
+            $(`.constraints-${qnNum}`).each(function () {
+                $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
+                        + `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>`);
+            });
+
+            // Add elements for displaying messages/errors based on user input
+            $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
+                $(this).after(`<div id="rankInputAlert-${qnNum}-${responseIndx}" style="display:none">`
+                        + `<p class="text-color-green padding-left-35px" id="rankMessage-${qnNum}-${responseIndx}"></p>`
+                        + '<hr class="margin-top-0 border-top-dark-gray">');
+            });
+        }
+
+        if (isRankingRecipients) {
+            let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
+            numResponses = parseInt(numResponses, 10);
+            /*
+             * Only display the last alert block since points
+             * are distributed among recipients
+             */
+            $(`#rankInputAlert-${qnNum}-${numResponses - 1}`).show();
+        } else {
+            /*
+             * Display alert block for each recipient
+             * since each recipient has its own set of options
+             */
+            $(`[id^="rankInputAlert-${qnNum}-"]`).show();
+
+            // Add further indentation to options for better layout if recipient name is visible
+            if ($(`.evalueeLabel-${qnNum}`).length) {
+                $(`[id^="rankSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
+                $(`[id^="rankSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
+            }
         }
     }
     updateRankMessages();

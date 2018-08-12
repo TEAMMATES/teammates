@@ -148,6 +148,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "1");
         assertFalse(submitPage.checkIfRankMessageElementExists(qnNumber, 1));
 
+        // try to submit duplicate ranks for question that permits it
         qnNumber = 1;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "3");
         submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
@@ -155,6 +156,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "4");
         assertFalse(submitPage.checkIfRankMessageElementExists(qnNumber, 0));
 
+        // try to submit duplicate ranks for question that permits it
         qnNumber = 7;
         assertEquals("Every option should be allocated a different rank.",
                      submitPage.getRankInstruction(qnNumber));
