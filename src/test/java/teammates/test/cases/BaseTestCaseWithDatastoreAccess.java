@@ -129,7 +129,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             FeedbackResponseCommentAttributes expectedFrc = (FeedbackResponseCommentAttributes) expected;
             FeedbackResponseCommentAttributes actualFrc = (FeedbackResponseCommentAttributes) actual;
             assertEquals(expectedFrc.courseId, actualFrc.courseId);
-            assertEquals(expectedFrc.giverEmail, actualFrc.giverEmail);
+            assertEquals(expectedFrc.commentGiver, actualFrc.commentGiver);
             assertEquals(expectedFrc.feedbackSessionName, actualFrc.feedbackSessionName);
             assertEquals(expectedFrc.commentText, actualFrc.commentText);
 

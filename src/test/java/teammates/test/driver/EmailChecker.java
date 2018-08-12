@@ -58,7 +58,7 @@ public final class EmailChecker {
      * Injects values specified in configuration files to the appropriate placeholders.
      */
     private static String injectTestProperties(String emailContent) {
-        return emailContent.replace("${app.url}", TestProperties.TEAMMATES_URL)
+        return emailContent.replace("${app.url}", Config.APP_URL)
                            .replace("${support.email}", Config.SUPPORT_EMAIL);
     }
 
