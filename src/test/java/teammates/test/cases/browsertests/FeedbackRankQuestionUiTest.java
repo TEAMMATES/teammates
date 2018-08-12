@@ -68,7 +68,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(submitPage.checkIfRankMessageElementExists(1, 1));
         assertFalse(submitPage.checkIfRankMessageElementExists(1, 2));
 
-        //test rank instructions for questions only forbidding duplicates
+        // test rank instructions for questions only forbidding duplicates
         assertEquals("Every recipient should be allocated a different rank.",
                      submitPage.getRankInstruction(2));
         assertEquals("Every recipient should be allocated a different rank.",

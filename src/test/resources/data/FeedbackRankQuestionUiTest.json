@@ -840,29 +840,29 @@
       ]
     },
     "studentQuestions12": {
-          "feedbackSessionName": "Student Session",
-          "courseId": "FRankUiT.CS4221",
-          "creatorEmail": "instructor@email.com",
-          "questionMetaData": {
-            "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2,\"maxOptionsToBeRanked\":4,\"questionText\":\"Rank the following languages based on personal preference.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"C\",\"C++\",\"Java\",\"C#\",\"Python\"]}"
-          },
-          "questionNumber": 12,
-          "questionType": "RANK_OPTIONS",
-          "giverType": "STUDENTS",
-          "recipientType": "STUDENTS",
-          "numberOfEntitiesToGiveFeedbackTo": 4,
-          "showResponsesTo": [
-            "RECEIVER",
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "RECEIVER",
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "RECEIVER",
-            "INSTRUCTORS"
-          ]
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2,\"maxOptionsToBeRanked\":4,\"questionText\":\"Rank the following languages based on personal preference.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"C\",\"C++\",\"Java\",\"C#\",\"Python\"]}"
+      },
+      "questionNumber": 12,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
     },
     "studentQuestions13": {
       "feedbackSessionName": "Student Session",

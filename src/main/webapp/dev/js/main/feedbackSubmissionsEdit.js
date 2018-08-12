@@ -1035,7 +1035,7 @@ function updateRankQnMessages(qnNum) {
 
     let allocatedRanks;
     let allInputsEmpty;
-    let areAllAnswersUnique;
+    let isAllAnswerUnique;
     let isMinOptionsToBeRankedViolated;
     let isMaxOptionsToBeRankedViolated;
     let rankedOptions;
@@ -1044,7 +1044,7 @@ function updateRankQnMessages(qnNum) {
     function resetState() {
         allocatedRanks = {};
         allInputsEmpty = true;
-        areAllAnswersUnique = true;
+        isAllAnswerUnique = true;
         isMinOptionsToBeRankedViolated = false;
         isMaxOptionsToBeRankedViolated = false;
         rankedOptions = 0;
@@ -1088,7 +1088,7 @@ function updateRankQnMessages(qnNum) {
         if (!allInputsEmpty) {
             if (!areDuplicateRanksAllowed) {
                 // Display message to confirm if all allocated ranks are different
-                if (areAllAnswersUnique) {
+                if (isAllAnswerUnique) {
                     message += `<span class='text-color-green'> ${approvedIcon} All allocated ranks `
                             + 'are different.</span><br>';
                 } else {
@@ -1150,7 +1150,7 @@ function updateRankQnMessages(qnNum) {
         }
         allInputsEmpty = false;
         if (rankAllocated in allocatedRanks) {
-            areAllAnswersUnique = false;
+            isAllAnswerUnique = false;
             repeatedRanks.push(rankAllocated);
         }
 
@@ -1227,7 +1227,7 @@ function prepareRankQuestions() {
             || isPreview()) {
             const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
 
-            // Display instructions and messages only if any constraints are set during question creation
+            // Display instructions and messages only if any constraints are set
             if (!areDuplicateRanksAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
                 // Add elements for displaying instructions to rank questions
                 $(`.constraints-${qnNum}`).each(function () {
