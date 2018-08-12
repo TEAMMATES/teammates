@@ -13,7 +13,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * SUT: {@link InstructorFeedbackResponseCommentDeleteAction}.
@@ -47,7 +47,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 .get("comment1FromT1C1ToR1Q1S1C1");
 
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -80,12 +80,12 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = getAjaxResult(action);
 
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        FeedbackResponseCommentAjaxPageData data =
+                (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
 
         ______TS("Non-existent feedback response comment");
@@ -102,11 +102,11 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         action = getAction(submissionParams);
         result = getAjaxResult(action);
 
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
 
         ______TS("Instructor is not feedback response comment giver");
@@ -122,7 +122,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                                                                    receiverEmail);
         feedbackResponseComment = typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
         submissionParams = new String[] {
@@ -136,11 +136,11 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         action = getAction(submissionParams);
         result = getAjaxResult(action);
 
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
     }
 
@@ -164,7 +164,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.giverEmail, comment.createdAt);
+        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
         comment.feedbackResponseId = response.getId();
 
         String[] submissionParams = new String[] {

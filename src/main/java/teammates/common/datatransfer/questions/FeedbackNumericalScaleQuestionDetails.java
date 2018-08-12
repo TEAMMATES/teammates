@@ -741,6 +741,11 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     }
 
     @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
+    }
+
+    @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }

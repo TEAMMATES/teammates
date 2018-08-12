@@ -1,15 +1,20 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="questionWithResponses.tag - Display question with responses" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="response" type="teammates.ui.template.FeedbackSubmissionEditResponse" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="moderatedPersonEmail" required="true" %>
 
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
+<c:set var="hasFeedbackParticipantCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
+<c:set var="responseIndex" value="${response.responseIndx}"/>
+<c:set var="questionIndex" value="${questionWithResponses.question.qnIndx}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
@@ -54,6 +59,32 @@
       </div>
     </c:otherwise>
   </c:choose>
+  <c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
+    <div class="col-sm-12" <c:if test="${hasFeedbackParticipantCommentOnResponse}">style="display: none"</c:if>>
+      <br>
+      <button type="button" class="btn-link show-frc-add-form"
+              id="button_add_comment-${questionIndex}-${responseIndex}"
+              data-responseindex="${responseIndex}" data-qnindex="${questionIndex}" data-toggle="tooltip"
+              data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD_FOR_FEEDBACK_PARTICIPANT%>"
+          <c:if test="${data.preview or (not data.submittable)}"> disabled </c:if>>
+        Want to add comment to your response? Click here.
+      </button>
+    </div>
+    <div class="col-sm-12" <c:if test="${not hasFeedbackParticipantCommentOnResponse}">style="display: none"</c:if>>
+    <br>
+      <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}">
+        <c:if test="${hasFeedbackParticipantCommentOnResponse}">
+          <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
+              responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
+              moderatedPersonEmail="${moderatedPersonEmail}"
+              isPreview="${data.preview}" isSubmittable="${data.submittable}" isModeration="${data.moderation}"/>
+        </c:if>
+
+        <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}"
+            responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"/>
+      </ul>
+    </div>
+  </c:if>
   <c:if test="${response.existingResponse}">
     <input type="hidden"
            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
