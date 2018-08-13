@@ -643,7 +643,6 @@ public final class FeedbackResponsesLogic {
     /**
      * Updates responses for a student when his email changes.
      */
-    // TODO: cascade the update to response comments
     public void updateFeedbackResponsesForChangingEmail(
             String courseId, String oldEmail, String newEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -655,6 +654,7 @@ public final class FeedbackResponsesLogic {
             response.giver = newEmail;
             try {
                 updateFeedbackResponse(response);
+                frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
             } catch (EntityAlreadyExistsException e) {
                 Assumption
                         .fail("Feedback response failed to update successfully"

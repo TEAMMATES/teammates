@@ -90,7 +90,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
 
         // This is the full HTML verification for Instructor Course Enroll Results Page, the rest can all be verifyMainHtml
-        resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
+        resultsPage.verifyHtml("/instructorCourseEnrollPageResultAllFields.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
@@ -150,6 +150,40 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
             .withCourseId(courseId);
         detailsPage = loginAdminToPage(coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(3, detailsPage.getStudentCountForCourse());
+
+        ______TS("enroll action: existent course, add new students with no sections");
+
+        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
+
+        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+
+        enrollString =
+                "\tTeam 10\tNo Section 1\tno.section.one@gmail.tmt\t"
+                + "This student has no section\t"
+                + "\tTeam 11\tNo Section 2\tno.section.two@gmail.tmt\t\n";
+
+        expectedEnrollText =
+                "Section|Team|Name|Email|Comments\n"
+                + "|Team 10|No Section 1|no.section.one@gmail.tmt|"
+                + "This student has no section\n"
+                + "|Team 11|No Section 2|no.section.two@gmail.tmt|";
+
+        resultsPage = enrollPage.enroll(enrollString);
+        resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResultEmptySection.html");
+
+        // Check 'Edit' link
+        enrollPage = resultsPage.clickEditLink();
+        enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
+        assertEquals(expectedEnrollText, enrollPage.getEnrollText());
+
+        // Ensure students were actually enrolled
+        coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                .withCourseId(courseId);
+        detailsPage = loginAdminToPage(coursesPageUrl, InstructorCoursesDetailsPage.class);
+        assertEquals(5, detailsPage.getStudentCountForCourse());
 
         ______TS("enroll action: fail to enroll as a team cannot be in 2 different sections");
 

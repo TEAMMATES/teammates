@@ -192,8 +192,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
 
             String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
-            List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
-                                                                                          response.getId());
+            List<FeedbackResponseCommentRow> comments =
+                    createStudentFeedbackResultsResponseComments(response.getId(), question);
 
             responses.add(new FeedbackResultsResponse(displayedGiverName, answer, comments));
         }
@@ -205,16 +205,14 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
-    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
-                                                                               String feedbackResponseId) {
-
+    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(String feedbackResponseId,
+            FeedbackQuestionAttributes question) {
         List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
-
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
-                        bundle.getTimeZone()));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.commentGiver,
+                        bundle.commentGiverEmailToNameTable, bundle.getTimeZone(), question));
             }
         }
         return comments;

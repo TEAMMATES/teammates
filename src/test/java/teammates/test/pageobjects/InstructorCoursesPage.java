@@ -35,6 +35,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btnAddCourse")
     private WebElement submitButton;
 
+    @FindBy(id = "recoveryPanelHeading")
+    private WebElement panelHeading;
+
     public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
@@ -69,6 +72,48 @@ public class InstructorCoursesPage extends AppPage {
         return this;
     }
 
+    public InstructorCoursesPage moveCourseToRecovery(String courseId) {
+        click(getMoveToRecoveryLink(courseId));
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage restoreCourse(String courseId) {
+        click(getRestoreLink(courseId));
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage restoreAllCourses() {
+        click(getRestoreAllLink());
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage deleteCourseAndCancel(String courseId) {
+        clickAndCancel(getDeleteLink(courseId));
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage deleteCourseAndConfirm(String courseId) {
+        clickAndConfirm(getDeleteLink(courseId));
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage deleteAllCoursesAndCancel() {
+        clickAndCancel(getDeleteAllLink());
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage deleteAllCoursesAndConfirm() {
+        clickAndConfirm(getDeleteAllLink());
+        waitForPageToLoad();
+        return this;
+    }
+
     public String fillCourseIdTextBox(String value) {
         fillTextBox(courseIdTextBox, value);
         return getTextBoxValue(courseIdTextBox);
@@ -89,9 +134,9 @@ public class InstructorCoursesPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public WebElement getDeleteLink(String courseId) {
+    public WebElement getMoveToRecoveryLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
-        return getDeleteLinkInRow(courseRowNumber);
+        return getMoveToRecoveryLinkInRow(courseRowNumber);
     }
 
     public WebElement getArchiveLink(String courseId) {
@@ -102,6 +147,28 @@ public class InstructorCoursesPage extends AppPage {
     public WebElement getUnarchiveLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getUnarchiveLinkInRow(courseRowNumber);
+    }
+
+    public WebElement getRestoreLink(String courseId) {
+        click(panelHeading);
+        waitForElementVisibility(browser.driver.findElement(By.id("recoverycourseid0")));
+        int courseRowNumber = getRowNumberOfRecoveryCourse(courseId);
+        return getRestoreLinkInRow(courseRowNumber);
+    }
+
+    public WebElement getRestoreAllLink() {
+        return browser.driver.findElement(By.id("btn-course-restoreall"));
+    }
+
+    public WebElement getDeleteLink(String courseId) {
+        click(panelHeading);
+        waitForElementVisibility(browser.driver.findElement(By.id("recoverycourseid0")));
+        int courseRowNumber = getRowNumberOfRecoveryCourse(courseId);
+        return getDeleteLinkInRow(courseRowNumber);
+    }
+
+    public WebElement getDeleteAllLink() {
+        return browser.driver.findElement(By.id("btn-course-deleteall"));
     }
 
     public InstructorCoursesPage sortByCourseName() {
@@ -176,9 +243,24 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(activeCoursesTable).findElements(By.tagName("tr")).size();
     }
 
+    private int getRecoveryCourseCount() {
+        By recoveryCoursesTable = By.id("tableRecoveryCourses");
+        waitForElementPresence(recoveryCoursesTable);
+        return browser.driver.findElement(recoveryCoursesTable).findElements(By.tagName("tr")).size();
+    }
+
     private int getRowNumberOfCourse(String courseId) {
         for (int i = 0; i < getCourseCount(); i++) {
             if (getCourseIdCell(i).getText().equals(courseId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int getRowNumberOfRecoveryCourse(String courseId) {
+        for (int i = 0; i < getRecoveryCourseCount(); i++) {
+            if (getRecoveryCourseIdCell(i).getText().equals(courseId)) {
                 return i;
             }
         }
@@ -189,9 +271,13 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(By.id("courseid" + rowId));
     }
 
-    private WebElement getDeleteLinkInRow(int rowId) {
-        By deleteLink = By.className("t_course_delete" + rowId);
-        return browser.driver.findElement(deleteLink);
+    private WebElement getRecoveryCourseIdCell(int rowId) {
+        return browser.driver.findElement(By.id("recoverycourseid" + rowId));
+    }
+
+    private WebElement getMoveToRecoveryLinkInRow(int rowId) {
+        By moveToRecoveryLink = By.className("t_course_delete" + rowId);
+        return browser.driver.findElement(moveToRecoveryLink);
     }
 
     private WebElement getArchiveLinkInRow(int rowId) {
@@ -202,6 +288,16 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getUnarchiveLinkInRow(int rowId) {
         By archiveLink = By.id("t_course_unarchive" + rowId);
         return browser.driver.findElement(archiveLink);
+    }
+
+    private WebElement getRestoreLinkInRow(int rowId) {
+        By restoreLink = By.className("t_course_restore" + rowId);
+        return browser.driver.findElement(restoreLink);
+    }
+
+    private WebElement getDeleteLinkInRow(int rowId) {
+        By deleteLink = By.className("t_course_delete_permanently" + rowId);
+        return browser.driver.findElement(deleteLink);
     }
 
     private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {

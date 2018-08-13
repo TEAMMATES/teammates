@@ -163,7 +163,7 @@ public class BackDoorLogic extends Logic {
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
+                    responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
             fcDb.putDocument(fcInDb);
         }
 

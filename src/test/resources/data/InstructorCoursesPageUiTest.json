@@ -7,6 +7,13 @@
       "email": "CCAddUiTest.instructor@gmail.tmt",
       "institute": "TEAMMATES Test Institute with Long Long Long Name"
     },
+    "OtherInstructorWithCourses": {
+      "googleId": "CCAddUiTest.instr1",
+      "name": "Teammates Demo Instr 1",
+      "isInstructor": true,
+      "email": "CCAddUiTest.instr1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute with Long Long Long Name"
+    },
     "instructorWithoutCourses": {
       "googleId": "CCAddUiTest.instr2",
       "name": "Teammates Demo Instr 2",
@@ -31,6 +38,27 @@
     "CS2104": {
       "id": "CCAddUiTest.CS2104",
       "name": "Programming Language Concept",
+      "timeZone": "UTC"
+    },
+    "CS2105": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "deletedAt": "2012-04-12T23:58:00Z",
+      "id": "CCAddUiTest.CS2105",
+      "name": "Computer Networks",
+      "timeZone": "UTC"
+    },
+    "CS2106": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "deletedAt": "2012-04-12T23:58:00Z",
+      "id": "CCAddUiTest.CS2106",
+      "name": "Operating Systems",
+      "timeZone": "UTC"
+    },
+    "CS2107": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "deletedAt": "2012-04-12T23:58:00Z",
+      "id": "CCAddUiTest.CS2107",
+      "name": "Introduction to Information Security",
       "timeZone": "UTC"
     }
   },
@@ -87,6 +115,75 @@
       "courseId": "CCAddUiTest.CS2104",
       "name": "Teammates Demo Instr",
       "email": "CCAddUiTest.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1CS2105": {
+      "googleId": "CCAddUiTest.instructor",
+      "courseId": "CCAddUiTest.CS2105",
+      "name": "Teammates Demo Inst",
+      "email": "CCAddUiTest.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1CS2106": {
+      "googleId": "CCAddUiTest.instr1",
+      "courseId": "CCAddUiTest.CS2106",
+      "name": "Teammates Demo Inst 1",
+      "email": "CCAddUiTest.instr1@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1CS2107": {
+      "googleId": "CCAddUiTest.instr1",
+      "courseId": "CCAddUiTest.CS2107",
+      "name": "Teammates Demo Inst 1",
+      "email": "CCAddUiTest.instr1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
