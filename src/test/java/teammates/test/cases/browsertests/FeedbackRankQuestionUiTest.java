@@ -91,6 +91,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                      submitPage.getRankMessage(qnNumber, 1));
         submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
 
+        // test rank messages for questions only forbidding duplicates
         qnNumber = 4;
         assertTrue(submitPage.getRankMessage(qnNumber, 0).isEmpty());
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
@@ -99,6 +100,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "");
         assertTrue(submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
+        // test rank messages for questions only forbidding duplicates
         qnNumber = 5;
         assertTrue(submitPage.getRankMessage(qnNumber, 3).isEmpty());
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "2");
