@@ -183,16 +183,16 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
 
-        List<FeedbackSessionAttributes> recoverySessions = fsDb
+        List<FeedbackSessionAttributes> softDeletedSessions = fsDb
                 .getSoftDeletedFeedbackSessionsForCourse("idOfTypicalCourse3");
 
         String expected =
                 dataBundle.feedbackSessions.get("session2InCourse3").toString() + System.lineSeparator();
 
-        for (FeedbackSessionAttributes session : recoverySessions) {
+        for (FeedbackSessionAttributes session : softDeletedSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertEquals(1, recoverySessions.size());
+        assertEquals(1, softDeletedSessions.size());
 
         ______TS("null params");
 
