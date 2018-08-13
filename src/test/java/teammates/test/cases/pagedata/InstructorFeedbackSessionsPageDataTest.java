@@ -21,6 +21,8 @@ import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.RecoveryFeedbackSessionsTable;
+import teammates.ui.template.RecoveryFeedbackSessionsTableRow;
 
 /**
  * SUT: {@link InstructorFeedbackSessionsPageData}.
@@ -50,9 +52,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
-        List<FeedbackSessionAttributes> recoveryFsList = new ArrayList<>();
+        List<FeedbackSessionAttributes> recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForUser);
 
         data.initWithoutDefaultFormValues(courses, null, fsList, recoveryFsList, courseInstructorMap, null);
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         ______TS("typical success case: test new fs form");
         // Test new fs form model
@@ -99,9 +103,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
+        RecoveryFeedbackSessionsTable recoveryFsTableModel = data.getRecoveryFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+        List<RecoveryFeedbackSessionsTableRow> recoveryFsRows = recoveryFsTableModel.getRows();
+        assertEquals(0, recoveryFsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
@@ -130,8 +137,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<InstructorAttributes> instructorsForArchivedCourse = new ArrayList<>(archivedCourseInstructorMap.values());
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
+        recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
         instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
                                                                   recoveryFsList, archivedCourseInstructorMap, null);
+
+        assertTrue(instructorArchivedCourseData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with only archived course: test new fs form");
         // Test new fs form model
@@ -143,6 +153,41 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
                      formModel.getCoursesSelectField().get(0).getContent());
 
         assertTrue(formModel.isSubmitButtonDisabled());
+
+        ______TS("case with instructor with deleted session in course");
+        AccountAttributes instructorWithDeletedSessionAccount = dataBundle.accounts.get("instructor1OfCourse3");
+        InstructorFeedbackSessionsPageData instructorDeletedSessionData =
+                new InstructorFeedbackSessionsPageData(instructorWithDeletedSessionAccount, dummySessionToken);
+        Map<String, InstructorAttributes> deletedSessionInstructorMap = new HashMap<>();
+
+        instructors = getInstructorsForGoogleId(instructorWithDeletedSessionAccount.googleId, true);
+
+        for (InstructorAttributes instructor : instructors) {
+            deletedSessionInstructorMap.put(instructor.courseId, instructor);
+        }
+
+        List<InstructorAttributes> instructorsForDeletedSession = new ArrayList<>(deletedSessionInstructorMap.values());
+        List<CourseAttributes> coursesWithDeletedSession = getCoursesForInstructor(instructorsForDeletedSession);
+        fsList = getFeedbackSessionsListForInstructor(instructorsForDeletedSession);
+        recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForDeletedSession);
+        instructorDeletedSessionData.initWithoutDefaultFormValues(coursesWithDeletedSession, null, fsList,
+                recoveryFsList, deletedSessionInstructorMap, null);
+
+        assertFalse(instructorDeletedSessionData.isInstructorAllowedToModify());
+
+        ______TS("case with instructor with deleted session in course: session rows");
+        fsTableModel = instructorDeletedSessionData.getFsList();
+        recoveryFsTableModel = instructorDeletedSessionData.getRecoveryFsList();
+
+        fsRows = fsTableModel.getExistingFeedbackSessions();
+        assertEquals(1, fsRows.size());
+        recoveryFsRows = recoveryFsTableModel.getRows();
+        assertEquals(2, recoveryFsRows.size());
+
+        firstFsName = "First feedback session";
+        assertEquals(firstFsName, fsRows.get(0).getName());
+        String secondFsName = "Second feedback session";
+        assertEquals(secondFsName, recoveryFsRows.get(0).getSessionName());
 
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
@@ -160,9 +205,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
 
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
+        recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForHelper);
 
         helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, recoveryFsList,
                                                 helperCourseInstructorMap, null);
+
+        assertTrue(helperData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with restricted permissions: test new fs form");
         // Test new fs form model
@@ -180,6 +228,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+
+        recoveryFsTableModel = helperData.getRecoveryFsList();
+
+        recoveryFsRows = recoveryFsTableModel.getRows();
+        assertEquals(0, recoveryFsRows.size());
 
         ______TS("case with instructor with restricted permissions: copy modal");
         copyModalModel = helperData.getCopyFromModal();
@@ -204,6 +257,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         courses = getCoursesForInstructor(instructorsForUser);
 
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForUser);
 
         data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, recoveryFsList,
                                           courseInstructorMap, "First feedback session");
@@ -246,11 +300,13 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
-        List<FeedbackSessionAttributes> recoveryFsList = new ArrayList<>();
+        List<FeedbackSessionAttributes> recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForUser);
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
         data.init(courses, null, fsList, recoveryFsList, courseInstructorMap, fsa, null, null);
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         ______TS("typical success case with existing fs passed in: test new fs form");
         // Test new fs form model
@@ -298,9 +354,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
+        RecoveryFeedbackSessionsTable recoveryFsTableModel = data.getRecoveryFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+        List<RecoveryFeedbackSessionsTableRow> recoveryFsRows = recoveryFsTableModel.getRows();
+        assertEquals(0, recoveryFsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
@@ -335,12 +394,14 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
-        List<FeedbackSessionAttributes> recoveryFsList = new ArrayList<>();
+        List<FeedbackSessionAttributes> recoveryFsList = getRecoveryFeedbackSessionsListForInstructor(instructorsForUser);
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
         data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, recoveryFsList, courseInstructorMap,
                                        fsa, "STANDARD");
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         FeedbackSessionsForm formModel = data.getNewFsForm();
 
@@ -388,6 +449,19 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
 
         feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
+        feedbackSessions.removeIf(fs -> courseIdsOfUser.contains(fs.getCourseId()) && fs.isSessionDeleted());
+
+        return feedbackSessions;
+    }
+
+    private List<FeedbackSessionAttributes>
+            getRecoveryFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
+        Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
+
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
+
+        feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
+        feedbackSessions.removeIf(fs -> courseIdsOfUser.contains(fs.getCourseId()) && !fs.isSessionDeleted());
 
         return feedbackSessions;
     }

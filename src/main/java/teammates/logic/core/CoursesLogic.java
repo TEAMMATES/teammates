@@ -684,6 +684,7 @@ public final class CoursesLogic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
+     * @return Soft-deletion time of the course.
      */
     public Instant moveCourseToRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {

@@ -50,7 +50,7 @@ public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionT
         assertFalse(redirectResult.isError);
         assertEquals("The course idOfTypicalCourse3 has been restored.", redirectResult.getStatusMessage());
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructor1Id);
-        assertEquals(2, courseList.size());
+        assertEquals(3, courseList.size());
         assertEquals(instructor1OfCourse3.courseId, courseList.get(1).getId());
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseRestoreCourse|||instructorCourseRestoreCourse|||"
                 + "true|||Instructor|||Instructor 1 of Course 3|||idOfInstructor1OfCourse3|||"

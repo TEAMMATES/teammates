@@ -655,7 +655,7 @@
   <br>
   <div id="statusMessagesToUser" style="display: block;">
     <div class="overflow-auto alert alert-success icon-success statusMessage">
-      The feedback session has been permanently deleted.
+      All sessions have been permanently deleted.
     </div>
   </div>
   <script defer="" src="/js/statusMessage.js" type="text/javascript">
@@ -715,119 +715,6 @@
     <br>
     <div class="align-center">
       No records found.
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <h2 class="text-muted">
-      <span class="glyphicon glyphicon-trash">
-      </span>
-      Deleted feedback sessions
-    </h2>
-    <div class="panel">
-      <div class="panel-heading ajax_submit fill-default" data-target="#recoverySessionsBodyCollapse" id="recoverySessionsHeading">
-        <div class="pull-right margin-left-7px">
-          <span class="glyphicon ajax_submit glyphicon-chevron-down">
-          </span>
-        </div>
-        <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px session-delete-all-link color-negative" data-original-title="Permanently delete all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="btn-session-deleteall" title="">
-          <span class="glyphicon glyphicon-remove">
-          </span>
-          <strong>
-            Delete All
-          </strong>
-        </a>
-        <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="Restore all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="btn-session-restoreall" title="">
-          <span class="glyphicon glyphicon-ok">
-          </span>
-          <strong>
-            Restore All
-          </strong>
-        </a>
-        <strong class="ajax_submit">
-          Recycle Bin
-        </strong>
-      </div>
-      <div class="panel-collapse collapse" id="recoverySessionsBodyCollapse">
-        <div class="panel-body padding-0">
-          <table class="table table-bordered table-striped margin-0" id="tableRecoveryFeedbackSessions">
-            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-              <tr>
-                <th class="button-sort-none toggle-sort" id="btn_sortid">
-                  Course ID
-                  <span class="icon-sort unsorted">
-                  </span>
-                </th>
-                <th class="button-sort-none toggle-sort" id="btn_sortname">
-                  Session Name
-                  <span class="icon-sort unsorted">
-                  </span>
-                </th>
-                <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursecreateddate">
-                  Creation Date
-                  <span class="icon-sort unsorted">
-                  </span>
-                </th>
-                <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursedeleteddate">
-                  Deletion Date
-                  <span class="icon-sort unsorted">
-                  </span>
-                </th>
-                <th class="align-center no-print">
-                  Action(s)
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="recoverycourseid0">
-                  CFeedbackUiT.CS2106
-                </td>
-                <td id="recoverysessionname0">
-                  Second Session #2
-                </td>
-                <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessioncreateddate0">
-                  2 Apr 2012
-                </td>
-                <td data-date-stamp="2012-06-01T23:59:00Z" data-original-title="Sat, 02 Jun 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessiondeleteddate0">
-                  2 Jun 2012
-                </td>
-                <td class="align-center no-print">
-                  <a class="btn btn-default btn-xs t_session_restore0" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
-                    Restore
-                  </a>
-                  <a class="btn btn-default btn-xs t_session_delete0" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="Second Session #2" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
-                    Delete Permanently
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td id="recoverycourseid1">
-                  CFeedbackUiT.CS2106
-                </td>
-                <td id="recoverysessionname1">
-                  Third Session #3
-                </td>
-                <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessioncreateddate1">
-                  2 Apr 2012
-                </td>
-                <td data-date-stamp="2012-06-01T23:59:00Z" data-original-title="Sat, 02 Jun 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessiondeleteddate1">
-                  2 Jun 2012
-                </td>
-                <td class="align-center no-print">
-                  <a class="btn btn-default btn-xs t_session_restore1" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
-                    Restore
-                  </a>
-                  <a class="btn btn-default btn-xs t_session_delete1" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="Third Session #3" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
-                    Delete Permanently
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
     <br>
     <br>
