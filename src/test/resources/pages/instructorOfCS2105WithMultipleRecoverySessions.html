@@ -53,8 +53,8 @@
                 </h5>
                 <div class="col-sm-10 col-md-8">
                   <select class="form-control" id="courseid" name="courseid">
-                    <option value="CFeedbackUiT.CS2106">
-                      CFeedbackUiT.CS2106
+                    <option value="CFeedbackUiT.CS2105">
+                      CFeedbackUiT.CS2105
                     </option>
                   </select>
                 </div>
@@ -85,9 +85,9 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <input class="course-attributes-data" data-name="Operating Systems" data-time-zone="UTC" id="CFeedbackUiT.CS2106" type="hidden">
+                  <input class="course-attributes-data" data-name="Computer Networks" data-time-zone="UTC" id="CFeedbackUiT.CS2105" type="hidden">
                   <h5 class="form-control-static font-weight-normal" id="coursename">
-                    Operating Systems
+                    Computer Networks
                   </h5>
                 </div>
               </div>
@@ -644,22 +644,17 @@
           </div>
         </div>
       </div>
-      <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+      <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2105">
       <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <form action="/page/instructorFeedbackSessionsPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
-    <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+    <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2105">
     <input name="isusingAjax" type="hidden" value="on">
   </form>
   <br>
-  <div id="statusMessagesToUser" style="display: block;">
-    <div class="overflow-auto alert alert-success icon-success statusMessage">
-      The feedback session has been permanently deleted.
-    </div>
+  <div id="statusMessagesToUser" style="">
   </div>
-  <script defer="" src="/js/statusMessage.js" type="text/javascript">
-  </script>
   <br>
   <div class="" id="sessionList">
     <table class="table-responsive table table-striped table-bordered" id="table-sessions">
@@ -731,14 +726,14 @@
           <span class="glyphicon ajax_submit glyphicon-chevron-down">
           </span>
         </div>
-        <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px session-delete-all-link color-negative" data-original-title="Permanently delete all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="btn-session-deleteall" title="">
+        <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px session-delete-all-link color-negative" data-original-title="Permanently delete all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" id="btn-session-deleteall" title="">
           <span class="glyphicon glyphicon-remove">
           </span>
           <strong>
             Delete All
           </strong>
         </a>
-        <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="Restore all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="btn-session-restoreall" title="">
+        <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="Restore all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" id="btn-session-restoreall" title="">
           <span class="glyphicon glyphicon-ok">
           </span>
           <strong>
@@ -782,10 +777,10 @@
             <tbody>
               <tr>
                 <td id="recoverycourseid0">
-                  CFeedbackUiT.CS2106
+                  CFeedbackUiT.CS2105
                 </td>
                 <td id="recoverysessionname0">
-                  Second Session #2
+                  First Session #1
                 </td>
                 <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessioncreateddate0">
                   2 Apr 2012
@@ -794,20 +789,20 @@
                   2 Jun 2012
                 </td>
                 <td class="align-center no-print">
-                  <a class="btn btn-default btn-xs t_session_restore0" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
+                  <a class="btn btn-default btn-xs t_session_restore0" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2105&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" title="">
                     Restore
                   </a>
-                  <a class="btn btn-default btn-xs t_session_delete0" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="Second Session #2" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+                  <a class="btn btn-default btn-xs t_session_delete0" data-course-id="CFeedbackUiT.CS2105" data-feedback-session-name="First Session #1" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2105&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
                     Delete Permanently
                   </a>
                 </td>
               </tr>
               <tr>
                 <td id="recoverycourseid1">
-                  CFeedbackUiT.CS2106
+                  CFeedbackUiT.CS2105
                 </td>
                 <td id="recoverysessionname1">
-                  Third Session #3
+                  Second Session #2
                 </td>
                 <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessioncreateddate1">
                   2 Apr 2012
@@ -816,10 +811,32 @@
                   2 Jun 2012
                 </td>
                 <td class="align-center no-print">
-                  <a class="btn btn-default btn-xs t_session_restore1" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
+                  <a class="btn btn-default btn-xs t_session_restore1" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2105&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" title="">
                     Restore
                   </a>
-                  <a class="btn btn-default btn-xs t_session_delete1" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="Third Session #3" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+                  <a class="btn btn-default btn-xs t_session_delete1" data-course-id="CFeedbackUiT.CS2105" data-feedback-session-name="Second Session #2" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2105&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+                    Delete Permanently
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td id="recoverycourseid2">
+                  CFeedbackUiT.CS2105
+                </td>
+                <td id="recoverysessionname2">
+                  Third Session #3
+                </td>
+                <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessioncreateddate2">
+                  2 Apr 2012
+                </td>
+                <td data-date-stamp="2012-06-01T23:59:00Z" data-original-title="Sat, 02 Jun 2012, 01:59 AM" data-toggle="tooltip" id="recoverysessiondeleteddate2">
+                  2 Jun 2012
+                </td>
+                <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_session_restore2" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2105&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" title="">
+                    Restore
+                  </a>
+                  <a class="btn btn-default btn-xs t_session_delete2" data-course-id="CFeedbackUiT.CS2105" data-feedback-session-name="Third Session #3" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2105&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2105&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
                     Delete Permanently
                   </a>
                 </td>
@@ -868,7 +885,7 @@
               Cancel
             </button>
             <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
-            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2105">
           </div>
         </form>
       </div>
@@ -897,8 +914,8 @@
                 Create in course
               </label>
               <select class="form-control" id="modalCopiedCourseId" name="copiedcourseid">
-                <option value="CFeedbackUiT.CS2106">
-                  CFeedbackUiT.CS2106
+                <option value="CFeedbackUiT.CS2105">
+                  CFeedbackUiT.CS2105
                 </option>
               </select>
             </div>
@@ -928,7 +945,7 @@
             </table>
             <input id="modalSessionName" name="fsname" type="hidden" value="">
             <input id="modalCourseId" name="courseid" type="hidden" value="">
-            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2105">
             <input name="token" type="hidden" value="${sessionToken}">
           </form>
         </div>
@@ -968,7 +985,7 @@
               Cancel
             </button>
             <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
-            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2105">
           </div>
         </form>
       </div>
@@ -998,7 +1015,7 @@
               Cancel
             </button>
             <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
-            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2105">
           </div>
         </form>
       </div>

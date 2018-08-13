@@ -169,6 +169,12 @@
       "name": "Typical Course 3 with 1 Evals",
       "timeZone": "UTC"
     },
+    "typicalCourse4": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "id": "idOfTypicalCourse4",
+      "name": "Typical Course 4 with 1 Evals",
+      "timeZone": "UTC"
+    },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
@@ -372,7 +378,7 @@
       "name": "Instructor2 Course3",
       "email": "instructor2@course3.tmt",
       "isArchived": false,
-      "role": "Manager",
+      "role": "Custom",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
       "privileges": {
@@ -382,7 +388,31 @@
           "canmodifysessioncommentinsection": true,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
-          "canmodifysession": true,
+          "canmodifysession": false,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse4": {
+      "googleId": "idOfInstructor1OfCourse3",
+      "courseId": "idOfTypicalCourse4",
+      "name": "Instructor1 Course4",
+      "email": "instructor1@course3.tmt",
+      "isArchived": false,
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -901,6 +931,52 @@
         "value": "Please please fill in the following questions."
       },
       "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session2InCourse3": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "idOfTypicalCourse3",
+      "creatorEmail": "instructor1@course3.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "deletedTime": "2012-05-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1InCourse4": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse4",
+      "creatorEmail": "instructor1@course3.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "deletedTime": "2012-05-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
