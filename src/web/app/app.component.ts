@@ -13,11 +13,14 @@ export class AppComponent implements OnInit {
   isCollapsed = true;
   isUnsupportedBrowser: boolean;
   browser: string;
+
+  // Angular browser support: https://angular.io/guide/browser-support
+  // Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
   minimumVersions = {
-    Chrome: 15,
-    IE: 9,
-    Firefox: 12,
-    Safari: 4,
+    Chrome: 45,
+    IE: 10,
+    Firefox: 40,
+    Safari: 7,
     // Opera: ??
   };
 
