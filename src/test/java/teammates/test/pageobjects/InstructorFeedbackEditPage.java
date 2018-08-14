@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -1467,6 +1468,21 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
 
+    public void dragAndDropQuestionOption(String qnType, int qnNumber, int sourceIndex, int targetIndex) throws Exception {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='" + qnType + "OptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='" + qnType + "OptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        // drag option 10 units above target and release
+        builder.clickAndHold(draggedOptionElement)
+                .moveToElement(targetElement, 0, -10)
+                .release()
+                .build()
+                .perform();
+    }
+
     public boolean isMsqWeightBoxFocused(int qnNumber, int choiceIndex) {
         WebElement weightBox = getMsqWeightBox(qnNumber, choiceIndex);
         return weightBox.equals(browser.driver.switchTo().activeElement());
@@ -1689,7 +1705,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         return browser.driver.findElements(
-                By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
+                By.cssSelector("#msqChoices-" + qnNumber + " div[id^=\"msqOptionRow\"]")).size();
     }
 
     public void verifyMsqMinMaxSelectableChoices(int qnNumber) {
@@ -1891,9 +1907,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getNumOfOptionsInRankOptions(int qnIndex) {
         if (isRankOptionsQuestion(qnIndex)) {
-            WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
+            WebElement rankOptionsTableRows = browser.driver.findElement(By.id("rankChoices-" + qnIndex));
             List<WebElement> optionInputFields =
-                    rankOptionsTable.findElements(By.cssSelector("input[id^='rankOption-']"));
+                    rankOptionsTableRows.findElements(By.cssSelector("div[id^='rankOptionRow-']"));
             return optionInputFields.size();
         }
 
