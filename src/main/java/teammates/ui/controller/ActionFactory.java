@@ -53,10 +53,10 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
         map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
         map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
-        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE, InstructorCourseRestoreRecoveryCourseAction.class);
-        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL, InstructorCourseRestoreAllRecoveryCoursesAction.class);
-        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE, InstructorCourseDeleteRecoveryCourseAction.class);
-        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL, InstructorCourseDeleteAllRecoveryCoursesAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE, InstructorCourseRestoreSoftDeletedCourseAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL, InstructorCourseRestoreAllSoftDeletedCoursesAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE, InstructorCourseDeleteSoftDeletedCourseAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL, InstructorCourseDeleteAllSoftDeletedCoursesAction.class);
         map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
         map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
@@ -67,6 +67,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE, InstructorCourseInstructorEditSaveAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
+        map(INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE, InstructorCourseEnrollAjaxPageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE_ALL, InstructorCourseStudentDeleteAllAction.class);
@@ -95,6 +96,11 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                 InstructorFeedbackResendPublishedEmailAction.class);
         map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE, InstructorFeedbackRestoreSoftDeletedSessionAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL,
+                InstructorFeedbackRestoreAllSoftDeletedSessionsAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE, InstructorFeedbackDeleteSoftDeletedSessionAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL, InstructorFeedbackDeleteAllSoftDeletedSessionsAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE, InstructorFeedbackQuestionCopyPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);

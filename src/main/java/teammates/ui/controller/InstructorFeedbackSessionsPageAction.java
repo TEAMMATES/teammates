@@ -42,10 +42,13 @@ public class InstructorFeedbackSessionsPageAction extends InstructorFeedbackAbst
         List<CourseAttributes> courses = loadCoursesList(instructorList);
 
         List<FeedbackSessionAttributes> existingFeedbackSessions;
+        List<FeedbackSessionAttributes> softDeletedFeedbackSessions;
         if (courses.isEmpty() || !data.isUsingAjax()) {
             existingFeedbackSessions = new ArrayList<>();
+            softDeletedFeedbackSessions = new ArrayList<>();
         } else {
             existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+            softDeletedFeedbackSessions = loadSoftDeletedFeedbackSessionsList(instructorList);
             if (existingFeedbackSessions.isEmpty()) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, StatusMessageColor.WARNING));
             }
@@ -60,7 +63,7 @@ public class InstructorFeedbackSessionsPageAction extends InstructorFeedbackAbst
         statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
 
         data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
-                                        instructors, feedbackSessionToHighlight);
+                softDeletedFeedbackSessions, instructors, feedbackSessionToHighlight);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
     }

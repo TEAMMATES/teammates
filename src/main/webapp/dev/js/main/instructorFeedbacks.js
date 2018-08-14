@@ -262,6 +262,28 @@ const ajaxRequest = function (e) {
     });
 };
 
+function bindCollapseEvents() {
+    $('body').on('mouseover', '.panel-heading', () => {
+        $('.panel-heading').css('cursor', 'pointer');
+    });
+
+    $('body').on('click', '.panel-heading', (event) => {
+        if ($(event.target).hasClass('ajax_submit')) {
+            const panel = $(event.currentTarget);
+            const toggleChevronDown = $(panel[0]).find('.glyphicon-chevron-down');
+            const toggleChevronUp = $(panel[0]).find('.glyphicon-chevron-up');
+
+            if (toggleChevronDown.length === 0) {
+                $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+            } else {
+                $(toggleChevronDown[0]).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+            }
+
+            $('.panel-collapse').collapse('toggle');
+        }
+    });
+}
+
 function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
@@ -280,6 +302,8 @@ function readyFeedbackPage() {
 
     updateUncommonSettingsInfo();
     showUncommonPanelsIfNotInDefaultValues();
+
+    bindCollapseEvents();
 }
 
 $(document).ready(() => {
