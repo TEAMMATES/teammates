@@ -9,9 +9,6 @@ import com.googlecode.objectify.Key;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
