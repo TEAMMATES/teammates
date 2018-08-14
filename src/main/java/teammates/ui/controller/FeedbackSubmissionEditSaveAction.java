@@ -307,7 +307,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             throws EntityDoesNotExistException {
         for (FeedbackResponseCommentAttributes frc : commentsToSave) {
             try {
-                logic.createFeedbackResponseComment(frc);
+                frc = logic.createFeedbackResponseComment(frc);
                 logic.putDocument(frc);
                 statusToAdmin += this.getClass().getName() + ":<br>"
                         + "Adding comment to response: " + frc.feedbackResponseId + "<br>"

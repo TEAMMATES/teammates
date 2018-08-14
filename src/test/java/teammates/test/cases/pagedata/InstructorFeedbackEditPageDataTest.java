@@ -21,6 +21,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.test.cases.BaseTestCaseWithMinimalGaeEnvironment;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -29,6 +30,7 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
+import teammates.ui.template.FeedbackTemplateQuestionInfo;
 
 /**
  * SUT: {@link InstructorFeedbackEditPageData}.
@@ -64,7 +66,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor,
+        List<FeedbackQuestionAttributes> templateQuestions = FeedbackQuestionsLogic.inst()
+                .getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "typicalCourse1",
+                        "session1InCourse1", "instructor1OfCourse1");
+
+        data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor,
                 true, instructorList.size(), courseDetails);
 
         // Test fs form
@@ -114,6 +120,21 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertTrue(additionalSettings.isSendClosingEmailChecked());
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertTrue(additionalSettings.isSendPublishedEmailChecked());
+
+        // test template question form
+        List<FeedbackTemplateQuestionInfo> templateQnForm = data.getTemplateQuestions();
+
+        assertEquals(5, templateQnForm.size());
+        assertEquals(1, templateQnForm.get(0).getQnNumber());
+        assertEquals("Team contribution question", templateQnForm.get(0).getQnType());
+        assertEquals("Your estimate of how much each team member has contributed.",
+                templateQnForm.get(0).getQnText());
+        assertEquals("Giver's team members and Giver", templateQnForm.get(0).getQnFeedbackPath());
+        assertEquals("Shown anonymously to recipient and team members, visible to instructors",
+                templateQnForm.get(0).getQnVisibilityOption());
+        assertEquals(4, templateQnForm.get(0).getQnVisibilityHints().size());
+        assertEquals("Use <b>peer estimates</b> to determine the <b>work distribution percentage</b> "
+                + "among team members in <b>a team activity</b>", templateQnForm.get(0).getQnDescription());
 
         // test question edit forms
         List<FeedbackQuestionEditForm> questionForms = data.getQnForms();
@@ -217,7 +238,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         instructor = getInstructorFromBundle("instructor1OfCourse1");
         courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, true,
+        data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor, true,
                 instructorList.size(), courseDetails);
 
         fsForm = data.getFsForm();

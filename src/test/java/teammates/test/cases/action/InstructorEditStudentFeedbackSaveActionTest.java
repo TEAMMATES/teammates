@@ -1,8 +1,11 @@
 package teammates.test.cases.action;
 
+import java.util.ArrayList;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -12,6 +15,7 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorEditStudentFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
@@ -782,6 +786,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInClosedSession() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "IESFPTCourse", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -831,6 +836,12 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+        // Verifies that comment is searchable
+        ArrayList<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+        FeedbackResponseCommentSearchResultBundle bundle = frcDb.search("\"New comment\"", instructors);
+        assertEquals(1, bundle.numberOfResults);
+        verifySearchResults(bundle, frc);
 
         ______TS("Update response comment");
 
@@ -867,5 +878,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+        // Verifies that comment is searchable
+        bundle = frcDb.search("\"Edited comment\"", instructors);
+        assertEquals(1, bundle.numberOfResults);
+        verifySearchResults(bundle, frc);
     }
 }
