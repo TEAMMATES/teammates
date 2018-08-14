@@ -97,7 +97,6 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
         FeedbackQuestionAttributes attr = FeedbackQuestionAttributes.valueOf(question);
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) attr.getQuestionDetails();
         List<List<Double>> weightsForEachCell = fqd.getRubricWeights();
-
         try {
             Field rubricWeightsForEachCell = fqd.getClass().getDeclaredField("rubricWeightsForEachCell");
             rubricWeightsForEachCell.setAccessible(true);
