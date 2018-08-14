@@ -14,7 +14,7 @@
 </a>
 <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
     href="${actions.allowedToDelete ? actions.deleteLink : 'javascript:;'}"
-    title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECOVERY %>"
+    title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECYCLE_BIN %>"
     data-toggle="tooltip"
     data-placement="top"
     data-courseid="${actions.courseId}"

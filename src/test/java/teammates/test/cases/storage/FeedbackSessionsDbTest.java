@@ -100,7 +100,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
-        testGetRecoveryFeedbackSessionsForCourse();
+        testGetSoftDeletedFeedbackSessionsForCourse();
         testGetFeedbackSessionsPossiblyNeedingOpenEmail();
         testGetFeedbackSessionsPossiblyNeedingClosingEmail();
         testGetFeedbackSessionsPossiblyNeedingClosedEmail();
@@ -179,24 +179,25 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
 
-    private void testGetRecoveryFeedbackSessionsForCourse() {
+    private void testGetSoftDeletedFeedbackSessionsForCourse() {
 
         ______TS("standard success case");
 
-        List<FeedbackSessionAttributes> recoverySessions = fsDb.getRecoveryFeedbackSessionsForCourse("idOfTypicalCourse3");
+        List<FeedbackSessionAttributes> softDeletedSessions = fsDb
+                .getSoftDeletedFeedbackSessionsForCourse("idOfTypicalCourse3");
 
         String expected =
                 dataBundle.feedbackSessions.get("session2InCourse3").toString() + System.lineSeparator();
 
-        for (FeedbackSessionAttributes session : recoverySessions) {
+        for (FeedbackSessionAttributes session : softDeletedSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertEquals(1, recoverySessions.size());
+        assertEquals(1, softDeletedSessions.size());
 
         ______TS("null params");
 
         try {
-            fsDb.getRecoveryFeedbackSessionsForCourse(null);
+            fsDb.getSoftDeletedFeedbackSessionsForCourse(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -204,11 +205,11 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("non-existant course");
 
-        assertTrue(fsDb.getRecoveryFeedbackSessionsForCourse("non-existant course").isEmpty());
+        assertTrue(fsDb.getSoftDeletedFeedbackSessionsForCourse("non-existant course").isEmpty());
 
         ______TS("no sessions in course");
 
-        assertTrue(fsDb.getRecoveryFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
+        assertTrue(fsDb.getSoftDeletedFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
 
     private void testGetFeedbackSessionsPossiblyNeedingOpenEmail() {
@@ -314,7 +315,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.updateFeedbackSession(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
         assertTrue(fsDb.getFeedbackSessionsForCourse("testCourse").isEmpty());
-        assertFalse(fsDb.getRecoveryFeedbackSessionsForCourse("testCourse").isEmpty());
+        assertFalse(fsDb.getSoftDeletedFeedbackSessionsForCourse("testCourse").isEmpty());
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {

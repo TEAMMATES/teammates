@@ -275,7 +275,7 @@ public final class FeedbackSessionsLogic {
      * <br>
      * Omits sessions if the corresponding course is archived or in Recycle Bin
      */
-    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
@@ -283,7 +283,7 @@ public final class FeedbackSessionsLogic {
             return fsList;
         }
 
-        fsList.addAll(getRecoveryFeedbackSessionsListForCourse(instructor.courseId));
+        fsList.addAll(getSoftDeletedFeedbackSessionsListForCourse(instructor.courseId));
         return fsList;
     }
 
@@ -292,7 +292,7 @@ public final class FeedbackSessionsLogic {
      * <br>
      * Omits sessions if the corresponding courses are archived or in Recycle Bin
      */
-    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructors(
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructors(
             List<InstructorAttributes> instructorList) {
 
         List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
@@ -302,7 +302,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(getRecoveryFeedbackSessionsListForCourse(instructor.courseId));
+            fsList.addAll(getSoftDeletedFeedbackSessionsListForCourse(instructor.courseId));
         }
 
         return fsList;
@@ -1516,7 +1516,8 @@ public final class FeedbackSessionsLogic {
     public void deleteAllFeedbackSessionsCascade(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
-        List<FeedbackSessionAttributes> feedbackSessionsList = getRecoveryFeedbackSessionsListForInstructors(instructorList);
+        List<FeedbackSessionAttributes> feedbackSessionsList =
+                getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
 
         for (FeedbackSessionAttributes session : feedbackSessionsList) {
             deleteFeedbackSessionCascade(session.getSessionName(), session.getCourseId());
@@ -1527,7 +1528,7 @@ public final class FeedbackSessionsLogic {
      * Soft-deletes a specific feedback session to Recycle Bin.
      * @return Soft-deletion time of the feedback session.
      */
-    public Instant moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
+    public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         feedbackSession.setDeletedTime();
@@ -1539,7 +1540,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Restores a specific feedback session from Recycle Bin to feedback sessions table.
      */
-    public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
+    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         feedbackSession.resetDeletedTime();
@@ -1549,13 +1550,14 @@ public final class FeedbackSessionsLogic {
     /**
      * Restores all feedback sessions from Recycle Bin to feedback sessions table.
      */
-    public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
+    public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
-        List<FeedbackSessionAttributes> feedbackSessionsList = getRecoveryFeedbackSessionsListForInstructors(instructorList);
+        List<FeedbackSessionAttributes> feedbackSessionsList =
+                getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
         for (FeedbackSessionAttributes session : feedbackSessionsList) {
-            restoreFeedbackSessionFromRecovery(session.getFeedbackSessionName(), session.getCourseId());
+            restoreFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), session.getCourseId());
         }
     }
 
@@ -2146,9 +2148,9 @@ public final class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    private List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForCourse(String courseId) {
+    private List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForCourse(String courseId) {
 
-        return fsDb.getRecoveryFeedbackSessionsForCourse(courseId);
+        return fsDb.getSoftDeletedFeedbackSessionsForCourse(courseId);
     }
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(

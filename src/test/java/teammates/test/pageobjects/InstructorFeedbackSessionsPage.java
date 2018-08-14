@@ -100,7 +100,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "resendPublishedEmailModal")
     private WebElement resendPublishedEmailModal;
 
-    @FindBy(id = "recoverySessionsHeading")
+    @FindBy(id = "softDeletedSessionsHeading")
     private WebElement panelHeading;
 
     private InstructorCopyFsToModal fsCopyToModal;
@@ -411,16 +411,16 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return getLinkAtTableRow("session-edit-for-test", sessionRowId);
     }
 
-    public WebElement getMoveToRecoveryLink(String courseId, String sessionName) {
+    public WebElement getMoveToRecycleBinLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-delete", sessionRowId);
     }
 
     public WebElement getRestoreLink(String courseId, String sessionName) {
         click(panelHeading);
-        waitForElementVisibility(browser.driver.findElement(By.id("recoverycourseid0")));
-        int sessionRowId = getRecoveryFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtRecoveryTableRow("t_session_restore", sessionRowId);
+        waitForElementVisibility(browser.driver.findElement(By.id("softdeletedcourseid0")));
+        int sessionRowId = getSoftDeletedFeedbackSessionRowId(courseId, sessionName);
+        return getLinkAtSoftDeletedTableRow("t_session_restore", sessionRowId);
     }
 
     public WebElement getRestoreAllLink() {
@@ -429,9 +429,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public WebElement getDeleteLink(String courseId, String sessionName) {
         click(panelHeading);
-        waitForElementVisibility(browser.driver.findElement(By.id("recoverycourseid0")));
-        int sessionRowId = getRecoveryFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtRecoveryTableRow("t_session_delete", sessionRowId);
+        waitForElementVisibility(browser.driver.findElement(By.id("softdeletedcourseid0")));
+        int sessionRowId = getSoftDeletedFeedbackSessionRowId(courseId, sessionName);
+        return getLinkAtSoftDeletedTableRow("t_session_delete", sessionRowId);
     }
 
     public WebElement getDeleteAllLink() {
@@ -542,7 +542,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                 + (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
     }
 
-    private WebElement getLinkAtRecoveryTableRow(String className, int rowIndex) {
+    private WebElement getLinkAtSoftDeletedTableRow(String className, int rowIndex) {
         return browser.driver.findElement(By.className(className + rowIndex));
     }
 
@@ -558,11 +558,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return -1;
     }
 
-    private int getRecoveryFeedbackSessionRowId(String courseId, String sessionName) {
+    private int getSoftDeletedFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
-        while (i < getRecoveryFeedbackSessionsCount()) {
-            if (getRecoveryFeedbackSessionCourseId(i).equals(courseId)
-                    && getRecoveryFeedbackSessionName(i).equals(sessionName)) {
+        while (i < getSoftDeletedFeedbackSessionsCount()) {
+            if (getSoftDeletedFeedbackSessionCourseId(i).equals(courseId)
+                    && getSoftDeletedFeedbackSessionName(i).equals(sessionName)) {
                 return i;
             }
             i++;
@@ -574,10 +574,10 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
 
-    private int getRecoveryFeedbackSessionsCount() {
-        By recoverySessionsTable = By.id("tableRecoveryFeedbackSessions");
-        waitForElementPresence(recoverySessionsTable);
-        return browser.driver.findElement(recoverySessionsTable).findElements(By.tagName("tr")).size();
+    private int getSoftDeletedFeedbackSessionsCount() {
+        By softDeletedSessionsTable = By.id("tableSoftDeletedFeedbackSessions");
+        waitForElementPresence(softDeletedSessionsTable);
+        return browser.driver.findElement(softDeletedSessionsTable).findElements(By.tagName("tr")).size();
     }
 
     private String getFeedbackSessionCourseId(int rowId) {
@@ -587,8 +587,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                              .getText();
     }
 
-    private String getRecoveryFeedbackSessionCourseId(int rowId) {
-        return browser.driver.findElement(By.id("tableRecoveryFeedbackSessions"))
+    private String getSoftDeletedFeedbackSessionCourseId(int rowId) {
+        return browser.driver.findElement(By.id("tableSoftDeletedFeedbackSessions"))
                 .findElements(By.xpath("tbody/tr")).get(rowId)
                 .findElements(By.xpath("td")).get(0)
                 .getText();
@@ -601,8 +601,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                              .getText();
     }
 
-    private String getRecoveryFeedbackSessionName(int rowId) {
-        return browser.driver.findElement(By.id("tableRecoveryFeedbackSessions"))
+    private String getSoftDeletedFeedbackSessionName(int rowId) {
+        return browser.driver.findElement(By.id("tableSoftDeletedFeedbackSessions"))
                 .findElements(By.xpath("tbody/tr")).get(rowId)
                 .findElements(By.xpath("td")).get(1)
                 .getText();
@@ -624,8 +624,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(fsCopyButton);
     }
 
-    public InstructorFeedbackSessionsPage moveSessionToRecovery(String courseId, String sessionName) {
-        click(getMoveToRecoveryLink(courseId, sessionName));
+    public InstructorFeedbackSessionsPage moveSessionToRecycleBin(String courseId, String sessionName) {
+        click(getMoveToRecycleBinLink(courseId, sessionName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackSessionsPage.class);
     }

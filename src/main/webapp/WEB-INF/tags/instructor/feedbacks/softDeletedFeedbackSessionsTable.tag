@@ -1,11 +1,11 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorFeedbacks - recovery feedback sessions table/list" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbacks - Soft-deleted feedback sessions table/list" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ attribute name="recoveryFsList" type="teammates.ui.template.RecoveryFeedbackSessionsTable" required="true" %>
+<%@ attribute name="softDeletedFsList" type="teammates.ui.template.SoftDeletedFeedbackSessionsTable" required="true" %>
 
 <c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
-<table class="table table-bordered table-striped margin-0" id="tableRecoveryFeedbackSessions">
+<table class="table table-bordered table-striped margin-0" id="tableSoftDeletedFeedbackSessions">
   <thead class="${tableHeaderClass}">
   <tr>
     <th id="btn_sortid" class="button-sort-none toggle-sort">
@@ -23,26 +23,26 @@
     <th class="align-center no-print">Action(s)</th>
   </tr>
   </thead>
-  <c:forEach items="${recoveryFsList.rows}" var="recoverySession" varStatus="i">
+  <c:forEach items="${softDeletedFsList.rows}" var="softDeletedSession" varStatus="i">
     <tr>
-      <td id="recoverycourseid${i.index}">${recoverySession.courseId}</td>
-      <td id="recoverysessionname${i.index}">${recoverySession.sessionName}</td>
+      <td id="softdeletedcourseid${i.index}">${softDeletedSession.courseId}</td>
+      <td id="softdeletedsessionname${i.index}">${softDeletedSession.sessionName}</td>
       <td
-          id="recoverysessioncreateddate${i.index}"
-          data-date-stamp="${recoverySession.createdTimeDateStamp}"
+          id="softdeletedsessioncreateddate${i.index}"
+          data-date-stamp="${softDeletedSession.createdTimeDateStamp}"
           data-toggle="tooltip"
-          data-original-title="${recoverySession.createdTimeFullDateTimeString}">
-          ${recoverySession.createdTimeDateString}
+          data-original-title="${softDeletedSession.createdTimeFullDateTimeString}">
+          ${softDeletedSession.createdTimeDateString}
       </td>
       <td
-          id="recoverysessiondeleteddate${i.index}"
-          data-date-stamp="${recoverySession.deletedTimeDateStamp}"
+          id="softdeletedsessiondeleteddate${i.index}"
+          data-date-stamp="${softDeletedSession.deletedTimeDateStamp}"
           data-toggle="tooltip"
-          data-original-title="${recoverySession.deletedTimeFullDateTimeString}">
-          ${recoverySession.deletedTimeDateString}
+          data-original-title="${softDeletedSession.deletedTimeFullDateTimeString}">
+          ${softDeletedSession.deletedTimeDateString}
       </td>
       <td class="align-center no-print">
-        <c:forEach items="${recoverySession.actions}" var="button">
+        <c:forEach items="${softDeletedSession.actions}" var="button">
           <a ${button.attributesToString}>
               ${button.content}
           </a>
