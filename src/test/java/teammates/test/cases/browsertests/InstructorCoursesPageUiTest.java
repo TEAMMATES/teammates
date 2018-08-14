@@ -290,12 +290,12 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         String courseId = "CCAddUiTest.course1";
         assertFalse(validCourse.isCourseDeleted());
 
-        coursesPage.moveCourseToRecovery(courseId);
+        coursesPage.moveCourseToRecycleBin(courseId);
         validCourse.setDeletedAt();
 
         assertNotNull(BackDoor.getCourse(courseId));
         assertTrue(validCourse.isCourseDeleted());
-        coursesPage.verifyHtmlMainContent("/instructorCoursesMoveToRecoverySuccessful.html");
+        coursesPage.verifyHtmlMainContent("/instructorCoursesMoveToRecycleBinSuccessful.html");
     }
 
     private void testRestoreAction() throws Exception {
@@ -400,7 +400,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         instructorId = testData.accounts.get("OtherInstructorWithCourses").googleId;
         coursesPage = getCoursesPage();
-        coursesPage.verifyHtmlMainContent("/otherInstructorCoursesMultipleRecoveryCourses.html");
+        coursesPage.verifyHtmlMainContent("/otherInstructorCoursesMultipleSoftDeletedCourses.html");
 
         CourseAttributes courseCS2106 = testData.courses.get("CS2106");
         assertTrue(courseCS2106.isCourseDeleted());
