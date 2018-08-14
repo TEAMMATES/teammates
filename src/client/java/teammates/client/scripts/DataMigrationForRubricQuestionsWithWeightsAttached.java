@@ -83,7 +83,8 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
     protected void migrate(Key<FeedbackQuestion> questionKey) {
         ofy().transact(() -> {
             FeedbackQuestion question = ofy().load().key(questionKey).now();
-            updateWeights(question);
+            question = updateWeights(question);
+            ofy().save().entity(question).now();
         });
     }
 
@@ -95,11 +96,10 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
         // nothing to do
     }
 
-    protected void updateWeights(FeedbackQuestion question) {
+    protected FeedbackQuestion updateWeights(FeedbackQuestion question) {
         FeedbackQuestionAttributes attr = FeedbackQuestionAttributes.valueOf(question);
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) attr.getQuestionDetails();
         List<List<Double>> weightsForEachCell = fqd.getRubricWeights();
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
         try {
             Field rubricWeightsForEachCell = fqd.getClass().getDeclaredField("rubricWeightsForEachCell");
@@ -107,13 +107,11 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
             rubricWeightsForEachCell.set(fqd, weightsForEachCell);
 
             attr.setQuestionDetails(fqd);
-            fqDb.updateFeedbackQuestion(attr);
+            question.setQuestionText(attr.questionMetaData);
+            question.keepUpdateTimestamp = true;
         } catch (ReflectiveOperationException e) {
             System.out.println(e.getMessage());
-        } catch (InvalidParametersException e) {
-            System.out.println(e.getMessage());
-        } catch (EntityDoesNotExistException e) {
-            System.out.println(e.getMessage());
         }
+        return question;
     }
 }
