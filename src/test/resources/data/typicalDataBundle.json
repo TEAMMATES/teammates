@@ -1285,22 +1285,6 @@
         "INSTRUCTORS"
       ]
     },
-    "qn1InSession2InCourse2": {
-      "feedbackSessionName": "Not answerable feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": {
-        "value": "This is a session for myself"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "SELF",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 10,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
-    },
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "idOfTestingSanitizationCourse",
@@ -1322,6 +1306,22 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "qn1InSession1InCourse3": {
+      "feedbackSessionName": "Not answerable feedback session",
+      "courseId": "idOfTypicalCourse3",
+      "creatorEmail": "instructor1@course3.tmt",
+      "questionMetaData": {
+        "value": "This is a session for myself"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "SELF",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 10,
+      "showResponsesTo": [],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": []
     }
   },
   "feedbackResponses": {

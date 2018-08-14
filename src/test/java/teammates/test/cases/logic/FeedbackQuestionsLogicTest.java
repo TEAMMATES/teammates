@@ -68,6 +68,13 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 2); // 3 - giver = 2
 
+        ______TS("empty case: response to team members in course 3, but alone");
+
+        question = getQuestionFromDatastore("qn1InSession1InCourse3");
+        email = dataBundle.students.get("student1InCourse3").email;
+        recipients = fqLogic.getRecipientsForQuestion(question, email);
+        assertEquals(recipients.size(), 0);
+
         ______TS("response to team members, total 2");
 
         question = getQuestionFromDatastore("team.members.feedback");
