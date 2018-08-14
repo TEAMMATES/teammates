@@ -2,6 +2,7 @@ package teammates.test.cases.browsertests;
 
 import java.util.List;
 
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -23,6 +24,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "msq";
 
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -60,6 +62,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
     }
 
     @Override
@@ -506,6 +509,110 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
+
+    /**
+     * Tests that MSQ options (new and existing) can be reordered using drag and drop mechanism.
+     * @throws Exception when option is not draggable
+     */
+    private void testReorderOptions() throws Exception {
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillMsqOptionForNewQuestion(2, "Choice 3");
+        feedbackEditPage.fillMsqOptionForNewQuestion(3, "Choice 4");
+
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 0, "10");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 1, "20");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 2, "30");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 3, "40");
+
+        ______TS("MSQ: reorder existing options");
+
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.clickAddQuestionButton();
+        JSONObject msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+
+        ______TS("MSQ: add option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 4, "New Choice");
+        feedbackEditPage.fillMsqWeightBox(1, 4, "50");
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[30,50,10,20,40]", msqQuestionDetails.get("msqWeights").toString());
+
+        ______TS("MSQ: delete option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+        feedbackEditPage.fillMsqOption(1, 1, "Old Choice");
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[30,40,50,20]", msqQuestionDetails.get("msqWeights").toString());
+
+        ______TS("MSQ: add, delete and reorder options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 4, "New Choice");
+        feedbackEditPage.fillMsqOption(1, 5, "Newer Choice");
+        feedbackEditPage.fillMsqWeightBox(1, 4, "50");
+        feedbackEditPage.fillMsqWeightBox(1, 5, "60");
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[60,50,30,40,20]", msqQuestionDetails.get("msqWeights").toString());
+
+        ______TS("MSQ: weights should be reordered when checkbox is unticked");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 5, "Newest Choice");
+        feedbackEditPage.fillMsqWeightBox(1, 5, "70");
+        feedbackEditPage.clickMsqHasAssignWeightsCheckbox(1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 3, 1);
+        feedbackEditPage.clickMsqHasAssignWeightsCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+               .questionMetaData.getValue());
+        assertEquals("[\"Choice 2\",\"Choice 3\",\"Newer Choice\",\"New Choice\",\"Choice 4\",\"Newest Choice\"]",
+                    msqQuestionDetails.get("msqChoices").toString());
+        assertEquals("[20,30,60,50,40,70]", msqQuestionDetails.get("msqWeights").toString());
+
+        ______TS("MSQ: delete question");
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 

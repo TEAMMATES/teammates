@@ -466,6 +466,77 @@ function backupQuestion(questionNum) {
 }
 
 /**
+ * Sets up the sortable question options grid. Binds an update event to the option elements
+ * which is triggered whenever the order of elements changes. The event handler updates the
+ * ids of elements to match the new order.
+ * @param qnType type of question
+ * @param questionNum question number
+ */
+function setupSortableQuestionOptionsGrid(qnType, questionNum) {
+    const optionsElement = $(`#${qnType}Choices-${questionNum}`);
+    const weightsElement = $(`#${qnType}Weights-${questionNum}`);
+    const optionWeightsMap = {};
+
+    let isWeightsCheckboxPresent = false;
+    let numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
+    function buildOptionWeightsMap() {
+        isWeightsCheckboxPresent = $(`#${qnType}HasAssignedWeights-${questionNum}`).length > 0;
+        numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
+        if (isWeightsCheckboxPresent) {
+            for (let i = 0; i < numOptions; i += 1) {
+                const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
+                const weight = weightsElement.find(`input[type='number']:eq(${i})`).val();
+
+                optionWeightsMap[optionName] = weight;
+            }
+        }
+    }
+
+    function reorderOptionWeights() {
+        if (isWeightsCheckboxPresent) {
+            for (let i = 0; i < numOptions; i += 1) {
+                const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
+                const newWeight = optionWeightsMap[optionName];
+                weightsElement.find(`input[type='number']:eq(${i})`).val(newWeight);
+            }
+        }
+    }
+    function updateOptionAttributes(options) {
+        options.children().each(function (index) {
+            $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
+            $(this).find(`input[id^="${qnType}Option-"]`).attr({
+                name: `${qnType}Option-${index}`,
+                id: `${qnType}Option-${index}-${questionNum}`,
+            });
+            $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
+                    `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
+        });
+    }
+    function updateWeightAttributes(weights) {
+        if (isWeightsCheckboxPresent) {
+            weights.children().each(function (index) {
+                $(this).find(`input[id^="${qnType}Weight-"]`).attr({
+                    name: `${qnType}Weight-${index}`,
+                    id: `${qnType}Weight-${index}-${questionNum}`,
+                });
+            });
+        }
+    }
+
+    optionsElement.sortable({
+        cursor: 'move',
+        start() {
+            buildOptionWeightsMap();
+        },
+        update() {
+            reorderOptionWeights();
+            updateOptionAttributes(optionsElement);
+            updateWeightAttributes(weightsElement);
+        },
+    });
+}
+
+/**
  * Enables question fields and "save changes" button for the given question number,
  * and hides the edit link.
  * @param questionNum
@@ -500,6 +571,11 @@ function enableQuestion(questionNum) {
 
     toggleMcqGeneratedOptions($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).get(0), questionNum);
     toggleMsqGeneratedOptions($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).get(0), questionNum);
+
+    setupSortableQuestionOptionsGrid('mcq', questionNum);
+    setupSortableQuestionOptionsGrid('msq', questionNum);
+    setupSortableQuestionOptionsGrid('constSum', questionNum);
+    setupSortableQuestionOptionsGrid('rank', questionNum);
 
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
@@ -596,6 +672,11 @@ function enableNewQuestion() {
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
+
+    setupSortableQuestionOptionsGrid('mcq', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('msq', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('constSum', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('rank', NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
@@ -1041,6 +1122,26 @@ function bindCopyEvents() {
     });
 }
 
+function bindAddTemplateQnEvents() {
+    const $button = $('#button_add_template_submit');
+
+    $('#addTemplateQuestionModal .panel-title').click(function (e) {
+        if (!$(e.target).is('input')) {
+            $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
+        }
+    });
+
+    $('[id^="addTemplateQuestion-"]').click(() => {
+        const numCheckboxChecked = $('input[name="templatequestionnum"]:checked').length;
+
+        $button.prop('disabled', numCheckboxChecked <= 0);
+    });
+
+    $button.click(() => {
+        $('#addTemplateQuestionModalForm').submit();
+    });
+}
+
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1191,7 +1292,10 @@ function readyFeedbackEditPage() {
             });
 
     $('#add-new-question-dropdown > li').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
+        const questionType = $(this).data('questiontype');
+        if (questionType !== 'TEMPLATE') {
+            showNewQuestionFrame(questionType);
+        }
     });
 
     // Copy Binding
@@ -1199,6 +1303,7 @@ function readyFeedbackEditPage() {
     bindCopyEvents();
     setupQuestionCopyModal();
 
+    bindAddTemplateQnEvents();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
         enableEditFS();

@@ -66,7 +66,29 @@ public final class BackDoor {
     }
 
     /**
-     * Removes and restores given data into the datastore.
+     * Removes and restores given data in the datastore. This method is to be called on test startup.
+     *
+     * <p>Note:  The data associated with the test accounts have to be <strong>manually</strong> removed by removing the data
+     * bundle when a test ends because the test accounts are shared across tests.
+     *
+     * <p>Test data should never be cleared after test in order to prevent incurring additional datastore costs because the
+     * test's data may not be accessed in another test. Also although unlikely in normal conditions, when a test fail to
+     * remove data bundle on teardown, another test should have no reason to fail.
+     *
+     * <p>Another reason not to remove associated data after a test is that in case of test failures, it helps to have the
+     * associated data in the datastore to debug the failure.
+     *
+     * <p>This means that removing the data bundle on startup is not always sufficient because a test only knows how
+     * to remove its associated data.
+     * This is why some tests would fail when they use the same account and use different data.
+     * Extending this method to remove data outside its associated data would introduce
+     * unnecessary complications such as extra costs and knowing exactly how much data to remove. Removing too much data
+     * would not just incur higher datastore costs but we can make tests unexpectedly pass(fail) when the data is expected to
+     * be not present(present) in another test.
+     *
+     * <p>TODO: Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests.
+     * However, removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently
+     * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
         removeAdminEmailsFromDataBundle(dataBundle);

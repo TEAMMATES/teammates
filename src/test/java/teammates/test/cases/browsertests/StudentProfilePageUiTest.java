@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -52,12 +53,12 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // also inject instructor account for this test
         String instructorGoogleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         String instructorEmail = instructorGoogleId + "@gmail.com";
-        testData.accounts.get("SHomeUiT.instr").googleId = instructorGoogleId;
-        testData.accounts.get("SHomeUiT.instr").email = instructorEmail;
-        testData.instructors.get("SHomeUiT.instr.CS2104").googleId = instructorGoogleId;
-        testData.instructors.get("SHomeUiT.instr.CS2104").email = instructorEmail;
-        testData.instructors.get("SHomeUiT.instr.CS2103").googleId = instructorGoogleId;
-        testData.instructors.get("SHomeUiT.instr.CS2103").email = instructorEmail;
+        testData.accounts.get("SProfileUiT.instr").googleId = instructorGoogleId;
+        testData.accounts.get("SProfileUiT.instr").email = instructorEmail;
+        testData.instructors.get("SProfileUiT.instr.CS2104").googleId = instructorGoogleId;
+        testData.instructors.get("SProfileUiT.instr.CS2104").email = instructorEmail;
+        testData.instructors.get("SProfileUiT.instr.CS2103").googleId = instructorGoogleId;
+        testData.instructors.get("SProfileUiT.instr.CS2103").email = instructorEmail;
 
         removeAndRestoreDataBundle(testData);
     }
@@ -261,7 +262,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testAjaxPictureUrl() {
         String studentId = "studentWithExistingProfile";
-        String instructorId = "SHomeUiT.instr";
+        String instructorId = "SProfileUiT.instr";
         String instructorGoogleId = testData.accounts.get(instructorId).googleId;
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -330,6 +331,21 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(profileUrl, StudentProfilePage.class);
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        // The courses of test student1 account is not the same as `StudentHomePageUiTest`
+        // so it has to be cleared before running that test. This is the reason why `StudentHomePageUiTest`
+        // would fail if we don't remove the data bundle in this test.
+
+        // Since the account of user being logged in is shared in this test and `StudentHomepageUiTest`,
+        // we need to explicitly remove the data bundle of tests.
+        // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
+        // as the tests can run in any order.
+
+        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
+        BackDoor.removeDataBundle(testData);
     }
 
 }
