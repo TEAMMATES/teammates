@@ -925,25 +925,28 @@ Prevents content overflow in navbar. */
     padding: 20px 40px;
 }
 
-#student-data-spreadsheet .panel-body {
-    padding: 5px;
-    margin: 10px;
+.bottom-margin-correction {
+    margin-bottom: -15px;
+}
+
+.enroll-students-spreadsheet-buttons {
+    margin-top: -10px;
+    display: none;
 }
 
 #enrollstudents {
     display: none;
 }
 
-#number-of-rows {
-    width: 60px;
-    height: 32px;
-    padding: 4px;
-    border-radius: 4px;
-    border: 1px solid #AAA;
+#ajax-preload-image {
+    display: none;
 }
 
-#addEmptyRows {
-    margin-top: -3px;
+.ajax-status-message {
+    display: none;
+    font-weight: bold;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 #omni-comment-dropdown-trigger {
