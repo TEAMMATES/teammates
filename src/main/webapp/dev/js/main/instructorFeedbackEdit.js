@@ -1122,6 +1122,26 @@ function bindCopyEvents() {
     });
 }
 
+function bindAddTemplateQnEvents() {
+    const $button = $('#button_add_template_submit');
+
+    $('#addTemplateQuestionModal .panel-title').click(function (e) {
+        if (!$(e.target).is('input')) {
+            $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
+        }
+    });
+
+    $('[id^="addTemplateQuestion-"]').click(() => {
+        const numCheckboxChecked = $('input[name="templatequestionnum"]:checked').length;
+
+        $button.prop('disabled', numCheckboxChecked <= 0);
+    });
+
+    $button.click(() => {
+        $('#addTemplateQuestionModalForm').submit();
+    });
+}
+
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1272,7 +1292,10 @@ function readyFeedbackEditPage() {
             });
 
     $('#add-new-question-dropdown > li').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
+        const questionType = $(this).data('questiontype');
+        if (questionType !== 'TEMPLATE') {
+            showNewQuestionFrame(questionType);
+        }
     });
 
     // Copy Binding
@@ -1280,6 +1303,7 @@ function readyFeedbackEditPage() {
     bindCopyEvents();
     setupQuestionCopyModal();
 
+    bindAddTemplateQnEvents();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
         enableEditFS();

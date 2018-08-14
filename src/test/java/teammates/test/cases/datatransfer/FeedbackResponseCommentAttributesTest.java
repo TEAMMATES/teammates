@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.test.cases.BaseTestCase;
@@ -34,6 +35,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     public void testBuilderWithNullValues() {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
                 .builder("course", "name", "email", new Text(""))
+                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withFeedbackResponseId(null)
                 .withFeedbackQuestionId(null)
                 .withShowGiverNameTo(null)
@@ -45,12 +47,13 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withLastEditedAt(null)
                 .withFeedbackResponseCommentId(null)
                 .withVisibilityFollowingFeedbackQuestion(null)
+                .withCommentFromFeedbackParticipant(false)
                 .build();
 
         // Default values for following fields
         assertEquals(feedbackAttributes.giverSection, "None");
         assertEquals(feedbackAttributes.receiverSection, "None");
-        assertEquals(feedbackAttributes.lastEditorEmail, feedbackAttributes.giverEmail);
+        assertEquals(feedbackAttributes.lastEditorEmail, feedbackAttributes.commentGiver);
         assertEquals(feedbackAttributes.lastEditedAt, feedbackAttributes.createdAt);
         assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
@@ -58,9 +61,9 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf() {
         FeedbackResponseComment responseComment = new FeedbackResponseComment("course", "name",
-                "question", "giver", "response", Instant.now(),
+                "question", "giver", FeedbackParticipantType.STUDENTS, null, Instant.now(),
                 new Text("comment"), "giverSection", "receiverSection",
-                null, null, null, null);
+                null, null, null, null, false, false);
 
         FeedbackResponseCommentAttributes feedbackAttributes =
                 FeedbackResponseCommentAttributes.valueOf(responseComment);
@@ -73,7 +76,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(responseComment.getCourseId(), feedbackAttributes.courseId);
         assertEquals(responseComment.getFeedbackSessionName(), feedbackAttributes.feedbackSessionName);
         assertEquals(responseComment.getFeedbackQuestionId(), feedbackAttributes.feedbackQuestionId);
-        assertEquals(responseComment.getGiverEmail(), feedbackAttributes.giverEmail);
+        assertEquals(responseComment.getGiverEmail(), feedbackAttributes.commentGiver);
         assertEquals(responseComment.getFeedbackResponseId(), feedbackAttributes.feedbackResponseId);
         assertEquals(responseComment.getShowCommentTo(), feedbackAttributes.showCommentTo);
         assertEquals(responseComment.getShowGiverNameTo(), feedbackAttributes.showGiverNameTo);
@@ -91,5 +94,25 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
             assertEquals(responseComment.getIsVisibilityFollowingFeedbackQuestion().booleanValue(),
                     feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
         }
+    }
+
+    @Test
+    public void testConvertCommentTextToStringForCsv() {
+        Text text = new Text("aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello");
+        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", text)
+                .build();
+        String commentText = feedbackAttributes.getCommentAsCsvString();
+        assertEquals("\"aaa , bb\"\"b, c\"\"\"\"cc hello Images Link: http://test.com/test.png \"", commentText);
+    }
+
+    @Test
+    public void testConvertCommentTextToStringForHtml() {
+        Text text = new Text("<script>alert('injected');</script> <image src=\"http://test.com/test.png\"></image> hello");
+        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", text)
+                .build();
+        String commentText = feedbackAttributes.getCommentAsHtmlString();
+        assertEquals("hello Images Link: http:&#x2f;&#x2f;test.com&#x2f;test.png ", commentText);
     }
 }
