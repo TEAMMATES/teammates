@@ -894,6 +894,10 @@ Prevents content overflow in navbar. */
     margin-bottom: 0;
 }
 
+.ui-sortable-handle .input-group-addon {
+    cursor: move;
+}
+
 .more-info {
     margin-top: 30px;
     padding-bottom: 30px;
