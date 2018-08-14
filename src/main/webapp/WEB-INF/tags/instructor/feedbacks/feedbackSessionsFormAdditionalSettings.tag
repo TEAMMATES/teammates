@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks - new feedback session form additional settings" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.common.util.EmailType" %>
@@ -19,9 +20,11 @@
                   data-toggle="tooltip"
                   data-placement="top">
             </span>
-            <input type="hidden"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY %>"
-                value="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION %>">
+            <feedbacks:feedbackSessionsFormAdditionalSettingsModal
+                  settingId="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY%>"
+                  settingDescription="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION%>"
+                  settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONS%>"
+                  settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONSDESCRIPTION%>"/>
           </div>
         </div>
         <div class="row radio">
@@ -34,9 +37,6 @@
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
                 <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked=""</c:if>>
-            <input type="hidden"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY_CUSTOM %>"
-                value="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLE_CUSTOM %>">
           </h5>
           <div class="col-xs-5">
             <input class="form-control col-sm-2" type="text"
@@ -68,9 +68,6 @@
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_atopen"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN %>"
                 <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked=""</c:if>>
-            <input type="hidden"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY_ATOPEN %>"
-                value="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN %>">
           </div>
         </div>
       </div>
@@ -84,10 +81,12 @@
                   title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSEVISIBILITY_INFO %>"
                   data-toggle="tooltip"
                   data-placement="top">
-            <input type="hidden"
-                  id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY %>"
-                  value="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION %>">
             </span>
+            <feedbacks:feedbackSessionsFormAdditionalSettingsModal
+                  settingId="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY%>"
+                  settingDescription="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION%>"
+                  settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONS%>"
+                  settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONSDESCRIPTION%>"/>
           </div>
         </div>
         <div class="row radio">
@@ -100,9 +99,6 @@
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
                 <c:if test="${additionalSettings.responseVisibleDateChecked}">checked=""</c:if>>
-            <input type="hidden"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_CUSTOM %>"
-                value="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM %>">
           </h5>
           <div class="col-xs-5">
             <input class="form-control"
@@ -139,9 +135,6 @@
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_atvisible"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE %>"
                 <c:if test="${additionalSettings.responseVisibleImmediatelyChecked}">checked=""</c:if>>
-            <input type="hidden"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_IMMEDIATELY %>"
-                value="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_ONSUBMIT %>">
           </div>
         </div>
         <div class="row radio">
@@ -153,9 +146,6 @@
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
                 <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked=""</c:if>>
-            <input type="hidden"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_LATER %>"
-                value="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_LATER %>">
           </div>
         </div>
       </div>
@@ -172,10 +162,12 @@
               title="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_INFO %>"
               data-toggle="tooltip"
               data-placement="top">
-        <input type="hidden"
-              id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDEMAILS %>"
-              value="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION %>">
         </span>
+        <feedbacks:feedbackSessionsFormAdditionalSettingsModal
+              settingId="<%= Const.ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS%>"
+              settingDescription="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION%>"
+              settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_OPTIONS%>"
+              settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_OPTIONSDESCRIPTION%>"/>
       </div>
     </div>
     <div class="row">
@@ -187,9 +179,6 @@
               id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_open"
               <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked=""</c:if>
               value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled>
-          <input type="hidden"
-              id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDEMAILS_ATOPEN %>"
-              value="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN %>">
         </div>
       </div>
       <div class="col-md-3">
@@ -202,9 +191,6 @@
               id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing"
               <c:if test="${additionalSettings.sendClosingEmailChecked}">checked=""</c:if>
               value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
-          <input type="hidden"
-              id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDEMAILS_ATCLOSED %>"
-              value="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED %>">
         </div>
       </div>
       <div class="col-md-4">
@@ -217,9 +203,6 @@
               id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published"
               <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked=""</c:if>
               value="<%= EmailType.FEEDBACK_PUBLISHED.toString() %>">
-          <input type="hidden"
-              id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDEMAILS_ONPUBLISH %>"
-              value="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH %>">
         </div>
       </div>
     </div>

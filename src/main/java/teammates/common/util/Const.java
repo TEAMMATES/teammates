@@ -327,6 +327,12 @@ public final class Const {
                 + " before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN = "Select this option to have the feedback"
                 + " session become visible when it is open for submissions.";
+        public static final String[] FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONS = { "At", "Submission opening time" };
+        public static final String[] FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONSDESCRIPTION =
+                {
+                        FEEDBACK_SESSION_SESSIONVISIBLE_CUSTOM,
+                        FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN
+                };
         public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION = "Please select when the responses"
                 + " for the feedback session will be visible to the designated recipients. You can select the response"
                 + " visibility for each type of user and question later.";
@@ -337,6 +343,13 @@ public final class Const {
                 + " responses depends on the feedback path of the question.";
         public static final String FEEDBACK_SESSION_RESPONSESVISIBLE_LATER = "Select this option if you intend to manually"
                 + " publish the responses for this session later on.";
+        public static final String[] FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONS = { "At", "Immediately", "Not now" };
+        public static final String[] FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONSDESCRIPTION =
+                {
+                        FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM,
+                        FEEDBACK_SESSION_RESPONSESVISIBLE_ONSUBMIT,
+                        FEEDBACK_SESSION_RESPONSESVISIBLE_LATER
+                };
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION = "This setting allows you to automatically"
                 + " send email notifications to students on important events.";
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN = "Select this option to automatically send an"
@@ -347,6 +360,18 @@ public final class Const {
                 + " before the end of the feedback session.";
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH = "Select this option to automatically send"
                 + " an email to students to notify them when the feedback session results are published.";
+        public static final String[] FEEDBACK_SESSION_EMAILREMINDERS_OPTIONS =
+                {
+                        "Session opening reminder",
+                        "Session closing reminder",
+                        "Results published announcement"
+                };
+        public static final String[] FEEDBACK_SESSION_EMAILREMINDERS_OPTIONSDESCRIPTION =
+                {
+                        FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN,
+                        FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED,
+                        FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH
+                };
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
                 "Specify your own date and time when the session will be visible";
         public static final String FEEDBACK_SESSION_PUBLISHDATE =
@@ -723,16 +748,8 @@ public final class Const {
         public static final String SESSION_TEMPLATE_TYPE = "sessionTemplateType";
 
         public static final String FEEDBACK_SESSION_SESSIONVISIBILITY = "sessionVisibilityOptions";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_CUSTOM = "sessionVisibilityCustom";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_ATOPEN = "sessionVisibilityAtOpen";
         public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY = "responsesVisibilityOptions";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_CUSTOM = "responsesVisibilityCustom";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_IMMEDIATELY = "responsesVisibilityImmediate";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_LATER = "responsesVisibilityLater";
-        public static final String FEEDBACK_SESSION_SENDEMAILS = "sendEmailsOptions";
-        public static final String FEEDBACK_SESSION_SENDEMAILS_ATOPEN = "sendEmailsAtOpen";
-        public static final String FEEDBACK_SESSION_SENDEMAILS_ATCLOSED = "sendEmailsAtClosed";
-        public static final String FEEDBACK_SESSION_SENDEMAILS_ONPUBLISH = "sendEmailsOnPublish";
+        public static final String FEEDBACK_SESSION_EMAILREMINDERS = "emailRemindersOptions";
 
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
