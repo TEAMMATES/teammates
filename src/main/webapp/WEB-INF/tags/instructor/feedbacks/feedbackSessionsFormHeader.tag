@@ -52,7 +52,7 @@
         <a href="${fsForm.fsDeleteLink}"
             data-course-id="${fsForm.courseId}"
             data-feedback-session-name="${fsForm.fsName}"
-            title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECOVERY %>"
+            title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECYCLE_BIN %>"
             data-toggle="tooltip" data-placement="top"
             class="btn btn-primary btn-sm" id="button_fsdelete">
           <span class="glyphicon glyphicon-trash"></span> Delete

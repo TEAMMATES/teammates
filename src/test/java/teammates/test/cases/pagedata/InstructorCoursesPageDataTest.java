@@ -28,9 +28,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
                 new InstructorCoursesPageData(instructorAccountWithoutCourses, dummySessionToken);
         List<CourseAttributes> activeCourses = new ArrayList<>();
         List<CourseAttributes> archivedCourses = new ArrayList<>();
-        List<CourseAttributes> recoveryCourses = new ArrayList<>();
+        List<CourseAttributes> softDeletedCourses = new ArrayList<>();
         Map<String, InstructorAttributes> instructorForCourses = new HashMap<>();
-        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, softDeletedCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -40,9 +40,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
 
-        assertNotNull(pageData.getRecoveryCourses());
-        assertNotNull(pageData.getRecoveryCourses().getRows());
-        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+        assertNotNull(pageData.getSoftDeletedCourses());
+        assertNotNull(pageData.getSoftDeletedCourses().getRows());
+        assertEquals(0, pageData.getSoftDeletedCourses().getRows().size());
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
@@ -58,7 +58,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         archivedCourses = new ArrayList<>();
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfTypicalCourse1", dataBundle.instructors.get("instructor1OfCourse1"));
-        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, softDeletedCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -68,9 +68,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
 
-        assertNotNull(pageData.getRecoveryCourses());
-        assertNotNull(pageData.getRecoveryCourses().getRows());
-        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+        assertNotNull(pageData.getSoftDeletedCourses());
+        assertNotNull(pageData.getSoftDeletedCourses().getRows());
+        assertEquals(0, pageData.getSoftDeletedCourses().getRows().size());
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
@@ -88,7 +88,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfTypicalCourse1", dataBundle.instructors.get("instructor3OfCourse1"));
         instructorForCourses.put("idOfTypicalCourse2", dataBundle.instructors.get("instructor3OfCourse2"));
-        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses, "Id to show", "Name to show");
+        pageData.init(activeCourses, archivedCourses, softDeletedCourses, instructorForCourses,
+                "Id to show", "Name to show");
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -98,9 +99,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
 
-        assertNotNull(pageData.getRecoveryCourses());
-        assertNotNull(pageData.getRecoveryCourses().getRows());
-        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+        assertNotNull(pageData.getSoftDeletedCourses());
+        assertNotNull(pageData.getSoftDeletedCourses().getRows());
+        assertEquals(0, pageData.getSoftDeletedCourses().getRows().size());
 
         assertEquals("Id to show", pageData.getCourseIdToShow());
         assertEquals("Name to show", pageData.getCourseNameToShow());
@@ -118,7 +119,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfArchivedCourse", dataBundle.instructors.get("instructorOfArchivedCourse"));
 
-        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, softDeletedCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -128,9 +129,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(1, pageData.getArchivedCourses().getRows().size());
 
-        assertNotNull(pageData.getRecoveryCourses());
-        assertNotNull(pageData.getRecoveryCourses().getRows());
-        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+        assertNotNull(pageData.getSoftDeletedCourses());
+        assertNotNull(pageData.getSoftDeletedCourses().getRows());
+        assertEquals(0, pageData.getSoftDeletedCourses().getRows().size());
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
@@ -143,12 +144,12 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
 
         activeCourses = new ArrayList<>();
         archivedCourses = new ArrayList<>();
-        recoveryCourses.add(dataBundle.courses.get("typicalCourse3"));
+        softDeletedCourses.add(dataBundle.courses.get("typicalCourse3"));
 
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfTypicalCourse3", dataBundle.instructors.get("instructor2OfCourse3"));
 
-        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, softDeletedCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -158,9 +159,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
 
-        assertNotNull(pageData.getRecoveryCourses());
-        assertNotNull(pageData.getRecoveryCourses().getRows());
-        assertEquals(1, pageData.getRecoveryCourses().getRows().size());
+        assertNotNull(pageData.getSoftDeletedCourses());
+        assertNotNull(pageData.getSoftDeletedCourses().getRows());
+        assertEquals(1, pageData.getSoftDeletedCourses().getRows().size());
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());

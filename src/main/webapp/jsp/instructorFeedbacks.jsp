@@ -25,8 +25,8 @@
     <c:if test="${data.usingAjax}">
       <feedbacks:feedbackSessionsTable fsList = "${data.fsList}" />
 
-      <c:if test="${not empty data.recoveryFsList.rows}">
-        <feedbacks:recoveryFeedbackSessionsPanel />
+      <c:if test="${not empty data.softDeletedFsList.rows}">
+        <feedbacks:softDeletedFeedbackSessionsPanel />
         <br>
         <br>
         <br>

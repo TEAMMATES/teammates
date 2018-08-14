@@ -9,17 +9,17 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.ui.controller.InstructorFeedbackRestoreRecoverySessionAction;
+import teammates.ui.controller.InstructorFeedbackDeleteSoftDeletedSessionAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorFeedbackRestoreRecoverySessionAction}.
+ * SUT: {@link InstructorFeedbackDeleteSoftDeletedSessionAction}.
  */
-public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActionTest {
+public class InstructorFeedbackDeleteSoftDeletedSessionActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session2InCourse3");
 
-        ______TS("Typical case, restore 1 session from Recycle Bin, without privilege");
+        ______TS("Typical case, delete 1 session from Recycle Bin, without privilege");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -38,12 +38,12 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
         gaeSimulation.loginAsInstructor(instructor2OfCourse3.googleId);
         List<FeedbackSessionAttributes> existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        List<FeedbackSessionAttributes> recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
-        assertEquals(1, recoveryFsList.size());
+        List<FeedbackSessionAttributes> softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, softDeletedFsList.size());
 
-        InstructorFeedbackRestoreRecoverySessionAction restoreAction = getAction(submissionParams);
+        InstructorFeedbackDeleteSoftDeletedSessionAction deleteAction = getAction(submissionParams);
         try {
-            getRedirectResult(restoreAction);
+            getRedirectResult(deleteAction);
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Second feedback session] is not accessible to instructor "
                     + "[instructor2@course3.tmt] for privilege [canmodifysession]", e.getMessage());
@@ -51,45 +51,45 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
 
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
-        assertEquals(1, recoveryFsList.size());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, softDeletedFsList.size());
 
-        ______TS("Typical case, restore 1 session from Recycle Bin, with privilege");
+        ______TS("Typical case, delete 1 session from Recycle Bin, with privilege");
 
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
-        assertEquals(1, recoveryFsList.size());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, softDeletedFsList.size());
 
-        restoreAction = getAction(submissionParams);
-        RedirectResult r = getRedirectResult(restoreAction);
+        deleteAction = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(deleteAction);
 
-        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                         false,
                         "idOfInstructor1OfCourse3"),
                 r.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_RESTORED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
-        assertEquals(2, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
-        assertEquals(0, recoveryFsList.size());
+        assertEquals(1, existingFsList.size());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(0, softDeletedFsList.size());
     }
 
     @Override
-    protected InstructorFeedbackRestoreRecoverySessionAction getAction(String... params) {
-        return (InstructorFeedbackRestoreRecoverySessionAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorFeedbackDeleteSoftDeletedSessionAction getAction(String... params) {
+        return (InstructorFeedbackDeleteSoftDeletedSessionAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session2InCourse3");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse3");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),

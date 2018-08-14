@@ -35,7 +35,7 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btnAddCourse")
     private WebElement submitButton;
 
-    @FindBy(id = "recoveryPanelHeading")
+    @FindBy(id = "softDeletedPanelHeading")
     private WebElement panelHeading;
 
     public InstructorCoursesPage(Browser browser) {
@@ -78,8 +78,8 @@ public class InstructorCoursesPage extends AppPage {
         return this;
     }
 
-    public InstructorCoursesPage moveCourseToRecovery(String courseId) {
-        click(getMoveToRecoveryLink(courseId));
+    public InstructorCoursesPage moveCourseToRecycleBin(String courseId) {
+        click(getMoveToRecycleBinLink(courseId));
         waitForPageToLoad();
         return this;
     }
@@ -140,9 +140,9 @@ public class InstructorCoursesPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public WebElement getMoveToRecoveryLink(String courseId) {
+    public WebElement getMoveToRecycleBinLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
-        return getMoveToRecoveryLinkInRow(courseRowNumber);
+        return getMoveToRecycleBinLinkInRow(courseRowNumber);
     }
 
     public WebElement getArchiveLink(String courseId) {
@@ -157,8 +157,8 @@ public class InstructorCoursesPage extends AppPage {
 
     public WebElement getRestoreLink(String courseId) {
         click(panelHeading);
-        waitForElementVisibility(browser.driver.findElement(By.id("recoverycourseid0")));
-        int courseRowNumber = getRowNumberOfRecoveryCourse(courseId);
+        waitForElementVisibility(browser.driver.findElement(By.id("softdeletedcourseid0")));
+        int courseRowNumber = getRowNumberOfSoftDeletedCourse(courseId);
         return getRestoreLinkInRow(courseRowNumber);
     }
 
@@ -168,8 +168,8 @@ public class InstructorCoursesPage extends AppPage {
 
     public WebElement getDeleteLink(String courseId) {
         click(panelHeading);
-        waitForElementVisibility(browser.driver.findElement(By.id("recoverycourseid0")));
-        int courseRowNumber = getRowNumberOfRecoveryCourse(courseId);
+        waitForElementVisibility(browser.driver.findElement(By.id("softdeletedcourseid0")));
+        int courseRowNumber = getRowNumberOfSoftDeletedCourse(courseId);
         return getDeleteLinkInRow(courseRowNumber);
     }
 
@@ -249,10 +249,10 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(activeCoursesTable).findElements(By.tagName("tr")).size();
     }
 
-    private int getRecoveryCourseCount() {
-        By recoveryCoursesTable = By.id("tableRecoveryCourses");
-        waitForElementPresence(recoveryCoursesTable);
-        return browser.driver.findElement(recoveryCoursesTable).findElements(By.tagName("tr")).size();
+    private int getSoftDeletedCourseCount() {
+        By softDeletedCoursesTable = By.id("tableSoftDeletedCourses");
+        waitForElementPresence(softDeletedCoursesTable);
+        return browser.driver.findElement(softDeletedCoursesTable).findElements(By.tagName("tr")).size();
     }
 
     private int getRowNumberOfCourse(String courseId) {
@@ -264,9 +264,9 @@ public class InstructorCoursesPage extends AppPage {
         return -1;
     }
 
-    private int getRowNumberOfRecoveryCourse(String courseId) {
-        for (int i = 0; i < getRecoveryCourseCount(); i++) {
-            if (getRecoveryCourseIdCell(i).getText().equals(courseId)) {
+    private int getRowNumberOfSoftDeletedCourse(String courseId) {
+        for (int i = 0; i < getSoftDeletedCourseCount(); i++) {
+            if (getSoftDeletedCourseIdCell(i).getText().equals(courseId)) {
                 return i;
             }
         }
@@ -277,13 +277,13 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(By.id("courseid" + rowId));
     }
 
-    private WebElement getRecoveryCourseIdCell(int rowId) {
-        return browser.driver.findElement(By.id("recoverycourseid" + rowId));
+    private WebElement getSoftDeletedCourseIdCell(int rowId) {
+        return browser.driver.findElement(By.id("softdeletedcourseid" + rowId));
     }
 
-    private WebElement getMoveToRecoveryLinkInRow(int rowId) {
-        By moveToRecoveryLink = By.className("t_course_delete" + rowId);
-        return browser.driver.findElement(moveToRecoveryLink);
+    private WebElement getMoveToRecycleBinLinkInRow(int rowId) {
+        By moveToRecycleBinLink = By.className("t_course_delete" + rowId);
+        return browser.driver.findElement(moveToRecycleBinLink);
     }
 
     private WebElement getArchiveLinkInRow(int rowId) {

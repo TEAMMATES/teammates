@@ -316,13 +316,13 @@ function bindDeleteButtons() {
             window.location = $button.attr('href');
         };
 
-        showModalConfirmation('Confirm moving session to recovery', messageText, okCallback, null,
+        showModalConfirmation('Confirm moving session to Recycle Bin', messageText, okCallback, null,
                 null, null, BootstrapContextualColors.WARNING);
     });
 }
 
-function bindCourseMoveToRecoveryLinks() {
-    $('body').on('click', '.course-move-to-recovery-link', (event) => {
+function bindCourseMoveToRecycleBinLinks() {
+    $('body').on('click', '.course-move-to-recycle-bin-link', (event) => {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
@@ -332,7 +332,7 @@ function bindCourseMoveToRecoveryLinks() {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm moving course to recovery', messageText, okCallback, null,
+        showModalConfirmation('Confirm moving course to Recycle Bin', messageText, okCallback, null,
                 null, null, BootstrapContextualColors.WARNING);
     });
 }
@@ -597,7 +597,7 @@ function prepareInstructorPages() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 
     // bind the event handler to show confirmation modal
-    bindCourseMoveToRecoveryLinks();
+    bindCourseMoveToRecycleBinLinks();
     bindCourseDeleteLinks();
     bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();

@@ -160,10 +160,10 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
-                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE,
-                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL,
-                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE,
-                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL,
+                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE,
+                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL,
+                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
@@ -192,10 +192,10 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
@@ -233,7 +233,7 @@ public final class Const {
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_MOVE_TO_RECOVERY =
+        public static final String COURSE_MOVE_TO_RECYCLE_BIN =
                 "Delete the course and its corresponding students and sessions";
         public static final String COURSE_DELETE =
                 "Permanently delete the course and its corresponding students and sessions";
@@ -376,7 +376,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_COPY = "Copy feedback session details";
         public static final String FEEDBACK_SESSION_REMIND =
                 "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
-        public static final String FEEDBACK_SESSION_MOVE_TO_RECOVERY = "Delete the feedback session";
+        public static final String FEEDBACK_SESSION_MOVE_TO_RECYCLE_BIN = "Delete the feedback session";
         public static final String FEEDBACK_SESSION_DELETE = "Permanently delete the feedback session";
         public static final String FEEDBACK_SESSION_DELETE_ALL = "Permanently delete all feedback sessions";
         public static final String FEEDBACK_SESSION_RESTORE = "Restore the feedback session";
@@ -970,11 +970,11 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
-        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE = "/page/instructorCourseRestoreCourse";
-        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL =
+        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE = "/page/instructorCourseRestoreCourse";
+        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL =
                 "/page/instructorCourseRestoreAllCourses";
-        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE = "/page/instructorCourseDeleteCourse";
-        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL =
+        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE = "/page/instructorCourseDeleteCourse";
+        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL =
                 "/page/instructorCourseDeleteAllCourses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
@@ -1028,11 +1028,12 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
-        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE = "/page/instructorFeedbackRestoreSession";
-        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL =
+        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE =
+                "/page/instructorFeedbackRestoreSession";
+        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL =
                 "/page/instructorFeedbackRestoreAllSessions";
-        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE = "/page/instructorFeedbackDeleteSession";
-        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL =
+        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE = "/page/instructorFeedbackDeleteSession";
+        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL =
                 "/page/instructorFeedbackDeleteAllSessions";
 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";

@@ -12,7 +12,7 @@ import teammates.ui.pagedata.InstructorCoursesPageData;
 /**
  * Action: Permanently delete all sessions from Recycle Bin for an instructor.
  */
-public class InstructorFeedbackDeleteAllRecoverySessionsAction extends Action {
+public class InstructorFeedbackDeleteAllSoftDeletedSessionsAction extends Action {
 
     @Override
     public ActionResult execute() {
@@ -22,7 +22,7 @@ public class InstructorFeedbackDeleteAllRecoverySessionsAction extends Action {
 
         for (InstructorAttributes instructor : instructorList) {
             List<FeedbackSessionAttributes> feedbackSessionList =
-                    logic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+                    logic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
             for (FeedbackSessionAttributes feedbackSession : feedbackSessionList) {
                 gateKeeper.verifyAccessible(instructor,
                         feedbackSession,

@@ -101,7 +101,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAddDeleteActions() throws Exception {
         testAddAction();
-        testMoveToRecoveryAction();
+        testMoveToRecycleBinAction();
     }
 
     @Test
@@ -588,13 +588,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
     }
 
-    private void testMoveToRecoveryAction() throws Exception {
+    private void testMoveToRecycleBinAction() throws Exception {
 
         String courseId = newSession.getCourseId();
         String sessionName = "Long Instruction Test ##";
 
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions).moveSessionToRecovery(courseId, sessionName);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions)
+                .moveSessionToRecycleBin(courseId, sessionName);
         newSession.setDeletedTime();
 
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
@@ -602,7 +603,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertNotNull("session should not have been deleted",
                       BackDoor.getFeedbackSession(courseId, sessionName));
         assertTrue(newSession.isSessionDeleted());
-        feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecoverySuccessful.html");
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecycleBinSuccessful.html");
 
     }
 
@@ -610,7 +611,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         String instructorId = testData.accounts.get("instructorWithCS2105").googleId;
         feedbackPage = getFeedbackPageForInstructor(instructorId);
-        feedbackPage.verifyHtmlMainContent("/instructorOfCS2105WithMultipleRecoverySessions.html");
+        feedbackPage.verifyHtmlMainContent("/instructorOfCS2105WithMultipleSoftDeletedSessions.html");
         FeedbackSessionAttributes session1OfCS2105 = testData.feedbackSessions.get("session1OfCS2105");
         assertTrue(session1OfCS2105.isSessionDeleted());
 
@@ -653,7 +654,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
         feedbackPage = getFeedbackPageForInstructor(instructorId);
-        feedbackPage.verifyHtmlMainContent("/instructorOfCS2106WithMultipleRecoverySessions.html");
+        feedbackPage.verifyHtmlMainContent("/instructorOfCS2106WithMultipleSoftDeletedSessions.html");
         FeedbackSessionAttributes session1OfCS2106 = testData.feedbackSessions.get("session1OfCS2106");
         assertTrue(session1OfCS2106.isSessionDeleted());
 
