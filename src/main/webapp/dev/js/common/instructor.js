@@ -302,6 +302,18 @@ function bindStudentPhotoHoverLink(elements) {
     });
 }
 
+/**
+ * Returns the HTML required to render the soft deleted course ids as an unordered list.
+ */
+function generateUnorderedListHtml(softDeletedCourseIds) {
+    return `\
+<ul>
+${softDeletedCourseIds
+            .map(softDeletedCourseId => `<li>${softDeletedCourseId}</li>`)
+            .join('')}
+</ul>`;
+}
+
 function bindDeleteButtons() {
     $('body').on('click', '.session-delete-for-test', (event) => {
         event.preventDefault();
@@ -359,14 +371,15 @@ function bindCourseDeleteAllLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to permanently delete all the courses? '
-                + 'This operation will delete all students and sessions in these courses. '
-                + 'All instructors of these courses will not be able to access them hereafter as well.';
+        const softDeletedCourseIds = $('[id^="softdeletedcourseid"]').toArray()
+                .map(softDeletedCourseIdElement => $(softDeletedCourseIdElement).data('softDeletedCourseId'));
+        const message = `<p>Are you sure you want to permanently delete the following ${softDeletedCourseIds.length} courses in the <b>Recycle Bin</b>? This operation will delete all students and sessions in these courses. All instructors of these courses will not be able to access them hereafter as well.</p>
+${generateUnorderedListHtml(softDeletedCourseIds)}`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting all courses', messageText, okCallback, null,
+        showModalConfirmation('Confirm deleting all courses in the Recycle Bin', message, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
     });
 }
