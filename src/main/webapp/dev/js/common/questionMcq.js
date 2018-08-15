@@ -12,9 +12,10 @@ function addMcqOption(questionNum) {
 
     const choiceFragment = (`
     <div class="margin-bottom-7px" id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
-        <div class="input-group">
+        <div class="input-group width-100-pc">
             <span class="input-group-addon">
-                <input type="radio" disabled>
+                <span class="glyphicon glyphicon-resize-vertical"></span>
+                <input type="radio" class="disabled_radio" disabled>
             </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
@@ -44,6 +45,7 @@ function addMcqOption(questionNum) {
         $choiceColumn.append(choiceFragment);
         $weightColumn.append(weightFragment);
     }
+    $choiceColumn.sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -54,12 +56,9 @@ function addMcqOption(questionNum) {
 
 function removeMcqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
-
+    const numberOfOptions = $(`#mcqChoices-${questionNum}`).children('div').length;
     const $thisChoice = $(`#mcqOptionRow-${index}-${questionNum}`);
     const $thisWeight = $(`#mcqWeight-${index}-${questionNum}`);
-
-    // count number of child of mcqChoices div
-    const numberOfOptions = $(`#mcqChoices-${questionNum}`).children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisChoice.find('input').val('');

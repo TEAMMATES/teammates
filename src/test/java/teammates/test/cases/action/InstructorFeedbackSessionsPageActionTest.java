@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
@@ -30,7 +31,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
 
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        ______TS("Typical case, 2 courses");
+        ______TS("Typical case, 2 courses without deleted sessions");
         if (CoursesLogic.inst().isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
@@ -50,6 +51,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals(0, pageData.getSoftDeletedFsList().getRows().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
         assertNull(pageData.getNewFsForm().getCourseId());
 
@@ -59,7 +61,37 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbackSessionsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
+        ______TS("Typical case, 1 course with 1 existing session & 1 deleted session");
+        String instructorIdWithDeletedSession = typicalBundle.instructors.get("instructor1OfCourse3").googleId;
+        CourseAttributes typicalCourse3 = typicalBundle.courses.get("typicalCourse3");
+        CoursesLogic.inst().restoreCourseFromRecycleBin(typicalCourse3.getId());
+
+        gaeSimulation.loginAsInstructor(instructorIdWithDeletedSession);
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, false, instructorIdWithDeletedSession),
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        assertEquals("", r.getStatusMessage());
+
+        pageData = (InstructorFeedbackSessionsPageData) r.data;
+        assertEquals(instructorIdWithDeletedSession, pageData.account.googleId);
+        assertEquals(2, pageData.getNewFsForm().getCourses().size());
+        assertEquals(1, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals(2, pageData.getSoftDeletedFsList().getRows().size());
+        assertEquals("", pageData.getNewFsForm().getFsName());
+        assertNull(pageData.getNewFsForm().getCourseId());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackSessionsPage|||instructorFeedbackSessionsPage|||"
+                + "true|||Instructor|||Instructor 1 of Course 3|||idOfInstructor1OfCourse3|||"
+                + "instr1@course3.tmt|||Number of feedback sessions: 1|||/page/instructorFeedbackSessionsPage";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+
         ______TS("0 sessions");
+
+        gaeSimulation.loginAsInstructor(instructorId);
 
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
 
@@ -79,6 +111,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals(0, pageData.getSoftDeletedFsList().getRows().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
         assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseId());
 
@@ -111,6 +144,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(0, pageData.getNewFsForm().getCourses().size());
         assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals(0, pageData.getSoftDeletedFsList().getRows().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
 
         expectedLogMessage =
