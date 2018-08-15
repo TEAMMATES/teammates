@@ -1434,7 +1434,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "MSQ+Session"),
                 result.getDestinationWithParams());
         frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("MSQ comment by student 1", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -1553,7 +1553,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "MSQ+Session"),
                 result.getDestinationWithParams());
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("MSQ comment by student 1", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
