@@ -259,14 +259,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
                 "Show response if either the giver or evaluee is in the selected section");
-        // responses include same questionId from different sessions in typicalDataBundle.json
-        assertEquals(3, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("Responses filtered by both giver and recipient from section");
 
         responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
                 "Show response only if both are in the selected section");
-        assertEquals(2, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("Show response after filtering by giver from section");
 
@@ -278,7 +277,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2",
                 "Show response if the evaluee is in the selected section");
-        assertEquals(2, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("null params");
 
