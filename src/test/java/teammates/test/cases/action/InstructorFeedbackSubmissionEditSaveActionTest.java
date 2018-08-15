@@ -977,6 +977,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMsqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
@@ -1052,7 +1053,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
         // Verifies that comment is searchable
-        bundle = frcDb.search("\"Edited comment\"", instructors);
+        ArrayList<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor1InCourse1);
+        FeedbackResponseCommentSearchResultBundle bundle = frcDb.search("\"Edited comment\"", instructors);
         assertEquals(1, bundle.numberOfResults);
         verifySearchResults(bundle, frc);
     }
