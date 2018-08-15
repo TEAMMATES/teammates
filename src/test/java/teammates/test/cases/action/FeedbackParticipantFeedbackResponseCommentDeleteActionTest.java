@@ -123,7 +123,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
-                dataBundle.feedbackResponseComments.get("comment1FromInstructor1");
+                dataBundle.feedbackResponseComments.get("FPCommentFromInstructor1OnS1Q1R1");
         FeedbackResponseCommentAttributes frc =
                 feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.courseId,
                         feedbackResponseComment.createdAt, feedbackResponseComment.commentGiver);
@@ -144,7 +144,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
-                dataBundle.feedbackResponseComments.get("comment1FromStudent1");
+                dataBundle.feedbackResponseComments.get("FPCommentFromStudent1OnS1Q3R1");
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
@@ -181,7 +181,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
-                dataBundle.feedbackResponseComments.get("comment1FromTeam1");
+                dataBundle.feedbackResponseComments.get("FPCommentFromTeam1OnS1Q4R1");
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
@@ -244,7 +244,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
         int questionNumber = 3;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
-        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromStudent1");
+        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("FPCommentFromStudent1OnS1Q3R1");
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ3");
 
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
@@ -288,7 +288,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
         int questionNumber = 4;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
-        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromTeam1");
+        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("FPCommentFromTeam1OnS1Q4R1");
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ4");
 
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(

@@ -688,7 +688,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInOpenSession() {
+    public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMcqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -776,23 +776,29 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+    }
 
-        fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 7);
+    @Test
+    public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMsqQuestion() {
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 7);
         assertNotNull("Feedback question not found in database", fq);
 
-        fr = dataBundle.feedbackResponses.get("response1ForQ7");
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ7");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        instructor = dataBundle.instructors.get("IESFPTCourseinstr");
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
 
-        ______TS("Save new comment on response");
+        ______TS("Save new comment on MSQ response");
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -806,7 +812,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
 
-        result = getRedirectResult(getAction(submissionParams));
+        RedirectResult result = getRedirectResult(getAction(submissionParams));
 
         assertFalse(result.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
@@ -820,14 +826,14 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                         "First+feedback+session"),
                 result.getDestinationWithParams());
 
-        frc = getFeedbackParticipantComment(fr.getId());
+        FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
         assertEquals("New comment", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
 
-        ______TS("Update response comment");
+        ______TS("Update MSQ response comment");
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -866,7 +872,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInClosedSession() {
+    public void testSaveAndUpdateFeedbackParticipantComments_moderationInClosedSessionMcqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 

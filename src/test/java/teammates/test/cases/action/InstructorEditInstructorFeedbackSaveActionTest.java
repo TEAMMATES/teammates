@@ -504,7 +504,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInOpenSession() {
+    public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMcqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -588,22 +588,28 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         assertEquals("IEIFPTCoursehelper1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+    }
 
-        fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 7);
+    @Test
+    public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMsqQuestion() {
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 7);
         assertNotNull("Feedback question not found in database", fq);
 
-        fr = dataBundle.feedbackResponses.get("response1ForQ7");
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ7");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        instructor1InCourse1 = dataBundle.instructors.get("IEIFPTCourseinstr");
+        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("IEIFPTCourseinstr");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
-        moderatedInstructorEmail = "IEIFPTCoursehelper1@gmail.tmt";
+        String moderatedInstructorEmail = "IEIFPTCoursehelper1@gmail.tmt";
 
         ______TS("Save new comment on MSQ response");
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -616,7 +622,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
-        result = getRedirectResult(getAction(submissionParams));
+        RedirectResult result = getRedirectResult(getAction(submissionParams));
 
         assertFalse(result.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
@@ -628,7 +634,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 "IEIFPTCourse",
                 "First+feedback+session"), result.getDestinationWithParams());
 
-        frc = getFeedbackParticipantComment(fr.getId());
+        FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
         assertEquals("New comment", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("IEIFPTCoursehelper1@gmail.tmt", frc.commentGiver);
@@ -672,7 +678,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInClosedSession() {
+    public void testSaveAndUpdateFeedbackParticipantComments_moderationInClosedSessionMcqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
