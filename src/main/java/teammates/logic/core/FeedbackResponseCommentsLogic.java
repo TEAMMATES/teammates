@@ -7,6 +7,7 @@ import java.util.Set;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -36,6 +37,7 @@ public final class FeedbackResponseCommentsLogic {
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private FeedbackResponseCommentsLogic() {
         // prevent initialization
@@ -45,10 +47,17 @@ public final class FeedbackResponseCommentsLogic {
         return instance;
     }
 
+    /**
+     * Creates a feedback response comment.
+     *
+     * <p>If the comment is given by feedback participant, ownership of the corresponding response
+     * of the comment is not checked.</p>
+     */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
-        verifyIsInstructorOfCourse(frComment.courseId, frComment.giverEmail);
+        verifyIsUserOfCourse(frComment.courseId, frComment.commentGiver, frComment.commentGiverType,
+                frComment.isCommentFromFeedbackParticipant);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
@@ -57,11 +66,11 @@ public final class FeedbackResponseCommentsLogic {
             try {
 
                 FeedbackResponseCommentAttributes existingComment =
-                                  frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,
+                                  frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.commentGiver,
                                                                    frComment.createdAt);
                 if (existingComment == null) {
                     existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
-                                                                       frComment.giverEmail);
+                                                                       frComment.commentGiver);
                 }
                 frComment.setId(existingComment.getId());
 
@@ -202,7 +211,7 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         //comment giver can always see
-        if (userEmail.equals(comment.giverEmail)) {
+        if (userEmail.equals(comment.commentGiver)) {
             return true;
         }
 
@@ -332,7 +341,7 @@ public final class FeedbackResponseCommentsLogic {
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
                 response.giver.equals(userEmail) && isVisibleToGiver;
 
-        boolean isUserRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
+        boolean isUserRelatedResponseCommentGiver = relatedComment.commentGiver.equals(userEmail);
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 isUserStudent && isResponseCommentVisibleTo(relatedQuestion,
@@ -361,11 +370,54 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
-        if (instructor == null) {
-            throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
-                                                + courseId + ".");
+    /**
+     * Verifies if comment giver is registered user/team of course.
+     *
+     * @param courseId id of course
+     * @param commentGiver person/team who gave comment
+     * @param commentGiverType type of comment giver
+     */
+    private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType,
+            boolean isCommentFromFeedbackParticipant) throws EntityDoesNotExistException {
+        if (!isCommentFromFeedbackParticipant) {
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
+            if (instructor == null) {
+                throw new EntityDoesNotExistException("User " + commentGiver
+                        + " is not a registered instructor for course " + courseId + ".");
+            }
+            return;
+        }
+        switch (commentGiverType) {
+        case STUDENTS:
+            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
+            if (student == null) {
+                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
+                        + courseId + ".");
+            }
+            break;
+        case INSTRUCTORS:
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
+            if (instructor == null) {
+                throw new EntityDoesNotExistException("User " + commentGiver
+                        + " is not a registered instructor for course " + courseId + ".");
+            }
+            break;
+        case TEAMS:
+            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
+            boolean isTeamPresentInCourse = false;
+            for (TeamDetailsBundle team : teams) {
+                if (team.name.equals(commentGiver)) {
+                    isTeamPresentInCourse = true;
+                    break;
+                }
+            }
+            if (!isTeamPresentInCourse) {
+                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
+                        + courseId + ".");
+            }
+            break;
+        default:
+            throw new EntityDoesNotExistException("Unknown giver type: " + commentGiverType);
         }
     }
 

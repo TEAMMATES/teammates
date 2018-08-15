@@ -395,6 +395,31 @@
         "RECEIVER"
       ]
     },
+    "qn6InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 6,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
@@ -441,6 +466,31 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
+      ]
+    },
+    "qn2InClosedSession": {
+      "feedbackSessionName": "Closed feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 2,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
       ]
     }
   },
@@ -510,6 +560,19 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
+    "response1ForQ6": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InIESFPTCourse@gmail.tmt",
+      "recipient": "student1InIESFPTCourse@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
     "response1ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
@@ -545,6 +608,19 @@
       "recipient": "student1InIESFPTCourse@gmail.tmt",
       "responseMetaData": {
         "value": "Closed session response"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "response1ForQ2InClosedSession": {
+      "feedbackSessionName": "Closed feedback session",
+      "courseId": "IESFPTCourse",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InIESFPTCourse@gmail.tmt",
+      "recipient": "student1InIESFPTCourse@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       },
       "giverSection": "Section 1",
       "recipientSection": "Section 1"

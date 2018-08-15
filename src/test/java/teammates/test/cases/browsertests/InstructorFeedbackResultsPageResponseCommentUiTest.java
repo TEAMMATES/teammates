@@ -203,7 +203,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         ______TS("RGQ view: Typical case: delete existing feedback response comment");
 
         resultsPage.deleteFeedbackResponseCommentInline("-1-1-1-1-1");
-        resultsPage.verifyRowMissing("-1-1-1-1-1");
+        resultsPage.verifyCommentRowMissing("-1-1-1-1-1");
 
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
@@ -224,13 +224,13 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
         resultsPage.deleteFeedbackResponseCommentInline("-0-1-0-1-3");
-        resultsPage.verifyRowMissing("-0-0-1-1-3");
+        resultsPage.verifyCommentRowMissing("-0-0-1-1-3");
 
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
-        resultsPage.verifyRowMissing("-0-0-1-1-3");
+        resultsPage.verifyCommentRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }
 
@@ -288,7 +288,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.deleteFeedbackResponseCommentInModal(commentId);
-        resultsPage.verifyRowMissing(commentId);
+        resultsPage.verifyCommentRowMissing(commentId);
         resultsPage.closeCommentModal(commentModelId);
     }
 

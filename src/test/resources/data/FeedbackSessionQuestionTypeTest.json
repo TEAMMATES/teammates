@@ -1088,6 +1088,17 @@
         "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       }
     },
+    "response3ForQ1S1C1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1711,6 +1722,69 @@
       }
     }
   },
-  "feedbackResponseComments": {},
+  "feedbackResponseComments": {
+    "comment1OnR3Q1S1C2": {
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "student1InCourse1@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%student3InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Student 3 comment"
+      }
+    },
+    "comment1OnR2Q1S1C2": {
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "student2InCourse1@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Student 2 comment"
+      }
+    },
+    "comment2OnR2Q1S1C2": {
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "instructor1@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER_TEAM_MEMBERS"
+      ],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Instructor 1 comment to student 2"
+      }
+    }
+  },
   "profiles": {}
 }

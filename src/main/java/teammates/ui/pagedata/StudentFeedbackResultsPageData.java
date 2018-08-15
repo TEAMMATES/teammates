@@ -211,9 +211,8 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(comment, comment.giverEmail,
-                        bundle.instructorEmailNameTable, bundle.getTimeZone(), question);
-                comments.add(frcRow);
+                comments.add(new FeedbackResponseCommentRow(comment, comment.commentGiver,
+                        bundle.commentGiverEmailToNameTable, bundle.getTimeZone(), question));
             }
         }
         return comments;

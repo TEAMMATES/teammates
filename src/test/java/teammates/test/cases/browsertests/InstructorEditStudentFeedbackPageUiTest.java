@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -18,16 +19,29 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    protected void refreshTestData() {
         testData = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreDataBundle(testData);
     }
 
     @Test
-    public void testAll() throws Exception {
+    public void testAddingEditingAndDeletingResponse() throws Exception {
         testModerationHint();
         testEditResponse();
         testAddResponse();
         testDeleteResponse();
+    }
+
+    @Test
+    public void testAddingEditingAndDeletingFeedbackParticipantComments() {
+        testAddCommentsToQuestionsWithoutResponse();
+        testAddCommentsToQuestionsWithResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
     }
 
     private void testModerationHint() throws Exception {
@@ -112,14 +126,69 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                          "student1InIESFPTCourse@gmail.tmt",
-                                          "student1InIESFPTCourse@gmail.tmt");
+                "student1InIESFPTCourse@gmail.tmt",
+                "student1InIESFPTCourse@gmail.tmt");
         assertNull(fr);
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                          "student1InIESFPTCourse@gmail.tmt",
-                                          "student1InIESFPTCourse@gmail.tmt");
+                "student1InIESFPTCourse@gmail.tmt",
+                "student1InIESFPTCourse@gmail.tmt");
         assertNull(fr);
+    }
+
+    private void testAddCommentsToQuestionsWithoutResponse() {
+        ______TS("add comments on questions without responses: no effect");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+
+        // Unselect the mcq choice to remove response
+        submitPage.chooseMcqOption(3, 0, "It's good");
+        submitPage.addFeedbackParticipantComment("-3-0", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3.");
+        submitPage.verifyCommentRowMissing("-3-0");
+    }
+
+    private void testAddCommentsToQuestionsWithResponses() {
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+
+        submitPage.chooseMcqOption(3, 0, "It's good");
+        submitPage.addFeedbackParticipantComment("-3-0", "New MCQ Comment 1");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
+        submitPage.verifyCommentRowContent("-3-0", "New MCQ Comment 1");
+    }
+
+    private void testEditCommentsActionAfterAddingComments() {
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+
+        submitPage.editFeedbackParticipantComment("-3-0", "Edited MCQ Comment 1");
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
+        submitPage.verifyCommentRowContent("-3-0", "Edited MCQ Comment 1");
+    }
+
+    private void testDeleteCommentsActionAfterEditingComments() {
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+
+        submitPage.deleteFeedbackResponseComment("-3-0");
+        submitPage.verifyCommentRowMissing("-0-3-0");
     }
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(

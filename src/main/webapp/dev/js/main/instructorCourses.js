@@ -64,10 +64,10 @@ function bindCollapseEvents() {
     const heading = $(panels[0]).children('.panel-heading');
     const bodyCollapse = $(panels[0]).children('.panel-collapse');
     if (heading.length !== 0 && bodyCollapse.length !== 0) {
-        $(heading[0]).attr('data-target', '#recoveryPanelBodyCollapse');
-        $(heading[0]).attr('id', 'recoveryPanelHeading');
+        $(heading[0]).attr('data-target', '#softDeletedPanelBodyCollapse');
+        $(heading[0]).attr('id', 'softDeletedPanelHeading');
         $(heading[0]).css('cursor', 'pointer');
-        $(bodyCollapse[0]).attr('id', 'recoveryPanelBodyCollapse');
+        $(bodyCollapse[0]).attr('id', 'softDeletedPanelBodyCollapse');
     }
 
     $(heading[0]).click((e) => {

@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
-public class RecoveryCoursesTableRow {
+public class SoftDeletedCoursesTableRow {
     private String courseId;
     private String courseName;
     private String createdAtDateString;
@@ -14,7 +14,7 @@ public class RecoveryCoursesTableRow {
     private String href;
     private List<ElementTag> actions;
 
-    public RecoveryCoursesTableRow(String courseIdParam, String courseNameParam,
+    public SoftDeletedCoursesTableRow(String courseIdParam, String courseNameParam,
             String createdAtDateStringParam, String createdAtDateStampParam, String createdAtFullDateTimeStringParam,
             String deletedAtDateStringParam, String deletedAtDateStampParam, String deletedAtFullDateTimeStringParam,
             String href, List<ElementTag> actionsParam) {

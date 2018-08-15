@@ -153,7 +153,7 @@ public final class HtmlHelper {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
                         || isPopoverAttribute(attribute)
-                        || isHandsontableAttribute(attribute) // ignored due to
+                        || isHandsontableAttribute(attribute) // ignored due to screen resolution issues
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
@@ -258,7 +258,8 @@ public final class HtmlHelper {
     }
 
     private static boolean isHandsontableAttribute(Node attribute) {
-        return checkForAttributeWithSpecificValue(attribute, "id", "spreadsheet");
+        return checkForAttributeWithSpecificValue(attribute, "id", "enrollSpreadsheet")
+                || checkForAttributeWithSpecificValue(attribute, "id", "existingDataSpreadsheet");
     }
 
     /**
