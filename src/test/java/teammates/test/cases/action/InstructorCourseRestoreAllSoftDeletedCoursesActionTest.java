@@ -10,17 +10,17 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorCourseRestoreAllRecoveryCoursesAction;
+import teammates.ui.controller.InstructorCourseRestoreAllSoftDeletedCoursesAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorCourseRestoreAllRecoveryCoursesAction}.
+ * SUT: {@link InstructorCourseRestoreAllSoftDeletedCoursesAction}.
  */
-public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseActionTest {
+public class InstructorCourseRestoreAllSoftDeletedCoursesActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL;
+        return Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
         gaeSimulation.loginAsInstructor(instructor1Id);
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
 
-        InstructorCourseRestoreAllRecoveryCoursesAction restoreAllAction = getAction();
+        InstructorCourseRestoreAllSoftDeletedCoursesAction restoreAllAction = getAction();
         RedirectResult redirectResult = getRedirectResult(restoreAllAction);
 
         assertEquals(
@@ -43,12 +43,12 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
         assertFalse(redirectResult.isError);
         assertEquals("All courses have been restored.", redirectResult.getStatusMessage());
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructor1Id);
-        assertEquals(2, courseList.size());
+        assertEquals(3, courseList.size());
         assertEquals(instructor1OfCourse3.courseId, courseList.get(1).getId());
-        String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryRestoreAllCourses|||"
-                + "instructorRecoveryRestoreAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseRestoreAllCourses|||"
+                + "instructorCourseRestoreAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses restored|||"
-                + "/page/instructorRecoveryRestoreAllCourses";
+                + "/page/instructorCourseRestoreAllCourses";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, restoreAllAction.getLogMessage());
 
         ______TS("Typical case, restore all courses from Recycle Bin, without privilege");
@@ -73,8 +73,8 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
     }
 
     @Override
-    protected InstructorCourseRestoreAllRecoveryCoursesAction getAction(String... params) {
-        return (InstructorCourseRestoreAllRecoveryCoursesAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorCourseRestoreAllSoftDeletedCoursesAction getAction(String... params) {
+        return (InstructorCourseRestoreAllSoftDeletedCoursesAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override

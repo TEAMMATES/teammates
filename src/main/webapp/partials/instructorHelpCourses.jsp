@@ -454,7 +454,7 @@
                                   <input type="checkbox" name="canmodifyinstructor" value="true"> Add/Edit/Delete Instructors
                                 </div>
                                 <div class="col-sm-3">
-                                  <input type="checkbox" name="canmodifysession" value="true"> Create/Edit/Delete Sessions
+                                  <input type="checkbox" name="canmodifysession" value="true"> Create/Edit/Delete/Restore Sessions
                                 </div>
                                 <div class="col-sm-3">
                                   <input type="checkbox" name="canmodifystudent" value="true"> Enroll/Edit/Delete Students

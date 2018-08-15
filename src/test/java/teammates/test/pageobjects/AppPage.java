@@ -110,8 +110,8 @@ public abstract class AppPage {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
-    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td)[1]")
-    private WebElement spreadsheetFirstCell;
+    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td[@class =\"enroll-handsontable\"])[1]")
+    private WebElement enrollSpreadsheetFirstCell;
 
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -669,7 +669,7 @@ public abstract class AppPage {
 
     protected void fillSpreadsheet(String value) {
         try {
-            scrollElementToFirstCellAndSendKeys(spreadsheetFirstCell, value);
+            scrollElementToFirstCellAndSendKeys(enrollSpreadsheetFirstCell, value);
         } catch (WebDriverException e) {
             System.out.println("Unexpectedly not able to click on the spreadsheet element because of: ");
             System.out.println(e);
