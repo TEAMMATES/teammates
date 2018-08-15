@@ -872,7 +872,7 @@
       "isPublishedEmailEnabled": true
     },
     "session2InCourse2": {
-      "feedbackSessionName": "Not answerable feedback session",
+      "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
       "instructions": {
@@ -894,7 +894,7 @@
       "isPublishedEmailEnabled": true
     },
     "session1InCourse3": {
-      "feedbackSessionName": "First feedback session",
+      "feedbackSessionName": "Not answerable feedback session",
       "courseId": "idOfTypicalCourse3",
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": {
