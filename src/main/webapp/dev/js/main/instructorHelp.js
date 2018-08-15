@@ -239,7 +239,7 @@ function searchQuestions() {
     results.sort((r1, r2) => {
         const diff = r1.score - r2.score;
 
-        return (diff === 0.0) ? (r1.ref - r2.ref) : -1 * diff;
+        return (Math.abs(diff) < 0.00001) ? (r1.ref - r2.ref) : -1 * diff;
     });
 
     // add relevant panels to search results
