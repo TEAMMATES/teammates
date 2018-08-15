@@ -57,6 +57,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(new Text(""), fsa.getInstructions());
         assertNotNull(fsa.getRespondingInstructorList());
         assertNotNull(fsa.getRespondingStudentList());
+        assertNull(fsa.getDeletedTime());
     }
 
     @Test
@@ -80,6 +81,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getCreatorEmail(), copy.getCreatorEmail());
         assertEquals(original.getInstructions(), copy.getInstructions());
         assertEquals(original.getCreatedTime(), copy.getCreatedTime());
+        assertEquals(original.getDeletedTime(), copy.getDeletedTime());
         assertEquals(original.getStartTime(), copy.getStartTime());
         assertEquals(original.getEndTime(), copy.getEndTime());
         assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());

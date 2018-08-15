@@ -1686,7 +1686,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                       <input name="canmodifysession" type="checkbox" value="true">
-                                      Create/Edit/Delete Sessions
+                                      Create/Edit/Delete/Restore Sessions
                                     </div>
                                     <div class="col-sm-3">
                                       <input name="canmodifystudent" type="checkbox" value="true">
@@ -5113,6 +5113,451 @@
                           </table>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>
+        Restoring Deleted Sessions
+      </h3>
+      <div class="panel-group">
+        <div class="panel panel-default" id="session-view-deleted">
+          <div class="panel-heading cursor-pointer" data-target="#session-view-deleted-body" data-toggle="collapse">
+            <h3 class="panel-title">
+              How do I view sessions I have deleted?
+            </h3>
+          </div>
+          <div class="panel-collapse collapse" id="session-view-deleted-body">
+            <div class="panel-body">
+              <p>
+                You can view all your deleted feedback sessions by navigating to the
+                <b>
+                  Sessions
+                </b>
+                page.
+                <br>
+                Scroll to the
+                <b>
+                  Deleted feedback sessions
+                </b>
+                heading, which looks similar to this:
+              </p>
+              <div class="bs-example">
+                <h2 class="text-muted">
+                  <span class="glyphicon glyphicon-trash">
+                  </span>
+                  Deleted feedback sessions
+                </h2>
+                <div class="panel">
+                  <div class="panel-heading fill-default">
+                    <div class="pull-right margin-left-7px">
+                      <span class="glyphicon glyphicon-chevron-up">
+                      </span>
+                    </div>
+                    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                      <strong>
+                        Delete All
+                      </strong>
+                    </a>
+                    <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-ok">
+                      </span>
+                      <strong>
+                        Restore All
+                      </strong>
+                    </a>
+                    <strong>
+                      Recycle Bin
+                    </strong>
+                  </div>
+                  <div class="panel-collapse">
+                    <div class="panel-body padding-0">
+                      <table class="table table-bordered table-striped margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Course ID
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Session Name
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Creation Date
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Deletion Date
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="align-center no-print">
+                              Action(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              AI532
+                            </td>
+                            <td>
+                              Feedback for Project Presentation 1
+                            </td>
+                            <td>
+                              20 Jan 2018
+                            </td>
+                            <td>
+                              10 Mar 2018
+                            </td>
+                            <td class="align-center no-print">
+                              <button class="btn btn-default btn-xs" href="#" type="button">
+                                Restore
+                              </button>
+                              <button class="btn btn-default btn-xs color-negative" href="#" type="button">
+                                Delete Permanently
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p>
+                The feedback sessions you have previously deleted are listed here. In order to access information in a deleted session,
+                <a class="collapse-link" data-target="#session-restore-body" href="#session-restore">
+                  restore the session
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default" id="session-restore">
+          <div class="panel-heading cursor-pointer" data-target="#session-restore-body" data-toggle="collapse">
+            <h3 class="panel-title">
+              How do I restore a deleted session?
+            </h3>
+          </div>
+          <div class="panel-collapse collapse" id="session-restore-body">
+            <div class="panel-body">
+              <p>
+                To restore a deleted feedback session, first
+                <a class="collapse-link" data-target="#session-view-deleted-body" href="#session-view-deleted">
+                  view the session
+                </a>
+                that you would like to restore in the
+                <b>
+                  Sessions
+                </b>
+                page.
+                <br>
+                Then, click on the
+                <button class="btn btn-default btn-xs" href="#" type="button">
+                  Restore
+                </button>
+                button corresponding to the session you want to restore.
+              </p>
+              <div class="bs-example">
+                <h2 class="text-muted">
+                  <span class="glyphicon glyphicon-trash">
+                  </span>
+                  Deleted feedback sessions
+                </h2>
+                <div class="panel">
+                  <div class="panel-heading fill-default">
+                    <div class="pull-right margin-left-7px">
+                      <span class="glyphicon glyphicon-chevron-up">
+                      </span>
+                    </div>
+                    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                      <strong>
+                        Delete All
+                      </strong>
+                    </a>
+                    <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-ok">
+                      </span>
+                      <strong>
+                        Restore All
+                      </strong>
+                    </a>
+                    <strong>
+                      Recycle Bin
+                    </strong>
+                  </div>
+                  <div class="panel-collapse">
+                    <div class="panel-body padding-0">
+                      <table class="table table-bordered table-striped margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Course ID
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Session Name
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Creation Date
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Deletion Date
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="align-center no-print">
+                              Action(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              AI532
+                            </td>
+                            <td>
+                              Feedback for Project Presentation 1
+                            </td>
+                            <td>
+                              20 Jan 2018
+                            </td>
+                            <td>
+                              10 Mar 2018
+                            </td>
+                            <td class="align-center no-print">
+                              <button class="btn btn-default btn-xs" href="#" type="button">
+                                Restore
+                              </button>
+                              <button class="btn btn-default btn-xs color-negative" href="#" type="button">
+                                Delete Permanently
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p>
+                After restoring the session, all the information relevant to the session (e.g. questions, responses, comments) will also be restored.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default" id="session-delete">
+          <div class="panel-heading cursor-pointer" data-target="#session-delete-body" data-toggle="collapse">
+            <h3 class="panel-title">
+              How do I permanently delete a session?
+            </h3>
+          </div>
+          <div class="panel-collapse collapse" id="session-delete-body">
+            <div class="panel-body">
+              <p>
+                To permanently delete a feedback session, first
+                <a class="collapse-link" data-target="#session-view-deleted-body" href="#session-view-deleted">
+                  view the session
+                </a>
+                that you would like to permanently delete in the
+                <b>
+                  Sessions
+                </b>
+                page.
+                <br>
+                Then, click on the
+                <button class="btn btn-default btn-xs color-negative" href="#" type="button">
+                  Delete Permanently
+                </button>
+                button corresponding to the session you want to delete.
+              </p>
+              <div class="bs-example">
+                <h2 class="text-muted">
+                  <span class="glyphicon glyphicon-trash">
+                  </span>
+                  Deleted feedback sessions
+                </h2>
+                <div class="panel">
+                  <div class="panel-heading fill-default">
+                    <div class="pull-right margin-left-7px">
+                      <span class="glyphicon glyphicon-chevron-up">
+                      </span>
+                    </div>
+                    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                      <strong>
+                        Delete All
+                      </strong>
+                    </a>
+                    <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-ok">
+                      </span>
+                      <strong>
+                        Restore All
+                      </strong>
+                    </a>
+                    <strong>
+                      Recycle Bin
+                    </strong>
+                  </div>
+                  <div class="panel-collapse">
+                    <div class="panel-body padding-0">
+                      <table class="table table-bordered table-striped margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Course ID
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Session Name
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Creation Date
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" onclick="toggleSort(this);">
+                              Deletion Date
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="align-center no-print">
+                              Action(s)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              AI532
+                            </td>
+                            <td>
+                              Feedback for Project Presentation 1
+                            </td>
+                            <td>
+                              20 Jan 2018
+                            </td>
+                            <td>
+                              10 Mar 2018
+                            </td>
+                            <td class="align-center no-print">
+                              <button class="btn btn-default btn-xs" href="#" type="button">
+                                Restore
+                              </button>
+                              <button class="btn btn-default btn-xs color-negative" href="#" type="button">
+                                Delete Permanently
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p>
+                After deleting the session, all the information relevant to the session (e.g. questions, responses, comments) will also be permanently deleted.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default" id="session-all-action">
+          <div class="panel-heading cursor-pointer" data-target="#session-all-action-body" data-toggle="collapse">
+            <h3 class="panel-title">
+              How do I restore/delete all sessions from Recycle Bin?
+            </h3>
+          </div>
+          <div class="panel-collapse collapse" id="session-all-action-body">
+            <div class="panel-body">
+              <p>
+                First
+                <a class="collapse-link" data-target="#session-view-deleted-body" href="#session-view-deleted">
+                  view the session
+                </a>
+                and check for sessions in Recycle Bin.
+                <br>
+                To restore all sessions, click on the
+                <a class="btn btn-default btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                  <span class="glyphicon glyphicon-ok">
+                  </span>
+                  <strong>
+                    Restore All
+                  </strong>
+                </a>
+                button in
+                <b>
+                  Deleted feedback sessions
+                </b>
+                heading; to delete all sessions, click on the
+                <a class="btn btn-default btn-xs color-negative" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                  <span class="glyphicon glyphicon-remove">
+                  </span>
+                  <strong>
+                    Delete All
+                  </strong>
+                </a>
+                button in
+                <b>
+                  Deleted feedback sessions
+                </b>
+                heading.
+              </p>
+              <div class="bs-example">
+                <h2 class="text-muted">
+                  <span class="glyphicon glyphicon-trash">
+                  </span>
+                  Deleted feedback sessions
+                </h2>
+                <div class="panel">
+                  <div class="panel-heading fill-default">
+                    <div class="pull-right margin-left-7px">
+                      <span class="glyphicon glyphicon-chevron-down">
+                      </span>
+                    </div>
+                    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                      <strong>
+                        Delete All
+                      </strong>
+                    </a>
+                    <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="" data-placement="top" data-toggle="tooltip" title="">
+                      <span class="glyphicon glyphicon-ok">
+                      </span>
+                      <strong>
+                        Restore All
+                      </strong>
+                    </a>
+                    <strong>
+                      Recycle Bin
+                    </strong>
+                  </div>
+                  <div class="panel-collapse">
+                    <div class="panel-body padding-0">
                     </div>
                   </div>
                 </div>

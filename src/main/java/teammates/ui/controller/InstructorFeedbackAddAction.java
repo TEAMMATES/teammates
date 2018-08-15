@@ -1,11 +1,8 @@
 package teammates.ui.controller;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -16,13 +13,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractAction {
@@ -89,6 +83,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         List<InstructorAttributes> instructorList = new ArrayList<>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
+        List<FeedbackSessionAttributes> softDeletedFeedbackSessions = loadSoftDeletedFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
 
         if (feedbackSessions.isEmpty()) {
@@ -96,7 +91,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                                                StatusMessageColor.WARNING));
         }
 
-        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
+        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, softDeletedFeedbackSessions, instructors, fs,
                                        sessionTemplateType);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
@@ -109,7 +104,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
 
         List<FeedbackQuestionAttributes> questions =
-                getFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName, creatorEmail);
+                logic.populateFeedbackSessionTemplateQuestions(sessionTemplateType, courseId,
+                        feedbackSessionName, creatorEmail);
 
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {
@@ -118,23 +114,4 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
     }
 
-    /**
-     * Gets the list of questions for the specified feedback session template.
-     */
-    private static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
-            String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
-        Assumption.assertNotNull(templateType);
-
-        if ("TEAMEVALUATION".equals(templateType)) {
-            String jsonString = Templates.populateTemplate(FeedbackSessionTemplates.TEAM_EVALUATION,
-                    "${courseId}", courseId,
-                    "${feedbackSessionName}", feedbackSessionName,
-                    "${creatorEmail}", creatorEmail);
-
-            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
-            return JsonUtils.fromJson(jsonString, listType);
-        }
-
-        return new ArrayList<>();
-    }
 }
