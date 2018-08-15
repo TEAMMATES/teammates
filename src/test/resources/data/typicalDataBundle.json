@@ -1494,15 +1494,15 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
-    "response1ForQ1S2C2": {
+    "response1ForQ1S1C3": {
       "feedbackSessionName": "Not answerable feedback session",
-      "courseId": "idOfTypicalCourse2",
+      "courseId": "idOfTypicalCourse3",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
-      "giver": "instructor1@course2.tmt",
-      "recipient": "student1InCourse2@gmail.tmt",
+      "giver": "instructor1@course3.tmt",
+      "recipient": "student1InCourse3@gmail.tmt",
       "responseMetaData": {
-        "value": "Response from instr1InC2 to student1InC2."
+        "value": "Response from instr1InC3 to student1InC3."
       },
       "giverSection": "None",
       "recipientSection": "None"
