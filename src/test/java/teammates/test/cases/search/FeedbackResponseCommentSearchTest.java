@@ -24,8 +24,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes frc1I1Q2S1C1 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
-        FeedbackResponseCommentAttributes frc1I3Q1S2C2 = dataBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q1S2C2");
+        FeedbackResponseCommentAttributes frc1I3Q1S1C3 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S1C3");
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
@@ -40,15 +40,15 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         instructors.clear();
         instructors.add(dataBundle.instructors.get("instructor3OfCourse1"));
-        instructors.add(dataBundle.instructors.get("instructor3OfCourse2"));
+        instructors.add(dataBundle.instructors.get("instructor1OfCourse3"));
         bundle = commentsDb.search("non-existent", instructors);
         assertEquals(0, bundle.numberOfResults);
         assertTrue(bundle.comments.isEmpty());
 
         ______TS("success: search for comments; query string matches single comment");
 
-        bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
-        verifySearchResults(bundle, frc1I3Q1S2C2);
+        bundle = commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
+        verifySearchResults(bundle, frc1I3Q1S1C3);
 
         ______TS("success: search for comments in instructor's course; query string matches some comments");
 
@@ -77,9 +77,9 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; confirms deleted comments are not included in results");
 
-        commentsDb.deleteDocument(commentsDb.getFeedbackResponseComment(frc1I3Q1S2C2.courseId, frc1I3Q1S2C2.createdAt,
-                frc1I3Q1S2C2.commentGiver));
-        bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
+        commentsDb.deleteDocument(commentsDb.getFeedbackResponseComment(frc1I3Q1S1C3.courseId, frc1I3Q1S1C3.createdAt,
+                frc1I3Q1S1C3.commentGiver));
+        bundle = commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
         verifySearchResults(bundle);
     }
 }
