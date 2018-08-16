@@ -11,7 +11,7 @@ import {
  */
 
 const DEFAULT_OK_TEXT = 'OK';
-const DEFAULT_CANCEL_TEXT = 'Cancel';
+const DEFAULT_CANCEL_TEXT = 'No, cancel the operation';
 const DEFAULT_YES_TEXT = 'Yes';
 const DEFAULT_NO_TEXT = 'No';
 
@@ -23,7 +23,7 @@ function applyStyleToModal(modal, bootstrapContextualColor) {
 /**
  * Custom alert dialog to replace default alert() function
  * Required params: titleText and messageText
- * Optional params: okButtonText (defaults to "OK")
+ * Optional params: yesButtonText (defaults to "Yes")
  *                  bootstrapContextualColor (defaults to BootstrapContextualColors.DEFAULT)
  */
 function showModalAlert(titleText, messageText, okButtonText, bootstrapContextualColor) {
@@ -33,7 +33,7 @@ function showModalAlert(titleText, messageText, okButtonText, bootstrapContextua
         show: false,
         buttons: {
             okay: {
-                label: okButtonText || DEFAULT_OK_TEXT,
+                label: okButtonText || DEFAULT_YES_TEXT,
                 className: `modal-btn-ok btn-${bootstrapContextualColor || BootstrapContextualColors.DEFAULT}`,
             },
         },
@@ -47,13 +47,13 @@ function showModalAlert(titleText, messageText, okButtonText, bootstrapContextua
  * Custom confirmation dialog to replace default confirm() function
  * Required params: titleText, messageText and okCallback
  * Optional params: cancelCallBack (defaults to null)
- *                  okButtonText (defaults to "OK")
- *                  cancelButtonText (defaults to "Cancel")
+ *                  yesButtonText (defaults to "Yes")
+ *                  cancelButtonText (defaults to "No, cancel the operation")
  *                  bootstrapContextualColor (defaults to BootstrapContextualColors.INFO)
  *                  onHiddenCallback - triggers when the event `hidden.bs.modal` is triggered
  */
 function showModalConfirmation(titleText, messageText, okCallback, cancelCallback,
-        okButtonText, cancelButtonText, bootstrapContextualColor, onHiddenCallback) {
+        yesButtonText, cancelButtonText, bootstrapContextualColor, onHiddenCallback) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
@@ -66,7 +66,7 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
                 callback: cancelCallback || null,
             },
             ok: {
-                label: okButtonText || DEFAULT_OK_TEXT,
+                label: yesButtonText || DEFAULT_YES_TEXT,
                 className: `modal-btn-ok btn-${bootstrapContextualColor || BootstrapContextualColors.DEFAULT}`,
                 callback: okCallback,
             },
