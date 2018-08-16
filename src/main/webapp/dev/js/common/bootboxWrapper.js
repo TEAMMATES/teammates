@@ -23,7 +23,7 @@ function applyStyleToModal(modal, bootstrapContextualColor) {
 /**
  * Custom alert dialog to replace default alert() function
  * Required params: titleText and messageText
- * Optional params: yesButtonText (defaults to "OK")
+ * Optional params: okButtonText (defaults to "OK")
  *                  bootstrapContextualColor (defaults to BootstrapContextualColors.DEFAULT)
  */
 function showModalAlert(titleText, messageText, okButtonText, bootstrapContextualColor) {
