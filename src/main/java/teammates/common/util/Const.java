@@ -327,12 +327,14 @@ public final class Const {
                 + " before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN = "Select this option to have the feedback"
                 + " session become visible when it is open for submissions.";
-        public static final String[] FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONS = { "At", "Submission opening time" };
-        public static final String[] FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONSDESCRIPTION =
-                {
-                        FEEDBACK_SESSION_SESSIONVISIBLE_CUSTOM,
-                        FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN
-                };
+        public static final ArrayList<String> FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONS =
+                new ArrayList<>(
+                        Arrays.asList("At",
+                                "Submission opening time"));
+        public static final ArrayList<String> FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONSDESCRIPTION =
+                new ArrayList<>(
+                        Arrays.asList(FEEDBACK_SESSION_SESSIONVISIBLE_CUSTOM,
+                                FEEDBACK_SESSION_SESSIONVISIBLE_ATOPEN));
         public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION = "Please select when the responses"
                 + " for the feedback session will be visible to the designated recipients. You can select the response"
                 + " visibility for each type of user and question later.";
@@ -343,13 +345,16 @@ public final class Const {
                 + " responses depends on the feedback path of the question.";
         public static final String FEEDBACK_SESSION_RESPONSESVISIBLE_LATER = "Select this option if you intend to manually"
                 + " publish the responses for this session later on.";
-        public static final String[] FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONS = { "At", "Immediately", "Not now" };
-        public static final String[] FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONSDESCRIPTION =
-                {
-                        FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM,
-                        FEEDBACK_SESSION_RESPONSESVISIBLE_ONSUBMIT,
-                        FEEDBACK_SESSION_RESPONSESVISIBLE_LATER
-                };
+        public static final ArrayList<String> FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONS =
+                new ArrayList<>(
+                        Arrays.asList("At",
+                                "Immediately",
+                                "Not now"));
+        public static final ArrayList<String> FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONSDESCRIPTION =
+                new ArrayList<>(
+                        Arrays.asList(FEEDBACK_SESSION_RESPONSESVISIBLE_CUSTOM,
+                                FEEDBACK_SESSION_RESPONSESVISIBLE_ONSUBMIT,
+                                FEEDBACK_SESSION_RESPONSESVISIBLE_LATER));
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_DESCRIPTION = "This setting allows you to automatically"
                 + " send email notifications to students on important events.";
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN = "Select this option to automatically send an"
@@ -360,18 +365,16 @@ public final class Const {
                 + " before the end of the feedback session.";
         public static final String FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH = "Select this option to automatically send"
                 + " an email to students to notify them when the feedback session results are published.";
-        public static final String[] FEEDBACK_SESSION_EMAILREMINDERS_OPTIONS =
-                {
-                        "Session opening reminder",
-                        "Session closing reminder",
-                        "Results published announcement"
-                };
-        public static final String[] FEEDBACK_SESSION_EMAILREMINDERS_OPTIONSDESCRIPTION =
-                {
-                        FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN,
-                        FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED,
-                        FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH
-                };
+        public static final ArrayList<String> FEEDBACK_SESSION_EMAILREMINDERS_OPTIONS =
+                new ArrayList<>(
+                        Arrays.asList("Session opening reminder",
+                                "Session closing reminder",
+                                "Results published announcement"));
+        public static final ArrayList<String> FEEDBACK_SESSION_EMAILREMINDERS_OPTIONSDESCRIPTION =
+                new ArrayList<>(
+                        Arrays.asList(FEEDBACK_SESSION_EMAILREMINDERS_ATOPEN,
+                                FEEDBACK_SESSION_EMAILREMINDERS_ATCLOSED,
+                                FEEDBACK_SESSION_EMAILREMINDERS_ONPUBLISH));
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
                 "Specify your own date and time when the session will be visible";
         public static final String FEEDBACK_SESSION_PUBLISHDATE =
