@@ -1395,85 +1395,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         bundle = frcDb.search("\"Edited comment\"", instructors);
         assertEquals(1, bundle.numberOfResults);
         verifySearchResults(bundle, frc);
-
-        ______TS("Save new comment on MSQ response");
-
-        fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 1);
-        assertNotNull("Feedback question not found in database", fq);
-
-        fr = dataBundle.feedbackResponses.get("response1ForQ1S2C1");
-        // necessary to get the correct responseId
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
-        assertNotNull("Feedback response not found in database", fr);
-
-        student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, fr.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-1-0", "New comment"
-        };
-
-        result = getRedirectResult(getAction(submissionParams));
-
-        assertFalse(result.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
-        assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                        result.isError,
-                        "FSQTT.student1InCourse1",
-                        "FSQTT.idOfTypicalCourse1",
-                        "MSQ+Session"),
-                result.getDestinationWithParams());
-        frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("MSQ comment by student 1", frc.commentText.getValue());
-        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
-        assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
-        assertTrue(frc.isCommentFromFeedbackParticipant);
-        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
-
-        ______TS("Update  MSQ response comment");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, fr.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + "-1-0", "Edited comment",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + "-1-0", frc.getId().toString()
-        };
-
-        result = getRedirectResult(getAction(submissionParams));
-
-        assertFalse(result.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
-        assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                        result.isError,
-                        "FSQTT.student1InCourse1",
-                        "FSQTT.idOfTypicalCourse1",
-                        "MSQ+Session"),
-                result.getDestinationWithParams());
-        frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("Edited comment", frc.commentText.getValue());
-        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
-        assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
-        assertTrue(frc.isCommentFromFeedbackParticipant);
-        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
-
         ______TS("Test feedback participant comments not allowed in Text type questions");
 
         dataBundle = getTypicalDataBundle();
@@ -1517,18 +1438,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("Save new comment on MSQ response");
 
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 1);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 3);
         assertNotNull("Feedback question not found in database", fq);
 
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S2C1");
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response3ForQ1S2C1");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+        StudentAttributes student3InCourse1 = dataBundle.students.get("student3InCourse1");
+        gaeSimulation.loginAsStudent(student3InCourse1.googleId);
 
-        String[] submissionParams = new String[] {
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -1548,20 +1469,20 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
                         result.isError,
-                        "FSQTT.student1InCourse1",
+                        "FSQTT.student3InCourse1",
                         "FSQTT.idOfTypicalCourse1",
                         "MSQ+Session"),
                 result.getDestinationWithParams());
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("MSQ comment by student 1", frc.commentText.getValue());
+        assertEquals("New comment", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
-        assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
+        assertEquals("student3InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
 
         ______TS("Update  MSQ response comment");
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -1582,47 +1503,15 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
                         result.isError,
-                        "FSQTT.student1InCourse1",
+                        "FSQTT.student3InCourse1",
                         "FSQTT.idOfTypicalCourse1",
                         "MSQ+Session"),
                 result.getDestinationWithParams());
         frc = getFeedbackParticipantComment(fr.getId());
         assertEquals("Edited comment", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
-        assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
+        assertEquals("student3InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
         assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
-
-        ______TS("Test feedback participant comments not allowed in Text type questions");
-
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(dataBundle);
-
-        fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
-        assertNotNull("Feedback question not found in database", fq);
-
-        fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
-        // necessary to get the correct responseId
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
-        assertNotNull("Feedback response not found in database", fr);
-
-        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, fr.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-1-0", "New comment"
-        };
-
-        result = getRedirectResult(getAction(submissionParams));
-        assertFalse(result.isError);
-        assertNull(getFeedbackParticipantComment(fr.getId()));
     }
 }
