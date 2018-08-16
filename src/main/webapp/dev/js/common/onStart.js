@@ -20,6 +20,15 @@ if (!String.prototype.includes) {
         return this.indexOf(search, start) !== -1;
     };
 }
+
+/**
+ * Polyfills the Number.EPSILON property finalized in ES6 for browsers that do not yet support the property.
+ */
+/* eslint-disable no-restricted-properties */ // needed to avoid ** exponentiation operator
+if (!Number.EPSILON) {
+    Number.EPSILON = Math.pow(2, -52);
+}
+/* eslint-enable no-restricted-properties */
 /* eslint-enable no-extend-native */
 
 /**
