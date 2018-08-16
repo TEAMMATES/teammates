@@ -88,7 +88,7 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
  * Optional params: cancelButtonCallBack (defaults to null)
  *                  yesButtonText (defaults to "Yes")
  *                  noButtonText (defaults to "No")
- *                  cancelButtonText (defaults to "Cancel")
+ *                  cancelButtonText (defaults to "No, cancel the operation")
  *                  bootstrapContextualColor (defaults to BootstrapContextualColors.INFO)
  *                  onHiddenCallback - triggers when the event `hidden.bs.modal` is triggered
  */
