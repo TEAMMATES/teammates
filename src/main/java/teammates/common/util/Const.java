@@ -336,13 +336,14 @@ public final class Const {
         public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION = "Please select when the responses"
                 + " for the feedback session will be visible to the designated recipients. You can select the response"
                 + " visibility for each type of user and question later.";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_CUSTOM = "Select this option to use a self defined time"
-                + " for when the responses of the feedback session will be visible to the designated recipients.";
+        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_CUSTOM = "Select this option to use a self"
+                + " defined time for when the responses of the feedback session will be visible to the designated"
+                + " recipients.";
         public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_ONSUBMIT = "Select this option to have the feedback"
                 + " responses be immediately visible to others as soon as they are submitted. Note that who can see the"
                 + " responses depends on the feedback path of the question.";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_LATER = "Select this option if you intend to manually"
-                + " publish the responses for this session later on.";
+        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_LATER = "Select this option if you intend to"
+                + " manually publish the responses for this session later on.";
         public static final List<String> FEEDBACK_SESSION_RESPONSESVISIBILITY_OPTIONS =
                 new ArrayList<>(
                         Arrays.asList("At",
@@ -750,12 +751,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_GRACEPERIOD = "graceperiod";
         public static final String SESSION_TEMPLATE_TYPE = "sessionTemplateType";
 
-        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_INFO = "sessionVisibilitySettingInfo";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY = "sessionVisibilityOptions";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_INFO = "responsesVisibilitySettingInfo";
-        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY = "responsesVisibilityOptions";
-        public static final String FEEDBACK_SESSION_EMAILREMINDERS_INFO = "emailRemindersSettingInfo";
-        public static final String FEEDBACK_SESSION_EMAILREMINDERS = "emailRemindersOptions";
+        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_INFO = "sessionVisibilityInfoIcon";
+        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY = "sessionVisibilitySettings";
+        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY_INFO = "responsesVisibilityInfoIcon";
+        public static final String FEEDBACK_SESSION_RESPONSESVISIBILITY = "responsesVisibilitySettings";
+        public static final String FEEDBACK_SESSION_EMAILREMINDERS_INFO = "emailRemindersInfoIcon";
+        public static final String FEEDBACK_SESSION_EMAILREMINDERS = "emailRemindersSettings";
 
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
