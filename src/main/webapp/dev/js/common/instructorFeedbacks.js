@@ -103,10 +103,10 @@ function formatResponsesVisibilityGroup() {
  * for setting visibility of a feedback session
  */
 function setupSessionVisibilityInfoModal() {
-    const modalText = $(`#${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY}`).html();
+    const modalContentElement = $(`#${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY}`).remove().show();
 
     $('#sessionVisibleCustomInfo').on('click', () => {
-        showModalAlert('Session Visibility Options', modalText);
+        showModalAlert('Session Visibility Options', modalContentElement);
     });
 }
 
@@ -115,10 +115,10 @@ function setupSessionVisibilityInfoModal() {
  * for settings visibility of responses of a feedback session
  */
 function setupResponsesVisibilityInfoModal() {
-    const modalText = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY}`).html();
+    const modalContentElement = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY}`).remove().show();
 
     $('#responsesVisibleCustomInfo').on('click', () => {
-        showModalAlert('Responses Visibility Options', modalText);
+        showModalAlert('Responses Visibility Options', modalContentElement);
     });
 }
 
@@ -127,10 +127,10 @@ function setupResponsesVisibilityInfoModal() {
  * for sending email notifications to students on important events
  */
 function setupSendingEmailsInfoModal() {
-    const modalText = $(`#${ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS}`).html();
+    const modalContentElement = $(`#${ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS}`).remove().show();
 
     $('#sendEmailRemindersInfo').on('click', () => {
-        showModalAlert('Send Email Reminders Options', modalText);
+        showModalAlert('Send Email Reminders Options', modalContentElement);
     });
 }
 
