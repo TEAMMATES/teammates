@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -86,7 +87,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "fsSaveLink")
     private WebElement fsSaveLink;
 
-    @FindBy(id = "fsDeleteLink")
+    @FindBy(id = "button_fsdelete")
     private WebElement fsDeleteLink;
 
     @FindBy(id = "button_openframe")
@@ -94,6 +95,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     @FindBy(id = "button_submit_add")
     private WebElement addNewQuestionButton;
+
+    @FindBy(id = "button_add_template_modal")
+    private WebElement addTemplateModalLoadButton;
+
+    @FindBy(id = "button_add_template_submit")
+    private WebElement addTemplateQuestionButton;
 
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
@@ -875,6 +882,25 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void clickTemplateModalButton() {
+        addTemplateModalLoadButton.click();
+    }
+
+    public boolean isTemplateQuestionPanelExpanded(int qnNumber) {
+        // need to wait for the panel to be fully expanded before checking the class
+        By expandedPanelSelector = By.cssSelector("#addTemplateQuestion-" + qnNumber + " .in");
+        waitForElementPresence(expandedPanelSelector);
+        return browser.driver.findElement(expandedPanelSelector).isDisplayed();
+    }
+
+    public void clickAddTemplateQuestionButton() {
+        click(addTemplateQuestionButton);
+    }
+
+    public boolean isAddTemplateQuestionButtonEnabled() {
+        return addTemplateQuestionButton.isEnabled();
+    }
+
     public void clickEditQuestionButton(int qnNumber) {
         WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
         click(qnEditLink);
@@ -1319,7 +1345,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public InstructorFeedbackSessionsPage deleteSession() {
-        clickAndConfirm(getDeleteSessionLink());
+        click(getDeleteSessionLink());
         waitForPageToLoad();
         return changePageType(InstructorFeedbackSessionsPage.class);
     }
@@ -1440,6 +1466,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void fillMsqOptionForNewQuestion(int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + NEW_QUESTION_NUM));
         fillTextBox(optionBox, optionText);
+    }
+
+    public void dragAndDropQuestionOption(String qnType, int qnNumber, int sourceIndex, int targetIndex) throws Exception {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='" + qnType + "OptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='" + qnType + "OptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        // drag option 10 units above target and release
+        builder.clickAndHold(draggedOptionElement)
+                .moveToElement(targetElement, 0, -10)
+                .release()
+                .build()
+                .perform();
     }
 
     public boolean isMsqWeightBoxFocused(int qnNumber, int choiceIndex) {
@@ -1664,7 +1705,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         return browser.driver.findElements(
-                By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
+                By.cssSelector("#msqChoices-" + qnNumber + " div[id^=\"msqOptionRow\"]")).size();
     }
 
     public void verifyMsqMinMaxSelectableChoices(int qnNumber) {
@@ -1866,9 +1907,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getNumOfOptionsInRankOptions(int qnIndex) {
         if (isRankOptionsQuestion(qnIndex)) {
-            WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
+            WebElement rankOptionsTableRows = browser.driver.findElement(By.id("rankChoices-" + qnIndex));
             List<WebElement> optionInputFields =
-                    rankOptionsTable.findElements(By.cssSelector("input[id^='rankOption-']"));
+                    rankOptionsTableRows.findElements(By.cssSelector("div[id^='rankOptionRow-']"));
             return optionInputFields.size();
         }
 
@@ -2038,6 +2079,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
+    }
+
+    public void clickTemplateQuestionPanel(int questionNum) {
+        WebElement questionPanel = browser.driver.findElement(By.id("addTemplateQuestion-" + questionNum))
+                .findElement(By.className("panel-title"));
+
+        click(questionPanel);
+    }
+
+    public void clickTemplateQuestionModalCheckBox(int questionNum) {
+        WebElement questionCheckBox = browser.driver.findElement(By.id("addTemplateQuestion-" + questionNum))
+                .findElement(By.cssSelector("input"));
+
+        click(questionCheckBox);
     }
 
     public void clickCopyTableAtRow(int rowIndex) {

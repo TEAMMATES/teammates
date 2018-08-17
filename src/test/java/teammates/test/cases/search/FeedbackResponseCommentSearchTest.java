@@ -1,7 +1,6 @@
 package teammates.test.cases.search;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
@@ -82,28 +81,5 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 frc1I3Q1S2C2.commentGiver));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         verifySearchResults(bundle);
-    }
-
-    /*
-     * Verifies that search results match with expected output.
-     * Compares the text for each comment as it is unique.
-     *
-     * @param actual the results from the search query.
-     * @param expected the expected results for the search query.
-     */
-    private static void verifySearchResults(FeedbackResponseCommentSearchResultBundle actual,
-                FeedbackResponseCommentAttributes... expected) {
-        assertEquals(expected.length, actual.numberOfResults);
-        assertEquals(expected.length, actual.comments.size());
-        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
-        FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
-                .toArray(new FeedbackResponseCommentAttributes[2]);
-        int i = 0;
-        for (String key : actual.comments.keySet()) {
-            for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
-                assertEquals(sortedComments[i].commentText, comment.commentText);
-                i++;
-            }
-        }
     }
 }

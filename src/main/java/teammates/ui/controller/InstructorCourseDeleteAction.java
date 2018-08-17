@@ -22,7 +22,7 @@ public class InstructorCourseDeleteAction extends Action {
 
         try {
             /* Move the course to recycle bin and setup status to be shown to user and admin */
-            logic.moveCourseToRecovery(idOfCourseToDelete);
+            logic.moveCourseToRecycleBin(idOfCourseToDelete);
 
             String statusMessage;
             if (isRedirectedToHomePage()) {
