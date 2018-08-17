@@ -16,9 +16,8 @@
               <label class="label-control">
                 Make session visible
               </label>
-              <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on session visibility" data-placement="top" data-toggle="tooltip" id="sessionVisibleCustomInfo" title="">
+              <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on session visibility" data-placement="top" data-toggle="tooltip" id="sessionVisibilityInfoIcon" title="">
               </span>
-              <input id="sessionVisibilityOptions" type="hidden" value="This option allows you to select when you want the questions for the feedback session to be visible to users who need to participate. Users cannot submit their responses until the submission opening time.">
             </div>
           </div>
           <div class="row radio">
@@ -27,7 +26,6 @@
                 At
               </label>
               <input id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
-              <input id="sessionVisibilityCustom" type="hidden" value="Select this option to enter in a specific date and time when the feedback session will become visible. Note that you can make a session visible before it is open for submissions so that users can preview the questions.">
             </h5>
             <div class="col-xs-5">
               <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="">
@@ -115,7 +113,6 @@
                 Submission opening time
               </label>
               <input checked="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
-              <input id="sessionVisibilityAtOpen" type="hidden" value="Select this option to have the feedback session become visible when it is open for submissions.">
             </div>
           </div>
         </div>
@@ -125,8 +122,7 @@
               <label class="label-control">
                 Make responses visible
               </label>
-              <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on responses visibility" data-placement="top" data-toggle="tooltip" id="responsesVisibleCustomInfo" title="">
-                <input id="responsesVisibilityOptions" type="hidden" value="Please select when the responses for the feedback session will be visible to the designated recipients. You can select the response visibility for each type of user and question later.">
+              <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on responses visibility" data-placement="top" data-toggle="tooltip" id="responsesVisibilityInfoIcon" title="">
               </span>
             </div>
           </div>
@@ -136,7 +132,6 @@
                 At
               </label>
               <input id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
-              <input id="responsesVisibilityCustom" type="hidden" value="Select this option to use a self defined time for when the responses of the feedback session will be visible to the designated recipients.">
             </h5>
             <div class="col-xs-5">
               <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="">
@@ -224,7 +219,6 @@
                 Immediately
               </label>
               <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
-              <input id="responsesVisibilityImmediate" type="hidden" value="Select this option to have the feedback responses be immediately visible to others as soon as they are submitted. Note that who can see the responses depends on the feedback path of the question.">
             </div>
           </div>
           <div class="row radio">
@@ -233,7 +227,6 @@
                 Not now (publish manually)
               </label>
               <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
-              <input id="responsesVisibilityLater" type="hidden" value="Select this option if you intend to manually publish the responses for this session later on.">
             </div>
           </div>
         </div>
@@ -255,8 +248,7 @@
           <label class="control-label">
             Send emails for
           </label>
-          <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on sending email reminders" data-placement="top" data-toggle="tooltip" id="sendEmailRemindersInfo" title="">
-            <input id="sendEmailsOptions" type="hidden" value="This setting allows you to automatically send email notifications to students on important events.">
+          <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on sending email reminders" data-placement="top" data-toggle="tooltip" id="emailRemindersInfoIcon" title="">
           </span>
         </div>
       </div>
@@ -267,7 +259,6 @@
               Session opening reminder
             </label>
             <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
-            <input id="sendEmailsAtOpen" type="hidden" value="Select this option to automatically send an email to students to notify them when the feedback session is open for submissions. Emails are sent within 15 minutes once the session opens.">
           </div>
         </div>
         <div class="col-md-3">
@@ -276,7 +267,6 @@
               Session closing reminder
             </label>
             <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
-            <input id="sendEmailsAtClosed" type="hidden" value="Select this option to automatically send an email to students to remind them to submit their responses 24 hours before the end of the feedback session.">
           </div>
         </div>
         <div class="col-md-4">
@@ -285,7 +275,6 @@
               Results published announcement
             </label>
             <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
-            <input id="sendEmailsOnPublish" type="hidden" value="Select this option to automatically send an email to students to notify them when the feedback session results are published.">
           </div>
         </div>
       </div>
