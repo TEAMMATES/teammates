@@ -99,42 +99,6 @@ function formatResponsesVisibilityGroup() {
 }
 
 /**
- * Initializes the modal providing more information on different options
- * for setting visibility of a feedback session
- */
-function setupSessionVisibilityInfoModal() {
-    const modalContentElement = $(`#${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY}`).remove().show();
-
-    $('#sessionVisibleCustomInfo').on('click', () => {
-        showModalAlert('Session Visibility Options', modalContentElement);
-    });
-}
-
-/**
- * Initializes the modal providing more information on different options
- * for settings visibility of responses of a feedback session
- */
-function setupResponsesVisibilityInfoModal() {
-    const modalContentElement = $(`#${ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY}`).remove().show();
-
-    $('#responsesVisibleCustomInfo').on('click', () => {
-        showModalAlert('Responses Visibility Options', modalContentElement);
-    });
-}
-
-/**
- * Initializes the modal providing more information on different options
- * for sending email notifications to students on important events
- */
-function setupSendingEmailsInfoModal() {
-    const modalContentElement = $(`#${ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS}`).remove().show();
-
-    $('#sendEmailRemindersInfo').on('click', () => {
-        showModalAlert('Send Email Reminders Options', modalContentElement);
-    });
-}
-
-/**
  * Hides / shows the 'Submissions Opening/Closing Time' and 'Grace Period' options
  * depending on whether a private session is selected.<br>
  * Toggles whether custom fields are enabled or not for session visible time based
@@ -154,13 +118,39 @@ function formatSessionVisibilityGroup() {
     });
 }
 
+/**
+ * Initializes the modal providing more information on different
+ * options for configuring advanced settings like session visibility,
+ * responses visibility and sending email reminders
+ */
+function setupAdvancedSettingModal(modalTitle, contentId, infoIconId) {
+    const modalContentElement = $(`#${contentId}`).remove().show();
+
+    $(`#${infoIconId}`).on('click', () => {
+        showModalAlert(modalTitle, modalContentElement);
+    });
+}
+
+function setupInfoModalsForAdvancedSettings() {
+    // setup modal for setting session visibility
+    setupAdvancedSettingModal('Session Visibility Options',
+            ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY,
+            ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY_INFO);
+    // setup modal for setting responses visibility
+    setupAdvancedSettingModal('Responses Visibility Options',
+            ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY,
+            ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_INFO);
+    // setup modal for setting sending of email notifications
+    setupAdvancedSettingModal('Send Email Reminders Options',
+            ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS,
+            ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS_INFO);
+}
+
 export {
     bindUncommonSettingsEvents,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
-    setupResponsesVisibilityInfoModal,
-    setupSendingEmailsInfoModal,
-    setupSessionVisibilityInfoModal,
+    setupInfoModalsForAdvancedSettings,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 };

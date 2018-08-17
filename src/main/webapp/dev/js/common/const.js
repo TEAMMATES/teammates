@@ -59,8 +59,11 @@ const ParamsNames = {
     FEEDBACK_SESSION_RESULTSVISIBLEBUTTON: 'resultsVisibleFromButton',
     FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
 
+    FEEDBACK_SESSION_SESSIONVISIBILITY_INFO: 'sessionVisibilitySettingInfo',
     FEEDBACK_SESSION_SESSIONVISIBILITY: 'sessionVisibilityOptions',
+    FEEDBACK_SESSION_RESPONSESVISIBILITY_INFO: 'responsesVisibilitySettingInfo',
     FEEDBACK_SESSION_RESPONSESVISIBILITY: 'responsesVisibilityOptions',
+    FEEDBACK_SESSION_EMAILREMINDERS_INFO: 'emailRemindersSettingInfo',
     FEEDBACK_SESSION_EMAILREMINDERS: 'emailRemindersOptions',
 
     FEEDBACK_QUESTION_TEXT: 'questiontext',

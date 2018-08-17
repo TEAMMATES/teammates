@@ -15,7 +15,7 @@
           <div class="col-xs-12">
             <label class="label-control">Make session visible </label>
             <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
-                  id="sessionVisibleCustomInfo"
+                  id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY_INFO%>"
                   title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_INFO %>"
                   data-toggle="tooltip"
                   data-placement="top">
@@ -23,8 +23,8 @@
             <feedbacks:feedbackSessionsFormAdditionalSettingsModal
                   settingId="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBILITY%>"
                   settingDescription="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_DESCRIPTION%>"
-                  settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONS%>"
-                  settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLE_OPTIONSDESCRIPTION%>"/>
+                  settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_OPTIONS%>"
+                  settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_OPTIONSDESCRIPTION%>"/>
           </div>
         </div>
         <div class="row radio">
@@ -77,16 +77,16 @@
           <div class="col-xs-12">
             <label class="label-control">Make responses visible</label>
             <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
-                  id="responsesVisibleCustomInfo"
-                  title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSEVISIBILITY_INFO %>"
+                  id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY_INFO%>"
+                  title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBILITY_INFO %>"
                   data-toggle="tooltip"
                   data-placement="top">
             </span>
             <feedbacks:feedbackSessionsFormAdditionalSettingsModal
                   settingId="<%= Const.ParamsNames.FEEDBACK_SESSION_RESPONSESVISIBILITY%>"
                   settingDescription="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBILITY_DESCRIPTION%>"
-                  settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONS%>"
-                  settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBLE_OPTIONSDESCRIPTION%>"/>
+                  settingOptions="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBILITY_OPTIONS%>"
+                  settingOptionsDescription="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSESVISIBILITY_OPTIONSDESCRIPTION%>"/>
           </div>
         </div>
         <div class="row radio">
@@ -158,7 +158,7 @@
       <div class="col-md-12">
         <label class="control-label">Send emails for</label>
         <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
-              id="sendEmailRemindersInfo"
+              id="<%= Const.ParamsNames.FEEDBACK_SESSION_EMAILREMINDERS_INFO %>"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_INFO %>"
               data-toggle="tooltip"
               data-placement="top">
