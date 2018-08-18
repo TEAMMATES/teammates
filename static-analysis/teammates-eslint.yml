@@ -7,9 +7,6 @@ env:
 extends:
     - airbnb-base
 
-parserOptions:
-    ecmaVersion: 2015
-
 rules:
     comma-dangle: ["error", {
         "arrays": "always-multiline",
