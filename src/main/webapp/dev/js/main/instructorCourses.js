@@ -100,7 +100,7 @@ $(document).ready(() => {
             url: `${$(this).attr('action')}?${formData}`,
             beforeSend() {
                 $('#coursesList').html(
-                        '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
+                        '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>',
                 );
                 isFetchingCourses = true;
             },
@@ -110,7 +110,7 @@ $(document).ready(() => {
                 $('#coursesList').html('');
                 setStatusMessage(
                         'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.',
-                        BootstrapContextualColors.WARNING
+                        BootstrapContextualColors.WARNING,
                 );
                 $('#retryAjax').click((ev) => {
                     ev.preventDefault();
