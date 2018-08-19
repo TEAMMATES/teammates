@@ -66,6 +66,16 @@ public class TimeHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testFormatDateForInstructorPages() {
+        ZoneId zoneId = ZoneId.of("UTC");
+        Instant instant = LocalDateTime.of(2018, Month.AUGUST, 18, 0, 0).atZone(zoneId).toInstant();
+        assertEquals("18 Aug 2018", TimeHelper.formatDateForInstructorPages(instant, zoneId));
+
+        Instant instantWithNonZeroTime = LocalDateTime.of(2018, Month.AUGUST, 18, 12, 10).atZone(zoneId).toInstant();
+        assertEquals("18 Aug 2018", TimeHelper.formatDateForInstructorPages(instantWithNonZeroTime, zoneId));
+    }
+
+    @Test
     public void testFormatDateTimeForDisplay() {
         ZoneId zoneId = ZoneId.of("UTC");
         Instant instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 0).atZone(zoneId).toInstant();
@@ -103,12 +113,5 @@ public class TimeHelperTest extends BaseTestCase {
 
         ______TS("null time");
         assertNull(TimeHelper.convertLocalDateToUtc(null, offsetHours));
-    }
-
-    @Test
-    public void testformatDateForInstructorPages() {
-        ZoneId zoneId = ZoneId.of("UTC");
-        Instant instant = LocalDateTime.of(2018, Month.AUGUST, 18, 0, 0).atZone(zoneId).toInstant();
-        assertEquals("18 Aug 2018", TimeHelper.formatDateForInstructorPages(instant, zoneId));
     }
 }

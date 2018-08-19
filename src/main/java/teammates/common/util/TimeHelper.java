@@ -373,7 +373,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date stamp from an {@code instant} for the instructor pages.
+     * Formats a date stamp from an {@code instant} for the instructor's pages.
      * Example: 5 May 2017
      *
      * @param instant the instant to be formatted
