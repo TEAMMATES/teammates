@@ -318,7 +318,7 @@
       "courseId": "FRubricQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[1.01,-0.99],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS_INCLUDING_SELF. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.01,-0.99],[1.01,-0.99]],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS_INCLUDING_SELF. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
       },
       "questionNumber": 2,
       "questionType": "RUBRIC",
@@ -340,7 +340,7 @@
       "courseId": "FRubricQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[2,0],\"questionText\":\"Recipient: TEAMS. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[2,0],[2,0]],\"questionText\":\"Recipient: TEAMS. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
       },
       "questionNumber": 3,
       "questionType": "RUBRIC",
@@ -362,7 +362,7 @@
       "courseId": "FRubricQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[0.01,-0.01],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS. See responses: recipients, instructor. No received responses.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[0.01,-0.01],[0.01,-0.01]],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS. See responses: recipients, instructor. No received responses.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
       },
       "questionNumber": 4,
       "questionType": "RUBRIC",

@@ -1,15 +1,10 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.Const;
@@ -259,55 +254,4 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         List<String> errors = rubricDetails.validateQuestionDetails(dummySessionToken);
         assertEquals(0, errors.size());
     }
-
-    @Test
-    public void testGetRubricWeights_rubricWeightsForEachCellEmpty_legacyDataWillBeConvertedToNewFormat()
-            throws Exception {
-        // Create a dummy question to test the method.
-        String questionMetaDataString = "{\"rubricSubQuestions\":[\"This student has done a good job.\","
-                + "\"This student has tried his/her best.\"],"
-                + "\"questionText\":\"Please choose the best choice for the following sub-questions.\","
-                + "\"hasAssignedWeights\": true,"
-                + "\"rubricWeights\": [1.2, 1.84],"
-                + "\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\","
-                + "\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],"
-                + "[\"Most of the time\",\"Less than half the time\"]]}";
-
-        Text questionMetaData = new Text(questionMetaDataString);
-
-        List<FeedbackParticipantType> participants = new ArrayList<>();
-        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        participants.add(FeedbackParticipantType.RECEIVER);
-
-        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.builder()
-                .withCourseId("testingCourse")
-                .withCreatorEmail("instructor@email.com")
-                .withFeedbackSessionName("testFeedbackSession")
-                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
-                .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumOfEntitiesToGiveFeedbackTo(1)
-                .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.RUBRIC)
-                .withQuestionMetaData(questionMetaData)
-                .withShowGiverNameTo(new ArrayList<>(participants))
-                .withShowRecipientNameTo(new ArrayList<>(participants))
-                .withShowResponseTo(new ArrayList<>(participants))
-                .build();
-
-        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) fqa.getQuestionDetails();
-
-        // The rubricWeights in this question are: [1.2, 1.84],
-        // After converting it to new format, the list should be,
-        // rubricWeightsForEachCell: [[1.2, 1.84], [1.2, 1.84]]
-        List<List<Double>> weightsForEachCell = fqd.getRubricWeights();
-        assertEquals(2, weightsForEachCell.size());
-        assertEquals(2, weightsForEachCell.get(0).size());
-        assertEquals(2, weightsForEachCell.get(1).size());
-        // Check for individual values.
-        assertEquals(1.2, weightsForEachCell.get(0).get(0));
-        assertEquals(1.84, weightsForEachCell.get(0).get(1));
-        assertEquals(1.2, weightsForEachCell.get(1).get(0));
-        assertEquals(1.84, weightsForEachCell.get(1).get(1));
-    }
-
 }
