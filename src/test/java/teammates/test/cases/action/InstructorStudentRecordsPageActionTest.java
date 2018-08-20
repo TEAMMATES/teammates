@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -14,6 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.api.Logic;
+import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
@@ -158,8 +160,15 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         testStudent.googleId = "valid.no.sessions";
         StudentsLogic.inst().updateStudentCascadeWithoutDocument(testStudent.email, testStudent);
-        logic.createAccount(testStudent.googleId, testStudent.name, false, testStudent.email,
-                            "valid institute");
+        AccountsLogic.inst().createAccount(
+                AccountAttributes.builder()
+                        .withGoogleId(testStudent.googleId)
+                        .withName(testStudent.name)
+                        .withIsInstructor(false)
+                        .withEmail(testStudent.email)
+                        .withInstitute("valid institue")
+                        .withDefaultStudentProfileAttributes(testStudent.googleId)
+                        .build());
 
         a = getAction(submissionParamsWithNoSession);
         r = getShowPageResult(a);
