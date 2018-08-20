@@ -31,7 +31,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private static final String STATISTICS_NO_VALUE_STRING = "-";
 
     private boolean hasAssignedWeights;
-    private List<Double> rubricWeights;
     private List<List<Double>> rubricWeightsForEachCell;
     private int numOfRubricChoices;
     private List<String> rubricChoices;
@@ -43,7 +42,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.RUBRIC);
 
         this.hasAssignedWeights = false;
-        this.rubricWeights = new ArrayList<>();
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();
         this.numOfRubricSubQuestions = 0;
@@ -56,7 +54,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.RUBRIC, questionText);
 
         this.hasAssignedWeights = false;
-        this.rubricWeights = new ArrayList<>();
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();
         this.numOfRubricSubQuestions = 0;
@@ -1093,31 +1090,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Converts the legacy data for weights into new format if there is legacy data for this question,
-     * and returns a list containing rubric weights.
+     * Returns a list of rubric weights if the weights are assigned,
+     * otherwise returns an empty list.
      */
     public List<List<Double>> getRubricWeights() {
-        // If weights are assigned and rubricWeightsForEachCell is empty, that means the question contains legacy data.
-        // In this case, covert the legacy data into new format.
-        if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
-            if (rubricWeights.size() != numOfRubricChoices || rubricWeights.isEmpty()) {
-                return new ArrayList<>();
-            }
-            List<List<Double>> weights = new ArrayList<>();
-
-            for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                weights.add(new ArrayList<Double>());
-                for (int j = 0; j < numOfRubricChoices; j++) {
-                    weights.get(i).add(rubricWeights.get(j));
-                }
-            }
-
-            return weights;
-        } else if (hasAssignedWeights && !rubricWeightsForEachCell.isEmpty()) {
-            // Data is already in new format, return the list.
+        if (hasAssignedWeights) {
             return rubricWeightsForEachCell;
         }
-        // If weights are not assigned, return an empty list.
+
         return new ArrayList<>();
     }
 
