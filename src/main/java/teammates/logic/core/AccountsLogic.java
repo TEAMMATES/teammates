@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -57,11 +56,7 @@ public final class AccountsLogic {
     }
 
     public AccountAttributes getAccount(String googleId) {
-        return getAccount(googleId, false);
-    }
-
-    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
-        return accountsDb.getAccount(googleId, retrieveStudentProfile);
+        return accountsDb.getAccount(googleId);
     }
 
     public boolean isAccountPresent(String googleId) {
@@ -102,12 +97,7 @@ public final class AccountsLogic {
 
     public void updateAccount(AccountAttributes account)
             throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateAccount(account, false);
-    }
-
-    public void updateAccount(AccountAttributes account, boolean updateStudentProfile)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateAccount(account, updateStudentProfile);
+        accountsDb.updateAccount(account);
     }
 
     public void joinCourseForStudent(String registrationKey, String googleId)
@@ -170,7 +160,6 @@ public final class AccountsLogic {
                     .withEmail(instructor.email)
                     .withInstitute(instituteToSave)
                     .withIsInstructor(true)
-                    .withDefaultStudentProfileAttributes(googleId)
                     .build());
         } else {
             makeAccountInstructor(googleId);
@@ -294,7 +283,7 @@ public final class AccountsLogic {
     }
 
     public void makeAccountNonInstructor(String googleId) {
-        AccountAttributes account = accountsDb.getAccount(googleId, true);
+        AccountAttributes account = accountsDb.getAccount(googleId);
         if (account == null) {
             log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         } else {
@@ -310,7 +299,7 @@ public final class AccountsLogic {
 
     public void makeAccountInstructor(String googleId) {
 
-        AccountAttributes account = accountsDb.getAccount(googleId, true);
+        AccountAttributes account = accountsDb.getAccount(googleId);
 
         if (account == null) {
             log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
@@ -341,9 +330,6 @@ public final class AccountsLogic {
                 .withName(student.name)
                 .withIsInstructor(false)
                 .withInstitute(getCourseInstitute(student.course))
-                .withStudentProfileAttributes(StudentProfileAttributes.builder(student.googleId)
-                        .withInstitute(getCourseInstitute(student.course))
-                        .build())
                 .build();
 
         accountsDb.createAccount(account);

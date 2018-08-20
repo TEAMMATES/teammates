@@ -23,7 +23,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -125,9 +124,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .withEmail("instructor@icet.tmt")
                         .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
-                        .withStudentProfileAttributes(StudentProfileAttributes.builder(instructorId)
-                                .withShortName("ICET")
-                                .build())
                         .build());
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
@@ -620,16 +616,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
-        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(instructorId)
-                .withShortName("Ins1").withGender("male")
-                .build();
         AccountAttributes accountToAdd = AccountAttributes.builder()
                 .withGoogleId(instructorId)
                 .withName("Instructor 1")
                 .withEmail(instructorEmail)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(profileAttributes)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
@@ -738,16 +730,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder("tes.instructor")
-                .withShortName("Ins 1").withGender("male")
-                .build();
         accountToAdd = AccountAttributes.builder()
                 .withGoogleId("tes.instructor")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(studentAttributes)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);

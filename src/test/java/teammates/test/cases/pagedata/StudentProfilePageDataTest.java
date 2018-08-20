@@ -58,13 +58,12 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withEmail("e@email.com")
                 .withInstitute("inst")
                 .withIsInstructor(false)
-                .withStudentProfileAttributes(spa)
                 .build();
         isEditingPhoto = "false";
         pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                    + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
                    + "&" + Const.ParamsNames.USER_ID + "=" + acct.googleId;
-        return new StudentProfilePageData(acct, dummySessionToken, isEditingPhoto);
+        return new StudentProfilePageData(acct, spa, dummySessionToken, isEditingPhoto);
     }
 
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
@@ -77,10 +76,9 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withEmail("e@email.com")
                 .withInstitute("inst")
                 .withIsInstructor(false)
-                .withStudentProfileAttributes(spa)
                 .build();
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
-        return new StudentProfilePageData(acct, dummySessionToken, isEditingPhoto);
+        return new StudentProfilePageData(acct, spa, dummySessionToken, isEditingPhoto);
     }
 
     private void testProfileEditBox(StudentProfileEditBox profileEditBox) {

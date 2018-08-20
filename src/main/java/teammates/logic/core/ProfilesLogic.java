@@ -3,7 +3,6 @@ package teammates.logic.core;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ProfilesDb;
 
@@ -28,16 +27,20 @@ public final class ProfilesLogic {
         return profilesDb.getStudentProfile(googleId);
     }
 
-    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        profilesDb.updateStudentProfile(newStudentProfileAttributes);
+    public void updateOrCreateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
+            throws InvalidParametersException {
+        profilesDb.updateOrCreateStudentProfile(newStudentProfileAttributes);
+    }
+
+    public void deleteStudentProfile(String googleId) {
+        profilesDb.deleteStudentProfile(googleId);
     }
 
     public void deletePicture(BlobKey key) {
         profilesDb.deletePicture(key);
     }
 
-    public void updateStudentProfilePicture(String googleId, String newPictureKey) throws EntityDoesNotExistException {
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
     }
 
