@@ -78,7 +78,6 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     private void verifyAccountsAreSame(AccountAttributes student,
             ShowPageResult result) {
         PageData data = result.data;
-        student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
         student.createdAt = data.account.createdAt;
         assertEquals(student.toString(), data.account.toString());
     }

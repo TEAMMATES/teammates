@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -311,14 +310,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(spa)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
         courseSummary = coursesLogic.getCourseSummary("course1");
@@ -372,15 +369,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
-
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(spa)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "America/Los_Angeles");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
@@ -437,15 +431,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
-
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(spa)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Australia/Adelaide");
         courseDetails = coursesLogic.getCourseSummary("course1");
@@ -494,15 +485,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
-
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(spa)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         teams = coursesLogic.getTeamsForCourse("course1");
@@ -915,7 +903,6 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .withIsInstructor(false)
                 .withEmail(i.email)
                 .withInstitute("TEAMMATES Test Institute 5")
-                .withDefaultStudentProfileAttributes(i.googleId)
                 .build();
 
         accountsDb.createAccount(a);

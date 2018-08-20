@@ -47,18 +47,15 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         boolean isInstructorAllowedToViewStudent = instructor.isAllowedForPrivilege(student.section,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        boolean isStudentWithProfile = !student.googleId.isEmpty();
-        if (isInstructorAllowedToViewStudent && isStudentWithProfile) {
-            studentProfile = logic.getStudentProfile(student.googleId);
-            Assumption.assertNotNull(studentProfile);
-        } else {
-            if (student.googleId.isEmpty()) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS,
-                                                   StatusMessageColor.WARNING));
-            } else if (!isInstructorAllowedToViewStudent) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR,
-                                                   StatusMessageColor.WARNING));
+        if (isInstructorAllowedToViewStudent) {
+            studentProfile = student.googleId.isEmpty() ? null : logic.getStudentProfile(student.googleId);
+            if (studentProfile == null) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NOT_CREATED,
+                        StatusMessageColor.WARNING));
             }
+        } else {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR,
+                    StatusMessageColor.WARNING));
         }
 
         if (sessions.isEmpty()) {
