@@ -55,7 +55,6 @@ public class StudentsLogicTest extends BaseLogicTest {
     @Test
     public void testAll() throws Exception {
 
-        testGetStudentProfile();
         testGetStudentForEmail();
         testGetStudentForRegistrationKey();
         testGetStudentsForGoogleId();
@@ -191,41 +190,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         student1.googleId = "googleId";
         studentsLogic.updateStudentCascadeWithoutDocument(student1.email, student1);
 
-    }
-
-    private void testGetStudentProfile() throws Exception {
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        AccountAttributes student1 = dataBundle.accounts.get("student1InCourse1");
-
-        ______TS("success: default profile");
-
-        StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
-        StudentProfileAttributes expectedSpa = student1.studentProfile;
-
-        // fill-in auto-generated and default values
-        expectedSpa.institute = actualSpa.institute;
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-
-        ______TS("success: edited profile");
-
-        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder(student1.googleId).build();
-
-        expectedStudentProfile.shortName = "short";
-        expectedStudentProfile.email = "personal@email.tmt";
-        expectedStudentProfile.institute = "institute";
-        expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = "female";
-        expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
-
-        student1.studentProfile = expectedStudentProfile;
-        accountsLogic.updateAccount(student1, true);
-
-        StudentProfileAttributes actualStudentProfile = studentsLogic.getStudentProfile(student1InCourse1.googleId);
-        expectedStudentProfile.modifiedDate = actualStudentProfile.modifiedDate;
-        assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
     }
 
     private void testValidateSections() throws Exception {
@@ -636,7 +600,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     * {@link #signalFailureToDetectException()}.
+     * {@link #signalFailureToDetectException(String...)} ()}.
      *
      * @param invalidEnrollLines is assumed to be invalid
      */
