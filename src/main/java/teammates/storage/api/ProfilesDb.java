@@ -5,7 +5,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
@@ -170,16 +169,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         saveEntity(sp);
     }
 
-    /**
-     * This method is not scalable. Not to be used unless for admin features.
-     *
-     * @return the list of all student profiles in the database.
-     */
-    @Deprecated
-    public List<StudentProfileAttributes> getAllStudentProfiles() {
-        return makeAttributes(getStudentProfileEntities());
-    }
-
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
@@ -262,14 +251,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
             return getEntityQueryKeysForLegacyData(attributes).first().now() != null;
         }
         return true;
-    }
-
-    /**
-     * Retrieves all student profile entities. This function is not scalable.
-     */
-    @Deprecated
-    private List<StudentProfile> getStudentProfileEntities() {
-        return load().list();
     }
 
     @Override
