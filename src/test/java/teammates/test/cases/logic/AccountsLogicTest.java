@@ -42,7 +42,15 @@ public class AccountsLogicTest extends BaseLogicTest {
         List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
         int size = instructorAccounts.size();
 
-        logic.createAccount("test.account", "Test Account", true, "test@account.com", "Foo University");
+        accountsLogic.createAccount(
+                AccountAttributes.builder()
+                        .withGoogleId("test.account")
+                        .withName("Test Account")
+                        .withIsInstructor(true)
+                        .withEmail("test@account.com")
+                        .withInstitute("Foo University")
+                        .withDefaultStudentProfileAttributes("test.account")
+                        .build());
         instructorAccounts = logic.getInstructorAccounts();
         assertEquals(instructorAccounts.size(), size + 1);
 

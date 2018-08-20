@@ -71,49 +71,6 @@ public class Logic {
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     /**
-     * Creates a new Account based on given values. If a profile is not given,
-     * a default empty profile is created for the user<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     */
-    public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute,
-                              StudentProfileAttributes studentProfileParam) throws InvalidParametersException {
-
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(name);
-        Assumption.assertNotNull(isInstructor);
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(institute);
-
-        StudentProfileAttributes studentProfile = studentProfileParam;
-        if (studentProfile == null) {
-            studentProfile = StudentProfileAttributes.builder(googleId).build();
-        }
-        AccountAttributes accountToAdd = AccountAttributes.builder()
-                .withGoogleId(googleId)
-                .withName(name)
-                .withEmail(email)
-                .withInstitute(institute)
-                .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(studentProfile)
-                .build();
-
-        accountsLogic.createAccount(accountToAdd);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * This is just for legacy code that creates an Account without the profile parameter
-     */
-    public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute)
-            throws InvalidParametersException {
-
-        createAccount(googleId, name, isInstructor, email, institute, null);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
