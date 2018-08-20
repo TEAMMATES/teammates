@@ -152,13 +152,6 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
 
-    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(googleId);
-
-        profilesLogic.deleteStudentProfilePicture(googleId);
-    }
-
     public void deletePicture(BlobKey key) {
         Assumption.assertNotNull(key);
 

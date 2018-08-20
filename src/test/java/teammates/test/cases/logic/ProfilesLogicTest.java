@@ -73,16 +73,6 @@ public class ProfilesLogicTest extends BaseLogicTest {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
 
-        ______TS("delete profile picture");
-
-        profilesLogic.deleteStudentProfilePicture(expectedSpa.googleId);
-        assertFalse(doesFileExistInGcs(new BlobKey(expectedSpa.pictureKey)));
-
-        actualSpa = profilesLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        expectedSpa.pictureKey = "";
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-
         // remove the account that was created
         accountsLogic.deleteAccountCascade("id");
     }

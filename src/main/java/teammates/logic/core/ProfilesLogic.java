@@ -33,10 +33,6 @@ public final class ProfilesLogic {
         profilesDb.updateStudentProfile(newStudentProfileAttributes);
     }
 
-    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
-        profilesDb.deleteStudentProfilePicture(googleId);
-    }
-
     public void deletePicture(BlobKey key) {
         profilesDb.deletePicture(key);
     }

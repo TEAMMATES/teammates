@@ -223,31 +223,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
     }
 
-    @Test
-    public void testDeleteProfilePicture() throws Exception {
-        AccountAttributes a = createNewAccount();
-        a.studentProfile.pictureKey = uploadDefaultPictureForProfile(a.googleId);
-        testDeletePictureSuccess(a);
-        testDeleteProfilePictureForProfileWithNoPicture(a);
-    }
-
-    private void testDeleteProfilePictureForProfileWithNoPicture(
-            AccountAttributes a) throws EntityDoesNotExistException {
-        ______TS("delete picture, currently empty - fails silently");
-        profilesDb.deleteStudentProfilePicture(a.googleId);
-    }
-
-    private void testDeletePictureSuccess(AccountAttributes a)
-            throws EntityDoesNotExistException {
-        ______TS("delete picture");
-
-        profilesDb.deleteStudentProfilePicture(a.googleId);
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
-
-        assertFalse(doesFileExistInGcs(new BlobKey(updatedProfile.pictureKey)));
-        assertEquals("", updatedProfile.pictureKey);
-    }
-
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
