@@ -319,12 +319,18 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
+        Instant sessionStartTime = Instant.now();
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
-                .withCreatedTime(Instant.now())
-                .withStartTime(Instant.now())
+                .withCreatedTime(sessionStartTime)
+                .withStartTime(sessionStartTime)
                 .withEndTime(Instant.now())
-                .withSessionVisibleFromTime(Instant.now())
-                .withResultsVisibleFromTime(Instant.now())
+                .withSessionVisibleFromTime(sessionStartTime)
+                .withResultsVisibleFromTime(sessionStartTime)
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
