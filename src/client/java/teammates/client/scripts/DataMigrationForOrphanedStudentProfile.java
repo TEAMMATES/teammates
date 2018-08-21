@@ -27,6 +27,13 @@ public class DataMigrationForOrphanedStudentProfile extends DataMigrationWithChe
     }
 
     @Override
+    protected int getCursorInformationPrintCycle() {
+        // Till 23/08/2018, we have around 61363 StudentProfile entities and therefore
+        // 500 could be a good batch size.
+        return 500;
+    }
+
+    @Override
     protected boolean isPreview() {
         return true;
     }

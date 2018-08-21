@@ -56,10 +56,10 @@ public abstract class DataMigrationWithCheckpointForEntities<T extends BaseEntit
 
     /**
      * Determines how often the cursor position information should be printed.
+     *
+     * <p>Should choose a reasonable value based on the number of entities in the server.</p>
      */
-    protected int getCursorInformationPrintCycle() {
-        return 100;
-    }
+    protected abstract int getCursorInformationPrintCycle();
 
     /**
      * Checks whether data migration is needed.
@@ -127,7 +127,7 @@ public abstract class DataMigrationWithCheckpointForEntities<T extends BaseEntit
                 Key<T> keyOfEntityToMigrate = iterator.next();
 
                 // get entity type
-                if (entityType.isEmpty()) {
+                if ("Unknown".equals(entityType)) {
                     entityType = keyOfEntityToMigrate.getKind();
                 }
 
