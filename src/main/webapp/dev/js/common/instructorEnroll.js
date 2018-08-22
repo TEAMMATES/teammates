@@ -38,7 +38,7 @@ function getUpdatedHeaderString(handsontableColHeader) {
 function getUserDataRows(spreadsheetData) {
     // needs to check for '' as an initial empty row with null values will be converted to e.g. "||||" after .map
     return spreadsheetData.filter(row => (!row.every(cell => cell === null || cell === '')))
-            .map(row => row.join('|'))
+            .map(row => row.join('|').replace(/\n|\r/g, ''))
             .join('\n');
 }
 
