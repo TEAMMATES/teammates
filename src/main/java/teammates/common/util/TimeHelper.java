@@ -385,6 +385,19 @@ public final class TimeHelper {
     }
 
     /**
+     * Formats a date stamp from an {@code instant} for the instructor's feedback sessions page.
+     * Example: 5 May 2017
+     * TODO: rename formatDateForInstructorCoursesPage and remove this method to avoid duplicated code
+     *
+     * @param instant the instant to be formatted
+     * @param zoneId  the time zone to calculate local date
+     * @return the formatted date stamp string
+     */
+    public static String formatDateForInstructorSessionsPage(Instant instant, ZoneId zoneId) {
+        return formatInstant(instant, zoneId, "d MMM yyyy");
+    }
+
+    /**
      * Formats {@code instant} for the admin's activity log page.
      * Example: 01/04/2018 12:00:01.481
      *

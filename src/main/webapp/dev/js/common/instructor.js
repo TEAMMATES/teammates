@@ -310,28 +310,29 @@ function bindDeleteButtons() {
         const courseId = $button.data('courseid');
         const feedbackSessionName = $button.data('fsname');
 
-        const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}?`;
+        const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}? `
+                + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
         const okCallback = function () {
             window.location = $button.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+        showModalConfirmation('Confirm moving session to Recycle Bin', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.WARNING);
     });
 }
 
-function bindCourseMoveToRecoveryLinks() {
-    $('body').on('click', '.course-move-to-recovery-link', (event) => {
+function bindCourseMoveToRecycleBinLinks() {
+    $('body').on('click', '.course-move-to-recycle-bin-link', (event) => {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
         const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
-                + 'This action can be reverted by going to the "courses" tab and restoring the desired course(s).';
+                + 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm moving course to recovery', messageText, okCallback, null,
+        showModalConfirmation('Confirm moving course to Recycle Bin', messageText, okCallback, null,
                 null, null, BootstrapContextualColors.WARNING);
     });
 }
@@ -375,13 +376,28 @@ function bindSessionDeleteLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to delete the feedback session '
+        const messageText = 'Are you sure you want to permanently delete the feedback session '
                 + `${$clickedLink.data('feedbackSessionName')} in ${$clickedLink.data('courseId')}?`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.DANGER);
+    });
+}
+
+function bindSessionDeleteAllLinks() {
+    $('body').on('click', '.session-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = 'Are you sure you want to permanently delete all feedback sessions?';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deleting all feedback sessions', messageText, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
     });
 }
@@ -581,10 +597,11 @@ function prepareInstructorPages() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 
     // bind the event handler to show confirmation modal
-    bindCourseMoveToRecoveryLinks();
+    bindCourseMoveToRecycleBinLinks();
     bindCourseDeleteLinks();
     bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();
+    bindSessionDeleteAllLinks();
 }
 
 export {

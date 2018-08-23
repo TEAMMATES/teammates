@@ -100,6 +100,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "resendPublishedEmailModal")
     private WebElement resendPublishedEmailModal;
 
+    @FindBy(id = "softDeletedSessionsHeading")
+    private WebElement panelHeading;
+
     private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbackSessionsPage(Browser browser) {
@@ -408,9 +411,31 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return getLinkAtTableRow("session-edit-for-test", sessionRowId);
     }
 
-    public WebElement getDeleteLink(String courseId, String sessionName) {
+    public WebElement getMoveToRecycleBinLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("session-delete-for-test", sessionRowId);
+        return getLinkAtTableRow("session-delete", sessionRowId);
+    }
+
+    public WebElement getRestoreLink(String courseId, String sessionName) {
+        click(panelHeading);
+        waitForElementVisibility(browser.driver.findElement(By.id("softdeletedcourseid0")));
+        int sessionRowId = getSoftDeletedFeedbackSessionRowId(courseId, sessionName);
+        return getLinkAtSoftDeletedTableRow("t_session_restore", sessionRowId);
+    }
+
+    public WebElement getRestoreAllLink() {
+        return browser.driver.findElement(By.id("btn-session-restoreall"));
+    }
+
+    public WebElement getDeleteLink(String courseId, String sessionName) {
+        click(panelHeading);
+        waitForElementVisibility(browser.driver.findElement(By.id("softdeletedcourseid0")));
+        int sessionRowId = getSoftDeletedFeedbackSessionRowId(courseId, sessionName);
+        return getLinkAtSoftDeletedTableRow("t_session_delete", sessionRowId);
+    }
+
+    public WebElement getDeleteAllLink() {
+        return browser.driver.findElement(By.id("btn-session-deleteall"));
     }
 
     public WebElement getSubmitLink(String courseId, String sessionName) {
@@ -517,6 +542,10 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                 + (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
     }
 
+    private WebElement getLinkAtSoftDeletedTableRow(String className, int rowIndex) {
+        return browser.driver.findElement(By.className(className + rowIndex));
+    }
+
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
         while (i < getFeedbackSessionsCount()) {
@@ -529,8 +558,26 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return -1;
     }
 
+    private int getSoftDeletedFeedbackSessionRowId(String courseId, String sessionName) {
+        int i = 0;
+        while (i < getSoftDeletedFeedbackSessionsCount()) {
+            if (getSoftDeletedFeedbackSessionCourseId(i).equals(courseId)
+                    && getSoftDeletedFeedbackSessionName(i).equals(sessionName)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
     private int getFeedbackSessionsCount() {
         return browser.driver.findElements(By.className("sessionsRow")).size();
+    }
+
+    private int getSoftDeletedFeedbackSessionsCount() {
+        By softDeletedSessionsTable = By.id("tableSoftDeletedFeedbackSessions");
+        waitForElementPresence(softDeletedSessionsTable);
+        return browser.driver.findElement(softDeletedSessionsTable).findElements(By.tagName("tr")).size();
     }
 
     private String getFeedbackSessionCourseId(int rowId) {
@@ -540,11 +587,25 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                              .getText();
     }
 
+    private String getSoftDeletedFeedbackSessionCourseId(int rowId) {
+        return browser.driver.findElement(By.id("tableSoftDeletedFeedbackSessions"))
+                .findElements(By.xpath("tbody/tr")).get(rowId)
+                .findElements(By.xpath("td")).get(0)
+                .getText();
+    }
+
     private String getFeedbackSessionName(int rowId) {
         return browser.driver.findElement(By.id("table-sessions"))
                              .findElements(By.xpath("tbody/tr")).get(rowId)
                              .findElements(By.xpath("td")).get(1)
                              .getText();
+    }
+
+    private String getSoftDeletedFeedbackSessionName(int rowId) {
+        return browser.driver.findElement(By.id("tableSoftDeletedFeedbackSessions"))
+                .findElements(By.xpath("tbody/tr")).get(rowId)
+                .findElements(By.xpath("td")).get(1)
+                .getText();
     }
 
     private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
@@ -561,6 +622,48 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         click(fsCopyButton);
+    }
+
+    public InstructorFeedbackSessionsPage moveSessionToRecycleBin(String courseId, String sessionName) {
+        click(getMoveToRecycleBinLink(courseId, sessionName));
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage restoreSession(String courseId, String sessionName) {
+        click(getRestoreLink(courseId, sessionName));
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage restoreAllSessions() {
+        click(getRestoreAllLink());
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage deleteSessionAndCancel(String courseId, String sessionName) {
+        clickAndCancel(getDeleteLink(courseId, sessionName));
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage deleteSessionAndConfirm(String courseId, String sessionName) {
+        clickAndConfirm(getDeleteLink(courseId, sessionName));
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage deleteAllSessionsAndCancel() {
+        clickAndCancel(getDeleteAllLink());
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage deleteAllSessionsAndConfirm() {
+        clickAndConfirm(getDeleteAllLink());
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public void changeUserIdInAjaxForSessionsForm(String newUserId) {

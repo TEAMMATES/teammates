@@ -12,17 +12,17 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorCourseDeleteAllRecoveryCoursesAction;
+import teammates.ui.controller.InstructorCourseDeleteAllSoftDeletedCoursesAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorCourseDeleteAllRecoveryCoursesAction}.
+ * SUT: {@link InstructorCourseDeleteAllSoftDeletedCoursesAction}.
  */
-public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActionTest {
+public class InstructorCourseDeleteAllSoftDeletedCoursesActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL;
+        return Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         String instructor2Id = instructor2OfCourse3.googleId;
         gaeSimulation.loginAsInstructor(instructor2Id);
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
-        InstructorCourseDeleteAllRecoveryCoursesAction deleteAllAction;
+        InstructorCourseDeleteAllSoftDeletedCoursesAction deleteAllAction;
 
         try {
             deleteAllAction = getAction();
@@ -47,7 +47,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
 
         List<InstructorAttributes> instructorList = new ArrayList<>();
         instructorList.add(instructor2OfCourse3);
-        List<CourseAttributes> courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        List<CourseAttributes> courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(1, courseList.size());
         assertEquals(instructor2OfCourse3.courseId, courseList.get(0).getId());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
@@ -65,8 +65,8 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         instructorList.add(newInstructor);
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorList);
         assertEquals(1, courseList.size());
-        CoursesLogic.inst().moveCourseToRecovery("icdat.owncourse");
-        courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        CoursesLogic.inst().moveCourseToRecycleBin("icdat.owncourse");
+        courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(2, courseList.size());
         newInstructor.privileges.updatePrivilege("canmodifycourse", false);
         InstructorsLogic.inst().updateInstructorByGoogleId(instructor1OfCourse3.getGoogleId(), newInstructor);
@@ -79,7 +79,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
                     + "for privilege [canmodifycourse]", e.getMessage());
         }
 
-        courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(2, courseList.size());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
         assertTrue(CoursesLogic.inst().isCoursePresent(newInstructor.courseId));
@@ -101,17 +101,17 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         assertEquals("All courses have been permanently deleted.", redirectResult.getStatusMessage());
         assertFalse(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
         assertFalse(CoursesLogic.inst().isCoursePresent("icdat.owncourse"));
-        String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryDeleteAllCourses|||"
-                + "instructorRecoveryDeleteAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDeleteAllCourses|||"
+                + "instructorCourseDeleteAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses deleted|||"
-                + "/page/instructorRecoveryDeleteAllCourses";
+                + "/page/instructorCourseDeleteAllCourses";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAllAction.getLogMessage());
 
     }
 
     @Override
-    protected InstructorCourseDeleteAllRecoveryCoursesAction getAction(String... params) {
-        return (InstructorCourseDeleteAllRecoveryCoursesAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorCourseDeleteAllSoftDeletedCoursesAction getAction(String... params) {
+        return (InstructorCourseDeleteAllSoftDeletedCoursesAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override

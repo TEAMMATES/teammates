@@ -1,11 +1,11 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorCourse - Recovery courses table" pageEncoding="UTF-8" %>
+<%@ tag description="instructorCourse - Soft-deleted courses table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ attribute name="recoveryCourses" type="teammates.ui.template.RecoveryCoursesTable" required="true" %>
+<%@ attribute name="softDeletedCourses" type="teammates.ui.template.SoftDeletedCoursesTable" required="true" %>
 
 <c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
-<table class="table table-bordered table-striped margin-0" id="tableRecoveryCourses">
+<table class="table table-bordered table-striped margin-0" id="tableSoftDeletedCourses">
   <thead class="${tableHeaderClass}">
     <tr>
       <th id="btn_sortid" class="button-sort-none toggle-sort">
@@ -23,26 +23,26 @@
       <th class="align-center no-print">Action(s)</th>
     </tr>
   </thead>
-  <c:forEach items="${recoveryCourses.rows}" var="recoveryCourse" varStatus="i">
+  <c:forEach items="${softDeletedCourses.rows}" var="softDeletedCourse" varStatus="i">
     <tr>
-      <td id="recoverycourseid${i.index}">${recoveryCourse.courseId}</td>
-      <td id="recoverycoursename${i.index}">${recoveryCourse.courseName}</td>
+      <td id="softdeletedcourseid${i.index}">${softDeletedCourse.courseId}</td>
+      <td id="softdeletedcoursename${i.index}">${softDeletedCourse.courseName}</td>
       <td
-          id="recoverycoursecreateddate${i.index}"
-          data-date-stamp="${recoveryCourse.createdAtDateStamp}"
+          id="softdeletedcoursecreateddate${i.index}"
+          data-date-stamp="${softDeletedCourse.createdAtDateStamp}"
           data-toggle="tooltip"
-          data-original-title="${recoveryCourse.createdAtFullDateTimeString}">
-          ${recoveryCourse.createdAtDateString}
+          data-original-title="${softDeletedCourse.createdAtFullDateTimeString}">
+          ${softDeletedCourse.createdAtDateString}
       </td>
       <td
-          id="recoverycoursedeleteddate${i.index}"
-          data-date-stamp="${recoveryCourse.deletedAtDateStamp}"
+          id="softdeletedcoursedeleteddate${i.index}"
+          data-date-stamp="${softDeletedCourse.deletedAtDateStamp}"
           data-toggle="tooltip"
-          data-original-title="${recoveryCourse.deletedAtFullDateTimeString}">
-          ${recoveryCourse.deletedAtDateString}
+          data-original-title="${softDeletedCourse.deletedAtFullDateTimeString}">
+          ${softDeletedCourse.deletedAtDateString}
       </td>
       <td class="align-center no-print">
-        <c:forEach items="${recoveryCourse.actions}" var="button">
+        <c:forEach items="${softDeletedCourse.actions}" var="button">
           <a ${button.attributesToString}>
               ${button.content}
           </a>

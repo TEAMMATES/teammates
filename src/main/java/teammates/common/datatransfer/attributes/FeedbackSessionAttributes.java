@@ -28,6 +28,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     // Optional fields
     private Text instructions;
     private Instant createdTime;
+    private Instant deletedTime;
     private Instant startTime;
     private Instant endTime;
     private Instant sessionVisibleFromTime;
@@ -61,6 +62,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return builder(fs.getFeedbackSessionName(), fs.getCourseId(), fs.getCreatorEmail())
                 .withInstructions(fs.getInstructions())
                 .withCreatedTime(fs.getCreatedTime())
+                .withDeletedTime(fs.getDeletedTime())
                 .withStartTime(fs.getStartTime())
                 .withEndTime(fs.getEndTime())
                 .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
@@ -134,7 +136,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     @Override
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
-                createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+                createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone.getId(), getGracePeriodMinutes(),
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
@@ -427,12 +429,70 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.instructions = instructions;
     }
 
+    public String getCreatedTimeDateString() {
+        return TimeHelper.formatDateForInstructorSessionsPage(createdTime, timeZone);
+    }
+
+    public String getCreatedTimeDateStamp() {
+        return TimeHelper.formatDateTimeToIso8601Utc(createdTime);
+    }
+
+    public String getCreatedTimeFullDateTimeString() {
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdTime, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(localDateTime);
+    }
+
+    public String getDeletedTimeDateString() {
+        if (this.deletedTime == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
+        }
+        return TimeHelper.formatDateForInstructorSessionsPage(deletedTime, timeZone);
+    }
+
+    public String getDeletedTimeDateStamp() {
+        if (this.deletedTime == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
+        }
+        return TimeHelper.formatDateTimeToIso8601Utc(deletedTime);
+    }
+
+    public String getDeletedTimeFullDateTimeString() {
+        if (this.deletedTime == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
+        }
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedTime, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(localDateTime);
+    }
+
     public Instant getCreatedTime() {
         return createdTime;
     }
 
     public void setCreatedTime(Instant createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Instant getDeletedTime() {
+        return deletedTime;
+    }
+
+    /**
+     * Sets current time as the deletion time of this feedback session.
+     */
+    public void setDeletedTime() {
+        this.deletedTime = Instant.now();
+    }
+
+    public void setDeletedTime(Instant deletedTime) {
+        this.deletedTime = deletedTime;
+    }
+
+    public void resetDeletedTime() {
+        this.deletedTime = null;
+    }
+
+    public boolean isSessionDeleted() {
+        return this.deletedTime != null;
     }
 
     public Instant getStartTime() {
@@ -596,6 +656,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         public Builder withCreatedTime(Instant createdTime) {
             if (createdTime != null) {
                 feedbackSessionAttributes.setCreatedTime(createdTime);
+            }
+            return this;
+        }
+
+        public Builder withDeletedTime(Instant deletedTime) {
+            if (deletedTime != null) {
+                feedbackSessionAttributes.setDeletedTime(deletedTime);
             }
             return this;
         }
