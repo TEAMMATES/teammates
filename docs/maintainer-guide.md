@@ -146,7 +146,6 @@ The complete details can be filled in just before merging and/or after the fix i
 
 The third-party dependencies/libraries should be updated periodically (e.g. once every 3-6 months) in order to benefit from fixes developed by the library developers.
 
-The steps to update dependencies can be found in the [dependencies document](dependencies.md).
 To find which dependencies need update, you can use libraries like [`Gradle Versions Plugin`](https://plugins.gradle.org/plugin/com.github.ben-manes.versions) and [`npm-check-updates`](https://www.npmjs.com/package/npm-check-updates).
 
 * Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.

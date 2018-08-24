@@ -105,7 +105,6 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      git rebase master
      ```
    * If there are updates to the dependencies on the build configuration, you should update your local copies accordingly.
-     The details on the steps can be found on [this document](dependencies.md).
 
 1. <a name="things-to-check"></a>Before submitting your work for review, here are some things to check (non-exhaustive):
    * The code is **properly formatted for readability**.
