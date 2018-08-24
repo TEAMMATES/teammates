@@ -149,7 +149,7 @@ The third-party dependencies/libraries should be updated periodically (e.g. once
 To find which dependencies need update, you can use libraries like [`Gradle Versions Plugin`](https://plugins.gradle.org/plugin/com.github.ben-manes.versions) and [`npm-check-updates`](https://www.npmjs.com/package/npm-check-updates).
 
 * Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.
-* Only stable versions (i.e. non-beta and non-alpha) should be considered.
+* Only stable versions (i.e. non-beta and non-alpha) should be considered. `rc` versions can be considered at the team's discretion.
 * Updates with little to no breaking changes should be included in the periodic mass update; otherwise, an issue to update a specific dependency should be created.
 
 ### Branch management
