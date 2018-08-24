@@ -109,6 +109,11 @@ New releases are made every set period of time (typically every week), in which 
   * Announce the release via GitHub release feature as well as the release issue in the issue tracker. Be sure to credit all who contributed to the release in one way or another.
   * Assign PM to the "Release" issue.
 
+> **When to increase the major version number?**
+>
+> Increase the major version number at your discretion; usually it is done when an underlying framework on the system changes.
+> For example, version 5 was when Bootstrap was adopted as the UI framework, and version 6 was when Java 8 and Google Cloud SDK were adopted as the development tools.
+
 **Role: PM**
 
 * Pull the latest `release` branch.
