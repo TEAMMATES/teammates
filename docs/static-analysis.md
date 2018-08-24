@@ -52,7 +52,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 1. Check the box next to the newly added rule to activate it.
 
 **NOTE**
-> Once CheckStyle is set-up, the version used will be kept in sync with the build script. See [Versions sync with tools used in build script](intellij-automated-setup-behavior.md#versions-sync-with-tools-used-in-build-script).
+> Once CheckStyle is set-up, the version used will be kept in sync with the build script when `Use auto-import` is enabled. This is achieved by the Gradle task `syncIntelliJCheckStyleVersion` which runs after `setupIntellijStaticAnalysis`.
 
 ##### Suppressing Checkstyle warnings
 
@@ -203,9 +203,6 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
    ```
 
 1. Restart IntelliJ IDEA.
-
-**NOTE**
->The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#static-analysis-tools-setup-behavior).
 
 ## Running static analysis
 
