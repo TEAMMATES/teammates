@@ -1,14 +1,12 @@
-
 # Static Analysis
 
-TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.
+TEAMMATES uses a number of static analysis tools in order to maintain code quality.
 This document will cover an overview of these tools and how to run them in local environment.
 
 - [Version numbers](#version-numbers)
 - [Tool stack](#tool-stack)
 - [IntelliJ automatic setup](#intellij-automatic-setup)
 - [Running static analysis](#running-static-analysis)
-- [Running code coverage session](#running-code-coverage-session)
 
 ## Version numbers
 
@@ -119,12 +117,6 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 [Macker](https://github.com/andrena/macker) checks the architectural integrity of Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-macker.xml).
 
-### EclEmma/JaCoCo
-
-[EclEmma/JaCoCo](http://eclemma.org/jacoco/) measures code coverage for Java test run.
-Normally, the coverage will be run against all classes specified as the source code, but it can be configured to exclude classes matching certain name patterns.
-The plugin for Eclipse can be found [here](http://eclemma.org).
-
 ### NodeJS
 
 NodeJS integration is supported in IntelliJ. You can use it to manage your dependencies (**optional**).
@@ -185,11 +177,6 @@ and [set up project specific settings and dependencies](setting-up.md#step-3-set
    `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
 1. Click `OK`.
 1. Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
-
-### blanket.js
-
-[blanket.js](http://blanketjs.org) measures code coverage for JavaScript test run.
-It is immediately enabled for all scripts with the `data-cover` attribute (configured via HTML) in a QUnit test run.
 
 ## IntelliJ automatic setup
 1. Ensure the following plugins are installed. [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea),
@@ -275,48 +262,3 @@ also wish to learn more about code inspections by referring to
 selecting `Run PMD` and then choosing the option you want.
 
 `Macker` is not available in IntelliJ IDEA and you have to run it on the command line.
-
-## Running code coverage session
-
-### Travis CI
-
-For Java tests, if your build and run is successful, [Codecov](https://codecov.io) will pull the test coverage data and generate a report on their server.
-The link to the report will be displayed in each PR, or by clicking the badge on the repository homepage.
-
-For JavaScript unit tests, coverage is done concurrently with the tests themselves.
-A coverage lower bound is enforced via `AllJsTests.java`, lower than which the build will fail.
-
-### CLI
-
-You can use Gradle to run tests and obtain the coverage data with `jacocoReport` task, i.e:
-```sh
-./gradlew appengineRun ciTests
-./gradlew jacocoReport appengineStop
-```
-The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
-
-For JavaScript unit tests, coverage is done concurrently with the tests themselves.
-A coverage lower bound is enforced via `AllJsTests.java`, lower than which the build will fail.
-
-### Eclipse
-
-For Java tests, choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite.
-The coverage will be reported in Eclipse after the test run is over.
-
-For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
-The coverage will be reported immediately in the test page.
-
-### IntelliJ IDEA
-
-For Java tests, you can measure code coverage for the project using `Run → Run... → CI Tests → ▶ → Cover `.
-
-**NOTE**
-> There are some packages and classes that are excluded when using Jacoco on the comamnd line which are not excluded
-when you run them in IntelliJ, thus the coverage statistics you see in IntelliJ may not match what you see on `Codecov`. 
-
-Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use
-IntelliJ IDEA's code coverage runner. You can further configure your code coverage settings by referring to
-[IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-coverage.html).
-
-For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
-The coverage will be reported immediately in the test page.
