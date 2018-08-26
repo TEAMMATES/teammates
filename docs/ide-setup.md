@@ -60,7 +60,6 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
      * General: `General → Workspace → Text file encoding`.
      * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
      * CSS: `Web → CSS Files → Encoding`.
-     * JSP: `Web → JSP Files → Encoding`.
      * XML: `XML → XML Files → Encoding`.
 
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
@@ -74,7 +73,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
    * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
+     * TypeScript: `TypeScript → Formatter → Indent size`.
      
      You can find the Web, XML, and JSON options in `Eclipse → Preferences → ...`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
@@ -83,14 +82,12 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
      * JSON: `JSON → JSON Files → Editor → Indent using spaces`.
 
    * Validation: Go to `Validation → ...`
-     * Disable validation for HTML, JSP, and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, `XML Schema Validator`, and `XML Validator`.
+     * Disable validation for HTML and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `DTD Validator`, `XML Schema Validator`, and `XML Validator`.
      * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. The steps for disabling the `JSON Validator`are similar.
 
 1. `Refresh` and `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![eclipsesetupguide-8.png](images/eclipsesetupguide-8.png)
-
-   > If you are using Eclipse Neon, you will find that all declarations of `import` and `export` in JavaScript files are marked as errors. This is fine and is not a cause for concern.
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
@@ -150,14 +147,12 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
      Configure for all the languages used in TEAMMATES:
      1. Go to `Editor → Code Style`.
      1. Select `Project` for `Scheme` if you do not wish to make the settings the default for your IDE.
-     1. For `Java`, `JavaScript`, `JSON`, `CSS`, `XML`, `HTML`, and `JSP`:
+     1. For `Java`, `TypeScript`, `JSON`, `CSS`, `XML`, and `HTML`:
         * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
         * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.
 
    * Text encoding: `UTF-8` is used for text encoding.
      Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
-
-   * JavaScript: Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
 
 1. Click `OK`.
 
