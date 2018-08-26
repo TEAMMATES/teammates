@@ -85,11 +85,6 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      It is, however, a good idea to commit at meaningful points to keep your branch reasonably clean.
    * Use meaningful commit messages (e.g. `Add tests for the truncate method`).
      [Here](http://chris.beams.io/posts/git-commit/) is a good reference.
-   * If you introduce changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes"), a *data migration* is necessary to be done by the core team. If a data migration is necessary to take the issue forward:
-     * Make sure that the core team (or at least your reviewer) is aware of this.
-     * Your changes should initially work for both the old and new versions of the data schema. It is fine if an unclean hack is necessary for the new code to work under the *old* data schema.
-     * Mark clearly in the code which parts are tailored specifically for the old data schema, *especially if an unclean hack is used*.
-     * Concurrently or immediately after the breaking changes are merged, you need to create a [client script](development.md#running-client-scripts) to migrate all data following the old schema to the new schema.
 
 1. Sync with the main repo frequently. While you were fixing the issue, others might have pushed new code to the main repo.
    * Update your repo's `master` branch with any new changes from main repo, then switch back to your work branch.

@@ -16,7 +16,6 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
   * [Security vulnerabilities](#security-vulnerabilities)
-  * [Data migration](#data-migration)
   * [Dependencies update](#dependencies-update)
   * [Branch management](#branch-management)
     * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
@@ -147,27 +146,6 @@ Security vulnerabilities, once reported and confirmed, should be treated as a ca
 
 Since the detail of such vulnerability cannot be disclosed until it is fixed, an issue can be created just before a PR for the fix is submitted, with minimal information (e.g. simply "Security vulnerability" as an issue with no further description).
 The complete details can be filled in just before merging and/or after the fix is deployed.
-
-### Data migration
-
-Data migration is necessary when changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes") are introduced.
-
-A data migration is initiated by the developer working on the breaking changes and will be handed over to the core team once both the breaking changes and the data migration script(s) are merged.
-
-**Role: RL**
-
-* Release and deploy the new version containing the breaking changes following the normal release workflow. It may be a normal release or a hot patch release.
-* Create an issue to run the data migration script.
-
-**Role: PM**
-
-* (Optional but recommended) Wait for some time to ascertain that the system is stable under the new data schema.
-* Run the data migration script on the live site.
-* Close the data migration issue.
-
-**Role: Any contributor/developer**
-
-* Remove the code that is specifically tailored for the old data schema.
 
 ### Dependencies update
 
