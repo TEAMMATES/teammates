@@ -147,8 +147,8 @@ Make the changes to the code, tests, and documentations as needed by the issue.
 
 [Create a PR](https://help.github.com/articles/creating-a-pull-request/) with the following configuration:
 * The base branch is the main repo's `master` branch.
-* PR name: copy-and-paste the relevant issue name and include the issue number in front in square brackets,
-  e.g. `[#3942] Remove unnecessary System.out.printlns from Java files`.
+* PR name: copy-and-paste the relevant issue name and include the issue number as well,
+  e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
 
