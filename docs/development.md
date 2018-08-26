@@ -366,9 +366,10 @@ There are several files used to configure various aspects of the system.
 * `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
-* `build.gradle`: Contains the server-side third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
+* `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
-* `package.json`: Contains the client-side third-party dependencies specification.
+* `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
+* `angular.json`: Contains the Angular application configuration.
 * `.travis.yml`: Contains the Travis CI job configuration.
 * `appveyor.yml`: Contains the AppVeyor CI job configuration.
 

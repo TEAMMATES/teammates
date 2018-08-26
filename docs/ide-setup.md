@@ -16,19 +16,22 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
    * [Buildship Gradle Integration](https://marketplace.eclipse.org/content/buildship-gradle-integration)
    * [Google Cloud Tools for Eclipse](http://marketplace.eclipse.org/content/google-cloud-tools-eclipse)
    * [TestNG for Eclipse](https://marketplace.eclipse.org/content/testng-eclipse)
+   * [Angular IDE](https://marketplace.eclipse.org/content/angular-ide)
 
    ![eclipsesetupguide-1.png](images/eclipsesetupguide-1.png)
 
    ![eclipsesetupguide-2.png](images/eclipsesetupguide-2.png)
 
+   ![eclipsesetupguide-3.png](images/eclipsesetupguide-3.png)
+
 1. Before importing the project into Eclipse, do the following:
    * Google Cloud Tools: Go to `Eclipse → Preferences → Google Cloud Tools` and fill the `SDK location` box with the directory of your installed Google Cloud SDK.
 
-     ![eclipsesetupguide-3.png](images/eclipsesetupguide-3.png)
+     ![eclipsesetupguide-4.png](images/eclipsesetupguide-4.png)
 
    * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a **JDK 1.8** (not JRE) entry exists.
 
-     ![eclipsesetupguide-4.png](images/eclipsesetupguide-4.png)
+     ![eclipsesetupguide-5.png](images/eclipsesetupguide-5.png)
 
      Note that the JDK to be used is not required to be the `default`.
 
