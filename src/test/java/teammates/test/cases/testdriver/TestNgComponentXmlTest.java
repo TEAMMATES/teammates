@@ -11,36 +11,24 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FileHelper;
 
 /**
- * Verifies that the TestNG configuration files contains all the test cases in the project.
+ * Verifies that the testng-component.xml configuration file contains all the component test cases in the project.
  */
-public class TestNgTest extends BaseTestCase {
+public class TestNgComponentXmlTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestNg() throws IOException {
-        String testNgXml = FileHelper.readFile("./src/test/testng-ci.xml")
-                           + FileHelper.readFile("./src/test/testng-local.xml");
+        String testNgXml = FileHelper.readFile("./src/test/testng-component.xml");
+
         // <class name, package name>
         Map<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
-
-        testFiles = excludeFilesNotInTestNg(testFiles,
-
-                                            // Base*TestCase are base classes to be extended by the actual tests
-                                            "BaseUiTestCase",
-
-                                            // Base class for all Feedback*QuestionUiTest (different question types)
-                                            "FeedbackQuestionUiTest",
-
-                                            // Needs to be run only when changes are made to GodMode
-                                            "GodModeTest"
-                                            );
 
         testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
     }
 
     /**
-     * Files to be checked in testng.xml are added to testFiles.
+     * Files to be checked in testng-component.xml are added to testFiles.
      *
-     * @param testNgXml    Contents of testng.xml
+     * @param testNgXml    Contents of testng-component.xml
      * @param rootPath     Root path of test files
      * @return             Map containing {@code <class name, package name>}
      */
@@ -51,27 +39,12 @@ public class TestNgTest extends BaseTestCase {
         return addFilesToTestsRecursively(rootPath, true, "teammates.test.cases", testNgXml);
     }
 
-    /**
-     * Excludes files which do not have tests in TestNG.
-     *
-     * @param testFiles                  Files to be checked before excluding tests
-     * @param filesExcludedFromTestNg    Files to be excluded
-     * @return                           Files to be checked after excluding tests
-     */
-    private Map<String, String> excludeFilesNotInTestNg(Map<String, String> testFiles, String... filesExcludedFromTestNg) {
-        for (String test : filesExcludedFromTestNg) {
-            testFiles.remove(test);
-        }
-
-        return testFiles;
-    }
-
     private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
         return testNgXml.contains("<class name=\"" + packageName + "." + testClassName + "\" />");
     }
 
     /**
-     * Recursively adds files from testng.xml which are to be checked.
+     * Recursively adds files from testng-component.xml which are to be checked.
      *
      * @param path                            Check files and directories in the current path
      *
@@ -79,7 +52,7 @@ public class TestNgTest extends BaseTestCase {
      *                                        added to tests but sub-directories are still checked
      *
      * @param packageName                     Package name of the current file
-     * @param testNgXml                       Contents of testng.xml
+     * @param testNgXml                       Contents of testng-component.xml
      *
      * @return                                Map containing {@code <class name, package name>} including
      *                                        current file or tests in the current directory
@@ -98,10 +71,10 @@ public class TestNgTest extends BaseTestCase {
             String name = file.getName();
 
             if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
-                    && !areFilesInCurrentDirExcluded) {
+                    && !name.startsWith("BackDoorTest") && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
-            } else if (file.isDirectory()) {
+            } else if (file.isDirectory() && !name.endsWith("browsertests")) {
                 // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
 

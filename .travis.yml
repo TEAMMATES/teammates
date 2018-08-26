@@ -50,9 +50,11 @@ before_script:
 
 install: true
 script:
-  - npm run build
+  - ./gradlew componentTests
+  - npm run coverage -- --progress=false
+  - npm run build:silent
   - ./gradlew appengineStart
-  - ./gradlew ciTests
+  - ./gradlew e2eTests
 
 after_failure:
   - gem install gist
