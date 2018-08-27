@@ -1,4 +1,4 @@
-package teammates.test.driver;
+package teammates.e2e.util;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -8,6 +8,9 @@ import java.util.List;
 import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
+
+import teammates.test.driver.FileHelper;
+import teammates.test.driver.Priority;
 
 /**
  * Allows TestNG to run tests in a specified order, based on the {@code Priority(n)} annotation.
@@ -20,7 +23,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
 
     static {
         try {
-            packageOrder = FileHelper.readFile("src/test/resources/testng-component.xml");
+            packageOrder = FileHelper.readFile("src/e2e/resources/testng-e2e.xml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

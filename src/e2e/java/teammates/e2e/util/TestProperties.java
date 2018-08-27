@@ -103,7 +103,7 @@ public final class TestProperties {
             } else {
                 propertiesFilename = "test.properties";
             }
-            try (FileInputStream testPropStream = new FileInputStream("src/test/resources/" + propertiesFilename)) {
+            try (FileInputStream testPropStream = new FileInputStream("src/e2e/resources/" + propertiesFilename)) {
                 prop.load(testPropStream);
             }
 
