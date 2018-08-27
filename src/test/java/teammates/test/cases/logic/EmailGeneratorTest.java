@@ -30,8 +30,8 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.driver.ComponentTestProperties;
 import teammates.test.driver.EmailChecker;
+import teammates.test.driver.TestProperties;
 
 /**
  * SUT: {@link EmailGenerator}.
@@ -48,7 +48,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
      */
     @AfterSuite
     public static void remindUserToDisableGodModeIfRequired() {
-        if (ComponentTestProperties.IS_GODMODE_ENABLED) {
+        if (TestProperties.IS_GODMODE_ENABLED) {
             print("==========================================================");
             print("IMPORTANT: Remember to disable GodMode and rerun the test!");
             print("==========================================================");

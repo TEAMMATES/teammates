@@ -16,8 +16,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelper;
-import teammates.test.driver.ComponentTestProperties;
 import teammates.test.driver.FileHelper;
+import teammates.test.driver.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.controller.AdminEmailLogPageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -72,7 +72,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     private void loadLogMessages() {
         try {
-            String pathToJsonFile = ComponentTestProperties.TEST_DATA_FOLDER + "/typicalEmailLogMessage.json";
+            String pathToJsonFile = TestProperties.TEST_DATA_FOLDER + "/typicalEmailLogMessage.json";
             String jsonString = FileHelper.readFile(pathToJsonFile);
             Type listType = new TypeToken<List<List<String>>>(){}.getType();
 

@@ -3,7 +3,7 @@ package teammates.test.driver;
 /**
  * Settings for component tests.
  */
-public final class ComponentTestProperties {
+public final class TestProperties {
 
     /** The directory where HTML files for testing pages are stored. */
     public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
@@ -20,7 +20,7 @@ public final class ComponentTestProperties {
     /** Indicates whether "God mode" is activated. */
     public static final boolean IS_GODMODE_ENABLED = false;
 
-    private ComponentTestProperties() {
+    private TestProperties() {
         // access static fields directly
     }
 
