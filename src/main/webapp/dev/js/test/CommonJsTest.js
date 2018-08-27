@@ -82,10 +82,9 @@ QUnit.test('isNumber(num)', (assert) => {
  */
 QUnit.test('isDate(date)', (assert) => {
     assert.equal(isDate('12432567'), false, 'Numbers');
-    assert.equal(isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
+    assert.equal(isDate('0/0/0'), false, '0/0/0 - invalid date on Firefox and Chrome');
     assert.equal(isDate('12/2/13'), true, '12/2/13 - valid format');
     assert.equal(isDate('12/02/2013'), true, '12/02/2013 - valid format (mm/dd/yyyy)');
-    assert.equal(isDate('28/12/2013'), true, '28/12/2013 - valid format (dd/mm/yyyy)');
     assert.equal(isDate('12/12/13'), true, '12/02/13 - valid format');
     assert.equal(isDate('2013-12-12'), true, '2013-12-12 - valid format');
     assert.equal(isDate('28-12-2013'), false, '28-12-2013 - invalid format (dd-mm-yyyy)');
