@@ -655,8 +655,8 @@ task jacocoMerge(type: JacocoMerge) {
 task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
-    sourceDirectories = files(sourceSets.main.java.srcDirs, sourceSets.test.java.srcDirs)
-    classDirectories = files(sourceSets.main.output, sourceSets.test.output)
+    sourceDirectories = files(sourceSets.main.java.srcDirs)
+    classDirectories = files(sourceSets.main.output)
     executionData jacocoMerge.destinationFile
     reports {
         xml.enabled true
@@ -664,7 +664,7 @@ task jacocoReport(type: JacocoReport) {
     }
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "teammates/e2e/**/*", "**/*Filter.class", "**/*Servlet.class"])
+            fileTree(dir: it, exclude: ["**/*.jar", "**/*Filter.class", "**/*Servlet.class"])
         })
     }
     dependsOn jacocoMerge
