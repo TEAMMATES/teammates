@@ -28,5 +28,9 @@
 *.gif binary
 
 # Ignore test resource files from language statistics
+src/e2e/resources/data/*            linguist-vendored
+src/e2e/resources/emails/*          linguist-vendored
+src/e2e/resources/pages/*           linguist-vendored
+src/test/resources/data/*           linguist-vendored
 src/test/resources/emails/*         linguist-vendored
 src/test/resources/pages/*          linguist-vendored
