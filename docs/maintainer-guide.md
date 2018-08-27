@@ -43,7 +43,7 @@ A new issue needs to be triaged by a team member. Here is the process:
    * No: to be dealt on a case-by-case basis. Possible actions include closing the issue, applying `s.OnHold` label and revisiting the issue in the future, or simply accepting the issue with low priority. In any case, leave a comment to explain the rationale of such action.
 1. Accept the issue by categorizing:
    * For messages directed to the team, add the label `c.Message`, and post a comment if you can respond or know someone who can. If the message is about help requests, add the label `a-DevHelp` as well.
-   * For other types of issues, add the category labels as appropriate. Do NOT add `e.*` label.
+   * For other types of issues, add the category labels as appropriate.
      * Issues marked as `c.Message` and `c.Release` are exempted from all other labels.
      * If an issue is at priority `p.High` or higher, labels `d.FirstTimers` and `d.Contributors` cannot be applied to it.
 
@@ -103,11 +103,16 @@ New releases are made every set period of time (typically every week), in which 
   * Create an issue for the release to announce the scheduled release time.
   * Update `about.jsp` with the names of new contributors, if any.
 * Release day:
-  * Ensure all issues and PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `e.*` labels.
+  * Ensure all PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `c.*` label.
   * Merge `release` branch with `master` branch and tag the release with format `V{major}.{minor}.0` (e.g. `V6.0.0`).
   * Close the current milestone and create a new milestone for the next + 1 release.
   * Announce the release via GitHub release feature as well as the release issue in the issue tracker. Be sure to credit all who contributed to the release in one way or another.
   * Assign PM to the "Release" issue.
+
+> **When to increase the major version number?**
+>
+> Increase the major version number at your discretion; usually it is done when an underlying framework on the system changes.
+> For example, version 5 was when Bootstrap was adopted as the UI framework, and version 6 was when Java 8 and Google Cloud SDK were adopted as the development tools.
 
 **Role: PM**
 
@@ -146,11 +151,10 @@ The complete details can be filled in just before merging and/or after the fix i
 
 The third-party dependencies/libraries should be updated periodically (e.g. once every 3-6 months) in order to benefit from fixes developed by the library developers.
 
-The steps to update dependencies can be found in the [dependencies document](dependencies.md).
 To find which dependencies need update, you can use libraries like [`Gradle Versions Plugin`](https://plugins.gradle.org/plugin/com.github.ben-manes.versions) and [`npm-check-updates`](https://www.npmjs.com/package/npm-check-updates).
 
 * Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.
-* Only stable versions (i.e. non-beta and non-alpha) should be considered.
+* Only stable versions (i.e. non-beta and non-alpha) should be considered. `rc` versions can be considered at the team's discretion.
 * Updates with little to no breaking changes should be included in the periodic mass update; otherwise, an issue to update a specific dependency should be created.
 
 ### Branch management

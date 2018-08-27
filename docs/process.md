@@ -105,7 +105,6 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      git rebase master
      ```
    * If there are updates to the dependencies on the build configuration, you should update your local copies accordingly.
-     The details on the steps can be found on [this document](dependencies.md).
 
 1. <a name="things-to-check"></a>Before submitting your work for review, here are some things to check (non-exhaustive):
    * The code is **properly formatted for readability**.
@@ -248,6 +247,4 @@ This instruction set will use the issue `Remove unnecessary System.out.printlns 
     ```
     e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
   * Where appropriate (e.g. merging a long-lived feature branch), the ["Rebase and merge"](https://help.github.com/articles/about-pull-request-merges/#rebase-and-merge-your-pull-request-commits) option can be used instead.
-  * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
-    and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
-    `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
+  * Apply a `c.*` label to the PR to indicate the type of the PR, if it has not been done before.
