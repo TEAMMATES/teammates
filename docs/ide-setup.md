@@ -133,10 +133,10 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    1. Ensure for `Gradle JVM:` that a JDK 8 with a name of `1.8` is selected.
    1. Click `Finish`. Wait for the indexing process to complete.
    1. You should see a dialog box with the message:\
-      `Framework detected: Google App Engine Standard framework is detected.`.\
+      `Frameworks detected: Google App Engine Standard, Angular CLI frameworks are detected.`.\
       **OR**\
-      `Frameworks detected: Web, Google App Engine Standard frameworks are detected`.\
-      Click on `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
+      `Frameworks detected: Web, Google App Engine Standard, Angular CLI frameworks are detected`.\
+      Click on `Configure` and ensure that only `Google App Engine Standard` and `Angular CLI` frameworks are shown, then click `OK`.
       If there are other frameworks shown, click `Cancel` and wait until indexing is completed, then try again.
       > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the message in the dialog box. Click `Configure` and then `OK`.

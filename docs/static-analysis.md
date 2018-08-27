@@ -28,7 +28,7 @@ Conversely, when updating any tool, try to ensure that the tool version is suppo
 | [PMD](https://pmd.github.io/) | [eclipse-pmd](https://marketplace.eclipse.org/content/eclipse-pmd)<sup>1</sup> | [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
 | [FindBugs](http://findbugs.sourceforge.net) | [FindBugs Eclipse Plugin](https://marketplace.eclipse.org/content/findbugs-eclipse-plugin) | [FindBugs-IDEA](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea) | `build.gradle`<sup>2</sup> |
 | [Macker](https://github.com/andrena/macker) | - | - | [`teammates-macker.xml`](../static-analysis/teammates-macker.xml) |
-| [TSLint](https://palantir.github.io/tslint/) | - | - | [`teammates-tslint.yml`](../static-analysis/teammates-tslint.yml) |
+| [TSLint](https://palantir.github.io/tslint/) | - | Built-in<sup>3</sup> | [`teammates-tslint.yml`](../static-analysis/teammates-tslint.yml) |
 | [JSONlint](https://github.com/marionebl/jsonlint-cli) | - | - | - |
 | [stylelint](http://stylelint.io) | - | Built-in<sup>3,4</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
 | [lintspaces](https://github.com/evanshortiss/lintspaces-cli) | - | - | - |

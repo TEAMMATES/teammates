@@ -1,11 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CI Tests" type="TestNG" factoryName="TestNG">
-    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="jacoco">
-      <pattern>
-        <option name="PATTERN" value="teammates.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
+  <configuration default="false" name="E2E Tests" type="TestNG" factoryName="TestNG">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
     <module name="" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
