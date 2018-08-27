@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.google.common.base.Preconditions;
 
+import teammates.e2e.pageobjects.Browser;
 import teammates.test.driver.TestProperties;
 
 public class GoogleLoginPage extends LoginPage {

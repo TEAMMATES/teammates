@@ -12,12 +12,12 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.pageobjects.BrowserPool;
 import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 

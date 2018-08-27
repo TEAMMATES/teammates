@@ -48,6 +48,7 @@ import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
+import teammates.e2e.pageobjects.Browser;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;

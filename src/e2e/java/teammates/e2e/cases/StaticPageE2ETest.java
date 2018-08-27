@@ -4,9 +4,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.pageobjects.BrowserPool;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /**
  * Placeholder test to check if Selenium works.

@@ -8,6 +8,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import teammates.e2e.pageobjects.Browser;
+
 public class AdminAccountManagementPage extends AppPage {
 
     public AdminAccountManagementPage(Browser browser) {
