@@ -12,8 +12,8 @@ import org.testng.annotations.BeforeClass;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.test.driver.ComponentTestProperties;
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all test cases.
@@ -63,7 +63,7 @@ public class BaseTestCase {
 
     protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
-            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? ComponentTestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);

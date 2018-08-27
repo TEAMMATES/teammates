@@ -11,10 +11,12 @@ import org.testng.annotations.BeforeSuite;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
 import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -50,6 +52,19 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     }
 
     protected abstract void prepareTestData() throws Exception;
+
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
+        // This overrides the same method in BaseTestCase, but due to the static-ness of the method,
+        // @Override cannot be applied.
+        try {
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                    + pathToJsonFileParam;
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            return JsonUtils.fromJson(jsonString, DataBundle.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @AfterClass
     public void baseClassTearDown() {
