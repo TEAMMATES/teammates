@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="ci-tests" parallel="tests" thread-count="2">
-    <test name="component-tests">
+<suite name="e2e-tests" parallel="tests" thread-count="2">
+    <test name="e2e-tests">
+        <packages>
+            <package name="teammates.e2e.cases.util" />
+        </packages>
         <classes>
-            <class name="teammates.e2e.cases.StaticPageE2ETest" />
-            <class name="teammates.e2e.cases.TestNgE2EXmlTest" />
+            <class name="teammates.e2e.cases.acceptance.StaticPageE2ETest" />
         </classes>
     </test>
 </suite>

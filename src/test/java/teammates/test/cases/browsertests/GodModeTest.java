@@ -8,9 +8,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.e2e.util.HtmlHelper;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.HtmlHelper;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 
 /**

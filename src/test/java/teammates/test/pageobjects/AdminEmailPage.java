@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.Browser;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.util.TestProperties;
 
 public class AdminEmailPage extends AppPage {
     @FindBy (id = "adminEmailGroupReceiverListUploadBox")

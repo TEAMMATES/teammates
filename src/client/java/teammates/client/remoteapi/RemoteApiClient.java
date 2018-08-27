@@ -8,8 +8,8 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
+import teammates.e2e.util.TestProperties;
 import teammates.storage.api.OfyHelper;
-import teammates.test.driver.TestProperties;
 
 /**
  * Enables access to any Datastore (local/production).

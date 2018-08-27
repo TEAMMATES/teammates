@@ -71,7 +71,7 @@ public class TestNgComponentXmlTest extends BaseTestCase {
             String name = file.getName();
 
             if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
-                    && !name.startsWith("BackDoorTest") && !areFilesInCurrentDirExcluded) {
+                    && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
             } else if (file.isDirectory() && !name.endsWith("browsertests")) {

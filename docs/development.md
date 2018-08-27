@@ -343,9 +343,9 @@ This instruction set assumes that the app identifier is `teammates-john`.
      * Choose `Other`, give it a name, e.g. `teammates` and click `Create`. You will then get shown your client ID details,
        click `OK`.
      * Click the `Download JSON` icon.
-     * Copy the file to `src/test/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to
+     * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to
        `client_secret.json`.
-   * Edit `src/test/resources/test.properties` as instructed is in its comments.
+   * Edit `src/e2e/resources/test.properties` as instructed is in its comments.
    * Run the full test suite or any subset of it as how you would have done it in dev server. You may want to run
      `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
      time. Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with

@@ -15,9 +15,9 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.Priority;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**

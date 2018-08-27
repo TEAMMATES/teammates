@@ -11,10 +11,10 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 

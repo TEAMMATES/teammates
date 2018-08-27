@@ -1,4 +1,4 @@
-package teammates.e2e.cases;
+package teammates.e2e.cases.acceptance;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.util.TestProperties;
 
 /**
  * Placeholder test to check if Selenium works.

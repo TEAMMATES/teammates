@@ -15,9 +15,9 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
+import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.HomePage;
@@ -27,7 +27,7 @@ import teammates.test.pageobjects.LoginPage;
  * Base class for all browser tests.
  *
  * <p>This type of test has no knowledge of the workings of the application,
- * and can only communicate via the UI or via {@link teammates.test.driver.BackDoor} to obtain/transmit data.
+ * and can only communicate via the UI or via {@link teammates.e2e.util.BackDoor} to obtain/transmit data.
  */
 public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 

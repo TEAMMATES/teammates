@@ -23,7 +23,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.util.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;

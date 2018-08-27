@@ -1,4 +1,4 @@
-package teammates.test.driver;
+package teammates.e2e.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

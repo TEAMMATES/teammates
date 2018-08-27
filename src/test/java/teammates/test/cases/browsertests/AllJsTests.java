@@ -4,7 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.QUnitPage;
 

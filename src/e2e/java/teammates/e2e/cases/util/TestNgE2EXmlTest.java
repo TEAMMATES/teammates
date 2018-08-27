@@ -1,4 +1,4 @@
-package teammates.e2e.cases;
+package teammates.e2e.cases.util;
 
 import java.io.File;
 import java.io.IOException;

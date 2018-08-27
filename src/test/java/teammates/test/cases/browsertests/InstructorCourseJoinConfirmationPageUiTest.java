@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;

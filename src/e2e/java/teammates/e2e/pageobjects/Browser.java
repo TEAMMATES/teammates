@@ -9,7 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-import teammates.test.driver.TestProperties;
+import teammates.e2e.util.TestProperties;
 
 /**
  * A programmatic interface to the Browser used to test the app.

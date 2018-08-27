@@ -4,26 +4,17 @@
     <listeners>
         <listener class-name="teammates.test.driver.PriorityInterceptor" />
     </listeners>
-
-    <!--These can be run without starting the server. Should be run often. -->
     <test name="component-tests">
         <packages>
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.search" />
             <package name="teammates.test.cases.automated" />
             <package name="teammates.test.cases.datatransfer" />
+            <package name="teammates.test.cases.testdriver" />
             <package name="teammates.test.cases.util" />
             <package name="teammates.test.cases.logic" />
             <package name="teammates.test.cases.pagedata" />
             <package name="teammates.test.cases.action" />
         </packages>
-        <classes>
-            <class name="teammates.test.cases.testdriver.AssertHelperTest" />
-            <class name="teammates.test.cases.testdriver.EmailCheckerTest" />
-            <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
-            <class name="teammates.test.cases.testdriver.TestNgComponentXmlTest" />
-            <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
-        </classes>
     </test>
-
 </suite>

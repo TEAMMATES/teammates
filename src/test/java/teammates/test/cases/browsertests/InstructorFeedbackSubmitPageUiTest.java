@@ -10,7 +10,7 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
