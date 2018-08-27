@@ -33,7 +33,7 @@ public class TestNgXmlTest extends BaseTestCase {
      * @return             Map containing {@code <class name, package name>}
      */
     private Map<String, String> getTestFiles(String testNgXml, String rootPath) {
-        return addFilesToTestsRecursively(rootPath, false, "teammates.e2e.cases", testNgXml);
+        return addFilesToTestsRecursively(rootPath, true, "teammates.e2e.cases", testNgXml);
     }
 
     private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
@@ -68,7 +68,7 @@ public class TestNgXmlTest extends BaseTestCase {
             String name = file.getName();
 
             if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
-                    && !areFilesInCurrentDirExcluded) {
+                    && !name.startsWith("BaseE2ETestCase") && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
             } else if (file.isDirectory()) {

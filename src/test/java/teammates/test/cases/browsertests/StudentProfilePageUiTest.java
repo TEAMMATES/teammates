@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.Priority;
@@ -24,7 +25,7 @@ import teammates.test.pageobjects.StudentProfilePicturePage;
  * SUT: {@link Const.ActionURIs#STUDENT_PROFILE_PAGE}.
  */
 @Priority(-3)
-public class StudentProfilePageUiTest extends BaseUiTestCase {
+public class StudentProfilePageUiTest extends BaseE2ETestCase {
     private StudentProfilePage profilePage;
 
     @Override

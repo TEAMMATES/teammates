@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 
 /**
@@ -13,7 +14,7 @@ import teammates.test.pageobjects.AppPage;
  *
  * <p>Implemented as a browser test as both back-end and front-end methods are involved.
  */
-public class TimezoneSyncerTest extends BaseUiTestCase {
+public class TimezoneSyncerTest extends BaseE2ETestCase {
 
     private AppPage page;
 

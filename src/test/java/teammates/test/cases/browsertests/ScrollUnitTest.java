@@ -7,13 +7,14 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
  * Unit Test for functions in scrollTo.js.
  * All tests are done on InstructorFeedbackEditPage page to get direct access to JS functions
  */
-public class ScrollUnitTest extends BaseUiTestCase {
+public class ScrollUnitTest extends BaseE2ETestCase {
 
     private static final String SCROLL_TO_POSITION_SCRIPT = "if (arguments[1] === undefined || arguments[1] === null) {\n"
             + "        $(window).scrollTop(arguments[0]);\n"

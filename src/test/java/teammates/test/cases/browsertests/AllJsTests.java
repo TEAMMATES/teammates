@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.QUnitPage;
@@ -11,7 +12,7 @@ import teammates.test.pageobjects.QUnitPage;
 /**
  * Loads all JavaScript unit tests (done with QUnit) into a browser and ensures all tests passed.
  */
-public class AllJsTests extends BaseUiTestCase {
+public class AllJsTests extends BaseE2ETestCase {
 
     private QUnitPage page;
 

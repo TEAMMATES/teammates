@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.AssertHelper;
@@ -24,7 +25,7 @@ import teammates.test.pageobjects.UserErrorReportPage;
  * representative tests only. Access control is tested fully at 'Action' level.
  */
 @Priority(6)
-public class AllAccessControlUiTests extends BaseUiTestCase {
+public class AllAccessControlUiTests extends BaseE2ETestCase {
 
     private AppPage currentPage;
 

@@ -1,4 +1,4 @@
-package teammates.test.cases.browsertests;
+package teammates.e2e.cases.e2e;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +13,10 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
+import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.util.TestProperties;
-import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -29,7 +29,7 @@ import teammates.test.pageobjects.LoginPage;
  * <p>This type of test has no knowledge of the workings of the application,
  * and can only communicate via the UI or via {@link teammates.e2e.util.BackDoor} to obtain/transmit data.
  */
-public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
+public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     protected Browser browser;
     protected DataBundle testData;

@@ -8,7 +8,7 @@ import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
@@ -16,7 +16,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
  *
  * <p>Run InstructorCourseEnrollPageScaleTestDataGenerator.java before running the tests.
  */
-public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
+public class InstructorCourseEnrollPageScalabilityTest extends BaseE2ETestCase {
 
     private static final Logger log = Logger.getLogger();
 
