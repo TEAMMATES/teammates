@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
@@ -10,9 +9,8 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
-
-import teammates.common.util.TimeHelper;
 
 /**
  * Represents emails composed by Admin.
@@ -33,9 +31,11 @@ public class AdminEmail extends BaseEntity {
     private String subject;
 
     //For draft emails,this is null. For sent emails, this is not null;
-    private Date sendDate;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant sendDate;
 
-    private Date createDate;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createDate;
 
     @Unindex
     private Text content;
@@ -61,8 +61,8 @@ public class AdminEmail extends BaseEntity {
         this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;
         this.content = content;
-        this.sendDate = TimeHelper.convertInstantToDate(sendDate);
-        this.createDate = new Date();
+        this.sendDate = sendDate;
+        this.createDate = Instant.now();
         this.isInTrashBin = false;
     }
 
@@ -87,7 +87,7 @@ public class AdminEmail extends BaseEntity {
     }
 
     public void setSendDate(Instant sendDate) {
-        this.sendDate = TimeHelper.convertInstantToDate(sendDate);
+        this.sendDate = sendDate;
     }
 
     public String getEmailId() {
@@ -107,7 +107,7 @@ public class AdminEmail extends BaseEntity {
     }
 
     public Instant getSendDate() {
-        return TimeHelper.convertDateToInstant(this.sendDate);
+        return this.sendDate;
     }
 
     public Text getContent() {
@@ -119,6 +119,6 @@ public class AdminEmail extends BaseEntity {
     }
 
     public Instant getCreateDate() {
-        return TimeHelper.convertDateToInstant(this.createDate);
+        return this.createDate;
     }
 }
