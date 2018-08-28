@@ -102,7 +102,7 @@ New releases are made every set period of time (typically every week), in which 
 
 * Before release day:
   * Create an issue for the release to announce the scheduled release time.
-  * Update `about.jsp` with the names of new contributors, if any.
+  * Update `developers.json` with the names of new contributors, if any.
 * Release day:
   * Ensure all PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `c.*` label.
   * Merge `release` branch with `master` branch and tag the release with format `V{major}.{minor}.0` (e.g. `V6.0.0`).
@@ -213,9 +213,9 @@ For the usage of such a branch, the following practices should be observed:
 To welcome a new committer:
 
 * Add the GitHub user to the `Committers` team.
-* Add the committer's name and photo to `about.jsp`.
+* Add the committer's name and photo to `developers.json`.
 
-Subsequent promotions are done by moving the member's name to the appropriate section in `about.jsp`.
+Subsequent promotions are done by moving the member's name to the appropriate section in `developers.json`.
 
 To welcome a new project lead:
 
@@ -225,7 +225,7 @@ To welcome a new project lead:
 When someone's tenure as committer or team member has passed:
 
 * Do NOT revoke the team membership, unless voluntarily done by the past member him/herself.
-* Move the past member's name to the appropriate section in `about.jsp`.
+* Move the past member's name to the appropriate section in `developers.json`.
 
 ### Beginner-level issues
 

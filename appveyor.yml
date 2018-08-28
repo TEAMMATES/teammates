@@ -41,6 +41,8 @@ build_script:
   - npm run lint
 
 test_script:
-  - npm run build
+  - gradlew.bat componentTests
+  - npm run coverage -- --progress=false
+  - npm run build:silent
   - gradlew.bat appengineStart
-  - gradlew.bat ciTests
+  - gradlew.bat e2eTests
