@@ -1,3 +1,9 @@
+---
+name: Help request
+about: Request for technical help in development
+
+---
+
 <!-- Issue title: Help Request: [summary of your problem] -->
 
 - **Commit SHA:** <!-- Result of running the command `git rev-parse HEAD` -->

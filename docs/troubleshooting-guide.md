@@ -52,7 +52,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 * **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
 
-  **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
+  **SOLUTION**: This is likely because the dependencies have changed. Right click on the project in the Project Explorer and select `Gradle → Refresh Gradle Project` for the changes to be reflected.
 
 * **ERROR**: Some characters are displayed incorrectly in the browser. For example, `Charlés's` is displayed as `CharlÃ©s`.
 
