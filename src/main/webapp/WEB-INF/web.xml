@@ -55,7 +55,7 @@
 
     <!-- Workaround for serving index.jsp as the home page while avoiding the GAE infinite redirect issue for 404s -->
     <welcome-file-list>
-        <welcome-file>home</welcome-file>
+        <welcome-file>web/home</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>HomePageServlet</servlet-name>
@@ -64,6 +64,15 @@
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>WebPageServlet</servlet-name>
+        <jsp-file>/dist/index.html</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebPageServlet</servlet-name>
+        <url-pattern>/web/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
