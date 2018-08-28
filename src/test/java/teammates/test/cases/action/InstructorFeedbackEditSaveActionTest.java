@@ -1,6 +1,9 @@
 package teammates.test.cases.action;
 
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -211,9 +214,10 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         ______TS("failure: Null grace period");
 
-        params = ArrayUtils.remove(params, 26);
-        params = ArrayUtils.remove(params, 26);
-        verifyAssumptionFailure(params);
+        List<String> paramsAsList = new ArrayList<>(Arrays.asList(params));
+        paramsAsList.remove(26);
+        paramsAsList.remove(26);
+        verifyAssumptionFailure(paramsAsList.toArray(new String[0]));
     }
 
     @Override
