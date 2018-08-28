@@ -70,9 +70,7 @@ public class TimeHelperTest extends BaseTestCase {
         ZoneId zoneId = ZoneId.of("UTC");
         Instant instant = LocalDateTime.of(2018, Month.AUGUST, 18, 0, 0).atZone(zoneId).toInstant();
         assertEquals("18 Aug 2018", TimeHelper.formatDateForInstructorPages(instant, zoneId));
-
-        instant = LocalDateTime.of(2018, Month.AUGUST, 18, 12, 10).atZone(zoneId).toInstant();
-        assertEquals("18 Aug 2018", TimeHelper.formatDateForInstructorPages(instant, zoneId));
+        assertEquals("", TimeHelper.formatDateForInstructorPages(null, zoneId));
     }
 
     @Test
