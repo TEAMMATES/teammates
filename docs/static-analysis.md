@@ -28,17 +28,16 @@ Conversely, when updating any tool, try to ensure that the tool version is suppo
 | [PMD](https://pmd.github.io/) | [eclipse-pmd](https://marketplace.eclipse.org/content/eclipse-pmd) | [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
 | [SpotBugs](https://spotbugs.github.io/) | [SpotBugs Eclipse Plugin](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) | -<sup>1</sup> | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
 | [Macker](https://github.com/andrena/macker) | - | - | [`teammates-macker.xml`](../static-analysis/teammates-macker.xml) |
-| [ESLint](http://eslint.org) | - | Built-in<sup>2,3</sup> | [`teammates-eslint.yml`](../static-analysis/teammates-eslint.yml) |
-| [stylelint](http://stylelint.io) | - | Built-in<sup>2,4</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
-| [lintspaces](https://github.com/schorfES/node-lintspaces) | - | - | - |
+| [TSLint](https://palantir.github.io/tslint/) | - | Built-in<sup>2</sup> | [`teammates-tslint.yml`](../static-analysis/teammates-tslint.yml) |
+| [JSONlint](https://github.com/marionebl/jsonlint-cli) | - | - | - |
+| [stylelint](http://stylelint.io) | - | Built-in<sup>2,3</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
+| [lintspaces](https://github.com/evanshortiss/lintspaces-cli) | - | - | - |
 
 <sup>1</sup> You may be able to use [FindBugs-IDEA](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea) plugin instead.
 
 <sup>2</sup> Integrations are built-in and can be found under `Languages & Frameworks` under `File → Settings` or `IntelliJ IDEA → Preferences`.
 
-<sup>3</sup> During setup: Under `Extra eslint options:`, add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
-
-<sup>4</sup> During setup: Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
+<sup>3</sup> During setup: Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
 
 ## Suppressing rules
 
@@ -67,7 +66,7 @@ An automated setup for some of the static analysis tools is provided for Intelli
 1. Restart IntelliJ IDEA.
 
 > - Once `CheckStyle-IDEA` is set-up, the version used will be kept in sync with the build script when `Use auto-import` is enabled. This is achieved by the Gradle task `syncIntelliJCheckStyleVersion` which runs after `setupIntellijStaticAnalysis`.
-> - For `ESLint` and `stylelint`, the installed packages in `node_modules` are directly referenced in IntelliJ IDEA.
+> - For `stylelint`, the installed packages in `node_modules` are directly referenced in IntelliJ IDEA.
 
 ## Running static analysis
 
@@ -83,7 +82,8 @@ An automated setup for some of the static analysis tools is provided for Intelli
 | PMD | `./gradlew pmdMain`, `./gradlew pmdTest` |
 | SpotBugs | `./gradlew spotbugsMain`, `./gradlew spotbugsTest` |
 | Macker | `./gradlew macker` |
-| ESLint | `npm run lint:js`, `npm run lint:json` |
+| TSLint | `npm run lint:ts` |
+| JSONlint | `npm run lint:json` |
 | stylelint | `npm run lint:css` |
 | lintspaces | `npm run lint:spaces` |
 

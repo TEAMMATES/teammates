@@ -39,8 +39,10 @@ build_script:
   - gradlew.bat lint --continue
   - npm install
   - npm run lint
+  - npm run build -- --progress=false
 
 test_script:
-  - npm run build
+  - gradlew.bat componentTests
+  - npm run coverage -- --progress=false
   - gradlew.bat appengineStart
-  - gradlew.bat ciTests
+  - gradlew.bat e2eTests
