@@ -2,7 +2,9 @@
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
-* [Managing the dev server](#managing-the-dev-server)
+* [Managing the dev server: front-end](#managing-the-dev-server-front-end)
+* [Managing the dev server: back-end](#managing-the-dev-server-back-end)
+* [Building front-end files](#building-front-end-files)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
 * [Testing](#testing)
 * [Measuring code coverage](#measuring-code-coverage)
@@ -17,23 +19,24 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-## Managing the dev server
+## Managing the dev server: front-end
 
 > `Dev server` is the server run in your local machine.
 
-### Building JavaScript files
+Front-end dev server is the Angular-based server handling the user interface.
 
-Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
-To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
-
-Run the following command to build the JavaScript files for the application's use in development mode:
+To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
 ```sh
-npm run dev
+npm run start
 ```
 
-This command needs to be run before starting the dev server if there are updates to the JavaScript files.
+The dev server URL will be given at the console output, e.g. `http://localhost:4200`.
 
-> Run the command `npm run build` instead for Production mode. This will optimize the build with minified JavaScript Files and produce full source maps.
+To stop the dev server, press `Ctrl + C`.
+
+## Managing the dev server: back-end
+
+Back-end dev server is the Google App Engine-based server handling all the business logic, including data storage.
 
 ### With command line
 
@@ -68,7 +71,7 @@ If the server is running in the foreground, press `Ctrl + C` to stop it or run t
 
 Right-click on the project folder and choose `Run As → App Engine`.<br>
 After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-The dev server URL will be given at the console output, e.g `http://localhost:8080`.
+The dev server URL will be given at the console output, e.g. `http://localhost:8080`.
 
 #### Stopping the dev server
 
@@ -84,10 +87,22 @@ Go to `Run → Run...` and select `Google App Engine Standard Local Server` in t
 
 Go to `Run → Stop 'Google App Engine Standard Local Server'`.
 
+## Building front-end files
+
+In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be *bundled and transpiled* (afterwards `built`).
+
+Run the following command to build the front-end files for the application's use in production mode:
+```sh
+npm run build
+```
+
+After this, the back-end dev server will also be able to serve the front-end.
+
 ## Logging in to a TEAMMATES instance
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
 - The local dev server is assumed to be accessible at `http://localhost:8080`.
+  - This instruction also works when the local front-end dev server and back-end dev server are separate. In that case, the dev server address will be the front-end's, e.g. `http://localhost:4200`.
 - If a URL is given as relative, prepend the server URL to access the page, e.g `/page/somePage` is accessible in dev server at `http://localhost:8080/page/somePage`.
 
 ### As administrator
@@ -278,6 +293,8 @@ This instruction set assumes that the app identifier is `teammates-john`.
    ```
    Follow the steps until you see `You are now logged in as [...]` on the console.
 
+1. [Build the front-end files](#building-front-end-files) for deployment, if you have not done so.
+
 1. Modify configuration files.
    * `src/main/resources/build.properties`<br>
      Edit the file as instructed in its comments.
@@ -366,9 +383,10 @@ There are several files used to configure various aspects of the system.
 * `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
-* `build.gradle`: Contains the server-side third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
+* `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
-* `package.json`: Contains the client-side third-party dependencies specification.
+* `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
+* `angular.json`: Contains the Angular application configuration.
 * `.travis.yml`: Contains the Travis CI job configuration.
 * `appveyor.yml`: Contains the AppVeyor CI job configuration.
 
@@ -379,7 +397,7 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `log4j.properties`: Contains the log4j configuration. Not used by us.
-* `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
+* `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
 * `datastore-indexes.xml`: Contains the Datastore indexes configuration.

@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
+  <a class="navbar-brand" href="javascript:;" (click)="navigateTo('/web', $event)">
+    <img src="/assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
+  </a>
+  <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+    <ul class="nav navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web', $event)">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/features', $event)">Features</a></li>
+      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/about', $event)">About Us</a></li>
+      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/contact', $event)">Contact</a></li>
+      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/terms', $event)">Terms of Use</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li class="nav-item"><a class="nav-link" href="javascript:;">Student Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="javascript:;">Instructor Login</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="main-content" class="container main-content">
+  <div *ngIf="isUnsupportedBrowser">
+    You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.
+    In case this web browser does not display the webpage correctly you may wish to view it in the following supported browsers:
+    <ol>
+      <li>Microsoft Internet Explorer {{ minimumVersions['IE'] }}+</li>
+      <li>Chrome {{ minimumVersions['Chrome'] }}+</li>
+      <li>Firefox {{ minimumVersions['Firefox'] }}+</li>
+      <li>Safari {{ minimumVersions['Safari'] }}+</li>
+    </ol>
+    <br>
+  </div>
+  <router-outlet></router-outlet>
+  <footer>
+    <div class="container text-nowrap">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
+          Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

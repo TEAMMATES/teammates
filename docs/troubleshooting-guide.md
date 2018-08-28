@@ -22,14 +22,6 @@ Note that some of the screenshots might be outdated, but the instructions will r
   **SOLUTION**: You can re-run the install command again without any side effect. Make sure to choose to update the `PATH` variable this time. Alternatively, you can use other appropriate methods to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder.<br>
   To verify this, try running any `gcloud` command and it should now give you access to the SDK.
 
-* **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
-
-  **REASON**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK).
-
-  Go to `Window → Preferences → Java → Installed JREs`. You will note that a JRE path is the one selected, not a JDK path.
-
-  **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.8/jre`. Now you should see all of the JARs added to the library section.
-
 * **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
   **SOLUTION**: You can force Eclipse to use the JDK (instead of JRE) by modifying the `eclipse.ini` file. See [here](http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse) for more details.

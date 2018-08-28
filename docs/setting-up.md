@@ -16,7 +16,7 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
    1. (Optional but recommended) Install Sourcetree or other similar Git client.
 1. Install JDK 1.8.
 1. Install Python 2.7.
-1. Install Node.js (minimum version 6.11.5).
+1. Install Node.js (minimum version 8.9.4).
 1. Install Google Cloud SDK (minimum version 204.0.0). Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
@@ -44,6 +44,12 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
    sudo apt-get install google-cloud-sdk-app-engine-java
    ```
    **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
+
+1. (Optional but highly recommended) Install Angular CLI version 6 globally.
+   ```sh
+   npm install -g @angular/cli
+   ```
+   **Verification:** Run `ng` and you should see a list of available Angular CLI commands.
 
 ## Step 2: Obtain your own copy of the repository
 
