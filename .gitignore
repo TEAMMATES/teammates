@@ -12,7 +12,6 @@
 node_modules/
 npm-debug.log
 package-lock.json
-coverage/*
 
 # Gradle
 .gradle
@@ -43,10 +42,9 @@ build.properties
 test.properties
 appengine-web.xml
 appengine-generated
-geckodriver*
 chromedriver*
-src/main/webapp/dist
-src/main/webapp/assets
+src/main/webapp/js
+src/main/webapp/test/*.js
 src/client/java/teammates/client/scripts/scalabilitytests/data/
 src/client/java/teammates/client/scripts/statistics/data/
 src/test/resources/gmail-api/

@@ -78,9 +78,6 @@ public final class TestProperties {
     /** The value of "test.chromedriver.path" in test.properties file. */
     public static final String CHROMEDRIVER_PATH;
 
-    /** The value of "test.geckodriver.path" in test.properties file. */
-    public static final String GECKODRIVER_PATH;
-
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
@@ -158,7 +155,6 @@ public final class TestProperties {
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
-            GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 

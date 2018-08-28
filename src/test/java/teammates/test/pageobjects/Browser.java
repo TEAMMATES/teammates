@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import teammates.test.driver.TestProperties;
@@ -75,7 +74,6 @@ public class Browser {
                 System.out.println("Custom path: " + firefoxPath);
                 System.setProperty("webdriver.firefox.bin", firefoxPath);
             }
-            System.setProperty("webdriver.gecko.driver", TestProperties.GECKODRIVER_PATH);
 
             // Allow CSV files to be download automatically, without a download popup.
             // This method is used because Selenium cannot directly interact with the download dialog.
@@ -86,9 +84,7 @@ public class Browser {
             profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.download.folderList", 2);
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
-
-            FirefoxOptions options = new FirefoxOptions().setProfile(profile);
-            return new FirefoxDriver(options);
+            return new FirefoxDriver(profile);
 
         } else if (TestProperties.BROWSER_CHROME.equals(browser)) {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
