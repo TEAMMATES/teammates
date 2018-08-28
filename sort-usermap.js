@@ -1,7 +1,7 @@
 const fs = require('fs');
-const userMapData = require('./src/main/webapp/data/userMapData.json');
+const userMapData = require('./src/web/assets/data/userMapData.json');
 
-const userMapPath = './src/main/webapp/data/userMapData.json';
+const userMapPath = './src/web/assets/data/userMapData.json';
 
 // sort institute names in each country case insensitively
 const countries = Object.keys(userMapData.institutes);

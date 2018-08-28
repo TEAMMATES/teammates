@@ -5,7 +5,7 @@ init:
   - git config --global core.autocrlf true
 
 install:
-  - ps: Install-Product node ''
+  - ps: Install-Product node 10
 
 branches:
   only:
@@ -38,8 +38,10 @@ build_script:
   - gradlew.bat lint --continue
   - npm install
   - npm run lint
+  - npm run build -- --progress=false
 
 test_script:
-  - npm run build
+  - gradlew.bat componentTests
+  - npm run coverage -- --progress=false
   - gradlew.bat appengineStart
-  - gradlew.bat ciTests
+  - gradlew.bat e2eTests
