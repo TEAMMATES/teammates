@@ -26,7 +26,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -311,7 +310,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
+                .filter("createdAt =", createdAt)
                 .filter("giverEmail =", giverEmail)
                 .first().now();
     }
@@ -325,7 +324,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
                 .filter("giverEmail =", giverEmail)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
+                .filter("createdAt =", createdAt)
                 .first().now();
     }
 
@@ -414,7 +413,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
         return load()
                 .filter("feedbackResponseId =", attributes.feedbackResponseId)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
+                .filter("createdAt =", attributes.createdAt)
                 .filter("giverEmail =", attributes.commentGiver)
                 .keys();
     }
