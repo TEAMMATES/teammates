@@ -13,23 +13,23 @@ appengine-generated
 *.ext
 appengine-web.xml
 chromedriver*
+geckodriver*
 *.bin
 *.bak
 *.db
-*.md.html
-libs/
-src/main/webapp/js
-src/main/webapp/test/*.js
+src/main/webapp/dist
+src/main/webapp/assets
 node_modules/
 npm-debug.log
 package-lock.json
 
 .launches
+.vscode
 test-output/*
-src/test/current testng.xml
-src/main/webapp/WEB-INF/classes
 src/client/java/teammates/client/scripts/scalabilitytests/data/
 *.exe
+
+coverage/*
 
 ### Gradle ###
 .gradle
