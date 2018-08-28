@@ -3,4 +3,6 @@ rules:
     color-hex-case: "upper"
     no-descending-specificity: null
     number-leading-zero: "never"
-    indentation: 4
+    indentation: 2
+    no-empty-source: null
+    max-empty-lines: 1

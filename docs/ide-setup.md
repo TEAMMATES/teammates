@@ -16,19 +16,22 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
    * [Buildship Gradle Integration](https://marketplace.eclipse.org/content/buildship-gradle-integration)
    * [Google Cloud Tools for Eclipse](http://marketplace.eclipse.org/content/google-cloud-tools-eclipse)
    * [TestNG for Eclipse](https://marketplace.eclipse.org/content/testng-eclipse)
+   * [Angular IDE](https://marketplace.eclipse.org/content/angular-ide)
 
    ![eclipsesetupguide-1.png](images/eclipsesetupguide-1.png)
 
    ![eclipsesetupguide-2.png](images/eclipsesetupguide-2.png)
 
+   ![eclipsesetupguide-3.png](images/eclipsesetupguide-3.png)
+
 1. Before importing the project into Eclipse, do the following:
    * Google Cloud Tools: Go to `Eclipse → Preferences → Google Cloud Tools` and fill the `SDK location` box with the directory of your installed Google Cloud SDK.
 
-     ![eclipsesetupguide-3.png](images/eclipsesetupguide-3.png)
+     ![eclipsesetupguide-4.png](images/eclipsesetupguide-4.png)
 
    * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a **JDK 1.8** (not JRE) entry exists.
 
-     ![eclipsesetupguide-4.png](images/eclipsesetupguide-4.png)
+     ![eclipsesetupguide-5.png](images/eclipsesetupguide-5.png)
 
      Note that the JDK to be used is not required to be the `default`.
 
@@ -57,7 +60,6 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
      * General: `General → Workspace → Text file encoding`.
      * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
      * CSS: `Web → CSS Files → Encoding`.
-     * JSP: `Web → JSP Files → Encoding`.
      * XML: `XML → XML Files → Encoding`.
 
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
@@ -68,10 +70,10 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
 
      ![eclipsesetupguide-7.png](images/eclipsesetupguide-7.png)
 
-   * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
+   * Indentation: 2 spaces are used in place of tabs for indentations. For Java and XML, 4 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
+     * TypeScript: `TypeScript → Formatter → Indent size`.
      
      You can find the Web, XML, and JSON options in `Eclipse → Preferences → ...`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
@@ -80,14 +82,12 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
      * JSON: `JSON → JSON Files → Editor → Indent using spaces`.
 
    * Validation: Go to `Validation → ...`
-     * Disable validation for HTML, JSP, and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, `XML Schema Validator`, and `XML Validator`.
+     * Disable validation for HTML and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `DTD Validator`, `XML Schema Validator`, and `XML Validator`.
      * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. The steps for disabling the `JSON Validator`are similar.
 
 1. `Refresh` and `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![eclipsesetupguide-8.png](images/eclipsesetupguide-8.png)
-
-   > If you are using Eclipse Neon, you will find that all declarations of `import` and `export` in JavaScript files are marked as errors. This is fine and is not a cause for concern.
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
@@ -133,28 +133,26 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    1. Ensure for `Gradle JVM:` that a JDK 8 with a name of `1.8` is selected.
    1. Click `Finish`. Wait for the indexing process to complete.
    1. You should see a dialog box with the message:\
-      `Framework detected: Google App Engine Standard framework is detected.`.\
+      `Frameworks detected: Google App Engine Standard, Angular CLI frameworks are detected.`.\
       **OR**\
-      `Frameworks detected: Web, Google App Engine Standard frameworks are detected`.\
-      Click on `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
+      `Frameworks detected: Web, Google App Engine Standard, Angular CLI frameworks are detected`.\
+      Click on `Configure` and ensure that only `Google App Engine Standard` and `Angular CLI` frameworks are shown, then click `OK`.
       If there are other frameworks shown, click `Cancel` and wait until indexing is completed, then try again.
       > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the message in the dialog box. Click `Configure` and then `OK`.
 
 1. Configure the following project-specific settings (all can be found in `IntelliJ IDEA → Preferences → ...`):
 
-   * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
+   * Indentation: 2 spaces are used in place of tabs for indentations. For Java and XML, 4 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      1. Go to `Editor → Code Style`.
      1. Select `Project` for `Scheme` if you do not wish to make the settings the default for your IDE.
-     1. For `Java`, `JavaScript`, `JSON`, `CSS`, `XML`, `HTML`, and `JSP`:
-        * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
-        * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.
+     1. For `Java`, `TypeScript`, `JSON`, `CSS`, `XML`, and `HTML`:
+        * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `2`, `2`, and `4` respectively.
+        * For `Java` and `XML`, the numbers are `4`, `4`, and `8` instead.
 
    * Text encoding: `UTF-8` is used for text encoding.
      Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
-
-   * JavaScript: Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
 
 1. Click `OK`.
 

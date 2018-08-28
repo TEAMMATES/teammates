@@ -15,7 +15,7 @@ sudo: required
 dist: trusty
 
 addons:
-  firefox: "46.0"
+  firefox: "63.0"
 
 before_install:
   - |
@@ -28,16 +28,18 @@ before_install:
       fi
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
-  - nvm install node
+  - nvm install 10
 
 before_script:
   - export DISPLAY=:99.0
-  - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - tar -xjf /tmp/firefox-63.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH=$TRAVIS_BUILD_DIR/firefox:./node_modules/.bin:$HOME/google-cloud-sdk/bin:$PATH
 
-  - curl -fsS -o $HOME/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
   - cd $HOME
+  - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+  - curl -fsSL -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
   - tar -xzf google-cloud-sdk.tar.gz
+  - tar -xzf geckodriver.tar.gz
   - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
   - cd $TRAVIS_BUILD_DIR
   - gcloud -q components install app-engine-java
@@ -47,12 +49,14 @@ before_script:
   - ./gradlew lint --continue
   - npm install
   - npm run lint
+  - npm run build -- --progress=false
 
 install: true
 script:
-  - npm run build
+  - ./gradlew componentTests
+  - npm run coverage -- --progress=false
   - ./gradlew appengineStart
-  - ./gradlew ciTests
+  - ./gradlew e2eTests
 
 after_success:
   - ./gradlew jacocoReport
