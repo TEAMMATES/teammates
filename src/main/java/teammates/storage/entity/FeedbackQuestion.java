@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
@@ -12,11 +11,11 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
+import com.googlecode.objectify.annotation.Translate;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 
 /**
  * Represents a feedback question.
@@ -68,9 +67,11 @@ public class FeedbackQuestion extends BaseEntity {
 
     private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<>();
 
-    private Date createdAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdAt;
 
-    private Date updatedAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant updatedAt;
 
     @SuppressWarnings("unused")
     private FeedbackQuestion() {
@@ -106,21 +107,21 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(createdAt);
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Instant getUpdatedAt() {
-        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(updatedAt);
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
     public void setCreatedAt(Instant newDate) {
-        this.createdAt = TimeHelper.convertInstantToDate(newDate);
+        this.createdAt = newDate;
         setLastUpdate(newDate);
     }
 
     public void setLastUpdate(Instant newDate) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = TimeHelper.convertInstantToDate(newDate);
+            this.updatedAt = newDate;
         }
     }
 
