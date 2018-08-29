@@ -17,33 +17,7 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 1. Install JDK 1.8.
 1. Install Python 2.7.
 1. Install Node.js (minimum version 6.11.5).
-
-## Step 2: Obtain your own copy of the repository
-
-1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
-
-1. Add a remote name (e.g `upstream`) for your copy of the main repo. Fetch the remote-tracking branches from the main repo to keep it in sync with your copy.
-   ```sh
-   git remote add upstream https://github.com/TEAMMATES/teammates.git
-   git fetch upstream
-   ```
-   **Verification:** Use the command `git branch -r` and the following lines should be part of the output:
-   ```
-    upstream/master
-    upstream/release
-    ```
-
-1. Set your `master` branch to track the main repo's `master` branch.
-   ```sh
-   git checkout master
-   git branch -u upstream/master
-   ```
-
-More information can be found at [this documentation](https://help.github.com/articles/fork-a-repo/).
-
-## Step 3: Set up project-specific settings and dependencies
-
-1. Install Google Cloud SDK. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
+1. Install Google Cloud SDK (minimum version 204.0.0). Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
    # Run the following command at the Google Cloud SDK directory
@@ -70,6 +44,31 @@ More information can be found at [this documentation](https://help.github.com/ar
    sudo apt-get install google-cloud-sdk-app-engine-java
    ```
    **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
+
+## Step 2: Obtain your own copy of the repository
+
+1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
+
+1. Add a remote name (e.g `upstream`) for your copy of the main repo. Fetch the remote-tracking branches from the main repo to keep it in sync with your copy.
+   ```sh
+   git remote add upstream https://github.com/TEAMMATES/teammates.git
+   git fetch upstream
+   ```
+   **Verification:** Use the command `git branch -r` and the following lines should be part of the output:
+   ```
+    upstream/master
+    upstream/release
+    ```
+
+1. Set your `master` branch to track the main repo's `master` branch.
+   ```sh
+   git checkout master
+   git branch -u upstream/master
+   ```
+
+More information can be found at [this documentation](https://help.github.com/articles/fork-a-repo/).
+
+## Step 3: Set up project-specific settings and dependencies
 
 1. Run this command to download the necessary tools for JavaScript development:
    ```sh

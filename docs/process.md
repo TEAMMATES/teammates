@@ -85,6 +85,11 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      It is, however, a good idea to commit at meaningful points to keep your branch reasonably clean.
    * Use meaningful commit messages (e.g. `Add tests for the truncate method`).
      [Here](http://chris.beams.io/posts/git-commit/) is a good reference.
+   * If you introduce changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes"), a *data migration* is necessary to be done by the core team. If a data migration is necessary to take the issue forward:
+     * Make sure that the core team (or at least your reviewer) is aware of this.
+     * Your changes should initially work for both the old and new versions of the data schema. It is fine if an unclean hack is necessary for the new code to work under the *old* data schema.
+     * Mark clearly in the code which parts are tailored specifically for the old data schema, *especially if an unclean hack is used*.
+     * Concurrently or immediately after the breaking changes are merged, you need to create a [client script](development.md#running-client-scripts) to migrate all data following the old schema to the new schema.
 
 1. Sync with the main repo frequently. While you were fixing the issue, others might have pushed new code to the main repo.
    * Update your repo's `master` branch with any new changes from main repo, then switch back to your work branch.
@@ -105,7 +110,6 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      git rebase master
      ```
    * If there are updates to the dependencies on the build configuration, you should update your local copies accordingly.
-     The details on the steps can be found on [this document](dependencies.md).
 
 1. <a name="things-to-check"></a>Before submitting your work for review, here are some things to check (non-exhaustive):
    * The code is **properly formatted for readability**.
@@ -143,8 +147,8 @@ Make the changes to the code, tests, and documentations as needed by the issue.
 
 [Create a PR](https://help.github.com/articles/creating-a-pull-request/) with the following configuration:
 * The base branch is the main repo's `master` branch.
-* PR name: copy-and-paste the relevant issue name and include the issue number as well,
-  e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
+* PR name: copy-and-paste the relevant issue name and include the issue number in front in square brackets,
+  e.g. `[#3942] Remove unnecessary System.out.printlns from Java files`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
 
@@ -248,6 +252,5 @@ This instruction set will use the issue `Remove unnecessary System.out.printlns 
     ```
     e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
   * Where appropriate (e.g. merging a long-lived feature branch), the ["Rebase and merge"](https://help.github.com/articles/about-pull-request-merges/#rebase-and-merge-your-pull-request-commits) option can be used instead.
-  * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
-    and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
-    `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
+  * Apply a `c.*` label to the PR to indicate the type of the PR, if it has not been done before.
+* If the PR necessitates a data migration, [create a data migration issue](https://github.com/TEAMMATES/teammates/issues/new?template=data-migration.md) after merging.

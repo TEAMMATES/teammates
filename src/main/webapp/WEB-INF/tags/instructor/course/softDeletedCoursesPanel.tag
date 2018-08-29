@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorCourses - Recovery courses table panel" pageEncoding="UTF-8" %>
+<%@ tag description="instructorCourse - Soft-deleted courses table panel" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
@@ -15,7 +15,7 @@
     </div>
     <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px course-delete-all-link color-negative<c:if test="${not data.instructorAllowedToModify}"> disabled</c:if>"
        id="btn-course-deleteall"
-       href="${data.instructorCourseDeleteAllRecoveryCoursesLink}"
+       href="${data.instructorCourseDeleteAllSoftDeletedCoursesLink}"
        title="<%= Const.Tooltips.COURSE_DELETE_ALL %>"
        data-toggle="tooltip"
        data-placement="top">
@@ -24,7 +24,7 @@
     </a>
     <a class="btn btn-default btn-xs pull-right pull-down<c:if test="${not data.instructorAllowedToModify}"> disabled</c:if>"
        id="btn-course-restoreall"
-       href="${data.instructorCourseRestoreAllRecoveryCoursesLink}"
+       href="${data.instructorCourseRestoreAllSoftDeletedCoursesLink}"
        title="<%= Const.Tooltips.COURSE_RESTORE_ALL %>"
        data-toggle="tooltip"
        data-placement="top">
@@ -37,7 +37,7 @@
   </div>
   <div class="panel-collapse collapse">
     <div class="panel-body padding-0">
-      <course:recoveryCoursesTable recoveryCourses="${data.recoveryCourses}"/>
+      <course:softDeletedCoursesTable softDeletedCourses="${data.softDeletedCourses}"/>
     </div>
   </div>
 </div>

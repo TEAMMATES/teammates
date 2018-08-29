@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,6 +15,10 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for constant sum (options) questions.
  */
 public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "constSum";
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -50,6 +55,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
         testDisableConstSumPointsAction();
         testUiConsistencyForNewQuestion();
     }
@@ -249,6 +255,82 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
+
+    /**
+     * Tests that distribute points among options (new and existing) can be reordered using drag and drop mechanism.
+     * @throws Exception when option is not draggable
+     */
+    private void testReorderOptions() throws Exception {
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAddMoreConstSumOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreConstSumOptionLinkForNewQuestion();
+
+        feedbackEditPage.fillConstSumOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillConstSumOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillConstSumOptionForNewQuestion(2, "Choice 3");
+        feedbackEditPage.fillConstSumOptionForNewQuestion(3, "Choice 4");
+
+        ______TS("CONSTSUM: reorder existing options");
+
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.clickAddQuestionButton();
+        JSONObject constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                                    .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: add option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.fillConstSumOption(4, "New Choice", 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: delete option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
+        feedbackEditPage.fillConstSumOption(1, "Old Choice", 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: add, delete and reorder options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.fillConstSumOption(4, "New Choice", 1);
+        feedbackEditPage.fillConstSumOption(5, "Newer Choice", 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData.getValue());
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: delete question");
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
     }
 
     /**

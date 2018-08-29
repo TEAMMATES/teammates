@@ -21,6 +21,8 @@ import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTable;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTableRow;
 
 /**
  * SUT: {@link InstructorFeedbackSessionsPageData}.
@@ -50,8 +52,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> softDeletedFsList =
+                getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
-        data.initWithoutDefaultFormValues(courses, null, fsList, courseInstructorMap, null);
+        data.initWithoutDefaultFormValues(courses, null, fsList, softDeletedFsList, courseInstructorMap, null);
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         ______TS("typical success case: test new fs form");
         // Test new fs form model
@@ -98,9 +104,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
+        SoftDeletedFeedbackSessionsTable softDeletedFsTableModel = data.getSoftDeletedFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+        List<SoftDeletedFeedbackSessionsTableRow> softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(0, softDeletedFsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
@@ -129,8 +138,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<InstructorAttributes> instructorsForArchivedCourse = new ArrayList<>(archivedCourseInstructorMap.values());
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
         instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
-                                                                  archivedCourseInstructorMap, null);
+                                                                  softDeletedFsList, archivedCourseInstructorMap, null);
+
+        assertTrue(instructorArchivedCourseData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with only archived course: test new fs form");
         // Test new fs form model
@@ -142,6 +154,41 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
                      formModel.getCoursesSelectField().get(0).getContent());
 
         assertTrue(formModel.isSubmitButtonDisabled());
+
+        ______TS("case with instructor with deleted session in course");
+        AccountAttributes instructorWithDeletedSessionAccount = dataBundle.accounts.get("instructor1OfCourse3");
+        InstructorFeedbackSessionsPageData instructorDeletedSessionData =
+                new InstructorFeedbackSessionsPageData(instructorWithDeletedSessionAccount, dummySessionToken);
+        Map<String, InstructorAttributes> deletedSessionInstructorMap = new HashMap<>();
+
+        instructors = getInstructorsForGoogleId(instructorWithDeletedSessionAccount.googleId, true);
+
+        for (InstructorAttributes instructor : instructors) {
+            deletedSessionInstructorMap.put(instructor.courseId, instructor);
+        }
+
+        List<InstructorAttributes> instructorsForDeletedSession = new ArrayList<>(deletedSessionInstructorMap.values());
+        List<CourseAttributes> coursesWithDeletedSession = getCoursesForInstructor(instructorsForDeletedSession);
+        fsList = getFeedbackSessionsListForInstructor(instructorsForDeletedSession);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForDeletedSession);
+        instructorDeletedSessionData.initWithoutDefaultFormValues(coursesWithDeletedSession, null, fsList,
+                softDeletedFsList, deletedSessionInstructorMap, null);
+
+        assertFalse(instructorDeletedSessionData.isInstructorAllowedToModify());
+
+        ______TS("case with instructor with deleted session in course: session rows");
+        fsTableModel = instructorDeletedSessionData.getFsList();
+        softDeletedFsTableModel = instructorDeletedSessionData.getSoftDeletedFsList();
+
+        fsRows = fsTableModel.getExistingFeedbackSessions();
+        assertEquals(1, fsRows.size());
+        softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(2, softDeletedFsRows.size());
+
+        firstFsName = "First feedback session";
+        assertEquals(firstFsName, fsRows.get(0).getName());
+        String secondFsName = "Second feedback session";
+        assertEquals(secondFsName, softDeletedFsRows.get(0).getSessionName());
 
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
@@ -159,8 +206,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
 
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForHelper);
 
-        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, helperCourseInstructorMap, null);
+        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, softDeletedFsList,
+                                                helperCourseInstructorMap, null);
+
+        assertTrue(helperData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with restricted permissions: test new fs form");
         // Test new fs form model
@@ -178,6 +229,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+
+        softDeletedFsTableModel = helperData.getSoftDeletedFsList();
+
+        softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(0, softDeletedFsRows.size());
 
         ______TS("case with instructor with restricted permissions: copy modal");
         copyModalModel = helperData.getCopyFromModal();
@@ -202,9 +258,10 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         courses = getCoursesForInstructor(instructorsForUser);
 
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
-        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap,
-                                          "First feedback session");
+        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, softDeletedFsList,
+                                          courseInstructorMap, "First feedback session");
 
         List<FeedbackSessionsTableRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
         boolean isFirstFeedbackSessionHighlighted = false;
@@ -244,10 +301,14 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> softDeletedFsList =
+                getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        data.init(courses, null, fsList, courseInstructorMap, fsa, null, null);
+        data.init(courses, null, fsList, softDeletedFsList, courseInstructorMap, fsa, null, null);
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         ______TS("typical success case with existing fs passed in: test new fs form");
         // Test new fs form model
@@ -295,9 +356,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
+        SoftDeletedFeedbackSessionsTable softDeletedFsTableModel = data.getSoftDeletedFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+        List<SoftDeletedFeedbackSessionsTableRow> softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(0, softDeletedFsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
@@ -332,10 +396,15 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> softDeletedFsList =
+                getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD");
+        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, softDeletedFsList, courseInstructorMap,
+                                       fsa, "STANDARD");
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         FeedbackSessionsForm formModel = data.getNewFsForm();
 
@@ -383,6 +452,19 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
 
         feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
+        feedbackSessions.removeIf(fs -> courseIdsOfUser.contains(fs.getCourseId()) && fs.isSessionDeleted());
+
+        return feedbackSessions;
+    }
+
+    private List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructor(
+            List<InstructorAttributes> instructorsForUser) {
+        Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
+
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
+
+        feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
+        feedbackSessions.removeIf(fs -> courseIdsOfUser.contains(fs.getCourseId()) && !fs.isSessionDeleted());
 
         return feedbackSessions;
     }

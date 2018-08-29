@@ -17,44 +17,83 @@
 <c:set var="SESSION_TOKEN">
   <%=Const.ParamsNames.SESSION_TOKEN%>
 </c:set>
+<c:set var="COURSE_ID">
+  <%=Const.ParamsNames.COURSE_ID%>
+</c:set>
 <ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
   <div class="panel panel-primary">
     <div class="panel-body fill-plain">
       <div class="text-muted padding-15px">
-        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more than
+        <span class="glyphicon glyphicon-info-sign"></span><a href="#more-spreadsheet-info">
+        Scroll down</a> to see more information about the spreadsheet interfaces.
+        <br>
+        <span class="glyphicon glyphicon-info-sign"></span> If you want to enroll more than
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.
       </div>
-      <form id="student-data-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
+      <form id="student-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
             class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
+        <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
         <div class="col-md-12">
-          <div class="form-group">
-            <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
-            <div id="student-data-spreadsheet">
-              <div class="panel-body">
-                <div id="spreadsheet"></div>
+          <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
+          <div class="panel panel-default" >
+            <div class="panel-heading" id="existing-data-spreadsheet">
+              <div class="pull-right margin-left-7px">
+                <span class="glyphicon glyphicon-chevron-down"></span>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <button type="button" title="Add" id="addEmptyRows" class="btn btn-primary btn-md">
-                    Add
-                  </button>
-                  <input type="number" id="number-of-rows" value="1" min="0">
-                  <label>Rows</label>
-                </div>
-                <div class="col-md-6">
-                  <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
-                      class="btn btn-primary btn-md pull-right">
-                    Enroll students
-                  </button>
-                </div>
+              <div class="display-status pull-right">
+                <img id="ajax-preload-image" height="25" width="25" src="/images/ajax-preload.gif">
+                <div class="ajax-status-message"></div>
               </div>
-              <br>
-              <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120"
-                  placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+              <strong>Existing students</strong>
             </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body padding-0">
+                <div id="existingDataSpreadsheet"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-margin-correction">
+            <div class="panel panel-default">
+              <div class="panel-heading" id="enroll-spreadsheet">
+                <div class="pull-right margin-left-7px">
+                  <span class="glyphicon glyphicon-chevron-down"></span>
+                </div>
+                <div class='display-status pull-right'></div>
+                <strong>New students</strong>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body padding-0">
+                  <div id="enrollSpreadsheet"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row enroll-students-spreadsheet-buttons">
+              <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                      <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary btn-md">
+                        Add row(s)
+                      </button>
+                    </span>
+                  <div class="col-xs-4">
+                    <input type="number" id="number-of-rows" class="form-control" value="1" min="0">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
+                        class="btn btn-primary btn-md pull-right">
+                  Enroll students
+                </button>
+              </div>
+            </div>
+
+            <br>
+            <textarea class="form-control" id="enrollstudents" name="enrollstudents"
+                      placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
           </div>
         </div>
       </form>
@@ -63,7 +102,7 @@
 
   <br>
 
-  <div class="more-info">
+  <div class="more-info" id="more-spreadsheet-info">
     <h2> More info </h2>
     <hr style="width: 80%; margin-left: 0px;">
     <ul>
@@ -72,7 +111,7 @@
         <ul>
           <li>
             If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
-            paste into the spreadsheet interface above.<br><br>
+            paste into the <code>New students</code> spreadsheet interface above.<br><br>
             <table class="table table-striped table-bordered">
               <tr>
                 <th>Section</th>
@@ -130,6 +169,7 @@
           <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
           <li>To access more edit functions, right-click on a cell.</li>
           <li>Column width can be adjusted.</li>
+          <li>Expand the <code>Existing students</code> spreadsheet interface to view existing students in the course.</li>
         </ul>
       </li>
       <li>
