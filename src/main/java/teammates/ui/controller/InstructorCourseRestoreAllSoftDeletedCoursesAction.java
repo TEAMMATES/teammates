@@ -10,9 +10,9 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
- * Action: Permanently delete all courses from Recycle Bin for an instructor.
+ * Action: Restore all courses from Recycle Bin for an instructor.
  */
-public class InstructorCourseDeleteAllRecoveryCoursesAction extends Action {
+public class InstructorCourseRestoreAllSoftDeletedCoursesAction extends Action {
 
     @Override
     public ActionResult execute() {
@@ -21,7 +21,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesAction extends Action {
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
 
         for (InstructorAttributes instructor : instructorList) {
-            CourseAttributes course = logic.getRecoveryCourseForInstructor(instructor);
+            CourseAttributes course = logic.getSoftDeletedCourseForInstructor(instructor);
             if (course != null) {
                 gateKeeper.verifyAccessible(instructor,
                         course,
@@ -30,11 +30,11 @@ public class InstructorCourseDeleteAllRecoveryCoursesAction extends Action {
         }
 
         try {
-            /* Permanently delete all courses and setup status to be shown to user and admin */
-            logic.deleteAllCourses(instructorList);
-            String statusMessage = Const.StatusMessages.COURSE_ALL_DELETED;
+            /* Restore all courses and setup status to be shown to user and admin */
+            logic.restoreAllCoursesFromRecycleBin(instructorList);
+            String statusMessage = Const.StatusMessages.COURSE_ALL_RESTORED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-            statusToAdmin = "All courses deleted";
+            statusToAdmin = "All courses restored";
         } catch (Exception e) {
             setStatusForException(e);
         }

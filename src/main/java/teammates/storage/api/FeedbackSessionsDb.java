@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
@@ -92,12 +93,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return An empty list if no sessions are found for the given course.
+     * @return a list of all sessions for the given course expect those in the Recycle Bin. Otherwise returns an empty list.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId));
+        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of sessions for the given course in the Recycle Bin. Otherwise returns an empty list.
+     */
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(FeedbackSessionAttributes::isSessionDeleted)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -154,6 +170,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         fs.setInstructions(newAttributes.getInstructions());
+        fs.setDeletedTime(newAttributes.getDeletedTime());
         fs.setStartTime(newAttributes.getStartTime());
         fs.setEndTime(newAttributes.getEndTime());
         fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());

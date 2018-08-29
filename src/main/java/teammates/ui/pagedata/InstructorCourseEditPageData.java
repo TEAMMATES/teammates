@@ -175,7 +175,7 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonId = "courseDeleteLink";
         String href = getInstructorCourseDeleteLink(course.getId(), false);
 
-        ElementTag button = createBasicButton(buttonContent, buttonId, href, Const.Tooltips.COURSE_MOVE_TO_RECOVERY,
+        ElementTag button = createBasicButton(buttonContent, buttonId, href, Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN,
                                               isDisabled);
         button.setAttribute("data-course-id", course.getId());
         String existingClasses = button.removeAttribute("class");

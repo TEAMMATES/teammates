@@ -1,0 +1,1024 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Add New Feedback Session
+  </h1>
+  <br>
+  <div class="well well-plain">
+    <form action="/page/instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
+      <div class="row">
+        <h4 class="label-control col-md-2 text-md">
+          Create new
+        </h4>
+        <div class="col-md-5">
+          <div class="col-xs-10 tablet-no-padding" data-original-title="Select a session type here." data-placement="top" data-toggle="tooltip" title="">
+            <select class="form-control" id="sessionTemplateType" name="sessionTemplateType">
+              <option value="STANDARD">
+                session with my own questions
+              </option>
+              <option selected="" value="TEAMEVALUATION">
+                session using template: team peer evaluation
+              </option>
+            </select>
+          </div>
+          <div class="col-xs-1">
+            <h5>
+              <a href="/instructorHelp.jsp#session-setup" rel="noopener noreferrer" target="_blank">
+                <span class="glyphicon glyphicon-info-sign">
+                </span>
+              </a>
+            </h5>
+          </div>
+        </div>
+        <h4 class="label-control col-xs-12 col-md-1 text-md">
+          Or:
+        </h4>
+        <div class="col-xs-12 col-md-3">
+          <a class="btn btn-info" id="button_copy" style="vertical-align:middle;">
+            Copy from previous feedback sessions
+          </a>
+        </div>
+      </div>
+      <br>
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="courseid">
+                    Course ID
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <select class="form-control" id="courseid" name="courseid">
+                    <option value="CFeedbackUiT.CS2106">
+                      CFeedbackUiT.CS2106
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="To change this, edit the course settings. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="timezone">
+                    Time Zone
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5 class="form-control-static font-weight-normal" data-time-zone="" id="timezone">
+                    UTC
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="coursename">
+                    Course name
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <input class="course-attributes-data" data-name="Operating Systems" data-time-zone="UTC" id="CFeedbackUiT.CS2106" type="hidden">
+                  <h5 class="form-control-static font-weight-normal" id="coursename">
+                    Operating Systems
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row">
+            <div class="col-sm-12 col-md-6" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="fsname">
+                    Session name
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <input class="form-control" id="fsname" maxlength="38" name="fsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value="">
+                  <div>
+                    <span id="charLeft-fsname">
+                      38
+                    </span>
+                    characters left
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row" id="instructionsRow">
+            <div class="col-sm-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 margin-top-0">
+                  <label class="control-label" for="instructions">
+                    Instructions
+                  </label>
+                </h5>
+                <div class="col-sm-10">
+                  <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
+                    <p>
+                      Please answer all the given questions.
+                    </p>
+                  </div>
+                  <input name="instructions" type="hidden">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-primary" id="timeFramePanel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-5" data-original-title="Please select the date and time for which users can start submitting responses for the feedback session." data-placement="top" data-toggle="tooltip" title="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="label-control" for="startdate">
+                    Submission opening time
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="">
+                </div>
+                <div class="col-xs-6">
+                  <select class="form-control" id="starttime" name="starttime">
+                    <option value="1">
+                      0100H
+                    </option>
+                    <option value="2">
+                      0200H
+                    </option>
+                    <option value="3">
+                      0300H
+                    </option>
+                    <option value="4">
+                      0400H
+                    </option>
+                    <option value="5">
+                      0500H
+                    </option>
+                    <option value="6">
+                      0600H
+                    </option>
+                    <option value="7">
+                      0700H
+                    </option>
+                    <option value="8">
+                      0800H
+                    </option>
+                    <option value="9">
+                      0900H
+                    </option>
+                    <option value="10">
+                      1000H
+                    </option>
+                    <option value="11">
+                      1100H
+                    </option>
+                    <option value="12">
+                      1200H
+                    </option>
+                    <option value="13">
+                      1300H
+                    </option>
+                    <option value="14">
+                      1400H
+                    </option>
+                    <option value="15">
+                      1500H
+                    </option>
+                    <option value="16">
+                      1600H
+                    </option>
+                    <option value="17">
+                      1700H
+                    </option>
+                    <option value="18">
+                      1800H
+                    </option>
+                    <option value="19">
+                      1900H
+                    </option>
+                    <option value="20">
+                      2000H
+                    </option>
+                    <option value="21">
+                      2100H
+                    </option>
+                    <option value="22">
+                      2200H
+                    </option>
+                    <option value="23">
+                      2300H
+                    </option>
+                    <option selected="" value="24">
+                      2359H
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 border-left-gray" data-original-title="Please select the date and time after which the feedback session will no longer accept submissions from users." data-placement="top" data-toggle="tooltip" title="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="label-control" for="enddate">
+                    Submission closing time
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <input class="form-control col-sm-2 hasDatepicker" id="enddate" name="enddate" placeholder="Date" type="text" value="">
+                </div>
+                <div class="col-xs-6">
+                  <select class="form-control" id="endtime" name="endtime">
+                    <option value="1">
+                      0100H
+                    </option>
+                    <option value="2">
+                      0200H
+                    </option>
+                    <option value="3">
+                      0300H
+                    </option>
+                    <option value="4">
+                      0400H
+                    </option>
+                    <option value="5">
+                      0500H
+                    </option>
+                    <option value="6">
+                      0600H
+                    </option>
+                    <option value="7">
+                      0700H
+                    </option>
+                    <option value="8">
+                      0800H
+                    </option>
+                    <option value="9">
+                      0900H
+                    </option>
+                    <option value="10">
+                      1000H
+                    </option>
+                    <option value="11">
+                      1100H
+                    </option>
+                    <option value="12">
+                      1200H
+                    </option>
+                    <option value="13">
+                      1300H
+                    </option>
+                    <option value="14">
+                      1400H
+                    </option>
+                    <option value="15">
+                      1500H
+                    </option>
+                    <option value="16">
+                      1600H
+                    </option>
+                    <option value="17">
+                      1700H
+                    </option>
+                    <option value="18">
+                      1800H
+                    </option>
+                    <option value="19">
+                      1900H
+                    </option>
+                    <option value="20">
+                      2000H
+                    </option>
+                    <option value="21">
+                      2100H
+                    </option>
+                    <option value="22">
+                      2200H
+                    </option>
+                    <option value="23">
+                      2300H
+                    </option>
+                    <option selected="" value="24">
+                      2359H
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting <br>submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="control-label" for="graceperiod">
+                    Grace period
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <select class="form-control" id="graceperiod" name="graceperiod">
+                    <option value="0">
+                      0 mins
+                    </option>
+                    <option value="5">
+                      5 mins
+                    </option>
+                    <option value="10">
+                      10 mins
+                    </option>
+                    <option selected="" value="15">
+                      15 mins
+                    </option>
+                    <option value="20">
+                      20 mins
+                    </option>
+                    <option value="25">
+                      25 mins
+                    </option>
+                    <option value="30">
+                      30 mins
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="uncommonSettingsSection">
+        <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="display:none;">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <div class="row">
+                  <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
+                    <label class="label-control">
+                      Make session visible
+                    </label>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <h5 class="col-xs-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br>Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_custom">
+                      At
+                    </label>
+                    <input id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
+                  </h5>
+                  <div class="col-xs-5">
+                    <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="">
+                  </div>
+                  <div class="col-xs-5">
+                    <select class="form-control" disabled="" id="visibletime" name="visibletime">
+                      <option value="1">
+                        0100H
+                      </option>
+                      <option value="2">
+                        0200H
+                      </option>
+                      <option value="3">
+                        0300H
+                      </option>
+                      <option value="4">
+                        0400H
+                      </option>
+                      <option value="5">
+                        0500H
+                      </option>
+                      <option value="6">
+                        0600H
+                      </option>
+                      <option value="7">
+                        0700H
+                      </option>
+                      <option value="8">
+                        0800H
+                      </option>
+                      <option value="9">
+                        0900H
+                      </option>
+                      <option value="10">
+                        1000H
+                      </option>
+                      <option value="11">
+                        1100H
+                      </option>
+                      <option value="12">
+                        1200H
+                      </option>
+                      <option value="13">
+                        1300H
+                      </option>
+                      <option value="14">
+                        1400H
+                      </option>
+                      <option value="15">
+                        1500H
+                      </option>
+                      <option value="16">
+                        1600H
+                      </option>
+                      <option value="17">
+                        1700H
+                      </option>
+                      <option value="18">
+                        1800H
+                      </option>
+                      <option value="19">
+                        1900H
+                      </option>
+                      <option value="20">
+                        2000H
+                      </option>
+                      <option value="21">
+                        2100H
+                      </option>
+                      <option value="22">
+                        2200H
+                      </option>
+                      <option value="23">
+                        2300H
+                      </option>
+                      <option selected="" value="24">
+                        2359H
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_atopen">
+                      Submission opening time
+                    </label>
+                    <input checked="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
+                <div class="row">
+                  <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                    <label class="label-control">
+                      Make responses visible
+                    </label>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <h5 class="col-xs-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br>will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_custom">
+                      At
+                    </label>
+                    <input id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
+                  </h5>
+                  <div class="col-xs-5">
+                    <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="">
+                  </div>
+                  <div class="col-xs-5">
+                    <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
+                      <option value="1">
+                        0100H
+                      </option>
+                      <option value="2">
+                        0200H
+                      </option>
+                      <option value="3">
+                        0300H
+                      </option>
+                      <option value="4">
+                        0400H
+                      </option>
+                      <option value="5">
+                        0500H
+                      </option>
+                      <option value="6">
+                        0600H
+                      </option>
+                      <option value="7">
+                        0700H
+                      </option>
+                      <option value="8">
+                        0800H
+                      </option>
+                      <option value="9">
+                        0900H
+                      </option>
+                      <option value="10">
+                        1000H
+                      </option>
+                      <option value="11">
+                        1100H
+                      </option>
+                      <option value="12">
+                        1200H
+                      </option>
+                      <option value="13">
+                        1300H
+                      </option>
+                      <option value="14">
+                        1400H
+                      </option>
+                      <option value="15">
+                        1500H
+                      </option>
+                      <option value="16">
+                        1600H
+                      </option>
+                      <option value="17">
+                        1700H
+                      </option>
+                      <option value="18">
+                        1800H
+                      </option>
+                      <option value="19">
+                        1900H
+                      </option>
+                      <option value="20">
+                        2000H
+                      </option>
+                      <option value="21">
+                        2100H
+                      </option>
+                      <option value="22">
+                        2200H
+                      </option>
+                      <option value="23">
+                        2300H
+                      </option>
+                      <option selected="" value="24">
+                        2359H
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_atvisible">
+                      Immediately
+                    </label>
+                    <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_later">
+                      Not now (publish manually)
+                    </label>
+                    <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary" id="sendEmailsForPanel" style="display:none;">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label">
+                  Send emails for
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label>
+                    Session opening reminder
+                  </label>
+                  <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
+                </div>
+              </div>
+              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label for="sendreminderemail_closing">
+                    Session closing reminder
+                  </label>
+                  <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
+                </div>
+              </div>
+              <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label for="sendreminderemail_published">
+                    Results published announcement
+                  </label>
+                  <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="margin-bottom-15px text-muted" id="uncommonSettingsSessionResponsesVisible">
+          <span id="uncommonSettingsSessionResponsesVisibleInfoText">
+            Session is visible at submission opening time, responses are only visible when you publish the results.
+          </span>
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+            [Change]
+          </a>
+        </div>
+        <div class="margin-bottom-15px text-muted" id="uncommonSettingsSendEmails">
+          <span id="uncommonSettingsSendEmailsInfoText">
+            Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
+          </span>
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+            [Change]
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-offset-5 col-md-3">
+            <button class="btn btn-primary" id="button_submit" type="submit">
+              Create Feedback Session
+            </button>
+          </div>
+        </div>
+      </div>
+      <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+      <input name="token" type="hidden" value="${sessionToken}">
+    </form>
+  </div>
+  <form action="/page/instructorFeedbackSessionsPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+    <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+    <input name="isusingAjax" type="hidden" value="on">
+  </form>
+  <br>
+  <div id="statusMessagesToUser" style="">
+  </div>
+  <br>
+  <div class="" id="sessionList">
+    <table class="table-responsive table table-striped table-bordered" id="table-sessions">
+      <thead>
+        <tr class="fill-primary">
+          <th class="button-sort-ascending course-id-table-width toggle-sort" id="button_sortid">
+            Course ID
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none session-name-table-width toggle-sort" id="button_sortname">
+            Session Name
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th>
+            Submissions
+          </th>
+          <th>
+            Responses
+          </th>
+          <th>
+            <span class="tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
+              Response Rate
+            </span>
+          </th>
+          <th class="no-print">
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="col-md-12 text-muted">
+      Note: The table above doesn't contain sessions from archived courses and soft-deleted courses. To view sessions from an archived course, unarchive the course first; to view sessions from a soft-deleted course, restore the course first.
+    </p>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="align-center">
+      No records found.
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2 class="text-muted">
+      <span class="glyphicon glyphicon-trash">
+      </span>
+      Deleted feedback sessions
+    </h2>
+    <div class="panel">
+      <div class="panel-heading ajax_submit fill-default" data-target="#softDeletedSessionsBodyCollapse" id="softDeletedSessionsHeading">
+        <div class="pull-right margin-left-7px">
+          <span class="glyphicon ajax_submit glyphicon-chevron-down">
+          </span>
+        </div>
+        <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px session-delete-all-link color-negative" data-original-title="Permanently delete all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="btn-session-deleteall" title="">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          <strong>
+            Delete All
+          </strong>
+        </a>
+        <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="Restore all feedback sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreAllSessions?next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="btn-session-restoreall" title="">
+          <span class="glyphicon glyphicon-ok">
+          </span>
+          <strong>
+            Restore All
+          </strong>
+        </a>
+        <strong class="ajax_submit">
+          Recycle Bin
+        </strong>
+      </div>
+      <div class="panel-collapse collapse" id="softDeletedSessionsBodyCollapse">
+        <div class="panel-body padding-0">
+          <table class="table table-bordered table-striped margin-0" id="tableSoftDeletedFeedbackSessions">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr>
+                <th class="button-sort-none toggle-sort" id="btn_sortid">
+                  Course ID
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="btn_sortname">
+                  Session Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursecreateddate">
+                  Creation Date
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursedeleteddate">
+                  Deletion Date
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="align-center no-print">
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="softdeletedcourseid0">
+                  CFeedbackUiT.CS2106
+                </td>
+                <td id="softdeletedsessionname0">
+                  First Session #1
+                </td>
+                <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="softdeletedsessioncreateddate0">
+                  2 Apr 2012
+                </td>
+                <td data-date-stamp="2012-06-01T23:59:00Z" data-original-title="Sat, 02 Jun 2012, 01:59 AM" data-toggle="tooltip" id="softdeletedsessiondeleteddate0">
+                  2 Jun 2012
+                </td>
+                <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_session_restore0" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
+                    Restore
+                  </a>
+                  <a class="btn btn-default btn-xs t_session_delete0" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="First Session #1" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+                    Delete Permanently
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td id="softdeletedcourseid1">
+                  CFeedbackUiT.CS2106
+                </td>
+                <td id="softdeletedsessionname1">
+                  Second Session #2
+                </td>
+                <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="softdeletedsessioncreateddate1">
+                  2 Apr 2012
+                </td>
+                <td data-date-stamp="2012-06-01T23:59:00Z" data-original-title="Sat, 02 Jun 2012, 01:59 AM" data-toggle="tooltip" id="softdeletedsessiondeleteddate1">
+                  2 Jun 2012
+                </td>
+                <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_session_restore1" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
+                    Restore
+                  </a>
+                  <a class="btn btn-default btn-xs t_session_delete1" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="Second Session #2" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=Second+Session+%232&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+                    Delete Permanently
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td id="softdeletedcourseid2">
+                  CFeedbackUiT.CS2106
+                </td>
+                <td id="softdeletedsessionname2">
+                  Third Session #3
+                </td>
+                <td data-date-stamp="2012-04-01T23:59:00Z" data-original-title="Mon, 02 Apr 2012, 01:59 AM" data-toggle="tooltip" id="softdeletedsessioncreateddate2">
+                  2 Apr 2012
+                </td>
+                <td data-date-stamp="2012-06-01T23:59:00Z" data-original-title="Sat, 02 Jun 2012, 01:59 AM" data-toggle="tooltip" id="softdeletedsessiondeleteddate2">
+                  2 Jun 2012
+                </td>
+                <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_session_restore2" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS2106&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" title="">
+                    Restore
+                  </a>
+                  <a class="btn btn-default btn-xs t_session_delete2" data-course-id="CFeedbackUiT.CS2106" data-feedback-session-name="Third Session #3" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS2106&fsname=Third+Session+%233&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructorWithCS2106&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+                    Delete Permanently
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+            <span class="sr-only">
+              Close
+            </span>
+          </button>
+          <h4 class="modal-title" id="copyModalTitle">
+            Creating a new session by copying a previous session
+          </h4>
+        </div>
+        <div class="modal-body" id="copySessionsBody">
+          <form action="/page/instructorFeedbackCopy" class="form" id="copyModalForm" method="post" role="form">
+            <div class="form-group">
+              <label class="control-label" for="modalCopiedCourseId">
+                Create in course
+              </label>
+              <select class="form-control" id="modalCopiedCourseId" name="copiedcourseid">
+                <option value="CFeedbackUiT.CS2106">
+                  CFeedbackUiT.CS2106
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="modalCopiedSessionName">
+                Name for new session
+              </label>
+              <input class="form-control" id="modalCopiedSessionName" maxlength="38" name="copiedfsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value="">
+            </div>
+            <label>
+              Copy settings and questions from
+            </label>
+            <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
+              <thead class="fill-primary">
+                <tr>
+                  <th style="width:20px;">
+                     
+                  </th>
+                  <th>
+                    Course ID
+                  </th>
+                  <th>
+                    Feedback Session Name
+                  </th>
+                </tr>
+              </thead>
+            </table>
+            <input id="modalSessionName" name="fsname" type="hidden" value="">
+            <input id="modalCourseId" name="courseid" type="hidden" value="">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+            <input name="token" type="hidden" value="${sessionToken}">
+          </form>
+        </div>
+        <div class="modal-footer margin-0">
+          <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
+            Copy
+          </button>
+          <button class="btn btn-default" data-dismiss="modal" type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Copy this feedback session to other courses
+              <br>
+              <small>
+                (Select the course(s) you want to copy this feedback session to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="courseList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructorWithCS2106">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
