@@ -16,6 +16,7 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
   * [Security vulnerabilities](#security-vulnerabilities)
+  * [Data migration](#data-migration)
   * [Dependencies update](#dependencies-update)
   * [Branch management](#branch-management)
     * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
@@ -146,6 +147,31 @@ Security vulnerabilities, once reported and confirmed, should be treated as a ca
 
 Since the detail of such vulnerability cannot be disclosed until it is fixed, an issue can be created just before a PR for the fix is submitted, with minimal information (e.g. simply "Security vulnerability" as an issue with no further description).
 The complete details can be filled in just before merging and/or after the fix is deployed.
+
+### Data migration
+
+Data migration is necessary when changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes") are introduced.
+
+A data migration is initiated by the developer working on the breaking changes and will be handed over to the core team once both the breaking changes and the data migration script(s) are merged.
+
+An issue for data migration should have been created after the breaking changes are merged. If not, [create the data migration issue](https://github.com/TEAMMATES/teammates/issues/new?template=data-migration.md).
+
+**Role: RL**
+
+* Release and deploy the new version containing the breaking changes following the normal release workflow. It may be a normal release or a hot patch release.
+* Update the status of data migration in the issue accordingly and assign it to the PM.
+
+**Role: PM**
+
+* (Optional but recommended) Wait for some time to ascertain that the system is stable under the new data schema.
+* Run the data migration script on the live site.
+* Update the status of data migration in the issue accordingly and assign it to the RL.
+
+**Role: RL**
+
+* Remove the code that is specifically tailored for the old data schema or assign an active team member to do it.
+  * While this may be a suitable beginner-level issue, in the interest of keeping as few legacy code in the code base as possible, it should be done by a team member with a minimum delay.
+* Close the data migration issue.
 
 ### Dependencies update
 
