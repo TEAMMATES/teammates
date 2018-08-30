@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.e2e.pageobjects.Browser;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackSessionsPage extends AppPage {

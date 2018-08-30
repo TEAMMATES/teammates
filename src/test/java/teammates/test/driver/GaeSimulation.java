@@ -45,6 +45,9 @@ import teammates.ui.controller.ActionFactory;
  */
 public class GaeSimulation {
 
+    // This can be any valid URL; it is not used beyond validation
+    private static final String SIMULATION_BASE_URL = "http://localhost:8080";
+
     private static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 
     private static GaeSimulation instance = new GaeSimulation();
@@ -205,10 +208,10 @@ public class GaeSimulation {
 
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
 
-        WebRequest request = new PostMethodWebRequest("http://localhost" + uri);
+        WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);
 
         if (Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(uri)) {
-            request.setHeaderField("referer", "http://localhost");
+            request.setHeaderField("referer", SIMULATION_BASE_URL);
 
             String sessionId = sc.getSession(true).getId();
             String token = CryptoHelper.computeSessionToken(sessionId);
@@ -241,7 +244,7 @@ public class GaeSimulation {
         Map<String, Object> attributes = new HashMap<>();
         try {
             attributes.put("com.google.appengine.runtime.default_version_hostname",
-                    new URL(TestProperties.TEAMMATES_URL).getAuthority());
+                    new URL(SIMULATION_BASE_URL).getAuthority());
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

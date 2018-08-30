@@ -1,4 +1,4 @@
-package teammates.test.cases.browsertests;
+package teammates.e2e.cases.e2e;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +11,15 @@ import org.testng.annotations.BeforeSuite;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
-import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.pageobjects.BrowserPool;
+import teammates.e2e.util.TestProperties;
+import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 
@@ -25,9 +27,9 @@ import teammates.test.pageobjects.LoginPage;
  * Base class for all browser tests.
  *
  * <p>This type of test has no knowledge of the workings of the application,
- * and can only communicate via the UI or via {@link teammates.test.driver.BackDoor} to obtain/transmit data.
+ * and can only communicate via the UI or via {@link teammates.e2e.util.BackDoor} to obtain/transmit data.
  */
-public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
+public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     protected Browser browser;
     protected DataBundle testData;
@@ -50,6 +52,19 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     }
 
     protected abstract void prepareTestData() throws Exception;
+
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
+        // This overrides the same method in BaseTestCase, but due to the static-ness of the method,
+        // @Override cannot be applied.
+        try {
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                    + pathToJsonFileParam;
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            return JsonUtils.fromJson(jsonString, DataBundle.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @AfterClass
     public void baseClassTearDown() {

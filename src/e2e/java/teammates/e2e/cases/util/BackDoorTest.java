@@ -1,4 +1,4 @@
-package teammates.test.cases.testdriver;
+package teammates.e2e.cases.util;
 
 import java.time.ZoneId;
 
@@ -17,8 +17,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.e2e.util.BackDoor;
 import teammates.test.driver.Priority;
 
 /**

@@ -5,12 +5,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 
 /**
  * Verifies that the table sorting functions work.
  */
-public class TableSortTest extends BaseUiTestCase {
+public class TableSortTest extends BaseE2ETestCase {
     private AppPage page;
 
     @Override
