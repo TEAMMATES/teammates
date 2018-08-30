@@ -10,7 +10,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.AdminEmailPage;
 
 /**
@@ -19,7 +20,7 @@ import teammates.test.pageobjects.AdminEmailPage;
  *      {@link Const.ActionURIs#ADMIN_EMAIL_DRAFT_PAGE},
  *      {@link Const.ActionURIs#ADMIN_EMAIL_TRASH_PAGE}.
  */
-public class AdminEmailPageUiTest extends BaseUiTestCase {
+public class AdminEmailPageUiTest extends BaseE2ETestCase {
 
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
