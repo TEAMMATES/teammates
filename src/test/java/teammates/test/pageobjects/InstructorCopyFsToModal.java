@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.Browser;
 
 /**
  * Page Object class for handling the modal for copying a feedback session to multiple courses.

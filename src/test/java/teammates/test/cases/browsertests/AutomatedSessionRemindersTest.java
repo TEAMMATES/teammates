@@ -7,6 +7,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.GenericAppPage;
@@ -18,7 +19,7 @@ import teammates.test.pageobjects.GenericAppPage;
  *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
  */
 @Priority(5)
-public class AutomatedSessionRemindersTest extends BaseUiTestCase {
+public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {

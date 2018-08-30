@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.e2e.cases;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -12,7 +12,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.util.BackDoor;
+import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.

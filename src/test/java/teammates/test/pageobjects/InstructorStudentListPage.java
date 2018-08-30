@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.Browser;
 
 public class InstructorStudentListPage extends AppPage {
 

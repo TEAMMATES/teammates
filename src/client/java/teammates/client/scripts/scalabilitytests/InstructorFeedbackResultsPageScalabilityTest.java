@@ -6,7 +6,7 @@ import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -14,7 +14,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  *
  * <p>Run InstructorFeedbackResultsPageScaleTestDataGenerator.java before running the tests.
  */
-public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase {
+public class InstructorFeedbackResultsPageScalabilityTest extends BaseE2ETestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
     private static final Logger log = Logger.getLogger();

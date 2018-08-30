@@ -66,4 +66,4 @@ build-eclipse/
 /.stylelintrc.yml
 
 ### Gmail API Credentials ###
-/src/test/resources/gmail-api/
+/src/e2e/resources/gmail-api/

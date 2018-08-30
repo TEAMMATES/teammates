@@ -5,6 +5,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import teammates.e2e.pageobjects.Browser;
+
 public class AdminEmailLogPage extends AppPage {
 
     public AdminEmailLogPage(Browser browser) {
