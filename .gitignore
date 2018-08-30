@@ -49,4 +49,4 @@ src/main/webapp/dist
 src/main/webapp/assets
 src/client/java/teammates/client/scripts/scalabilitytests/data/
 src/client/java/teammates/client/scripts/statistics/data/
-src/test/resources/gmail-api/
+src/e2e/resources/gmail-api/

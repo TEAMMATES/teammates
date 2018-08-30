@@ -1,4 +1,4 @@
-package teammates.test.cases.testdriver;
+package teammates.e2e.cases.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,32 +11,29 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FileHelper;
 
 /**
- * Verifies that the testng-component.xml configuration file contains all the component test cases in the project.
+ * Verifies that the testng-e2e.xml configuration file contains all the E2E test cases in the project.
  */
-public class TestNgComponentXmlTest extends BaseTestCase {
+public class TestNgXmlTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestNg() throws IOException {
-        String testNgXml = FileHelper.readFile("./src/test/testng-component.xml");
+        String testNgXml = FileHelper.readFile("./src/e2e/resources/testng-e2e.xml");
 
         // <class name, package name>
-        Map<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
+        Map<String, String> testFiles = getTestFiles(testNgXml, "./src/e2e/java/teammates/e2e/cases");
 
         testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
     }
 
     /**
-     * Files to be checked in testng-component.xml are added to testFiles.
+     * Files to be checked in testng-e2e.xml are added to testFiles.
      *
-     * @param testNgXml    Contents of testng-component.xml
+     * @param testNgXml    Contents of testng-e2e.xml
      * @param rootPath     Root path of test files
      * @return             Map containing {@code <class name, package name>}
      */
     private Map<String, String> getTestFiles(String testNgXml, String rootPath) {
-        // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because
-        // base classes are extended by the actual tests
-
-        return addFilesToTestsRecursively(rootPath, true, "teammates.test.cases", testNgXml);
+        return addFilesToTestsRecursively(rootPath, true, "teammates.e2e.cases", testNgXml);
     }
 
     private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
@@ -44,7 +41,7 @@ public class TestNgComponentXmlTest extends BaseTestCase {
     }
 
     /**
-     * Recursively adds files from testng-component.xml which are to be checked.
+     * Recursively adds files from testng-e2e.xml which are to be checked.
      *
      * @param path                            Check files and directories in the current path
      *
@@ -52,7 +49,7 @@ public class TestNgComponentXmlTest extends BaseTestCase {
      *                                        added to tests but sub-directories are still checked
      *
      * @param packageName                     Package name of the current file
-     * @param testNgXml                       Contents of testng-component.xml
+     * @param testNgXml                       Contents of testng-e2e.xml
      *
      * @return                                Map containing {@code <class name, package name>} including
      *                                        current file or tests in the current directory
@@ -71,10 +68,10 @@ public class TestNgComponentXmlTest extends BaseTestCase {
             String name = file.getName();
 
             if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
-                    && !name.startsWith("BackDoorTest") && !areFilesInCurrentDirExcluded) {
+                    && !name.startsWith("BaseE2ETestCase") && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
-            } else if (file.isDirectory() && !name.endsWith("browsertests")) {
+            } else if (file.isDirectory()) {
                 // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
 
