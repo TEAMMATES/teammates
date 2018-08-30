@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AdminEmailLogPage;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_EMAIL_LOG_PAGE}.
  */
-public class AdminEmailLogPageUiTest extends BaseUiTestCase {
+public class AdminEmailLogPageUiTest extends BaseE2ETestCase {
 
     private static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
 

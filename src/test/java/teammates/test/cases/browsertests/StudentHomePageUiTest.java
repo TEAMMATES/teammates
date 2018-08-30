@@ -8,15 +8,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
  * SUT: {@link Const.ActionURIs#STUDENT_HOME_PAGE}.
  */
-public class StudentHomePageUiTest extends BaseUiTestCase {
+public class StudentHomePageUiTest extends BaseE2ETestCase {
     private StudentHomePage studentHome;
 
     @Override

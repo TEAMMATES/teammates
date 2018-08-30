@@ -1,4 +1,4 @@
 /**
- * E2E test cases for testing the application as a whole via the Web browser.
+ * Contains E2E test cases.
  */
 package teammates.e2e.cases;
