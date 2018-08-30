@@ -2,10 +2,9 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.List;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.VoidWork;
+import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.entity.FeedbackSession;
 
@@ -26,36 +25,37 @@ import teammates.storage.entity.FeedbackSession;
  * </ul>
  * </p>
  */
-public class DataMigrationForSessions extends DataMigrationBaseScript<Key<FeedbackSession>> {
+public class DataMigrationForSessions extends DataMigrationWithCheckpointForEntities<FeedbackSession> {
 
     public static void main(String[] args) throws IOException {
         new DataMigrationForSessions().doOperationRemotely();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    protected Query<FeedbackSession> getFilterQuery() {
+        return ofy().load().type(FeedbackSession.class);
+    }
+
     @Override
     protected boolean isPreview() {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List<Key<FeedbackSession>> getEntities() {
-        return ofy().load().type(FeedbackSession.class).keys().list();
+    protected String getLastPositionOfCursor() {
+        return "";
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    protected int getCursorInformationPrintCycle() {
+        return 100;
+    }
+
     @Override
     protected boolean isMigrationNeeded(Key<FeedbackSession> sessionKey) {
         FeedbackSession session = ofy().load().key(sessionKey).now();
         try {
-            Field followingCourseTimeZoneField = session.getClass().getDeclaredField("wasFollowingCourseTimeZone");
+            Field followingCourseTimeZoneField = session.getClass().getDeclaredField("isFollowingCourseTimeZone");
             followingCourseTimeZoneField.setAccessible(true);
             return !followingCourseTimeZoneField.getBoolean(session);
         } catch (ReflectiveOperationException e) {
@@ -63,33 +63,10 @@ public class DataMigrationForSessions extends DataMigrationBaseScript<Key<Feedba
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected void printPreviewInformation(Key<FeedbackSession> sessionKey) {
-        // nothing to do
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void migrate(Key<FeedbackSession> sessionKey) {
-        ofy().transact(new VoidWork() {
-            @Override
-            public void vrun() {
-                FeedbackSession session = ofy().load().key(sessionKey).now();
-                ofy().save().entity(session).now();
-            }
-        });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void postAction() {
-        // nothing to do
+    protected void migrateEntity(Key<FeedbackSession> sessionKey) {
+        // simply load then save the entity and let @OnLoad do the migration
+        FeedbackSession session = ofy().load().key(sessionKey).now();
+        ofy().save().entity(session).now();
     }
 }
