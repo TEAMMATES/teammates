@@ -303,7 +303,7 @@ function bindStudentPhotoHoverLink(elements) {
 }
 
 /**
- * Returns the HTML required to render the soft deleted courses/sessions as an unordered list.
+ * Returns the HTML required to render the items as an unordered list.
  */
 function generateUnorderedListHtml(items) {
     return `\
@@ -371,8 +371,8 @@ function bindCourseDeleteAllLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const softDeletedCourseIds = $('[id^="softdeletedcourseid"]').toArray()
-                .map(softDeletedCourseIdElement => $(softDeletedCourseIdElement).data('softDeletedCourseId'));
+        const softDeletedCourseIds = $('[id^="softdeletedcourseelement"]').toArray()
+                .map(softDeletedCourseElement => $(softDeletedCourseElement).data('courseId'));
         const message = `<p>Are you sure you want to permanently delete the following ${softDeletedCourseIds.length} courses in the <b>Recycle Bin</b>? This operation will delete all students and sessions in these courses. All instructors of these courses will not be able to access them hereafter as well.</p>
 ${generateUnorderedListHtml(softDeletedCourseIds)}`;
         const okCallback = function () {
@@ -405,9 +405,8 @@ function bindSessionDeleteAllLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const softDeletedSessionItems = $('[id^="softdeletedcourseid"]').toArray()
-                .map(sessionItems => ({ courseId: $(sessionItems).data('softDeletedCourseId'), sessionsName: $(sessionItems).data('softDeletedSessionName') }))
-                .map(sessionItems => `${sessionItems.courseId}: ${sessionItems.sessionsName}`);
+        const softDeletedSessionItems = $('[id^="softdeletedsessionelement"]').toArray()
+                .map(softDeletedSessionElement => `${$(softDeletedSessionElement).data('courseId')}: ${$(softDeletedSessionElement).data('sessionName')}`);
         const message = `<p>Are you sure you want to permanently delete the following ${softDeletedSessionItems.length} feedback sessions in the <b>Recycle Bin</b>?</p>
 ${generateUnorderedListHtml(softDeletedSessionItems)}`;
         const okCallback = function () {

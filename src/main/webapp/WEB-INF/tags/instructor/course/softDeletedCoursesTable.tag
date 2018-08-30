@@ -24,8 +24,8 @@
     </tr>
   </thead>
   <c:forEach items="${softDeletedCourses.rows}" var="softDeletedCourse" varStatus="i">
-    <tr>
-      <td id="softdeletedcourseid${i.index}" data-soft-deleted-course-id="${softDeletedCourse.courseId}">${softDeletedCourse.courseId}</td>
+    <tr id="softdeletedcourseelement${i.index}" data-course-id="${softDeletedCourse.courseId}">
+      <td id="softdeletedcourseid${i.index}">${softDeletedCourse.courseId}</td>
       <td id="softdeletedcoursename${i.index}">${softDeletedCourse.courseName}</td>
       <td
           id="softdeletedcoursecreateddate${i.index}"
