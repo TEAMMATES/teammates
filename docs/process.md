@@ -119,8 +119,8 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      ./gradlew lint
      npm run lint
      ```
-   * **Dev green**, i.e. all *local tests* are passing on your dev server.<br>
-     You are more than welcome to also ensure all *CI tests* are passing on your dev server.
+   * **All affected tests are passing** on your dev server.<br>
+     You are more than welcome to also ensure *dev green*, i.e. all tests are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
      ensure that the affected tests are passing against the updated app running on your own GAE staging server.
    * **No unrelated changes** are introduced in the branch. This includes unnecessary formatting changes.

@@ -48,4 +48,4 @@ chromedriver*
 src/main/webapp/dist
 src/main/webapp/assets
 src/client/java/teammates/client/scripts/scalabilitytests/data/
-src/test/resources/gmail-api/
+src/e2e/resources/gmail-api/

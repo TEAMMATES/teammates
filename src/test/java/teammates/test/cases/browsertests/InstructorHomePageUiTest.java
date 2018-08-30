@@ -12,7 +12,8 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Url;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -23,7 +24,7 @@ import teammates.test.pageobjects.InstructorHomePage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_HOME_PAGE}.
  */
-public class InstructorHomePageUiTest extends BaseUiTestCase {
+public class InstructorHomePageUiTest extends BaseE2ETestCase {
     private InstructorHomePage homePage;
 
     private FeedbackSessionAttributes feedbackSessionAwaiting;
