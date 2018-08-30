@@ -184,8 +184,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(expectedEntity.getNationality(), actualEntity.getNationality());
         assertEquals(expectedEntity.getGender(), actualEntity.getGender());
         assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
-        assertEquals(expectedEntity.getModifiedDate().toString(),
-                     actualEntity.getModifiedDate().toString());
         assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
     }
 
