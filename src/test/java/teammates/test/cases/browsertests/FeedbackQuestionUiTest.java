@@ -2,12 +2,13 @@ package teammates.test.cases.browsertests;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
  * Base class for all Feedback*QuestionUiTest.
  */
-public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
+public abstract class FeedbackQuestionUiTest extends BaseE2ETestCase {
 
     protected abstract void testNewQuestionFrame();
 
