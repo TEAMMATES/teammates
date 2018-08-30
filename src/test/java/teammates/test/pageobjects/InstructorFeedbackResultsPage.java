@@ -20,6 +20,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTask;
+import teammates.e2e.pageobjects.Browser;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 

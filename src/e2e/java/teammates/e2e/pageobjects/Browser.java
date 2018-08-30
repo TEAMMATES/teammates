@@ -9,7 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-import teammates.test.driver.TestProperties;
+import teammates.e2e.util.TestProperties;
 
 /**
  * A programmatic interface to the Browser used to test the app.
@@ -17,15 +17,21 @@ import teammates.test.driver.TestProperties;
 public class Browser {
 
     /**
+     * The {@link WebDriver} object that drives the Browser instance.
+     */
+    // TODO change this to private once all legacy UI tests are migrated
+    public WebDriver driver;
+
+    /**
+     * Indicates whether the app is being used by an admin.
+     */
+    public boolean isAdminLoggedIn;
+
+    /**
      * Indicates to the {@link BrowserPool} that this object is currently being used
      * and not ready to be reused by another test.
      */
     boolean isInUse;
-
-    /**
-     * The {@link WebDriver} object that drives the Browser instance.
-     */
-    private WebDriver driver;
 
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
@@ -36,6 +42,7 @@ public class Browser {
         driver = createWebDriver();
         driver.manage().window().maximize();
         isInUse = false;
+        isAdminLoggedIn = false;
     }
 
     /**

@@ -3,6 +3,8 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.e2e.pageobjects.Browser;
+
 public class StudentCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
     private WebElement confirmButton;
