@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.e2e.pageobjects.Browser;
 
 public class AdminActivityLogPage extends AppPage {
 

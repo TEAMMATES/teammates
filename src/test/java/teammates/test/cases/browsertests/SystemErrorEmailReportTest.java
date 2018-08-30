@@ -11,12 +11,13 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 
 /**
  * Verifies that various system error report emails should or should not be sent to the admin.
  */
-public class SystemErrorEmailReportTest extends BaseUiTestCase {
+public class SystemErrorEmailReportTest extends BaseE2ETestCase {
     private AppPage page;
 
     @Override

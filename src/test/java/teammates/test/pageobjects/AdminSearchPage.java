@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.e2e.pageobjects.Browser;
 import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPage extends AppPage {

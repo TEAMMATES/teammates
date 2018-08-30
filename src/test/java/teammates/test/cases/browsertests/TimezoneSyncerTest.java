@@ -12,13 +12,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 
 /**
  * Verifies that the timezone databases in momentjs and java.time are consistent and up-to-date.
  *
  * <p>Implemented as a browser test as both back-end and front-end methods are involved.
  */
-public class TimezoneSyncerTest extends BaseUiTestCase {
+public class TimezoneSyncerTest extends BaseE2ETestCase {
 
     private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
 
