@@ -1,4 +1,4 @@
-package teammates.e2e.util;
+package teammates.test.driver;
 
 import static org.junit.Assert.assertEquals;
 

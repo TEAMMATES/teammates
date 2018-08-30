@@ -1,9 +1,9 @@
-package teammates.e2e.cases.util;
+package teammates.test.cases.testdriver;
 
 import org.testng.annotations.Test;
 
-import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.TestProperties;
 
 /**
  * SUT: {@link TestProperties}.
@@ -11,8 +11,7 @@ import teammates.test.cases.BaseTestCase;
 public class TestPropertiesTest extends BaseTestCase {
 
     @Test
-    public void testGodModeFlag() {
-        assertFalse(TestProperties.IS_GODMODE_ENABLED);
+    public void testConstruction() {
+        assertNotNull(TestProperties.TEAMMATES_VERSION);
     }
-
 }

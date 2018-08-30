@@ -5,8 +5,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import teammates.e2e.pageobjects.Browser;
-
 public class StudentHomePage extends AppPage {
 
     public StudentHomePage(Browser browser) {

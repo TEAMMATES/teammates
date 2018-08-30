@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
-import teammates.e2e.pageobjects.Browser;
 
 public class StudentProfilePage extends AppPage {
 

@@ -9,14 +9,13 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AdminActivityLogPage;
 import teammates.test.pageobjects.AdminSearchPage;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_ACTIVITY_LOG_PAGE}.
  */
-public class AdminActivityLogPageUiTest extends BaseE2ETestCase {
+public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
     private AdminActivityLogPage logPage;
 

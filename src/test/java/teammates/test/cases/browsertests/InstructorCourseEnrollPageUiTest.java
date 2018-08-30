@@ -5,8 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseEnrollResultPage;
@@ -15,7 +14,7 @@ import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
  */
-public class InstructorCourseEnrollPageUiTest extends BaseE2ETestCase {
+public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private InstructorCourseEnrollPage enrollPage;
 
     @Override

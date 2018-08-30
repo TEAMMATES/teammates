@@ -1,4 +1,4 @@
 /**
- * Contains component test cases.
+ * Contains test cases.
  */
 package teammates.test.cases;

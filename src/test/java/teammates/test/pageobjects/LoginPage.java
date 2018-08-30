@@ -1,7 +1,5 @@
 package teammates.test.pageobjects;
 
-import teammates.e2e.pageobjects.Browser;
-
 public abstract class LoginPage extends AppPage {
 
     public LoginPage(Browser browser) {

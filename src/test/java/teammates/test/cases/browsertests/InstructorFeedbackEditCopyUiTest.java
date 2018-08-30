@@ -5,13 +5,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_COPY}.
  */
-public class InstructorFeedbackEditCopyUiTest extends BaseE2ETestCase {
+public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private String instructorId;
     private String courseId;
     private String feedbackSessionName;

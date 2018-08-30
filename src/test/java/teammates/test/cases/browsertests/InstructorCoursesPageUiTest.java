@@ -10,8 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
@@ -21,7 +20,7 @@ import teammates.test.pageobjects.InstructorCoursesPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSES_PAGE}.
  */
-public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
+public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     /* Comments given as 'Explanation:' are extra comments added to train
      * developers. They are not meant to be repeated when you write similar
      * classes.

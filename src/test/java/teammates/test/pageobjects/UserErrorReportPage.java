@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.Browser;
 
 public class UserErrorReportPage extends AppPage {
 

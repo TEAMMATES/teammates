@@ -7,8 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.AdminAccountManagementPage;
 import teammates.test.pageobjects.AdminActivityLogPage;
@@ -16,7 +15,7 @@ import teammates.test.pageobjects.AdminActivityLogPage;
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_MANAGEMENT_PAGE}.
  */
-public class AdminAccountManagementPageUiTest extends BaseE2ETestCase {
+public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private AdminAccountManagementPage accountsPage;
 
     @Override

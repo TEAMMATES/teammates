@@ -12,11 +12,10 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
@@ -28,7 +27,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
  */
 @Priority(-1)
-public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
+public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     private InstructorStudentListPage viewPage;
 
     @Override

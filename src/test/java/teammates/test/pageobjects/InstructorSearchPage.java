@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.Browser;
 
 public class InstructorSearchPage extends AppPage {
 

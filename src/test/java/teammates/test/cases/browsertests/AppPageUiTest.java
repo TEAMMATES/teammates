@@ -3,13 +3,12 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 
 /**
  * SUT: {@link AppPage}.
  */
-public class AppPageUiTest extends BaseE2ETestCase {
+public class AppPageUiTest extends BaseUiTestCase {
     private AppPage page;
 
     @Override

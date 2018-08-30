@@ -4,13 +4,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#STUDENT_COURSE_DETAILS_PAGE}.
  */
-public class StudentCourseDetailsPageUiTest extends BaseE2ETestCase {
+public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {

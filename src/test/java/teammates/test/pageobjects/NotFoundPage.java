@@ -1,7 +1,5 @@
 package teammates.test.pageobjects;
 
-import teammates.e2e.pageobjects.Browser;
-
 public class NotFoundPage extends AppPage {
 
     public NotFoundPage(Browser browser) {

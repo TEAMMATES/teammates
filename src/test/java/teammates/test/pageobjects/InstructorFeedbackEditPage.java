@@ -27,8 +27,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.pageobjects.Browser;
-import teammates.e2e.util.TestProperties;
+import teammates.test.driver.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {

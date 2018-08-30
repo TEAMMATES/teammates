@@ -1,4 +1,4 @@
-package teammates.e2e.util;
+package teammates.test.driver;
 
 import java.io.File;
 import java.io.FileNotFoundException;

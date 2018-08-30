@@ -6,9 +6,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -18,7 +17,7 @@ import teammates.test.pageobjects.StudentHomePage;
  *      {@link Const.ActionURIs#STUDENT_COURSE_JOIN_AUTHENTICATED},
  *      {@link Const.ActionURIs#STUDENT_COURSE_JOIN_NEW}.
  */
-public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
+public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private StudentCourseJoinConfirmationPage confirmationPage;
 
     @Override

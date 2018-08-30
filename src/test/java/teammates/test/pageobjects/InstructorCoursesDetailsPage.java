@@ -3,8 +3,6 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import teammates.e2e.pageobjects.Browser;
-
 public class InstructorCoursesDetailsPage extends AppPage {
 
     public InstructorCoursesDetailsPage(Browser browser) {
