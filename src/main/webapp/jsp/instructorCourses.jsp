@@ -24,7 +24,7 @@
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
   <br>
 
-  <div id="coursesList" class="align-center">
+  <div id="coursesList" class="courses-tables align-center">
     <c:if test="${data.usingAjax}">
       <course:activeCoursesTable activeCourses="${data.activeCourses}"/>
       <br>
@@ -39,6 +39,14 @@
       <c:if test="${not empty data.archivedCourses.rows}">
         <course:archivedCoursesTable archivedCourses="${data.archivedCourses}"
             activeCourses="${data.activeCourses}"/>
+        <br>
+        <br>
+        <br>
+        <br>
+      </c:if>
+
+      <c:if test="${not empty data.softDeletedCourses.rows}">
+        <course:softDeletedCoursesPanel />
         <br>
         <br>
         <br>

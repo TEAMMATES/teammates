@@ -51,7 +51,7 @@ public class InstructorFeedbackResultsResponseRowTest extends BaseTestCase {
     private InstructorFeedbackResultsResponseRow createNewFeedbackResponseRow(String giverTeam,
             String giverDisplayableIdentifier) {
         return new InstructorFeedbackResultsResponseRow(giverDisplayableIdentifier, giverTeam, null, null,
-                null, null);
+                null, null, false);
     }
 
 }

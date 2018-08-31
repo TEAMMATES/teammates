@@ -1,0 +1,1840 @@
+{
+  "accounts": {
+    "IFRResponseCommentUiT.instr": {
+      "googleId": "IFRResponseCommentUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.instr2": {
+      "googleId": "IFRResponseCommentUiT.instr2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "IFRResponseCommentUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.helper1": {
+      "googleId": "IFRResponseCommentUiT.helper1",
+      "name": "Teammates Helper",
+      "isInstructor": true,
+      "email": "IFRResponseCommentUiT.helper1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.helper2": {
+      "googleId": "IFRResponseCommentUiT.helper2",
+      "name": "Teammates Helper",
+      "isInstructor": true,
+      "email": "IFRResponseCommentUiT.helper2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.alice.b": {
+      "googleId": "IFRResponseCommentUiT.alice.b",
+      "name": "Alice B.",
+      "isInstructor": false,
+      "email": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.benny.c": {
+      "googleId": "IFRResponseCommentUiT.benny.c",
+      "name": "Benny C.",
+      "isInstructor": false,
+      "email": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.charlie.d": {
+      "googleId": "IFRResponseCommentUiT.charlie.d",
+      "name": "Charlie D.",
+      "isInstructor": false,
+      "email": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.danny.e": {
+      "googleId": "IFRResponseCommentUiT.danny.e",
+      "name": "Danny E.",
+      "isInstructor": false,
+      "email": "IFRResponseCommentUiT.danny.e@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.emily.f": {
+      "googleId": "IFRResponseCommentUiT.emily.f",
+      "name": "Emily F.",
+      "isInstructor": false,
+      "email": "IFRResponseCommentUiT.emily.f@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "IFRResponseCommentUiT.fred.g": {
+      "googleId": "IFRResponseCommentUiT.fred.g",
+      "name": "Fred Gabriel",
+      "isInstructor": false,
+      "email": "IFRResponseCommentUiT.fred.g@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "IFRResponseCommentUiT.CS2104": {
+      "id": "IFRResponseCommentUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "IFRResponseCommentUiT.SanitizedTeam": {
+      "id": "IFRResponseCommentUiT.SanitizedTeam",
+      "name": "Sanization Concepts",
+      "timeZone": "UTC"
+    },
+    "IFRResponseCommentUiT.NoSections": {
+      "id": "IFRResponseCommentUiT.NoSections",
+      "name": "NoSection Course",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "IFRResponseCommentUiT.instr": {
+      "googleId": "IFRResponseCommentUiT.instr",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "IFRResponseCommentUiT.instr2": {
+      "googleId": "IFRResponseCommentUiT.instr2",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "name": "Teammates Test2",
+      "email": "IFRResponseCommentUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "IFRResponseCommentUiT.helper1": {
+      "googleId": "IFRResponseCommentUiT.helper1",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "name": "Teammates Helper1",
+      "email": "IFRResponseCommentUiT.helper1@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {
+          "Section B": {
+            "canviewstudentinsection": false,
+            "cansubmitsessioninsection": true,
+            "canmodifysessioncommentinsection": true,
+            "canviewsessioninsection": true
+          }
+        },
+        "sessionLevel": {}
+      }
+    },
+    "IFRResponseCommentUiT.helper2": {
+      "googleId": "IFRResponseCommentUiT.helper2",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "name": "Teammates Helper2",
+      "email": "IFRResponseCommentUiT.helper2@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {
+          "Section A": {
+            "canviewstudentinsection": false,
+            "cansubmitsessioninsection": true,
+            "canmodifysessioncommentinsection": true,
+            "canviewsessioninsection": true
+          }
+        },
+        "sessionLevel": {}
+      }
+    },
+    "IFRResponseCommentUiT.SanitizedTeam.instr": {
+      "googleId": "IFRResponseCommentUiT.instr",
+      "courseId": "IFRResponseCommentUiT.SanitizedTeam",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "inst'\"/><script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "IFRResponseCommentUiT.NoSections.instr": {
+      "googleId": "IFRResponseCommentUiT.instr",
+      "courseId": "IFRResponseCommentUiT.NoSections",
+      "name": "Teammates Test",
+      "email": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "Alice": {
+      "googleId": "IFRResponseCommentUiT.alice.b",
+      "email": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Alice Betsy</td>'\"",
+      "comments": "This student's name is Alice Betsy</td>'\"",
+      "team": "Team 1</td></div>'\"",
+      "section": "Section A"
+    },
+    "Benny": {
+      "googleId": "IFRResponseCommentUiT.benny.c",
+      "email": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\"",
+      "section": "Section A"
+    },
+    "Fred": {
+      "googleId": "IFRResponseCommentUiT.fred.g",
+      "email": "IFRResponseCommentUiT.fred.g@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Fred Gabriel",
+      "comments": "This student's name is Fred Gabriel",
+      "team": "Team 1</td></div>'\"",
+      "section": "Section A"
+    },
+    "ExtraGuy": {
+      "googleId": "extra.guy",
+      "email": "extra.guy@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Extra guy",
+      "comments": "This student will move to a new team after evaluation created",
+      "team": "Team 2",
+      "section": "Section A"
+    },
+    "DropOut": {
+      "googleId": "",
+      "email": "drop.out@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Drop out",
+      "comments": "This student will drop out after evaluation created",
+      "team": "Team 2",
+      "section": "Section A"
+    },
+    "Charlie": {
+      "googleId": "IFRResponseCommentUiT.charlie.d",
+      "email": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Charlie Dávis",
+      "comments": "This student's name is Charlie Dávis",
+      "team": "Team 2",
+      "section": "Section A"
+    },
+    "Danny": {
+      "googleId": "IFRResponseCommentUiT.danny.e",
+      "email": "IFRResponseCommentUiT.danny.e@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "Section A"
+    },
+    "Emily": {
+      "googleId": "IFRResponseCommentUiT.emily.f",
+      "email": "IFRResponseCommentUiT.emily.f@gmail.tmt",
+      "course": "IFRResponseCommentUiT.CS2104",
+      "name": "Emily",
+      "comments": "This student's name is Emily",
+      "team": "Team 3",
+      "section": "Section B"
+    },
+    "Sanitized.Alice": {
+      "googleId": "IFRResponseCommentUiT.alice.b",
+      "email": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "course": "IFRResponseCommentUiT.SanitizedTeam",
+      "name": "Alic'e Bets'y</td></div>'\"",
+      "comments": "This student's name is Alic'e Bets'y</td></div>'\"",
+      "team": "Team '1</td></div>'\"",
+      "section": "Section A</td></div>'\""
+    },
+    "Sanitized.Benny": {
+      "googleId": "IFRResponseCommentUiT.benny.c",
+      "email": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "course": "IFRResponseCommentUiT.SanitizedTeam",
+      "name": "Benn'y Charle's",
+      "comments": "This student's name is Benn'y Charle's</td></div>'\"",
+      "team": "Team '1</td></div>'\"",
+      "section": "Section A</td></div>'\""
+    },
+    "NoSections.Benny": {
+      "googleId": "IFRResponseCommentUiT.benny.no",
+      "email": "IFRResponseCommentUiT.benny.no@gmail.tmt",
+      "course": "IFRResponseCommentUiT.NoSections",
+      "name": "Benn'y Charle's",
+      "comments": "This student's name is Benn'y Charle's</td></div>'\"",
+      "team": "Team '1</td></div>'\""
+    }
+  },
+  "feedbackSessions": {
+    "Open Session": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Unpublished Session": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the second feedback session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 20,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Empty Session": {
+      "feedbackSessionName": "Third Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the last feedback session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 20,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Session with errors": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "This session has errors"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 20,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Session with sanitized data": {
+      "feedbackSessionName": "Sanitized Session",
+      "courseId": "IFRResponseCommentUiT.SanitizedTeam",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "This session has errors"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 20,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Session with no sections": {
+      "feedbackSessionName": "NoSections Session",
+      "courseId": "IFRResponseCommentUiT.NoSections",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "This session has errors"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 20,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Session with Instructors as Givers": {
+      "feedbackSessionName": "Instructors as Givers",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Session with Instructors as Givers"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1InNoSectionsSession": {
+      "feedbackSessionName": "NoSections Session",
+      "courseId": "IFRResponseCommentUiT.NoSections",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Dummy question for NoSections course session"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "STUDENTS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn1InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 3 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "STUDENTS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "What is the best selling point of your product?"
+      },
+      "questionNumber": 2,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn3InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "My comments on the class"
+      },
+      "questionNumber": 3,
+      "questionType": "TEXT",
+      "giverType": "SELF",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": []
+    },
+    "qn4InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to 3 other teams."
+      },
+      "questionNumber": 4,
+      "questionType": "TEXT",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn5InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to your team mates"
+      },
+      "questionNumber": 5,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn6InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "This question should be hidden."
+      },
+      "questionNumber": 6,
+      "questionType": "TEXT",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn7InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":4,\"mcqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 7,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn8InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 8,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn9InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Who do you think is the most hardworking student?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 9,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn10InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Which team do you think has the best feature?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 10,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Who are your teammates?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 2,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn3InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Which teams do you like?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 3,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn4InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 4,
+      "questionType": "NUMSCALE",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn5InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+      },
+      "questionNumber": 5,
+      "questionType": "CONSTSUM",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn6InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+      },
+      "questionNumber": 6,
+      "questionType": "CONSTSUM",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn7InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",\"questionType\":\"CONTRIB\"}"
+      },
+      "questionNumber": 7,
+      "questionType": "CONTRIB",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn8InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate you and your team members work.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 8,
+      "questionType": "NUMSCALE",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": []
+    },
+    "qn9InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":-5,\"questionText\":\"Rate the class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.25}"
+      },
+      "questionNumber": 9,
+      "questionType": "NUMSCALE",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn1InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to your instructors"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn10InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Rate the contribution of ideas from yourself and your team members in the last meeting.\",\"questionType\":\"CONTRIB\"}"
+      },
+      "questionNumber": 10,
+      "questionType": "CONTRIB",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": []
+    },
+    "qn11InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "As a team, what do you think could have been done differently?"
+      },
+      "questionNumber": 11,
+      "questionType": "TEXT",
+      "giverType": "TEAMS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn12InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":0,\"questionText\":\"Rate the class as a team\",\"questionType\":\"NUMSCALE\",\"maxScale\":1000,\"step\":5}"
+      },
+      "questionNumber": 12,
+      "questionType": "NUMSCALE",
+      "giverType": "TEAMS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn1InSession4": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "As a team, what do you think could have been done differently?"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "TEAMS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InSession4": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+      },
+      "questionNumber": 2,
+      "questionType": "CONSTSUM",
+      "giverType": "TEAMS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": []
+    },
+    "qn1InSanitizedSession": {
+      "feedbackSessionName": "Sanitized Session",
+      "courseId": "IFRResponseCommentUiT.SanitizedTeam",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Some question text. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "questionDescription": {
+        "value": "<p> Some  question description. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn1InInstructorsAsGivers": {
+      "feedbackSessionName": "Instructors as Givers",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 3 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS",
+        "RECEIVER"
+      ]
+    },
+    "qn11InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "This is a dummy question to test default sort"
+      },
+      "questionNumber": 11,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "STUDENTS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "Alice self feedback."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "2 Response to Benny."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.danny.e@gmail.tmt",
+      "responseMetaData": {
+        "value": "1 Response to Danny."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response3a": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "drop.out@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response to Dropout."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response3b": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "drop.out@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response to Alice from Dropout."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response3c": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "drop.out@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.danny.e@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response to Danny from Dropout."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response3d": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "drop.out@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response to Benny from Dropout."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response4": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.emily.f@gmail.tmt",
+      "responseMetaData": {
+        "value": "3 Response to Emily."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    },
+    "response5": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "responseMetaData": {
+        "value": "4 Response to Charlie."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response5b": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.fred.g@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "responseMetaData": {
+        "value": "Fred's Response to Charlie."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response6": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "MCQ",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"PowerSearch\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "mcqResponse6a": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "MCQ",
+      "giver": "drop.out@gmail.tmt",
+      "recipient": "drop.out@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"PowerSearch\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response7": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "8",
+      "feedbackQuestionType": "MSQ",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"PowerSearch\",\"GoodUI\"],\"questionType\":\"MSQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response8": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "8",
+      "feedbackQuestionType": "MSQ",
+      "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"\"],\"questionType\":\"MSQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response9": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "9",
+      "feedbackQuestionType": "MCQ",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"Danny\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response10": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "10",
+      "feedbackQuestionType": "MCQ",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"Team 1\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "mcqResponse10a": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "10",
+      "feedbackQuestionType": "MCQ",
+      "giver": "drop.out@gmail.tmt",
+      "recipient": "drop.out@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"Team 2\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "responseForTEAMQuestion": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "11",
+      "feedbackQuestionType": "TEXT",
+      "giver": "Team 1</td></div>'\"",
+      "recipient": "Team 1</td></div>'\"",
+      "responseMetaData": {
+        "value": "Response from benny to Team 1 (own team)"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "responseForTEAMQuestion2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "12",
+      "feedbackQuestionType": "NUMSCALE",
+      "giver": "Team 1</td></div>'\"",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "{\"answer\":0,\"questionType\":\"NUMSCALE\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
+    },
+    "response11": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Danny\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response12": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "MSQ",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Team 1\",\"Team 2\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response13": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "NUMSCALE",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response14": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "This is for nobody specific."
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "response15": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "Team 2",
+      "responseMetaData": {
+        "value": "Response from team 1 (by alice) to team 2."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response16": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "5",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[45,55],\"questionType\":\"CONSTSUM\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response17.1": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[110],\"questionType\":\"CONSTSUM\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response17.2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[90],\"questionType\":\"CONSTSUM\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response17.3": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response17.4": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.danny.e@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[150],\"questionType\":\"CONSTSUM\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "FS.Q1.Alice.1": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "CONTRIB",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":150,\"questionType\":\"CONTRIB\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "FS.Q1.Alice.2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "CONTRIB",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":120,\"questionType\":\"CONTRIB\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response17": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "8",
+      "feedbackQuestionType": "NUMSCALE",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"NUMSCALE\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response18": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "8",
+      "feedbackQuestionType": "NUMSCALE",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response19": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "9",
+      "feedbackQuestionType": "NUMSCALE",
+      "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "{\"answer\":-0.5,\"questionType\":\"NUMSCALE\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
+    },
+    "response20.1": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "10",
+      "feedbackQuestionType": "CONTRIB",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":150,\"questionType\":\"CONTRIB\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "repsonse20.2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "10",
+      "feedbackQuestionType": "CONTRIB",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":120,\"questionType\":\"CONTRIB\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response21": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "11",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.fred.g@gmail.tmt",
+      "responseMetaData": {
+        "value": "Alice to Danny."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response22": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "11",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.danny.e@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.fred.g@gmail.tmt",
+      "responseMetaData": {
+        "value": "Benny to Danny."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response23": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "11",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.fred.g@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "Danny to Alice."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response1 Of Session 4": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "Team 1</td></div>'\"",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "None"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
+    },
+    "response2 Of Session 4": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "Team 1</td></div>'\"",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
+    },
+    "SanitizedResponse1": {
+      "feedbackSessionName": "Sanitized Session",
+      "courseId": "IFRResponseCommentUiT.SanitizedTeam",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
+      },
+      "giverSection": "Section A</td></div>'\"",
+      "recipientSection": "Section A</td></div>'\""
+    },
+    "InstructorsAsGiversResponse1": {
+      "feedbackSessionName": "Instructors as Givers",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "Alice you did okay. You get B-"
+      },
+      "recipientSection": "Section A"
+    },
+    "InstructorsAsGiversResponse2": {
+      "feedbackSessionName": "Instructors as Givers",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "You did better than Alice. You get C+"
+      },
+      "recipientSection": "Section A"
+    },
+    "InstructorsAsGiversResponse3": {
+      "feedbackSessionName": "Instructors as Givers",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
+      "responseMetaData": {
+        "value": "I like you so I give you above A-"
+      },
+      "recipientSection": "Section A"
+    },
+    "NoSectionsResponse1": {
+      "feedbackSessionName": "NoSections Session",
+      "courseId": "IFRResponseCommentUiT.NoSections",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.benny.no@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.benny.no@gmail.tmt",
+      "responseMetaData": {
+        "value": "Benny self feedback."
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "Response to Instructors": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "recipient": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "responseMetaData": {
+        "value": "You are a great instructor."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
+    }
+  },
+  "feedbackResponseComments": {
+    "comment1ForSanitizedTeam": {
+      "courseId": "IFRResponseCommentUiT.SanitizedTeam",
+      "feedbackSessionName": "Sanitized Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "commentGiverType": "INSTRUCTORS",
+      "isCommentFromFeedbackParticipant": false,
+      "giverSection": "None",
+      "receiverSection": "Section A</td></div>'\"",
+      "feedbackResponseId": "1%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2026-03-01T23:59:00Z",
+      "commentText": {
+        "value": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
+      },
+      "lastEditorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
+      "lastEditedAt": "2026-03-02T23:59:00Z"
+    },
+    "comment2ToBeEditedByDifferentInstructor": {
+      "courseId": "IFRResponseCommentUiT.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "2",
+      "commentGiver": "IFRResponseCommentUiT.instr2@gmail.tmt",
+      "commentGiverType": "INSTRUCTORS",
+      "isCommentFromFeedbackParticipant": false,
+      "giverSection": "Section A",
+      "receiverSection": "Section A",
+      "feedbackResponseId": "2%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-02T23:59:00Z",
+      "commentText": {
+        "value": "Comment to be edited by different instructor."
+      },
+      "lastEditorEmail": "IFRResponseCommentUiT.instr2@gmail.tmt",
+      "lastEditedAt": "2012-04-02T23:59:00Z"
+    }
+  },
+  "profiles": {}
+}

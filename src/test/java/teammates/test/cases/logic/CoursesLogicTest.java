@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,8 @@ public class CoursesLogicTest extends BaseLogicTest {
     public void testAll() throws Exception {
         testGetCourse();
         testGetCoursesForInstructor();
+        testGetSoftDeletedCoursesForInstructors();
+        testGetSoftDeletedCourseForInstructor();
         testIsSampleCourse();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
@@ -58,7 +61,11 @@ public class CoursesLogicTest extends BaseLogicTest {
         testHasIndicatedSections();
         testCreateCourse();
         testCreateCourseAndInstructor();
+        testMoveCourseToRecycleBin();
+        testRestoreCourseFromRecycleBin();
+        testRestoreAllCoursesFromRecycleBin();
         testDeleteCourse();
+        testDeleteAllCourses();
         testUpdateCourse();
     }
 
@@ -128,6 +135,67 @@ public class CoursesLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null", e.getMessage());
+        }
+    }
+
+    private void testGetSoftDeletedCoursesForInstructors() {
+
+        ______TS("success: instructors with deleted courses");
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        List<CourseAttributes> courses = coursesLogic.getSoftDeletedCoursesForInstructors(instructors);
+
+        assertEquals(1, courses.size());
+
+        ______TS("boundary: instructor without any courses");
+
+        instructors.remove(0);
+        instructor = dataBundle.instructors.get("instructor5");
+        instructors.add(instructor);
+
+        courses = coursesLogic.getSoftDeletedCoursesForInstructors(instructors);
+
+        assertEquals(0, courses.size());
+
+        ______TS("Null parameter");
+
+        try {
+            coursesLogic.getSoftDeletedCoursesForInstructors(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
+    private void testGetSoftDeletedCourseForInstructor() {
+
+        ______TS("success: instructor with deleted course");
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+
+        CourseAttributes course = coursesLogic.getSoftDeletedCourseForInstructor(instructor);
+
+        assertNotNull(course);
+
+        ______TS("boundary: instructor without any deleted courses");
+
+        instructor = dataBundle.instructors.get("instructor5");
+
+        course = coursesLogic.getSoftDeletedCourseForInstructor(instructor);
+
+        assertNull(course);
+
+        ______TS("Null parameter");
+
+        try {
+            coursesLogic.getSoftDeletedCourseForInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -943,6 +1011,127 @@ public class CoursesLogicTest extends BaseLogicTest {
         }
     }
 
+    private void testMoveCourseToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+
+        ______TS("typical case");
+
+        CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
+
+        // Ensure there are entities in the datastore under this course
+        verifyPresentInDatastore(course1OfInstructor);
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
+        verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+
+        // Ensure the course is not in Recycle Bin
+        assertFalse(course1OfInstructor.isCourseDeleted());
+
+        Instant deletedAt = coursesLogic.moveCourseToRecycleBin(course1OfInstructor.getId());
+        course1OfInstructor.setDeletedAt(deletedAt);
+
+        // Ensure the course and related entities still exist in datastore
+        verifyPresentInDatastore(course1OfInstructor);
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
+        verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+
+        // Ensure the course is moved to Recycle Bin
+        assertTrue(course1OfInstructor.isCourseDeleted());
+
+        ______TS("null parameter");
+
+        try {
+            coursesLogic.moveCourseToRecycleBin(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
+    private void testRestoreCourseFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+
+        ______TS("typical case");
+
+        CourseAttributes course3OfInstructor = dataBundle.courses.get("typicalCourse3");
+
+        // Ensure there are entities in the datastore under this course
+        verifyPresentInDatastore(course3OfInstructor);
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+
+        // Ensure the course is currently in Recycle Bin
+        assertTrue(course3OfInstructor.isCourseDeleted());
+
+        coursesLogic.restoreCourseFromRecycleBin(course3OfInstructor.getId());
+        course3OfInstructor.resetDeletedAt();
+
+        // Ensure the course and related entities still exist in datastore
+        verifyPresentInDatastore(course3OfInstructor);
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+
+        // Ensure the course is restored from Recycle Bin
+        assertFalse(course3OfInstructor.isCourseDeleted());
+
+        // Move the course back to Recycle Bin for further testing
+        coursesLogic.moveCourseToRecycleBin(course3OfInstructor.getId());
+
+        ______TS("null parameter");
+
+        try {
+            coursesLogic.restoreCourseFromRecycleBin(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
+    private void testRestoreAllCoursesFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+
+        ______TS("typical case");
+
+        InstructorAttributes instructor1OfCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
+        CourseAttributes course3OfInstructor = coursesLogic.getSoftDeletedCourseForInstructor(instructor1OfCourse3);
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor1OfCourse3);
+
+        // Ensure there are entities in the datastore under this course
+        verifyPresentInDatastore(course3OfInstructor);
+        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+
+        // Ensure the course is currently in Recycle Bin
+        assertTrue(course3OfInstructor.isCourseDeleted());
+
+        coursesLogic.restoreAllCoursesFromRecycleBin(instructors);
+        course3OfInstructor.resetDeletedAt();
+
+        // Ensure the course and related entities still exist in datastore
+        verifyPresentInDatastore(course3OfInstructor);
+        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+
+        // Ensure the courses are restored from Recycle Bin
+        assertFalse(course3OfInstructor.isCourseDeleted());
+
+        // Move the course back to Recycle Bin for further testing
+        coursesLogic.moveCourseToRecycleBin(course3OfInstructor.getId());
+
+        ______TS("null parameter");
+
+        try {
+            coursesLogic.restoreAllCoursesFromRecycleBin(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
     private void testDeleteCourse() {
 
         ______TS("typical case");
@@ -984,6 +1173,37 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         try {
             coursesLogic.deleteCourseCascade(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
+    private void testDeleteAllCourses() {
+
+        ______TS("typical case");
+
+        InstructorAttributes instructor1OfCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor1OfCourse3);
+
+        // Ensure there are entities in the datastore under this course
+        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+
+        coursesLogic.deleteAllCoursesCascade(instructors);
+
+        // Ensure the course and related entities are deleted
+        verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
+        verifyAbsentInDatastore(dataBundle.students.get("student1InCourse3"));
+        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+
+        ______TS("null parameter");
+
+        try {
+            coursesLogic.deleteAllCoursesCascade(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());

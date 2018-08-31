@@ -59,7 +59,7 @@
   <div id="statusMessagesToUser" style="">
   </div>
   <br>
-  <div class="" id="coursesList">
+  <div class="courses-tables" id="coursesList">
     <h2>
       Active courses
     </h2>
@@ -142,7 +142,7 @@
             <a class="btn btn-default btn-xs t_course_archive0" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Archive
             </a>
-            <a class="btn btn-default btn-xs course-delete-link t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Delete
             </a>
           </td>
@@ -190,13 +190,104 @@
             <a class="btn btn-default btn-xs t_course_archive1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Archive
             </a>
-            <a class="btn btn-default btn-xs course-delete-link t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Delete
             </a>
           </td>
         </tr>
       </tbody>
     </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2 class="text-muted">
+      <span class="glyphicon glyphicon-trash">
+      </span>
+      Deleted courses
+    </h2>
+    <div class="panel">
+      <div class="panel-heading ajax_submit fill-default" data-target="#softDeletedPanelBodyCollapse" id="softDeletedPanelHeading" style="cursor: pointer;">
+        <div class="pull-right margin-left-7px">
+          <span class="glyphicon ajax_submit glyphicon-chevron-down">
+          </span>
+        </div>
+        <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px course-delete-all-link color-negative" data-original-title="Permanently delete all courses and their corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDeleteAllCourses?next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" id="btn-course-deleteall" title="">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          <strong>
+            Delete All
+          </strong>
+        </a>
+        <a class="btn btn-default btn-xs pull-right pull-down" data-original-title="Restore all deleted courses and their corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRestoreAllCourses?next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" id="btn-course-restoreall" title="">
+          <span class="glyphicon glyphicon-ok">
+          </span>
+          <strong>
+            Restore All
+          </strong>
+        </a>
+        <strong class="ajax_submit">
+          Recycle Bin
+        </strong>
+      </div>
+      <div class="panel-collapse collapse" id="softDeletedPanelBodyCollapse">
+        <div class="panel-body padding-0">
+          <table class="table table-bordered table-striped margin-0" id="tableSoftDeletedCourses">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr>
+                <th class="button-sort-none toggle-sort" id="btn_sortid">
+                  Course ID
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="btn_sortname">
+                  Course Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursecreateddate">
+                  Creation Date
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursedeleteddate">
+                  Deletion Date
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="align-center no-print">
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="softdeletedcourseid0">
+                  CCAddUiTest.CS2105
+                </td>
+                <td id="softdeletedcoursename0">
+                  Computer Networks
+                </td>
+                <td data-date-stamp="2012-04-02T23:58:00Z" data-original-title="Mon, 02 Apr 2012, 11:58 PM" data-toggle="tooltip" id="softdeletedcoursecreateddate0">
+                  2 Apr 2012
+                </td>
+                <td data-date-stamp="2012-04-12T23:58:00Z" data-original-title="Thu, 12 Apr 2012, 11:58 PM" data-toggle="tooltip" id="softdeletedcoursedeleteddate0">
+                  12 Apr 2012
+                </td>
+                <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_course_restore0" data-original-title="Restore the deleted course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRestoreCourse?courseid=CCAddUiTest.CS2105&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+                    Restore
+                  </a>
+                  <a class="btn btn-default btn-xs course-delete-link t_course_delete_permanently0" data-course-id="CCAddUiTest.CS2105" data-original-title="Permanently delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDeleteCourse?courseid=CCAddUiTest.CS2105&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" style="color: red" title="">
+                    Delete Permanently
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <br>
     <br>
     <br>

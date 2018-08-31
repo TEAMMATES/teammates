@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
@@ -42,10 +42,10 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         verifyAccessibleForInstructorToFeedbackResponseComment(
                 feedbackResponseCommentId, instructor, session, response);
 
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
+        FeedbackResponseCommentAjaxPageData data =
+                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
 
-        //Edit comment text
+        // Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, commentText);
         if (commentText.trim().isEmpty()) {
@@ -59,6 +59,9 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withCommentFromFeedbackParticipant(false)
+                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withVisibilityFollowingFeedbackQuestion(false)
                 .build();
 
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
@@ -97,10 +100,10 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
-                           + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                           + "by: " + feedbackResponseComment.commentGiver + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
 
-            String commentGiverName = logic.getInstructorForEmail(courseId, frc.giverEmail).name;
+            String commentGiverName = logic.getInstructorForEmail(courseId, frc.commentGiver).name;
             String commentEditorName = instructor.name;
 
             // createdAt and lastEditedAt fields in updatedComment as well as sessionTimeZone

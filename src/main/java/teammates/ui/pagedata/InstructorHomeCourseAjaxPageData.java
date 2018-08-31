@@ -57,7 +57,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
 
     private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId) {
-        String disabled = "disabled";
         String className = "btn-tm-actions course-";
 
         ElementTag students = new ElementTag("Students");
@@ -69,8 +68,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          className + "enroll-for-test",
                                          getInstructorCourseEnrollLink(courseId),
                                          Const.Tooltips.COURSE_ENROLL);
-        addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
-                       enroll, disabled, null);
 
         ElementTag view = createButton("View / Edit",
                                        className + "view-for-test",
@@ -86,8 +83,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                       className + "add-eval-for-test",
                                       getInstructorFeedbackSessionsLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
-        addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
-                       add, disabled, null);
 
         ElementTag archive = createButton("Archive",
                                           className + "archive-for-test",
@@ -96,14 +91,14 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         addAttributeIf(true, archive, "data-course-id", courseId);
 
         ElementTag delete = createButton("Delete",
-                                         className + "delete-for-test course-delete-link",
+                                         className + "delete-for-test course-move-to-recycle-bin-link",
                                          getInstructorCourseDeleteLink(courseId, true),
-                                         Const.Tooltips.COURSE_DELETE);
-        addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE),
-                       delete, disabled, null);
+                                         Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN);
         addAttributeIf(true, delete, "data-course-id", courseId);
 
-        students.addNestedElement(enroll);
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {
+            students.addNestedElement(enroll);
+        }
         students.addNestedElement(view);
 
         sessions.addNestedElement(add);
@@ -112,8 +107,13 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
 
         courses.addNestedElement(archive);
         courses.addNestedElement(edit);
-        courses.addNestedElement(delete);
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
+            courses.addNestedElement(delete);
+        }
 
+        if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+            return Arrays.asList(students, instructors, courses);
+        }
         return Arrays.asList(students, instructors, sessions, courses);
     }
 
