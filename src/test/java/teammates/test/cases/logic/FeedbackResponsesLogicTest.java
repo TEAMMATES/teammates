@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -144,7 +145,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         responseToUpdate.recipientSection,
                         responseToUpdate.responseMetaData);
 
-        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(existingResponse));
+        frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
 
         responseToUpdate.recipient = "student3InCourse1@gmail.tmt";
 
@@ -154,22 +155,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains("Trying to create a Feedback Response that exists", e.getMessage());
         }
-
-        ______TS("success: standard update with carried params - using createFeedbackResponse");
-
-        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-
-        responseToUpdate.responseMetaData = new Text("Updated Response 2");
-        responseToUpdate.feedbackSessionName = "copy over";
-
-        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(responseToUpdate));
-
-        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = new Text("Updated Response 2");
-
-        assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-                                                 responseToUpdate.recipient).toString(),
-                     responseToUpdate.toString());
 
         ______TS("success: recipient changed to something else");
 
@@ -244,7 +229,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                                                FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
                                                studentToUpdate.email, "Section 1", new Text("New Response to self"));
-        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(responseToAdd));
+        frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
 
         // All these responses should be gone after he changes teams
 
@@ -362,7 +347,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
             throws InvalidParametersException, EntityDoesNotExistException {
-        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(response));
+        frLogic.createFeedbackResponses(Arrays.asList(response));
         fsLogic.addStudentRespondent(response.giver, response.feedbackSessionName, response.courseId);
     }
 
@@ -493,7 +478,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         "Section 1",
                         existingResponse.responseMetaData);
 
-        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(newResponse));
+        frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
         assertEquals(responses.size(), 4);
@@ -697,11 +682,5 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
             responseComments.addAll(responseCommentsForResponse);
         }
         return responseComments;
-    }
-
-    private List<FeedbackResponseAttributes> createFeedbackResponseAttributesList(FeedbackResponseAttributes fra) {
-        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
-        fraList.add(fra);
-        return fraList;
     }
 }
