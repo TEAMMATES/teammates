@@ -699,9 +699,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         return responseComments;
     }
 
-    private List<FeedbackResponseAttributes> createFeedbackResponseAttributesList(FeedbackResponseAttributes fra){
-      List<FeedbackResponseAttributes> fraList = new ArrayList<>();
-      fraList.add(fra);
-      return fraList;
+    private List<FeedbackResponseAttributes> createFeedbackResponseAttributesList(FeedbackResponseAttributes fra) {
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
+        fraList.add(fra);
+        return fraList;
     }
 }
