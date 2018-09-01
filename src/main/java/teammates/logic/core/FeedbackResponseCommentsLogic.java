@@ -177,10 +177,6 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
     }
 
-    public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        frcDb.deleteEntity(feedbackResponseComment);
-    }
-
     public void deleteFeedbackResponseCommentById(Long commentId) {
         frcDb.deleteCommentById(commentId);
     }

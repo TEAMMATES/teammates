@@ -2138,15 +2138,6 @@ public class Logic {
 
     /**
      * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        Assumption.assertNotNull(feedbackResponseComment);
-        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
-    }
-
-    /**
-     * Preconditions: <br>
      * * Id of comment is not null.
      */
     public void deleteFeedbackResponseCommentById(Long commentId) {
