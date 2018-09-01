@@ -25,7 +25,7 @@ public class FeedbackResponseRow {
     private FeedbackResponseCommentRow feedbackParticipantComment;
 
     public FeedbackResponseRow(int fbIndex, int personIndex, String personType, FeedbackResponseAttributes response,
-                               FeedbackSessionResultsBundle results, boolean showPcRow) {
+        FeedbackSessionResultsBundle results, boolean showPcRow) {
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = results.questions.get(questionId);
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -75,7 +75,7 @@ public class FeedbackResponseRow {
     }
 
     private String getNewResponseText(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                      FeedbackSessionResultsBundle results) {
+        FeedbackSessionResultsBundle results) {
         response.giver = response.recipient;
         response.giverSection = response.recipientSection;
 

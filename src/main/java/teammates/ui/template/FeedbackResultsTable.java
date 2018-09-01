@@ -58,12 +58,12 @@ public class FeedbackResultsTable {
     }
 
     private FeedbackResponseAttributes findContribFeedbackResponse(
-            Map<String, List<FeedbackResponseAttributes>> rcvedFeedbacks) {
+            Map<String, List<FeedbackResponseAttributes>> receivedFeedbacks) {
         FeedbackResponseAttributes[] newResponseDetails = new FeedbackResponseAttributes[1];
         boolean[] hasContriFeedbackResponseRow = {false};
 
         // Checks and find the perceived contrib response for a student without submission
-        rcvedFeedbacks.entrySet().forEach(entry -> entry.getValue().forEach(questionResponses -> {
+        receivedFeedbacks.entrySet().forEach(entry -> entry.getValue().forEach(questionResponses -> {
             if (questionResponses.feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)) {
                 newResponseDetails[0] = new FeedbackResponseAttributes(questionResponses);
                 if (entry.getKey().equals(this.studentName)) {
