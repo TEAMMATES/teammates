@@ -144,7 +144,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         responseToUpdate.recipientSection,
                         responseToUpdate.responseMetaData);
 
-        frLogic.createFeedbackResponse(existingResponse);
+        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(existingResponse));
 
         responseToUpdate.recipient = "student3InCourse1@gmail.tmt";
 
@@ -162,7 +162,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responseToUpdate.responseMetaData = new Text("Updated Response 2");
         responseToUpdate.feedbackSessionName = "copy over";
 
-        frLogic.createFeedbackResponse(responseToUpdate);
+        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(responseToUpdate));
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         responseToUpdate.responseMetaData = new Text("Updated Response 2");
@@ -244,7 +244,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                                                FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
                                                studentToUpdate.email, "Section 1", new Text("New Response to self"));
-        frLogic.createFeedbackResponse(responseToAdd);
+        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(responseToAdd));
 
         // All these responses should be gone after he changes teams
 
@@ -362,7 +362,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
             throws InvalidParametersException, EntityDoesNotExistException {
-        frLogic.createFeedbackResponse(response);
+        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(response));
         fsLogic.addStudentRespondent(response.giver, response.feedbackSessionName, response.courseId);
     }
 
@@ -493,7 +493,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         "Section 1",
                         existingResponse.responseMetaData);
 
-        frLogic.createFeedbackResponse(newResponse);
+        frLogic.createFeedbackResponses(createFeedbackResponseAttributesList(newResponse));
         student = dataBundle.students.get("student2InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
         assertEquals(responses.size(), 4);
@@ -699,4 +699,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         return responseComments;
     }
 
+    private List<FeedbackResponseAttributes> createFeedbackResponseAttributesList(FeedbackResponseAttributes fra){
+      List<FeedbackResponseAttributes> fraList = new ArrayList<>();
+      fraList.add(fra);
+      return fraList;
+    }
 }

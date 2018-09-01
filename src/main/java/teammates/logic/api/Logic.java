@@ -1939,17 +1939,6 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackResponse);
-        feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
-    }
-
     public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
             throws InvalidParametersException {
 
