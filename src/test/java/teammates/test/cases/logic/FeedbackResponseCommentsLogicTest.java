@@ -264,7 +264,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponseComment() throws Exception {
+    public void testDeleteFeedbackResponseCommentById() throws Exception {
         //create a frComment to delete
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         frComment.setId(1L);
