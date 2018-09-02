@@ -1299,7 +1299,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMcqQuestion() {
+    public void testSaveAndUpdateFeedbackParticipantComments_openSessionMcqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -1429,7 +1429,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantComments_moderationInOpenSessionMsqQuestion() {
+    public void testSaveAndUpdateFeedbackParticipantComments_openSessionMsqQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
