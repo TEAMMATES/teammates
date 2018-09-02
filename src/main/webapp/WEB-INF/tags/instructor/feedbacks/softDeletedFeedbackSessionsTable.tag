@@ -24,7 +24,9 @@
   </tr>
   </thead>
   <c:forEach items="${softDeletedFsList.rows}" var="softDeletedSession" varStatus="i">
-    <tr>
+    <tr id="softdeletedsessionelement${i.index}"
+        data-course-id="${softDeletedSession.courseId}"
+        data-session-name="${softDeletedSession.sessionName}">
       <td id="softdeletedcourseid${i.index}">${softDeletedSession.courseId}</td>
       <td id="softdeletedsessionname${i.index}">${softDeletedSession.sessionName}</td>
       <td
