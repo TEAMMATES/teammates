@@ -70,6 +70,3 @@ public class DataMigrationForInstructorFeedbackResponseComments extends
         // nothing to do
     }
 }
-
-
-
