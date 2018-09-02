@@ -430,7 +430,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getCreatedTimeDateString() {
-        return TimeHelper.formatDateForInstructorSessionsPage(createdTime, timeZone);
+        return TimeHelper.formatDateForInstructorPages(createdTime, timeZone);
     }
 
     public String getCreatedTimeDateStamp() {
@@ -446,7 +446,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (this.deletedTime == null) {
             return Const.DELETION_DATE_NOT_APPLICABLE;
         }
-        return TimeHelper.formatDateForInstructorSessionsPage(deletedTime, timeZone);
+        return TimeHelper.formatDateForInstructorPages(deletedTime, timeZone);
     }
 
     public String getDeletedTimeDateStamp() {

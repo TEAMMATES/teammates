@@ -235,6 +235,12 @@ function searchQuestions() {
         },
         bool: 'AND',
     });
+    // sort results in descending order of score followed by reference number
+    results.sort((r1, r2) => {
+        const diff = r2.score - r1.score;
+
+        return (Math.abs(diff) < Number.EPSILON) ? (r1.ref - r2.ref) : diff;
+    });
 
     // add relevant panels to search results
     $.each(results, (idx, result) => {
