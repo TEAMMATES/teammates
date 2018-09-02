@@ -1,9 +1,11 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -43,7 +45,13 @@ public class DataMigrationForInstructorFeedbackResponseComments extends
     @Override
     protected boolean isMigrationNeeded(Key<FeedbackResponseComment> entity) {
         FeedbackResponseComment comment = ofy().load().key(entity).now();
-        return comment.getCommentGiverType() == null;
+        try {
+            Field commentGiverType = comment.getClass().getDeclaredField("commentGiverType");
+            commentGiverType.setAccessible(true);
+            return commentGiverType.get(comment) == null;
+        } catch (ReflectiveOperationException e) {
+            return true;
+        }
     }
 
     @Override
