@@ -2103,15 +2103,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the given comment.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes comment) {
-        feedbackResponseCommentsLogic.deleteDocument(comment);
-    }
-
-    /**
      * Removes document for the comment by given id.
      *
      * @see FeedbackResponseCommentsLogic#deleteDocumentByCommentId(long)
