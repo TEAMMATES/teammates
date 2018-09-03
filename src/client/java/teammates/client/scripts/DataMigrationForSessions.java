@@ -55,7 +55,7 @@ public class DataMigrationForSessions extends DataMigrationWithCheckpointForEnti
     protected boolean isMigrationNeeded(Key<FeedbackSession> sessionKey) {
         FeedbackSession session = ofy().load().key(sessionKey).now();
         try {
-            Field followingCourseTimeZoneField = session.getClass().getDeclaredField("isFollowingCourseTimeZone");
+            Field followingCourseTimeZoneField = session.getClass().getDeclaredField("wasFollowingCourseTimeZone");
             followingCourseTimeZoneField.setAccessible(true);
             return !followingCourseTimeZoneField.getBoolean(session);
         } catch (ReflectiveOperationException e) {
