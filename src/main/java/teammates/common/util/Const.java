@@ -936,7 +936,6 @@ public final class Const {
     }
 
     public static class SearchDocumentField {
-        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
