@@ -27,6 +27,13 @@ import teammates.storage.entity.FeedbackSession;
  */
 public class DataMigrationForSessions extends DataMigrationWithCheckpointForEntities<FeedbackSession> {
 
+    public DataMigrationForSessions() {
+        super();
+        numberOfScannedKey.set(0L);
+        numberOfAffectedEntities.set(0L);
+        numberOfUpdatedEntities.set(0L);
+    }
+
     public static void main(String[] args) throws IOException {
         new DataMigrationForSessions().doOperationRemotely();
     }
