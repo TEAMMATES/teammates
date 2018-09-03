@@ -267,9 +267,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testDeleteFeedbackResponseCommentById() throws Exception {
         //create a frComment to delete
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-        frComment.setId(1L);
-        frComment.feedbackQuestionId = getQuestionIdInDataBundle("qn2InSession1InCourse1");
-        frComment.feedbackResponseId = getResponseIdInDataBundle("response2ForQ2S1C1", "qn2InSession1InCourse1");
 
         frcLogic.createFeedbackResponseComment(frComment);
 
@@ -278,7 +275,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frComment.feedbackResponseId = "invalid responseId";
         //without proper frCommentId and its feedbackResponseId,
         //it cannot be deleted
-        frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
+        frcLogic.deleteFeedbackResponseCommentById(1234567L);
 
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSession(
