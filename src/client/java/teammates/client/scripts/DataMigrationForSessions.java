@@ -27,6 +27,13 @@ import teammates.storage.entity.FeedbackSession;
  */
 public class DataMigrationForSessions extends DataMigrationWithCheckpointForEntities<FeedbackSession> {
 
+    public DataMigrationForSessions() {
+        super();
+        numberOfScannedKey.set(0L);
+        numberOfAffectedEntities.set(0L);
+        numberOfUpdatedEntities.set(0L);
+    }
+
     public static void main(String[] args) throws IOException {
         new DataMigrationForSessions().doOperationRemotely();
     }
@@ -55,7 +62,7 @@ public class DataMigrationForSessions extends DataMigrationWithCheckpointForEnti
     protected boolean isMigrationNeeded(Key<FeedbackSession> sessionKey) {
         FeedbackSession session = ofy().load().key(sessionKey).now();
         try {
-            Field followingCourseTimeZoneField = session.getClass().getDeclaredField("isFollowingCourseTimeZone");
+            Field followingCourseTimeZoneField = session.getClass().getDeclaredField("wasFollowingCourseTimeZone");
             followingCourseTimeZoneField.setAccessible(true);
             return !followingCourseTimeZoneField.getBoolean(session);
         } catch (ReflectiveOperationException e) {

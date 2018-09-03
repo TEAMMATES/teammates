@@ -107,11 +107,12 @@ public class EmailGenerator {
      * Generates the email containing the summary of the feedback sessions
      * email for the given {@code courseId} for {@code student}.
      * @param courseId - ID of the course
-     * @param student - attributes of student to send feedback session summary to
+     * @param studentEmail - Email of student to send feedback session summary to
      */
-    public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, StudentAttributes student) {
+    public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, String studentEmail) {
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
+        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEmail);
 
         List<FeedbackSessionAttributes> sessions = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
