@@ -91,6 +91,14 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
     }
 
+    /**
+     * Retrieves the list of feedback responses for the section selected.
+     * @param feedbackSessionName       Feedback session name
+     * @param courseId                  Course ID
+     * @param section                   Name of the section selected
+     * @return                          List of feedback response attributes that matches the section selected
+     */
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInGiverAndRecipientSection(
             String feedbackSessionName, String courseId, String section) {
         if (section == null) {
