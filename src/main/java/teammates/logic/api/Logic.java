@@ -297,15 +297,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the given Instructor.
-     *
-     * @see InstructorsLogic#deleteDocument(InstructorAttributes)
-     */
-    public void deleteDocument(InstructorAttributes instructor) {
-        instructorsLogic.deleteDocument(instructor);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if not found.
