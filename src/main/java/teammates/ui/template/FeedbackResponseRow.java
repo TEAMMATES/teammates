@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -23,8 +24,8 @@ public class FeedbackResponseRow {
     private List<FeedbackResponseCommentRow> instructorComments;
     private FeedbackResponseCommentRow feedbackParticipantComment;
 
-    public FeedbackResponseRow(int fbIndex, int personIndex, String personType,
-                               FeedbackResponseAttributes response, FeedbackSessionResultsBundle results) {
+    public FeedbackResponseRow(int fbIndex, int personIndex, String personType, FeedbackResponseAttributes response,
+            FeedbackSessionResultsBundle results, boolean showPcRow) {
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = results.questions.get(questionId);
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -36,7 +37,11 @@ public class FeedbackResponseRow {
         if ("recipient".equals(personType)) {
             this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
-            this.responseText = results.getResponseAnswerHtml(response, question);
+            if (showPcRow && question.questionType.equals(FeedbackQuestionType.CONTRIB)) {
+                this.responseText = getNewResponseText(response, question, results);
+            } else {
+                this.responseText = results.getResponseAnswerHtml(response, question);
+            }
         }
         this.instructorComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
@@ -67,6 +72,15 @@ public class FeedbackResponseRow {
                 this.instructorComments.add(responseCommentRow);
             }
         }
+    }
+
+    private String getNewResponseText(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle results) {
+        response.giver = response.recipient;
+        response.giverSection = response.recipientSection;
+
+        String responseText = results.getResponseAnswerHtml(response, question);
+        return "No Response" + responseText.substring(responseText.indexOf("</span>") + "</span>".length());
     }
 
     public int getQuestionNumber() {
