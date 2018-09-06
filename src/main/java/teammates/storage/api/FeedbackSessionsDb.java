@@ -117,31 +117,43 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent open emails.
+     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * and possibly need an open email to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpenEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpenEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent closing emails.
+     * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
+     * and possibly need a closing email to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosingEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosingEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent closed emails.
+     * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
+     * and possibly need a closed email to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosedEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosedEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent published emails.
+     * Gets a list of undeleted published feedback sessions which possibly need a published email
+     * to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
