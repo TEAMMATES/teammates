@@ -321,7 +321,6 @@
       "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
       "timeZone": "Australia/Victoria",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

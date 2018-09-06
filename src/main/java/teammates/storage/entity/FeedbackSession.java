@@ -1,25 +1,16 @@
 package teammates.storage.entity;
 
-import java.time.DateTimeException;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
-import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.OnLoad;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -28,8 +19,6 @@ import teammates.common.util.TimeHelper;
 @Entity
 @Index
 public class FeedbackSession extends BaseEntity {
-
-    private static final Logger log = Logger.getLogger();
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
@@ -68,28 +57,7 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private Date resultsVisibleFromTime;
 
-    /**
-     * Defaults to false in legacy data where local dates are stored instead of UTC. <br>
-     * TODO Remove after all legacy data has been converted
-     */
-    @Unindex
-    private boolean isTimeStoredInUtc;
-
     private String timeZone;
-
-    @Unindex
-    private boolean isFollowingCourseTimeZone;
-
-    @SuppressWarnings("PMD.UnusedPrivateField") // Used by migration script
-    @Ignore
-    private boolean wasFollowingCourseTimeZone;
-
-    // TODO Remove after all legacy data has been converted
-    @IgnoreSave
-    private Double timeZoneDouble;
-
-    @IgnoreSave
-    private String feedbackSessionType;
 
     @Unindex
     private long gracePeriod;
@@ -102,12 +70,11 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean sentPublishedEmail;
 
-    //TODO change to primitive types
-    private Boolean isOpeningEmailEnabled;
+    private boolean isOpeningEmailEnabled;
 
-    private Boolean isClosingEmailEnabled;
+    private boolean isClosingEmailEnabled;
 
-    private Boolean isPublishedEmailEnabled;
+    private boolean isPublishedEmailEnabled;
 
     @SuppressWarnings("unused")
     private FeedbackSession() {
@@ -155,79 +122,6 @@ public class FeedbackSession extends BaseEntity {
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
         this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
-        this.isTimeStoredInUtc = true;
-        this.isFollowingCourseTimeZone = true;
-    }
-
-    @OnLoad
-    @SuppressWarnings("unused") // called by Objectify
-    private void convertFieldsToUtcIfRequired() {
-        if (isTimeStoredInUtc) {
-            return;
-        }
-
-        startTime = TimeHelper.convertLocalDateToUtc(startTime, timeZoneDouble);
-        endTime = TimeHelper.convertLocalDateToUtc(endTime, timeZoneDouble);
-        sessionVisibleFromTime = TimeHelper.convertLocalDateToUtc(sessionVisibleFromTime, timeZoneDouble);
-        resultsVisibleFromTime = TimeHelper.convertLocalDateToUtc(resultsVisibleFromTime, timeZoneDouble);
-        isTimeStoredInUtc = true;
-    }
-
-    @OnLoad
-    @SuppressWarnings("unused") // called by Objectify
-    private void setTimeZoneFromCourseTimeZoneIfRequired() {
-        if (isFollowingCourseTimeZone) {
-            wasFollowingCourseTimeZone = true;
-            return;
-        }
-
-        Course course = Ref.create(Key.create(Course.class, courseId)).get();
-        ZoneId courseTimeZone = Const.DEFAULT_TIME_ZONE; // UTC
-        if (course == null) {
-            log.severe("Could not retrieve course \"" + courseId
-                    + "\"; defaulting to UTC for session: " + feedbackSessionId);
-        } else {
-            try {
-                courseTimeZone = ZoneId.of(course.getTimeZone());
-            } catch (DateTimeException e) {
-                log.severe("Invalid time zone \"" + course.getTimeZone() + "\" encountered for course \"" + courseId
-                        + "\"; defaulting to UTC for session: " + feedbackSessionId);
-            }
-        }
-        timeZone = courseTimeZone.getId();
-        isFollowingCourseTimeZone = true;
-    }
-
-    @OnLoad
-    @SuppressWarnings("unused") // called by Objectify
-    private void populateMissingBooleansIfRequired() {
-        if (isOpeningEmailEnabled == null) {
-            isOpeningEmailEnabled = true;
-        }
-        if (isClosingEmailEnabled == null) {
-            isClosingEmailEnabled = true;
-        }
-        if (isPublishedEmailEnabled == null) {
-            isPublishedEmailEnabled = true;
-        }
-    }
-
-    @OnLoad
-    @SuppressWarnings("unused") // called by Objectify
-    private void adjustResultsVisibleFromTimeIfRequired() {
-        if (Const.TIME_REPRESENTS_NEVER.equals(getResultsVisibleFromTime())) {
-            setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-        }
-    }
-
-    @OnLoad
-    @SuppressWarnings("unused") // called by Objectify
-    private void adjustOpeningAndClosingAndVisibleTimeForPrivateSessions() {
-        if ("PRIVATE".equals(feedbackSessionType)) {
-            setStartTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
-            setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-            setEndTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
-        }
     }
 
     public String getFeedbackSessionName() {
