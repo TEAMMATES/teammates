@@ -21,6 +21,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -101,6 +102,18 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetSoftDeletedFeedbackSession_typicalCase_shouldGetDeletedSession() {
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession("idOfTypicalCourse4",
+                "First feedback session"));
+    }
+
+    @Test
+    public void testGetSoftDeletedFeedbackSession_sessionIsNotDeleted_shouldReturnNull() {
+        assertNotNull(fsDb.getFeedbackSession("idOfTypicalCourse2", "Instructor feedback session"));
+        assertNull(fsDb.getSoftDeletedFeedbackSession("idOfTypicalCourse2", "Instructor feedback session"));
+    }
+
+    @Test
     public void testAllGetFeedbackSessions() {
 
         testGetFeedbackSessions();
@@ -122,6 +135,11 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("non-existant session");
 
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
+
+        ______TS("soft-deleted session");
+
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession("idOfTypicalCourse4", "First feedback session"));
+        assertNull(fsDb.getFeedbackSession("idOfTypicalCourse4", "First feedback session"));
 
         ______TS("null fsName");
 
@@ -358,7 +376,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         modifiedSession.setSentOpenEmail(false);
         modifiedSession.setDeletedTime(Instant.now());
         fsDb.updateFeedbackSession(modifiedSession);
-        verifyPresentInDatastore(modifiedSession);
+        FeedbackSessionAttributes actualFs =
+                fsDb.getSoftDeletedFeedbackSession(modifiedSession.getCourseId(), modifiedSession.getFeedbackSessionName());
+        assertEquals(JsonUtils.toJson(modifiedSession), JsonUtils.toJson(actualFs));
         assertTrue(fsDb.getFeedbackSessionsForCourse("testCourse").isEmpty());
         assertFalse(fsDb.getSoftDeletedFeedbackSessionsForCourse("testCourse").isEmpty());
     }

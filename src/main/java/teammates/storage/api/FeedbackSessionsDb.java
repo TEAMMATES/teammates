@@ -78,16 +78,50 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Preconditions: <br>
+     * Gets a feedback session that is not soft-deleted.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
-     * @return Null if not found.
+     *
+     * @return null if not found or soft-deleted.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
+        FeedbackSessionAttributes feedbackSession =
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
                 "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+
+        if (feedbackSession != null && feedbackSession.isSessionDeleted()) {
+            log.info("Trying to access soft-deleted session: " + feedbackSessionName + "/" + courseId);
+            return null;
+        }
+        return feedbackSession;
+    }
+
+    /**
+     * Gets a soft-deleted feedback session.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return null if not found or not soft-deleted.
+     */
+    public FeedbackSessionAttributes getSoftDeletedFeedbackSession(String courseId, String feedbackSessionName) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        FeedbackSessionAttributes feedbackSession =
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
+                "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+
+        if (feedbackSession != null && !feedbackSession.isSessionDeleted()) {
+            log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
+            return null;
+        }
+
+        return feedbackSession;
     }
 
     /**
