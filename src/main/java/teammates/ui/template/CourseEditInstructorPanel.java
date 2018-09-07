@@ -240,13 +240,13 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup1ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<>();
 
-        permissionInputGroup.add(createCheckBox("Edit/Delete Course",
+        permissionInputGroup.add(createCheckBox("Edit/Delete/Restore Course",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
 
         permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
 
-        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions",
+        permissionInputGroup.add(createCheckBox("Create/Edit/Delete/Restore Sessions",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
 
         permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students",

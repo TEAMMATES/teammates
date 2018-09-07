@@ -27,8 +27,9 @@
               <div class="col-lg-8">
                 <p class="form-control-static">
                   First Session
-                  <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&editsessiondetails=true&user=CFResultsUiT.instr">
-                    [Edit]
+                  <a data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&editsessiondetails=true&user=CFResultsUiT.instr" id="edit_icon_button">
+                    <span class="glyphicon glyphicon-edit">
+                    </span>
                   </a>
                 </p>
               </div>
@@ -482,7 +483,7 @@
                               <span class="text-muted">
                                 From: Teammates Test2 [Tue, 03 Apr 2012, 07:59 AM SGT]
                               </span>
-                              <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, response recipient, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                              <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, response recipient, response giver's team members, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                               </span>
                             </div>
                             <div class="col-xs-2">
@@ -773,6 +774,23 @@
                           </span>
                         </button>
                       </div>
+                      <br>
+                      <li class="list-group-item list-group-item-warning">
+                        <div class="row">
+                          <div class="col-xs-10">
+                            <span class="text-muted">
+                              Comment by response giver.
+                            </span>
+                            <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response recipient, response giver's team members, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                            </span>
+                          </div>
+                          <div class="col-xs-2">
+                          </div>
+                        </div>
+                        <div style="margin-left: 15px;">
+                          Comment by Alice.
+                        </div>
+                      </li>
                       <ul class="list-group" id="responseCommentTable-1-0-1-2" style="display:none">
                         <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-0-1-2" style="display: none;">
                           <form class="responseCommentAddForm">

@@ -141,6 +141,9 @@ public class FieldValidator {
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME =
+            "The field '${fieldName}' should not be empty." + " "
+            + "The value of '${fieldName}' field should be no longer than ${maxLength} characters.";
     public static final String INVALID_NAME_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
@@ -563,8 +566,14 @@ public class FieldValidator {
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (value.isEmpty()) {
-            return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                                            fieldName, maxLength);
+            if (fieldName.equals(FEEDBACK_SESSION_NAME_FIELD_NAME)) {
+                return getPopulatedEmptyStringErrorMessage(
+                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
+                        fieldName, maxLength);
+            } else {
+                return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        fieldName, maxLength);
+            }
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -687,6 +696,37 @@ public class FieldValidator {
         }
 
         return errors;
+    }
+
+    /**
+     * Checks if comment giver type is either instructor, student or team.
+     *
+     * @param commentGiverType comment giver type to be checked.
+     * @return Error string if type is invalid, otherwise empty string.
+     */
+    public String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
+        Assumption.assertNotNull("Non-null value expected", commentGiverType);
+        if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
+                   && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
+                   && !commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
+            return "Invalid comment giver type: " + commentGiverType;
+        }
+        return "";
+    }
+
+    /**
+     * Checks if visibility of comment is following question when comment is from a feedback participant.
+     *
+     * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.
+     * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
+     * @return Error string if condition is not met, otherwise empty string.
+     */
+    public String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(boolean isCommentFromFeedbackParticipant,
+            boolean isVisibilityFollowingFeedbackQuestion) {
+        if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
+            return "Comment by feedback participant not following visibility setting of the question.";
+        }
+        return "";
     }
 
     public List<String> getValidityInfoForFeedbackResponseVisibility(

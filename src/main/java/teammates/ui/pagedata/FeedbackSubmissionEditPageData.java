@@ -1,5 +1,6 @@
 package teammates.ui.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
@@ -216,8 +218,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
             List<FeedbackSubmissionEditResponse> responses =
                     createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
 
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                    questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
             questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
-                    question, responses, numOfResponseBoxes, maxResponsesPossible));
+                    question, responses, numOfResponseBoxes, maxResponsesPossible,
+                    isFeedbackParticipantCommentsOnResponsesAllowed));
             qnIndx++;
         }
     }
@@ -231,9 +236,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private List<FeedbackSubmissionEditResponse> createResponses(
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
         List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
-
-        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         int responseIndx = 0;
+        ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
+        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
@@ -243,26 +248,46 @@ public class FeedbackSubmissionEditPageData extends PageData {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipient);
 
-            String submissionFormHtml = questionAttributes.getQuestionDetails()
-                                            .getQuestionWithExistingResponseSubmissionFormHtml(
-                                                isSessionOpenForSubmission, qnIndx, responseIndx,
-                                                questionAttributes.courseId, numOfResponseBoxes,
-                                                existingResponse.getResponseDetails(), student);
+            String submissionFormHtml =
+                    questionAttributes.getQuestionDetails().getQuestionWithExistingResponseSubmissionFormHtml(
+                            isSessionOpenForSubmission, qnIndx, responseIndx, questionAttributes.courseId,
+                            numOfResponseBoxes, existingResponse.getResponseDetails(), student);
 
-            responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
-                                                                 submissionFormHtml, existingResponse.getId()));
+            FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx,
+                    true, recipientOptionsForQuestion, submissionFormHtml,
+                    existingResponse.getId());
+            if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+
+                FeedbackResponseCommentRow responseCommentRow =
+                        buildFeedbackParticipantResponseCommentRow(questionAttributes, bundle.commentsForResponses,
+                                existingResponse.getId(), true);
+
+                FeedbackResponseCommentRow frcForAdding =
+                        buildFeedbackResponseCommentFormForAdding(questionAttributes, existingResponse.getId(),
+                                "", "", sessionTimeZone, true);
+
+                response.setFeedbackParticipantCommentOnResponse(responseCommentRow);
+                response.setFeedbackResponseCommentAdd(frcForAdding);
+            }
+            responses.add(response);
             responseIndx++;
         }
-
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
-            String submissionFormHtml = questionAttributes.getQuestionDetails()
-                                            .getQuestionWithoutExistingResponseSubmissionFormHtml(
-                                                isSessionOpenForSubmission, qnIndx, responseIndx,
-                                                questionAttributes.courseId, numOfResponseBoxes, student);
 
-            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                                                             submissionFormHtml, ""));
+            String submissionFormHtml = questionAttributes.getQuestionDetails()
+                    .getQuestionWithoutExistingResponseSubmissionFormHtml(
+                            isSessionOpenForSubmission, qnIndx, responseIndx,
+                            questionAttributes.courseId, numOfResponseBoxes, student);
+
+            FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx, false,
+                    recipientOptionsForQuestion, submissionFormHtml, "");
+            if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
+                        questionAttributes, "", "", "", sessionTimeZone, true);
+                response.setFeedbackResponseCommentAdd(frcForAdding);
+            }
+            responses.add(response);
             responseIndx++;
         }
 

@@ -15,7 +15,7 @@ function isGenerateOptionsEnabled(questionNum) {
 }
 
 function getNumOfMsqOptions(questionNum) {
-    return $(`#msqChoiceTable-${questionNum}`).children().length - 1;
+    return $(`#msqChoices-${questionNum}`).children('div').length;
 }
 
 function getMaxSelectableChoicesElement(questionNum) {
@@ -112,11 +112,14 @@ function addMsqOption(questionNum) {
 
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
+    const $choiceColumn = $(`#msqChoices-${questionNum}`);
+    const $weightColumn = $(`#msqWeights-${questionNum}`);
 
-    $(`
+    const choiceFragment = (`
     <div class="margin-bottom-7px" id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
-        <div class="input-group">
+        <div class="input-group width-100-pc">
             <span class="input-group-addon">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
                 <input type="checkbox" disabled>
             </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}"
@@ -130,7 +133,24 @@ function addMsqOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#msqAddOptionRow-${questionNum}`));
+    `);
+
+    const weightFragment = (`
+    <div class="margin-bottom-7px">
+        <input type="number" class="form-control nonDestructive" value="0"
+                id="${ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
+                name="${ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01" min="0" required>
+    </div>
+    `);
+
+    if (curNumberOfChoiceCreated === 0) {
+        $choiceColumn.html(choiceFragment);
+        $weightColumn.html(weightFragment);
+    } else {
+        $choiceColumn.append(choiceFragment);
+        $weightColumn.append(weightFragment);
+    }
+    $choiceColumn.sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -144,15 +164,18 @@ function addMsqOption(questionNum) {
 function removeMsqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const $thisRow = $(`#msqOptionRow-${index}-${questionNum}`);
+    const $thisChoice = $(`#msqOptionRow-${index}-${questionNum}`);
+    const $thisWeight = $(`#msqWeight-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of add option button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child of msqChoices column
+    const numberOfOptions = $(`#msqChoices-${questionNum}`).children('div').length;
 
     if (numberOfOptions <= 1) {
-        $thisRow.find('input').val('');
+        $thisChoice.find('input').val('');
+        $thisWeight.val(0);
     } else {
-        $thisRow.remove();
+        $thisChoice.remove();
+        $thisWeight.parent().remove();
 
         if ($(questionId).attr('editStatus') === 'hasResponses') {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -160,6 +183,74 @@ function removeMsqOption(index, questionNum) {
     }
 
     adjustMinMaxSelectableChoices(questionNum);
+}
+
+/**
+ * Sets the required attribute for Msq weight cells, and if 'other' option is checked,
+ * then sets the required attribute for other weight cell too.
+ */
+function setRequiredAttributeForMsqWeightCells($weightColumn, questionNum, isRequired) {
+    const $weightCells = $weightColumn.find('input[id^="msqWeight"]');
+    const $otherWeightCell = $(`#msqOtherWeight-${questionNum}`);
+    const isOtherOptionEnabled = $(`#msqOtherOptionFlag-${questionNum}`).prop('checked');
+
+    $weightCells.each(function () {
+        $(this).prop('required', isRequired);
+    });
+
+    // If 'other' option is checked, make other weight required.
+    if (isOtherOptionEnabled) {
+        $otherWeightCell.prop('required', isRequired);
+    }
+}
+
+/**
+ * Toggle visiblity of the msq other weight cell.
+ * @param $checkbox is the 'Add Other Option' checkbox.
+ */
+function toggleVisibilityOfMsqOtherWeight($checkbox, questionNum) {
+    // The 'Choices are weighted' checkbox
+    const $msqAssignWeightCheckbox = $(`#msqHasAssignedWeights-${questionNum}`);
+    const $msqOtherWeightCell = $(`#msqOtherWeight-${questionNum}`);
+
+    if ($checkbox.prop('checked') && $msqAssignWeightCheckbox.prop('checked')) {
+        $msqOtherWeightCell.show();
+        // Set other weight as required.
+        $msqOtherWeightCell.prop('required', true);
+    } else {
+        $msqOtherWeightCell.prop('required', false);
+        $msqOtherWeightCell.hide();
+    }
+}
+
+/**
+ * Hides the weight cells and weight label on top of the cells when the checkbox is unchecked,
+ * otherwise, shows the weight cells and label.
+ * If 'other' option is enabled, and 'choices are weighted' checkbox is checked, shows the 'other' weight cell,
+ * otherwise if the checkbox is unchecked, hides the 'other' weight cell.
+ * @param $checkbox
+ * @param questionNum
+ */
+function toggleMsqHasAssignedWeights($checkbox, questionNum) {
+    // The weight label
+    const $weightLabel = $checkbox.parent().siblings('div');
+    const $weightColumn = $(`#msqWeights-${questionNum}`);
+    const $otherEnabledCheckbox = $(`#msqOtherOptionFlag-${questionNum}`);
+
+    if ($checkbox.prop('checked')) {
+        $weightLabel.show();
+        $weightColumn.show();
+        // Set the weight cells as required.
+        setRequiredAttributeForMsqWeightCells($weightColumn, questionNum, true);
+    } else {
+        $weightLabel.hide();
+        // Set the weight cells as not required.
+        setRequiredAttributeForMsqWeightCells($weightColumn, questionNum, false);
+        $weightColumn.hide();
+    }
+
+    // Set the visibility of the 'Other' weight cell
+    toggleVisibilityOfMsqOtherWeight($otherEnabledCheckbox, questionNum);
 }
 
 function toggleMsqMaxSelectableChoices(questionNum) {
@@ -183,24 +274,43 @@ function changeMsqGenerateFor(questionNum) {
 
 function toggleMsqGeneratedOptions(checkbox, questionNum) {
     if ($(checkbox).prop('checked')) {
-        $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
+        $(`#msqChoices-${questionNum}`).find('input[type=text]').prop('disabled', true);
+        $(`#msqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
+        $(`#msqOtherWeight-${questionNum}`).prop('disabled', true);
         $(`#msqChoiceTable-${questionNum}`).hide();
+        $(`#msqHasAssignedWeights-${questionNum}`).parent().hide();
+        // Hide the 'Weights' label
+        $(`#msqHasAssignedWeights-${questionNum}`).parent().siblings('div').hide();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        $(`#msqOtherWeight-${questionNum}`).hide();
         changeMsqGenerateFor(questionNum);
     } else {
-        $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
+        $(`#msqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
+        $(`#msqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
+        $(`#msqOtherWeight-${questionNum}`).prop('disabled', false);
         $(`#msqChoiceTable-${questionNum}`).show();
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
+        $(`#msqHasAssignedWeights-${questionNum}`).parent().show();
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        toggleMsqHasAssignedWeights($(`#msqHasAssignedWeights-${questionNum}`), questionNum);
+        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqGeneratedOptions-${questionNum}`).val('NONE');
     }
 
     adjustMinMaxSelectableChoices(questionNum);
 }
 
+/**
+ * If the 'other' option and Assign weight both are checked, shows the 'other' option,
+ * otherwise hides it.
+ * @param checkbox (Note that checkbox is a DOM element, not a jquery element)
+ * @param questionNum
+ */
 function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
+
+    // Set visibility of msq other weight cell.
+    toggleVisibilityOfMsqOtherWeight($(checkbox), questionNum);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -227,6 +337,20 @@ function bindMsqEvents() {
         const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
         toggleMsqMinSelectableChoices(questionNumber);
     });
+
+    // Bind events for msq other option
+    $('body').on('click', 'input[id^="msqOtherOptionFlag"]', function () {
+        const checkbox = (this);
+        const questionNum = $(checkbox).closest('form').data('qnnumber');
+        toggleMsqOtherOptionEnabled(checkbox, questionNum);
+    });
+
+    // Bind events for msq 'Choices are weighted' checkbox
+    $('body').on('click', 'input[id^="msqHasAssignedWeights"]', function () {
+        const $checkbox = $(this);
+        const questionNum = $checkbox.closest('form').data('qnnumber');
+        toggleMsqHasAssignedWeights($checkbox, questionNum);
+    });
 }
 
 export {
@@ -235,6 +359,7 @@ export {
     changeMsqGenerateFor,
     removeMsqOption,
     toggleMsqGeneratedOptions,
+    toggleMsqHasAssignedWeights,
     toggleMsqOtherOptionEnabled,
     toggleMsqMaxSelectableChoices,
     toggleMsqMinSelectableChoices,

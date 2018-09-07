@@ -282,6 +282,11 @@ public class InstructorHomePage extends AppPage {
         return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
     }
 
+    public void verifyDownloadResultButtonExists(String courseId, String evalName) {
+        WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
+        verifyElementContainsElement(sessionRow, By.className("session-results-download"));
+    }
+
     public void verifyResendPublishedEmailButtonExists(String courseId, String evalName) {
         WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
         verifyElementContainsElement(sessionRow, By.className("session-resend-published-email-for-test"));

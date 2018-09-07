@@ -218,7 +218,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorHomePage&user=${test.instructor}&token=${sessionToken}" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-move-to-recycle-bin-link" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorHomePage&user=${test.instructor}&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
@@ -338,6 +338,18 @@
                           Publish Results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="${test.instructor}">
+                            <input name="fsname" type="hidden" value="Second team feedback session">
+                            <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -437,6 +449,18 @@
                           Resend link to view results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="${test.instructor}">
+                            <input name="fsname" type="hidden" value="First team feedback session">
+                            <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -534,6 +558,18 @@
                       <li>
                         <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
                           Resend link to view results
+                        </a>
+                      </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="${test.instructor}">
+                            <input name="fsname" type="hidden" value="Session with different question types">
+                            <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
                         </a>
                       </li>
                     </ul>

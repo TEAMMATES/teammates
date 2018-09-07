@@ -101,7 +101,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAddDeleteActions() throws Exception {
         testAddAction();
-        testDeleteAction();
+        testMoveToRecycleBinAction();
     }
 
     @Test
@@ -109,6 +109,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         testRemindActions();
         testPublishAndResendLinkAction();
         testUnpublishAction();
+    }
+
+    @Test
+    public void testRecycleBinActions() throws Exception {
+        testRestoreAction();
+        testRestoreAllAction();
+        testDeleteAction();
+        testDeleteAllAction();
     }
 
     @Test
@@ -580,19 +588,114 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
     }
 
-    private void testDeleteAction() throws Exception {
+    private void testMoveToRecycleBinAction() throws Exception {
 
         String courseId = newSession.getCourseId();
         String sessionName = "Long Instruction Test ##";
 
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.clickAndCancel(feedbackPage.getDeleteLink(courseId, sessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions)
+                .moveSessionToRecycleBin(courseId, sessionName);
+        newSession.setDeletedTime();
+
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
         assertNotNull("session should not have been deleted",
                       BackDoor.getFeedbackSession(courseId, sessionName));
+        assertTrue(newSession.isSessionDeleted());
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecycleBinSuccessful.html");
 
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
+    }
+
+    private void testRestoreAction() throws Exception {
+
+        String instructorId = testData.accounts.get("instructorWithCS2105").googleId;
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.verifyHtmlMainContent("/instructorOfCS2105WithMultipleSoftDeletedSessions.html");
+        FeedbackSessionAttributes session1OfCS2105 = testData.feedbackSessions.get("session1OfCS2105");
+        assertTrue(session1OfCS2105.isSessionDeleted());
+
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.restoreSession(session1OfCS2105.getCourseId(), session1OfCS2105.getFeedbackSessionName());
+        session1OfCS2105.resetDeletedTime();
+
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_RESTORED));
+        assertNotNull(BackDoor.getFeedbackSession(session1OfCS2105.getCourseId(), session1OfCS2105.getSessionName()));
+        assertFalse(session1OfCS2105.isSessionDeleted());
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackRestoreSuccessful.html");
+
+    }
+
+    private void testRestoreAllAction() throws Exception {
+
+        FeedbackSessionAttributes session2OfCS2105 = testData.feedbackSessions.get("session2OfCS2105");
+        FeedbackSessionAttributes session3OfCS2105 = testData.feedbackSessions.get("session3OfCS2105");
+        assertTrue(session2OfCS2105.isSessionDeleted());
+        assertTrue(session3OfCS2105.isSessionDeleted());
+
+        feedbackPage.restoreAllSessions();
+        session2OfCS2105.resetDeletedTime();
+        session3OfCS2105.resetDeletedTime();
+
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_ALL_RESTORED));
+        assertNotNull(BackDoor.getFeedbackSession(session2OfCS2105.getCourseId(),
+                session2OfCS2105.getFeedbackSessionName()));
+        assertNotNull(BackDoor.getFeedbackSession(session3OfCS2105.getCourseId(),
+                session3OfCS2105.getFeedbackSessionName()));
+        assertFalse(session2OfCS2105.isSessionDeleted());
+        assertFalse(session3OfCS2105.isSessionDeleted());
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackRestoreAllSuccessful.html");
+
+    }
+
+    private void testDeleteAction() throws Exception {
+
+        String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.verifyHtmlMainContent("/instructorOfCS2106WithMultipleSoftDeletedSessions.html");
+        FeedbackSessionAttributes session1OfCS2106 = testData.feedbackSessions.get("session1OfCS2106");
+        assertTrue(session1OfCS2106.isSessionDeleted());
+
+        // Delete and cancel
+        feedbackPage.deleteSessionAndCancel(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
+
+        assertNotNull(BackDoor.getFeedbackSession(session1OfCS2106.getCourseId(),
+                session1OfCS2106.getFeedbackSessionName()));
+
+        // Delete and confirm
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.deleteSessionAndConfirm(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
+
+        assertNull(BackDoor.getFeedbackSession(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName()));
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteSuccessful.html");
+
+    }
+
+    private void testDeleteAllAction() throws Exception {
+
+        String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
+        FeedbackSessionAttributes session2OfCS2106 = testData.feedbackSessions.get("session2OfCS2106");
+        FeedbackSessionAttributes session3OfCS2106 = testData.feedbackSessions.get("session3OfCS2106");
+        assertTrue(session2OfCS2106.isSessionDeleted());
+        assertTrue(session3OfCS2106.isSessionDeleted());
+
+        // Delete all and cancel
+        feedbackPage.deleteAllSessionsAndCancel();
+
+        assertNotNull(BackDoor.getFeedbackSession(session2OfCS2106.getCourseId(),
+                session2OfCS2106.getFeedbackSessionName()));
+        assertNotNull(BackDoor.getFeedbackSession(session3OfCS2106.getCourseId(),
+                session3OfCS2106.getFeedbackSessionName()));
+
+        // Delete all and confirm
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.deleteAllSessionsAndConfirm();
+
+        assertNull(BackDoor.getFeedbackSession(session2OfCS2106.getCourseId(), session2OfCS2106.getFeedbackSessionName()));
+        assertNull(BackDoor.getFeedbackSession(session3OfCS2106.getCourseId(), session3OfCS2106.getFeedbackSessionName()));
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteAllSuccessful.html");
 
     }
 
@@ -1010,7 +1113,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 getPopulatedEmptyStringErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                         FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
         assertTrue(feedbackPage.isVisible(By.id("timeFramePanel")));

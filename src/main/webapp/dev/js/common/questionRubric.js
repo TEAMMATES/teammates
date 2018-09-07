@@ -14,8 +14,8 @@ function getRubricChoiceElem(questionNum, col) {
     return $(`#rubricChoice-${questionNum}-${col}`);
 }
 
-function getRubricWeightElem(questionNum, col) {
-    return $(`#rubricWeight-${questionNum}-${col}`);
+function getRubricWeightElem(questionNum, row, col) {
+    return $(`#rubricWeight-${questionNum}-${row}-${col}`);
 }
 
 function getRubricDescElem(questionNum, row, col) {
@@ -30,9 +30,11 @@ function swapRubricCol(questionNum, firstColIndex, secondColIndex) {
     const elemSelector = (type, col, row = 0) => {
         if (type === CHOICE) {
             return getRubricChoiceElem(questionNum, col);
-        } else if (type === WEIGHT) {
-            return getRubricWeightElem(questionNum, col);
-        } else if (type === DESC) {
+        }
+        if (type === WEIGHT) {
+            return getRubricWeightElem(questionNum, row, col);
+        }
+        if (type === DESC) {
             return getRubricDescElem(questionNum, row, col);
         }
 
@@ -51,7 +53,9 @@ function swapRubricCol(questionNum, firstColIndex, secondColIndex) {
     swapValues(CHOICE);
 
     // swap rubric weights
-    swapValues(WEIGHT);
+    for (let row = 0; row < numberOfRows; row += 1) {
+        swapValues(WEIGHT, row);
+    }
 
     // swap options filled
     for (let row = 0; row < numberOfRows; row += 1) {
@@ -131,6 +135,35 @@ function disableCornerMoveRubricColumnButtons(questionNum) {
     enableMoveRightOfSecondLastCol(questionNum);
 }
 
+/**
+ * Sets the 'required' attribute in weight cells.
+ */
+function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
+    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
+
+    $weightCells.each(function () {
+        $(this).prop('required', isRequired);
+    });
+}
+
+/**
+ * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
+ * otherwise hides the weight row and removes the 'required' field from all weight cells.
+ *
+ * @param checkbox the "Choices are weighted" checkbox
+ */
+function toggleAssignWeightsRow($checkbox) {
+    const $weightsRows = $checkbox.closest('form').find('td > div[class^="rubricWeights"]');
+
+    if ($checkbox.prop('checked')) {
+        $weightsRows.show();
+        setRequiredAttributeToRubricWeights($weightsRows, true);
+    } else {
+        setRequiredAttributeToRubricWeights($weightsRows, false);
+        $weightsRows.hide();
+    }
+}
+
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -145,11 +178,21 @@ function addRubricRow(questionNum) {
         if (!$(`.rubricCol-${questionNum}-${cols}`).length) {
             continue;
         }
+
+        // Create rubric weight cell
+        const rubricWeightFragment =
+            `<div class="rubricWeights-${questionNum}">
+                <input type="number" class="form-control nonDestructive margin-top-10px" value="0"
+                        id="rubricWeight-${questionNum}-${newRowNumber - 1}-${cols}"
+                        name="rubricWeight-${newRowNumber - 1}-${cols}" step="0.01" required>
+            </div>`;
+
         const rubricRowFragment =
             `<td class="align-center rubricCol-${questionNum}-${cols}">
-                <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}"
-                        name="rubricDesc-${newRowNumber - 1}-${cols}"></textarea>
-            </td>`;
+                 <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}"
+                         name="rubricDesc-${newRowNumber - 1}-${cols}"></textarea>
+                 ${rubricWeightFragment}
+             </td>`;
         rubricRowBodyFragments += rubricRowFragment;
     }
 
@@ -182,6 +225,17 @@ function addRubricRow(questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
+
+    // Disallow non-numeric entries in each weight cell.
+    for (let cols = 0; cols < numberOfCols; cols += 1) {
+        if (!$(`.rubricCol-${questionNum}-${cols}`).length) {
+            continue;
+        }
+        disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${newRowNumber - 1}-${cols}`), true, true);
+    }
+
+    // Hide weight cells if weights are not assigned, show otherwise.
+    toggleAssignWeightsRow($(`#rubricAssignWeights-${questionNum}`));
 }
 
 function addRubricCol(questionNum) {
@@ -204,35 +258,33 @@ function addRubricCol(questionNum) {
     const lastTh = $(`#rubricEditTable-${questionNum}`).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
 
-    // Insert weight <th>
-    const rubricWeightFragment =
-        `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
-            <input type="number" class="form-control nonDestructive" value="0"
-                    id="rubricWeight-${questionNum}-${newColNumber - 1}"
-                    name="rubricWeight-${newColNumber - 1}" step="0.01" required>
-        </th>`;
-
-    // Insert after last <th>
-    const lastWeightCell = $(`#rubricWeights-${questionNum} th:last`);
-    $(rubricWeightFragment).insertAfter(lastWeightCell);
-
-    disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${newColNumber - 1}`), true, true);
-
-    // Create numberOfRows of <td>'s
+    // Create numberOfRows of <td>'s to insert rubric description and weight cells.
     for (let rows = 0; rows < numberOfRows; rows += 1) {
         if (!$(`#rubricRow-${questionNum}-${rows}`).length) {
             continue;
         }
+
+        // Create rubric weight cell
+        const rubricWeightFragment =
+            `<div class="rubricWeights-${questionNum}">
+                <input type="number" class="form-control nonDestructive margin-top-10px" value="0"
+                        id="rubricWeight-${questionNum}-${rows}-${newColNumber - 1}"
+                        name="rubricWeight-${rows}-${newColNumber - 1}" step="0.01" required>
+             </div>`;
+
         // Insert body <td>'s
         const rubricRowFragment =
             `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">
-                <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}"
-                        name="rubricDesc-${rows}-${newColNumber - 1}"></textarea>
-            </td>`;
+                 <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}"
+                         name="rubricDesc-${rows}-${newColNumber - 1}"></textarea>
+                 ${rubricWeightFragment}
+             </td>`;
 
         // Insert after previous <td>
         const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
         $(rubricRowFragment).insertAfter(lastTd);
+
+        disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${rows}-${newColNumber - 1}`), true, true);
     }
 
     // Add options row at the end
@@ -282,6 +334,8 @@ function addRubricCol(questionNum) {
     }
 
     disableCornerMoveRubricColumnButtons(questionNum);
+    // Hide weight cells if weights are not assigned, show otherwise.
+    toggleAssignWeightsRow($(`#rubricAssignWeights-${questionNum}`));
 }
 
 function removeRubricRow(index, questionNum) {
@@ -351,37 +405,6 @@ function highlightRubricCol(index, questionNum, highlight) {
         $rubricCol.addClass('cell-selected-negative');
     } else {
         $rubricCol.removeClass('cell-selected-negative');
-    }
-}
-
-/**
- * Sets the 'required' attribute in weight cells.
- */
-function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
-    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
-
-    $weightCells.each(function () {
-        $(this).prop('required', isRequired);
-    });
-}
-
-/**
- * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
- * otherwise hides the weight row and removes the 'required' field from all weight cells.
- *
- * @param checkbox the "Choices are weighted" checkbox
- */
-function toggleAssignWeightsRow($checkbox) {
-    const $weightsRow = $checkbox.closest('form').find('tr[id^="rubricWeights"]');
-    const $weightsRowFirstCell = $weightsRow.find('th').first();
-
-    if ($checkbox.prop('checked')) {
-        $weightsRow.show();
-        $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
-        setRequiredAttributeToRubricWeights($weightsRow, true);
-    } else {
-        setRequiredAttributeToRubricWeights($weightsRow, false);
-        $weightsRow.hide();
     }
 }
 

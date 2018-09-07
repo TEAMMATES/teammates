@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
@@ -21,6 +22,10 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * TODO: Backend validation. Blocked by #8646
  */
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "rank";
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -80,7 +85,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // Submit
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14.");
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
@@ -310,6 +315,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
     }
 
     @Override
@@ -611,6 +617,82 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
+
+    /**
+     * Tests that rank options choices (new and existing) can be reordered using drag and drop mechanism.
+     * @throws Exception when option is not draggable
+     */
+    private void testReorderOptions() throws Exception {
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAddMoreRankOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreRankOptionLinkForNewQuestion();
+
+        feedbackEditPage.fillRankOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillRankOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillRankOptionForNewQuestion(2, "Choice 3");
+        feedbackEditPage.fillRankOptionForNewQuestion(3, "Choice 4");
+
+        ______TS("Rank options: reorder existing options");
+
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.clickAddQuestionButton();
+        JSONObject rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                                        .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
+
+        ______TS("Rank options: add option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreRankOptionLink(1);
+        feedbackEditPage.fillRankOption(1, 4, "New Choice");
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
+
+        ______TS("Rank options: delete option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveRankOptionLink(1, 2);
+        feedbackEditPage.fillRankOption(1, 1, "Old Choice");
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
+
+        ______TS("Rank options: add, delete and reorder options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveRankOptionLink(1, 2);
+        feedbackEditPage.clickAddMoreRankOptionLink(1);
+        feedbackEditPage.clickAddMoreRankOptionLink(1);
+        feedbackEditPage.fillRankOption(1, 4, "New Choice");
+        feedbackEditPage.fillRankOption(1, 5, "Newer Choice");
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData.getValue());
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
+
+        ______TS("Rank options: delete question");
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {

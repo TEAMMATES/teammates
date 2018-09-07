@@ -203,7 +203,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="CHomeUiT.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-move-to-recycle-bin-link" data-course-id="CHomeUiT.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
@@ -354,7 +354,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="CHomeUiT.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-move-to-recycle-bin-link" data-course-id="CHomeUiT.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
@@ -474,6 +474,18 @@
                           Publish Results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="First Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -573,6 +585,18 @@
                           Resend link to view results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="Fourth Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -667,6 +691,18 @@
                           Publish Results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="Third Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -759,6 +795,18 @@
                       <li>
                         <a class="session-publish-for-test disabled" data-fsname="Second Feedback Session" data-sending-published-email="true" href="javascript:;">
                           Publish Results
+                        </a>
+                      </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+                            <input name="fsname" type="hidden" value="Second Feedback Session">
+                            <input name="courseid" type="hidden" value="CHomeUiT.CS2104">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
                         </a>
                       </li>
                     </ul>

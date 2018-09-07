@@ -1,9 +1,10 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorFeedbacks and instructorHome - Feedback Session actions" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbacks - Feedback Session actions" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
+
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px<c:if test="${not actions.allowedToEdit}"> disabled</c:if>"
     href="${actions.allowedToEdit ? actions.editLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
@@ -11,9 +12,9 @@
     data-placement="top">
   Edit
 </a>
-<a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
+<a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
     href="${actions.allowedToDelete ? actions.deleteLink : 'javascript:;'}"
-    title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
+    title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECYCLE_BIN %>"
     data-toggle="tooltip"
     data-placement="top"
     data-courseid="${actions.courseId}"
@@ -68,18 +69,32 @@
         <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
       </li>
       <c:if test="${actions.allowedToResendPublishedEmail}">
+        <li>
+          <a href="javascript:;"
+              data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
+              class="session-resend-published-email-for-test"
+              data-courseid="${actions.courseId}"
+              data-fsname="${actions.fsName}"
+              data-toggle="modal"
+              data-target="#resendPublishedEmailModal">
+            Resend link to view results
+          </a>
+        </li>
+      </c:if>
       <li>
-        <a href="javascript:;"
-            data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
-            class="session-resend-published-email-for-test"
-            data-courseid="${actions.courseId}"
-            data-fsname="${actions.fsName}"
-            data-toggle="modal"
-            data-target="#resendPublishedEmailModal">
-          Resend link to view results
+        <a>
+          <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
+            <input type="submit" class="btn-tm-actions session-results-download"
+                   name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>" value="Download Results"
+                   style="border: none; padding: 0; background: none;">
+            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${actions.fsName}">
+            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${actions.courseId}">
+            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="true">
+            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="true">
+          </form>
         </a>
       </li>
-      </c:if>
     </ul>
   </div>
 </div>

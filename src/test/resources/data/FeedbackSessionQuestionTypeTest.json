@@ -741,7 +741,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true}"
+        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0,0.0],\"msqOtherWeight\":3.0}"
       },
       "questionNumber": 3,
       "questionType": "MSQ",
@@ -895,7 +895,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[1.25,-1.7],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,-1.7],[1.25,-1.7]],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
       },
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -917,7 +917,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[1.25,1],\"questionText\":\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,1],[1.25,1]],\"questionText\":\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
       },
       "questionNumber": 2,
       "questionType": "RUBRIC",
@@ -1084,6 +1084,17 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response3ForQ1S1C1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       }
@@ -1711,6 +1722,69 @@
       }
     }
   },
-  "feedbackResponseComments": {},
+  "feedbackResponseComments": {
+    "comment1OnR3Q1S1C2": {
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "student1InCourse1@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%student3InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Student 3 comment"
+      }
+    },
+    "comment1OnR2Q1S1C2": {
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "student2InCourse1@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Student 2 comment"
+      }
+    },
+    "comment2OnR2Q1S1C2": {
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackSessionName": "MCQ Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "instructor1@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER_TEAM_MEMBERS"
+      ],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Instructor 1 comment to student 2"
+      }
+    }
+  },
   "profiles": {}
 }

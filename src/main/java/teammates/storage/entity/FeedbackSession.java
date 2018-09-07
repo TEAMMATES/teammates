@@ -56,6 +56,8 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private Date createdTime;
 
+    private Date deletedTime;
+
     private Date startTime;
 
     private Date endTime;
@@ -112,20 +114,20 @@ public class FeedbackSession extends BaseEntity {
         // required by Objectify
     }
 
-    public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+    public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
+            Text instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-             sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
-             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, deletedTime, startTime, endTime,
+                sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
+                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
+                isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
-    public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+    public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
+            Text instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
@@ -136,6 +138,7 @@ public class FeedbackSession extends BaseEntity {
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
         this.createdTime = TimeHelper.convertInstantToDate(createdTime);
+        this.deletedTime = TimeHelper.convertInstantToDate(deletedTime);
         this.startTime = TimeHelper.convertInstantToDate(startTime);
         this.endTime = TimeHelper.convertInstantToDate(endTime);
         this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
@@ -267,6 +270,14 @@ public class FeedbackSession extends BaseEntity {
         this.createdTime = TimeHelper.convertInstantToDate(createdTime);
     }
 
+    public Instant getDeletedTime() {
+        return TimeHelper.convertDateToInstant(deletedTime);
+    }
+
+    public void setDeletedTime(Instant deletedTime) {
+        this.deletedTime = TimeHelper.convertInstantToDate(deletedTime);
+    }
+
     public Instant getStartTime() {
         return TimeHelper.convertDateToInstant(startTime);
     }
@@ -392,8 +403,8 @@ public class FeedbackSession extends BaseEntity {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName
                 + ", courseId=" + courseId + ", creatorId=" + creatorEmail
                 + ", instructions=" + instructions + ", createdTime="
-                + createdTime + ", startTime=" + startTime + ", endTime="
-                + endTime + ", sessionVisibleFromTime="
+                + createdTime + ", deletedTime=" + deletedTime + ", startTime=" + startTime
+                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                 + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod

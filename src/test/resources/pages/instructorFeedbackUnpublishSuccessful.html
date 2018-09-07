@@ -722,7 +722,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -753,6 +753,18 @@
                   <li>
                     <a class="session-publish-for-test disabled" data-fsname="Awaiting Session #" data-sending-published-email="true" href="javascript:;">
                       Publish Results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="Awaiting Session #">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS2104">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
                     </a>
                   </li>
                 </ul>
@@ -809,7 +821,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -840,6 +852,18 @@
                   <li>
                     <a class="session-publish-for-test" data-fsname="Open Session #" data-sending-published-email="true" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
                       Publish Results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="Open Session #">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS1101">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
                     </a>
                   </li>
                 </ul>
@@ -896,7 +920,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -932,6 +956,18 @@
                   <li>
                     <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
                       Resend link to view results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="First Session #1">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS2104">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
                     </a>
                   </li>
                 </ul>
@@ -988,7 +1024,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -1019,6 +1055,18 @@
                   <li>
                     <a class="session-publish-for-test" data-fsname="Manual Session #1" data-sending-published-email="true" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
                       Publish Results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="Manual Session #1">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS1101">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
                     </a>
                   </li>
                 </ul>
@@ -1052,8 +1100,9 @@
       </tbody>
     </table>
     <p class="col-md-12 text-muted">
-      Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.
+      Note: The table above doesn't contain sessions from archived courses and soft-deleted courses. To view sessions from an archived course, unarchive the course first; to view sessions from a soft-deleted course, restore the course first.
     </p>
+    <br>
     <br>
     <br>
     <br>

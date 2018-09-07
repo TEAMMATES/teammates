@@ -8,9 +8,12 @@ public class FeedbackSubmissionEditResponse {
     private List<String> recipientOptionsForQuestion;
     private String submissionFormHtml;
     private String responseId;
+    private FeedbackResponseCommentRow feedbackParticipantCommentOnResponse;
+    private FeedbackResponseCommentRow feedbackResponseCommentAdd;
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
-                                    List<String> recipientOptionsForQuestion, String submissionFormHtml, String responseId) {
+                                          List<String> recipientOptionsForQuestion, String submissionFormHtml,
+                                          String responseId) {
 
         this.responseIndx = responseIndx;
         this.isExistingResponse = isExistingResponse;
@@ -37,5 +40,21 @@ public class FeedbackSubmissionEditResponse {
 
     public String getResponseId() {
         return responseId;
+    }
+
+    public FeedbackResponseCommentRow getFeedbackParticipantCommentOnResponse() {
+        return feedbackParticipantCommentOnResponse;
+    }
+
+    public FeedbackResponseCommentRow getFeedbackResponseCommentAdd() {
+        return feedbackResponseCommentAdd;
+    }
+
+    public void setFeedbackParticipantCommentOnResponse(FeedbackResponseCommentRow feedbackParticipantCommentOnResponse) {
+        this.feedbackParticipantCommentOnResponse = feedbackParticipantCommentOnResponse;
+    }
+
+    public void setFeedbackResponseCommentAdd(FeedbackResponseCommentRow feedbackResponseCommentAdd) {
+        this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 }

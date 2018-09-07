@@ -158,14 +158,15 @@ public class InstructorSearchPageData extends PageData {
             String response = responseEntry.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
 
             rows.add(new ResponseRow(giverName, recipientName, response,
-                                       createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle)));
+                                       createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle, question)));
         }
         return rows;
     }
 
     private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
                                     FeedbackResponseAttributes responseEntry,
-                                    FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
+                                    FeedbackResponseCommentSearchResultBundle frcSearchResultBundle,
+                                    FeedbackQuestionAttributes question) {
 
         List<FeedbackResponseCommentRow> rows = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
@@ -175,12 +176,12 @@ public class InstructorSearchPageData extends PageData {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
             if (!Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(frCommentGiver)) {
-                frCommentGiver = frc.giverEmail;
+                frCommentGiver = frc.commentGiver;
             }
 
             ZoneId sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
-                    frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
+                    frcSearchResultBundle.commentGiverEmailToNameTable, sessionTimeZone, question);
 
             rows.add(frcDiv);
         }
@@ -188,7 +189,7 @@ public class InstructorSearchPageData extends PageData {
     }
 
     private List<StudentListSectionData> createStudentRows(String courseId,
-                                                           StudentSearchResultBundle studentSearchResultBundle) {
+            StudentSearchResultBundle studentSearchResultBundle) {
         List<StudentListSectionData> rows = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = filterStudentsByCourse(
                                                        courseId, studentSearchResultBundle);
@@ -235,8 +236,7 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
 
-    private List<String> getCourseIdsFromStudentSearchResultBundle(
-                                    StudentSearchResultBundle studentSearchResultBundle) {
+    private List<String> getCourseIdsFromStudentSearchResultBundle(StudentSearchResultBundle studentSearchResultBundle) {
         List<String> courses = new ArrayList<>();
 
         for (StudentAttributes student : studentSearchResultBundle.studentList) {

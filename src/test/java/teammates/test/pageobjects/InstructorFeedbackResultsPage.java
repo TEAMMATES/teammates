@@ -4,12 +4,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -220,7 +218,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
-        WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
+        WebElement button = browser.driver.findElement(By.id("edit_icon_button"));
         click(button);
 
         InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class);
@@ -263,7 +261,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
+    public void editFeedbackResponseCommentInOpenedCommentModal(String commentIdSuffix, String newCommentText) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         click(commentRow.findElements(By.tagName("a")).get(1));
 
@@ -424,7 +422,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(1500);
     }
 
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
+    private void waitForCommentRowContentEquals(String commentRowIdSuffix, String commentText, String giverName) {
         By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
         WebElement commentRow = waitForElementPresence(commentRowSelector);
         waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
@@ -432,20 +430,21 @@ public class InstructorFeedbackResultsPage extends AppPage {
                    || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
 
-    public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
-        WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
-        assertEquals(errorMessage, errorMessageSpan.getText());
+    /**
+     * Waits for the new comment to be added (works on both modal and inline).
+     * Note: this only verifies the new comment text is added and only <strong>approximately</strong>
+     * checks the state of the added comment based on implementation.
+     */
+    public void waitAndVerifyForFeedbackResponseCommentAdded(String commentRowIdSuffix, String commentText,
+            String giverName) {
+        waitForCommentRowContentEquals(commentRowIdSuffix, commentText, giverName);
+        // Checks approximately that the added comment is constructed correctly
+        assertTrue(isElementPresent(By.id("responseCommentEditForm" + commentRowIdSuffix)));
     }
 
-    public void verifyRowMissing(String rowIdSuffix) {
-        try {
-            waitForAjaxLoaderGifToDisappear();
-            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
-            fail("Row expected to be missing found.");
-        } catch (NoSuchElementException expected) {
-            // row expected to be missing
-            return;
-        }
+    public void waitForCommentFormErrorMessageEquals(String commentTableIdSuffix, String errorMessage) {
+        WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
+        assertEquals(errorMessage, errorMessageSpan.getText());
     }
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) throws MaximumRetriesExceededException {
