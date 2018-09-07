@@ -13,44 +13,13 @@ import { NavigationService } from '../../navigation.service';
 })
 export class AboutPageComponent implements OnInit {
 
-  /**
-   * Total number of contributors and developers.
-   */
   nDevelopers: number = 0;
-
-  /**
-   * Current core team members.
-   */
   teamMembers: any[] = [];
-
-  /**
-   * Past core team members.
-   */
   pastTeamMembers: any[] = [];
-
-  /**
-   * Current committers.
-   */
   committers: any[] = [];
-
-  /**
-   * Past committers.
-   */
   pastCommitters: any[] = [];
-
-  /**
-   * Major contributors.
-   */
   majorContributors: any[] = [];
-
-  /**
-   * Contributors who have had > 1 PR merged.
-   */
   multipleContributors: any[] = [];
-
-  /**
-   * Contributors who have had just 1 PR merged.
-   */
   singleContributors: any[] = [];
 
   constructor(private router: Router, private navigationService: NavigationService,

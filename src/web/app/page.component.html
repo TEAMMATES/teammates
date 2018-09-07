@@ -7,15 +7,16 @@
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
     <ul class="nav navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web', $event)">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/features', $event)">Features</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/about', $event)">About Us</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/contact', $event)">Contact</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" (click)="navigateTo('/web/terms', $event)">Terms of Use</a></li>
+      <li *ngFor="let navItem of navItems" class="nav-item">
+        <a class="nav-link" href="javascript:;" (click)="navigateTo(navItem.url, $event)">{{ navItem.display }}</a>
+      </li>
     </ul>
-    <ul class="nav navbar-nav pull-right">
+    <ul class="nav navbar-nav pull-right" *ngIf="allowLogin">
       <li class="nav-item"><a class="nav-link" href="javascript:;">Student Login</a></li>
       <li class="nav-item"><a class="nav-link" href="javascript:;">Instructor Login</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right" *ngIf="allowLogout">
+      <li class="nav-item"><a class="nav-link" href="javascript:;">Log Out</a></li>
     </ul>
   </div>
 </nav>
