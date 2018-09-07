@@ -2,12 +2,10 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,47 +32,25 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
+    /**
+     * Gets a list of feedback sessions that have start/end time laid between {@code rangeStart} and {@code rangeEnd}.
+     */
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
-        List<FeedbackSessionAttributes> list = new LinkedList<>();
-
-        // To retrieve legacy data where local dates are stored instead of UTC
-        // TODO: remove after all legacy data has been converted
-        Instant start = rangeStart.minus(Duration.ofHours(25));
-        Instant end = rangeEnd.plus(Duration.ofHours(25));
-
         List<FeedbackSession> endEntities = load()
-                .filter("endTime >", TimeHelper.convertInstantToDate(start))
-                .filter("endTime <=", TimeHelper.convertInstantToDate(end))
+                .filter("endTime >", TimeHelper.convertInstantToDate(rangeStart))
+                .filter("endTime <=", TimeHelper.convertInstantToDate(rangeEnd))
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", TimeHelper.convertInstantToDate(start))
-                .filter("startTime <", TimeHelper.convertInstantToDate(end))
+                .filter("startTime >=", TimeHelper.convertInstantToDate(rangeStart))
+                .filter("startTime <", TimeHelper.convertInstantToDate(rangeEnd))
                 .list();
 
-        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
+        // remove duplications
+        endEntities.removeAll(startEntities);
+        endEntities.addAll(startEntities);
 
-        endTimeEntities.removeAll(startTimeEntities);
-        startTimeEntities.removeAll(endTimeEntities);
-        endTimeEntities.addAll(startTimeEntities);
-
-        // TODO: remove after all legacy data has been converted
-        for (FeedbackSession feedbackSession : endTimeEntities) {
-            FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
-            Instant fsStart = fs.getStartTime();
-            Instant fsEnd = fs.getEndTime();
-
-            boolean isStartTimeWithinRange = (fsStart.isAfter(rangeStart) || fsStart.equals(rangeStart))
-                    && fsStart.isBefore(rangeEnd);
-            boolean isEndTimeWithinRange = fsEnd.isAfter(rangeStart) && (fsEnd.isBefore(rangeEnd) || fsEnd.equals(rangeEnd));
-
-            if (isStartTimeWithinRange || isEndTimeWithinRange) {
-                list.add(fs);
-            }
-        }
-
-        return list;
+        return makeAttributes(endEntities);
     }
 
     /**
