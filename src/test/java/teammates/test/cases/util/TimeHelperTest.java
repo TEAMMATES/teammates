@@ -102,8 +102,6 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
         localDate = Date.from(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-        localDate = Date.from(Const.TIME_REPRESENTS_NEVER);
-        assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
         localDate = Date.from(Const.TIME_REPRESENTS_LATER);
         assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
         localDate = Date.from(Const.TIME_REPRESENTS_NOW);
