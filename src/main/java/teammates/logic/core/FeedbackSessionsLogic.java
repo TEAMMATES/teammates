@@ -111,10 +111,21 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * This method returns a single feedback session. Returns null if not found.
+     * Gets a feedback session from the data storage.
+     *
+     * @return null if not found or in recycle bin.
      */
     public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName);
+    }
+
+    /**
+     * Gets a feedback session from the recycle bin.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
+        return fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(
@@ -1542,7 +1553,7 @@ public final class FeedbackSessionsLogic {
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
+        FeedbackSessionAttributes feedbackSession = fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
         feedbackSession.resetDeletedTime();
         fsDb.updateFeedbackSession(feedbackSession);
     }

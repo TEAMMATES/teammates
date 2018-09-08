@@ -33,6 +33,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -2050,7 +2051,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         Instant deletedTime = fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
         feedbackSession.setDeletedTime(deletedTime);
 
-        verifyPresentInDatastore(feedbackSession);
+        FeedbackSessionAttributes actualFs = fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        assertEquals(JsonUtils.toJson(feedbackSession), JsonUtils.toJson(actualFs));
         assertTrue(feedbackSession.isSessionDeleted());
     }
 

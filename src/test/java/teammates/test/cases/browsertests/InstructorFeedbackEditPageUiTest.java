@@ -1216,7 +1216,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbackSessionsPage feedbackPage = feedbackEditPage.deleteSession();
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
-        assertNotNull(getFeedbackSession(courseId, feedbackSessionName));
+
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(courseId, feedbackSessionName));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
