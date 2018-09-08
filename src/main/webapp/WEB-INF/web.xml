@@ -29,7 +29,7 @@
 
     <filter>
         <filter-name>CorsFilter</filter-name>
-        <filter-class>teammates.ui.controller.CorsFilter</filter-class>
+        <filter-class>teammates.ui.newcontroller.CorsFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CorsFilter</filter-name>
@@ -38,7 +38,7 @@
 
     <servlet>
         <servlet-name>AuthServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.AuthServlet</servlet-class>
+        <servlet-class>teammates.ui.newcontroller.AuthServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
