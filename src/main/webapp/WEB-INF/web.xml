@@ -34,7 +34,7 @@
     </filter>
     <filter-mapping>
         <filter-name>CorsFilter</filter-name>
-        <url-pattern>/auth</url-pattern>
+        <url-pattern>/webapi/auth</url-pattern>
     </filter-mapping>
 
     <servlet>
@@ -43,7 +43,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
-        <url-pattern>/auth</url-pattern>
+        <url-pattern>/webapi/auth</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -84,7 +84,7 @@
         <web-resource-collection>
             <web-resource-name>WebResources</web-resource-name>
             <url-pattern>/backdoor</url-pattern>
-            <url-pattern>/auth</url-pattern>
+            <url-pattern>/webapi/*</url-pattern>
             <url-pattern>/web/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
