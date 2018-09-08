@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
@@ -30,7 +31,7 @@ const routes: Routes = [
     loadChildren: './pages-admin/admin-pages.module#AdminPagesModule',
   },
   {
-    path: '',
+    path: '**',
     pathMatch: 'full',
     redirectTo: 'front',
   },
@@ -43,6 +44,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     NgbModule,
+    PageNotFoundModule,
     RouterModule.forChild(routes),
   ],
   declarations: [

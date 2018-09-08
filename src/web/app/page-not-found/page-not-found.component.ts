@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavigationService } from '../../navigation.service';
+import { NavigationService } from '../navigation.service';
 
 /**
  * "Page not found" page.
