@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Base skeleton for student pages.
  */
 @Component({
   selector: 'tm-student-page',
-  templateUrl: './student-page.component.html',
-  styleUrls: ['./student-page.component.scss'],
+  template: '<tm-page [navItems]="navItems" [logoutUrl]="logoutUrl" [isValidUser]="isValidUser"></tm-page>',
 })
-export class StudentPageComponent {
+export class StudentPageComponent implements OnInit {
 
+  logoutUrl: string = '';
+  isValidUser: boolean = false;
   navItems: any[] = [
     {
       url: '/web/student',
@@ -17,6 +20,19 @@ export class StudentPageComponent {
     },
   ];
 
-  constructor() {}
+  private backendUrl: string = environment.backendUrl;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.getAuthUser().subscribe((res: any) => {
+      if (res.logoutUrl) {
+        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
+      }
+      this.isValidUser = res.user && res.user.isStudent;
+    }, () => {
+      // TODO
+    });
+  }
 
 }

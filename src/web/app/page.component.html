@@ -6,17 +6,27 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
-    <ul class="nav navbar-nav mr-auto">
+    <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
       <li *ngFor="let navItem of navItems" class="nav-item">
         <a class="nav-link" href="javascript:;" (click)="navigateTo(navItem.url, $event)">{{ navItem.display }}</a>
       </li>
     </ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="allowLogin">
-      <li class="nav-item"><a class="nav-link" href="javascript:;">Student Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;">Instructor Login</a></li>
+    <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
+    <ul class="nav navbar-nav pull-right" *ngIf="studentLoginUrl && instructorLoginUrl">
+      <li class="nav-item"><a class="nav-link" [href]="studentLoginUrl">Student Login</a></li>
+      <li class="nav-item"><a class="nav-link" [href]="instructorLoginUrl">Instructor Login</a></li>
     </ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="allowLogout">
-      <li class="nav-item"><a class="nav-link" href="javascript:;">Log Out</a></li>
+    <ul class="nav navbar-nav pull-right" *ngIf="logoutUrl">
+      <li class="nav-item" *ngIf="isStudent">
+        <a class="nav-link" (click)="navigateTo('/web/student', $event)">Back to student page</a>
+      </li>
+      <li class="nav-item" *ngIf="isInstructor">
+        <a class="nav-link" (click)="navigateTo('/web/instructor', $event)">Back to instructor page</a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" (click)="navigateTo('/web/admin', $event)">Back to admin page</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" [href]="logoutUrl">Log Out</a></li>
     </ul>
   </div>
 </nav>
@@ -32,7 +42,10 @@
     </ol>
     <br>
   </div>
-  <router-outlet></router-outlet>
+  <div *ngIf="!isValidUser">
+    Invalid user!
+  </div>
+  <router-outlet *ngIf="isValidUser"></router-outlet>
   <footer>
     <div class="container text-nowrap">
       <div class="row">

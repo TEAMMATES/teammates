@@ -1,1 +1,9 @@
-<tm-page [allowLogin]="true" [navItems]="navItems"></tm-page>
+<tm-page [navItems]="navItems"
+    [studentLoginUrl]="studentLoginUrl"
+    [instructorLoginUrl]="instructorLoginUrl"
+    [logoutUrl]="logoutUrl"
+    [isValidUser]="true"
+    [isInstructor]="isInstructor"
+    [isStudent]="isStudent"
+    [isAdmin]="isAdmin">
+</tm-page>

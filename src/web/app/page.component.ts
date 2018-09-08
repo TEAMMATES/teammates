@@ -13,8 +13,13 @@ import { NavigationService } from './navigation.service';
 })
 export class PageComponent {
 
-  @Input() allowLogin: boolean = false;
-  @Input() allowLogout: boolean = false;
+  @Input() studentLoginUrl: string = '';
+  @Input() instructorLoginUrl: string = '';
+  @Input() isStudent: boolean = false;
+  @Input() isInstructor: boolean = false;
+  @Input() isAdmin: boolean = false;
+  @Input() isValidUser: boolean = false;
+  @Input() logoutUrl: string = '';
   @Input() navItems: any[] = [];
 
   isCollapsed: boolean = true;

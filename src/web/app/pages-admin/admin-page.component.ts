@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Base skeleton for admin pages.
  */
 @Component({
   selector: 'tm-admin-page',
-  templateUrl: './admin-page.component.html',
-  styleUrls: ['./admin-page.component.scss'],
+  template: '<tm-page [navItems]="navItems" [logoutUrl]="logoutUrl" [isValidUser]="isValidUser"></tm-page>',
 })
-export class AdminPageComponent {
+export class AdminPageComponent implements OnInit {
 
+  logoutUrl: string = '';
+  isValidUser: boolean = false;
   navItems: any[] = [
     {
       url: '/web/admin',
@@ -17,6 +20,19 @@ export class AdminPageComponent {
     },
   ];
 
-  constructor() {}
+  private backendUrl: string = environment.backendUrl;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.getAuthUser().subscribe((res: any) => {
+      if (res.logoutUrl) {
+        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
+      }
+      this.isValidUser = res.user && res.user.isAdmin;
+    }, () => {
+      // TODO
+    });
+  }
 
 }

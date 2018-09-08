@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Base skeleton for static pages.
@@ -8,8 +10,14 @@ import { Component } from '@angular/core';
   templateUrl: './static-page.component.html',
   styleUrls: ['./static-page.component.scss'],
 })
-export class StaticPageComponent {
+export class StaticPageComponent implements OnInit {
 
+  studentLoginUrl: string = '';
+  instructorLoginUrl: string = '';
+  logoutUrl: string = '';
+  isInstructor: boolean = false;
+  isStudent: boolean = false;
+  isAdmin: boolean = false;
   navItems: any[] = [
     {
       url: '/web/front',
@@ -33,6 +41,24 @@ export class StaticPageComponent {
     },
   ];
 
-  constructor() {}
+  private backendUrl: string = environment.backendUrl;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.getAuthUser().subscribe((res: any) => {
+      if (res.user) {
+        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
+        this.isInstructor = res.user.isInstructor;
+        this.isStudent = res.user.isStudent;
+        this.isAdmin = res.user.isAdmin;
+      } else {
+        this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
+        this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
+      }
+    }, () => {
+      // TODO
+    });
+  }
 
 }

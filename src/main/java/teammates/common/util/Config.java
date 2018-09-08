@@ -121,7 +121,7 @@ public final class Config {
         return (isDevServer() ? "http://" : "https://") + hostname;
     }
 
-    private static boolean isDevServer() {
+    public static boolean isDevServer() {
         return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
     }
 
