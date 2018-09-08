@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackDeleteAction;
 import teammates.ui.controller.RedirectResult;
@@ -38,7 +39,8 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         InstructorFeedbackDeleteAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
@@ -58,6 +60,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session2InCourse1");
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -69,8 +72,11 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        fsLogic.restoreFeedbackSessionFromRecycleBin(fs.getFeedbackSessionName(), fs.getCourseId());
 
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+        fsLogic.restoreFeedbackSessionFromRecycleBin(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 }

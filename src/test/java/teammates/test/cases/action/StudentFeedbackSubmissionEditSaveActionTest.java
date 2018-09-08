@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -21,11 +21,13 @@ import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.api.Logic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -41,19 +43,104 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
 
-    @BeforeClass
-    public void classSetup() throws Exception {
+    @Override
+    protected void prepareTestData() {
+        // see setup()
+    }
+
+    @BeforeMethod
+    public void setup() throws Exception {
+        removeAndRestoreTypicalDataBundle();
         addUnregStudentToCourse1();
     }
 
-    @AfterClass
-    public void classTearDown() {
+    @AfterMethod
+    public void tearDown() {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+    }
+
+    @Test(expectedExceptions = UnauthorizedAccessException.class,
+            expectedExceptionsMessageRegExp = "Trying to access system using a non-existent feedback session entity")
+    public void testExecuteAndPostProcess_registeredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
+            throws Exception {
+        Logic logic = new Logic();
+
+        logic.moveFeedbackSessionToRecycleBin("First feedback session", "idOfTypicalCourse1");
+
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes fq =
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        assertNotNull("Feedback question not found in database", fq);
+
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
+        assertNotNull("Feedback response not found in database", fr);
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString()
+        };
+
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        getRedirectResult(a);
+    }
+
+    @Test(expectedExceptions = UnauthorizedAccessException.class,
+            expectedExceptionsMessageRegExp = "Trying to access system using a non-existent feedback session entity")
+    public void testExecuteAndPostProcess_unregisteredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
+            throws Exception {
+        Logic logic = new Logic();
+
+        logic.moveFeedbackSessionToRecycleBin("First feedback session", "idOfTypicalCourse1");
+
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes fq =
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        assertNotNull("Feedback question not found in database", fq);
+
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
+        assertNotNull("Feedback response not found in database", fr);
+
+        StudentAttributes unregisteredStudent =
+                logic.getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        String studentKey = logic.getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
+        gaeSimulation.logoutUser();
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
+
+                Const.ParamsNames.REGKEY, studentKey,
+                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
+        };
+
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        getRedirectResult(a);
     }
 
     @Override
