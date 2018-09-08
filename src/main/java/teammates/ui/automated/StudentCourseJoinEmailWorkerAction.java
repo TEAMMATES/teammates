@@ -6,6 +6,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.logic.api.EmailGenerator;
 
 /**
@@ -35,7 +38,21 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
 
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
-        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+
+        RetryManager rm = new RetryManager(4);
+        StudentAttributes student = null;
+
+        try {
+            student = rm.runUntilNotNull(new RetryableTaskReturns<StudentAttributes>("getStudent") {
+                @Override
+                public StudentAttributes run() throws RuntimeException {
+                    return logic.getStudentForEmail(courseId, studentEmail);
+                }
+            });
+        } catch (MaximumRetriesExceededException e) {
+            Assumption.fail("If the student hasn't been retrieved yet there is some problem in adding of student"
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
         Assumption.assertNotNull(student);
 
         EmailWrapper email = isRejoin

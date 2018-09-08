@@ -1,7 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorHome - Course table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/home" prefix="home" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionRows" type="java.util.Collection" required="true" %>
 <div class="panel-collapse collapse">
@@ -65,7 +65,7 @@
             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
           </td>
           <td class="no-print text-nowrap padding-right-25px">
-            <tif:feedbackSessionActions actions="${sessionRow.actions}" />
+            <home:feedbackSessionActions actions="${sessionRow.actions}" />
           </td>
         </tr>
       </c:forEach>

@@ -1669,48 +1669,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
-        ______TS("Edit rubric weight");
-
-        // There are already responses for this question
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-
-        String[] editWeightParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.getQuestionText() + "(edited)",
-                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "This student has done a good job.",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "0",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
-        };
-        params = new ArrayList<>(Arrays.asList(requiredParams));
-        Collections.addAll(params, editWeightParams);
-
-        a = getAction(params.toArray(new String[0]));
-        r = getRedirectResult(a);
-
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                        "FSQTT.idOfTypicalCourse1",
-                        "RUBRIC+Session",
-                        "FSQTT.idOfInstructor1OfCourse1",
-                        false),
-                r.getDestinationWithParams());
-        assertFalse(r.isError);
-
-        // All existing responses should remain
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-
         ______TS("Edit sub-questions");
 
         // There are already responses for this question
@@ -1811,6 +1769,185 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // delete session to clean database
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
+    }
+
+    @Test
+    public void testExecuteAndPostProcessRubricQuestionWeight() {
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("rubricSession");
+        FeedbackQuestionAttributes fqBeforeEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        String[] requiredParams = {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fqBeforeEdit.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fqBeforeEdit.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fqBeforeEdit.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fqBeforeEdit.getId()
+        };
+
+        ______TS("Success case: Edit rubric weight");
+
+        // There are already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fqBeforeEdit.getId()).isEmpty());
+
+        // Check rubric weight values before editing the question.
+        FeedbackRubricQuestionDetails questionBeforeEdit = (FeedbackRubricQuestionDetails) fqBeforeEdit.getQuestionDetails();
+        List<List<Double>> weightsBefore = questionBeforeEdit.getRubricWeights();
+        // Check weight list dimenstion.
+        assertEquals(2, weightsBefore.size());
+        assertEquals(2, weightsBefore.get(0).size());
+        assertEquals(2, weightsBefore.get(1).size());
+        // Check weight values before edit.
+        assertEquals(1.25, weightsBefore.get(0).get(0));
+        assertEquals(-1.7, weightsBefore.get(0).get(1));
+        assertEquals(1.25, weightsBefore.get(1).get(0));
+        assertEquals(-1.7, weightsBefore.get(1).get(1));
+
+        String[] editWeightParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, questionBeforeEdit.getQuestionText() + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "This student has done a good job.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
+        };
+        List<String> params = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(params, editWeightParams);
+
+        InstructorFeedbackQuestionEditAction a = getAction(params.toArray(new String[0]));
+        RedirectResult r = getRedirectResult(a);
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+
+        // Check that weights have been modified correctly after edit.
+        FeedbackQuestionAttributes fqAfterEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        FeedbackRubricQuestionDetails questionAfterEdit = (FeedbackRubricQuestionDetails) fqAfterEdit.getQuestionDetails();
+        List<List<Double>> weightsAfter = questionAfterEdit.getRubricWeights();
+        // Check weight list dimenstion.
+        assertEquals(2, weightsAfter.size());
+        assertEquals(2, weightsAfter.get(0).size());
+        assertEquals(2, weightsAfter.get(1).size());
+        // Check weight values after edit.
+        assertEquals(1.0, weightsAfter.get(0).get(0));
+        assertEquals(0.0, weightsAfter.get(0).get(1));
+        assertEquals(2.0, weightsAfter.get(1).get(0));
+        assertEquals(3.0, weightsAfter.get(1).get(1));
+
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fqAfterEdit.getId()).isEmpty());
+
+        ______TS("Failure case: Edit rubric weight");
+
+        fqBeforeEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+
+        // There are already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fqBeforeEdit.getId()).isEmpty());
+
+        // Check rubric weight values before editing the question.
+        questionBeforeEdit = (FeedbackRubricQuestionDetails) fqBeforeEdit.getQuestionDetails();
+        weightsBefore = questionBeforeEdit.getRubricWeights();
+        // Check weight list dimenstion.
+        assertEquals(2, weightsBefore.size());
+        assertEquals(2, weightsBefore.get(0).size());
+        assertEquals(2, weightsBefore.get(1).size());
+        // Check weight values before edit.
+        assertEquals(1.0, weightsBefore.get(0).get(0));
+        assertEquals(0.0, weightsBefore.get(0).get(1));
+        assertEquals(2.0, weightsBefore.get(1).get(0));
+        assertEquals(3.0, weightsBefore.get(1).get(1));
+
+        String[] editInvalidWeightParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, questionBeforeEdit.getQuestionText() + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "This student has done a good job.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Yes",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", "Invalid weight",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "New description",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
+        };
+        params = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(params, editInvalidWeightParams);
+
+        a = getAction(params.toArray(new String[0]));
+        r = getRedirectResult(a);
+
+        assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, r.getStatusMessage());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        true),
+                r.getDestinationWithParams());
+        assertTrue(r.isError);
+
+        // Check that weights list persist old values after editing weights failed.
+        fqAfterEdit =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        questionAfterEdit = (FeedbackRubricQuestionDetails) fqAfterEdit.getQuestionDetails();
+        weightsAfter = questionAfterEdit.getRubricWeights();
+        // Check weight list dimenstion.
+        assertEquals(2, weightsAfter.size());
+        assertEquals(2, weightsAfter.get(0).size());
+        assertEquals(2, weightsAfter.get(1).size());
+        // Check weight values After edit.
+        assertEquals(1.0, weightsAfter.get(0).get(0));
+        assertEquals(0.0, weightsAfter.get(0).get(1));
+        assertEquals(2.0, weightsAfter.get(1).get(0));
+        assertEquals(3.0, weightsAfter.get(1).get(1));
+
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fqAfterEdit.getId()).isEmpty());
+
     }
 
     @Test

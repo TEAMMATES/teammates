@@ -35,6 +35,13 @@
       "email": "instr2@course2.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor1OfCourse3": {
+      "googleId": "idOfInstructor1OfCourse3",
+      "name": "Instructor 1 of Course 3",
+      "isInstructor": true,
+      "email": "instr1@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "instructor3": {
       "googleId": "idOfInstructor3",
       "name": "Instructor 3 of Course 1 and 2",
@@ -120,6 +127,12 @@
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
+      "timeZone": "UTC"
+    },
+    "typicalCourse3": {
+      "createdAt": "2012-04-01T23:59:00Z",
+      "id": "idOfTypicalCourse3",
+      "name": "Typical Course 3 with 1 Evals",
       "timeZone": "UTC"
     },
     "courseNoEvals": {
@@ -329,6 +342,29 @@
         "sessionLevel": {}
       }
     },
+    "instructor1OfCourse3": {
+      "googleId": "idOfInstructor1OfCourse3",
+      "courseId": "idOfTypicalCourse3",
+      "name": "Instructor1 Course3",
+      "email": "instructor1@course3.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "instructor4": {
       "googleId": "idOfInstructor4",
       "courseId": "idOfCourseNoEvals",
@@ -509,6 +545,15 @@
       "name": "student2 In Course2",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
+      "section": "None"
+    },
+    "student1InCourse3": {
+      "googleId": "student1InCourse3",
+      "email": "student1InCourse3@gmail.tmt",
+      "course": "idOfTypicalCourse3",
+      "name": "student1 In Course3",
+      "comments": "",
+      "team": "Team 3.1",
       "section": "None"
     },
     "student1InUnregisteredCourse": {
@@ -709,6 +754,51 @@
       "resultsVisibleFromTime": "2030-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1InCourse3": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse3",
+      "creatorEmail": "instructor1@course3.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "deletedTime": "2012-05-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2037-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2037-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session2InCourse3": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "idOfTypicalCourse3",
+      "creatorEmail": "instructor1@course3.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2037-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2037-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -1288,13 +1378,15 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",
-      "giverEmail": "instructor1@course1.tmt",
+      "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
@@ -1304,13 +1396,15 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "instructor1@course1.tmt",
+      "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%student2InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 2"
@@ -1320,16 +1414,36 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "3",
-      "giverEmail": "instructor1@course1.tmt",
+      "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "3%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-01-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
+      }
+    },
+    "comment1FromT1C1ToR1Q1S1C2": {
+      "courseId": "idOfTypicalCourse2",
+      "feedbackSessionName": "Instructor feedback session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "instructor1@course2.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%instructor1@course2.tmt%Team 2.1",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2016-01-01T23:59:00Z",
+      "commentText": {
+        "value": "Instructor 1 comment to Team 2.1"
       }
     }
   },

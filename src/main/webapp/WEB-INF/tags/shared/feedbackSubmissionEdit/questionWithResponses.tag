@@ -7,6 +7,7 @@
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="moderatedPersonEmail" required="true" %>
 
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 
@@ -77,7 +78,7 @@
 
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-            questionWithResponses="${questionWithResponses}"/>
+            questionWithResponses="${questionWithResponses}" moderatedPersonEmail="${moderatedPersonEmail}"/>
       </c:forEach>
     </div>
   </div>

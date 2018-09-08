@@ -139,7 +139,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     // Do not add weight to msqWeights if the weight cannot be parsed
                     msqWeights.add(Double.parseDouble(weight));
                 } catch (NumberFormatException e) {
-                    log.warning("Failed to parse weight for MSQ question: " + weight);
+                    log.severe("Failed to parse weight for MSQ question: " + weight);
                 }
             }
         }
@@ -165,7 +165,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // Do not assign value to msqOtherWeight if the weight can not be parsed.
             msqOtherWeight = Double.parseDouble(otherWeight);
         } catch (NumberFormatException e) {
-            log.warning("Failed to parse \"other\" weight of MSQ question: " + otherWeight);
+            log.severe("Failed to parse \"other\" weight of MSQ question: " + otherWeight);
         }
         return msqOtherWeight;
     }
@@ -844,6 +844,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
         return null;
+    }
+
+    @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
     }
 
     @Override
