@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import { FeaturesPageComponent } from './features-page/features-page.component';
@@ -53,7 +52,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
