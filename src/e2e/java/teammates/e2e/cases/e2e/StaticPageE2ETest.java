@@ -12,8 +12,7 @@ public class StaticPageE2ETest extends BaseE2ETestCase {
     @Test
     public void placeholderTest() {
         browser.driver.get(TestProperties.TEAMMATES_URL);
-        browser.driver.get(TestProperties.TEAMMATES_URL + "/web/home");
-        browser.driver.get(TestProperties.TEAMMATES_URL + "/web/notfound");
+        browser.driver.get(TestProperties.TEAMMATES_URL + "/web/front/home");
     }
 
     @Override

@@ -27,21 +27,22 @@
         <url-pattern>/remote_api</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>teammates.ui.newcontroller.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/auth</url-pattern>
+    </filter-mapping>
+
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.LoginServlet</servlet-class>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>teammates.ui.newcontroller.AuthServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -53,23 +54,13 @@
         <url-pattern>/backdoor</url-pattern>
     </servlet-mapping>
 
-    <!-- Workaround for serving index.jsp as the home page while avoiding the GAE infinite redirect issue for 404s -->
     <welcome-file-list>
-        <welcome-file>web/home</welcome-file>
+        <welcome-file>web/front/home</welcome-file>
     </welcome-file-list>
-    <servlet>
-        <servlet-name>HomePageServlet</servlet-name>
-        <jsp-file>/index.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HomePageServlet</servlet-name>
-        <url-pattern>/home</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <description>Servlet that handles the single web page application</description>
         <servlet-name>WebPageServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.WebPageServlet</servlet-class>
+        <servlet-class>teammates.ui.newcontroller.WebPageServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>

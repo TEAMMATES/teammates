@@ -1,0 +1,74 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
+import { AboutPageComponent } from './about-page/about-page.component';
+import { ContactPageComponent } from './contact-page/contact-page.component';
+import { FeaturesPageComponent } from './features-page/features-page.component';
+import { IndexPageComponent } from './index-page/index-page.component';
+import { RequestPageComponent } from './request-page/request-page.component';
+import { TermsPageComponent } from './terms-page/terms-page.component';
+import { UsermapPageComponent } from './usermap-page/usermap-page.component';
+
+const routes: Routes = [
+  {
+    path: 'home',
+    component: IndexPageComponent,
+  },
+  {
+    path: 'request',
+    component: RequestPageComponent,
+  },
+  {
+    path: 'features',
+    component: FeaturesPageComponent,
+  },
+  {
+    path: 'about',
+    component: AboutPageComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactPageComponent,
+  },
+  {
+    path: 'terms',
+    component: TermsPageComponent,
+  },
+  {
+    path: 'usermap',
+    component: UsermapPageComponent,
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home',
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: PageNotFoundComponent,
+  },
+];
+
+/**
+ * Module for all static pages.
+ */
+@NgModule({
+  imports: [
+    CommonModule,
+    PageNotFoundModule,
+    RouterModule.forChild(routes),
+  ],
+  declarations: [
+    IndexPageComponent,
+    FeaturesPageComponent,
+    ContactPageComponent,
+    AboutPageComponent,
+    TermsPageComponent,
+    RequestPageComponent,
+    UsermapPageComponent,
+  ],
+})
+export class StaticPagesModule {}
