@@ -94,6 +94,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         //delete afterwards
         frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
+        assertNull(frcLogic.getFeedbackResponseComment(frComment.getId()));
     }
 
     @Test
@@ -272,18 +273,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("silent fail nothing to delete");
 
-        frComment.feedbackResponseId = "invalid responseId";
-        //without proper frCommentId and its feedbackResponseId,
-        //it cannot be deleted
         frcLogic.deleteFeedbackResponseCommentById(1234567L);
+
+        ______TS("typical success case");
 
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSession(
                                  frComment.courseId, frComment.feedbackSessionName).get(1);
-        verifyPresentInDatastore(actualFrComment);
-
-        ______TS("typical success case");
-
         frcLogic.deleteFeedbackResponseCommentById(actualFrComment.getId());
         verifyAbsentInDatastore(actualFrComment);
 
