@@ -7,6 +7,9 @@
  */
 export const environment: any = {
   production: false,
+  backendUrl: 'http://localhost:8080',
+  frontendUrl: 'http://localhost:4200',
+  withCredentials: true,
 };
 
 /*

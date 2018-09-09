@@ -6,16 +6,27 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
-    <ul class="nav navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" href="javascript:;" routerLink="/web">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" routerLink="/web/features">Features</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" routerLink="/web/about">About Us</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" routerLink="/web/contact">Contact</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;" routerLink="/web/terms">Terms of Use</a></li>
+    <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
+      <li *ngFor="let navItem of navItems" class="nav-item">
+        <a class="nav-link" [routerLink]="navItem.url">{{ navItem.display }}</a>
+      </li>
     </ul>
-    <ul class="nav navbar-nav pull-right">
-      <li class="nav-item"><a class="nav-link" href="javascript:;">Student Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="javascript:;">Instructor Login</a></li>
+    <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
+    <ul class="nav navbar-nav pull-right" *ngIf="studentLoginUrl && instructorLoginUrl">
+      <li class="nav-item"><a class="nav-link" [href]="studentLoginUrl">Student Login</a></li>
+      <li class="nav-item"><a class="nav-link" [href]="instructorLoginUrl">Instructor Login</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right" *ngIf="logoutUrl">
+      <li class="nav-item" *ngIf="isStudent">
+        <a class="nav-link" routerLink="/web/student">Back to student page</a>
+      </li>
+      <li class="nav-item" *ngIf="isInstructor">
+        <a class="nav-link" routerLink="/web/instructor">Back to instructor page</a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="/web/admin">Back to admin page</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" [href]="logoutUrl">Log Out</a></li>
     </ul>
   </div>
 </nav>
@@ -34,7 +45,10 @@
   <div *ngIf="isCookieDisabled">
     You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
   </div>
-  <router-outlet></router-outlet>
+  <div *ngIf="!isValidUser">
+    Invalid user!
+  </div>
+  <router-outlet *ngIf="isValidUser"></router-outlet>
   <footer>
     <div class="container text-nowrap">
       <div class="row">
