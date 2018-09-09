@@ -11,6 +11,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class RequestPageComponent {
 
+  /**
+   * The URL to account request Google form.
+   */
   googleDocUrl: SafeResourceUrl;
 
   constructor(private sanitizer: DomSanitizer) {

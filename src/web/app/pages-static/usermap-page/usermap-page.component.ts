@@ -13,8 +13,19 @@ import { feature } from 'topojson';
 })
 export class UsermapPageComponent implements OnInit {
 
+  /**
+   * The date in which the usermap is last updated.
+   */
   lastUpdated: string = '';
+
+  /**
+   * The number of institutions.
+   */
   nInstitutions: number = 0;
+
+  /**
+   * The number of countries.
+   */
   nCountries: number = 0;
 
   constructor(private httpClient: HttpClient) {}

@@ -9,6 +9,7 @@ import com.google.appengine.api.users.User;
  */
 public class UserType {
 
+    //TODO: add a com.google.appengine.api.users.User object here
     public String id;
 
     public boolean isAdmin;
@@ -22,21 +23,4 @@ public class UserType {
     public UserType(User user) {
         this.id = user.getNickname();
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public boolean isInstructor() {
-        return isInstructor;
-    }
-
-    public boolean isStudent() {
-        return isStudent;
-    }
-
 }

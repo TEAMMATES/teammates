@@ -11,7 +11,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexPageComponent implements OnInit {
 
+  /**
+   * The user testimonial currently displayed.
+   */
   testimonial: any;
+
+  /**
+   * The number of feedback response submissions displayed.
+   */
   submissionsNumber: string = '10,000,000+';
   private testimonials: any[] = [];
   private testimonialIndex: number = -1;

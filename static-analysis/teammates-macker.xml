@@ -76,7 +76,6 @@
                         <allow>
                             <from>
                                 <include class="${ui}.controller.**" />
-                                <include class="${ui}.newcontroller.**" />
                                 <include class="${ui}.automated.**" />
                             </from>
                             <to class="${logic}.api.**" />
@@ -483,7 +482,6 @@
                                 <include class="${storage}.api.OfyHelper" />
                                 <include class="${ui}.automated.**" />
                                 <include class="${ui}.controller.**" />
-                                <include class="${ui}.newcontroller.**" />
                                 <include class="${test}.driver.GaeSimulation" />
                             </from>
                         </allow>
