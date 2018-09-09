@@ -56,7 +56,7 @@ public class ControllerServlet extends HttpServlet {
 
         UserType userType = new GateKeeper().getCurrentUser();
         String url = HttpRequestHelper.getRequestedUrl(req);
-        Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
+        Map<String, String[]> params = req.getParameterMap();
 
         try {
             /* We are using the Template Method Design Pattern here.
@@ -67,7 +67,7 @@ public class ControllerServlet extends HttpServlet {
             long startTime = System.currentTimeMillis();
 
             log.info("Request received : [" + req.getMethod() + "] " + req.getRequestURL().toString()
-                    + ":" + HttpRequestHelper.printRequestParameters(req));
+                    + ":" + HttpRequestHelper.getRequestParametersAsString(req));
             log.info("User agent : " + req.getHeader("User-Agent"));
 
             Action c = new ActionFactory().getAction(req);

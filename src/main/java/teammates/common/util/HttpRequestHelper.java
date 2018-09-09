@@ -1,7 +1,10 @@
 package teammates.common.util;
 
-import java.util.Enumeration;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,66 +21,15 @@ public final class HttpRequestHelper {
      * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
      */
     public static String getValueFromParamMap(Map<String, String[]> paramMap, String key) {
-        String[] values = paramMap.get(key);
-        return values == null ? null : values[0];
+        return paramMap.getOrDefault(key, new String[] { null })[0];
     }
 
-    /**
-     * Returns all values for the key in the parameter map, or null if key not found.
-     *
-     * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-     */
-    public static String[] getValuesFromParamMap(Map<String, String[]> paramMap, String key) {
-        String[] values = paramMap.get(key);
-        return values == null ? null : values;
-    }
+    public static String getRequestParametersAsString(HttpServletRequest req) {
+        String requestParameters = ((Map<String, String[]>) req.getParameterMap()).entrySet().stream()
+                .map(kv -> kv.getKey() + "::" + Arrays.stream(kv.getValue()).collect(Collectors.joining("//")))
+                .collect(Collectors.joining(", "));
 
-    /**
-     * Returns the first value for the key in the request's parameter map, or null if key not found.
-     *
-     * @param req An HttpServletRequest which contains the parameters map
-     */
-    @SuppressWarnings("unchecked")
-    public static String getValueFromRequestParameterMap(HttpServletRequest req, String key) {
-        return getValueFromParamMap(req.getParameterMap(), key);
-    }
-
-    /**
-     * Returns all values for the key in the request's parameter map, or null if key not found.
-     *
-     * @param req An HttpServletRequest which contains the parameters map
-     */
-    @SuppressWarnings("unchecked")
-    public static String[] getValuesFromRequestParameterMap(HttpServletRequest req, String key) {
-        return getValuesFromParamMap(req.getParameterMap(), key);
-    }
-
-    /**
-     * Gets the parameter map from HttpServletRequest.
-     */
-    @SuppressWarnings("unchecked")
-    public static Map<String, String[]> getParameterMap(HttpServletRequest req) {
-        return (Map<String, String[]>) req.getParameterMap();
-    }
-
-    //TODO: rename to a better name
-    public static String printRequestParameters(HttpServletRequest request) {
-        StringBuilder requestParameters = new StringBuilder();
-        requestParameters.append('{');
-        for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
-            String param = f.nextElement().toString();
-            requestParameters.append(param).append("::");
-            String[] parameterValues = request.getParameterValues(param);
-            for (String parameterValue : parameterValues) {
-                requestParameters.append(parameterValue).append("//");
-            }
-            requestParameters.setLength(requestParameters.length() - 2);
-            requestParameters.append(", ");
-        }
-        if (!"{".equals(requestParameters.toString())) {
-            requestParameters.setLength(requestParameters.length() - 2);
-        }
-        return requestParameters.append("}").toString();
+        return "{" + requestParameters + "}";
     }
 
     /**
@@ -103,13 +55,22 @@ public final class HttpRequestHelper {
             return null;
         }
 
-        for (Cookie cookie : existingCookies) {
-            if (cookie.getName().equals(cookieName)) {
-                return cookie.getValue();
-            }
-        }
+        return Arrays.stream(existingCookies)
+                .filter(cookie -> cookie.getName().equals(cookieName))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
+    }
 
-        return null;
+    /**
+     * Gets the request body payload.
+     */
+    public static String getRequestBody(HttpServletRequest req) {
+        try (BufferedReader br = req.getReader()) {
+            return br.lines().collect(Collectors.joining(System.lineSeparator()));
+        } catch (IOException e) {
+            return "";
+        }
     }
 
 }

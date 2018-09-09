@@ -23,7 +23,7 @@ abstract class AutomatedServlet extends HttpServlet {
     void executeTask(HttpServletRequest req, HttpServletResponse resp) {
         try {
             if (req.getParameterNames().hasMoreElements()) {
-                log.info(HttpRequestHelper.printRequestParameters(req));
+                log.info(HttpRequestHelper.getRequestParametersAsString(req));
             }
 
             AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
@@ -31,7 +31,7 @@ abstract class AutomatedServlet extends HttpServlet {
             String url = HttpRequestHelper.getRequestedUrl(req);
             // Do not log task queue worker actions to prevent excessive logging
             if (!url.startsWith("/worker/")) {
-                Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
+                Map<String, String[]> params = req.getParameterMap();
                 // no logged-in user for automated servlet
                 LogMessageGenerator logGenerator = new LogMessageGenerator();
                 log.info(logGenerator.generateBasicActivityLogMessage(url, params, action.getActionMessage(), null));
