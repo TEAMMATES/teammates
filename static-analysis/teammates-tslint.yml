@@ -37,12 +37,6 @@ rules:
           "protected"
         ]
       },
-      "properties": {
-        "privacies": [
-          "public",
-          "protected"
-        ]
-      },
       "variables": {
         "visibilities": [
           "exported"

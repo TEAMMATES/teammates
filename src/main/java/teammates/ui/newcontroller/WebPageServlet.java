@@ -1,4 +1,4 @@
-package teammates.ui.controller;
+package teammates.ui.newcontroller;
 
 import java.io.IOException;
 import java.util.Arrays;
