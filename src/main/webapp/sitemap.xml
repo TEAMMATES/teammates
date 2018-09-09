@@ -17,7 +17,7 @@
     </image:image>
   </url>
   <url>
-    <loc>http://teammatesv4.appspot.com/web/features</loc>
+    <loc>http://teammatesv4.appspot.com/web/front/features</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -27,8 +27,8 @@
     </image:image>
   </url>
   <url>
-    <loc>http://teammatesv4.appspot.com/web/about</loc>
-    <changefreq>yearly</changefreq>
+    <loc>http://teammatesv4.appspot.com/web/front/about</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
@@ -37,7 +37,7 @@
     </image:image>
   </url>
   <url>
-    <loc>http://teammatesv4.appspot.com/web/contact</loc>
+    <loc>http://teammatesv4.appspot.com/web/front/contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>
@@ -47,7 +47,7 @@
     </image:image>
   </url>
   <url>
-    <loc>http://teammatesv4.appspot.com/web/terms</loc>
+    <loc>http://teammatesv4.appspot.com/web/front/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <image:image>
@@ -57,7 +57,7 @@
     </image:image>
   </url>
   <url>
-    <loc>http://teammatesv4.appspot.com/web/request</loc>
+    <loc>http://teammatesv4.appspot.com/web/front/request</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>
@@ -67,8 +67,8 @@
     </image:image>
   </url>
   <url>
-    <loc>http://teammatesv4.appspot.com/web/usermap</loc>
-    <changefreq>yearly</changefreq>
+    <loc>http://teammatesv4.appspot.com/web/front/usermap</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <image:image>
       <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
