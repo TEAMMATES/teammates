@@ -269,10 +269,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         //create a frComment to delete
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
-        frcLogic.createFeedbackResponseComment(frComment);
-
         ______TS("silent fail nothing to delete");
 
+        assertNull(frcLogic.getFeedbackResponseComment(1234567L));
         frcLogic.deleteFeedbackResponseCommentById(1234567L);
 
         ______TS("typical success case");
@@ -282,15 +281,17 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                                  frComment.courseId, frComment.feedbackSessionName).get(1);
         frcLogic.deleteFeedbackResponseCommentById(actualFrComment.getId());
         verifyAbsentInDatastore(actualFrComment);
+    }
 
-        ______TS("typical success case for response");
+    @Test
+    public void testDeleteFeedbackResponseCommentsForResponse() {
 
-        FeedbackResponseCommentAttributes anotherFrComment =
-                restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q3S1C1");
+        ______TS("typical success case");
+
+        FeedbackResponseCommentAttributes anotherFrComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q3S1C1");
         verifyPresentInDatastore(anotherFrComment);
         frcLogic.deleteFeedbackResponseCommentsForResponse(anotherFrComment.feedbackResponseId);
         verifyAbsentInDatastore(anotherFrComment);
-
     }
 
     @Test
