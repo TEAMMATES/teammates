@@ -15,18 +15,12 @@ import teammates.common.util.Logger;
  * Receives automated requests from the App Engine server and executes the matching automated action.
  */
 @SuppressWarnings("serial")
-public class AutomatedServlet extends HttpServlet {
+abstract class AutomatedServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
 
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        doPost(req, resp);
-    }
-
-    @Override
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    void executeTask(HttpServletRequest req, HttpServletResponse resp) {
         try {
             if (req.getParameterNames().hasMoreElements()) {
                 log.info(HttpRequestHelper.printRequestParameters(req));
