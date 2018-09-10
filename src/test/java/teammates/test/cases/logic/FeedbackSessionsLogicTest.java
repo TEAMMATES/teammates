@@ -406,7 +406,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)
-                .withQuestionMetaData(new Text("question to be deleted through cascade"))
+                .withQuestionMetaData("question to be deleted through cascade")
                 .withQuestionType(FeedbackQuestionType.TEXT)
                 .withShowResponseTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())

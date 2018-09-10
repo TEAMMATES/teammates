@@ -67,12 +67,12 @@ public final class DataBundleRegenerator {
     }
 
     private static void fixQuestion(FeedbackQuestionAttributes question) {
-        String questionValue = question.questionMetaData.getValue();
+        String questionValue = question.questionMetaData;
         try {
             JSONObject questionJson = maintainKeyOrder(new JSONObject(questionValue));
-            question.questionMetaData = new Text(questionJson.toString());
+            question.questionMetaData = questionJson.toString();
         } catch (JSONException e) {
-            question.questionMetaData = new Text(questionValue);
+            question.questionMetaData = questionValue;
         }
     }
 
