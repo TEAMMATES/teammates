@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -315,7 +313,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         + frc.feedbackSessionName + "<br>"
                         + "by: " + frc.commentGiver + " at "
                         + frc.createdAt + "<br>"
-                        + "comment text: " + frc.commentText.getValue();
+                        + "comment text: " + frc.commentText;
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -352,7 +350,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                         + feedbackResponseComment.feedbackSessionName + "<br>"
                         + "by: " + feedbackResponseComment.commentGiver + "<br>"
-                        + "comment text: " + feedbackResponseComment.commentText.getValue();
+                        + "comment text: " + feedbackResponseComment.commentText;
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -449,7 +447,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 FeedbackResponseCommentAttributes
-                        .builder(courseId, feedbackSessionName, response.giver, new Text(commentText))
+                        .builder(courseId, feedbackSessionName, response.giver, commentText)
                         .withCreatedAt(Instant.now())
                         .withGiverSection(response.giverSection)
                         .withReceiverSection(response.recipientSection)

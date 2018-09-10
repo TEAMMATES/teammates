@@ -900,7 +900,7 @@ public class PageData {
             String responseId, String giverName, String recipientName, ZoneId timezone,
             boolean isCommentFromFeedbackParticipant) {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
-                .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
+                .builder(question.courseId, question.feedbackSessionName, "", "")
                 .withFeedbackResponseId(responseId)
                 .withFeedbackQuestionId(question.getFeedbackQuestionId())
                 .withCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant)

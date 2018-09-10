@@ -171,7 +171,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 + comment.commentGiver + delim
                                 + commentGiverName + delim
                                 + relatedPeopleBuilder.toString() + delim
-                                + comment.commentText.getValue();
+                                + comment.commentText;
 
         return Document.newBuilder()
                 // courseId are used to filter documents visible to certain instructor
