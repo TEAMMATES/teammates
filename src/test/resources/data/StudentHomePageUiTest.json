@@ -284,9 +284,7 @@
       "feedbackSessionName": "First Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2027-04-30T15:59:00Z",
@@ -306,9 +304,7 @@
       "feedbackSessionName": "Graced Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2013-04-30T15:59:00Z",
@@ -328,9 +324,7 @@
       "feedbackSessionName": "No Question Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2027-04-30T15:59:00Z",
@@ -350,9 +344,7 @@
       "feedbackSessionName": "Future Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2034-04-01T15:59:00Z",
       "endTime": "2035-04-30T15:59:00Z",
@@ -372,9 +364,7 @@
       "feedbackSessionName": "Closed Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2012-04-30T15:59:00Z",
@@ -394,9 +384,7 @@
       "feedbackSessionName": "Session without Student Questions",
       "courseId": "SHomeUiT.CS4221",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2035-04-30T15:59:00Z",
@@ -418,9 +406,7 @@
       "feedbackSessionName": "First Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -442,9 +428,7 @@
       "feedbackSessionName": "Graced Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -466,9 +450,7 @@
       "feedbackSessionName": "Future Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -490,9 +472,7 @@
       "feedbackSessionName": "Closed Feedback Session",
       "courseId": "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -514,9 +494,7 @@
       "feedbackSessionName": "Session without Student Questions",
       "courseId": "SHomeUiT.CS4221",
       "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "This is a session without questions for students"
-      },
+      "questionMetaData": "This is a session without questions for students",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
