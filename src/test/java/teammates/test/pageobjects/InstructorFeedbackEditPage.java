@@ -1317,7 +1317,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, String instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");
@@ -1331,7 +1331,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
         // Fill in instructions
-        fillRichTextEditor("instructions", instructions.getValue());
+        fillRichTextEditor("instructions", instructions);
 
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");

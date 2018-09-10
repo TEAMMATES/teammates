@@ -674,7 +674,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
                 .builder("newFeedbackSessionName", courseIdForEnrollTest, instructorEmail)
-                .withInstructions(new Text("default instructions"))
+                .withInstructions("default instructions")
                 .withCreatedTime(Instant.now())
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))

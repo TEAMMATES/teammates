@@ -12,8 +12,6 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
@@ -53,7 +51,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriodMinutes(0)
-                .withInstructions(new Text("Please fill in the new feedback session."))
+                .withInstructions("Please fill in the new feedback session.")
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)
                 .withTimeZone(course.getTimeZone())
@@ -194,7 +192,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.clickManualPublishTimeButton();
 
-        Text instructions = newSession.getInstructions();
+        String instructions = newSession.getInstructions();
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -202,7 +200,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 instructions, newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
-        assertEquals(getMockedTinyMceContent(instructions.getValue()), feedbackPage.getInstructions());
+        assertEquals(getMockedTinyMceContent(instructions), feedbackPage.getInstructions());
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -213,7 +211,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
 
-        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
+        newSession.setInstructions(getMockedTinyMceContent(instructions));
         assertEquals(newSession.toString(), savedSession.toString());
         newSession.setInstructions(instructions);
 
@@ -299,7 +297,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
 
         // fill in defaults
-        newSession.setInstructions(new Text(getMockedTinyMceContent("Please answer all the given questions.")));
+        newSession.setInstructions(getMockedTinyMceContent("Please answer all the given questions."));
         newSession.setGracePeriodMinutes(15);
 
         feedbackPage.addFeedbackSession(
@@ -331,7 +329,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2008-03-01 3:00 PM +0000"));
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
 
-        newSession.setInstructions(new Text(""));
+        newSession.setInstructions("");
 
         newSession.setClosingEmailEnabled(false);
         newSession.setPublishedEmailEnabled(false);
@@ -358,7 +356,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickManualPublishTimeButton();
 
-        instructions = new Text("cannot see responses<script>test</script>$^/\\=?");
+        instructions = "cannot see responses<script>test</script>$^/\\=?";
 
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
@@ -367,7 +365,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
-        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
+        newSession.setInstructions(getMockedTinyMceContent(instructions));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -399,7 +397,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2035-09-01 11:00 PM +0000"));
         newSession.setGracePeriodMinutes(5);
 
-        newSession.setInstructions(new Text(StringHelperExtension.generateStringOfLength(3000)));
+        newSession.setInstructions(StringHelperExtension.generateStringOfLength(3000));
         newSession.setPublishedEmailEnabled(true);
         newSession.setClosingEmailEnabled(true);
 
@@ -411,7 +409,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-        newSession.setInstructions(new Text(getMockedTinyMceContent(newSession.getInstructionsString())));
+        newSession.setInstructions(getMockedTinyMceContent(newSession.getInstructionsString()));
         assertEquals(newSession.toString(), savedSession.toString());
 
         ______TS("failure case: invalid input: (end < start < visible) and (publish < visible)");
@@ -429,7 +427,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2012-05-01 2:00 PM +0000"));
         newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2012-04-30 11:00 PM +0000"));
         newSession.setGracePeriodMinutes(30);
-        newSession.setInstructions(new Text("Test instructions"));
+        newSession.setInstructions("Test instructions");
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),

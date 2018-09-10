@@ -206,7 +206,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             LocalDateTime endTime,
             LocalDateTime visibleTime,
             LocalDateTime publishTime,
-            Text instructions,
+            String instructions,
             long gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
@@ -222,7 +222,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         // Fill in instructions
         if (instructions != null) {
-            fillRichTextEditor("instructions", instructions.getValue());
+            fillRichTextEditor("instructions", instructions);
         }
 
         // Select grace period
