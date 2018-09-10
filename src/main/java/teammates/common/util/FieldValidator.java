@@ -284,9 +284,9 @@ public class FieldValidator {
      * @return An explanation of why the {@code emailContent} is not acceptable.
      *         Returns an empty string if the {@code emailContent} is acceptable.
      */
-    public String getInvalidityInfoForEmailContent(Text emailContent) {
+    public String getInvalidityInfoForEmailContent(String emailContent) {
         Assumption.assertNotNull("Non-null value expected", emailContent);
-        if (emailContent.getValue().isEmpty()) {
+        if (emailContent.isEmpty()) {
             return EMAIL_CONTENT_ERROR_MESSAGE;
         }
         return "";
