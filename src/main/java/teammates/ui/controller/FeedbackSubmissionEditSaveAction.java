@@ -147,11 +147,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 responsesRecipients.add(response.recipient);
 
                 // if the answer is not empty but the recipient is empty
-                if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
+                if (response.recipient.isEmpty() && !response.responseMetaData.isEmpty()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
                 }
 
-                if (response.responseMetaData.getValue().isEmpty()) {
+                if (response.responseMetaData.isEmpty()) {
                     // deletes the response since answer is empty
                     addToPendingResponses(response);
                 } else {
@@ -283,12 +283,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() || response.recipient.isEmpty()) {
+            if (response.responseMetaData.isEmpty() || response.recipient.isEmpty()) {
                 responsesToDelete.add(response);
                 return;
             }
             responsesToUpdate.add(response);
-        } else if (!response.responseMetaData.getValue().isEmpty()
+        } else if (!response.responseMetaData.isEmpty()
                    && !response.recipient.isEmpty()) {
             responsesToSave.add(response);
         }
@@ -411,7 +411,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String[] answer = getRequestParamValues(paramName);
 
         if (questionDetails.isQuestionSkipped(answer)) {
-            response.responseMetaData = new Text("");
+            response.responseMetaData = "";
         } else {
             FeedbackResponseDetails responseDetails =
                     FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
