@@ -180,8 +180,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
 
         ______TS("init : 0 standard sessions closing within time-limit");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(0, sessionList.size());
 
@@ -195,28 +194,32 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.createFeedbackSession(session);
         coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
-        sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        ______TS("case : 1 open session in undeleted course");
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(1, sessionList.size());
-        assertEquals(session.getFeedbackSessionName(),
-                sessionList.get(0).getFeedbackSessionName());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        // delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        // wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in soft-deleted course");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
 
         ______TS("init : 0 open sessions");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 open session with mail unsent");
+        ______TS("case : 1 open session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -225,33 +228,58 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
-        ______TS("typical case : 1 open session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 open session in undeleted course with mail sent");
         session.setSentOpenEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 closed session with mail unsent");
+        ______TS("case : 1 closed session in undeleted course with mail unsent");
+        session.setSentOpenEmail(false);
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
 
-        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        //wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in soft-deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setSentOpenEmail(false);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 open session in soft-deleted course with mail sent");
+        session.setSentOpenEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in soft-deleted course with mail unsent");
+        session.setSentOpenEmail(false);
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
@@ -263,7 +291,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 published session with mail unsent");
+        ______TS("case : 1 published session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         session.setTimeZone(ZoneId.of("UTC"));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -273,18 +301,34 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
 
-        ______TS("case : 1 published session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 published session in undeleted course with mail sent");
         session.setSentPublishedEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in soft-deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setSentPublishedEmail(false);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in soft-deleted course with mail sent");
+        session.setSentPublishedEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
     }
 
