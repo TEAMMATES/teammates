@@ -24,14 +24,11 @@ Here are some documents important for TEAMMATES developers.
   [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
   [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub),
   [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
-* [**IntelliJ Automated Setup Behavior**](intellij-automated-setup-behavior.md)
 
 * [**Archived Documentation**](archived): documentations written in the past and are no longer maintained.
 
 ## How-to documents
 
-* [Compressing images](compressing-images.md): How to compress images for use in TEAMMATES.
-* [Managing dependencies](dependencies.md)
 * [Static analysis](static-analysis.md): Performing code quality check.
 * [Setting up third-party email providers](emails.md).
 * ["GodMode"](godmode.md)

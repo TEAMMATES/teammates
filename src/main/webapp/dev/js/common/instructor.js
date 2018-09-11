@@ -302,6 +302,18 @@ function bindStudentPhotoHoverLink(elements) {
     });
 }
 
+/**
+ * Returns the HTML required to render the items as an unordered list.
+ */
+function generateUnorderedListHtml(items) {
+    return `\
+<ul>
+${items
+            .map(item => `<li>${item}</li>`)
+            .join('')}
+</ul>`;
+}
+
 function bindDeleteButtons() {
     $('body').on('click', '.session-delete-for-test', (event) => {
         event.preventDefault();
@@ -359,14 +371,15 @@ function bindCourseDeleteAllLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to permanently delete all the courses? '
-                + 'This operation will delete all students and sessions in these courses. '
-                + 'All instructors of these courses will not be able to access them hereafter as well.';
+        const softDeletedCourseIds = $('[id^="softdeletedcourseelement"]').toArray()
+                .map(softDeletedCourseElement => $(softDeletedCourseElement).data('courseId'));
+        const message = `<p>Are you sure you want to permanently delete the following ${softDeletedCourseIds.length} courses in the <b>Recycle Bin</b>? This operation will delete all students and sessions in these courses. All instructors of these courses will not be able to access them hereafter as well.</p>
+${generateUnorderedListHtml(softDeletedCourseIds)}`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting all courses', messageText, okCallback, null,
+        showModalConfirmation('Confirm deleting all courses in the Recycle Bin', message, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
     });
 }
@@ -392,12 +405,15 @@ function bindSessionDeleteAllLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to permanently delete all feedback sessions?';
+        const softDeletedSessionItems = $('[id^="softdeletedsessionelement"]').toArray()
+                .map(softDeletedSessionElement => `${$(softDeletedSessionElement).data('courseId')}: ${$(softDeletedSessionElement).data('sessionName')}`);
+        const message = `<p>Are you sure you want to permanently delete the following ${softDeletedSessionItems.length} feedback sessions in the <b>Recycle Bin</b>?</p>
+${generateUnorderedListHtml(softDeletedSessionItems)}`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting all feedback sessions', messageText, okCallback, null,
+        showModalConfirmation('Confirm deleting all feedback sessions in the Recycle Bin', message, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
     });
 }

@@ -20,7 +20,7 @@ public class InstructorFeedbackRestoreSoftDeletedSessionAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, nameOfSessionToRestore);
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, account.googleId),
-                logic.getFeedbackSession(nameOfSessionToRestore, idOfCourseToRestore),
+                logic.getFeedbackSessionFromRecycleBin(nameOfSessionToRestore, idOfCourseToRestore),
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
