@@ -36,6 +36,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -47,6 +48,7 @@ import teammates.test.driver.TimeHelperExtension;
  * SUT: {@link FeedbackSessionsLogic}.
  */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -191,6 +193,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
+        coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
         sessionList = fsLogic
                 .getFeedbackSessionsClosingWithinTimeLimit();
