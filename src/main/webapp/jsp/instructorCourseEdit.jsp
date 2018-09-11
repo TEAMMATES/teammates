@@ -16,6 +16,7 @@
   <input type="hidden" id="course-time-zone" value="${data.course.timeZone}">
   <course:courseEditCourseInfo
       editCourseButton="${data.editCourseButton}"
+      cancelCourseButton="${data.cancelCourseButton}"
       deleteCourseButton="${data.deleteCourseButton}"
       course="${data.course}" />
   <br>

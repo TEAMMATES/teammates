@@ -7,6 +7,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ attribute name="editCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
+<%@ attribute name="cancelCourseButton" type="teammares.ui.template.ElementTag" required="true" %>
 <%@ attribute name="course" type="teammates.common.datatransfer.attributes.CourseAttributes" required="true" %>
 
 <div class="panel panel-primary">
@@ -17,7 +18,11 @@
       <a ${editCourseButton.attributesToString}>
         ${editCourseButton.content}
       </a>
-
+      
+      <a ${cancelCourseButton.attributesToString}>
+         ${cancelCourseButton.content}
+      </a>
+      
       <a ${deleteCourseButton.attributesToString}>
         ${deleteCourseButton.content}
       </a>

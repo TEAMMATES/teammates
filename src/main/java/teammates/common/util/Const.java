@@ -233,6 +233,7 @@ public final class Const {
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
+        public static final String COURSE_CANCEL = "Cancel editing Course editing Details";
         public static final String COURSE_MOVE_TO_RECYCLE_BIN =
                 "Delete the course and its corresponding students and sessions";
         public static final String COURSE_DELETE =

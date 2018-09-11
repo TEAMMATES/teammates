@@ -15,6 +15,7 @@ public class InstructorCourseEditPageData extends PageData {
     private int instructorToShowIndex;
     private ElementTag editCourseButton;
     private ElementTag deleteCourseButton;
+    private ElementTag cancelCourseButton;
     private CourseAttributes course;
     private List<CourseEditInstructorPanel> instructorPanelList;
     private CourseEditInstructorPanel addInstructorPanel;
@@ -84,6 +85,7 @@ public class InstructorCourseEditPageData extends PageData {
                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
         editCourseButton = createEditCourseButton(isEditDeleteCourseButtonDisabled);
+        cancelCourseButton = createCancelCourseButton(isEditDeleteCourseButtonDisabled);
         deleteCourseButton = createDeleteCourseButton(isEditDeleteCourseButtonDisabled);
 
         boolean isAddInstructorButtonDisabled = !currentInstructor.isAllowedForPrivilege(
@@ -128,6 +130,10 @@ public class InstructorCourseEditPageData extends PageData {
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
     }
+    
+    public ElementTag getCancelCourseButton() {
+    	return cancelCourseButton;
+    }
 
     public ElementTag getAddInstructorButton() {
         return addInstructorButton;
@@ -168,6 +174,13 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonId = "courseEditLink";
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INFO_EDIT,
                                  isDisabled);
+    }
+    
+    private ElementTag createCancelCourseButton(boolean isDisabled) {
+    	String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+    	String buttonId = "courseCancelLink";
+    	return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_CANCEL,
+    							isDisabled);
     }
 
     private ElementTag createDeleteCourseButton(boolean isDisabled) {

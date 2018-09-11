@@ -436,6 +436,16 @@ function editCourse() {
     $(`#${ParamsNames.COURSE_TIME_ZONE}`).prop('disabled', false);
     $('#auto-detect-time-zone').prop('disabled', false);
     $('#courseEditLink').hide();
+    $('#courseCancelLink').show();
+}
+
+function cancelCourse() {
+    $('#btnSaveCourse').hide();
+    $(`#${ParamsNames.COURSE_NAME}`).prop('disabled', true);
+    $(`#${ParamsNames.COURSE_TIME_ZONE}`).prop('disabled', true);
+    $('#auto-detect-time-zone').prop('disabled', true);
+    $('#courseEditLink').show();
+    $('#courseCancelLink').hide();
 }
 
 let instructorSize;
@@ -506,7 +516,9 @@ $(document).ready(() => {
         instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
         checkTheRoleThatApplies(i + 1);
     }
-
+    
+    $('#courseCancelLink').click(cancelCourse);
+    $('a[id^="courseCancelLink"]').hide();
     $('#courseEditLink').click(editCourse);
     $('a[id^="instrCancelLink"]').hide();
     $('a[id^="instrCancelLink"]').click(function () {
