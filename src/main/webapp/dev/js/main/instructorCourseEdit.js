@@ -278,7 +278,7 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
         checkPrivilegesOfCustomForInstructor(instrNum);
     }
 
-    // do nothing if role not recognized
+    // do nothing if role not recognized.
 }
 
 function checkTheRoleThatApplies(instrNum) {
@@ -516,7 +516,6 @@ $(document).ready(() => {
         instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
         checkTheRoleThatApplies(i + 1);
     }
-    
     $('#courseCancelLink').click(cancelCourse);
     $('a[id^="courseCancelLink"]').hide();
     $('#courseEditLink').click(editCourse);
