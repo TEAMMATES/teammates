@@ -18,11 +18,9 @@
       <a ${editCourseButton.attributesToString}>
         ${editCourseButton.content}
       </a>
-      
       <a ${cancelCourseButton.attributesToString}>
          ${cancelCourseButton.content}
       </a>
-      
       <a ${deleteCourseButton.attributesToString}>
         ${deleteCourseButton.content}
       </a>
