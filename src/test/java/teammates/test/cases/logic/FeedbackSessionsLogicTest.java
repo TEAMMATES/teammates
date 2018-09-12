@@ -68,6 +68,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testGetSoftDeletedFeedbackSessionsListForInstructor();
         testGetSoftDeletedFeedbackSessionsListForInstructors();
         testGetFeedbackSessionsClosingWithinTimeLimit();
+        testGetFeedbackSessionsClosedWithinThePastHour();
         testGetFeedbackSessionsWhichNeedOpenMailsToBeSent();
         testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent();
         testGetFeedbackSessionDetailsForInstructor();
@@ -184,7 +185,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("typical case : 1 standard session closing within time limit");
+        ______TS("case : 1 open session in undeleted course closing within time-limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
@@ -194,15 +195,47 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.createFeedbackSession(session);
         coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
-        ______TS("case : 1 open session in undeleted course");
         sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(1, sessionList.size());
         assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        ______TS("case : 1 open session in soft-deleted course");
+        ______TS("case : 1 open session in soft-deleted course closing within time-limit");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
         sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
+    }
+
+    private void testGetFeedbackSessionsClosedWithinThePastHour() throws Exception {
+
+        ______TS("init : 0 standard sessions closed within the past hour");
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in undeleted course within the past hour");
+        FeedbackSessionAttributes session = getNewFeedbackSession();
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        ThreadHelper.waitBriefly(); // this one is correctly used
+        fsLogic.createFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(1, sessionList.size());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
+
+        ______TS("case : 1 closed session in soft-deleted course within the past hour");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
 
         assertEquals(0, sessionList.size());
 
