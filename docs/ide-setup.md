@@ -8,7 +8,7 @@
 > - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
-Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or Oxygen](http://www.eclipse.org/downloads/).
+Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Oxygen, or Photon](http://www.eclipse.org/downloads/).
 
 ### Prerequisites
 

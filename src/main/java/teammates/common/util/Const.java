@@ -936,26 +936,11 @@ public final class Const {
     }
 
     public static class SearchDocumentField {
-        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
-        public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
-        public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
-        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
-        public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
         public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
         public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
-        public static final String FEEDBACK_QUESTION_ATTRIBUTE = "feedbackQuestionAttibute";
-        public static final String FEEDBACK_SESSION_ATTRIBUTE = "feedbackSessionAttibute";
         public static final String SEARCHABLE_TEXT = "searchableText";
-        public static final String CREATED_DATE = "createdDate";
         public static final String COURSE_ID = "courseId";
-        public static final String GIVER_EMAIL = "giverEmail";
-        public static final String GIVER_SECTION = "giverSection";
-        public static final String RECIPIENT_EMAIL = "recipientEmail";
-        public static final String RECIPIENT_SECTION = "recipientSection";
-        public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
-        public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
-        public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
     public static class ActionURIs {

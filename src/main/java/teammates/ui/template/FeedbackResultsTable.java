@@ -3,9 +3,11 @@ package teammates.ui.template;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 
 public class FeedbackResultsTable {
 
@@ -13,7 +15,7 @@ public class FeedbackResultsTable {
     private List<FeedbackResponsePersonRow> receivedResponses;
     private List<FeedbackResponsePersonRow> givenResponses;
 
-    public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result) {
+    public FeedbackResultsTable(int fbIndex, String studentName, String studentEmail, FeedbackSessionResultsBundle result) {
         this.studentName = studentName;
 
         this.receivedResponses = new ArrayList<>();
@@ -21,10 +23,25 @@ public class FeedbackResultsTable {
                                         result.getResponsesSortedByRecipient().get(studentName);
         int giverIndex = 0;
         if (received != null) {
-            for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
+            FeedbackResponseAttributes contribFeedbackResponse = findContribFeedbackResponse(received);
+            if (contribFeedbackResponse != null && contribFeedbackResponse.recipient.equals(studentEmail)) {
+                received.computeIfAbsent(studentName, k -> new ArrayList<>());
+            }
+
+            Map<String, List<FeedbackResponseAttributes>> receivedSorted = new TreeMap<>(received);
+            for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : receivedSorted.entrySet()) {
                 giverIndex++;
-                this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(), "giver",
-                                                                         entry.getValue(), result));
+                if (contribFeedbackResponse != null && entry.getKey().equals(this.studentName)) {
+                    List<FeedbackResponseAttributes> newResponseReceived = entry.getValue();
+                    newResponseReceived.add(contribFeedbackResponse);
+                    FeedbackResponseAttributes.sortFeedbackResponses(newResponseReceived);
+
+                    this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
+                                    "giver", newResponseReceived, result, true));
+                } else {
+                    this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
+                                    "giver", entry.getValue(), result, false));
+                }
             }
         }
 
@@ -35,9 +52,30 @@ public class FeedbackResultsTable {
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : given.entrySet()) {
                 recipientIndex++;
                 this.givenResponses.add(new FeedbackResponsePersonRow(fbIndex, recipientIndex, entry.getKey(), "recipient",
-                                                                      entry.getValue(), result));
+                                                                      entry.getValue(), result, false));
             }
         }
+    }
+
+    private FeedbackResponseAttributes findContribFeedbackResponse(
+            Map<String, List<FeedbackResponseAttributes>> receivedFeedbacks) {
+        FeedbackResponseAttributes[] newResponseDetails = new FeedbackResponseAttributes[1];
+        boolean[] hasContriFeedbackResponseRow = {false};
+
+        // Checks and find the perceived contrib response for a student without submission
+        receivedFeedbacks.entrySet().forEach(entry -> entry.getValue().forEach(questionResponses -> {
+            if (questionResponses.feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)) {
+                newResponseDetails[0] = new FeedbackResponseAttributes(questionResponses);
+                if (entry.getKey().equals(this.studentName)) {
+                    hasContriFeedbackResponseRow[0] = true;
+                }
+            }
+        }));
+
+        if (newResponseDetails[0] != null && !hasContriFeedbackResponseRow[0]) {
+            return newResponseDetails[0];
+        }
+        return null;
     }
 
     public String getStudentName() {
@@ -51,5 +89,4 @@ public class FeedbackResultsTable {
     public List<FeedbackResponsePersonRow> getGivenResponses() {
         return givenResponses;
     }
-
 }

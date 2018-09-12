@@ -78,7 +78,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
                 logic.resetStudentGoogleId(student.email, courseId);
                 if (isSessionSummarySendEmail) {
                     try {
-                        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
+                        EmailWrapper email =
+                                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student.email);
                         emailSender.sendEmail(email);
                     } catch (Exception e) {
                         log.severe("Error while sending session summary email"

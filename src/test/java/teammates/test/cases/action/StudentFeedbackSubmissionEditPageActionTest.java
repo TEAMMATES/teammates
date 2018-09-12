@@ -1,7 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -10,10 +10,12 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.AssertHelper;
+import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
@@ -23,16 +25,6 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
  */
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
 
-    @BeforeClass
-    public void classSetup() throws Exception {
-        addUnregStudentToCourse1();
-    }
-
-    @AfterClass
-    public void classTearDown() {
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
-    }
-
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
@@ -40,9 +32,73 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
     @Override
     protected void prepareTestData() {
-        super.prepareTestData();
+        // see setup()
+    }
+
+    @BeforeMethod
+    public void setup() throws Exception {
         dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
         removeAndRestoreDataBundle(dataBundle);
+        addUnregStudentToCourse1();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
+
+    @Test
+    public void testExecuteAndPostProcess_registeredStudentAccessSoftDeletedSession_shouldNotAccessAndRedirect()
+            throws Exception {
+        Logic logic = new Logic();
+
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+        logic.moveFeedbackSessionToRecycleBin(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
+                Const.ParamsNames.USER_ID, student1InCourse1.googleId
+        };
+
+        Action pageAction = getAction(params);
+        RedirectResult redirectResult = getRedirectResult(pageAction);
+
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
+                redirectResult.getStatusMessage());
+    }
+
+    @Test(expectedExceptions = EntityNotFoundException.class,
+            expectedExceptionsMessageRegExp = ".*unregistered student trying to access non-existent session.*")
+    public void testExecuteAndPostProcess_unregisteredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
+            throws Exception {
+        Logic logic = new Logic();
+
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes unregStudent =
+                logic.getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+
+        logic.moveFeedbackSessionToRecycleBin(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+
+        gaeSimulation.logoutUser();
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
+                Const.ParamsNames.STUDENT_EMAIL, unregStudent.email
+        };
+
+        Action pageAction = getAction(params);
+        getRedirectResult(pageAction);
     }
 
     @Override

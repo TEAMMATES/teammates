@@ -222,6 +222,10 @@
       "username": "bmthanki"
     },
     {
+      "name": "Bhumi Saxena",
+      "username": "bhumisaxena0223"
+    },
+    {
       "multiple": true,
       "name": "Bicheng Xu",
       "username": "uxxSam"
@@ -920,6 +924,10 @@
       "name": "Nguyen Truong Duy"
     },
     {
+      "name": "Nicolás Marzano",
+      "username": "nmmarzano"
+    },
+    {
       "multiple": true,
       "name": "Nidhi Gupta",
       "username": "nidhi98gupta"
@@ -1004,6 +1012,10 @@
       "multiple": true,
       "name": "Pon Heng Wai",
       "username": "freddusya"
+    },
+    {
+      "name": "Pramod Gupta",
+      "username": "IAmPramod"
     },
     {
       "name": "Prasanna Rodrigo",
@@ -1706,13 +1718,12 @@
       ]
     },
     {
-      "name": "John Yong",
-      "username": "whipermr5",
-      "image": "images/teammembers/john.png",
-      "currentPosition": "Project Lead (Jan 2018 - )",
+      "name": "Xiao Pu",
+      "username": "xpdavid",
+      "image": "images/teammembers/xiaopu.png",
+      "currentPosition": "Project Lead (Jun 2018 - )",
       "pastPositions": [
-        "Area Lead (Aug 2017 - Dec 2017)",
-        "Snr Developer (May 2017 - Jul 2017)",
+        "Area Lead (Jan 2018 - May 2018)",
         "Committer (Jan 2017 - Apr 2017)"
       ]
     },
@@ -1737,15 +1748,6 @@
       ]
     },
     {
-      "name": "Xiao Pu",
-      "username": "xpdavid",
-      "image": "images/teammembers/xiaopu.png",
-      "currentPosition": "Area Lead (Jan 2018 - )",
-      "pastPositions": [
-        "Committer (Jan 2017 - Apr 2017)"
-      ]
-    },
-    {
       "name": "Tan Li Hao",
       "username": "LiHaoTan",
       "image": "images/teammembers/lihao.png",
@@ -1753,6 +1755,17 @@
       "pastPositions": [
         "Snr Developer (Aug 2017 - Dec 2017)",
         "Committer (May 2017 - Jul 2017)"
+      ]
+    },
+    {
+      "name": "John Yong",
+      "username": "whipermr5",
+      "image": "images/teammembers/john.png",
+      "pastPositions": [
+        "Project Lead (Jan 2018 - May 2018)",
+        "Area Lead (Aug 2017 - Dec 2017)",
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
       ]
     },
     {
