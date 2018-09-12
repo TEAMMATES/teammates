@@ -130,7 +130,6 @@ public class InstructorCourseEditPageData extends PageData {
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
     }
-    
     public ElementTag getCancelCourseButton() {
         return cancelCourseButton;
     }
@@ -175,7 +174,7 @@ public class InstructorCourseEditPageData extends PageData {
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INFO_EDIT,
                                  isDisabled);
     }
-    
+
     private ElementTag createCancelCourseButton(boolean isDisabled) {
         String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
         String buttonId = "courseCancelLink";
@@ -183,7 +182,7 @@ public class InstructorCourseEditPageData extends PageData {
                                  isDisabled);
     }
 
-    private ElementTag createDeleteCourseButton(boolean isDisabled) {
+   private ElementTag createDeleteCourseButton(boolean isDisabled) {
         String buttonContent = "<span class=\"glyphicon glyphicon-trash\"></span> Delete";
         String buttonId = "courseDeleteLink";
         String href = getInstructorCourseDeleteLink(course.getId(), false);
