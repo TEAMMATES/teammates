@@ -27,7 +27,7 @@ public class InstructorCourseEditPageData extends PageData {
                                         List<String> sectionNames, List<String> feedbackNames) {
         super(account, sessionToken);
         this.course = course;
-        //TODO: [CourseAttribute] remove desanitization after data migration
+        //TODO: [CourseAttribute]  remove desanitization after data migration
         //creating a new course with possibly desanitized name as course name cannot be accessed directly
         this.course = CourseAttributes
                 .builder(course.getId(),
