@@ -21,9 +21,10 @@ public abstract class SearchQuery {
 
     private static final Logger log = Logger.getLogger();
 
+    protected QueryOptions options;
+
     private String visibilityQueryString;
 
-    private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<>();
 
     protected SearchQuery(List<InstructorAttributes> instructors, String queryString) {

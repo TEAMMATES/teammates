@@ -25,7 +25,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -174,57 +173,17 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 + relatedPeopleBuilder.toString() + delim
                                 + comment.commentText.getValue();
 
-        // for data-migration use
-        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
-                                   || comment.isVisibleTo(FeedbackParticipantType.GIVER);
-        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
-                                    ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                    : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
-        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
-                                      ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                                      : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
-
         return Document.newBuilder()
-                // these are used to filter documents visible to certain instructor
-                // TODO: some of the following fields are not used anymore
-                // (refer to {@link FeedbackResponseCommentSearchQuery}), can remove them
+                // courseId are used to filter documents visible to certain instructor
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
                                             .setText(comment.courseId))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL)
-                                            .setText(comment.commentGiver))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL)
-                                            .setText(relatedResponse.giver))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION)
-                                            .setText(relatedResponse.giverSection))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL)
-                                            .setText(relatedResponse.recipient))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION)
-                                            .setText(relatedResponse.recipientSection))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER)
-                                            .setText(Boolean.toString(isVisibleToGiver)))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER)
-                                            .setText(Boolean.toString(isVisibleToReceiver)))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR)
-                                            .setText(Boolean.toString(isVisibleToInstructor)))
                 // searchableText and createdDate are used to match the query string
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
                                             .setText(searchableText))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
-                                            .setDate(TimeHelper.convertInstantToDate(comment.createdAt)))
-                // attribute field is used to convert a doc back to attribute
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE)
-                                            .setText(JsonUtils.toJson(comment)))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE)
-                                            .setText(JsonUtils.toJson(relatedResponse)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME)
                                             .setText(JsonUtils.toJson(responseGiverName)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME)
                                             .setText(JsonUtils.toJson(responseRecipientName)))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE)
-                                            .setText(JsonUtils.toJson(relatedQuestion)))
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE)
-                                            .setText(JsonUtils.toJson(relatedSession)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME)
                                             .setText(JsonUtils.toJson(commentGiverDisplayedName)))
                 .setId(comment.getId().toString())
@@ -255,69 +214,49 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
             // get FeedbackResponseComment from results
-            FeedbackResponseCommentAttributes comment = JsonUtils.fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(),
-                    FeedbackResponseCommentAttributes.class);
-            FeedbackResponseCommentAttributes commentFromDb = frcDb.getFeedbackResponseComment(comment.getId());
-            if (commentFromDb == null) {
-                frcDb.deleteDocument(comment);
+            long feedbackResponseCommentId = Long.parseLong(doc.getId());
+            FeedbackResponseCommentAttributes comment = frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
+            if (comment == null) {
+                // search engine out of sync as SearchManager may fail to delete documents due to GAE error
+                // the chance is low and it is generally not a big problem
+                frcDb.deleteDocumentByCommentId(feedbackResponseCommentId);
                 continue;
-            } else {
-                // TODO: Remove after Data Migration
-                comment.commentGiver = commentFromDb.commentGiver;
-                comment.commentGiverType = commentFromDb.commentGiverType;
             }
-            List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
-            if (commentList == null) {
-                commentList = new ArrayList<>();
-                bundle.comments.put(comment.feedbackResponseId, commentList);
-            }
-            commentList.add(comment);
+            // construct responseId to comment map
+            bundle.comments
+                    .computeIfAbsent(comment.feedbackResponseId, key -> new ArrayList<>())
+                    .add(comment);
 
             // get related response from results
-            FeedbackResponseAttributes response = JsonUtils.fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(),
-                    FeedbackResponseAttributes.class);
-            if (frDb.getFeedbackResponse(response.getId()) == null) {
-                frcDb.deleteDocument(comment);
+            FeedbackResponseAttributes response = frDb.getFeedbackResponse(comment.feedbackResponseId);
+            if (response == null) {
                 continue;
             }
-            List<FeedbackResponseAttributes> responseList = bundle.responses.get(response.feedbackQuestionId);
-            if (responseList == null) {
-                responseList = new ArrayList<>();
-                bundle.responses.put(response.feedbackQuestionId, responseList);
-            }
+            // construct questionId to response map
+            bundle.responses.putIfAbsent(response.feedbackQuestionId, new ArrayList<>());
             if (!isAdded.contains(response.getId())) {
                 isAdded.add(response.getId());
-                responseList.add(response);
+                bundle.responses.get(response.feedbackQuestionId).add(response);
             }
 
             // get related question from results
-            FeedbackQuestionAttributes question = JsonUtils.fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(),
-                    FeedbackQuestionAttributes.class);
-            if (fqDb.getFeedbackQuestion(question.getId()) == null) {
-                frcDb.deleteDocument(comment);
+            FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
+            if (question == null) {
                 continue;
             }
-            List<FeedbackQuestionAttributes> questionList = bundle.questions.get(question.feedbackSessionName);
-            if (questionList == null) {
-                questionList = new ArrayList<>();
-                bundle.questions.put(question.feedbackSessionName, questionList);
-            }
+            // construct session name to question map
+            bundle.questions.putIfAbsent(question.feedbackSessionName, new ArrayList<>());
             if (!isAdded.contains(question.getId())) {
                 isAdded.add(question.getId());
-                questionList.add(question);
+                bundle.questions.get(question.feedbackSessionName).add(question);
             }
 
             // get related session from results
-            FeedbackSessionAttributes session = JsonUtils.fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
-                    FeedbackSessionAttributes.class);
-            if (fsDb.getFeedbackSession(session.getCourseId(), session.getSessionName()) == null) {
-                frcDb.deleteDocument(comment);
+            FeedbackSessionAttributes session = fsDb.getFeedbackSession(comment.courseId, comment.feedbackSessionName);
+            if (session == null) {
                 continue;
             }
+            // construct session name to session map
             if (!isAdded.contains(session.getFeedbackSessionName())) {
                 isAdded.add(session.getFeedbackSessionName());
                 bundle.sessions.put(session.getSessionName(), session);

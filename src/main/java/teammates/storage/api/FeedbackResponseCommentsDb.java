@@ -52,27 +52,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 "Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
     }
 
-    /*
-     * Removes search document for the given comment
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
-        Long id = commentToDelete.getId();
-
-        if (id == null) {
-            Key<FeedbackResponseComment> key = getEntityQueryKeys(commentToDelete).first().now();
-
-            if (key == null) {
-                return;
-            }
-
-            id = key.getId();
-        }
-
-        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, id.toString());
-    }
-
     /**
      * Removes search document for the comment with given id.
+     *
+     * <p>See {@link FeedbackResponseCommentSearchDocument#toDocument()} for more details.</p>
      *
      * @param commentId ID of comment
      */
@@ -314,16 +297,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 new FeedbackResponseCommentSearchQuery(instructors, queryString));
 
         return FeedbackResponseCommentSearchDocument.fromResults(results, instructors);
-    }
-
-    /**
-     * Returns all feedback response comments in the Datastore.
-     *
-     * @deprecated Not scalable. Don't use unless in admin features.
-     */
-    @Deprecated
-    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return makeAttributes(load().list());
     }
 
     /**
