@@ -130,9 +130,9 @@ public class InstructorCourseEditPageData extends PageData {
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
     }
-   
+    
     public ElementTag getCancelCourseButton() {
-    	return cancelCourseButton;
+        return cancelCourseButton;
     }
 
     public ElementTag getAddInstructorButton() {
@@ -177,9 +177,9 @@ public class InstructorCourseEditPageData extends PageData {
     }
     
     private ElementTag createCancelCourseButton(boolean isDisabled) {
-    	String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
-    	String buttonId = "courseCancelLink";
-    	return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_CANCEL,
+        String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+        String buttonId = "courseCancelLink";
+        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_CANCEL,
                                  isDisabled);
     }
 
