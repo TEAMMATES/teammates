@@ -200,7 +200,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, sessionList.size());
         assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        ______TS("case : 1 open session in soft-deleted course closing within time-limit");
+        ______TS("case : 1 open session in deleted course closing within time-limit");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
         sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
@@ -233,7 +233,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, sessionList.size());
         assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        ______TS("case : 1 closed session in soft-deleted course within the past hour");
+        ______TS("case : 1 closed session in deleted course within the past hour");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
         sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
 
@@ -283,7 +283,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 open session in soft-deleted course with mail unsent");
+        ______TS("case : 1 open session in deleted course with mail unsent");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
         session.setSentOpenEmail(false);
         fsLogic.updateFeedbackSession(session);
@@ -292,7 +292,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 open session in soft-deleted course with mail sent");
+        ______TS("case : 1 open session in deleted course with mail sent");
         session.setSentOpenEmail(true);
         fsLogic.updateFeedbackSession(session);
 
@@ -300,7 +300,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 closed session in soft-deleted course with mail unsent");
+        ______TS("case : 1 closed session in deleted course with mail unsent");
         session.setSentOpenEmail(false);
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
@@ -347,7 +347,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 published session in soft-deleted course with mail unsent");
+        ______TS("case : 1 published session in deleted course with mail unsent");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
@@ -356,7 +356,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 published session in soft-deleted course with mail sent");
+        ______TS("case : 1 published session in deleted course with mail sent");
         session.setSentPublishedEmail(true);
         fsLogic.updateFeedbackSession(session);
 
