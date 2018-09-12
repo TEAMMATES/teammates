@@ -130,6 +130,7 @@ public class InstructorCourseEditPageData extends PageData {
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
     }
+    
     public ElementTag getCancelCourseButton() {
         return cancelCourseButton;
     }
@@ -182,7 +183,7 @@ public class InstructorCourseEditPageData extends PageData {
                                  isDisabled);
     }
 
-   private ElementTag createDeleteCourseButton(boolean isDisabled) {
+    private ElementTag createDeleteCourseButton(boolean isDisabled) {
         String buttonContent = "<span class=\"glyphicon glyphicon-trash\"></span> Delete";
         String buttonId = "courseDeleteLink";
         String href = getInstructorCourseDeleteLink(course.getId(), false);
