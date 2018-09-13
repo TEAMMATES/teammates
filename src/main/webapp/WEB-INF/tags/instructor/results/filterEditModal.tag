@@ -69,7 +69,7 @@
                     <select id="sectionSelectDetails" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL%>">
                       <c:forEach items="${filterPanel.sectionDetails}" var="sectionDetail">
                         <option value="${fn:escapeXml(sectionDetail)}"<c:if test="${filterPanel.selectedSectionDetail == sectionDetail}"> selected</c:if>>
-                            ${fn:escapeXml(sectionDetail)}
+                            ${fn:escapeXml(sectionDetail.getSectionDetail())}
                         </option>
                       </c:forEach>
                     </select>
