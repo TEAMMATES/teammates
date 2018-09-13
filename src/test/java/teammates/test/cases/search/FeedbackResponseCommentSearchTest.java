@@ -78,20 +78,15 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; confirms deleted comments are not included in results");
 
-        commentsDb.deleteDocument(commentsDb.getFeedbackResponseComment(frc1I3Q1S1C3.courseId, frc1I3Q1S1C3.createdAt,
-                frc1I3Q1S1C3.commentGiver));
-        bundle = commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
-        verifySearchResults(bundle);
-
-        FeedbackResponseCommentAttributes commentToDelete = commentsDb.getFeedbackResponseComment(frc1I3Q1S2C2.courseId,
-                frc1I3Q1S2C2.createdAt, frc1I3Q1S2C2.commentGiver);
+        FeedbackResponseCommentAttributes commentToDelete = commentsDb.getFeedbackResponseComment(frc1I3Q1S1C3.courseId,
+                frc1I3Q1S1C3.createdAt, frc1I3Q1S1C3.commentGiver);
         commentsDb.deleteDocumentByCommentId(commentToDelete.feedbackResponseCommentId);
         // search engine need time to persist changes
         persistenceRetryManager.runUntilNoRecognizedException(new RetryableTask("verify search result") {
             @Override
             public void run() {
                 FeedbackResponseCommentSearchResultBundle bundle =
-                        commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
+                        commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
                 verifySearchResults(bundle);
             }
         }, AssertionError.class);
