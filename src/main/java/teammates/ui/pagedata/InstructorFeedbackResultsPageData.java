@@ -24,6 +24,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
@@ -60,7 +61,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorAttributes instructor;
     private List<String> sections;
     private String selectedSection;
-    private String selectedSectionDetail;
+    private SectionDetail selectedSectionDetail;
     private String sortType;
     private String groupByTeam;
     private String showStats;
@@ -100,7 +101,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
-                                      String selectedSection, String selectedSectionDetail, String showStats,
+                                      String selectedSection, SectionDetail selectedSectionDetail, String showStats,
                                       String groupByTeam, boolean isMissingResponsesShown) {
         this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
         this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
@@ -128,8 +129,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         });
     }
 
-    private void initCommonVariables(InstructorAttributes instructor, String selectedSection, String selectedSectionDetail,
-                                    String showStats, String groupByTeam, boolean isMissingResponsesShown) {
+    private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
+                                     SectionDetail selectedSectionDetail, String showStats, String groupByTeam,
+                                     boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
 
         this.instructor = instructor;
@@ -1660,7 +1662,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return selectedSection;
     }
 
-    public String getSelectedSectionDetail() {
+    public SectionDetail getSelectedSectionDetail() {
         return selectedSectionDetail;
     }
 
