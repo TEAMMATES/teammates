@@ -224,7 +224,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        session.setEndTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-59));
         fsLogic.createFeedbackSession(session);
 
         sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
