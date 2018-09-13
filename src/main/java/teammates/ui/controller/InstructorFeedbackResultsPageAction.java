@@ -179,7 +179,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private FeedbackSessionResultsBundle getBundleForQuestionView(
             String needAjax, String courseId, String feedbackSessionName, InstructorAttributes instructor,
-            InstructorFeedbackResultsPageData data, String selectedSection, String selectedSectionDetail,
+            InstructorFeedbackResultsPageData data, String selectedSection, SectionDetail selectedSectionDetail,
             String sortType, String questionId)
                     throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
@@ -223,8 +223,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection, String selectedSectionDetail, boolean isMissingResponsesShown,
-                                    boolean isStatsShown)
+                                    String selectedSection, SectionDetail selectedSectionDetail,
+                                    boolean isMissingResponsesShown, boolean isStatsShown)
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
