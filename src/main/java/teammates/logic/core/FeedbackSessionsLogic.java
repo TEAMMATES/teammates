@@ -1693,27 +1693,33 @@ public final class FeedbackSessionsLogic {
             params.put(PARAM_TO_SECTION, "false");
             return params;
         }
-        // either giver or recipient needs to be in the selected section
-        if (sectionDetail.contains("either")) {
+
+        switch(sectionDetail) {
+        case "EITHER":
+            // either giver or recipient needs to be in the selected section
             params.put(PARAM_IN_SECTION, "true");
             params.put(PARAM_FROM_SECTION, "false");
             params.put(PARAM_TO_SECTION, "false");
-
-        } else if (sectionDetail.contains("giver")) {
+            break;
+        case "GIVER":
             params.put(PARAM_IN_SECTION, "false");
             params.put(PARAM_FROM_SECTION, "true");
             params.put(PARAM_TO_SECTION, "false");
-
-        } else if (sectionDetail.contains("evaluee")) {
+            break;
+        case "EVALUEE":
             params.put(PARAM_IN_SECTION, "false");
             params.put(PARAM_FROM_SECTION, "false");
             params.put(PARAM_TO_SECTION, "true");
-
-        } else if (sectionDetail.contains("both")) {
+            break;
+        case "BOTH":
             // both giver and recipient must be from the selected section
             params.put(PARAM_IN_SECTION, "false");
             params.put(PARAM_FROM_SECTION, "true");
             params.put(PARAM_TO_SECTION, "true");
+            break;
+        default:
+            Assumption.fail("Invalid section detail entered.");
+            break;
         }
 
         return params;
