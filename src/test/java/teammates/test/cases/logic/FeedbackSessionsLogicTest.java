@@ -225,7 +225,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
-        ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
 
         sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
@@ -285,7 +284,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("case : 1 open session in deleted course with mail unsent");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
-        session.setSentOpenEmail(false);
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
         fsLogic.updateFeedbackSession(session);
 
         sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
