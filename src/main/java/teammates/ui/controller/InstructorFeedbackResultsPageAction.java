@@ -202,8 +202,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // bundle for all questions, with a selected section and selected section detail
                 // depending on the section detail, this function will filter accordingly
                 bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                    instructor.email,
-                                                                                    selectedSection, selectedSectionDetail);
+                                                                                instructor.email, selectedSection,
+                                                                                selectedSectionDetail.name());
             }
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
@@ -214,7 +214,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // bundle for a specific question and a specific section
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 feedbackSessionName, courseId,
-                                                instructor.email, questionId, selectedSection, selectedSectionDetail);
+                                                instructor.email, questionId, selectedSection, selectedSectionDetail.name());
             }
         }
 
@@ -238,7 +238,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, selectedSectionDetail, null,
+                                        selectedSection, selectedSectionDetail.name(), null,
                                         isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
