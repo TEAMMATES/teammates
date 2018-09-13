@@ -58,7 +58,7 @@
               <div data-toggle="tooltip" title="Choose the way responses for the selected section is viewed">
                 <label class="col-md-offset-1 col-md-5">If showing only a section:</label>
                 <div class="col-md-6">
-                  ${fn:escapeXml(filterPanel.selectedSectionDetail)}
+                  ${fn:escapeXml(filterPanel.selectedSectionDetail.getSectionDetail())}
                 </div>
               </div>
             </c:if>
