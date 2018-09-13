@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -25,6 +25,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpClientXsrfModule,
     NgbModule,
     RouterModule.forRoot(routes),
   ],

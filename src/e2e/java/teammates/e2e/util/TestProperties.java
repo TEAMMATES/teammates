@@ -61,7 +61,10 @@ public final class TestProperties {
     /** The password of the test unregistered account. */
     public static final String TEST_UNREG_PASSWORD;
 
-    /** The value of "test.backdoor" in test.properties file. */
+    /** The value of "test.xsrf.key" in test.properties file. */
+    public static final String XSRF_KEY;
+
+    /** The value of "test.backdoor.key" in test.properties file. */
     public static final String BACKDOOR_KEY;
 
     /** The value of "test.selenium.browser" in test.properties file. */
@@ -152,6 +155,7 @@ public final class TestProperties {
                 TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
             }
 
+            XSRF_KEY = prop.getProperty("test.xsrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();

@@ -3,6 +3,9 @@ package teammates.common.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,12 +27,38 @@ public final class HttpRequestHelper {
         return paramMap.getOrDefault(key, new String[] { null })[0];
     }
 
+    /**
+     * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping string.
+     */
     public static String getRequestParametersAsString(HttpServletRequest req) {
-        String requestParameters = ((Map<String, String[]>) req.getParameterMap()).entrySet().stream()
-                .map(kv -> kv.getKey() + "::" + Arrays.stream(kv.getValue()).collect(Collectors.joining("//")))
-                .collect(Collectors.joining(", "));
+        return getDisplayedJsonInOneLine(req.getParameterMap());
+    }
 
-        return "{" + requestParameters + "}";
+    /**
+     * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping string.
+     */
+    public static String getRequestHeadersAsString(HttpServletRequest req) {
+        Map<String, String[]> headers = new HashMap<>();
+        Collections.list((Enumeration<String>) req.getHeaderNames()).stream()
+                // Do not include cookie header in production for privacy reasons
+                .filter(headerName -> Config.isDevServer() || !"cookie".equalsIgnoreCase(headerName))
+                .forEach(headerName -> {
+                    headers.put(headerName,
+                            Collections.list((Enumeration<String>) req.getHeaders(headerName)).toArray(new String[0]));
+                });
+
+        return getDisplayedJsonInOneLine(headers);
+    }
+
+    private static String getDisplayedJsonInOneLine(Map<String, String[]> map) {
+        Map<String, Object> transformed = new HashMap<>();
+        map.forEach((key, values) -> {
+            if (values.length != 0) {
+                transformed.put(key, values.length == 1 ? values[0] : values);
+            }
+        });
+        return JsonUtils.toJson(transformed).replaceAll("([^,])\r?\n *", "$1")
+                .replaceAll(",\r?\n *", ", ");
     }
 
     /**

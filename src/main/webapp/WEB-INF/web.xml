@@ -29,11 +29,11 @@
     </servlet-mapping>
 
     <filter>
-        <filter-name>CorsFilter</filter-name>
-        <filter-class>teammates.ui.newcontroller.CorsFilter</filter-class>
+        <filter-name>OriginCheckFilter</filter-name>
+        <filter-class>teammates.ui.newcontroller.OriginCheckFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>CorsFilter</filter-name>
+        <filter-name>OriginCheckFilter</filter-name>
         <url-pattern>/webapi/*</url-pattern>
     </filter-mapping>
 
