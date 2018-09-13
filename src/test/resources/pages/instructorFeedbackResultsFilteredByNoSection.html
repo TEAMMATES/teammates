@@ -72,7 +72,7 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="None">
-                  <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+                  <input name="sectionnamedetail" type="hidden" value="EITHER">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -108,7 +108,7 @@
     <input name="fsname" type="hidden" value="First Session">
     <input name="user" type="hidden" value="CFResultsUiT.instr">
     <input name="frgroupbysection" type="hidden" value="None">
-    <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+    <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
     <input name="csvtohtmltable" type="hidden" value="true">
   </form>
   <div class="modal fade align-center" id="fsResultsTableWindow">
@@ -290,16 +290,16 @@
                         If showing only a section:
                       </label>
                       <select class="form-control" id="sectionSelectDetails" name="frgroupbysectiondetail">
-                        <option selected="" value="Show response if either the giver or evaluee is in the selected section">
+                        <option selected="" value="EITHER">
                           Show response if either the giver or evaluee is in the selected section
                         </option>
-                        <option value="Show response if the giver is in the selected section">
+                        <option value="GIVER">
                           Show response if the giver is in the selected section
                         </option>
-                        <option value="Show response if the evaluee is in the selected section">
+                        <option value="EVALUEE">
                           Show response if the evaluee is in the selected section
                         </option>
-                        <option value="Show response only if both are in the selected section">
+                        <option value="BOTH">
                           Show response only if both are in the selected section
                         </option>
                       </select>
@@ -373,7 +373,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -387,7 +387,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -421,7 +421,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -435,7 +435,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -469,7 +469,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -483,7 +483,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -517,7 +517,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -531,7 +531,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -565,7 +565,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -579,7 +579,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -613,7 +613,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -627,7 +627,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -661,7 +661,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -675,7 +675,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -732,7 +732,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -746,7 +746,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -803,7 +803,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -817,7 +817,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -862,7 +862,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -876,7 +876,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -921,7 +921,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="None">
-        <input name="frgroupbysectiondetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="frgroupbysectiondetail" type="hidden" value="EITHER">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -935,7 +935,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="None">
-        <input name="sectionnamedetail" type="hidden" value="Show response if either the giver or evaluee is in the selected section">
+        <input name="sectionnamedetail" type="hidden" value="EITHER">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
