@@ -106,10 +106,6 @@ public final class StudentsLogic {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
 
-    public void deleteDocument(StudentAttributes student) {
-        studentsDb.deleteDocument(student);
-    }
-
     public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
         return studentsDb.search(queryString, instructors);
     }
