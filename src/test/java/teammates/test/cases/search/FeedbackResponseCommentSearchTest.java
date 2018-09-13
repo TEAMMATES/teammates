@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.retry.RetryableTask;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
@@ -17,7 +18,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
     @Test
-    public void allTests() {
+    public void allTests() throws Exception {
         FeedbackResponseCommentsDb commentsDb = new FeedbackResponseCommentsDb();
 
         FeedbackResponseCommentAttributes frc1I1Q1S1C1 = dataBundle.feedbackResponseComments
@@ -81,5 +82,18 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 frc1I3Q1S1C3.commentGiver));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
         verifySearchResults(bundle);
+
+        FeedbackResponseCommentAttributes commentToDelete = commentsDb.getFeedbackResponseComment(frc1I3Q1S2C2.courseId,
+                frc1I3Q1S2C2.createdAt, frc1I3Q1S2C2.commentGiver);
+        commentsDb.deleteDocumentByCommentId(commentToDelete.feedbackResponseCommentId);
+        // search engine need time to persist changes
+        persistenceRetryManager.runUntilNoRecognizedException(new RetryableTask("verify search result") {
+            @Override
+            public void run() {
+                FeedbackResponseCommentSearchResultBundle bundle =
+                        commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
+                verifySearchResults(bundle);
+            }
+        }, AssertionError.class);
     }
 }

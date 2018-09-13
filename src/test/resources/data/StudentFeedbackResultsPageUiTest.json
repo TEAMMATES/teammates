@@ -1162,6 +1162,17 @@
         "value": "Secret feedback about class. (to nobody test)"
       }
     },
+    "response5": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "TEXT",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "Secret feedback about class. (to nobody test)"
+      }
+    },
     "response6": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
@@ -1209,12 +1220,45 @@
     "response10": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "5",
+      "feedbackQuestionType": "TEXT",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "Teammate feedback from alice"
+      }
+    },
+    "response11": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "Feedback from alice to the team"
+      }
+    },
+    "response12": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "TEXT",
+      "giver": "SFResultsUiT.benny.c@gmail.tmt",
+      "recipient": "Team 1</td></div>'\"",
+      "responseMetaData": {
+        "value": "Feedback from benny to the team"
+      }
+    },
+    "response13": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "TEXT",
+      "giver": "SFResultsUiT.instr@gmail.tmt",
+      "recipient": "SFResultsUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "Feedback from instructor to Alice"
       }
     },
     "mcqResponse1": {
@@ -1319,6 +1363,17 @@
     "msqResponse2": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.benny.c@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"UI\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse3": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
@@ -1327,7 +1382,7 @@
         "value": "{\"answers\":[\"Good\",\"OK\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse3": {
+    "msqResponse4": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "2",
@@ -1338,7 +1393,40 @@
         "value": "{\"answers\":[\"OK\",\"Poor\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse4": {
+    "msqResponse5": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"OK\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse6": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Poor\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse7": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "recipient": "SFResultsUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Good\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse8": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "3",
@@ -1349,7 +1437,18 @@
         "value": "{\"answers\":[\"Can improve\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse5": {
+    "msqResponse9": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Can improve\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse10": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "4",
@@ -1360,7 +1459,18 @@
         "value": "{\"answers\":[\"Danny\",\"Alice\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse6": {
+    "msqResponse11": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Benny\",\"Danny\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse12": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "5",
@@ -1369,6 +1479,17 @@
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answers\":[\"Team 1\",\"Team 2\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse13": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "5",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Team 1\"],\"questionType\":\"MSQ\"}"
       }
     },
     "numscaleResponse1": {
@@ -1682,12 +1803,12 @@
     "constsumResponse2": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "SFResultsUiT.CS2104",
-      "feedbackQuestionId": "2",
+      "feedbackQuestionId": "1",
       "feedbackQuestionType": "CONSTSUM",
-      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"answers\":[80],\"questionType\":\"CONSTSUM\"}"
+        "value": "{\"answers\":[30,70],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "constsumResponse3": {
@@ -1696,9 +1817,9 @@
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
-      "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"answers\":[120],\"questionType\":\"CONSTSUM\"}"
+        "value": "{\"answers\":[80],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "constsumResponse4": {
@@ -1707,12 +1828,34 @@
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
-      "recipient": "SFResultsUiT.danny.e@gmail.tmt",
+      "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answers\":[100],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "constsumResponse5": {
+      "feedbackSessionName": "CONSTSUM Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.danny.e@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}"
+      }
+    },
+    "constsumResponse6": {
+      "feedbackSessionName": "CONSTSUM Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "SFResultsUiT.benny.c@gmail.tmt",
+      "recipient": "SFResultsUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[200],\"questionType\":\"CONSTSUM\"}"
+      }
+    },
+    "constsumResponse7": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "3",
@@ -1723,7 +1866,7 @@
         "value": "{\"answers\":[99],\"questionType\":\"CONSTSUM\"}"
       }
     },
-    "constsumResponse6": {
+    "constsumResponse8": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "3",
@@ -1745,7 +1888,7 @@
         "value": "{\"answer\":110,\"questionType\":\"CONTRIB\"}"
       }
     },
-    "contribsumResponse2": {
+    "contribResponse2": {
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "1",
@@ -1754,6 +1897,17 @@
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
+      },
+      "contribResponse3": {
+        "feedbackSessionName": "CONTRIB Session",
+        "courseId": "SFResultsUiT.CS2104",
+        "feedbackQuestionId": "1",
+        "feedbackQuestionType": "CONTRIB",
+        "giver": "SFResultsUiT.emily.f@gmail.tmt",
+        "recipient": "SFResultsUiT.emily.f@gmail.tmt",
+        "responseMetaData": {
+          "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
+        }
       }
     }
   },

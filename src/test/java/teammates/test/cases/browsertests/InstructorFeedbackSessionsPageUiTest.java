@@ -600,8 +600,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
-        assertNotNull("session should not have been deleted",
-                      BackDoor.getFeedbackSession(courseId, sessionName));
+        assertNotNull("session should be in recycle bin",
+                BackDoor.getFeedbackSessionFromRecycleBin(courseId, sessionName));
         assertTrue(newSession.isSessionDeleted());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecycleBinSuccessful.html");
 
@@ -661,7 +661,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // Delete and cancel
         feedbackPage.deleteSessionAndCancel(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
 
-        assertNotNull(BackDoor.getFeedbackSession(session1OfCS2106.getCourseId(),
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(session1OfCS2106.getCourseId(),
                 session1OfCS2106.getFeedbackSessionName()));
 
         // Delete and confirm
@@ -684,9 +684,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // Delete all and cancel
         feedbackPage.deleteAllSessionsAndCancel();
 
-        assertNotNull(BackDoor.getFeedbackSession(session2OfCS2106.getCourseId(),
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(session2OfCS2106.getCourseId(),
                 session2OfCS2106.getFeedbackSessionName()));
-        assertNotNull(BackDoor.getFeedbackSession(session3OfCS2106.getCourseId(),
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(session3OfCS2106.getCourseId(),
                 session3OfCS2106.getFeedbackSessionName()));
 
         // Delete all and confirm
