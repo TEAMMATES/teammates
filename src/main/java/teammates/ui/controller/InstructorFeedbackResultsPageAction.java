@@ -7,6 +7,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -40,11 +41,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        String selectedSectionDetail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL);
+        SectionDetail selectedSectionDetail = null;
+        String sectionDetailValue = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL);
 
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
-            selectedSectionDetail = null;
+        } else if (sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
+            selectedSectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
