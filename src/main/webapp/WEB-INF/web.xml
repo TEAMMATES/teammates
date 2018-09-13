@@ -34,26 +34,8 @@
     </filter>
     <filter-mapping>
         <filter-name>CorsFilter</filter-name>
-        <url-pattern>/webapi/auth</url-pattern>
+        <url-pattern>/webapi/*</url-pattern>
     </filter-mapping>
-
-    <servlet>
-        <servlet-name>AuthServlet</servlet-name>
-        <servlet-class>teammates.ui.newcontroller.AuthServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AuthServlet</servlet-name>
-        <url-pattern>/webapi/auth</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>BackDoorServlet</servlet-name>
-        <servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BackDoorServlet</servlet-name>
-        <url-pattern>/backdoor</url-pattern>
-    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>web/front/home</welcome-file>
@@ -67,6 +49,17 @@
     <servlet-mapping>
         <servlet-name>WebPageServlet</servlet-name>
         <url-pattern>/web/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>Servlet that handles requests from web application</description>
+        <servlet-name>WebApiServlet</servlet-name>
+        <servlet-class>teammates.ui.newcontroller.WebApiServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebApiServlet</servlet-name>
+        <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -91,10 +84,8 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>WebResources</web-resource-name>
-            <url-pattern>/backdoor</url-pattern>
-            <url-pattern>/webapi/*</url-pattern>
-            <url-pattern>/web/*</url-pattern>
+            <web-resource-name>AllResources</web-resource-name>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
