@@ -12,7 +12,6 @@ import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -56,9 +55,6 @@ public class InstructorSearchDocument extends SearchDocument {
                 // searchableText is used to match the query string
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
                                             .setText(searchableText))
-                // attribute field is used to convert a doc back to attribute
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE)
-                                            .setText(JsonUtils.toJson(instructor)))
                 .setId(StringHelper.encrypt(instructor.key))
                 .build();
     }
@@ -67,7 +63,7 @@ public class InstructorSearchDocument extends SearchDocument {
      * Produces an {@link InstructorSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
      *
      * <p>This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID.
+     * visibility according to the logged-in user's google ID.</p>
      */
     public static InstructorSearchResultBundle fromResults(Results<ScoredDocument> results) {
         InstructorSearchResultBundle bundle = new InstructorSearchResultBundle();
@@ -76,12 +72,11 @@ public class InstructorSearchDocument extends SearchDocument {
         }
 
         for (ScoredDocument doc : results) {
-            InstructorAttributes instructor = JsonUtils.fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(),
-                    InstructorAttributes.class);
-
-            if (instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null) {
-                instructorsDb.deleteDocument(instructor);
+            InstructorAttributes instructor = instructorsDb.getInstructorForRegistrationKey(doc.getId());
+            if (instructor == null) {
+                // search engine out of sync as SearchManager may fail to delete documents due to GAE error
+                // the chance is low and it is generally not a big problem
+                instructorsDb.deleteDocumentByEncryptedInstructorKey(doc.getId());
                 continue;
             }
 
