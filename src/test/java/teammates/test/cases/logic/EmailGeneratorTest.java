@@ -207,7 +207,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
 
         FeedbackSessionAttributes notAnswerableSession =
-                fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse2");
+                fsLogic.getFeedbackSession("Not answerable feedback session", "idOfTypicalCourse2");
 
         emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
