@@ -1,10 +1,11 @@
 package teammates.ui.template;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.SectionDetail;
 
 public class InstructorFeedbackResultsFilterPanel {
     private boolean isStatsShown;
@@ -18,7 +19,7 @@ public class InstructorFeedbackResultsFilterPanel {
     private String sortType;
     private String resultsLink;
     private List<String> sections;
-    private List<String> sectionDetails;
+    private List<SectionDetail> sectionDetails;
 
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
@@ -40,11 +41,7 @@ public class InstructorFeedbackResultsFilterPanel {
     }
 
     private void initializeSectionDetails() {
-        this.sectionDetails = new ArrayList<>();
-        sectionDetails.add("Show response if either the giver or evaluee is in the selected section");
-        sectionDetails.add("Show response if the giver is in the selected section");
-        sectionDetails.add("Show response if the evaluee is in the selected section");
-        sectionDetails.add("Show response only if both are in the selected section");
+        this.sectionDetails = Arrays.asList(SectionDetail.values());
     }
 
     public boolean isStatsShown() {
@@ -95,7 +92,7 @@ public class InstructorFeedbackResultsFilterPanel {
         return sections;
     }
 
-    public List<String> getSectionDetails() {
+    public List<SectionDetail> getSectionDetails() {
         return sectionDetails;
     }
 
