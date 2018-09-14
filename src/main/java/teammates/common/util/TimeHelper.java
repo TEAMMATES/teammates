@@ -182,22 +182,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Converts the {@code localDate} from {@code localTimeZone} to UTC through shifting by the offset.
-     * Does not shift if {@code localDate} is a special representation.
-     * Warning: this is required for correct interpretation of time fields in legacy FeedbackSession entities.
-     * Do not remove until all FeedbackSession entities have been migrated to UTC.
-     */
-    @Deprecated
-    public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
-        if (isSpecialTime(convertDateToInstant(localDate))) {
-            return localDate;
-        }
-        return convertInstantToDate(
-                convertLocalDateTimeToInstant(convertDateToLocalDateTime(localDate),
-                        convertToZoneId(localTimeZone)));
-    }
-
-    /**
      * Converts the {@code localDateTime} to {@code Instant} using the {@code timeZone}.
      */
     public static Instant convertLocalDateTimeToInstant(LocalDateTime localDateTime, ZoneId timeZone) {
@@ -429,7 +413,6 @@ public final class TimeHelper {
         return instant.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 || instant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
                 || instant.equals(Const.TIME_REPRESENTS_LATER)
-                || instant.equals(Const.TIME_REPRESENTS_NEVER)
                 || instant.equals(Const.TIME_REPRESENTS_NOW);
     }
 
