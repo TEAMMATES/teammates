@@ -1,15 +1,13 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.util.Date;
 
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
-
-import teammates.common.util.TimeHelper;
+import com.googlecode.objectify.annotation.Translate;
 
 /**
  * Represents a unique user in the system.
@@ -29,7 +27,8 @@ public class Account extends BaseEntity {
 
     private String institute;
 
-    private Date createdAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdAt;
 
     private Ref<StudentProfile> studentProfile;
 
@@ -115,11 +114,11 @@ public class Account extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return TimeHelper.convertDateToInstant(createdAt);
+        return createdAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
-        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
+        this.createdAt = createdAt;
     }
 
     /**

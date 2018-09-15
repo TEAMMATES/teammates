@@ -2,18 +2,17 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 
 /**
  * An association class that represents the association
@@ -63,7 +62,8 @@ public class FeedbackResponseComment extends BaseEntity {
     private boolean isCommentFromFeedbackParticipant;
 
     /** The creation time of this comment. */
-    private Date createdAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdAt;
 
     /** The comment from giver about the feedback response. */
     @Unindex
@@ -73,7 +73,8 @@ public class FeedbackResponseComment extends BaseEntity {
     private String lastEditorEmail;
 
     /** The time in which the comment is last edited. */
-    private Date lastEditedAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant lastEditedAt;
 
     @SuppressWarnings("unused")
     private FeedbackResponseComment() {
@@ -92,7 +93,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.giverEmail = giverEmail;
         this.commentGiverType = commentGiverType;
         this.feedbackResponseId = feedbackResponseId;
-        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
+        this.createdAt = createdAt;
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
@@ -100,7 +101,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
         this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
-        this.lastEditedAt = lastEditedAt == null ? this.createdAt : TimeHelper.convertInstantToDate(lastEditedAt);
+        this.lastEditedAt = lastEditedAt == null ? this.createdAt : lastEditedAt;
         this.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
     }
 
@@ -199,11 +200,11 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return TimeHelper.convertDateToInstant(createdAt);
+        return createdAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
-        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
+        this.createdAt = createdAt;
     }
 
     public Text getCommentText() {
@@ -239,11 +240,11 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public Instant getLastEditedAt() {
-        return TimeHelper.convertDateToInstant(this.lastEditedAt);
+        return this.lastEditedAt;
     }
 
     public void setLastEditedAt(Instant lastEditedAt) {
-        this.lastEditedAt = TimeHelper.convertInstantToDate(lastEditedAt);
+        this.lastEditedAt = lastEditedAt;
     }
 
     public boolean getIsCommentFromFeedbackParticipant() {
