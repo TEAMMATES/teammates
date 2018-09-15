@@ -41,29 +41,25 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL,
-                "Show response if either the giver or evaluee is in the selected section"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER"
         };
         String[] paramsNormalFromGiverSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL,
-                "Show response if the giver is in the selected section"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER"
         };
         String[] paramsNormalToRecipientSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL,
-                "Show response if the evaluee is in the selected section"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EVALUEE"
         };
         String[] paramsNormalBothGiverAndRecipientInSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL,
-                "Show response only if both are in the selected section"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH"
         };
 
         String[] paramsWithLargeData = {
@@ -275,8 +271,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL,
-                "Show response if either the giver or evaluee is in the selected section",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
         };
@@ -299,8 +294,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL,
-                "Show response if the giver is in the selected section",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
         };

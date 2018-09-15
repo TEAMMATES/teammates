@@ -6,6 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -59,7 +60,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                         courseId, feedbackSessionName, instructor.email, section, sectionDetail,
                         questionId, isMissingResponsesShown, isStatsShown);
-                fileName = courseId + "_" + feedbackSessionName + "_" + section + "_" + sectionDetail + questionName;
+                fileName = courseId + "_" + feedbackSessionName + "_" + section + "_"
+                            + SectionDetail.valueOf(sectionDetail).getSectionDetail() + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId
                                 + " within " + section + " in " + sectionDetail + " was downloaded";
             }
