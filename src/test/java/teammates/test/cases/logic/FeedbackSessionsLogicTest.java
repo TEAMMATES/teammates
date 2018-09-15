@@ -940,8 +940,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A",
-                "Show response if either the giver or evaluee is in the selected section");
+                session.getCourseId(), instructor.email, "Section A", "EITHER");
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         // after filtering by section, the number of responses seen by instructor will differ.
@@ -998,8 +997,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A",
-                "Show response if the evaluee is in the selected section");
+                session.getCourseId(), instructor.email, "Section A", "EVALUEE");
 
         // Responses viewed by instructor after filtering: q1r1, q2r1, q4r3
         assertEquals(3, results.responses.size());
@@ -1009,8 +1007,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A",
-                "Show response if the giver is in the selected section");
+                session.getCourseId(), instructor.email, "Section A", "GIVER");
 
         // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
         assertEquals(7, results.responses.size());
@@ -1020,8 +1017,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A",
-                "Show response only if both are in the selected section");
+                session.getCourseId(), instructor.email, "Section A", "BOTH");
 
         // Responses viewed by instructor after filtering: q2r1, q2r3, q3r1, q4r3
         assertEquals(4, results.responses.size());

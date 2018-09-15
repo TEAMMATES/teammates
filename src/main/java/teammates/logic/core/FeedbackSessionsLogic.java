@@ -36,6 +36,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -841,8 +842,8 @@ public final class FeedbackSessionsLogic {
                          .append(System.lineSeparator());
         }
         if (sectionDetail != null) {
-            exportBuilder.append(String.format("Section View Detail,%s", SanitizationHelper.sanitizeForCsv(sectionDetail)))
-                    .append(System.lineSeparator());
+            exportBuilder.append(String.format("Section View Detail,%s", SanitizationHelper.sanitizeForCsv(
+                    SectionDetail.valueOf(sectionDetail).getSectionDetail()))).append(System.lineSeparator());
         }
 
         exportBuilder.append(System.lineSeparator()).append(System.lineSeparator());
