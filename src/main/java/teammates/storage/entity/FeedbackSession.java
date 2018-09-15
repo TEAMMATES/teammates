@@ -1,7 +1,6 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,9 +8,8 @@ import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
-
-import teammates.common.util.TimeHelper;
 
 /**
  * Represents an instructor-created Feedback Session.
@@ -43,19 +41,25 @@ public class FeedbackSession extends BaseEntity {
     private Text instructions;
 
     @Unindex
-    private Date createdTime;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdTime;
 
-    private Date deletedTime;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant deletedTime;
 
-    private Date startTime;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant startTime;
 
-    private Date endTime;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant endTime;
 
     @Unindex
-    private Date sessionVisibleFromTime;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant sessionVisibleFromTime;
 
     @Unindex
-    private Date resultsVisibleFromTime;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant resultsVisibleFromTime;
 
     private String timeZone;
 
@@ -104,12 +108,12 @@ public class FeedbackSession extends BaseEntity {
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
-        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
-        this.deletedTime = TimeHelper.convertInstantToDate(deletedTime);
-        this.startTime = TimeHelper.convertInstantToDate(startTime);
-        this.endTime = TimeHelper.convertInstantToDate(endTime);
-        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
-        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
+        this.createdTime = createdTime;
+        this.deletedTime = deletedTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.sessionVisibleFromTime = sessionVisibleFromTime;
+        this.resultsVisibleFromTime = resultsVisibleFromTime;
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
         this.sentOpenEmail = sentOpenEmail;
@@ -157,51 +161,51 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public Instant getCreatedTime() {
-        return TimeHelper.convertDateToInstant(createdTime);
+        return createdTime;
     }
 
     public void setCreatedTime(Instant createdTime) {
-        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
+        this.createdTime = createdTime;
     }
 
     public Instant getDeletedTime() {
-        return TimeHelper.convertDateToInstant(deletedTime);
+        return deletedTime;
     }
 
     public void setDeletedTime(Instant deletedTime) {
-        this.deletedTime = TimeHelper.convertInstantToDate(deletedTime);
+        this.deletedTime = deletedTime;
     }
 
     public Instant getStartTime() {
-        return TimeHelper.convertDateToInstant(startTime);
+        return startTime;
     }
 
     public void setStartTime(Instant startTime) {
-        this.startTime = TimeHelper.convertInstantToDate(startTime);
+        this.startTime = startTime;
     }
 
     public Instant getEndTime() {
-        return TimeHelper.convertDateToInstant(endTime);
+        return endTime;
     }
 
     public void setEndTime(Instant endTime) {
-        this.endTime = TimeHelper.convertInstantToDate(endTime);
+        this.endTime = endTime;
     }
 
     public Instant getSessionVisibleFromTime() {
-        return TimeHelper.convertDateToInstant(sessionVisibleFromTime);
+        return sessionVisibleFromTime;
     }
 
     public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
+        this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
     public Instant getResultsVisibleFromTime() {
-        return TimeHelper.convertDateToInstant(resultsVisibleFromTime);
+        return resultsVisibleFromTime;
     }
 
     public void setResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
+        this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
     public String getTimeZone() {

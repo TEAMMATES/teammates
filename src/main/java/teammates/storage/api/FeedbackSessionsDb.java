@@ -37,13 +37,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSession> endEntities = load()
-                .filter("endTime >", TimeHelper.convertInstantToDate(rangeStart))
-                .filter("endTime <=", TimeHelper.convertInstantToDate(rangeEnd))
+                .filter("endTime >", rangeStart)
+                .filter("endTime <=", rangeEnd)
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", TimeHelper.convertInstantToDate(rangeStart))
-                .filter("startTime <", TimeHelper.convertInstantToDate(rangeEnd))
+                .filter("startTime >=", rangeStart)
+                .filter("startTime <", rangeEnd)
                 .list();
 
         // remove duplications
@@ -511,14 +511,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         return load()
-                .filter("startTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
+                .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentOpenEmail =", false)
                 .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         return load()
-                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
+                .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentClosingEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -526,7 +526,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         return load()
-                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
+                .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentClosedEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
