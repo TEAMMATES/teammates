@@ -120,32 +120,28 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL,
-                "Show response if either the giver or evaluee is in the selected section"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER"
         };
         String[] paramsFromSectionOneByQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL,
-                "Show response if the giver is in the selected section"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "GIVER"
         };
         String[] paramsToSectionOneByQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL,
-                "Show response if the evaluee is in the selected section"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EVALUEE"
         };
         String[] paramsBothSectionOneByQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL,
-                "Show response only if both are in the selected section"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "BOTH"
         };
         String[] paramsSectionOneByGrq = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -370,7 +366,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertFalse(result.isError);
 
         ______TS("Failure case: No section detail selected");
-        verifyAssumptionFailure(paramsWithoutSectionDetail);
+        assertNull(paramsWithoutSectionDetail);
 
         ______TS("Typical case: view section 1 sortType GRQ");
         action = getAction(paramsSectionOneByGrq);
