@@ -486,7 +486,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
                 String feedbackQuestionId, String section, String sectionDetail) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
-        if (sectionDetail.contains("both")) {
+        if (sectionDetail.equals("BOTH")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
@@ -507,21 +507,21 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
 
         }
-        if (sectionDetail.contains("giver") || sectionDetail.contains("either")) {
+        if (sectionDetail.equals("GIVER") || sectionDetail.equals("EITHER")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
                     .list());
 
         }
-        if (sectionDetail.contains("either")) {
+        if (sectionDetail.equals("EITHER")) {
             feedbackResponses.removeAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
                     .filter("receiverSection =", section)
                     .list());
         }
-        if (sectionDetail.contains("evaluee") || sectionDetail.contains("either")) {
+        if (sectionDetail.equals("EVALUEE") || sectionDetail.contains("EITHER")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("receiverSection =", section)
