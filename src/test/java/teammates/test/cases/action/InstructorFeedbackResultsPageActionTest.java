@@ -167,7 +167,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "either"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER"
         };
 
         ______TS("Failure case: no params");
