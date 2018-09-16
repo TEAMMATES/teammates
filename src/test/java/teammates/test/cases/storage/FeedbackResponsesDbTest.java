@@ -258,40 +258,35 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
-                "Show response if either the giver or evaluee is in the selected section");
+                "EITHER");
         assertEquals(1, responses.size());
 
         ______TS("Responses filtered by both giver and recipient from section");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
-                "Show response only if both are in the selected section");
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", "BOTH");
         assertEquals(1, responses.size());
 
         ______TS("Show response after filtering by giver from section");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2",
-                "Show response if the giver is in the selected section");
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", "GIVER");
         assertEquals(1, responses.size());
 
         ______TS("Show response after filtering by recipient from section");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2",
-                "Show response if the evaluee is in the selected section");
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", "EVALUEE");
         assertEquals(1, responses.size());
 
         ______TS("null params");
 
         try {
-            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1",
-                    "Show response if either the giver or evaluee is in the selected section");
+            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1", "EITHER");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
 
         try {
-            frDb.getFeedbackResponsesForQuestionInSection(questionId, null,
-                    "Show response if either the giver or evaluee is in the selected section");
+            frDb.getFeedbackResponsesForQuestionInSection(questionId, null, "EITHER");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -307,7 +302,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("non-existent feedback question");
 
         assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1",
-                "Show response if either the giver or evaluee is in the selected section").isEmpty());
+                "EITHER").isEmpty());
     }
 
     @Test

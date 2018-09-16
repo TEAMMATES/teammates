@@ -441,14 +441,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // other more in-dept sectionDetail types are tested in FeedbackResponsesDbTest.java
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1",
-                "Show response if either the giver or evaluee is in the selected section");
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1", "EITHER");
 
         assertEquals(responses.size(), 3);
 
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2",
-                "Show response only if both are in the selected section");
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2", "BOTH");
 
         assertEquals(responses.size(), 0);
 
