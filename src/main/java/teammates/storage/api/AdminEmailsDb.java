@@ -19,7 +19,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
 /**
@@ -208,7 +207,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     private AdminEmail getAdminEmailEntity(String subject, Instant createDate) {
         return load()
                 .filter("subject =", subject)
-                .filter("createDate =", TimeHelper.convertInstantToDate(createDate))
+                .filter("createDate =", createDate)
                 .first().now();
     }
 
@@ -238,7 +237,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
         if (key == null) {
             query = load()
                     .filter("subject =", attributes.subject)
-                    .filter("createDate =", TimeHelper.convertInstantToDate(attributes.createDate));
+                    .filter("createDate =", attributes.createDate);
         } else {
             query = load().filterKey(key);
         }

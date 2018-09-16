@@ -49,7 +49,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .builder("New Session ##", course.getId(), "teammates.test1@gmail.tmt")
                 .withStartTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withEndTime(TimeHelper.parseInstant("2035-04-30 8:00 PM +0000"))
-                .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
+                .withCreatedTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriodMinutes(0)
