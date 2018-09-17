@@ -31,7 +31,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private static final String STATISTICS_NO_VALUE_STRING = "-";
 
     private boolean hasAssignedWeights;
-    private List<Double> rubricWeights;
     private List<List<Double>> rubricWeightsForEachCell;
     private int numOfRubricChoices;
     private List<String> rubricChoices;
@@ -43,7 +42,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.RUBRIC);
 
         this.hasAssignedWeights = false;
-        this.rubricWeights = new ArrayList<>();
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();
         this.numOfRubricSubQuestions = 0;
@@ -56,7 +54,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.RUBRIC, questionText);
 
         this.hasAssignedWeights = false;
-        this.rubricWeights = new ArrayList<>();
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();
         this.numOfRubricSubQuestions = 0;
@@ -942,14 +939,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                 + "Sub Question" + "," + getCsvHeader() + "," + "Choice Number"
-                + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
+                + getCsvDetailedInstructorsCommentsHeader(noOfComments)
                 + System.lineSeparator();
     }
 
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
+            FeedbackQuestionAttributes question) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
@@ -962,13 +959,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
-        //To show comment only once for each response.
-        boolean shouldShowComments = hasCommentsForResponses;
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
-            //To show comment only once for each response.
-            shouldShowComments = i < 1 && shouldShowComments;
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
@@ -992,10 +985,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenIndexString) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
-                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
-                    + (shouldShowComments
-                            ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                    + System.lineSeparator());
+                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber));
+
+            // To show feedback participant comment only once for each response.
+            if (isFeedbackParticipantCommentsOnResponsesAllowed() && i == 0) {
+                String feedbackParticipantComment =
+                        fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
+                detailedResponsesRow.append(',').append(feedbackParticipantComment);
+            }
+            // To show instructor comment only once for each response.
+            if (i == 0) {
+                String instructorComment =
+                        fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
+                detailedResponsesRow.append(instructorComment);
+            }
+            detailedResponsesRow.append(System.lineSeparator());
         }
 
         return detailedResponsesRow.toString();
@@ -1072,6 +1076,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
+    }
+
+    @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
@@ -1081,31 +1090,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Converts the legacy data for weights into new format if there is legacy data for this question,
-     * and returns a list containing rubric weights.
+     * Returns a list of rubric weights if the weights are assigned,
+     * otherwise returns an empty list.
      */
     public List<List<Double>> getRubricWeights() {
-        // If weights are assigned and rubricWeightsForEachCell is empty, that means the question contains legacy data.
-        // In this case, covert the legacy data into new format.
-        if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
-            if (rubricWeights.size() != numOfRubricChoices || rubricWeights.isEmpty()) {
-                return new ArrayList<>();
-            }
-            List<List<Double>> weights = new ArrayList<>();
-
-            for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                weights.add(new ArrayList<Double>());
-                for (int j = 0; j < numOfRubricChoices; j++) {
-                    weights.get(i).add(rubricWeights.get(j));
-                }
-            }
-
-            return weights;
-        } else if (hasAssignedWeights && !rubricWeightsForEachCell.isEmpty()) {
-            // Data is already in new format, return the list.
+        if (hasAssignedWeights) {
             return rubricWeightsForEachCell;
         }
-        // If weights are not assigned, return an empty list.
+
         return new ArrayList<>();
     }
 

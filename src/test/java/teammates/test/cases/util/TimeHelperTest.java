@@ -1,15 +1,12 @@
 package teammates.test.cases.util;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
-import java.util.Date;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -66,6 +63,14 @@ public class TimeHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testFormatDateForInstructorPages() {
+        ZoneId zoneId = ZoneId.of("UTC");
+        Instant instant = LocalDateTime.of(2018, Month.AUGUST, 18, 0, 0).atZone(zoneId).toInstant();
+        assertEquals("18 Aug 2018", TimeHelper.formatDateForInstructorPages(instant, zoneId));
+        assertEquals("", TimeHelper.formatDateForInstructorPages(null, zoneId));
+    }
+
+    @Test
     public void testFormatDateTimeForDisplay() {
         ZoneId zoneId = ZoneId.of("UTC");
         Instant instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 0).atZone(zoneId).toInstant();
@@ -77,32 +82,6 @@ public class TimeHelperTest extends BaseTestCase {
 
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 4, 0).atZone(zoneId).toInstant();
         assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT", TimeHelper.formatDateTimeForDisplay(instant, zoneId));
-    }
-
-    @Test
-    public void testConvertLocalDateToUtc() {
-        long offsetHours = 8;
-
-        ______TS("typical time");
-        Instant now = Instant.now();
-        Date localDate = Date.from(now);
-        Date utcDate = Date.from(now.minus(Duration.ofHours(offsetHours)));
-        assertEquals(utcDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-
-        ______TS("special time");
-        localDate = Date.from(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-        localDate = Date.from(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-        localDate = Date.from(Const.TIME_REPRESENTS_NEVER);
-        assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-        localDate = Date.from(Const.TIME_REPRESENTS_LATER);
-        assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-        localDate = Date.from(Const.TIME_REPRESENTS_NOW);
-        assertEquals(localDate, TimeHelper.convertLocalDateToUtc(localDate, offsetHours));
-
-        ______TS("null time");
-        assertNull(TimeHelper.convertLocalDateToUtc(null, offsetHours));
     }
 
 }

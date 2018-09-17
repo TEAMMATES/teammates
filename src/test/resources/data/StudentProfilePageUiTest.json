@@ -1,17 +1,17 @@
 {
   "accounts": {
-    "SHomeUiT.instr": {
+    "SProfileUiT.instr": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "${value.injected.in.testfile}",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SHomeUiT.helper": {
-      "googleId": "SHomeUiT.helper",
+    "SProfileUiT.helper": {
+      "googleId": "SProfileUiT.helper",
       "name": "Teammates Test Helper",
       "isInstructor": true,
-      "email": "SHomeUiT.helper@gmail.tmt",
+      "email": "SProfileUiT.helper@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "studentWithExistingProfile": {
@@ -49,27 +49,27 @@
       }
     },
     "studentWithEmptyProfile": {
-      "googleId": "SHomeUiT.benny.c",
+      "googleId": "SProfileUiT.benny.c",
       "name": "Benny Charles",
       "isInstructor": false,
-      "email": "SHomeUiT.benny.c@gmail.tmt",
+      "email": "SProfileUiT.benny.c@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "instructor1OfTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.sanitizationInstruct",
+      "googleId": "SProfileUiT.sanitizationInstruct",
       "name": "Instructor<script> alert('hi!'); </script>",
       "isInstructor": true,
-      "email": "SHomeUiT.instruct@sanitization.tmt",
+      "email": "SProfileUiT.instruct@sanitization.tmt",
       "institute": "inst\"</td></div>"
     },
     "student1InTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.sanitizationStud",
+      "googleId": "SProfileUiT.sanitizationStud",
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
-      "email": "SHomeUiT.stud@sanitization.tmt",
+      "email": "SProfileUiT.stud@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>",
       "studentProfile": {
-        "googleId": "SHomeUiT.sanitizationStud",
+        "googleId": "SProfileUiT.sanitizationStud",
         "shortName": "name\"/><script>alert('hi!');</script>",
         "email": "weird&'@gmail.tmt",
         "institute": "school'/><script> alert('hi!'); </script>",
@@ -81,34 +81,34 @@
     }
   },
   "courses": {
-    "SHomeUiT.CS2104": {
-      "id": "SHomeUiT.CS2104",
+    "SProfileUiT.CS2104": {
+      "id": "SProfileUiT.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     },
-    "SHomeUiT.CS2103": {
-      "id": "SHomeUiT.CS2103",
+    "SProfileUiT.CS2103": {
+      "id": "SProfileUiT.CS2103",
       "name": "Software Engineering",
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
-      "id": "SHomeUiT.sanitizationCourse",
+      "id": "SProfileUiT.sanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "SHomeUiT.instr.CS2104": {
+    "SProfileUiT.instr.CS2104": {
       "googleId": "${value.injected.in.testfile}",
-      "courseId": "SHomeUiT.CS2104",
+      "courseId": "SProfileUiT.CS2104",
       "name": "Teammates Test",
       "email": "${value.injected.in.testfile}",
       "isDisplayedToStudents": false
     },
-    "SHomeUiT.instr.CS2103": {
+    "SProfileUiT.instr.CS2103": {
       "googleId": "${value.injected.in.testfile}",
-      "courseId": "SHomeUiT.CS2103",
+      "courseId": "SProfileUiT.CS2103",
       "name": "Teammates Test Helper",
       "email": "${value.injected.in.testfile}",
       "isDisplayedToStudents": false,
@@ -128,10 +128,10 @@
       }
     },
     "instructor1OfTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.sanitizationInstruct",
-      "courseId": "SHomeUiT.sanitizationCourse",
+      "googleId": "SProfileUiT.sanitizationInstruct",
+      "courseId": "SProfileUiT.sanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
-      "email": "SHomeUiT.instruct@sanitization.tmt",
+      "email": "SProfileUiT.instruct@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -156,7 +156,7 @@
     "studentWithExistingProfile": {
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
-      "course": "SHomeUiT.CS2104",
+      "course": "SProfileUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
       "team": "Team 1"
@@ -164,23 +164,23 @@
     "studentForHelperCourse": {
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
-      "course": "SHomeUiT.CS2103",
+      "course": "SProfileUiT.CS2103",
       "name": "Ash Ketchum",
       "comments": "This student's name is AK",
       "team": "Team 1"
     },
-    "SHomeUiT.benny.c@SHomeUiT.CS2104": {
-      "googleId": "SHomeUiT.benny.c",
-      "email": "SHomeUiT.benny.c@gmail.tmt",
-      "course": "SHomeUiT.CS2104",
+    "SProfileUiT.benny.c@SProfileUiT.CS2104": {
+      "googleId": "SProfileUiT.benny.c",
+      "email": "SProfileUiT.benny.c@gmail.tmt",
+      "course": "SProfileUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1"
     },
     "student1InTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.sanitizationStud",
-      "email": "SHomeUiT.stud@sanitization.tmt",
-      "course": "SHomeUiT.sanitizationCourse",
+      "googleId": "SProfileUiT.sanitizationStud",
+      "email": "SProfileUiT.stud@sanitization.tmt",
+      "course": "SProfileUiT.sanitizationCourse",
       "name": "Stud1<script> alert('hi!'); </script>",
       "comments": "<script> alert('hi!'); </script>",
       "team": "Team tags&\"</td>",

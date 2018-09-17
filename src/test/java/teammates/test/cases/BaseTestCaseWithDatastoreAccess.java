@@ -1,7 +1,5 @@
 package teammates.test.cases;
 
-import java.util.Map;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -33,25 +31,15 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
 
     protected void verifyPresentInDatastore(DataBundle data) {
-        Map<String, AccountAttributes> accounts = data.accounts;
-        for (AccountAttributes account : accounts.values()) {
-            verifyPresentInDatastore(account);
-        }
+        data.accounts.values().forEach(this::verifyPresentInDatastore);
 
-        Map<String, InstructorAttributes> instructors = data.instructors;
-        for (InstructorAttributes instructor : instructors.values()) {
-            verifyPresentInDatastore(instructor);
-        }
+        data.instructors.values().forEach(this::verifyPresentInDatastore);
 
-        Map<String, CourseAttributes> courses = data.courses;
-        for (CourseAttributes course : courses.values()) {
-            verifyPresentInDatastore(course);
-        }
+        data.courses.values().stream()
+                .filter(course -> !course.isCourseDeleted())
+                .forEach(this::verifyPresentInDatastore);
 
-        Map<String, StudentAttributes> students = data.students;
-        for (StudentAttributes student : students.values()) {
-            verifyPresentInDatastore(student);
-        }
+        data.students.values().forEach(this::verifyPresentInDatastore);
     }
 
     private EntityAttributes<?> getEntity(EntityAttributes<?> expected) {
@@ -129,7 +117,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             FeedbackResponseCommentAttributes expectedFrc = (FeedbackResponseCommentAttributes) expected;
             FeedbackResponseCommentAttributes actualFrc = (FeedbackResponseCommentAttributes) actual;
             assertEquals(expectedFrc.courseId, actualFrc.courseId);
-            assertEquals(expectedFrc.giverEmail, actualFrc.giverEmail);
+            assertEquals(expectedFrc.commentGiver, actualFrc.commentGiver);
             assertEquals(expectedFrc.feedbackSessionName, actualFrc.feedbackSessionName);
             assertEquals(expectedFrc.commentText, actualFrc.commentText);
 

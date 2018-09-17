@@ -34,6 +34,20 @@
       "isInstructor": true,
       "email": "teammates.test3@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithCS2105": {
+      "googleId": "CFeedbackUiT.instructorWithCS2105",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test2105@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithCS2106": {
+      "googleId": "CFeedbackUiT.instructorWithCS2106",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test2106@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -51,6 +65,16 @@
       "id": "CFeedbackUiT.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
+    },
+    "CS2105": {
+      "id": "CFeedbackUiT.CS2105",
+      "name": "Computer Networks",
+      "timeZone": "UTC"
+    },
+    "CS2106": {
+      "id": "CFeedbackUiT.CS2106",
+      "name": "Operating Systems",
+      "timeZone": "UTC"
     }
   },
   "instructors": {
@@ -214,6 +238,52 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "teammates.test.instructorWithCS2105": {
+      "googleId": "CFeedbackUiT.instructorWithCS2105",
+      "courseId": "CFeedbackUiT.CS2105",
+      "name": "Teammates Test",
+      "email": "teammates.test2105@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructorWithCS2106": {
+      "googleId": "CFeedbackUiT.instructorWithCS2106",
+      "courseId": "CFeedbackUiT.CS2106",
+      "name": "Teammates Test",
+      "email": "teammates.test2106@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -335,6 +405,144 @@
       "sentClosingEmail": false,
       "sentClosedEmail": false,
       "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1OfCS2105": {
+      "feedbackSessionName": "First Session #1",
+      "courseId": "CFeedbackUiT.CS2105",
+      "creatorEmail": "teammates.test2105@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "deletedTime": "2012-06-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session2OfCS2105": {
+      "feedbackSessionName": "Second Session #2",
+      "courseId": "CFeedbackUiT.CS2105",
+      "creatorEmail": "teammates.test2105@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for second session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "deletedTime": "2012-06-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session3OfCS2105": {
+      "feedbackSessionName": "Third Session #3",
+      "courseId": "CFeedbackUiT.CS2105",
+      "creatorEmail": "teammates.test2105@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for third session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "deletedTime": "2012-06-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1OfCS2106": {
+      "feedbackSessionName": "First Session #1",
+      "courseId": "CFeedbackUiT.CS2106",
+      "creatorEmail": "teammates.test2106@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "deletedTime": "2012-06-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session2OfCS2106": {
+      "feedbackSessionName": "Second Session #2",
+      "courseId": "CFeedbackUiT.CS2106",
+      "creatorEmail": "teammates.test2106@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for second session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "deletedTime": "2012-06-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session3OfCS2106": {
+      "feedbackSessionName": "Third Session #3",
+      "courseId": "CFeedbackUiT.CS2106",
+      "creatorEmail": "teammates.test2106@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for third session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "deletedTime": "2012-06-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true

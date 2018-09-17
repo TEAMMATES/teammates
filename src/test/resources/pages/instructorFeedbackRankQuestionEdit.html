@@ -87,26 +87,36 @@
         <div class="row">
           <br>
           <div class="col-sm-6" id="rankOptionTable-1">
-            <div class="margin-bottom-7px" id="rankOptionRow-0-1">
-              <div class="input-group width-100-pc">
-                <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>">
-                <span class="input-group-btn">
-                  <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
-                    <span class="glyphicon glyphicon-remove">
+            <div class="ui-sortable" id="rankChoices-1">
+              <div class="margin-bottom-7px ui-sortable-handle" id="rankOptionRow-0-1">
+                <div class="input-group width-100-pc">
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-resize-vertical">
                     </span>
-                  </button>
-                </span>
+                  </span>
+                  <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                    </button>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="margin-bottom-7px" id="rankOptionRow-1-1">
-              <div class="input-group width-100-pc">
-                <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  ">
-                <span class="input-group-btn">
-                  <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
-                    <span class="glyphicon glyphicon-remove">
+              <div class="margin-bottom-7px ui-sortable-handle" id="rankOptionRow-1-1">
+                <div class="input-group width-100-pc">
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-resize-vertical">
                     </span>
-                  </button>
-                </span>
+                  </span>
+                  <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  ">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                    </button>
+                  </span>
+                </div>
               </div>
             </div>
             <div id="rankAddOptionRow-1">

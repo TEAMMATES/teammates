@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -32,9 +33,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
@@ -44,9 +48,11 @@ import teammates.test.driver.TimeHelperExtension;
  * SUT: {@link FeedbackSessionsLogic}.
  */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -59,7 +65,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
+        testGetSoftDeletedFeedbackSessionsListForInstructor();
+        testGetSoftDeletedFeedbackSessionsListForInstructors();
         testGetFeedbackSessionsClosingWithinTimeLimit();
+        testGetFeedbackSessionsClosedWithinThePastHour();
         testGetFeedbackSessionsWhichNeedOpenMailsToBeSent();
         testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent();
         testGetFeedbackSessionDetailsForInstructor();
@@ -80,7 +89,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
 
+        testMoveFeedbackSessionToRecycleBin();
+        testRestoreFeedbackSessionFromRecycleBin();
+        testRestoreAllFeedbackSessionsFromRecycleBin();
         testDeleteFeedbackSessionsForCourse();
+        testDeleteAllFeedbackSessions();
     }
 
     private void testGetFeedbackSessionsListForInstructor() {
@@ -97,6 +110,43 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         AssertHelper.assertSameContentIgnoreOrder(
                 finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
+
+    }
+
+    private void testGetSoftDeletedFeedbackSessionsListForInstructor() {
+        List<FeedbackSessionAttributes> softDeletedFsa = new ArrayList<>();
+        Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
+
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+
+        for (FeedbackSessionAttributes fsa : allFsa) {
+            if (fsa.getCourseId().equals(courseId) && fsa.isSessionDeleted()) {
+                softDeletedFsa.add(fsa);
+            }
+        }
+        AssertHelper.assertSameContentIgnoreOrder(
+                softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor));
+
+    }
+
+    private void testGetSoftDeletedFeedbackSessionsListForInstructors() {
+        List<FeedbackSessionAttributes> softDeletedFsa = new ArrayList<>();
+        Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
+
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        for (FeedbackSessionAttributes fsa : allFsa) {
+            if (fsa.getCourseId().equals(courseId) && fsa.isSessionDeleted()) {
+                softDeletedFsa.add(fsa);
+            }
+        }
+        AssertHelper.assertSameContentIgnoreOrder(
+                softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors));
 
     }
 
@@ -131,12 +181,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
 
         ______TS("init : 0 standard sessions closing within time-limit");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("typical case : 1 standard session closing within time limit");
+        ______TS("case : 1 open session in undeleted course closing within time-limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
@@ -144,29 +193,65 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
+        coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
-        sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(1, sessionList.size());
-        assertEquals(session.getFeedbackSessionName(),
-                sessionList.get(0).getFeedbackSessionName());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        // delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        // wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in deleted course closing within time-limit");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
+    }
+
+    private void testGetFeedbackSessionsClosedWithinThePastHour() throws Exception {
+
+        ______TS("init : 0 standard sessions closed within the past hour");
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in undeleted course within the past hour");
+        FeedbackSessionAttributes session = getNewFeedbackSession();
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-59));
+        fsLogic.createFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(1, sessionList.size());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
+
+        ______TS("case : 1 closed session in deleted course within the past hour");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
 
         ______TS("init : 0 open sessions");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 open session with mail unsent");
+        ______TS("case : 1 open session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -175,33 +260,58 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
-        ______TS("typical case : 1 open session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 open session in undeleted course with mail sent");
         session.setSentOpenEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 closed session with mail unsent");
+        ______TS("case : 1 closed session in undeleted course with mail unsent");
+        session.setSentOpenEmail(false);
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
 
-        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        //wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 open session in deleted course with mail sent");
+        session.setSentOpenEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in deleted course with mail unsent");
+        session.setSentOpenEmail(false);
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
@@ -213,7 +323,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 published session with mail unsent");
+        ______TS("case : 1 published session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         session.setTimeZone(ZoneId.of("UTC"));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -223,18 +333,34 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
 
-        ______TS("case : 1 published session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 published session in undeleted course with mail sent");
         session.setSentPublishedEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setSentPublishedEmail(false);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in deleted course with mail sent");
+        session.setSentPublishedEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
     }
 
@@ -506,6 +632,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C1", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
+
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse1");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
@@ -517,6 +651,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 2
+        frcList = actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(0, frcList.size());
 
         // Question for students to instructors
         expectedQuestion = getQuestionFromDatastore("qn5InSession1InCourse1");
@@ -608,6 +746,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C2", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
 
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse2");
@@ -1125,13 +1271,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Summary Statistics,",
                 "Choice, Response Count, Percentage (%)",
-                "\"It's good\",1,50",
-                "\"It's perfect\",1,50",
+                "\"It's good\",1,33.33",
+                "\"It's perfect\",2,66.67",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\",\"Student 2 comment\",Instructor1 Course1,\"Instructor 1 comment to student 2\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"It's perfect\",\"Student 3 comment\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
                 "",
@@ -1143,9 +1289,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"It's good\",1,50",
                 "\"It's perfect\",1,50",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"",
-                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\",",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\",",
                 "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
                 "",
                 "",
@@ -1157,8 +1303,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"Teaching style\",0,0",
                 "\"Other\",1,100",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\",",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
@@ -1177,8 +1323,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Team, Recipient Name,\"It's good [1.25]\",\"It's perfect [1.7]\",\"Other [3]\",Total, Average",
                 "Team 1.1</td></div>'\", student1 In Course1</td></div>'\", 1, 0, 0, 1.25, 1.25",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\",",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
@@ -1950,6 +2096,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 response.giver, response.recipient);
     }
 
+    private FeedbackResponseCommentAttributes getCommentFromDatastore(String jsonId, DataBundle bundle) {
+        FeedbackResponseCommentAttributes comment = bundle.feedbackResponseComments.get(jsonId);
+        return frcLogic.getFeedbackResponseComment(comment.feedbackResponseId, comment.commentGiver, comment.createdAt);
+    }
+
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
@@ -1969,10 +2120,76 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         return tableString;
     }
 
+    private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
+        String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+
+        assertFalse(feedbackSession.isSessionDeleted());
+
+        Instant deletedTime = fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+        feedbackSession.setDeletedTime(deletedTime);
+
+        FeedbackSessionAttributes actualFs = fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        assertEquals(JsonUtils.toJson(feedbackSession), JsonUtils.toJson(actualFs));
+        assertTrue(feedbackSession.isSessionDeleted());
+    }
+
+    private void testRestoreFeedbackSessionFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
+        String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+
+        assertTrue(feedbackSession.isSessionDeleted());
+
+        fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        feedbackSession.resetDeletedTime();
+
+        verifyPresentInDatastore(feedbackSession);
+        assertFalse(feedbackSession.isSessionDeleted());
+    }
+
+    private void testRestoreAllFeedbackSessionsFromRecycleBin()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        List<FeedbackSessionAttributes> softDeletedFsa = fsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
+        for (FeedbackSessionAttributes fsa : softDeletedFsa) {
+            assertTrue(fsa.isSessionDeleted());
+        }
+
+        fsLogic.restoreAllFeedbackSessionsFromRecycleBin(instructors);
+
+        for (FeedbackSessionAttributes fsa : softDeletedFsa) {
+            fsa.resetDeletedTime();
+
+            verifyPresentInDatastore(fsa);
+            assertFalse(fsa.isSessionDeleted());
+        }
+    }
+
     private void testDeleteFeedbackSessionsForCourse() {
 
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
         fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");
+        assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
+    }
+
+    private void testDeleteAllFeedbackSessions() throws InvalidParametersException, EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse3").getFeedbackSessionName();
+        String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName1, courseId);
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName2, courseId);
+
+        assertEquals(2, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
+        fsLogic.deleteAllFeedbackSessionsCascade(instructors);
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
 

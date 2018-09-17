@@ -69,7 +69,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public String getCreatedAtDateString() {
-        return TimeHelper.formatDateForInstructorCoursesPage(createdAt, timeZone);
+        return TimeHelper.formatDateForInstructorPages(createdAt, timeZone);
     }
 
     public String getCreatedAtDateStamp() {
@@ -85,7 +85,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         if (this.deletedAt == null) {
             return Const.DELETION_DATE_NOT_APPLICABLE;
         }
-        return TimeHelper.formatDateForInstructorCoursesPage(deletedAt, timeZone);
+        return TimeHelper.formatDateForInstructorPages(deletedAt, timeZone);
     }
 
     public String getDeletedAtDateStamp() {

@@ -62,9 +62,12 @@
     </c:otherwise>
   </c:choose>
 </table>
-<p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
-<br><br><br>
+<p class="col-md-12 text-muted">
+  Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
+  To view sessions from an archived course, unarchive the course first; to view sessions from a soft-deleted course, restore the course first.
+</p>
+<br><br><br><br>
 <c:if test="${empty fsList.existingFeedbackSessions}">
   <div class="align-center">No records found.</div>
-  <br><br><br>
+  <br><br><br><br>
 </c:if>

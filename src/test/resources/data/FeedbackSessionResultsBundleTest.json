@@ -253,5 +253,45 @@
       "recipientSection": "Section 1"
     }
   },
+  "feedbackResponseComments": {
+    "comment1FromT1C1ToR1Q1S1C1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "instructor1@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "commentGiverType": "INSTRUCTORS",
+      "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2026-03-01T23:59:00Z",
+      "commentText": {
+        "value": "Instructor 1 comment to student 1 self feedback"
+      },
+      "lastEditorEmail": "instructor1@course1.tmt",
+      "lastEditedAt": "2012-04-02T23:59:00Z"
+    },
+    "comment2FromT1C1ToR1Q1S1C1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "student1InCourse1@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "commentGiverType": "STUDENTS",
+      "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-02-01T23:59:00Z",
+      "commentText": {
+        "value": "Student 1 comment to student 1 self feedback"
+      }
+    }
+  },
   "profiles": {}
 }

@@ -40,13 +40,14 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         RedirectResult r = getRedirectResult(a);
 
         assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                         false,
                         "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN, r.getStatusMessage());
         assertFalse(r.isError);
     }
 
@@ -59,6 +60,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session2InCourse1");
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -70,10 +72,11 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
 
-        //recreate the entity
-        FeedbackSessionsLogic.inst().createFeedbackSession(fs);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        fsLogic.restoreFeedbackSessionFromRecycleBin(fs.getFeedbackSessionName(), fs.getCourseId());
+
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+        fsLogic.restoreFeedbackSessionFromRecycleBin(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 }
