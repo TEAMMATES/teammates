@@ -296,15 +296,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the given Instructor.
-     *
-     * @see InstructorsLogic#deleteDocument(InstructorAttributes)
-     */
-    public void deleteDocument(InstructorAttributes instructor) {
-        instructorsLogic.deleteDocument(instructor);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if not found.
@@ -2035,15 +2026,6 @@ public class Logic {
      */
     public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
         feedbackResponseCommentsLogic.putDocuments(comments);
-    }
-
-    /**
-     * Removes document for the given comment.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes comment) {
-        feedbackResponseCommentsLogic.deleteDocument(comment);
     }
 
     /**

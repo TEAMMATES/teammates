@@ -91,7 +91,6 @@ public final class Const {
 
     public static final Instant TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Instant TIME_REPRESENTS_FOLLOW_VISIBLE;
-    public static final Instant TIME_REPRESENTS_NEVER;
     public static final Instant TIME_REPRESENTS_LATER;
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
@@ -101,7 +100,6 @@ public final class Const {
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
-        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 AM +0000");
         TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
         TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
@@ -936,26 +934,11 @@ public final class Const {
     }
 
     public static class SearchDocumentField {
-        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
-        public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
-        public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
-        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
-        public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
         public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
         public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
-        public static final String FEEDBACK_QUESTION_ATTRIBUTE = "feedbackQuestionAttibute";
-        public static final String FEEDBACK_SESSION_ATTRIBUTE = "feedbackSessionAttibute";
         public static final String SEARCHABLE_TEXT = "searchableText";
-        public static final String CREATED_DATE = "createdDate";
         public static final String COURSE_ID = "courseId";
-        public static final String GIVER_EMAIL = "giverEmail";
-        public static final String GIVER_SECTION = "giverSection";
-        public static final String RECIPIENT_EMAIL = "recipientEmail";
-        public static final String RECIPIENT_SECTION = "recipientSection";
-        public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
-        public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
-        public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
     public static class ActionURIs {
