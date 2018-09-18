@@ -12,6 +12,7 @@
     <title>Timezone Compilation - TEAMMATES</title>
   </head>
   <body>
+    <div id="version"><%= ZoneRulesProvider.getVersions("UTC").firstKey() %></div>
     <table>
       <tr>
         <td id="javatime">
