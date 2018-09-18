@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -147,11 +145,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 responsesRecipients.add(response.recipient);
 
                 // if the answer is not empty but the recipient is empty
-                if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
+                if (response.recipient.isEmpty() && !response.responseMetaData.isEmpty()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
                 }
 
-                if (response.responseMetaData.getValue().isEmpty()) {
+                if (response.responseMetaData.isEmpty()) {
                     // deletes the response since answer is empty
                     addToPendingResponses(response);
                 } else {
@@ -283,12 +281,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() || response.recipient.isEmpty()) {
+            if (response.responseMetaData.isEmpty() || response.recipient.isEmpty()) {
                 responsesToDelete.add(response);
                 return;
             }
             responsesToUpdate.add(response);
-        } else if (!response.responseMetaData.getValue().isEmpty()
+        } else if (!response.responseMetaData.isEmpty()
                    && !response.recipient.isEmpty()) {
             responsesToSave.add(response);
         }
@@ -315,7 +313,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         + frc.feedbackSessionName + "<br>"
                         + "by: " + frc.commentGiver + " at "
                         + frc.createdAt + "<br>"
-                        + "comment text: " + frc.commentText.getValue();
+                        + "comment text: " + frc.commentText;
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -352,7 +350,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                         + feedbackResponseComment.feedbackSessionName + "<br>"
                         + "by: " + feedbackResponseComment.commentGiver + "<br>"
-                        + "comment text: " + feedbackResponseComment.commentText.getValue();
+                        + "comment text: " + feedbackResponseComment.commentText;
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -411,7 +409,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String[] answer = getRequestParamValues(paramName);
 
         if (questionDetails.isQuestionSkipped(answer)) {
-            response.responseMetaData = new Text("");
+            response.responseMetaData = "";
         } else {
             FeedbackResponseDetails responseDetails =
                     FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
@@ -449,7 +447,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 FeedbackResponseCommentAttributes
-                        .builder(courseId, feedbackSessionName, response.giver, new Text(commentText))
+                        .builder(courseId, feedbackSessionName, response.giver, commentText)
                         .withCreatedAt(Instant.now())
                         .withGiverSection(response.giverSection)
                         .withReceiverSection(response.recipientSection)

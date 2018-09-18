@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
-import com.google.appengine.api.datastore.Text;
-
 /**
  * Class contains methods to sanitize user provided
  * parameters so that they conform to our data format
@@ -128,18 +126,6 @@ public final class SanitizationHelper {
             return null;
         }
         return richTextPolicy.sanitize(sanitizeTextField(content));
-    }
-
-    /**
-     * Sanitizes the {@link Text} with rich-text.
-     * Removes disallowed elements based on defined policy.
-     * @return A new sanitized {@link Text} or null if the input was null.
-     */
-    public static Text sanitizeForRichText(Text text) {
-        if (text == null || text.getValue() == null) {
-            return null;
-        }
-        return new Text(sanitizeForRichText(text.getValue()));
     }
 
     /**
