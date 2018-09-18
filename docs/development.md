@@ -109,22 +109,22 @@ After this, the back-end dev server will also be able to serve the front-end.
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
 - The local dev server is assumed to be accessible at `http://localhost:8080`.
-  - This instruction also works when the local front-end dev server and back-end dev server are separate. In that case, the dev server address will be the front-end's, e.g. `http://localhost:4200`.
-- If a URL is given as relative, prepend the server URL to access the page, e.g `/page/somePage` is accessible in dev server at `http://localhost:8080/page/somePage`.
+  - This instruction also works when the local front-end dev server and back-end dev server are separate. In that case, the dev server address will be the front-end's, e.g. `http://localhost:4200`. However, a back-end server needs to be running in order for the authentication logic to work.
+- If a URL is given as relative, prepend the server URL to access the page, e.g `/web/page/somePage` is accessible in dev server at `http://localhost:8080/web/page/somePage`.
 
 ### As administrator
 
-1. Go to any administrator page, e.g `/admin/adminHomePage`.
+1. Go to any administrator page, e.g `/web/admin/home`.
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
 1. On the production server, you will be granted the access only if your account has administrator permission to the application.
 1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
- e.g `http://localhost:8080/page/studentHomePage?user=johnKent`.
+ e.g `http://localhost:8080/web/student/home?user=johnKent`.
 
 ### As instructor
 
 You need an instructor account which can be created by administrators.
 
-1. Log in to `/admin/adminHomePage` as an administrator.
+1. Log in to `/web/admin/home` as an administrator.
 1. Enter credentials for an instructor, e.g<br>
    Name: `John Dorian`<br>
    Email: `teammates.instructor@university.edu`<br>
@@ -138,7 +138,7 @@ Alternatively, an instructor can create other instructors for a course if s/he h
 1. Log in as that instructor.
 1. Add the instructors for the course (`Instructors` → `View/Edit`).
 1. The system will send an email containing the join link to each added instructor. Again, this will not happen on the dev server, so additional steps are required.
-1. Log out and log in to `http://localhost:8080/admin/adminSearchPage` as administrator.
+1. Log out and log in to `http://localhost:8080/web/admin/search` as administrator.
 1. Search for the instructor you added in. From the search results, click anywhere on the desired row to get the course join link for that instructor.
 1. Log out and use that join link to log in as the new instructor.
 
