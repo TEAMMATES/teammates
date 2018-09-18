@@ -45,7 +45,11 @@ public class FeedbackQuestion extends BaseEntity {
     // TODO: Do we need this field since creator of FS = creator of qn? (can be removed -damith)
     private String creatorEmail;
 
-    // TODO: rename to questionMetaData, will require database conversion
+    /**
+     * Serialized {@link teammates.common.datatransfer.questions.FeedbackQuestionDetails} stored as a string.
+     *
+     * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetails()
+     */
     @Unindex
     private Text questionText;
 

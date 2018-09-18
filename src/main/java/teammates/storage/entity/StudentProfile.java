@@ -37,7 +37,6 @@ public class StudentProfile extends BaseEntity {
     /* only accepts "male", "female" or "other" */
     private String gender;
 
-    /* must be html sanitized before saving */
     @Unindex
     private Text moreInfo;
 

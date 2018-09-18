@@ -51,8 +51,13 @@ public class FeedbackResponse extends BaseEntity {
 
     private String receiverSection;
 
+    /**
+     * Serialized {@link teammates.common.datatransfer.questions.FeedbackResponseDetails} stored as a string.
+     *
+     * @see teammates.common.datatransfer.attributes.FeedbackResponseAttributes#getResponseDetails()
+     */
     @Unindex
-    private Text answer; //TODO: rename to responseMetaData, will require database conversion
+    private Text answer;
 
     @Translate(value = InstantTranslatorFactory.class)
     private Instant createdAt;
