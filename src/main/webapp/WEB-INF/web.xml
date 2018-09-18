@@ -16,6 +16,7 @@
         <listener-class>teammates.storage.api.OfyHelper</listener-class>
     </listener>
 
+    <!-- Reference: https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi -->
     <servlet>
         <display-name>Remote API Servlet</display-name>
         <servlet-name>RemoteApiServlet</servlet-name>
@@ -28,31 +29,13 @@
     </servlet-mapping>
 
     <filter>
-        <filter-name>CorsFilter</filter-name>
-        <filter-class>teammates.ui.newcontroller.CorsFilter</filter-class>
+        <filter-name>OriginCheckFilter</filter-name>
+        <filter-class>teammates.ui.newcontroller.OriginCheckFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>CorsFilter</filter-name>
-        <url-pattern>/auth</url-pattern>
+        <filter-name>OriginCheckFilter</filter-name>
+        <url-pattern>/webapi/*</url-pattern>
     </filter-mapping>
-
-    <servlet>
-        <servlet-name>AuthServlet</servlet-name>
-        <servlet-class>teammates.ui.newcontroller.AuthServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AuthServlet</servlet-name>
-        <url-pattern>/auth</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>BackDoorServlet</servlet-name>
-        <servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BackDoorServlet</servlet-name>
-        <url-pattern>/backdoor</url-pattern>
-    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>web/front/home</welcome-file>
@@ -69,50 +52,44 @@
     </servlet-mapping>
 
     <servlet>
-        <description>Servlet that handles all incoming requests</description>
-        <servlet-name>ControllerServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
+        <description>Servlet that handles requests from web application</description>
+        <servlet-name>WebApiServlet</servlet-name>
+        <servlet-class>teammates.ui.newcontroller.WebApiServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/admin/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/page/*</url-pattern>
+        <servlet-name>WebApiServlet</servlet-name>
+        <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <description>Servlet that handles all automated requests, e.g cron jobs and task queues</description>
-        <servlet-name>AutomatedServlet</servlet-name>
-        <servlet-class>teammates.ui.automated.AutomatedServlet</servlet-class>
+        <description>Servlet that handles cron jobs</description>
+        <servlet-name>CronJobServlet</servlet-name>
+        <servlet-class>teammates.ui.automated.CronJobServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AutomatedServlet</servlet-name>
+        <servlet-name>CronJobServlet</servlet-name>
         <url-pattern>/auto/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>Servlet that handles task queues</description>
+        <servlet-name>TaskQueueServlet</servlet-name>
+        <servlet-class>teammates.ui.automated.TaskQueueServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TaskQueueServlet</servlet-name>
         <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>PublicImageServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.PublicImageServlet</servlet-class>
-    </servlet>
-
-     <servlet-mapping>
-        <servlet-name>PublicImageServlet</servlet-name>
-        <url-pattern>/public/publicEmailImageServe</url-pattern>
-        <url-pattern>/public/publicImageServe</url-pattern>
-    </servlet-mapping>
-
     <security-constraint>
-      <web-resource-collection>
-          <web-resource-name>AllPage</web-resource-name>
-        <url-pattern>/page/*</url-pattern>
-      </web-resource-collection>
-      <user-data-constraint>
-        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-      </user-data-constraint>
+        <web-resource-collection>
+            <web-resource-name>AllResources</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -130,35 +107,10 @@
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>DisallowDirectAccess</web-resource-name>
-            <description>Pages that should not be accessed directly</description>
-            <url-pattern>/jsp/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-          </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AdminPages</web-resource-name>
-            <description>Page for admin use only</description>
-            <url-pattern>/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-          </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>TestPages</web-resource-name>
-            <description>Page for testing use only</description>
-            <url-pattern>/test/*</url-pattern>
+            <web-resource-name>AdminResources</web-resource-name>
+            <description>For admin use only</description>
+            <url-pattern>/remote_api</url-pattern>
+            <url-pattern>/web/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -167,31 +119,10 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>PartialPages</web-resource-name>
-            <description>Partial pages should not be accessed</description>
-            <url-pattern>/partials/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint />
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <error-page>
-        <error-code>401</error-code>
-        <location>/unauthorized.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/unauthorized.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/pageNotFound.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/errorPage.jsp</location>
-    </error-page>
+
+    <session-config>
+        <cookie-config>
+            <http-only>true</http-only>
+        </cookie-config>
+    </session-config>
 </web-app>

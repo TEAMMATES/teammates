@@ -29,7 +29,11 @@ export class InstructorPageComponent implements OnInit {
       if (res.logoutUrl) {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
       }
-      this.isValidUser = res.user && res.user.isInstructor;
+      if (res.user) {
+        this.isValidUser = res.user.isInstructor;
+      } else {
+        window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
+      }
     }, () => {
       // TODO
     });
