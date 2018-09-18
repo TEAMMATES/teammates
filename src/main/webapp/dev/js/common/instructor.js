@@ -329,7 +329,7 @@ function bindDeleteButtons() {
         };
 
         showModalConfirmation('Confirm moving session to Recycle Bin', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.WARNING);
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.DANGER);
     });
 }
 
@@ -345,7 +345,7 @@ function bindCourseMoveToRecycleBinLinks() {
         };
 
         showModalConfirmation('Confirm moving course to Recycle Bin', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.WARNING);
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.WARNING);
     });
 }
 
@@ -396,7 +396,7 @@ function bindSessionDeleteLinks() {
         };
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.DANGER);
     });
 }
 
