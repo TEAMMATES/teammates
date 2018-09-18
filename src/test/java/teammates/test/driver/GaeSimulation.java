@@ -27,6 +27,8 @@ import com.meterware.servletunit.InvocationContext;
 import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
+import teammates.common.datatransfer.UserType;
+import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
@@ -50,6 +52,7 @@ public class GaeSimulation {
 
     private static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 
+    private static GateKeeper gateKeeper = new GateKeeper();
     private static GaeSimulation instance = new GaeSimulation();
 
     /** This is used only to generate an HttpServletRequest for given parameters. */
@@ -122,13 +125,14 @@ public class GaeSimulation {
 
     /**
      * Logs in the user to the GAE simulation environment as an instructor
-     * (without admin rights).
+     * (without admin rights or student rights).
      */
     public void loginAsInstructor(String userId) {
         loginUser(userId);
-        GateKeeper gateKeeper = new GateKeeper();
-        assertTrue(gateKeeper.getCurrentUser().isInstructor);
-        assertFalse(gateKeeper.getCurrentUser().isAdmin);
+        UserType user = gateKeeper.getCurrentUser();
+        assertFalse(user.isStudent);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isAdmin);
     }
 
     /**
@@ -137,10 +141,22 @@ public class GaeSimulation {
      */
     public void loginAsStudent(String userId) {
         loginUser(userId);
-        GateKeeper gateKeeper = new GateKeeper();
-        assertTrue(gateKeeper.getCurrentUser().isStudent);
-        assertFalse(gateKeeper.getCurrentUser().isInstructor);
-        assertFalse(gateKeeper.getCurrentUser().isAdmin);
+        UserType user = gateKeeper.getCurrentUser();
+        assertTrue(user.isStudent);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isAdmin);
+    }
+
+    /**
+     * Logs in the user to the GAE simulation environment as a student-instructor
+     * (without admin rights).
+     */
+    public void loginAsStudentInstructor(String userId) {
+        loginUser(userId);
+        UserType user = gateKeeper.getCurrentUser();
+        assertTrue(user.isStudent);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isAdmin);
     }
 
     /**
@@ -187,11 +203,15 @@ public class GaeSimulation {
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
     public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
-        HttpServletRequest req = createWebRequest(uri, parameters);
-        AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
-        action.setTaskQueuer(new MockTaskQueuer());
-        action.setEmailSender(new MockEmailSender());
-        return action;
+        try {
+            HttpServletRequest req = createWebRequest(uri, parameters);
+            AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -209,7 +229,7 @@ public class GaeSimulation {
     }
 
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
-
+        // This is not testing servlet, so any HTTP method suffices
         WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);
 
         if (Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(uri)) {
@@ -222,11 +242,7 @@ public class GaeSimulation {
 
         Map<String, List<String>> paramMultiMap = new HashMap<>();
         for (int i = 0; i < parameters.length; i = i + 2) {
-            String key = parameters[i];
-            if (paramMultiMap.get(key) == null) {
-                paramMultiMap.put(key, new ArrayList<String>());
-            }
-            paramMultiMap.get(key).add(parameters[i + 1]);
+            paramMultiMap.computeIfAbsent(parameters[i], k -> new ArrayList<>()).add(parameters[i + 1]);
         }
 
         paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
