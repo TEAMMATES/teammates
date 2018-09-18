@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
@@ -52,7 +53,7 @@ public abstract class AutomatedAction {
     }
 
     protected String getRequestParamValue(String paramName) {
-        return request.getParameter(paramName);
+        return HttpRequestHelper.getValueFromRequestParameterMap(request, paramName);
     }
 
     /**
@@ -66,7 +67,7 @@ public abstract class AutomatedAction {
     }
 
     protected String[] getRequestParamValues(String paramName) {
-        return request.getParameterValues(paramName);
+        return HttpRequestHelper.getValuesFromRequestParameterMap(request, paramName);
     }
 
     /**

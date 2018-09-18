@@ -3,6 +3,8 @@ package teammates.logic.backdoor;
 /**
  * Provides a specification of operations that can be called via BackDoor API,
  * along with the possible parameters to be included.
+ *
+ * @see BackDoorServlet
  */
 public enum BackDoorOperation {
 

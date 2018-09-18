@@ -15,15 +15,21 @@ import teammates.common.util.Logger;
  * Receives automated requests from the App Engine server and executes the matching automated action.
  */
 @SuppressWarnings("serial")
-abstract class AutomatedServlet extends HttpServlet {
+public class AutomatedServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
 
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        doPost(req, resp);
+    }
+
+    @Override
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
-    void executeTask(HttpServletRequest req, HttpServletResponse resp) {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             if (req.getParameterNames().hasMoreElements()) {
-                log.info(HttpRequestHelper.getRequestParametersAsString(req));
+                log.info(HttpRequestHelper.printRequestParameters(req));
             }
 
             AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
@@ -31,8 +37,7 @@ abstract class AutomatedServlet extends HttpServlet {
             String url = HttpRequestHelper.getRequestedUrl(req);
             // Do not log task queue worker actions to prevent excessive logging
             if (!url.startsWith("/worker/")) {
-                @SuppressWarnings("unchecked")
-                Map<String, String[]> params = req.getParameterMap();
+                Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
                 // no logged-in user for automated servlet
                 LogMessageGenerator logGenerator = new LogMessageGenerator();
                 log.info(logGenerator.generateBasicActivityLogMessage(url, params, action.getActionMessage(), null));

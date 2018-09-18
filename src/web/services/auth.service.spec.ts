@@ -1,31 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { environment } from '../environments/environment';
 import { AuthService } from './auth.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('AuthService', () => {
-  const frontendUrl: string = environment.frontendUrl;
-
-  let spyHttpRequestService: jasmine.SpyObj<HttpRequestService>;
-  let service: AuthService;
+  let spyHttpClient: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
-    spyHttpRequestService = jasmine.createSpyObj('HttpRequestService', ['get']);
+    spyHttpClient = jasmine.createSpyObj('HttpClient', ['get']);
     TestBed.configureTestingModule({
       providers: [
-        { provide: HttpRequestService, useValue: spyHttpRequestService },
+        HttpClient,
+        { provide: HttpClient, useValue: spyHttpClient },
       ],
     });
-    service = TestBed.get(AuthService);
   });
 
   it('should be created', () => {
+    const service: AuthService = TestBed.get(AuthService);
     expect(service).toBeTruthy();
   });
-
-  it('should execute getAuthUser', () => {
-    service.getAuthUser();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/auth', { frontendUrl });
-  });
-
 });

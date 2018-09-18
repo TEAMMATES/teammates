@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Url;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -246,8 +247,8 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
         // Verify an error page is returned due to missing parameters in URL
-        // assertTrue("Expected url is Unauthorised page, but is " + afterReportDownloadUrl,
-        //                 afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
+        assertTrue("Expected url is Unauthorised page, but is " + afterReportDownloadUrl,
+                        afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
         // Redirect to the instructor home page after showing error page
         loginAsCommonInstructor();
@@ -453,8 +454,8 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         //delete the course, then submit archive request to it
         BackDoor.deleteCourse(courseIdForCS2104);
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS2104);
-        // assertTrue(browser.driver.getCurrentUrl().contains(Url.addParamToUrl(Const.ViewURIs.UNAUTHORIZED,
-        //         Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE)));
+        assertTrue(browser.driver.getCurrentUrl().contains(Url.addParamToUrl(Const.ViewURIs.UNAUTHORIZED,
+                Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE)));
         // recover the deleted course and its related entities
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreDataBundle(testData);
