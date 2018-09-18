@@ -30,7 +30,6 @@ import teammates.storage.search.SearchQuery;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
- *
  * @param <E> Specific entity class
  * @param <A> Specific attributes class
  */
@@ -39,8 +38,17 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_ADMIN_EMAIL = "Trying to update non-existent Admin Email: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION =
+            "Trying to update non-existing InstructorPermission: ";
+    public static final String ERROR_UPDATE_TO_EXISTENT_INSTRUCTOR_PERMISSION =
+            "Trying to update to existent InstructorPermission: ";
+    public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
+    public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
+            "Trying to make an non-existent account an Instructor :";
 
     private static final Logger log = Logger.getLogger();
 
@@ -182,6 +190,10 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         ofy().save().entities(entitiesToSave).now();
     }
 
+    protected void saveEntitiesDeferred(Collection<E> entitiesToSave) {
+        saveEntitiesDeferred(entitiesToSave, makeAttributes(entitiesToSave));
+    }
+
     protected void saveEntitiesDeferred(Collection<E> entitiesToSave, Collection<A> entitiesToSaveAttributesForLogging) {
         for (A attributes : entitiesToSaveAttributesForLogging) {
             log.info(attributes.getBackupIdentifier());
@@ -194,10 +206,9 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     }
 
     // TODO: use this method for subclasses.
-
     /**
      * Note: This is a non-cascade delete.<br>
-     * <br> Fails silently if there is no such object.
+     *   <br> Fails silently if there is no such object.
      */
     public void deleteEntity(A entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
@@ -231,6 +242,10 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
     }
 
+    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete) {
+        deleteEntitiesDirect(entitiesToDelete, makeAttributes(entitiesToDelete));
+    }
+
     protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
         for (A attributes : entitiesToDeleteAttributesForLogging) {
             log.info(attributes.getBackupIdentifier());
@@ -247,18 +262,16 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the
      * Entity matching the EntityAttributes in the parameter.
-     *
-     * @return the Entity which matches the given {@link EntityAttributes} {@code attributes}
-     * based on the default key identifiers.
+     * @return    the Entity which matches the given {@link EntityAttributes} {@code attributes}
+     *             based on the default key identifiers.
      */
     protected abstract E getEntity(A attributes);
 
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the key query for the
      * Entity matching the EntityAttributes in the parameter.
-     *
-     * @return the key query for the Entity which matches the given {@link EntityAttributes} {@code attributes}
-     * based on the default key identifiers.
+     * @return    the key query for the Entity which matches the given {@link EntityAttributes} {@code attributes}
+     *             based on the default key identifiers.
      */
     protected abstract QueryKeys<E> getEntityQueryKeys(A attributes);
 
