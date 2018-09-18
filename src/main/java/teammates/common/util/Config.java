@@ -18,8 +18,14 @@ public final class Config {
     /** The value of the application URL, or null if no server instance is running. */
     public static final String APP_URL;
 
+    /** The value of the "app.frontenddev.url" in build.properties file. */
+    public static final String APP_FRONTENDDEV_URL;
+
     /** The value of the "app.gcs.bucketname" in build.properties file. */
     public static final String GCS_BUCKETNAME;
+
+    /** The value of the "app.xsrf.key" in build.properties file. */
+    public static final String XSRF_KEY;
 
     /** The value of the "app.backdoor.key" in build.properties file. */
     public static final String BACKDOOR_KEY;
@@ -71,6 +77,8 @@ public final class Config {
         } catch (IOException e) {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
+        APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
+        XSRF_KEY = properties.getProperty("app.xsrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         GCS_BUCKETNAME = properties.getProperty("app.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
