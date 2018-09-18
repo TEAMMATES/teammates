@@ -29,7 +29,11 @@ export class StudentPageComponent implements OnInit {
       if (res.logoutUrl) {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
       }
-      this.isValidUser = res.user && res.user.isStudent;
+      if (res.user) {
+        this.isValidUser = res.user.isStudent;
+      } else {
+        window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
+      }
     }, () => {
       // TODO
     });

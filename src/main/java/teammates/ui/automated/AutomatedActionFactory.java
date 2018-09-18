@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ActionURIs;
@@ -17,7 +17,7 @@ import teammates.common.util.Const.TaskQueue;
  */
 public class AutomatedActionFactory {
 
-    private static Map<String, Class<? extends AutomatedAction>> actionMappings = new HashMap<>();
+    private static final Map<String, Class<? extends AutomatedAction>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
         // Cron jobs
@@ -47,13 +47,13 @@ public class AutomatedActionFactory {
     }
 
     private static void map(String actionUri, Class<? extends AutomatedAction> actionClass) {
-        actionMappings.put(actionUri, actionClass);
+        ACTION_MAPPINGS.put(actionUri, actionClass);
     }
 
     /**
      * Returns the matching {@link AutomatedAction} object for the URI in the {@code req}.
      */
-    public AutomatedAction getAction(HttpServletRequest req, HttpServletResponse resp) {
+    public AutomatedAction getAction(HttpServletRequest req, HttpServletResponse resp) throws ActionMappingException {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
@@ -64,11 +64,11 @@ public class AutomatedActionFactory {
         return action;
     }
 
-    private AutomatedAction getAction(String uri) {
-        Class<? extends AutomatedAction> action = actionMappings.get(uri);
+    private AutomatedAction getAction(String uri) throws ActionMappingException {
+        Class<? extends AutomatedAction> action = ACTION_MAPPINGS.get(uri);
 
         if (action == null) {
-            throw new PageNotFoundException("Page not found for " + uri);
+            throw new ActionMappingException("Resource with URI " + uri + " is not found.", 404);
         }
 
         try {

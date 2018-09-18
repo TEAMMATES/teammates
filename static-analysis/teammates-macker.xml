@@ -197,17 +197,6 @@
                     </access-rule>
                 </foreach>
             </ruleset>
-            <ruleset name="LogicComponent: BackDoorServlet should not access logic::core/logic::api">
-                <access-rule>
-                    <deny>
-                        <from class="${logic}.backdoor.BackDoorServlet" />
-                        <to>
-                            <include class="${logic}.core.**" />
-                            <include class="${logic}.api.**" />
-                        </to>
-                    </deny>
-                </access-rule>
-            </ruleset>
             <ruleset name="LogicComponent: logic::core should not access logic::api">
                 <access-rule>
                     <deny>
@@ -479,7 +468,6 @@
                             <from>
                                 <include class="${common}.util.ActivityLogEntry" />
                                 <include class="${common}.util.HttpRequestHelper" />
-                                <include class="${logic}.backdoor.BackDoorServlet" />
                                 <include class="${storage}.api.OfyHelper" />
                                 <include class="${ui}.automated.**" />
                                 <include class="${ui}.controller.**" />

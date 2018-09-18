@@ -1241,16 +1241,6 @@ public final class Const {
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         public static final String ADMIN_EMAIL_LOG_AJAX = "/jsp/adminEmailLogAjax.jsp";
 
-        public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp";
-        public static final String ENABLE_JS = "/enableJs.jsp";
-        public static final String INVALID_ORIGIN = "/invalidOrigin.jsp";
-        public static final String UNAUTHORIZED = "/unauthorized.jsp";
-        public static final String ERROR_PAGE = "/errorPage.jsp";
-        public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp";
-        public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp";
-        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
-        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
-
         public static final String JS_UNIT_TEST = "/test/allJsUnitTests.jsp";
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";

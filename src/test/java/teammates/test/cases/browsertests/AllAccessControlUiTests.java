@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.BackDoor;
@@ -18,7 +17,6 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
-import teammates.test.pageobjects.UserErrorReportPage;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -122,61 +120,6 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
         ______TS("cannot view other homepage");
 
         verifyCannotMasquerade(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
-    }
-
-    @Test
-    public void testPubliclyAccessiblePages() throws Exception {
-
-        ______TS("log out page");
-        // has been covered in testUserNotLoggedIn method
-
-        ______TS("unauthorized page");
-        AppUrl url = createUrl(Const.ViewURIs.UNAUTHORIZED);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/unauthorized.html");
-
-        ______TS("error page");
-        url = createUrl(Const.ViewURIs.ERROR_PAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/errorPage.html");
-
-        ______TS("deadline exceeded error page");
-        url = createUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/deadlineExceededErrorPage.html");
-
-        ______TS("entity not found page");
-        url = createUrl(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/entityNotFoundPage.html");
-
-        ______TS("action not found page");
-        url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/pageNotFound.html");
-
-        ______TS("enable javascript page");
-        url = createUrl(Const.ViewURIs.ENABLE_JS);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/enableJs.html");
-
-        ______TS("user error report form - submit successfully");
-        url = createUrl(Const.ViewURIs.ERROR_PAGE);
-        currentPage.navigateTo(url);
-        UserErrorReportPage errorReportPage = currentPage.changePageType(UserErrorReportPage.class);
-        errorReportPage.verifyErrorReportFormContents();
-        errorReportPage.fillFormAndClickSubmit("This is an error report.");
-        errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
-
-        ______TS("user error report form - submit failed");
-        logout();
-        url = createUrl(Const.ViewURIs.ERROR_PAGE);
-        errorReportPage.navigateTo(url);
-        errorReportPage.verifyErrorReportFormContents();
-        errorReportPage.fillFormAndClickSubmit("This is an error report.");
-        String failedStatusMessage = "Failed to record the error message. Please email our support team at "
-                + Config.SUPPORT_EMAIL + ".";
-        errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(failedStatusMessage);
     }
 
     private void loginStudent(String userName, String password) {

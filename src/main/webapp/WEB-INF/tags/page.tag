@@ -22,9 +22,6 @@
     <jsp:invoke fragment="cssIncludes" />
   </head>
   <body>
-    <noscript>
-      <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
-    </noscript>
     <jsp:invoke fragment="navBar" />
     <div class="container" id="mainContent">
       <t:bodyHeader title="${bodyTitle}" />
