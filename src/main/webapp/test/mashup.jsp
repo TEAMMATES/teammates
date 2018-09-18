@@ -207,20 +207,6 @@
 
               </ul>
             </td>
-            <td>
-              <h2>Error Pages</h2>
-              <ul class="nav">
-                <li>
-                  <a href="#deadlineExceededErrorPage">Deadline Exceeded Error Page</a>
-                </li>
-                <li>
-                  <a href="#errorPage">Error Page</a>
-                </li>
-                <li>
-                  <a href="#entityNotFoundPage">Entity Not Found Page</a>
-                </li>
-              </ul>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -422,18 +408,6 @@
         <iframe class="full-width" src="/gettingStarted.jsp"></iframe>
       </div>
       <br><hr class="hr-bold"><br>
-
-      <div class="pageinfo">Deadline Exceeded Error Page</div>
-      <div id="deadlineExceededErrorPage"></div>
-      <br><hr class="hr-bold"><br>
-
-      <div class="pageinfo">Error Page</div>
-      <div id="errorPage"></div>
-      <br><hr class="hr-bold"><br>
-
-      <div class="pageinfo">Entity Not Found Page</div>
-      <div id="entityNotFoundPage"></div>
-      <br><hr class="hr-bold"><br>
       <br></br>
       <br></br>
       <br></br>
@@ -489,9 +463,6 @@
         $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #mainContent');
         $('#adminSearchPage').load('<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
         $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #mainContent');
-        loadErrorPage('<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%>', '#deadlineExceededErrorPage');
-        loadErrorPage('<%=Const.ViewURIs.ERROR_PAGE%>', '#errorPage');
-        loadErrorPage('<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%>', '#entityNotFoundPage');
         $('#index').find('iframe').on('load', function() {
           calcHeight($('#index').find('iframe'));
         });
@@ -526,12 +497,6 @@
 
       function calcHeight(iframe) {
         $(iframe).height($(iframe).contents().find('html').height());
-      }
-
-      function loadErrorPage(uri, id) {
-        $.get(uri).fail(function(data) {
-          $(id).html($('<div/>').html(data.responseText).find('#mainContent').html());
-        });
       }
     })();
   </script>

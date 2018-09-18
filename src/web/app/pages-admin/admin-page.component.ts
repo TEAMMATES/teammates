@@ -29,7 +29,17 @@ export class AdminPageComponent implements OnInit {
       if (res.logoutUrl) {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
       }
-      this.isValidUser = res.user && res.user.isAdmin;
+      if (res.user) {
+        this.isValidUser = res.user.isAdmin;
+        if (!this.isValidUser) {
+          // User is not a valid admin; redirect to home page.
+          // This should not happen in production server as the /web/admin/* routing is protected,
+          // and a 403 error page will be shown instead.
+          window.location.href = '/web';
+        }
+      } else {
+        window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
+      }
     }, () => {
       // TODO
     });
