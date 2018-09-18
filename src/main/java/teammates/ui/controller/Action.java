@@ -553,7 +553,7 @@ public abstract class Action {
      * Returns null if the specified parameter was not found in the request.
      */
     public String getRequestParamValue(String paramName) {
-        return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+        return request.getParameter(paramName);
     }
 
     /**
@@ -570,7 +570,7 @@ public abstract class Action {
      * Returns null if the specified parameter was not found in the request.
      */
     public String[] getRequestParamValues(String paramName) {
-        return HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+        return request.getParameterValues(paramName);
     }
 
     /**
