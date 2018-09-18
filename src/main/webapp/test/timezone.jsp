@@ -12,6 +12,7 @@
     <title>Timezone Compilation - TEAMMATES</title>
   </head>
   <body>
+    <div id="version"><%= ZoneRulesProvider.getVersions("UTC").firstKey() %></div>
     <table>
       <tr>
         <td id="javatime">
@@ -31,7 +32,7 @@
       </tr>
     </table>
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-    <script type="text/javascript" src="/data/moment-timezone-with-data-2013-2023.min.js"></script>
+    <script type="text/javascript" src="/data/moment-timezone-with-data.min.js"></script>
     <script>
       function isSupportedByJava(name) {
           // These short timezones are not supported by Java

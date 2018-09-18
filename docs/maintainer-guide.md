@@ -18,6 +18,7 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Security vulnerabilities](#security-vulnerabilities)
   * [Data migration](#data-migration)
   * [Dependencies update](#dependencies-update)
+  * [Timezone database update](#timezone-database-update)
   * [Branch management](#branch-management)
     * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
   * [Community membership](#community-membership)
@@ -182,6 +183,25 @@ To find which dependencies need update, you can use libraries like [`Gradle Vers
 * Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.
 * Only stable versions (i.e. non-beta and non-alpha) should be considered. `rc` versions can be considered at the team's discretion.
 * Updates with little to no breaking changes should be included in the periodic mass update; otherwise, an issue to update a specific dependency should be created.
+
+### Timezone database update
+
+The timezone databases `moment-timezone-with-data.min.js` for the front-end and `tzdb.dat` for the back-end should be updated when [IANA releases a new timezone database version](https://www.iana.org/time-zones). 
+
+`TimezoneSyncerTest.java` will ensure the above timezone databases are consistent and up-to-date.
+
+To update the front-end timezone database:
+
+1. Setup [moment-timezone](https://github.com/moment/moment-timezone) project locally with their [developer guide](https://github.com/moment/moment-timezone/blob/develop/contributing.md#contributing).
+1. Use `grunt data` to build the project with the latest IANA timezone data.
+1. Copy the compressed `moment-timezone-with-data.min.js` in the `build` folder and override the existing file in TEAMMATES.
+
+To update the back-end timezone database:
+
+1. Follow the instructions on [`tzupdater`](http://www.oracle.com/technetwork/java/javase/tzupdater-readme-136440.html) to update the timezone database in the local JRE.
+1. Copy the updated `$JAVA_HOME/jre/lib/tzdb.dat` and override the `tzdb.dat` in the project.
+
+To check the updates are successful, run `TimezoneSyncerTest.java`.
 
 ### Branch management
 
