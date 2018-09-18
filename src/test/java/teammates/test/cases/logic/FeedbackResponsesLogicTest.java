@@ -6,8 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -115,14 +113,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 
-        responseToUpdate.responseMetaData = new Text("Updated Response");
+        responseToUpdate.responseMetaData = "Updated Response";
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = new Text("Updated Response");
+        responseToUpdate.responseMetaData = "Updated Response";
 
         assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
                                                  responseToUpdate.recipient).toString(),
@@ -159,13 +157,13 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 
-        responseToUpdate.responseMetaData = new Text("Updated Response 2");
+        responseToUpdate.responseMetaData = "Updated Response 2";
         responseToUpdate.feedbackSessionName = "copy over";
 
         frLogic.createFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = new Text("Updated Response 2");
+        responseToUpdate.responseMetaData = "Updated Response 2";
 
         assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
                                                  responseToUpdate.recipient).toString(),
@@ -243,7 +241,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                                                FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
-                                               studentToUpdate.email, "Section 1", new Text("New Response to self"));
+                                               studentToUpdate.email, "Section 1", "New Response to self");
         frLogic.createFeedbackResponse(responseToAdd);
 
         // All these responses should be gone after he changes teams

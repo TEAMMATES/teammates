@@ -552,7 +552,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 "First+feedback+session"), result.getDestinationWithParams());
 
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("New comment", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("IEIFPTCoursehelper1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -587,7 +587,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 "First+feedback+session"), result.getDestinationWithParams());
 
         frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals("Edited comment", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("IEIFPTCoursehelper1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -640,7 +640,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 "Closed+feedback+session"), result.getDestinationWithParams());
 
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("New comment", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("IEIFPTCoursehelper1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -681,7 +681,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 "Closed+feedback+session"), result.getDestinationWithParams());
 
         frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals("Edited comment", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("IEIFPTCoursehelper1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);

@@ -37,7 +37,7 @@ public class StudentProfile extends BaseEntity {
     /* only accepts "male", "female" or "other" */
     private String gender;
 
-    /* must be html sanitized before saving */
+    @Unindex
     private Text moreInfo;
 
     private BlobKey pictureKey;
@@ -72,7 +72,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
+                          String nationality, String gender, String moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -91,7 +91,7 @@ public class StudentProfile extends BaseEntity {
         this.setInstitute("");
         this.setNationality("");
         this.setGender("other");
-        this.setMoreInfo(new Text(""));
+        this.setMoreInfo("");
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(Instant.now());
     }
@@ -145,12 +145,12 @@ public class StudentProfile extends BaseEntity {
         this.gender = gender;
     }
 
-    public Text getMoreInfo() {
-        return this.moreInfo;
+    public String getMoreInfo() {
+        return this.moreInfo == null ? null : this.moreInfo.getValue();
     }
 
-    public void setMoreInfo(Text moreInfo) {
-        this.moreInfo = moreInfo;
+    public void setMoreInfo(String moreInfo) {
+        this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
     }
 
     public BlobKey getPictureKey() {

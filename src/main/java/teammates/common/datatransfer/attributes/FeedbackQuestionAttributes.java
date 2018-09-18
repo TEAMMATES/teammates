@@ -7,8 +7,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -30,8 +28,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      * <p>Don't use directly unless for storing/loading from data store.<br>
      * To get the question text use {@code getQuestionDetails().questionText}
      */
-    public Text questionMetaData;
-    public Text questionDescription;
+    public String questionMetaData;
+    public String questionDescription;
     public int questionNumber;
     public FeedbackQuestionType questionType;
     public FeedbackParticipantType giverType;
@@ -105,7 +103,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
-        public Builder withQuestionMetaData(Text questionMetaData) {
+        public Builder withQuestionMetaData(String questionMetaData) {
             if (questionMetaData != null) {
                 feedbackQuestionAttributes.questionMetaData = questionMetaData;
             }
@@ -119,7 +117,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
-        public Builder withQuestionDescription(Text questionDescription) {
+        public Builder withQuestionDescription(String questionDescription) {
             if (questionDescription != null) {
                 feedbackQuestionAttributes.setQuestionDescription(questionDescription);
             }
@@ -250,7 +248,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getIdentificationString() {
-        return this.questionNumber + ". " + this.questionMetaData.toString() + "/"
+        return this.questionNumber + ". " + this.questionMetaData + "/"
                + this.feedbackSessionName + "/" + this.courseId;
     }
 
@@ -675,7 +673,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      * Converts the given Feedback*QuestionDetails object to JSON for storing.
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        questionMetaData = new Text(JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+        questionMetaData = JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass());
     }
 
     /**
@@ -684,12 +682,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
-        final String questionMetaDataValue = questionMetaData.getValue();
         // For old Text questions, the questionText simply contains the question, not a JSON
-        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
-            return new FeedbackTextQuestionDetails(questionMetaDataValue);
+        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaData)) {
+            return new FeedbackTextQuestionDetails(questionMetaData);
         }
-        return JsonUtils.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
+        return JsonUtils.fromJson(questionMetaData, getFeedbackQuestionDetailsClass());
     }
 
     /**
@@ -717,15 +714,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return creatorEmail;
     }
 
-    public Text getQuestionMetaData() {
+    public String getQuestionMetaData() {
         return questionMetaData;
     }
 
-    public Text getQuestionDescription() {
+    public String getQuestionDescription() {
         return questionDescription;
     }
 
-    public void setQuestionDescription(Text questionDescription) {
+    public void setQuestionDescription(String questionDescription) {
         this.questionDescription = questionDescription;
     }
 

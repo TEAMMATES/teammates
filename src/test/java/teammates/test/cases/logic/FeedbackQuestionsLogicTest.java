@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -335,7 +333,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     private void testUpdateQuestion() throws Exception {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse2");
-        questionToUpdate.questionMetaData = new Text("new question text");
+        questionToUpdate.questionMetaData = "new question text";
         questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
@@ -354,7 +352,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
-        questionToUpdate.questionMetaData = new Text("new question text 2");
+        questionToUpdate.questionMetaData = "new question text 2";
         questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
 
         int numberOfResponses =
@@ -371,7 +369,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("cascading update, destructive changes, delete all existing responses");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
-        questionToUpdate.questionMetaData = new Text("new question text 3");
+        questionToUpdate.questionMetaData = "new question text 3";
         questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
 
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());

@@ -7,8 +7,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -76,7 +74,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         frcaTemp.createdAt = Instant.now();
-        frcaTemp.commentText = new Text("test creation and deletion");
+        frcaTemp.commentText = "test creation and deletion";
 
         ______TS("Entity creation");
 
@@ -226,14 +224,14 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         frcaTemp.createdAt = Instant.now();
-        frcaTemp.commentText = new Text("Update feedback response comment");
+        frcaTemp.commentText = "Update feedback response comment";
         frcDb.createEntity(frcaTemp);
         frcaTemp = frcDb.getFeedbackResponseComment(frcaTemp.feedbackResponseId,
                                  frcaTemp.commentGiver, frcaTemp.createdAt);
 
         FeedbackResponseCommentAttributes frcaExpected =
                 frcDb.getFeedbackResponseComment(frcaTemp.courseId, frcaTemp.createdAt, frcaTemp.commentGiver);
-        frcaExpected.commentText = new Text("This is new Text");
+        frcaExpected.commentText = "This is new Text";
         frcDb.updateFeedbackResponseComment(frcaExpected);
 
         FeedbackResponseCommentAttributes frcaActual =
@@ -312,7 +310,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         String courseId = "frcdb.giver.courseId";
         Instant createdAt = Instant.now();
         frcaDataOfNewGiver.createdAt = createdAt;
-        frcaDataOfNewGiver.commentText = new Text("another comment for this response");
+        frcaDataOfNewGiver.commentText = "another comment for this response";
         frcaDataOfNewGiver.setId(null);
         frcaDataOfNewGiver.commentGiver = giverEmail;
         frcaDataOfNewGiver.courseId = courseId;
@@ -370,7 +368,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         FeedbackResponseCommentAttributes tempFrcaData =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         tempFrcaData.createdAt = Instant.now();
-        tempFrcaData.commentText = new Text("another comment for this response");
+        tempFrcaData.commentText = "another comment for this response";
         // for some reason, the id is 0 instead of null. so we explicitly set it to be null
         tempFrcaData.setId(null);
         // set this comment to have the same responseId as frcaData

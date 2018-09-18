@@ -13,8 +13,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -380,7 +378,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.deleteEntity(modifiedSession);
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
-        modifiedSession.setInstructions(new Text("new instructions"));
+        modifiedSession.setInstructions("new instructions");
         modifiedSession.setGracePeriodMinutes(0);
         modifiedSession.setSentOpenEmail(false);
         modifiedSession.setDeletedTime(Instant.now());
@@ -402,7 +400,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
-                .withInstructions(new Text("Give feedback."))
+                .withInstructions("Give feedback.")
                 .build();
     }
 

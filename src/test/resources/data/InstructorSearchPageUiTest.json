@@ -277,9 +277,7 @@
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
       "creatorEmail": "searchUI.instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -299,9 +297,7 @@
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "searchUI.idOfTestingSanitizationCourse",
       "creatorEmail": "searchUI.instructor1@sanitization.tmt",
-      "instructions": {
-        "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
-      },
+      "instructions": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -323,9 +319,7 @@
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
       "creatorEmail": "searchUI.instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -345,9 +339,7 @@
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
       "creatorEmail": "searchUI.instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Rate 1 other student's product"
-      },
+      "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -371,9 +363,7 @@
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
       "creatorEmail": "searchUI.instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "My searchUI on the class"
-      },
+      "questionMetaData": "My searchUI on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -402,9 +392,7 @@
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
       "creatorEmail": "searchUI.instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Instructor searchUI on the class"
-      },
+      "questionMetaData": "Instructor searchUI on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -433,9 +421,7 @@
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "searchUI.idOfTestingSanitizationCourse",
       "creatorEmail": "searchUI.instructor1@sanitization.tmt",
-      "questionMetaData": {
-        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-      },
+      "questionMetaData": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -460,9 +446,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student1InCourse1@gmail.tmt",
       "recipient": "searchUI.student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Student 1 self feedback."
-      },
+      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -473,9 +457,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student2InCourse1@gmail.tmt",
       "recipient": "searchUI.student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "I'm cool'"
-      },
+      "responseMetaData": "I'm cool'",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -486,9 +468,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student2InCourse1@gmail.tmt",
       "recipient": "searchUI.student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 2 to student 1."
-      },
+      "responseMetaData": "Response from student 2 to student 1.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -499,9 +479,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student1InCourse1@gmail.tmt",
       "recipient": "searchUI.student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 1 to student 2."
-      },
+      "responseMetaData": "Response from student 1 to student 2.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -512,9 +490,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student3InCourse1@gmail.tmt",
       "recipient": "searchUI.student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 3 \"to\" student 2.\r\nMultiline test."
-      },
+      "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -525,9 +501,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": {
-        "value": "Good work, keep it up!"
-      },
+      "responseMetaData": "Good work, keep it up!",
       "giverSection": "None",
       "recipientSection": "None"
     },
@@ -538,9 +512,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.normal@sanitization.tmt",
       "recipient": "searchUI.normal@sanitization.tmt",
-      "responseMetaData": {
-        "value": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-      },
+      "responseMetaData": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "giverSection": "Section'\"/></td>",
       "recipientSection": "Section'\"/></td>"
     }
@@ -560,9 +532,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 1 comment to student 1 self feedback"
-      }
+      "commentText": "Instructor 1 comment to student 1 self feedback"
     },
     "comment1FromT1C1ToR1Q2S1C1": {
       "courseId": "searchUI.idOfTypicalCourse1",
@@ -581,9 +551,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-02T23:59:00Z",
-      "commentText": {
-        "value": "Anonymous comment to feedback Question 2"
-      }
+      "commentText": "Anonymous comment to feedback Question 2"
     },
     "comment2FromT1C1ToR1Q2S1C1": {
       "courseId": "searchUI.idOfTypicalCourse1",
@@ -607,9 +575,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-03T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)"
-      }
+      "commentText": "Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)"
     },
     "comment3FromT1C1ToR1Q2S1C1": {
       "courseId": "searchUI.idOfTypicalCourse1",
@@ -625,9 +591,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 1 comment to feedback Question 2"
-      }
+      "commentText": "Instructor 1 comment to feedback Question 2"
     },
     "comment4FromT1C1ToR1Q2S1C1": {
       "courseId": "searchUI.idOfTypicalCourse1",
@@ -647,9 +611,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-04T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 3 edited comment to feedback Question 2"
-      },
+      "commentText": "Instructor 3 edited comment to feedback Question 2",
       "lastEditorEmail": "searchUI.instructor3@course1.tmt",
       "lastEditedAt": "2015-02-05T23:59:00Z"
     },
@@ -667,9 +629,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-      },
+      "commentText": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "lastEditorEmail": "searchUI.instructor1@sanitization.tmt",
       "lastEditedAt": "2026-03-03T23:59:00Z"
     }

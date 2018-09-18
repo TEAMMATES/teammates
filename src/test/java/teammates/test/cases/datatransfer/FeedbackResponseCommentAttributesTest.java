@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.storage.entity.FeedbackResponseComment;
@@ -20,7 +18,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithDefaultValues() {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
-                .builder("course", "name", "email", new Text(""))
+                .builder("course", "name", "email", "")
                 .build();
 
         // Default values for following fields
@@ -34,7 +32,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithNullValues() {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
-                .builder("course", "name", "email", new Text(""))
+                .builder("course", "name", "email", "")
                 .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withFeedbackResponseId(null)
                 .withFeedbackQuestionId(null)
@@ -62,7 +60,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     public void testValueOf() {
         FeedbackResponseComment responseComment = new FeedbackResponseComment("course", "name",
                 "question", "giver", FeedbackParticipantType.STUDENTS, null, Instant.now(),
-                new Text("comment"), "giverSection", "receiverSection",
+                "comment", "giverSection", "receiverSection",
                 null, null, null, null, false, false);
 
         FeedbackResponseCommentAttributes feedbackAttributes =
@@ -98,7 +96,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
 
     @Test
     public void testConvertCommentTextToStringForCsv() {
-        Text text = new Text("aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello");
+        String text = "aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello";
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
                 .builder("course", "name", "email", text)
                 .build();
@@ -108,7 +106,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
 
     @Test
     public void testConvertCommentTextToStringForHtml() {
-        Text text = new Text("<script>alert('injected');</script> <image src=\"http://test.com/test.png\"></image> hello");
+        String text = "<script>alert('injected');</script> <image src=\"http://test.com/test.png\"></image> hello";
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
                 .builder("course", "name", "email", text)
                 .build();

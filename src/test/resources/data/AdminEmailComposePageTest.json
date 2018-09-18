@@ -2,9 +2,7 @@
   "adminEmails": {
     "adminEmail1": {
       "subject": "Admin Email 1 <b>bold tags</b>",
-      "content": {
-        "value": "<p>This is in a paragraph.</p>"
-      }
+      "content": "<p>This is in a paragraph.</p>"
     }
   }
 }
