@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -160,35 +162,44 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED,
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.CHECKED,
                                     existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i))
+                            )
+                    );
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
         if (otherEnabled) {
             String otherOptionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                     Templates.populateTemplate(otherOptionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.TEXT_DISABLED, sessionIsOpen && isOtherSelected ? "" : "disabled",
-                            Slots.CHECKED, isOtherSelected ? "checked" : "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.TEXT_DISABLED, sessionIsOpen && isOtherSelected ? "" : "disabled",
+                                    Slots.CHECKED, isOtherSelected ? "checked" : "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
                                     Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
-                            Slots.MCQ_CHOICE_VALUE,
+                                    Slots.MCQ_CHOICE_VALUE,
                                     SanitizationHelper.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
-                            Slots.MCQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
+                                    Slots.MCQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0"
+                            )
+                    );
             optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
         return Templates.populateTemplate(
                 FormTemplates.MCQ_SUBMISSION_FORM,
-                Slots.MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString());
+                getMapOfVariables(
+                        Slots.MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString()
+                )
+        );
     }
 
     @Override
@@ -202,35 +213,44 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED, "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.CHECKED, "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i))
+                            )
+                    );
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         if (otherEnabled) {
             String otherOptionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
-                       Templates.populateTemplate(otherOptionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.TEXT_DISABLED, "disabled",
-                            Slots.CHECKED, "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                    Templates.populateTemplate(otherOptionFragmentTemplate,
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.TEXT_DISABLED, "disabled",
+                                    Slots.CHECKED, "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
                                     Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
-                            Slots.MCQ_CHOICE_VALUE, "",
-                            Slots.MCQ_OTHER_OPTION_ANSWER, "0");
+                                    Slots.MCQ_CHOICE_VALUE, "",
+                                    Slots.MCQ_OTHER_OPTION_ANSWER, "0"
+                            )
+                    );
             optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
         return Templates.populateTemplate(
                 FormTemplates.MCQ_SUBMISSION_FORM,
-                Slots.MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString());
+                getMapOfVariables(
+                        Slots.MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString()
+                )
+        );
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -288,31 +308,40 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfMcqChoices; i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.ITERATOR, Integer.toString(i),
-                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(mcqChoices.get(i)),
-                            Slots.MCQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
+                            getMapOfVariables(
+                                    Slots.ITERATOR, Integer.toString(i),
+                                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(mcqChoices.get(i)),
+                                    Slots.MCQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE
+                            )
+                    );
 
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         return Templates.populateTemplate(
                 FormTemplates.MCQ_EDIT_FORM,
-                Slots.MCQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.NUMBER_OF_CHOICE_CREATED, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
-                Slots.MCQ_NUM_OF_MCQ_CHOICES, Integer.toString(numOfMcqChoices),
-                Slots.CHECKED_OTHER_OPTION_ENABLED, otherEnabled ? "checked" : "",
-                Slots.MCQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
-                Slots.MCQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
-                Slots.MCQ_CHECKED_GENERATED_OPTION, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
-                Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
-                Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
-                Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
-                Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
-                Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
-                Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
-                Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
-                Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString());
+                getMapOfVariables(
+                        Slots.MCQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
+                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                        Slots.NUMBER_OF_CHOICE_CREATED, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                        Slots.MCQ_NUM_OF_MCQ_CHOICES, Integer.toString(numOfMcqChoices),
+                        Slots.CHECKED_OTHER_OPTION_ENABLED, otherEnabled ? "checked" : "",
+                        Slots.MCQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
+                        Slots.MCQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
+                        Slots.MCQ_CHECKED_GENERATED_OPTION, generateOptionsFor == FeedbackParticipantType.NONE ? ""
+                                : "checked",
+                        Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                        Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
+                        Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected"
+                                : "",
+                        Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
+                        Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
+                        Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
+                        Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS
+                                ? "selected" : "",
+                        Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString()
+                )
+        );
     }
 
     @Override
@@ -344,30 +373,43 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMcqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(mcqChoices.get(i)));
+                                getMapOfVariables(
+                                        Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(mcqChoices.get(i))
+                                )
+                        );
 
                 optionListHtml.append(optionFragment);
             }
         }
         if (otherEnabled) {
             String optionFragment =
-                    Templates.populateTemplate(optionFragmentTemplate, Slots.MCQ_CHOICE_VALUE, "Others");
+                    Templates.populateTemplate(optionFragmentTemplate,
+                            getMapOfVariables(
+                                    Slots.MCQ_CHOICE_VALUE, "Others"
+                            )
+                    );
             optionListHtml.append(optionFragment);
         }
         optionListHtml.append("</ul>");
 
         String additionalInfo = Templates.populateTemplate(
                 FormTemplates.MCQ_ADDITIONAL_INFO,
-                Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                Slots.MCQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
+                getMapOfVariables(
+                        Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
+                        Slots.MCQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString()
+                )
+        );
 
         return Templates.populateTemplate(
                 FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
+                getMapOfVariables(
+                        Slots.MORE, "[more]",
+                        Slots.LESS, "[less]",
+                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                        Slots.ADDITIONAL_INFO_ID, additionalInfoId,
+                        Slots.QUESTION_ADDITIONAL_INFO, additionalInfo
+                )
+        );
     }
 
     @Override
@@ -388,11 +430,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         answerFrequency.forEach((key, value) ->
                 fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                        Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
-                        Slots.COUNT, value.toString(),
-                        Slots.PERCENTAGE, df.format(100 * (double) value / responses.size()))));
+                        getMapOfVariables(
+                                Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
+                                Slots.COUNT, value.toString(),
+                                Slots.PERCENTAGE, df.format(100 * (double) value / responses.size())))
+                )
+        );
 
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
+                getMapOfVariables(
+                        Slots.FRAGMENTS, fragments.toString()
+                )
+        );
     }
 
     @Override

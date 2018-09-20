@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -62,14 +64,17 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
         return Templates.populateTemplate(
                 FormTemplates.TEXT_SUBMISSION_FORM,
-                Slots.IS_SESSION_OPEN, Boolean.toString(sessionIsOpen),
-                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
-                "${recommendedLength}", Integer.toString(recommendedLength),
-                Slots.TEXT_EXISTING_RESPONSE,
-                    SanitizationHelper.sanitizeForRichText(existingResponseDetails.getAnswerString()));
+                getMapOfVariables(
+                        Slots.IS_SESSION_OPEN, Boolean.toString(sessionIsOpen),
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
+                        "${recommendedLength}", Integer.toString(recommendedLength),
+                        Slots.TEXT_EXISTING_RESPONSE,
+                        SanitizationHelper.sanitizeForRichText(existingResponseDetails.getAnswerString())
+                )
+        );
     }
 
     @Override
@@ -77,20 +82,27 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FormTemplates.TEXT_SUBMISSION_FORM,
-                Slots.IS_SESSION_OPEN, Boolean.toString(sessionIsOpen),
-                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
-                "${recommendedLength}", Integer.toString(recommendedLength),
-                Slots.TEXT_EXISTING_RESPONSE, "");
+                getMapOfVariables(
+                        Slots.IS_SESSION_OPEN, Boolean.toString(sessionIsOpen),
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
+                        "${recommendedLength}", Integer.toString(recommendedLength),
+                        Slots.TEXT_EXISTING_RESPONSE, ""
+                )
+        );
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
                 FormTemplates.TEXT_EDIT_FORM,
-                "${recommendedlength}", recommendedLength == 0 ? "" : Integer.toString(recommendedLength));
+                getMapOfVariables(
+                        "${recommendedlength}", recommendedLength == 0 ? ""
+                                : Integer.toString(recommendedLength)
+                )
+        );
     }
 
     @Override

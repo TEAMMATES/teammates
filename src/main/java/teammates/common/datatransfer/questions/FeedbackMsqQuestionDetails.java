@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -194,13 +196,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
+                                    Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i))
+                            )
+                    );
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
@@ -208,17 +213,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherOptionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                     Templates.populateTemplate(otherOptionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.TEXT_DISABLED, sessionIsOpen && isOtherSelected ? "" : "disabled",
-                            Slots.CHECKED, isOtherSelected ? "checked" : "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.TEXT_DISABLED, sessionIsOpen && isOtherSelected ? "" : "disabled",
+                                    Slots.CHECKED, isOtherSelected ? "checked" : "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
                                     Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
-                            Slots.MSQ_CHOICE_VALUE,
+                                    Slots.MSQ_CHOICE_VALUE,
                                     SanitizationHelper.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
-                            Slots.MSQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
+                                    Slots.MSQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0"
+                            )
+                    );
             optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
@@ -228,13 +236,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // additional checkbox for user to submit a blank response ("None of the above")
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, "",
-                            Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MSQ_CHOICE_VALUE, "",
+                                    Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>"
+                            )
+                    );
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
@@ -242,18 +253,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         return Templates.populateTemplate(
                 FormTemplates.MSQ_SUBMISSION_FORM,
-                Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesEnabled ? "" : "disabled",
-                Slots.MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED, isMinSelectableChoicesEnabled ? "" : "disabled",
-                Slots.MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT, isMaxSelectableChoicesEnabled ? "" : "hidden",
-                Slots.MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT, isMinSelectableChoicesEnabled ? "" : "hidden",
-                Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
-                Slots.MSQ_MAX_SELECTABLE_CHOICES,
+                getMapOfVariables(
+                        Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesEnabled ? "" : "disabled",
+                        Slots.MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED, isMinSelectableChoicesEnabled ? "" : "disabled",
+                        Slots.MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT, isMaxSelectableChoicesEnabled ? "" : "hidden",
+                        Slots.MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT, isMinSelectableChoicesEnabled ? "" : "hidden",
+                        Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
+                        Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
+                        Slots.MSQ_MAX_SELECTABLE_CHOICES,
                         isMaxSelectableChoicesEnabled ? Integer.toString(maxSelectableChoices) : "-1",
-                Slots.MSQ_MIN_SELECTABLE_CHOICES,
-                        isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
+                        Slots.MSQ_MIN_SELECTABLE_CHOICES,
+                        isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1"
+                )
+        );
     }
 
     @Override
@@ -266,13 +282,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED, "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.CHECKED, "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
+                                    Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i))
+                            )
+                    );
             optionListHtml.append(optionFragment);
             optionListHtml.append(System.lineSeparator());
         }
@@ -280,17 +299,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (otherEnabled) {
             String otherOptionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
-                       Templates.populateTemplate(otherOptionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.TEXT_DISABLED, "disabled",
-                            Slots.CHECKED, "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                    Templates.populateTemplate(otherOptionFragmentTemplate,
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.TEXT_DISABLED, "disabled",
+                                    Slots.CHECKED, "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
                                     Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
-                            Slots.MSQ_CHOICE_VALUE, "",
-                            Slots.MSQ_OTHER_OPTION_ANSWER, "0");
+                                    Slots.MSQ_CHOICE_VALUE, "",
+                                    Slots.MSQ_OTHER_OPTION_ANSWER, "0"
+                            )
+                    );
             optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
@@ -300,13 +322,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // additional checkbox for user to submit a blank response ("None of the above")
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED, "",
-                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, "",
-                            Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+                            getMapOfVariables(
+                                    Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                                    Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                                    Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                                    Slots.CHECKED, "",
+                                    Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                    Slots.MSQ_CHOICE_VALUE, "",
+                                    Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>"
+                            )
+                    );
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
@@ -314,18 +339,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         return Templates.populateTemplate(
                 FormTemplates.MSQ_SUBMISSION_FORM,
-                Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesEnabled ? "" : "disabled",
-                Slots.MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED, isMinSelectableChoicesEnabled ? "" : "disabled",
-                Slots.MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT, isMaxSelectableChoicesEnabled ? "" : "hidden",
-                Slots.MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT, isMinSelectableChoicesEnabled ? "" : "hidden",
-                Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
-                Slots.MSQ_MAX_SELECTABLE_CHOICES,
+                getMapOfVariables(
+                        Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesEnabled ? "" : "disabled",
+                        Slots.MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED, isMinSelectableChoicesEnabled ? "" : "disabled",
+                        Slots.MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT, isMaxSelectableChoicesEnabled ? "" : "hidden",
+                        Slots.MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT, isMinSelectableChoicesEnabled ? "" : "hidden",
+                        Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
+                        Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
+                        Slots.MSQ_MAX_SELECTABLE_CHOICES,
                         isMaxSelectableChoicesEnabled ? Integer.toString(maxSelectableChoices) : "-1",
-                Slots.MSQ_MIN_SELECTABLE_CHOICES,
-                        isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
+                        Slots.MSQ_MIN_SELECTABLE_CHOICES,
+                        isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1"
+                )
+        );
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -386,9 +416,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < msqChoices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.ITERATOR, Integer.toString(i),
-                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
-                            Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
+                            getMapOfVariables(
+                                    Slots.ITERATOR, Integer.toString(i),
+                                    Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
+                                    Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE
+                            )
+                    );
 
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
@@ -398,34 +431,42 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         return Templates.populateTemplate(
                 FormTemplates.MSQ_EDIT_FORM,
-                Slots.MSQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.NUMBER_OF_CHOICE_CREATED, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
-                Slots.MSQ_NUMBER_OF_CHOICES, Integer.toString(numOfMsqChoices),
-                Slots.CHECKED_OTHER_OPTION_ENABLED, otherEnabled ? "checked" : "",
-                Slots.MSQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
-                Slots.MSQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
-                Slots.MSQ_CHECKED_GENERATED_OPTIONS, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
-                Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
-                Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
-                Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
-                Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
-                Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
-                Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
-                Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
-                Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesDisabled ? "" : "checked",
-                Slots.MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED, isMinSelectableChoicesDisabled ? "" : "checked",
-                Slots.MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES,
+                getMapOfVariables(
+                        Slots.MSQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
+                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                        Slots.NUMBER_OF_CHOICE_CREATED, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                        Slots.MSQ_NUMBER_OF_CHOICES, Integer.toString(numOfMsqChoices),
+                        Slots.CHECKED_OTHER_OPTION_ENABLED, otherEnabled ? "checked" : "",
+                        Slots.MSQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
+                        Slots.MSQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
+                        Slots.MSQ_CHECKED_GENERATED_OPTIONS, generateOptionsFor == FeedbackParticipantType.NONE
+                                ? "" : "checked",
+                        Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                        Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
+                        Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS
+                                ? "selected" : "",
+                        Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
+                        Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
+                        Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
+                        Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS
+                                ? "selected" : "",
+                        Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
+                        Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesDisabled ? "" : "checked",
+                        Slots.MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED, isMinSelectableChoicesDisabled ? "" : "checked",
+                        Slots.MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES,
                         Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_PARAM_ENABLED_MIN_SELECTABLE_CHOICES,
+                        Slots.MSQ_PARAM_ENABLED_MIN_SELECTABLE_CHOICES,
                         Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES,
-                Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
-                Slots.MSQ_MAX_SELECTABLE_CHOICES,
+                        Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
+                        Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
+                        Slots.MSQ_MAX_SELECTABLE_CHOICES,
                         isMaxSelectableChoicesDisabled ? "2" : Integer.toString(maxSelectableChoices),
-                Slots.MSQ_MIN_SELECTABLE_CHOICES,
-                        isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices));
+                        Slots.MSQ_MIN_SELECTABLE_CHOICES,
+                        isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices)
+                )
+        );
     }
 
     @Override
@@ -436,8 +477,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         msqChoices.add("");
 
         return "<div id=\"msqForm\">"
-                  + getQuestionSpecificEditFormHtml(-1)
-             + "</div>";
+                + getQuestionSpecificEditFormHtml(-1)
+                + "</div>";
     }
 
     @Override
@@ -457,14 +498,21 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)));
+                                getMapOfVariables(
+                                        Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i))
+                                )
+                        );
 
                 optionListHtml.append(optionFragment);
             }
 
             if (otherEnabled) {
                 String optionFragment =
-                        Templates.populateTemplate(optionFragmentTemplate, Slots.MSQ_CHOICE_VALUE, "Other");
+                        Templates.populateTemplate(optionFragmentTemplate,
+                                getMapOfVariables(
+                                        Slots.MSQ_CHOICE_VALUE, "Other"
+                                )
+                        );
                 optionListHtml.append(optionFragment);
             }
 
@@ -473,16 +521,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         String additionalInfo = Templates.populateTemplate(
                 FormTemplates.MSQ_ADDITIONAL_INFO,
-                Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
+                getMapOfVariables(
+                        Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
+                        Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString()
+                )
+        );
 
         return Templates.populateTemplate(
                 FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
+                getMapOfVariables(
+                        Slots.MORE, "[more]",
+                        Slots.LESS, "[less]",
+                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                        Slots.ADDITIONAL_INFO_ID, additionalInfoId,
+                        Slots.QUESTION_ADDITIONAL_INFO, additionalInfo
+                )
+        );
     }
 
     @Override
@@ -506,13 +560,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder fragments = new StringBuilder();
         answerFrequency.forEach((key, value) ->
                 fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                        getMapOfVariables(
                                 Slots.MCQ_CHOICE_VALUE, key,
                                 Slots.COUNT, value.toString(),
                                 Slots.PERCENTAGE,
-                                df.format(100 * divideOrReturnZero(value, numChoicesSelected)))));
+                                df.format(100 * divideOrReturnZero(value, numChoicesSelected))))
+                )
+        );
 
         //Use same template as MCQ for now, until they need to be different.
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
+                getMapOfVariables(
+                        Slots.FRAGMENTS, fragments.toString()
+                )
+        );
     }
 
     @Override

@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.util.Map;
+
 public final class Templates {
 
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
@@ -12,16 +14,15 @@ public final class Templates {
      * Populates the HTML templates by replacing variables in the template string
      * with the given value strings.
      * @param template The template html to be populated
-     * @param keyValuePairs Array of a variable, even number of key-value pairs:
-     *                   { "key1", "val1", "key2", "val2", ... }
+     * @param variables Map of a variables
      * @return The populated template
      */
-    public static String populateTemplate(String template, String... keyValuePairs) {
-        Assumption.assertTrue("The number of elements in keyValuePairs passed in must be even",
-                keyValuePairs.length % 2 == 0);
+    public static String populateTemplate(String template, Map<String, String> variables) {
         String populatedTemplate = template;
-        for (int i = 0; i < keyValuePairs.length; i += 2) {
-            populatedTemplate = populatedTemplate.replace(keyValuePairs[i], keyValuePairs[i + 1]);
+        for (Map.Entry<String, String> entry : variables.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            populatedTemplate = populatedTemplate.replace(key, value);
         }
         return populatedTemplate;
     }

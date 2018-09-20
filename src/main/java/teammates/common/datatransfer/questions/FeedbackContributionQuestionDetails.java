@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -86,12 +88,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         return Templates.populateTemplate(
                 FormTemplates.CONTRIB_SUBMISSION_FORM,
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectFragmentsHtml,
-                Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx));
+                getMapOfVariables(
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectFragmentsHtml,
+                        Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx)
+                )
+        );
     }
 
     @Override
@@ -102,22 +107,28 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         return Templates.populateTemplate(
                 FormTemplates.CONTRIB_SUBMISSION_FORM,
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml,
-                Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx));
+                getMapOfVariables(
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml,
+                        Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx)
+                )
+        );
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
                 FormTemplates.CONTRIB_EDIT_FORM,
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.CONTRIB_IS_NOT_SURE_ALLOWED_CHECKED, isNotSureAllowed ? "checked" : "",
-                Slots.CONTRIB_PARAM_IS_NOT_SURE_ALLOWED_CHECKED,
-                        Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
+                getMapOfVariables(
+                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                        Slots.CONTRIB_IS_NOT_SURE_ALLOWED_CHECKED, isNotSureAllowed ? "checked" : "",
+                        Slots.CONTRIB_PARAM_IS_NOT_SURE_ALLOWED_CHECKED,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED
+                )
+        );
     }
 
     @Override
@@ -125,8 +136,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = true;
 
         return "<div id=\"contribForm\">"
-                  + getQuestionSpecificEditFormHtml(-1)
-             + "</div>";
+                + getQuestionSpecificEditFormHtml(-1)
+                + "</div>";
     }
 
     @Override
@@ -135,11 +146,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         return Templates.populateTemplate(
                 FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
+                getMapOfVariables(
+                        Slots.MORE, "[more]",
+                        Slots.LESS, "[less]",
+                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                        Slots.ADDITIONAL_INFO_ID, additionalInfoId,
+                        Slots.QUESTION_ADDITIONAL_INFO, additionalInfo
+                )
+        );
     }
 
     /**
@@ -205,23 +219,29 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String contribAdditionalInfo = Templates.populateTemplate(
                 FormTemplates.CONTRIB_ADDITIONAL_INFO,
-                Slots.MORE, "[how to interpret, etc..]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(question.questionNumber),
-                Slots.ADDITIONAL_INFO_ID, "contributionInfo",
-                Slots.QUESTION_ADDITIONAL_INFO, FormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
+                getMapOfVariables(
+                        Slots.MORE, "[how to interpret, etc..]",
+                        Slots.LESS, "[less]",
+                        Slots.QUESTION_NUMBER, Integer.toString(question.questionNumber),
+                        Slots.ADDITIONAL_INFO_ID, "contributionInfo",
+                        Slots.QUESTION_ADDITIONAL_INFO, FormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO
+                )
+        );
 
         return Templates.populateTemplate(
                 FormTemplates.CONTRIB_RESULT_STATS_STUDENT,
-                Slots.CONTRIB_ADDITIONAL_INFO, contribAdditionalInfo,
-                Slots.CONTRIB_MY_VIEW_OF_ME, getPointsAsColorizedHtml(selfClaim),
-                Slots.CONTRIB_MY_VIEW_OF_OTHERS,
+                getMapOfVariables(
+                        Slots.CONTRIB_ADDITIONAL_INFO, contribAdditionalInfo,
+                        Slots.CONTRIB_MY_VIEW_OF_ME, getPointsAsColorizedHtml(selfClaim),
+                        Slots.CONTRIB_MY_VIEW_OF_OTHERS,
                         getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex],
-                        currentUserIndex),
-                Slots.CONTRIB_TEAM_VIEW_OF_ME, getPointsAsColorizedHtml(teamClaim),
-                Slots.CONTRIB_TEAM_VIEW_OF_OTHERS,
-                getNormalizedPointsListColorizedDescending(
-                        currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
+                                currentUserIndex),
+                        Slots.CONTRIB_TEAM_VIEW_OF_ME, getPointsAsColorizedHtml(teamClaim),
+                        Slots.CONTRIB_TEAM_VIEW_OF_OTHERS,
+                        getNormalizedPointsListColorizedDescending(
+                                currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex)
+                )
+        );
     }
 
     private String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
@@ -293,22 +313,28 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             contribFragments.append(Templates.populateTemplate(
                     FormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
-                    Slots.CONTRIB_STUDENT_TEAM, SanitizationHelper.sanitizeForHtml(displayTeam),
-                    Slots.CONTRIB_STUDENT_NAME, SanitizationHelper.sanitizeForHtml(displayName),
-                    Slots.CONTRIB_CC, getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    Slots.CONTRIB_PC, getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    Slots.CONTRIB_DIFF, getPointsDiffAsHtml(summary),
-                    Slots.CONTRIB_RR, getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
-                    Slots.CONTRIB_PARAM_STUDENT_NAME, Const.ParamsNames.STUDENT_NAME));
+                    getMapOfVariables(
+                            Slots.CONTRIB_STUDENT_TEAM, SanitizationHelper.sanitizeForHtml(displayTeam),
+                            Slots.CONTRIB_STUDENT_NAME, SanitizationHelper.sanitizeForHtml(displayName),
+                            Slots.CONTRIB_CC, getPointsAsColorizedHtml(summary.claimedToInstructor),
+                            Slots.CONTRIB_PC, getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                            Slots.CONTRIB_DIFF, getPointsDiffAsHtml(summary),
+                            Slots.CONTRIB_RR, getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
+                            Slots.CONTRIB_PARAM_STUDENT_NAME, Const.ParamsNames.STUDENT_NAME)
+                    )
+            );
         }
 
         return Templates.populateTemplate(
                 FormTemplates.CONTRIB_RESULT_STATS,
-                Slots.CONTRIB_FRAGMENTS, contribFragments.toString(),
-                Slots.CONTRIB_TOOLTIPS_CLAIMED, SanitizationHelper.sanitizeForHtml(Const.Tooltips.CLAIMED),
-                Slots.CONTRIB_TOOLTIPS_PERCEIVED, Const.Tooltips.PERCEIVED,
-                Slots.CONTRIB_TOOLTIPS_POINTS_RECEIVED, Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
-                Slots.CONTRIB_TOOLTIPS_DIFF, Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
+                getMapOfVariables(
+                        Slots.CONTRIB_FRAGMENTS, contribFragments.toString(),
+                        Slots.CONTRIB_TOOLTIPS_CLAIMED, SanitizationHelper.sanitizeForHtml(Const.Tooltips.CLAIMED),
+                        Slots.CONTRIB_TOOLTIPS_PERCEIVED, Const.Tooltips.PERCEIVED,
+                        Slots.CONTRIB_TOOLTIPS_POINTS_RECEIVED, Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
+                        Slots.CONTRIB_TOOLTIPS_DIFF, Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF
+                )
+        );
     }
 
     @Override
