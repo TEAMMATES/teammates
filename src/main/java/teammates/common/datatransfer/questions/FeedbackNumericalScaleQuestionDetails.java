@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
-
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -91,21 +89,18 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         return Templates.populateTemplate(
                 FormTemplates.NUMSCALE_SUBMISSION_FORM,
-                getMapOfVariables(
-                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                        Slots.MIN_SCALE, Integer.toString(minScale),
-                        Slots.MAX_SCALE, Integer.toString(maxScale),
-                        Slots.STEP, StringHelper.toDecimalFormatString(step),
-                        Slots.EXISTING_ANSWER, numscaleResponseDetails.getAnswerString(),
-                        Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
-                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                        Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                        Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP
-                )
-        );
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.MIN_SCALE, Integer.toString(minScale),
+                Slots.MAX_SCALE, Integer.toString(maxScale),
+                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.EXISTING_ANSWER, numscaleResponseDetails.getAnswerString(),
+                Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
+                Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
+                Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 
     @Override
@@ -113,41 +108,35 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FormTemplates.NUMSCALE_SUBMISSION_FORM,
-                getMapOfVariables(
-                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                        Slots.MIN_SCALE, Integer.toString(minScale),
-                        Slots.MAX_SCALE, Integer.toString(maxScale),
-                        Slots.STEP, StringHelper.toDecimalFormatString(step),
-                        Slots.EXISTING_ANSWER, "",
-                        Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
-                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                        Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                        Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP
-                )
-        );
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.MIN_SCALE, Integer.toString(minScale),
+                Slots.MAX_SCALE, Integer.toString(maxScale),
+                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.EXISTING_ANSWER, "",
+                Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
+                Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
+                Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
                 FormTemplates.NUMSCALE_EDIT_FORM,
-                getMapOfVariables(
-                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                        Slots.MIN_SCALE, Integer.toString(minScale),
-                        Slots.MAX_SCALE, Integer.toString(maxScale),
-                        Slots.STEP, StringHelper.toDecimalFormatString(step),
-                        Slots.POSSIBLE_VALUES, getPossibleValuesStringEdit(),
-                        Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                        Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                        Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP,
-                        Slots.NUMSCALE_TOOLTIPS_MIN, Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                        Slots.NUMSCALE_TOOLTIPS_MAX, Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                        Slots.NUMSCALE_TOOLTIPS_STEP, Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_STEP
-                )
-        );
+                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                Slots.MIN_SCALE, Integer.toString(minScale),
+                Slots.MAX_SCALE, Integer.toString(maxScale),
+                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.POSSIBLE_VALUES, getPossibleValuesStringEdit(),
+                Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
+                Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
+                Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP,
+                Slots.NUMSCALE_TOOLTIPS_MIN, Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MIN,
+                Slots.NUMSCALE_TOOLTIPS_MAX, Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MAX,
+                Slots.NUMSCALE_TOOLTIPS_STEP, Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 
     @Override
@@ -172,14 +161,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         return Templates.populateTemplate(
                 FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                getMapOfVariables(
-                        Slots.MORE, "[more]",
-                        Slots.LESS, "[less]",
-                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                        Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                        Slots.QUESTION_ADDITIONAL_INFO, additionalInfo
-                )
-        );
+                Slots.MORE, "[more]",
+                Slots.LESS, "[less]",
+                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
+                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
 
     @Override
@@ -240,16 +226,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
             fragmentHtml.append(Templates.populateTemplate(
-                    fragmentTemplateToUse,
-                    getMapOfVariables(
-                            Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
-                            Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
-                            Slots.AVERAGE, df.format(average.get(recipient)),
-                            Slots.MAX, df.format(max.get(recipient)),
-                            Slots.MIN, df.format(min.get(recipient)),
-                            Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, userAverageExcludingSelfText)
-                    )
-            );
+                                    fragmentTemplateToUse,
+                                    Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
+                                    Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
+                                    Slots.AVERAGE, df.format(average.get(recipient)),
+                                    Slots.MAX, df.format(max.get(recipient)),
+                                    Slots.MIN, df.format(min.get(recipient)),
+                                    Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, userAverageExcludingSelfText));
         }
 
         if (fragmentHtml.length() == 0) {
@@ -258,15 +241,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         String statsTitle = "Response Summary";
         String templateToUse = showAvgExcludingSelf
-                ? FormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
-                : FormTemplates.NUMSCALE_RESULT_STATS;
+                             ? FormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
+                             : FormTemplates.NUMSCALE_RESULT_STATS;
         return Templates.populateTemplate(
-                templateToUse,
-                getMapOfVariables(
+                        templateToUse,
                         Slots.SUMMARY_TITLE, statsTitle,
-                        Slots.STATS_FRAGMENTS, fragmentHtml.toString()
-                )
-        );
+                        Slots.STATS_FRAGMENTS, fragmentHtml.toString());
     }
 
     private String getStudentQuestionResultsStatisticsHtml(
@@ -376,15 +356,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
             String recipientFragmentHtml = Templates.populateTemplate(
                     fragmentTemplateToUse,
-                    getMapOfVariables(
-                            Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
-                            Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
-                            Slots.AVERAGE, df.format(averageScore),
-                            Slots.MAX, df.format(maxScore),
-                            Slots.MIN, df.format(minScore),
-                            Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, averageScoreExcludingSelfText
-                    )
-            );
+                    Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
+                    Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
+                    Slots.AVERAGE, df.format(averageScore),
+                    Slots.MAX, df.format(maxScore),
+                    Slots.MIN, df.format(minScore),
+                    Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, averageScoreExcludingSelfText);
 
             fragmentHtml.append(recipientFragmentHtml);
         }
@@ -400,10 +377,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
                              ? FormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FormTemplates.NUMSCALE_RESULT_STATS;
         return Templates.populateTemplate(templateToUse,
-                getMapOfVariables(
-                        Slots.SUMMARY_TITLE, statsTitle,
-                        Slots.STATS_FRAGMENTS, fragmentHtml.toString()
-                ));
+                Slots.SUMMARY_TITLE, statsTitle,
+                Slots.STATS_FRAGMENTS, fragmentHtml.toString());
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,

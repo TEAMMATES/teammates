@@ -1,7 +1,5 @@
 package teammates.ui.controller;
 
-import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +58,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
             try {
                 createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
-                        fs.getCreatorEmail(), feedbackSessionType);
+                                                fs.getCreatorEmail(), feedbackSessionType);
             } catch (InvalidParametersException e) {
                 // Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -133,15 +131,11 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         if ("TEAMEVALUATION".equals(templateType)) {
             String jsonString = Templates.populateTemplate(FeedbackSessionTemplates.TEAM_EVALUATION,
-                    getMapOfVariables(
-                            "${courseId}", courseId,
-                            "${feedbackSessionName}", feedbackSessionName,
-                            "${creatorEmail}", creatorEmail
-                    )
-            );
+                    "${courseId}", courseId,
+                    "${feedbackSessionName}", feedbackSessionName,
+                    "${creatorEmail}", creatorEmail);
 
-            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>() {
-            }.getType();
+            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
             return JsonUtils.fromJson(jsonString, listType);
         }
 

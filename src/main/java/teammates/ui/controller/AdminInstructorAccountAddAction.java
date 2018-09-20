@@ -1,7 +1,5 @@
 package teammates.ui.controller;
 
-import static teammates.common.util.retry.MapBuilder.getMapOfVariables;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -137,17 +135,14 @@ public class AdminInstructorAccountAddAction extends Action {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
         String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
-                getMapOfVariables(
-                        // replace email
-                        "teammates.demo.instructor@demo.course", pageData.instructorEmail,
-                        // replace name
-                        "Demo_Instructor", pageData.instructorName,
-                        // replace course
-                        "demo.course", courseId,
-                        // update feedback session time
-                        "2013-04-01 11:59 PM UTC", formatter.format(c.getTime())
-                )
-        );
+                // replace email
+                "teammates.demo.instructor@demo.course", pageData.instructorEmail,
+                // replace name
+                "Demo_Instructor", pageData.instructorName,
+                // replace course
+                "demo.course", courseId,
+                // update feedback session time
+                "2013-04-01 11:59 PM UTC", formatter.format(c.getTime()));
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
