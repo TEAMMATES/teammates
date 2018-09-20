@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.googlecode.objectify.annotation.Entity;
@@ -10,11 +9,11 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 
 /**
  * An association class that represents the association Account -->
@@ -40,9 +39,11 @@ public class CourseStudent extends BaseEntity {
     @Id
     private String id;
 
-    private Date createdAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdAt;
 
-    private Date updatedAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant updatedAt;
 
     private transient String registrationKey;
 
@@ -105,21 +106,21 @@ public class CourseStudent extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return TimeHelper.convertDateToInstant(createdAt);
+        return createdAt;
     }
 
     public void setCreatedAt(Instant created) {
-        this.createdAt = TimeHelper.convertInstantToDate(created);
+        this.createdAt = created;
         setLastUpdate(created);
     }
 
     public Instant getUpdatedAt() {
-        return TimeHelper.convertDateToInstant(updatedAt);
+        return updatedAt;
     }
 
     public void setLastUpdate(Instant updatedAt) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = TimeHelper.convertInstantToDate(updatedAt);
+            this.updatedAt = updatedAt;
         }
     }
 

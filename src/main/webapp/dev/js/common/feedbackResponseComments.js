@@ -400,14 +400,14 @@ const editCommentHandler = (e) => {
                 cancelButton.prop('disabled', false);
             } else {
                 // Update editted comment
-                displayedText.html(data.comment.commentText.value);
+                displayedText.html(data.comment.commentText);
                 updateVisibilityOptionsForResponseComment(formObject, data);
                 commentBar.find('span[class="text-muted"]').first().text(data.editedCommentDetails);
                 commentBar.show();
 
                 // Reset edit comment form
                 formObject.find('textarea').prop('disabled', false);
-                formObject.find('textarea').val(data.comment.commentText.value);
+                formObject.find('textarea').val(data.comment.commentText);
                 submitButton.text('Save');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);

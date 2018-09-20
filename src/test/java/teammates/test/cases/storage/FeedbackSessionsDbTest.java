@@ -13,8 +13,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -53,6 +51,15 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
         }
         fsDb.deleteEntity(getNewFeedbackSession());
+    }
+
+    @Test
+    public void testGetAllOpenFeedbackSessions_typicalCase_shouldQuerySuccessfullyWithoutDuplication() {
+        Instant rangeStart = Instant.parse("2000-12-03T10:15:30.00Z");
+        Instant rangeEnd = Instant.parse("2050-04-30T21:59:00Z");
+        List<FeedbackSessionAttributes> actualAttributesList = fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+        assertEquals("should not return more than 13 sessions as there are only 13 distinct sessions in the range",
+                13, actualAttributesList.size());
     }
 
     @Test
@@ -371,7 +378,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.deleteEntity(modifiedSession);
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
-        modifiedSession.setInstructions(new Text("new instructions"));
+        modifiedSession.setInstructions("new instructions");
         modifiedSession.setGracePeriodMinutes(0);
         modifiedSession.setSentOpenEmail(false);
         modifiedSession.setDeletedTime(Instant.now());
@@ -393,7 +400,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
-                .withInstructions(new Text("Give feedback."))
+                .withInstructions("Give feedback.")
                 .build();
     }
 

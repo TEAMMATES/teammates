@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -25,7 +23,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
     private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
     private String subject = "subject of email";
-    private Text content = new Text("valid email content");
+    private String content = "valid email content";
     private Instant date = Instant.now();
     private AdminEmailAttributes validAdminEmailAttributesObject = AdminEmailAttributes
             .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
@@ -142,7 +140,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("failure: content cannot be empty");
 
         AdminEmailAttributes invalidAttributesContentEmpty = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, new Text(""))
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, "")
                 .withSendDate(date)
                 .build();
         String expectedContentEmptyError = getPopulatedErrorMessage(
@@ -214,7 +212,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testSanitizeForSaving() {
         String subjectWithWhitespaces = " subject to be sanitized by removing leading/trailing whitespace ";
-        Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
+        String contentWithWhitespaces = " content to be sanitized by removing leading/trailing whitespace ";
 
         ______TS("valid sanitation of admin email");
 
@@ -233,26 +231,26 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         ______TS("success: sanitized code block");
 
-        adminEmailAttributes.content = new Text("<code>System.out.println(\"Hello World\");</code>");
+        adminEmailAttributes.content = "<code>System.out.println(\"Hello World\");</code>";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals("<code>System.out.println(&#34;Hello World&#34;);</code>", adminEmailAttributes.getContentValue());
 
         ______TS("success: sanitized superscript");
 
-        adminEmailAttributes.content = new Text("f(x) = x<sup>2</sup>");
+        adminEmailAttributes.content = "f(x) = x<sup>2</sup>";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals("f(x) &#61; x<sup>2</sup>", adminEmailAttributes.getContentValue());
 
         ______TS("success: sanitized chemical formula");
 
-        adminEmailAttributes.content = new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>");
+        adminEmailAttributes.content = "<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>",
                 adminEmailAttributes.getContentValue());
 
         ______TS("success: sanitized invalid closing tag");
 
-        adminEmailAttributes.content = new Text("</td></option></div> invalid closing tags");
+        adminEmailAttributes.content = "</td></option></div> invalid closing tags";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals(" invalid closing tags", adminEmailAttributes.getContentValue());
     }

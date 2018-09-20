@@ -3,8 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -65,7 +63,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes
     @Override
     protected void migrate(AdminEmailAttributes email) throws InvalidParametersException, EntityDoesNotExistException {
         String desanitizedContent = SanitizationHelper.desanitizeFromHtml(email.getContentValue());
-        email.content = new Text(desanitizedContent);
+        email.content = desanitizedContent;
         adminEmailsDb.updateAdminEmail(email);
     }
 

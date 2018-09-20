@@ -11,8 +11,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.TimeHelperExtension;
@@ -206,7 +204,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             LocalDateTime endTime,
             LocalDateTime visibleTime,
             LocalDateTime publishTime,
-            Text instructions,
+            String instructions,
             long gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
@@ -222,7 +220,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         // Fill in instructions
         if (instructions != null) {
-            fillRichTextEditor("instructions", instructions.getValue());
+            fillRichTextEditor("instructions", instructions);
         }
 
         // Select grace period

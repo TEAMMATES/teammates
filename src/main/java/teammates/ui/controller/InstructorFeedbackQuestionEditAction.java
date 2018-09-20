@@ -6,8 +6,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -246,7 +244,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 .withShowRecipientNameTo(showRecipientNameTo)
                 .withQuestionType(questionType)
                 .withQuestionMetaData(questionDetails)
-                .withQuestionDescription(new Text(questionDescription))
+                .withQuestionDescription(questionDescription)
                 .build();
     }
 

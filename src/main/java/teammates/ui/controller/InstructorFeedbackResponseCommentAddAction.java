@@ -3,8 +3,6 @@ package teammates.ui.controller;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -73,7 +71,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .builder(courseId, feedbackSessionName, instructor.email, commentText)
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
                 .withCreatedAt(Instant.now())
@@ -119,7 +117,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.commentGiver + " at "
                            + feedbackResponseComment.createdAt + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "comment text: " + feedbackResponseComment.commentText;
         }
 
         if (createdComment == null) {
