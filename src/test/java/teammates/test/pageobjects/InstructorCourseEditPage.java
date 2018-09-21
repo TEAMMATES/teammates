@@ -447,7 +447,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void clickCancelCourseLink() {
-        click(getCancelEditCourseLink()) ;
+        click(getCancelEditCourseLink());
     }
 
     public InstructorCoursesPage clickDeleteCourseLink() {
@@ -504,7 +504,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public WebElement getCancelEditCourseLink() {
-        return browser.driver.findElement(By.id("cancelCourseLink")) ;
+        return browser.driver.findElement(By.id("cancelCourseLink"));
     }
 
     private WebElement getInviteInstructorLink(int instrNum) {
