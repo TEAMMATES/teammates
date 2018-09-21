@@ -495,11 +495,11 @@ public class InstructorCourseEditPage extends AppPage {
     public WebElement getEditInstructorLink(int instrNum) {
         return browser.driver.findElement(By.id("instrEditLink" + instrNum));
     }
-
+    
     public WebElement getCancelEditInstructorLink(int instrNum) {
         return browser.driver.findElement(By.id("instrCancelLink" + instrNum));
     }
-    
+
     public WebElement getCancelAddInstructorLink() {
         return browser.driver.findElement(By.id("cancelAddInstructorLink"));
     }
