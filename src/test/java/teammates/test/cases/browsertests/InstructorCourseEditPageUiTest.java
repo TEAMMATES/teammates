@@ -56,7 +56,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         testUnregisteredInstructorEmailNotEditable();
 
-        testEditCourseAction();
+        testEditCourseAction ( ) ;
+        testCancelCourseAction();
         testDeleteCourseAction();
 
         testSanitization();
@@ -447,7 +448,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
-
         String invalidName = "";
 
         courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt", true, "New display name",
@@ -795,6 +795,16 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 getPopulatedEmptyStringErrorMessage(
                                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
+    }
+
+    private void testCancelCourseAction ( ) {
+        courseEditPage = getCourseEditPage ( ) ;
+
+        ______TS ( "cancel course" ) ;
+
+        assertTrue ( courseEditPage.isCourseEditFormEnabled ( ) ) ;
+        courseEditPage.clickCancelCourseLink ( ) ;
+        assertFalse ( courseEditPage.isCourseEditFormEnabled ( ) ) ;
     }
 
     private void testDeleteCourseAction() {
