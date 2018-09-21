@@ -50,7 +50,7 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "courseEditLink")
     private WebElement editCourseLink;
 
-    @ FindBy (id = "courseCancelLink")
+    @FindBy (id = "courseCancelLink")
     private WebElement cancelCourseLink;
 
     @FindBy(id = "courseDeleteLink")
