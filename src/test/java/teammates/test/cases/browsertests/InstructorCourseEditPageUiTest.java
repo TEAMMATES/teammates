@@ -56,7 +56,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         testUnregisteredInstructorEmailNotEditable();
 
-        testEditCourseAction ( ) ;
+        testEditCourseAction() ;
         testCancelCourseAction();
         testDeleteCourseAction();
 
@@ -797,14 +797,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
     }
 
-    private void testCancelCourseAction ( ) {
-        courseEditPage = getCourseEditPage ( ) ;
+    private void testCancelCourseAction() {
+        courseEditPage = getCourseEditPage();
 
-        ______TS ( "cancel course" ) ;
+        ______TS("cancel course") ;
 
-        assertTrue ( courseEditPage.isCourseEditFormEnabled ( ) ) ;
-        courseEditPage.clickCancelCourseLink ( ) ;
-        assertFalse ( courseEditPage.isCourseEditFormEnabled ( ) ) ;
+        assertTrue(courseEditPage.isCourseEditFormEnabled());
+        courseEditPage.clickCancelCourseLink();
+        assertFalse(courseEditPage.isCourseEditFormEnabled());
     }
 
     private void testDeleteCourseAction() {
