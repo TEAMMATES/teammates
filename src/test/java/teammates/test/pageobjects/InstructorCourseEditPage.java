@@ -50,8 +50,8 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "courseEditLink")
     private WebElement editCourseLink;
 
-    @ FindBy ( id = "courseCancelLink" )
-    private WebElement cancelCourseLink ;
+    @ FindBy (id = "courseCancelLink")
+    private WebElement cancelCourseLink;
 
     @FindBy(id = "courseDeleteLink")
     private WebElement deleteCourseLink;
@@ -447,7 +447,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void clickCancelCourseLink() {
-        click ( getCancelEditCourseLink ( ) ) ;
+        click(getCancelEditCourseLink()) ;
     }
 
     public InstructorCoursesPage clickDeleteCourseLink() {
@@ -503,8 +503,8 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("cancelAddInstructorLink"));
     }
 
-    public WebElement getCancelEditCourseLink ( ) {
-        return browser.driver.findElement ( By.id ( "cancelCourseLink" ) ) ;
+    public WebElement getCancelEditCourseLink() {
+        return browser.driver.findElement(By.id("cancelCourseLink")) ;
     }
 
     private WebElement getInviteInstructorLink(int instrNum) {
