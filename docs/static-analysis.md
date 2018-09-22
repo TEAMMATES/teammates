@@ -26,7 +26,7 @@ Conversely, when updating any tool, try to ensure that the tool version is suppo
 | --- | --- | --- | --- |
 | [CheckStyle](http://checkstyle.sourceforge.net/) | [Checkstyle Plug-in](https://marketplace.eclipse.org/content/checkstyle-plug) | [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) | [`teammates-checkstyle.xml`]((../static-analysis/teammates-checkstyle.xml)) |
 | [PMD](https://pmd.github.io/) | [eclipse-pmd](https://marketplace.eclipse.org/content/eclipse-pmd)<sup>1</sup> | [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
-| [FindBugs](http://findbugs.sourceforge.net) | [FindBugs Eclipse Plugin](https://marketplace.eclipse.org/content/findbugs-eclipse-plugin) | [FindBugs-IDEA](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea) | `build.gradle`<sup>2</sup> |
+| [SpotBugs](https://spotbugs.github.io/) | [SpotBugs Eclipse Plugin](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) | <sup>2</sup> | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
 | [Macker](https://github.com/andrena/macker) | - | - | [`teammates-macker.xml`](../static-analysis/teammates-macker.xml) |
 | [ESLint](http://eslint.org) | - | Built-in<sup>3,4</sup> | [`teammates-eslint.yml`](../static-analysis/teammates-eslint.yml) |
 | [stylelint](http://stylelint.io) | - | Built-in<sup>3,5</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
@@ -34,7 +34,7 @@ Conversely, when updating any tool, try to ensure that the tool version is suppo
 
 <sup>1</sup> Due to the lack of support for PMD 6, use the following rulesets instead: [`teammates-pmd-5.xml`](../static-analysis/teammates-pmd-5.xml) and [`teammates-pmdMain-5.xml`](../static-analysis/teammates-pmdMain-5.xml).
 
-<sup>2</sup> In `build.gradle`, the rules are configured by specifying the classes in the `visitors` variable. However, this configuration is not transferrable to the IDE integrations.
+<sup>2</sup> You may be able to use [FindBugs-IDEA](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea) plugin instead.
 
 <sup>3</sup> Integrations are built-in and can be found under `Languages & Frameworks` under `File → Settings` or `IntelliJ IDEA → Preferences`.
 
@@ -59,7 +59,6 @@ An automated setup for some of the static analysis tools is provided for Intelli
 1. Ensure the following plugins are installed:
    - [`CheckStyle-IDEA`](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea)
    - [`PMDPlugin`](https://plugins.jetbrains.com/plugin/1137-pmdplugin)
-   - [`FindBugs-IDEA`](https://plugins.jetbrains.com/plugin/3847-findbugs-idea)
    - (Optional) [`NodeJS`](https://plugins.jetbrains.com/plugin/6098-nodejs): You can this plugin to manage dependencies.
 
 1. Run the command to setup the settings for the various plugins:
@@ -84,7 +83,7 @@ An automated setup for some of the static analysis tools is provided for Intelli
 | --- | --- |
 | CheckStyle | `./gradlew checkstyleMain`, `./gradlew checkstyleTest` |
 | PMD | `./gradlew pmdMain`, `./gradlew pmdTest` |
-| FindBugs | `./gradlew findbugsMain`, `./gradlew findbugsTest` |
+| SpotBugs | `./gradlew spotbugsMain`, `./gradlew spotbugsTest` |
 | Macker | `./gradlew macker` |
 | ESLint | `npm run lint:js`, `npm run lint:json` |
 | stylelint | `npm run lint:css` |
