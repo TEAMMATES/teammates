@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -483,16 +485,10 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .first().now();
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
+    private Set<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
                 String feedbackQuestionId, String section, String sectionDetail) {
-        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+        Set<FeedbackResponse> feedbackResponses = new HashSet<>();
         if ("BOTH".equals(sectionDetail)) {
-            feedbackResponses.addAll(load()
-                    .filter("feedbackQuestionId =", feedbackQuestionId)
-                    .filter("giverSection =", section)
-                    .filter("receiverSection =", section)
-                    .list());
-
             // show responses in section with giver but without recipient
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
@@ -507,21 +503,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
 
         }
-        if ("GIVER".equals(sectionDetail) || "EITHER".equals(sectionDetail)) {
+        if ("GIVER".equals(sectionDetail) || "EITHER".equals(sectionDetail) || "BOTH".equals(sectionDetail)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
                     .list());
 
         }
-        if ("EITHER".equals(sectionDetail)) {
-            feedbackResponses.removeAll(load()
-                    .filter("feedbackQuestionId =", feedbackQuestionId)
-                    .filter("giverSection =", section)
-                    .filter("receiverSection =", section)
-                    .list());
-        }
-        if ("EVALUEE".equals(sectionDetail) || "EITHER".equals(sectionDetail)) {
+        if ("EVALUEE".equals(sectionDetail) || "EITHER".equals(sectionDetail) || "BOTH".equals(sectionDetail)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("receiverSection =", section)
