@@ -95,7 +95,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertEquals(fs.getFeedbackSessionName(), fsForm.getFsName());
         assertEquals(TimeHelper.formatDateForSessionsForm(fs.getStartTimeLocal()), fsForm.getFsStartDate());
 
-        assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
+        assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
 
         assertFalse(fsForm.isCourseIdEditable());

@@ -364,9 +364,7 @@
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -386,9 +384,7 @@
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -408,9 +404,7 @@
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -430,9 +424,7 @@
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -452,9 +444,7 @@
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -474,9 +464,7 @@
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -496,9 +484,7 @@
       "feedbackSessionName": "Unregistered Student Session",
       "courseId": "FSQTT.idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -518,9 +504,7 @@
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -540,9 +524,7 @@
       "feedbackSessionName": "CONTRIB Session Section Restricted",
       "courseId": "FSQTT.idOfCourseWithSections",
       "creatorEmail": "instructor1@coursewithsections.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -562,9 +544,7 @@
       "feedbackSessionName": "CONTRIB Session 2",
       "courseId": "FSQTT.idOfTypicalCourse2",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -584,9 +564,7 @@
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -608,9 +586,7 @@
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}",
       "questionNumber": 1,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -630,9 +606,7 @@
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}",
       "questionNumber": 2,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -652,9 +626,7 @@
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What can be improved for this class?\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What can be improved for this class?\"}",
       "questionNumber": 3,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -674,9 +646,7 @@
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.25,1.7],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"What do you like best about our product?\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.25,1.7],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"What do you like best about our product?\"}",
       "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -696,9 +666,7 @@
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
-      },
+      "questionMetaData": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 1,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -718,9 +686,7 @@
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
-      },
+      "questionMetaData": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MSQ",
       "giverType": "INSTRUCTORS",
@@ -740,9 +706,7 @@
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0,0.0],\"msqOtherWeight\":3.0}"
-      },
+      "questionMetaData": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0,0.0],\"msqOtherWeight\":3.0}",
       "questionNumber": 3,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -762,9 +726,7 @@
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
-      },
+      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 1,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -784,9 +746,7 @@
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
-      },
+      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 2,
       "questionType": "NUMSCALE",
       "giverType": "INSTRUCTORS",
@@ -806,9 +766,7 @@
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
-      },
+      "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
       "questionNumber": 1,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -828,9 +786,7 @@
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
-      },
+      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 2,
       "questionType": "CONSTSUM",
       "giverType": "INSTRUCTORS",
@@ -850,9 +806,7 @@
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"How much has each student worked?\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
-      },
+      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"How much has each student worked?\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 3,
       "questionType": "CONSTSUM",
       "giverType": "INSTRUCTORS",
@@ -872,9 +826,7 @@
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
-      },
+      "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -894,9 +846,7 @@
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,-1.7],[1.25,-1.7]],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
-      },
+      "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,-1.7],[1.25,-1.7]],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
@@ -916,9 +866,7 @@
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,1],[1.25,1]],\"questionText\":\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
-      },
+      "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,1],[1.25,1]],\"questionText\":\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 2,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
@@ -938,9 +886,7 @@
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
-      },
+      "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -958,9 +904,7 @@
       "feedbackSessionName": "CONTRIB Session 2",
       "courseId": "FSQTT.idOfTypicalCourse2",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
-      },
+      "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -980,9 +924,7 @@
       "feedbackSessionName": "Unregistered Student Session",
       "courseId": "FSQTT.idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": {
-        "value": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
-      },
+      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 1,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -1002,9 +944,7 @@
       "feedbackSessionName": "CONTRIB Session Section Restricted",
       "courseId": "FSQTT.idOfCourseWithSections",
       "creatorEmail": "instructor1@coursewithsections.tmt",
-      "questionMetaData": {
-        "value": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
-      },
+      "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -1024,9 +964,7 @@
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank the other students.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank the other students.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 1,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -1046,9 +984,7 @@
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",\"Friendliness of teammates\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",\"Friendliness of teammates\"]}",
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -1073,9 +1009,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response2ForQ1S1C1": {
       "feedbackSessionName": "MCQ Session",
@@ -1084,9 +1018,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response3ForQ1S1C1": {
       "feedbackSessionName": "MCQ Session",
@@ -1095,9 +1027,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "MCQ Session",
@@ -1106,9 +1036,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response2ForQ2S1C1": {
       "feedbackSessionName": "MCQ Session",
@@ -1117,9 +1045,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "instructor2@course1.tmt",
       "recipient": "instructor2@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response1ForQ3S1C1": {
       "feedbackSessionName": "MCQ Session",
@@ -1128,9 +1054,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}"
     },
     "response1ForQ4S1C1": {
       "feedbackSessionName": "MCQ Session",
@@ -1139,9 +1063,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response1ForQ1S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1150,9 +1072,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response2ForQ1S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1161,9 +1081,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"It's good\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's good\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response3ForQ1S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1172,9 +1090,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response1ForQ2S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1183,9 +1099,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response2ForQ2S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1194,9 +1108,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "instructor2@course1.tmt",
       "recipient": "instructor2@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response3ForQ2S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1205,9 +1117,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "instructor3@course1.tmt",
       "recipient": "instructor3@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response1ForQ3S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1216,9 +1126,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":true,\"answers\":[\"Pizza\",\"Pasta\",\"Chicken rice\",\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":true,\"answers\":[\"Pizza\",\"Pasta\",\"Chicken rice\",\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}"
     },
     "response2ForQ3S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1227,9 +1135,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"Pasta\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":false,\"answers\":[\"Pasta\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
     },
     "response3ForQ3S2C1": {
       "feedbackSessionName": "MSQ Session",
@@ -1238,9 +1144,7 @@
       "feedbackQuestionType": "MSQ",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":true,\"answers\":[\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":true,\"answers\":[\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}"
     },
     "response1ForQ1S3C1": {
       "feedbackSessionName": "NUMSCALE Session",
@@ -1249,9 +1153,7 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}"
-      }
+      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}"
     },
     "response2ForQ1S3C1": {
       "feedbackSessionName": "NUMSCALE Session",
@@ -1260,9 +1162,7 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}"
-      }
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}"
     },
     "response1ForQ2S3C1": {
       "feedbackSessionName": "NUMSCALE Session",
@@ -1271,9 +1171,7 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}"
-      }
+      "responseMetaData": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}"
     },
     "response2ForQ2S3C1": {
       "feedbackSessionName": "NUMSCALE Session",
@@ -1282,9 +1180,7 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "instructor2@course1.tmt",
       "recipient": "instructor2@course1.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"NUMSCALE\"}"
-      }
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"NUMSCALE\"}"
     },
     "response1ForQ1S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1293,9 +1189,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[19,81],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[19,81],\"questionType\":\"CONSTSUM\"}"
     },
     "response2ForQ1S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1304,9 +1198,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[80,20],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[80,20],\"questionType\":\"CONSTSUM\"}"
     },
     "response1ForQ2S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1315,9 +1207,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": {
-        "value": "{\"answers\":[80],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[80],\"questionType\":\"CONSTSUM\"}"
     },
     "response2ForQ2S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1326,9 +1216,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": {
-        "value": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}"
     },
     "response1ForQ3S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1337,9 +1225,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[30],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[30],\"questionType\":\"CONSTSUM\"}"
     },
     "response2ForQ3S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1348,9 +1234,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}"
     },
     "response3ForQ3S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1359,9 +1243,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[30],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[30],\"questionType\":\"CONSTSUM\"}"
     },
     "response4ForQ3S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1370,9 +1252,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}"
     },
     "response5ForQ3S4C1": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -1381,9 +1261,7 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "instructor1@course1.tmt",
       "recipient": "student5InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}"
-      }
+      "responseMetaData": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}"
     },
     "response1ForQ1S5C1": {
       "feedbackSessionName": "CONTRIB Session",
@@ -1392,9 +1270,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
-      }
+      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
     },
     "response2ForQ1S5C1": {
       "feedbackSessionName": "CONTRIB Session",
@@ -1403,9 +1279,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":80,\"questionType\":\"CONTRIB\"}"
-      }
+      "responseMetaData": "{\"answer\":80,\"questionType\":\"CONTRIB\"}"
     },
     "response3ForQ1S5C1": {
       "feedbackSessionName": "CONTRIB Session",
@@ -1414,9 +1288,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":110,\"questionType\":\"CONTRIB\"}"
-      }
+      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}"
     },
     "response4ForQ1S5C1": {
       "feedbackSessionName": "CONTRIB Session",
@@ -1425,9 +1297,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":130,\"questionType\":\"CONTRIB\"}"
-      }
+      "responseMetaData": "{\"answer\":130,\"questionType\":\"CONTRIB\"}"
     },
     "response1ForQ1S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1436,9 +1306,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[0,1],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[0,1],\"questionType\":\"RUBRIC\"}"
     },
     "response2ForQ1S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1447,9 +1315,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[1,0],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[1,0],\"questionType\":\"RUBRIC\"}"
     },
     "response3ForQ1S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1458,9 +1324,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[0,0],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[0,0],\"questionType\":\"RUBRIC\"}"
     },
     "response4ForQ1S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1469,9 +1333,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[-1,0],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[-1,0],\"questionType\":\"RUBRIC\"}"
     },
     "response1ForQ2S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1480,9 +1342,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}"
     },
     "response2ForQ2S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1491,9 +1351,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[1,-1],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[1,-1],\"questionType\":\"RUBRIC\"}"
     },
     "response3ForQ2S6C1": {
       "feedbackSessionName": "RUBRIC Session",
@@ -1502,9 +1360,7 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}"
-      }
+      "responseMetaData": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}"
     },
     "response1ForQ1S7C1": {
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
@@ -1513,9 +1369,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
-      }
+      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
     },
     "response1ForQ1S1C2": {
       "feedbackSessionName": "Unregistered Student Session",
@@ -1524,9 +1378,7 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "unregisteredStudentInCourse2@gmail.tmt",
       "recipient": "unregisteredStudentInCourse2@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}"
-      }
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}"
     },
     "response1ForQ1S1CWS": {
       "feedbackSessionName": "CONTRIB Session Section Restricted",
@@ -1535,9 +1387,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student1InCourseWithSections@gmail.tmt",
       "recipient": "student2InCourseWithSections@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
-      },
+      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1548,9 +1398,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student2InCourseWithSections@gmail.tmt",
       "recipient": "student1InCourseWithSections@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
-      },
+      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1561,9 +1409,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student3InCourseWithSections@gmail.tmt",
       "recipient": "student3InCourseWithSections@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
-      },
+      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 2"
     },
@@ -1574,9 +1420,7 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
-      }
+      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}"
     },
     "response1ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1585,9 +1429,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response2ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1596,9 +1438,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response3ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1607,9 +1447,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response4ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1618,9 +1456,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response5ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1629,9 +1465,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response6ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1640,9 +1474,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response7ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1651,9 +1483,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response8ForQ1RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1662,9 +1492,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
-      }
+      "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
     },
     "response1ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1673,9 +1501,7 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": {
-        "value": "{\"answers\":[1,2,3,4,-999],\"questionType\":\"RANK_OPTIONS\"}"
-      }
+      "responseMetaData": "{\"answers\":[1,2,3,4,-999],\"questionType\":\"RANK_OPTIONS\"}"
     },
     "response2ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1684,9 +1510,7 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": {
-        "value": "{\"answers\":[4,3,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
-      }
+      "responseMetaData": "{\"answers\":[4,3,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
     },
     "response3ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1695,9 +1519,7 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": {
-        "value": "{\"answers\":[2,-999,1,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
-      }
+      "responseMetaData": "{\"answers\":[2,-999,1,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
     },
     "response4ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1706,9 +1528,7 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": {
-        "value": "{\"answers\":[3,-999,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
-      }
+      "responseMetaData": "{\"answers\":[3,-999,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
     },
     "response5ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
@@ -1717,9 +1537,7 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": {
-        "value": "{\"answers\":[1,-999,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}"
-      }
+      "responseMetaData": "{\"answers\":[1,-999,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}"
     }
   },
   "feedbackResponseComments": {
@@ -1737,9 +1555,7 @@
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2016-01-01T23:59:00Z",
-      "commentText": {
-        "value": "Student 3 comment"
-      }
+      "commentText": "Student 3 comment"
     },
     "comment1OnR2Q1S1C2": {
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1755,9 +1571,7 @@
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2016-01-01T23:59:00Z",
-      "commentText": {
-        "value": "Student 2 comment"
-      }
+      "commentText": "Student 2 comment"
     },
     "comment2OnR2Q1S1C2": {
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1781,9 +1595,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-01-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 1 comment to student 2"
-      }
+      "commentText": "Instructor 1 comment to student 2"
     }
   },
   "profiles": {}

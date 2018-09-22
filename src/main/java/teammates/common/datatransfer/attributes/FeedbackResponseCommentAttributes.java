@@ -10,8 +10,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -32,7 +30,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * and name of team if comment giver is a team.
      */
     public String commentGiver;
-    public Text commentText;
+    public String commentText;
 
     // Optional fields
     public String feedbackResponseId;
@@ -93,7 +91,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * <li>{@code isVisibilityFollowingFeedbackQuestion = true}</li>
      * </ul>
      */
-    public static Builder builder(String courseId, String feedbackSessionName, String commentGiver, Text commentText) {
+    public static Builder builder(String courseId, String feedbackSessionName, String commentGiver, String commentText) {
         return new Builder(courseId, feedbackSessionName, commentGiver, commentText);
     }
 
@@ -111,7 +109,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * @return Comment in form of string
      */
     public String getCommentAsCsvString() {
-        String htmlText = commentText.getValue();
+        String htmlText = commentText;
         StringBuilder comment = new StringBuilder(200);
         comment.append(Jsoup.parse(htmlText).text());
         convertImageToLinkInComment(comment, htmlText);
@@ -124,7 +122,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * @return Comment in form of string
      */
     public String getCommentAsHtmlString() {
-        String htmlText = commentText.getValue();
+        String htmlText = commentText;
         StringBuilder comment = new StringBuilder(200);
         comment.append(Jsoup.parse(htmlText).text());
         convertImageToLinkInComment(comment, htmlText);
@@ -210,7 +208,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + ", feedbackQuestionId = " + feedbackQuestionId
                 + ", commentGiver = " + commentGiver
                 + ", feedbackResponseId = " + feedbackResponseId
-                + ", commentText = " + commentText.getValue()
+                + ", commentText = " + commentText
                 + ", createdAt = " + createdAt
                 + ", lastEditorEmail = " + lastEditorEmail
                 + ", lastEditedAt = " + lastEditedAt
@@ -236,7 +234,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         private final FeedbackResponseCommentAttributes frca;
 
-        public Builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
+        public Builder(String courseId, String feedbackSessionName, String giverEmail, String commentText) {
             frca = new FeedbackResponseCommentAttributes();
 
             validateRequiredFields(courseId, feedbackSessionName, giverEmail, commentText);

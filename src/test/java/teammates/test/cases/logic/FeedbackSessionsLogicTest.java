@@ -12,8 +12,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
@@ -406,7 +404,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)
-                .withQuestionMetaData(new Text("question to be deleted through cascade"))
+                .withQuestionMetaData("question to be deleted through cascade")
                 .withQuestionType(FeedbackQuestionType.TEXT)
                 .withShowResponseTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
@@ -2060,7 +2058,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
-                .withInstructions(new Text("Give feedback."))
+                .withInstructions("Give feedback.")
                 .build();
     }
 

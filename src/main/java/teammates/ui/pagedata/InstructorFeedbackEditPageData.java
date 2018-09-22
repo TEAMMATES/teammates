@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -149,8 +147,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
         qnForm.setQuestionText(questionDetails.getQuestionText());
-        Text questionDescription = question.getQuestionDescription();
-        qnForm.setQuestionDescription(questionDescription == null ? null : questionDescription.getValue());
+        qnForm.setQuestionDescription(question.getQuestionDescription());
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
         qnForm.setQuestionTypeDisplayName(questionDetails.getQuestionTypeDisplayName());

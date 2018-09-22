@@ -81,7 +81,7 @@ public class FeedbackSessionsForm {
 
         fsForm.fsTimeZone = existingFs.getTimeZone().getId();
 
-        fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
+        fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions());
 
         fsForm.fsStartDate = TimeHelper.adjustAndFormatDateForSessionsFormInputs(existingFs.getStartTimeLocal());
         fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(
@@ -134,7 +134,7 @@ public class FeedbackSessionsForm {
 
         newFsForm.instructions = feedbackSession == null
                                ? "Please answer all the given questions."
-                               : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions().getValue());
+                               : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions());
 
         newFsForm.fsStartDate = feedbackSession == null
                               ? ""

@@ -86,7 +86,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
-            Text instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
+            String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
@@ -98,7 +98,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
-            Text instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
+            String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
@@ -107,7 +107,7 @@ public class FeedbackSession extends BaseEntity {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
-        this.instructions = instructions;
+        setInstructions(instructions);
         this.createdTime = createdTime;
         this.deletedTime = deletedTime;
         this.startTime = startTime;
@@ -152,12 +152,12 @@ public class FeedbackSession extends BaseEntity {
         this.creatorEmail = creatorId;
     }
 
-    public Text getInstructions() {
-        return instructions;
+    public String getInstructions() {
+        return instructions == null ? null : instructions.getValue();
     }
 
-    public void setInstructions(Text instructions) {
-        this.instructions = instructions;
+    public void setInstructions(String instructions) {
+        this.instructions = instructions == null ? null : new Text(instructions);
     }
 
     public Instant getCreatedTime() {

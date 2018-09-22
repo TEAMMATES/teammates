@@ -12,6 +12,7 @@ import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
+import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -44,9 +45,15 @@ public class FeedbackQuestion extends BaseEntity {
     // TODO: Do we need this field since creator of FS = creator of qn? (can be removed -damith)
     private String creatorEmail;
 
-    // TODO: rename to questionMetaData, will require database conversion
+    /**
+     * Serialized {@link teammates.common.datatransfer.questions.FeedbackQuestionDetails} stored as a string.
+     *
+     * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetails()
+     */
+    @Unindex
     private Text questionText;
 
+    @Unindex
     private Text questionDescription;
 
     private int questionNumber;
@@ -80,7 +87,7 @@ public class FeedbackQuestion extends BaseEntity {
 
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
-            Text questionText, Text questionDescription, int questionNumber, FeedbackQuestionType questionType,
+            String questionText, String questionDescription, int questionNumber, FeedbackQuestionType questionType,
             FeedbackParticipantType giverType,
             FeedbackParticipantType recipientType,
             int numberOfEntitiesToGiveFeedbackTo,
@@ -92,8 +99,8 @@ public class FeedbackQuestion extends BaseEntity {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
-        this.questionText = questionText;
-        this.questionDescription = questionDescription;
+        setQuestionText(questionText);
+        setQuestionDescription(questionDescription);
         this.questionNumber = questionNumber;
         this.questionType = questionType;
         this.giverType = giverType;
@@ -153,20 +160,20 @@ public class FeedbackQuestion extends BaseEntity {
         this.creatorEmail = creatorEmail;
     }
 
-    public Text getQuestionMetaData() {
-        return questionText;
+    public String getQuestionMetaData() {
+        return questionText == null ? null : questionText.getValue();
     }
 
-    public void setQuestionText(Text questionText) {
-        this.questionText = questionText;
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText == null ? null : new Text(questionText);
     }
 
-    public Text getQuestionDescription() {
-        return questionDescription;
+    public String getQuestionDescription() {
+        return questionDescription == null ? null : questionDescription.getValue();
     }
 
-    public void setQuestionDescription(Text questionDescription) {
-        this.questionDescription = questionDescription;
+    public void setQuestionDescription(String questionDescription) {
+        this.questionDescription = questionDescription == null ? null : new Text(questionDescription);
     }
 
     public FeedbackQuestionType getQuestionType() {
