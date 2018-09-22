@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -45,18 +46,12 @@ public class FeedbackSubmitPage extends AppPage {
         String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                 + "-" + qnNumber + "-" + responseNumber;
         fillRichTextEditor(id, text);
-        executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').fire('change');"
-                      + "}");
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         fillTextBox(element, text);
-        // Fire the change event using javascript since firefox with selenium
-        // might be buggy and fail to trigger.
-        executeScript("$(arguments[0]).change();", element);
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
@@ -64,7 +59,6 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         fillTextBox(element, text);
-        executeScript("$(arguments[0]).change();", element);
     }
 
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
@@ -109,6 +103,12 @@ public class FeedbackSubmitPage extends AppPage {
         dropdown.selectByVisibleText(text);
     }
 
+    public String getConstSumInstruction(int qnNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("constSumInstruction-" + qnNumber));
+        return element.getText();
+    }
+
     public String getConstSumMessage(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("constSumMessage-" + qnNumber + "-" + responseNumber));
@@ -122,6 +122,19 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
+    }
+
+    public boolean checkIfMcqOrMsqChoiceExists(int qnNumber, int responseNumber, String choiceName) {
+        String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
+        name = SanitizationHelper.sanitizeStringForXPath(name);
+        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
+        try {
+            browser.driver.findElement(
+                    By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
     }
 
     public void fillMcqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
@@ -148,7 +161,8 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = SanitizationHelper.sanitizeStringForXPath(name);
-        selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
+        final WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
+        selectDropdownByVisibleValue(selectElement, choiceName);
     }
 
     public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {
@@ -188,11 +202,16 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void submitWithoutConfirmationEmail() {
-        WebElement sendEmailChecbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
-        if (sendEmailChecbox.isSelected()) {
-            click(sendEmailChecbox);
+        WebElement sendEmailCheckbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        if (sendEmailCheckbox.isSelected()) {
+            click(sendEmailCheckbox);
         }
         clickSubmitButton();
+    }
+
+    public boolean isConfirmationEmailBoxTicked() {
+        WebElement sendEmailCheckbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        return sendEmailCheckbox.isSelected();
     }
 
     public void clickSubmitButton() {
@@ -225,7 +244,7 @@ public class FeedbackSubmitPage extends AppPage {
         closeMoreInfoAboutEqualShareModal();
     }
 
-    public void verifyAndCloseSuccessfulSubmissionModal() {
+    public void verifyAndCloseSuccessfulSubmissionModal(String unansweredQuestionsMessage) {
         // Waiting for modal visibility
         WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
         waitForElementToBeClickable(closeButton);
@@ -238,15 +257,58 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement modalTitle = browser.driver.findElement(By.xpath("//h4[@class='modal-title icon-success']"));
         assertEquals(modalTitle.getText(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        // Verify message content
-        final String expectedModalMessage = "All your responses have been successfully recorded! "
+        // Verify modal message content
+        StringBuilder expectedModalMessage = new StringBuilder("All your responses have been successfully recorded! "
                 + "You may now leave this page.\n"
-                + "Note that you can change your responses and submit them again any time before the session closes.";
+                + "Note that you can change your responses and submit them again any time before the session closes.");
+        if (!unansweredQuestionsMessage.isEmpty()) {
+            expectedModalMessage.insert(0, "❗ Note that some questions are yet to be answered. They are: "
+                    + unansweredQuestionsMessage + "\n");
+        }
         WebElement modalMessage = browser.driver.findElement(By.xpath("//div[@class='bootbox-body']"));
-        assertEquals(modalMessage.getText(), expectedModalMessage);
+        assertEquals(modalMessage.getText(), expectedModalMessage.toString());
 
-        click(closeButton);
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(closeButton);
+    }
+
+    /**
+     * Adds feedback participant comment.
+     *
+     * @param addResponseCommentId suffix id of comment add form
+     * @param commentText comment text
+     */
+    public void addFeedbackParticipantComment(String addResponseCommentId, String commentText) {
+        WebElement showResponseCommentAddFormButton =
+                browser.driver.findElement(By.id("button_add_comment" + addResponseCommentId));
+        click(showResponseCommentAddFormButton);
+        WebElement editorElement =
+                waitForElementPresence(By.cssSelector("#" + "showResponseCommentAddForm"
+                        + addResponseCommentId + " .mce-content-body"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), commentText);
+    }
+
+    /**
+     * Edits feedback participant comment.
+     *
+     * @param commentIdSuffix suffix id of comment edit form
+     * @param newCommentText new comment text
+     */
+    public void editFeedbackParticipantComment(String commentIdSuffix, String newCommentText) {
+        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        click(commentRow.findElements(By.tagName("a")).get(1));
+        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
+    }
+
+    /**
+     * Deletes feedback participant comment.
+     *
+     * @param commentIdSuffix suffix id of comment delete button
+     */
+    public void deleteFeedbackResponseComment(String commentIdSuffix) {
+        WebElement deleteCommentButton = browser.driver.findElement(By.id("commentdelete" + commentIdSuffix));
+        click(deleteCommentButton);
+        waitForConfirmationModalAndClickOk();
     }
 
     private void closeMoreInfoAboutEqualShareModal() {

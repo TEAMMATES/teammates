@@ -15,13 +15,14 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTable;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTableRow;
 
 /**
  * SUT: {@link InstructorFeedbackSessionsPageData}.
@@ -51,8 +52,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> softDeletedFsList =
+                getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
-        data.initWithoutDefaultFormValues(courses, null, fsList, courseInstructorMap, null);
+        data.initWithoutDefaultFormValues(courses, null, fsList, softDeletedFsList, courseInstructorMap, null);
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         ______TS("typical success case: test new fs form");
         // Test new fs form model
@@ -60,18 +65,17 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
-        assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
+        assertEquals(2, formModel.getSessionTemplateTypeOptions().size());
+        assertEquals("session using template: team peer evaluation",
+                formModel.getSessionTemplateTypeOptions().get(1).getContent());
+        assertNull(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().get("selected"));
+        assertTrue(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().containsKey("selected"));
         assertEquals("", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
-
-        String dateAsString = TimeHelper.formatDate(TimeHelper.getNextHour());
-
-        assertEquals(dateAsString, formModel.getFsStartDate());
+        assertEquals("", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
+        assertEquals("", formModel.getFsTimeZone());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
 
@@ -88,24 +92,24 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
-        assertEquals(40, formModel.getTimezoneSelectField().size());
 
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
 
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
+        SoftDeletedFeedbackSessionsTable softDeletedFsTableModel = data.getSoftDeletedFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+        List<SoftDeletedFeedbackSessionsTableRow> softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(0, softDeletedFsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
@@ -134,8 +138,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<InstructorAttributes> instructorsForArchivedCourse = new ArrayList<>(archivedCourseInstructorMap.values());
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
         instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
-                                                                  archivedCourseInstructorMap, null);
+                                                                  softDeletedFsList, archivedCourseInstructorMap, null);
+
+        assertTrue(instructorArchivedCourseData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with only archived course: test new fs form");
         // Test new fs form model
@@ -147,6 +154,41 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
                      formModel.getCoursesSelectField().get(0).getContent());
 
         assertTrue(formModel.isSubmitButtonDisabled());
+
+        ______TS("case with instructor with deleted session in course");
+        AccountAttributes instructorWithDeletedSessionAccount = dataBundle.accounts.get("instructor1OfCourse3");
+        InstructorFeedbackSessionsPageData instructorDeletedSessionData =
+                new InstructorFeedbackSessionsPageData(instructorWithDeletedSessionAccount, dummySessionToken);
+        Map<String, InstructorAttributes> deletedSessionInstructorMap = new HashMap<>();
+
+        instructors = getInstructorsForGoogleId(instructorWithDeletedSessionAccount.googleId, true);
+
+        for (InstructorAttributes instructor : instructors) {
+            deletedSessionInstructorMap.put(instructor.courseId, instructor);
+        }
+
+        List<InstructorAttributes> instructorsForDeletedSession = new ArrayList<>(deletedSessionInstructorMap.values());
+        List<CourseAttributes> coursesWithDeletedSession = getCoursesForInstructor(instructorsForDeletedSession);
+        fsList = getFeedbackSessionsListForInstructor(instructorsForDeletedSession);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForDeletedSession);
+        instructorDeletedSessionData.initWithoutDefaultFormValues(coursesWithDeletedSession, null, fsList,
+                softDeletedFsList, deletedSessionInstructorMap, null);
+
+        assertFalse(instructorDeletedSessionData.isInstructorAllowedToModify());
+
+        ______TS("case with instructor with deleted session in course: session rows");
+        fsTableModel = instructorDeletedSessionData.getFsList();
+        softDeletedFsTableModel = instructorDeletedSessionData.getSoftDeletedFsList();
+
+        fsRows = fsTableModel.getExistingFeedbackSessions();
+        assertEquals(1, fsRows.size());
+        softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(2, softDeletedFsRows.size());
+
+        firstFsName = "First feedback session";
+        assertEquals(firstFsName, fsRows.get(0).getName());
+        String secondFsName = "Second feedback session";
+        assertEquals(secondFsName, softDeletedFsRows.get(0).getSessionName());
 
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
@@ -164,8 +206,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
 
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForHelper);
 
-        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, helperCourseInstructorMap, null);
+        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, softDeletedFsList,
+                                                helperCourseInstructorMap, null);
+
+        assertTrue(helperData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with restricted permissions: test new fs form");
         // Test new fs form model
@@ -183,6 +229,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+
+        softDeletedFsTableModel = helperData.getSoftDeletedFsList();
+
+        softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(0, softDeletedFsRows.size());
 
         ______TS("case with instructor with restricted permissions: copy modal");
         copyModalModel = helperData.getCopyFromModal();
@@ -207,9 +258,10 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         courses = getCoursesForInstructor(instructorsForUser);
 
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        softDeletedFsList = getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
-        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap,
-                                          "First feedback session");
+        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, softDeletedFsList,
+                                          courseInstructorMap, "First feedback session");
 
         List<FeedbackSessionsTableRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
         boolean isFirstFeedbackSessionHighlighted = false;
@@ -249,10 +301,14 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> softDeletedFsList =
+                getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        data.init(courses, null, fsList, courseInstructorMap, fsa, null, null);
+        data.init(courses, null, fsList, softDeletedFsList, courseInstructorMap, fsa, null, null);
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         ______TS("typical success case with existing fs passed in: test new fs form");
         // Test new fs form model
@@ -260,16 +316,17 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
-        assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
+        assertEquals(2, formModel.getSessionTemplateTypeOptions().size());
+        assertEquals("session using template: team peer evaluation",
+                formModel.getSessionTemplateTypeOptions().get(1).getContent());
+        assertNull(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().get("selected"));
+        assertTrue(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().containsKey("selected"));
 
-        assertEquals("30/04/2027", formModel.getFsEndDate());
+        assertEquals("Fri, 30 Apr, 2027", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("First feedback session", formModel.getFsName());
 
-        assertEquals("01/04/2012", formModel.getFsStartDate());
+        assertEquals("Sun, 01 Apr, 2012", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
@@ -283,27 +340,28 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
                             .getAttributes().containsKey("selected"));
 
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
-        assertEquals("01/05/2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
+        assertEquals("Sat, 01 May, 2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
-        assertEquals("28/03/2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
+        assertEquals("Wed, 28 Mar, 2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
 
         assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
 
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
+        SoftDeletedFeedbackSessionsTable softDeletedFsTableModel = data.getSoftDeletedFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
+        List<SoftDeletedFeedbackSessionsTableRow> softDeletedFsRows = softDeletedFsTableModel.getRows();
+        assertEquals(0, softDeletedFsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
@@ -338,19 +396,24 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> softDeletedFsList =
+                getSoftDeletedFeedbackSessionsListForInstructor(instructorsForUser);
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD");
+        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, softDeletedFsList, courseInstructorMap,
+                                       fsa, "STANDARD");
+
+        assertTrue(data.isInstructorAllowedToModify());
 
         FeedbackSessionsForm formModel = data.getNewFsForm();
 
         assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
-        assertNull(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
-        assertTrue(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().containsKey("selected"));
+        assertEquals(2, formModel.getSessionTemplateTypeOptions().size());
+        assertEquals("session with my own questions", formModel.getSessionTemplateTypeOptions().get(0).getContent());
+        assertNull(formModel.getSessionTemplateTypeOptions().get(0).getAttributes().get("selected"));
+        assertTrue(formModel.getSessionTemplateTypeOptions().get(0).getAttributes().containsKey("selected"));
 
         FeedbackSessionsCopyFromModal modal = data.getCopyFromModal();
         assertEquals("First feedback session", modal.getFsName());
@@ -389,6 +452,19 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
 
         feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
+        feedbackSessions.removeIf(fs -> courseIdsOfUser.contains(fs.getCourseId()) && fs.isSessionDeleted());
+
+        return feedbackSessions;
+    }
+
+    private List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructor(
+            List<InstructorAttributes> instructorsForUser) {
+        Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
+
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
+
+        feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
+        feedbackSessions.removeIf(fs -> courseIdsOfUser.contains(fs.getCourseId()) && !fs.isSessionDeleted());
 
         return feedbackSessions;
     }

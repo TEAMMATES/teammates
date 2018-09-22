@@ -2,14 +2,14 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPage extends AppPage {
 
@@ -116,16 +116,15 @@ public class AdminActivityLogPage extends AppPage {
 
     public boolean isUserTimezoneAtFirstRowClicked() {
         List<WebElement> elements = browser.driver
-                .findElements(By.cssSelector("#activity-logs-table td > mark"));
+                .findElements(By.cssSelector("#activity-logs-table td > .localTime > mark"));
         return !elements.isEmpty();
     }
 
-    public Date getDateOfEarliestLog() throws ParseException {
-        String dateFormat = "MM/dd/yyyy HH:mm:ss SSS";
-        DateFormat sdf = new SimpleDateFormat(dateFormat);
+    public Instant getDateOfEarliestLog() {
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
 
-        return sdf.parse(dateTimeString);
+        return TimeHelper.parseLocalDateTime(dateTimeString, "dd/MM/yyyy HH:mm:ss.SSS")
+                .atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
 
     }
 }

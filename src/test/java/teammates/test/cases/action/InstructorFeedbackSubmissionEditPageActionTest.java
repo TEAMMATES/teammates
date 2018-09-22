@@ -132,7 +132,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, r.getStatusMessage());
 
         ______TS("masquerade mode");
 
@@ -146,7 +146,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, r.getStatusMessage());
 
         ______TS("closed session case");
 
@@ -170,27 +170,6 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
 
-        ______TS("private session case");
-
-        instructor = typicalBundle.instructors.get("instructor1OfCourse2");
-        session = typicalBundle.feedbackSessions.get("session1InCourse2");
-        gaeSimulation.loginAsInstructor(instructor.googleId);
-
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.USER_ID, instructor.googleId
-        };
-
-        a = getAction(params);
-        r = getShowPageResult(a);
-
-        assertEquals(
-                getPageResultDestination(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
-                r.getDestinationWithParams());
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
     }
 
     @Override

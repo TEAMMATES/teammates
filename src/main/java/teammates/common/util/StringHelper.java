@@ -185,6 +185,7 @@ public final class StringHelper {
         return df.format(doubleVal);
     }
 
+    @Deprecated
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
         if (hourOffsetTimeZone == 0) {
@@ -501,6 +502,15 @@ public final class StringHelper {
     public static String[] trim(String[] stringsToTrim) {
         return Arrays.stream(stringsToTrim)
                 .map(s -> s.trim())
+                .toArray(size -> new String[size]);
+    }
+
+    /**
+     * Returns a String array after converting them to lower case.
+     */
+    public static String[] toLowerCase(String[] stringsToConvertToLowerCase) {
+        return Arrays.stream(stringsToConvertToLowerCase)
+                .map(s -> s.toLowerCase())
                 .toArray(size -> new String[size]);
     }
 

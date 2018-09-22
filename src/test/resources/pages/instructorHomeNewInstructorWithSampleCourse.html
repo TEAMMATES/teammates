@@ -18,7 +18,7 @@
             </span>
           </div>
           <input name="searchstudents" type="hidden" value="true">
-          <input name="searchcommentforresponses" type="hidden" value="false">
+          <input name="searchfeedbacksessiondata" type="hidden" value="false">
           <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
         </form>
       </div>
@@ -28,7 +28,7 @@
   <div id="statusMessagesToUser">
     <div class="overflow-auto alert alert-info icon-info statusMessage">
       New to TEAMMATES? You may wish to have a look at our
-      <a href="/instructorHelp.jsp#gs" target="_blank">
+      <a href="/gettingStarted.jsp" target="_blank">
         Getting Started Guide
       </a>
       .
@@ -56,6 +56,16 @@
                 (Select the student(s) you want to remind)
               </small>
             </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group" id="studentList">
@@ -66,6 +76,36 @@
               Cancel
             </button>
             <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
             <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
           </div>
         </form>
@@ -116,7 +156,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Students
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -135,7 +175,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Instructors
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -149,7 +189,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Sessions
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -163,7 +203,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Course
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -173,7 +213,12 @@
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="newIns.wit-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.new&token=${sessionToken}" title="">
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms.new" title="">
+                    View / Edit
+                  </a>
+                </li>
+                <li>
+                  <a class="btn-tm-actions course-delete-for-test course-move-to-recycle-bin-link" data-course-id="newIns.wit-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.new&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
@@ -200,12 +245,12 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 Start Date
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 End Date
                 <span class="icon-sort unsorted">
                 </span>

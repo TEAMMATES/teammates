@@ -1,11 +1,11 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
@@ -43,6 +43,12 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
+    @Override
+    public void prepareTestData() {
+        dataBundle = loadDataBundle("/EmailGeneratorTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+    }
+
     /**
      * Reminder to disable GodMode and re-run the test.
      */
@@ -61,18 +67,22 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
 
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
-
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
+        StudentAttributes unregisteredStudent = studentsLogic.getStudentForEmail("idOfTypicalCourse1",
+                "student1UnregisteredInCourse1@gmail.tmt");
 
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
+        InstructorAttributes instructorToNotify = instructorsLogic.getInstructorForGoogleId(session.getCourseId(),
+                instructor1.getGoogleId());
+
         ______TS("feedback session opening emails");
 
         List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
                                        course.getName(), session.getFeedbackSessionName());
@@ -82,21 +92,30 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session reminders");
 
-        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructors);
-        assertEquals(15, emails.size());
+        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors,
+                instructorToNotify);
+        // (5 instructors, 6 students reminded) and (1 instructor to be notified)
+        assertEquals(12, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
         String lineInEmailCopyToInstructor = "The email below has been sent to students of course:";
+        // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionReminderEmailForStudent.html");
+        // Verify the Student email copy send to the instructor
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
-                "/sessionReminderEmailForInstructor.html", lineInEmailCopyToInstructor);
+                "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
+        // Verify the instructor reminder email
+        String lineInEmailToInstructor =
+                "/page/instructorFeedbackSubmissionEditPage?courseid=idOfTypicalCourse1&fsname=First+feedback+session";
+        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+                "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
         ______TS("feedback session closing alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -116,7 +135,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closed alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -127,7 +146,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session published alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -138,7 +157,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session unpublished alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -146,29 +165,40 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionUnpublishedEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
 
-        ______TS("send summary of all feedback sessions of course email");
+        ______TS("send summary of all feedback sessions of course email to new student. "
+                + "Edited student has joined the course");
 
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
+        EmailWrapper email =
+                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
 
+        ______TS("send summary of all feedback sessions of course email to new student. "
+                + "Edited student has not joined the course");
+
+        email = new EmailGenerator()
+                .generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email);
+        subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, unregisteredStudent.email, subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
+
         ______TS("feedback session submission email");
 
-        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        time.set(2016, Calendar.SEPTEMBER, 4, 5, 30);
+        Instant time = TimeHelper.parseInstant("2016-09-04 05:30 AM +0000");
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
 
-        setTimeZoneButMaintainLocalDate(session, -9.5);
+        setTimeZoneButMaintainLocalDate(session, ZoneId.of("Pacific/Marquesas"));
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailNegativeTimeZone.html");
 
-        setTimeZoneButMaintainLocalDate(session, -0.0);
+        setTimeZoneButMaintainLocalDate(session, ZoneId.of("UTC"));
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
@@ -176,22 +206,22 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
 
-        FeedbackSessionAttributes privateSession =
-                fsLogic.getFeedbackSession("Private feedback session", "idOfTypicalCourse2");
+        FeedbackSessionAttributes notAnswerableSession =
+                fsLogic.getFeedbackSession("Not answerable feedback session", "idOfTypicalCourse2");
 
-        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
     }
@@ -235,15 +265,15 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback sessions summary of course email: sanitization required");
 
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
+        EmailWrapper email =
+                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
         verifyEmail(email, student1.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");
 
         ______TS("feedback session submission email: sanitization required");
 
-        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        time.set(2016, Calendar.SEPTEMBER, 4, 5, 30);
+        Instant time = TimeHelper.parseInstant("2016-09-04 05:30 AM +0000");
 
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
@@ -286,7 +316,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("course-id", "Course Name", "UTC")
+                .builder("course-id", "Course Name", ZoneId.of("UTC"))
                 .build();
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -334,7 +364,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
                 .build();
 
         StudentAttributes student = StudentAttributes
@@ -357,7 +387,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = CourseAttributes.builder("course-id", "Course Name", "UTC").build();
+        course = CourseAttributes.builder("course-id", "Course Name", ZoneId.of("UTC")).build();
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -401,7 +431,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course register email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
                 .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";
@@ -459,17 +489,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(content, email.getContent());
     }
 
-    private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, double newTimeZone) {
-        double oldTimeZone = session.getTimeZone();
-        Date localStart = TimeHelper.convertUtcToLocalDate(session.getStartTime(), oldTimeZone);
-        Date localEnd = TimeHelper.convertUtcToLocalDate(session.getEndTime(), oldTimeZone);
-        Date localSessionVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getSessionVisibleFromTime(), oldTimeZone);
-        Date localResultsVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getResultsVisibleFromTime(), oldTimeZone);
+    private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
+        LocalDateTime localStart = session.getStartTimeLocal();
+        LocalDateTime localEnd = session.getEndTimeLocal();
+        LocalDateTime localSessionVisibleFrom = session.getSessionVisibleFromTimeLocal();
+        LocalDateTime localResultsVisibleFrom = session.getResultsVisibleFromTimeLocal();
         session.setTimeZone(newTimeZone);
-        session.setStartTime(TimeHelper.convertLocalDateToUtc(localStart, newTimeZone));
-        session.setEndTime(TimeHelper.convertLocalDateToUtc(localEnd, newTimeZone));
-        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateToUtc(localSessionVisibleFrom, newTimeZone));
-        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateToUtc(localResultsVisibleFrom, newTimeZone));
+        session.setStartTime(TimeHelper.convertLocalDateTimeToInstant(localStart, newTimeZone));
+        session.setEndTime(TimeHelper.convertLocalDateTimeToInstant(localEnd, newTimeZone));
+        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZone));
+        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZone));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

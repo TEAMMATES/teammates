@@ -1,7 +1,7 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
@@ -9,6 +9,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
 /**
@@ -30,9 +31,11 @@ public class AdminEmail extends BaseEntity {
     private String subject;
 
     //For draft emails,this is null. For sent emails, this is not null;
-    private Date sendDate;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant sendDate;
 
-    private Date createDate;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createDate;
 
     @Unindex
     private Text content;
@@ -52,14 +55,14 @@ public class AdminEmail extends BaseEntity {
      *          html email content
      */
     public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
-                      Text content, Date sendDate) {
+                      String content, Instant sendDate) {
         this.emailId = null;
         this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
         this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;
-        this.content = content;
+        setContent(content);
         this.sendDate = sendDate;
-        this.createDate = new Date();
+        this.createDate = Instant.now();
         this.isInTrashBin = false;
     }
 
@@ -75,15 +78,15 @@ public class AdminEmail extends BaseEntity {
         this.subject = subject;
     }
 
-    public void setContent(Text content) {
-        this.content = content;
+    public void setContent(String content) {
+        this.content = content == null ? null : new Text(content);
     }
 
     public void setIsInTrashBin(boolean isInTrashBin) {
         this.isInTrashBin = isInTrashBin;
     }
 
-    public void setSendDate(Date sendDate) {
+    public void setSendDate(Instant sendDate) {
         this.sendDate = sendDate;
     }
 
@@ -103,19 +106,19 @@ public class AdminEmail extends BaseEntity {
         return this.subject;
     }
 
-    public Date getSendDate() {
+    public Instant getSendDate() {
         return this.sendDate;
     }
 
-    public Text getContent() {
-        return this.content;
+    public String getContent() {
+        return this.content == null ? null : this.content.getValue();
     }
 
     public boolean getIsInTrashBin() {
         return this.isInTrashBin;
     }
 
-    public Date getCreateDate() {
+    public Instant getCreateDate() {
         return this.createDate;
     }
 }

@@ -1,7 +1,7 @@
 package teammates.storage.entity;
 
 import java.security.SecureRandom;
-import java.util.Date;
+import java.time.Instant;
 
 import com.google.gson.annotations.SerializedName;
 import com.googlecode.objectify.annotation.Entity;
@@ -9,6 +9,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.util.Assumption;
@@ -38,9 +39,11 @@ public class CourseStudent extends BaseEntity {
     @Id
     private String id;
 
-    private Date createdAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdAt;
 
-    private Date updatedAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant updatedAt;
 
     private transient String registrationKey;
 
@@ -92,7 +95,7 @@ public class CourseStudent extends BaseEntity {
         setTeamName(teamName);
         setSectionName(sectionName);
 
-        setCreatedAt(new Date());
+        setCreatedAt(Instant.now());
 
         this.id = makeId();
         registrationKey = generateRegistrationKey();
@@ -102,20 +105,20 @@ public class CourseStudent extends BaseEntity {
         return getEmail() + '%' + getCourseId();
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date created) {
+    public void setCreatedAt(Instant created) {
         this.createdAt = created;
         setLastUpdate(created);
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setLastUpdate(Date updatedAt) {
+    public void setLastUpdate(Instant updatedAt) {
         if (!keepUpdateTimestamp) {
             this.updatedAt = updatedAt;
         }
@@ -202,7 +205,7 @@ public class CourseStudent extends BaseEntity {
 
     @OnSave
     public void updateLastUpdateTimestamp() {
-        this.setLastUpdate(new Date());
+        this.setLastUpdate(Instant.now());
     }
 
     /**

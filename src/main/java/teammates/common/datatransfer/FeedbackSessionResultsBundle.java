@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,12 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.google.appengine.api.datastore.Text;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -22,6 +18,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
@@ -43,7 +40,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, String> emailNameTable;
     public Map<String, String> emailLastNameTable;
     public Map<String, String> emailTeamNameTable;
-    public Map<String, String> instructorEmailNameTable;
+    public Map<String, String> commentGiverEmailToNameTable;
     public Map<String, Set<String>> rosterTeamNameMembersTable;
     public Map<String, Set<String>> rosterSectionTeamNameTable;
     public Map<String, boolean[]> visibilityTable;
@@ -294,7 +291,7 @@ public class FeedbackSessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
-        this.instructorEmailNameTable = getInstructorEmailNameTableFromRoster(roster);
+        this.commentGiverEmailToNameTable = roster.getEmailToNameTableFromRoster();
         this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
@@ -557,7 +554,7 @@ public class FeedbackSessionResultsBundle {
             return roster.getStudentForEmail(participantIdentifier)
                     .section;
         } else if (isInstructor || participantIsGeneral) {
-            return Const.NO_SPECIFIC_RECIPIENT;
+            return Const.NO_SPECIFIC_SECTION;
         } else {
             return "";
         }
@@ -1656,6 +1653,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     public CourseRoster getRoster() {
+        Assumption.assertNotNull(roster);
         return roster;
     }
 
@@ -1667,40 +1665,101 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
-    public double getTimeZone() {
+    public ZoneId getTimeZone() {
         return feedbackSession.getTimeZone();
     }
 
-    private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
-        Map<String, String> instructorEmailNameTable = new HashMap<>();
-        List<InstructorAttributes> instructorList = roster.getInstructors();
-        for (InstructorAttributes instructor : instructorList) {
-            instructorEmailNameTable.put(instructor.email, instructor.name);
+    /**
+     * Returns string of all instructor comments on a response appended to their names for csv.
+     *
+     * @param response feedback response from which comments are taken
+     * @return string of format ", name of instructor, comment"
+     */
+    public String getCsvDetailedInstructorFeedbackResponseComments(FeedbackResponseAttributes response) {
+        if (!this.responseComments.containsKey(response.getId())) {
+            return "";
         }
-        return instructorEmailNameTable;
-    }
-
-    public StringBuilder getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
-        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
+        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            commentRow.append("," + instructorEmailNameTable.get(frc.giverEmail) + ","
-                    + getTextFromComment(frc.commentText));
-        }
-        return commentRow;
-    }
-
-    public String getTextFromComment(Text commentText) {
-        String htmlText = commentText.getValue();
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
-            comment.append("Images Link: ");
-            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
-            for (Element element : ele) {
-                comment.append(element.absUrl("src") + ' ');
+            if (!frc.isCommentFromFeedbackParticipant) {
+                commentRow.append("," + commentGiverEmailToNameTable.get(frc.commentGiver) + ","
+                                          + frc.getCommentAsCsvString());
             }
         }
-        return SanitizationHelper.sanitizeForCsv(comment.toString());
+        return commentRow.toString();
+    }
+
+    /**
+     * Returns string of comment by feedback participant on a response for csv.
+     *
+     * @param response feedback response on which comment is given
+     * @return comment by feedback participant in form of string
+     */
+    public String getCsvDetailedFeedbackParticipantCommentOnResponse(FeedbackResponseAttributes response) {
+        if (!this.responseComments.containsKey(response.getId())) {
+            return "";
+        }
+        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
+        for (FeedbackResponseCommentAttributes frc : frcList) {
+            if (frc.isCommentFromFeedbackParticipant) {
+                return frc.getCommentAsCsvString();
+            }
+        }
+        return "";
+    }
+
+    /**
+     * Returns true if bundle contains response from Instructor.
+     */
+    public boolean hasResponseFromInstructor() {
+        for (FeedbackResponseAttributes response : responses) {
+            String giverIdentifier = response.giver;
+            // If a instructor is also a student, the response should be considered as student's response.
+            if (isParticipantIdentifierInstructor(giverIdentifier) && !isParticipantIdentifierStudent(giverIdentifier)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if bundle contains response to Instructor or General.
+     */
+    public boolean hasResponseToInstructorOrGeneral() {
+        for (FeedbackResponseAttributes response : responses) {
+            String recipientIdentifier = response.recipient;
+            // getSectionFromRoster will return NO_SPECIFIC_SECTION for recipient who is Instructor or Nobody specific.
+            if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_SECTION) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns list of responses sorted by giverName > recipientName > qnNumber with identities
+     * of giver/recipients NOT hidden which is used for anonymous result calculation.
+     *
+     * @param question question whose responses are required
+     * @return list of responses
+     */
+    public List<FeedbackResponseAttributes> getActualResponsesSortedByGqr(FeedbackQuestionAttributes question) {
+        List<FeedbackResponseAttributes> responses = getActualUnsortedResponses(question);
+        responses.sort(compareByGiverRecipientQuestion);
+        return responses;
+    }
+
+    /**
+     * Returns list of unsorted responses with identities of giver/recipients NOT hidden which is used for
+     * anonymous result calculation.
+     *
+     * @param question question whose responses are required
+     * @return list of responses
+     */
+    public List<FeedbackResponseAttributes> getActualUnsortedResponses(FeedbackQuestionAttributes question) {
+        return actualResponses.stream()
+                            .filter(response -> response.feedbackQuestionId.equals(question.getId()))
+                            .collect(Collectors.toList());
     }
 }

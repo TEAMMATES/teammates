@@ -44,9 +44,12 @@ function prepareDatepickers() {
     yesterday.setDate(yesterday.getDate() - 1);
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateFormatDddMyy = 'D, dd M, yy';
+
+    const defaultStartDate = $('#startdate').val() === '' ? today : $('#startdate').val();
 
     $('#startdate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: today,
@@ -61,26 +64,36 @@ function prepareDatepickers() {
     });
 
     $('#enddate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,
     });
 
     $('#visibledate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: yesterday,
-        maxDate: today,
+        maxDate: defaultStartDate,
         onSelect() {
             const newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         },
+        onClose() {
+            if ($('#startdate').val() === $('#visibledate').val()) {
+                const $startTime = $('#starttime');
+                const $visibleTime = $('#visibletime');
+                // the visible time should not be later than the start time
+                if (parseInt($startTime.val(), 10) < parseInt($visibleTime.val(), 10)) {
+                    $visibleTime.val($startTime.val());
+                }
+            }
+        },
     });
 
     $('#publishdate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,

@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - by question" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -86,7 +87,7 @@
               </thead>
               <tbody>
                 <c:forEach items="${questionPanel.responses}" var="responseRow" varStatus="status">
-                  <results:responseRow responseRow="${responseRow}" questionIndex="${questionIndex}"
+                  <results:responseRow responseRow="${responseRow}" questionIndex="${questionPanel.question.questionNumber}"
                       responseIndex="${status.count}"/>
                 </c:forEach>
               </tbody>

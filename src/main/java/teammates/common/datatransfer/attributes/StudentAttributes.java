@@ -1,8 +1,8 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Strings;
@@ -37,8 +37,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
-    private transient Date createdAt;
-    private transient Date updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     StudentAttributes() {
         googleId = "";
@@ -69,8 +69,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * <li>{@code googleId = ""}</li>
      * <li>{@code section = Const.DEFAULT_SECTION}</li>
      * <li>{@code updateStatus = StudentUpdateStatus.UNKNOWN}</li>
-     * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
-     * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
+     * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE}</li>
+     * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE}</li>
      * </ul>
      */
     public static Builder builder(String courseId, String name, String email) {
@@ -123,6 +123,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getCourse() {
+        return course;
     }
 
     public String getKey() {
@@ -279,19 +283,19 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -392,16 +396,16 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             return this;
         }
 
-        public Builder withCreatedAt(Date createdAt) {
-            Date dateToAdd = createdAt == null
+        public Builder withCreatedAt(Instant createdAt) {
+            Instant dateToAdd = createdAt == null
                     ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : createdAt;
             studentAttributes.setCreatedAt(dateToAdd);
             return this;
         }
 
-        public Builder withUpdatedAt(Date updatedAt) {
-            Date dateToAdd = updatedAt == null
+        public Builder withUpdatedAt(Instant updatedAt) {
+            Instant dateToAdd = updatedAt == null
                     ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : updatedAt;
             studentAttributes.setUpdatedAt(dateToAdd);

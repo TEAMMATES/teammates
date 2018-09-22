@@ -75,12 +75,14 @@
             <class name="teammates.test.cases.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackSessionsPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackResultsPageUiTest" />
+            <class name="teammates.test.cases.browsertests.InstructorFeedbackResultsPageResponseCommentUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackSubmitPageUiTest" />
+            <class name="teammates.test.cases.browsertests.InstructorHelpPageUiTest" />
+            <class name="teammates.test.cases.browsertests.InstructorHomePageUiTest" />
+            <class name="teammates.test.cases.browsertests.InstructorSearchPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorStudentListPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorStudentRecordsPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorSubmissionAdjustmentUiTest" />
-            <class name="teammates.test.cases.browsertests.InstructorHomePageUiTest" />
-            <class name="teammates.test.cases.browsertests.InstructorSearchPageUiTest" />
             <class name="teammates.test.cases.browsertests.StudentCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.browsertests.StudentFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.browsertests.StudentFeedbackResultsPageUiTest" />
@@ -89,6 +91,7 @@
             <class name="teammates.test.cases.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSessionsPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSearchPageUiTest" />
+            <class name="teammates.test.cases.browsertests.ScrollUnitTest" />
         </classes>
     </test>
 

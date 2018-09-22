@@ -2,12 +2,10 @@ package teammates.test.cases.action;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
@@ -20,6 +18,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.controller.AdminEmailLogPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminEmailLogPageData;
@@ -52,9 +51,13 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     // 130 seconds is chosen so that it will be around 50 logs within 2 hours before now.
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
-    private List<List<String>> logMessages;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private SimpleDateFormat formatterAdminTime;
+    private static final Instant TODAY = Instant.now();
+    private static final Instant YESTERDAY = TimeHelper.getInstantDaysOffsetFromNow(-1);
+    private static final Instant TWO_DAYS_AGO = TimeHelper.getInstantDaysOffsetFromNow(-2);
+
+    private List<List<String>> logMessages;
 
     @Override
     protected String getActionUri() {
@@ -65,7 +68,6 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     protected void prepareTestData() {
         super.prepareTestData();
         loadLogMessages();
-        initVariable();
     }
 
     private void loadLogMessages() {
@@ -80,9 +82,9 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         }
     }
 
-    private void initVariable() {
-        formatterAdminTime = new SimpleDateFormat("dd/MM/yy");
-        formatterAdminTime.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
+    private static String formatInstantAsDateInAdminTimeZone(Instant instant) {
+        return DATE_FORMATTER.format(
+                TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     @Override
@@ -95,12 +97,9 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
 
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), twoDaysAgo.getTime());
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), yesterday.getTime());
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), today.getTime());
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), TWO_DAYS_AGO.toEpochMilli());
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), YESTERDAY.toEpochMilli());
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), TODAY.toEpochMilli());
     }
 
     @Test(groups = "typicalEmailLogs")
@@ -149,26 +148,23 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     public void filterQuery_validQuery() {
         // after
         int[][] expected = new int[][] { {0, 1, 2, 3}, {0, 1} };
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        String query = String.format(" after:%s", formatterAdminTime.format(yesterday));
+        String query = String.format(" after:%s", formatInstantAsDateInAdminTimeZone(YESTERDAY));
         verifyActionResult(expected, "filterQuery", query);
 
         // before
         expected = new int[][] { {}, {}, {0, 1} };
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
-        query = String.format("before :%s", formatterAdminTime.format(twoDaysAgo));
+        query = String.format("before :%s", formatInstantAsDateInAdminTimeZone(TWO_DAYS_AGO));
         verifyActionResult(expected, "filterQuery", query);
 
         // after-before
         expected = new int[][] { {}, {0, 1}, {0, 1} };
         query = String.format("after: %s  and  before:%s",
-                formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(yesterday));
+                formatInstantAsDateInAdminTimeZone(TWO_DAYS_AGO), formatInstantAsDateInAdminTimeZone(YESTERDAY));
         verifyActionResult(expected, "filterQuery", query);
 
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
         expected = new int[][] { {0, 1, 2, 3}, {0, 1}, {0, 1} };
         query = String.format("after : %s | before: %s ",
-                formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(today));
+                formatInstantAsDateInAdminTimeZone(TWO_DAYS_AGO), formatInstantAsDateInAdminTimeZone(TODAY));
         verifyActionResult(expected, "filterQuery", query);
 
         // receiver
@@ -177,7 +173,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query);
 
         // subject
-        query = String.format("  subject:subject2   | before:%s  ", formatterAdminTime.format(yesterday));
+        query = String.format("  subject:subject2   | before:%s  ", formatInstantAsDateInAdminTimeZone(YESTERDAY));
         expected = new int[][] { {}, {1} };
         verifyActionResult(expected, "filterQuery", query);
 
@@ -186,22 +182,20 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         expected = new int[][] { {1, 3} };
         verifyActionResult(expected, "filterQuery", query);
 
-        query = String.format("info:keyword4   |   after:%s", formatterAdminTime.format(yesterday));
+        query = String.format("info:keyword4   |   after:%s", formatInstantAsDateInAdminTimeZone(YESTERDAY));
         expected = new int[][] { {2}, {0} };
         verifyActionResult(expected, "filterQuery", query);
     }
 
     @Test(groups = "typicalEmailLogs")
     public void filterQueryAndUrlParams_combinationWithEachOther_querySuccessful() {
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
 
         int[][] expected = new int[][] { {0, 3, 4, 6}, {1, 2} };
-        String query = String.format("info:keyword1 | after:%s", formatterAdminTime.format(yesterday));
+        String query = String.format("info:keyword1 | after:%s", formatInstantAsDateInAdminTimeZone(YESTERDAY));
         verifyActionResult(expected, "filterQuery", query, "all", "true");
 
         expected = new int[][] { {}, {}, {1, 2} };
-        query = String.format("subject:subject1 | before:%s", formatterAdminTime.format(twoDaysAgo));
+        query = String.format("subject:subject1 | before:%s", formatInstantAsDateInAdminTimeZone(TWO_DAYS_AGO));
         verifyActionResult(expected, "filterQuery", query, "all", "true");
     }
 
@@ -221,7 +215,6 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Test(groups = "typicalEmailLogs")
     public void statusMessage_validQuery_generatedCorrectly() {
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
 
         // test statusMessage for default search
         AdminEmailLogPageAction action = getAction();
@@ -229,7 +222,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         verifyStatusMessage(statusMessage, 8);
 
         // test statusMessage with `after` filter
-        String query = "after:" + formatterAdminTime.format(twoDaysAgo);
+        String query = "after:" + formatInstantAsDateInAdminTimeZone(TWO_DAYS_AGO);
         action = getAction("filterQuery", query);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 16);
@@ -237,43 +230,41 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Test(groups = "typicalEmailLogs")
     public void continueSearch_searchFromDifferentTime_searchCorrectly() {
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date threeDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-3);
+        Instant threeDaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-3);
 
         // default continue search
         int[][] expected = new int[][] { {}, {0, 1} };
-        String[] params = new String[] {"offset", String.valueOf(yesterday.getTime())};
+        String[] params = new String[] {"offset", String.valueOf(YESTERDAY.toEpochMilli())};
         verifyContinueSearch(params, expected, 5);
 
         // continue search and no more logs
         expected = new int[][] {};
-        params = new String[] {"offset", String.valueOf(threeDaysAgo.getTime())};
+        params = new String[] {"offset", String.valueOf(threeDaysAgo.toEpochMilli())};
         verifyContinueSearch(params, expected, 0);
 
         // continue search with some filters
         expected = new int[][] { {}, {1, 2} };
         params = new String[] {
-                "offset", String.valueOf(yesterday.getTime()),
+                "offset", String.valueOf(YESTERDAY.toEpochMilli()),
                 "filterQuery", "subject:subject2", "all", "true"
         };
         verifyContinueSearch(params, expected, 5);
 
         // when `after` is present, will do search between `after` and `offset`
-        // This is important as if there are a lot of logs `after` certain date, the App
+        // This is important as if there are a lot of logs `after` certain Instant, the App
         // will only display the first 50 logs. Continue search will help to get more logs.
         expected = new int[][] { {}, {0, 1}, {0, 1} };
         params = new String[] {
-                "offset", String.valueOf(yesterday.getTime()),
-                "filterQuery", String.format("after:%s", formatterAdminTime.format(threeDaysAgo))
+                "offset", String.valueOf(YESTERDAY.toEpochMilli()),
+                "filterQuery", String.format("after:%s", formatInstantAsDateInAdminTimeZone(threeDaysAgo))
         };
         verifyContinueSearch(params, expected, 8);
 
         // `before` present, search with 1 day interval
         expected = new int[][] { {}, {}, {0, 1} };
-        Calendar toDate = adminTimeZoneToUtc(getEndOfTheDayOffsetNowInAdminTimeZone(-2));
         params = new String[] {
-                "offset", String.valueOf(toDate.getTimeInMillis()),
-                "filterQuery", String.format("before:%s", formatterAdminTime.format(yesterday))
+                "offset", String.valueOf(TimeHelperExtension.getEndOfTheDayOffsetNowInAdminTimeZone(-2).toEpochMilli()),
+                "filterQuery", String.format("before:%s", formatInstantAsDateInAdminTimeZone(YESTERDAY))
         };
         verifyContinueSearch(params, expected, 3);
     }
@@ -283,16 +274,15 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
 
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
         insertLogMessageAtTimeWithInterval(logMessages.get(LOG_MESSAGE_INDEX_MANY_LOGS),
-                today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
+                TODAY.toEpochMilli(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
 
     // The two test groups should have different 'priority' so that they can run separately
     // as they depend on different sets of log messages
     @Test(groups = "manyEmailLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        Instant today = Instant.now();
 
         // default search will stop at #logs around 50
         AdminEmailLogPageAction action = getAction();
@@ -300,13 +290,13 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         verifyManyLogs(55, 0, 54, result.data, result.getStatusMessage());
 
         // continue search will get next #logs around 50
-        long nextSearch = today.getTime() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
+        long nextSearch = today.toEpochMilli() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("offset", String.valueOf(nextSearch));
         result = getShowPageResult(action);
         verifyManyLogs(56, 55, 110, result.data, result.getStatusMessage());
 
         // continue search will get logs until no logs
-        nextSearch = today.getTime() - 112 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
+        nextSearch = today.toEpochMilli() - 112 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("offset", String.valueOf(nextSearch));
         result = getShowPageResult(action);
         verifyManyLogs(39, 111, 149, result.data, result.getStatusMessage());
@@ -317,7 +307,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         verifyManyLogs(55, 0, 54, result.data, result.getStatusMessage());
 
         // continue search with filter will get logs until no logs
-        nextSearch = today.getTime() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
+        nextSearch = today.toEpochMilli() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("filterQuery", "receiver:email1@email.com", "offset", String.valueOf(nextSearch));
         result = getShowPageResult(action);
         verifyManyLogs(95, 55, 69, result.data, result.getStatusMessage());
@@ -414,19 +404,6 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
             logs.add(row.getLogEntry());
         }
         return logs;
-    }
-
-    private Calendar getEndOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
-        Calendar calendar = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.add(Calendar.DATE, dayOffset);
-        return calendar;
-    }
-
-    private Calendar adminTimeZoneToUtc(Calendar calendar) {
-        return TimeHelper.convertToUserTimeZone(calendar, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
     @Override

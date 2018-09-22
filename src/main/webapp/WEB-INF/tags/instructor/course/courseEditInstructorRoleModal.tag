@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseEdit - Instructor Role Modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -15,7 +16,7 @@
         <div class="row">
           <div class="col-sm-6">
             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                value="true" checked disabled> Edit/Delete Course
+                value="true" checked disabled> Edit/Delete/Restore Course
           </div>
 
           <div class="col-sm-6">
@@ -25,7 +26,7 @@
 
           <div class="col-sm-6">
             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                value="true" checked disabled> Create/Edit/Delete Sessions
+                value="true" checked disabled> Create/Edit/Delete/Restore Sessions
           </div>
 
           <div class="col-sm-6">

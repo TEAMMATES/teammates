@@ -1,8 +1,11 @@
 package teammates.test.cases.browsertests;
 
+import org.json.JSONObject;
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -12,6 +15,10 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for constant sum (options) questions.
  */
 public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "constSum";
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -48,6 +55,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
+        testDisableConstSumPointsAction();
+        testUiConsistencyForNewQuestion();
     }
 
     @Override
@@ -55,7 +65,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONSTSUM-option: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
 
@@ -68,20 +78,21 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
         feedbackEditPage.fillConstSumPointsForEachOptionBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus("Too little options for Distribute points (among options) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little options for Distribute points (among options) question. Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test const sum question");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
@@ -94,13 +105,13 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickRemoveConstSumOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little options for Distribute points (among options) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little options for Distribute points (among options) question. Minimum number of options is: 2.");
 
         ______TS("duplicate options");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test duplicate options");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
@@ -108,13 +119,14 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumOptionForNewQuestion(1, "duplicate option");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
 
     @Override
     public void testCustomizeOptions() {
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
 
         feedbackEditPage.fillConstSumOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillConstSumOptionForNewQuestion(1, "Option 2");
@@ -148,12 +160,15 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad();
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("30");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("30", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
@@ -171,7 +186,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumPointsForEachOptionBox("200", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
@@ -185,7 +200,45 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumOption(1, "duplicate option", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+
+        ______TS("CONST SUM: edit to force uneven distribution for all options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
+        assertFalse(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.clickDistributePointsOptionsCheckbox(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
+
+        ______TS("CONST SUM: edit to force uneven distribution for at least some options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
+        feedbackEditPage.selectConstSumDistributePointsOptions("At least some options", 1);
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
     }
 
     @Override
@@ -200,8 +253,133 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    /**
+     * Tests that distribute points among options (new and existing) can be reordered using drag and drop mechanism.
+     * @throws Exception when option is not draggable
+     */
+    private void testReorderOptions() throws Exception {
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAddMoreConstSumOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreConstSumOptionLinkForNewQuestion();
+
+        feedbackEditPage.fillConstSumOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillConstSumOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillConstSumOptionForNewQuestion(2, "Choice 3");
+        feedbackEditPage.fillConstSumOptionForNewQuestion(3, "Choice 4");
+
+        ______TS("CONSTSUM: reorder existing options");
+
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.clickAddQuestionButton();
+        JSONObject constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                                    .questionMetaData);
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: add option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.fillConstSumOption(4, "New Choice", 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData);
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: delete option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
+        feedbackEditPage.fillConstSumOption(1, "Old Choice", 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData);
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: add, delete and reorder options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.fillConstSumOption(4, "New Choice", 1);
+        feedbackEditPage.fillConstSumOption(5, "Newer Choice", 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                                                            .questionMetaData);
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                     constSumQuestionDetails.get("constSumOptions").toString());
+
+        ______TS("CONSTSUM: delete question");
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
+    }
+
+    /**
+     * The element {@code constSumOption_Option} hides, and element {@code constSumOption_Recipient}
+     * becomes visible when a CONSTSUM_RECIPIENT question is added.<br>
+     * Check that the changes are reverted when a CONSTSUM_OPTION question is added.
+     */
+    private void testUiConsistencyForNewQuestion() {
+        ______TS("CONSTSUM-option after CONSTSUM-recipient: Check ui consistency success case");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_RECIPIENT");
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
+
+        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsTotal--1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumOption_Option--1")));
+        assertFalse(feedbackEditPage.isElementVisible(By.id("constSumOption_Recipient--1")));
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
+
+    /**
+     * Tests that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
+     */
+    private void testDisableConstSumPointsAction() {
+        ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
+
+        // Make sure that constSumPointsTotal radio button is selected by default
+        assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
+        // Verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
+        // Select constSumPointsPerOption radio button
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
+        // Verify that constSumPoints field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
+        // Select constSumPointsTotal radio button.
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
+        // Verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
 }

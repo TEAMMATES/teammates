@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -29,7 +31,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private static final String STATISTICS_NO_VALUE_STRING = "-";
 
     private boolean hasAssignedWeights;
-    private List<Double> rubricWeights;
+    private List<List<Double>> rubricWeightsForEachCell;
     private int numOfRubricChoices;
     private List<String> rubricChoices;
     private int numOfRubricSubQuestions;
@@ -40,24 +42,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.RUBRIC);
 
         this.hasAssignedWeights = false;
-        this.rubricWeights = new ArrayList<>();
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<>();
         this.initializeRubricDescriptions();
+        this.rubricWeightsForEachCell = new ArrayList<>();
     }
 
     public FeedbackRubricQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RUBRIC, questionText);
 
         this.hasAssignedWeights = false;
-        this.rubricWeights = new ArrayList<>();
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<>();
         this.initializeRubricDescriptions();
+        this.rubricWeightsForEachCell = new ArrayList<>();
     }
 
     @Override
@@ -84,7 +86,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
-        List<Double> rubricWeights = getRubricWeights(requestParameters, numOfRubricChoices, hasAssignedWeights);
+        List<List<Double>> rubricWeightsForEachCell = getRubricWeightsForEachCell(
+                requestParameters, numOfRubricChoices, numOfRubricSubQuestions, hasAssignedWeights);
         List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
         List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
         List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters,
@@ -92,7 +95,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                                                               numOfRubricSubQuestions);
 
         // Set details
-        setRubricQuestionDetails(hasAssignedWeights, rubricWeights, rubricChoices, rubricSubQuestions, rubricDescriptions);
+        setRubricQuestionDetails(hasAssignedWeights, rubricWeightsForEachCell,
+                rubricChoices, rubricSubQuestions, rubricDescriptions);
 
         if (!isValidDescriptionSize()) {
             // If description sizes are invalid, default to empty descriptions.
@@ -102,34 +106,49 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
-    private List<Double> getRubricWeights(Map<String, String[]> requestParameters, int numOfRubricChoices,
-                                         boolean hasAssignedWeights) {
-        List<Double> rubricWeights = new ArrayList<>();
+    /**
+     * Extracts Rubric weight values from request parameters map.
+     * @return Returns the list of rubric weights.
+     */
+    private List<List<Double>> getRubricWeightsForEachCell(Map<String, String[]> requestParameters,
+            int numOfRubricChoices, int numOfRubricSubQuestions, boolean hasAssignedWeights) {
+        List<List<Double>> rubricWeightsForEachCell = new ArrayList<>();
 
         if (!hasAssignedWeights) {
-            return rubricWeights;
+            return rubricWeightsForEachCell;
         }
 
-        for (int i = 0; i < numOfRubricChoices; i++) {
-
-            String weight = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-" + i);
-            String choice = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
-
-            if (choice == null) {
+        int weightRows = -1;
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
+            String subQn = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
+            if (subQn == null || subQn.trim().isEmpty()) {
+                // No weights should be parsed for a null or empty sub question.
                 continue;
             }
+            boolean rowAdded = false;
 
-            try {
-                rubricWeights.add(Double.parseDouble(weight));
-            } catch (NumberFormatException e) {
-                // Do not add weight to rubricWeights if the weight cannot be parsed
-                log.warning("Failed to parse weight for rubric question: " + weight);
+            for (int j = 0; j < numOfRubricChoices; j++) {
+                String choice = HttpRequestHelper.getValueFromParamMap(
+                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + j);
+                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-" + i + "-" + j;
+                String weight = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+                if (weight != null && choice != null) {
+                    if (!rowAdded) {
+                        weightRows++;
+                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rowAdded = true;
+                    }
+                    try {
+                        rubricWeightsForEachCell.get(weightRows).add(Double.parseDouble(weight));
+                    } catch (NumberFormatException e) {
+                        log.severe("Failed to parse weight for rubric question " + weight);
+                    }
+                }
             }
         }
 
-        return rubricWeights;
+        return rubricWeightsForEachCell;
     }
 
     private List<String> getRubricChoices(Map<String, String[]> requestParameters, int numOfRubricChoices) {
@@ -194,13 +213,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
+    /**
+     * Checks if the dimensions of rubricWeightsForEachCell is valid according
+     * to numOfRubricSubQuestions and numOfRubricChoices.
+     */
+    private boolean isValidWeightSize() {
+        if (rubricWeightsForEachCell.size() != numOfRubricSubQuestions) {
+            return false;
+        }
+        return rubricWeightsForEachCell.stream().allMatch(x -> x.size() == numOfRubricChoices);
+    }
+
     private void setRubricQuestionDetails(boolean hasAssignedWeights,
-                                          List<Double> rubricWeights,
+                                          List<List<Double>> rubricWeightsForEachCell,
                                           List<String> rubricChoices,
                                           List<String> rubricSubQuestions,
                                           List<List<String>> rubricDescriptions) {
         this.hasAssignedWeights = hasAssignedWeights;
-        this.rubricWeights = rubricWeights;
+        this.rubricWeightsForEachCell = rubricWeightsForEachCell;
         this.numOfRubricChoices = rubricChoices.size();
         this.rubricChoices = rubricChoices;
         this.numOfRubricSubQuestions = rubricSubQuestions.size();
@@ -214,7 +244,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackRubricQuestionDetails newRubricDetails = (FeedbackRubricQuestionDetails) newDetails;
         // TODO: need to check for exact match.
 
@@ -231,7 +261,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails,
+            StudentAttributes student) {
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) existingResponseDetails;
 
         String questionNumberString = Integer.toString(qnIdx);
@@ -259,7 +290,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
 
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
@@ -387,35 +419,35 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableHeaderFragmentHtml.append(tableHeaderCell).append(System.lineSeparator());
         }
 
-        // Create rubric weights row
-        StringBuilder tableWeightFragmentHtml = new StringBuilder();
-        String tableWeightFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
-        for (int i = 0; i < numOfRubricChoices; i++) {
-            String tableWeightCell =
-                    Templates.populateTemplate(tableWeightFragmentTemplate,
-                            Slots.QUESTION_INDEX, questionNumberString,
-                            Slots.COL, Integer.toString(i),
-                            Slots.RUBRIC_WEIGHT, hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
-                            Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
-            tableWeightFragmentHtml.append(tableWeightCell).append(System.lineSeparator());
-        }
-
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
 
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY;
+        String tableWeightFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
+        List<List<Double>> weights = getRubricWeights();
 
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
+                // Create rubric weight cell
+                String tableWeightCell =
+                        Templates.populateTemplate(tableWeightFragmentTemplate,
+                                Slots.QUESTION_INDEX, questionNumberString,
+                                Slots.COL, Integer.toString(i),
+                                Slots.ROW, Integer.toString(j),
+                                Slots.RUBRIC_WEIGHT,
+                                hasAssignedWeights ? weightFormat.format(weights.get(j).get(i)) : "0",
+                                Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
+
                 String tableBodyCell =
                         Templates.populateTemplate(tableBodyFragmentTemplate,
                                 Slots.QUESTION_INDEX, questionNumberString,
                                 Slots.COL, Integer.toString(i),
                                 Slots.ROW, Integer.toString(j),
                                 Slots.DESCRIPTION, SanitizationHelper.sanitizeForHtml(this.getDescription(j, i)),
-                                Slots.RUBRIC_PARAM_DESCRIPTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
+                                Slots.RUBRIC_PARAM_DESCRIPTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION,
+                                Slots.RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML, tableWeightCell);
                 tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
             }
 
@@ -454,7 +486,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
                 Slots.CURRENT_COLS, Integer.toString(this.numOfRubricChoices),
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
-                Slots.RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML, tableWeightFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
                 Slots.RUBRIC_PARAM_NUM_ROWS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS,
                 Slots.RUBRIC_PARAM_NUM_COLS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS,
@@ -557,12 +588,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public String getRecipientStatsHeaderHtml() {
         StringBuilder headerBuilder = new StringBuilder(100);
-        DecimalFormat dfWeight = new DecimalFormat("#.##");
         StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
         for (int i = 0; i < rubricChoices.size(); i++) {
-            String weight = dfWeight.format(rubricWeights.get(i));
-            String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i) + " (Weight: " + weight + ")");
+            String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i));
             choicesHtmlBuilder.append(html);
         }
 
@@ -587,22 +616,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails fqd =
                 (FeedbackRubricQuestionDetails) question.getQuestionDetails();
 
-        RubricStatistics statistics = new RubricStatistics(responsesForStatistics, fqd);
-        int[][] responseFrequency = statistics.getResponseFrequency();
-        float[][] rubricStats = statistics.getPercentageFrequencyAndAverage();
-
-        DecimalFormat weightFormat = new DecimalFormat("#.##");
+        FeedbackParticipantType recipientType = question.getRecipientType();
+        boolean isExcludingSelfOptionAvailable =
+                recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
 
-            String header = SanitizationHelper.sanitizeForHtml(rubricChoices.get(i))
-                          + (fqd.hasAssignedWeights
-                            ? "<span style=\"font-weight:normal;\"> (Weight: "
-                              + weightFormat.format(rubricWeights.get(i)) + ")</span>"
-                            : "");
+            String header = SanitizationHelper.sanitizeForHtml(rubricChoices.get(i));
 
             String tableHeaderCell =
                     Templates.populateTemplate(tableHeaderFragmentTemplate, Slots.RUBRIC_CHOICE_VALUE, header);
@@ -616,43 +639,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableHeaderFragmentHtml.append(tableHeaderAverageCell).append(System.lineSeparator());
         }
 
-        // Create table body
-        StringBuilder tableBodyHtml = new StringBuilder();
+        int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responsesForStatistics, fqd);
+        float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd, responseFrequency);
 
-        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
-        String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
-        DecimalFormat df = new DecimalFormat("#");
-        DecimalFormat dfAverage = new DecimalFormat("0.00");
+        StringBuilder tableBodyHtml = getQuestionResultsStatisticsBodyHtml(fqd, responseFrequency, rubricStats);
 
-        for (int i = 0; i < numOfRubricSubQuestions; i++) {
-            StringBuilder tableBodyFragmentHtml = new StringBuilder();
-            boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
+        StringBuilder tableBodyExcludingSelfHtml;
 
-            for (int j = 0; j < numOfRubricChoices; j++) {
-                String percentageFrequencyString = isSubQuestionRespondedTo
-                                                 ? df.format(rubricStats[i][j] * 100) + "%"
-                                                 : STATISTICS_NO_VALUE_STRING;
-                String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
-                        percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
-                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
-            }
+        if (isExcludingSelfOptionAvailable) {
 
-            if (fqd.hasAssignedWeights) {
-                String averageString = isSubQuestionRespondedTo
-                                     ? dfAverage.format(rubricStats[i][numOfRubricChoices])
-                                     : STATISTICS_NO_VALUE_STRING;
-                String tableBodyAverageCell = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageString);
-                tableBodyFragmentHtml.append(tableBodyAverageCell).append(System.lineSeparator());
-            }
-
-            // Get entire row
-            String tableRow = Templates.populateTemplate(tableBodyTemplate,
-                    Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
-                    Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(tableRow).append(System.lineSeparator());
+            int[][] responseFrequencyExcludingSelf =
+                    RubricStatistics.calculateResponseFrequencyExcludingSelf(responsesForStatistics, fqd);
+            float[][] rubricStatsExcludingSelf = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd,
+                    responseFrequencyExcludingSelf);
+            tableBodyExcludingSelfHtml = getQuestionResultsStatisticsBodyHtml(fqd,
+                    responseFrequencyExcludingSelf, rubricStatsExcludingSelf);
+        } else {
+            tableBodyExcludingSelfHtml = new StringBuilder();
+            tableBodyExcludingSelfHtml.append(System.lineSeparator());
         }
 
         String statsTitle = "Response Summary";
@@ -687,7 +691,60 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.STATS_TITLE, statsTitle,
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
+                Slots.TABLE_BODY_EXCLUDING_SELF_HTML, tableBodyExcludingSelfHtml.toString(),
+                Slots.EXCLUDING_SELF_OPTION_VISIBLE, isExcludingSelfOptionAvailable ? "" : "hidden",
                 Slots.RUBRIC_RECIPIENT_STATS_HTML, recipientStatsHtml);
+    }
+
+    /**
+     * Returns the rendered HTML body of Rubric statistics.
+     *
+     * @param fqd the details of Rubric Question
+     * @param responseFrequency the frequency of the responses for each sub question
+     * @param rubricStats the percentage frequency and average for each sub question
+     */
+    private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
+                                                               int[][] responseFrequency, float[][] rubricStats) {
+
+        DecimalFormat dfAverage = new DecimalFormat("0.00");
+
+        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
+        String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
+
+        StringBuilder tableBodyHtml = new StringBuilder();
+
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
+            StringBuilder tableBodyFragmentHtml = new StringBuilder();
+            boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
+
+            for (int j = 0; j < numOfRubricChoices; j++) {
+                String percentageFrequencyString =
+                        getPercentageFrequencyString(isSubQuestionRespondedTo, rubricStats, responseFrequency, i, j);
+
+                String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, percentageFrequencyString);
+                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
+
+            }
+
+            if (fqd.hasAssignedWeights) {
+                String averageString = isSubQuestionRespondedTo
+                        ? dfAverage.format(rubricStats[i][numOfRubricChoices])
+                        : STATISTICS_NO_VALUE_STRING;
+                String tableBodyAverageCell = Templates.populateTemplate(tableBodyFragmentTemplate,
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageString);
+                tableBodyFragmentHtml.append(tableBodyAverageCell).append(System.lineSeparator());
+
+            }
+
+            // Get entire row
+            String tableRow = Templates.populateTemplate(tableBodyTemplate,
+                    Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
+                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
+                    Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
+            tableBodyHtml.append(tableRow).append(System.lineSeparator());
+        }
+        return tableBodyHtml;
     }
 
     /**
@@ -729,6 +786,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return receivedResponses;
     }
 
+    /**
+     * Returns a string containing percentage Frequency, response frequency,
+     * and if weights are assigned, then weights.
+     */
+    private String getPercentageFrequencyString(boolean isSubQuestionRespondedTo, float[][] rubricStats,
+            int[][] responseFrequency, int subQnIndex, int choiceIndex) {
+        DecimalFormat df = new DecimalFormat("#");
+        DecimalFormat dfWeight = new DecimalFormat("#.##");
+        List<List<Double>> weights = getRubricWeights();
+
+        return (isSubQuestionRespondedTo
+                ? df.format(rubricStats[subQnIndex][choiceIndex] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
+                + " (" + responseFrequency[subQnIndex][choiceIndex] + ")"
+                + (hasAssignedWeights ? " [" + dfWeight.format(weights.get(subQnIndex).get(choiceIndex)) + "]" : "");
+    }
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -739,15 +812,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder csv = new StringBuilder();
-        DecimalFormat dfWeight = new DecimalFormat("#.##");
 
         // table header
         for (int i = 0; i < rubricChoices.size(); i++) {
 
-            String header = rubricChoices.get(i)
-                          + (hasAssignedWeights
-                            ? " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")"
-                            : "");
+            String header = rubricChoices.get(i);
 
             csv.append(',').append(SanitizationHelper.sanitizeForCsv(header));
         }
@@ -759,27 +828,26 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         csv.append(System.lineSeparator());
 
         // table body
-        DecimalFormat df = new DecimalFormat("#");
         DecimalFormat dfAverage = new DecimalFormat("0.00");
 
-        RubricStatistics statistics = new RubricStatistics(responses, this);
-        int[][] responseFrequency = statistics.getResponseFrequency();
-        float[][] rubricStats = statistics.getPercentageFrequencyAndAverage();
+        int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responses, this);
+        float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(this,
+                responseFrequency);
 
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
             csv.append(SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
             for (int j = 0; j < rubricChoices.size(); j++) {
-                String percentageFrequencyString = isSubQuestionRespondedTo
-                                                 ? df.format(rubricStats[i][j] * 100) + "%"
-                                                 : STATISTICS_NO_VALUE_STRING;
-                csv.append("," + percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
+                String percentageFrequencyString =
+                        getPercentageFrequencyString(isSubQuestionRespondedTo, rubricStats, responseFrequency, i, j);
+
+                csv.append(',').append(percentageFrequencyString);
             }
 
             if (hasAssignedWeights) {
                 String averageString = isSubQuestionRespondedTo
-                                     ? dfAverage.format(rubricStats[i][rubricWeights.size()])
+                                     ? dfAverage.format(rubricStats[i][numOfRubricChoices])
                                      : STATISTICS_NO_VALUE_STRING;
                 csv.append(',').append(averageString);
             }
@@ -788,9 +856,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if (hasAssignedWeights) {
-            csv.append(System.lineSeparator());
-            csv.append(getRecipientStatsCsvHeader());
-            csv.append(getPerRecipientStatisticsCsv(responses, bundle));
+            csv.append(System.lineSeparator())
+                .append("Per Recipient Statistics").append(System.lineSeparator())
+                .append(getPerRecipientStatisticsHeader())
+                .append(getPerRecipientStatisticsCsv(responses, bundle));
         }
 
         return csv.toString();
@@ -844,9 +913,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "Choice Value";
     }
 
-    public String getRecipientStatsCsvHeader() {
+    public String getPerRecipientStatisticsHeader() {
         StringBuilder header = new StringBuilder(100);
-        DecimalFormat dfWeight = new DecimalFormat("#.##");
         String headerFragment = "Team,Recipient Name,Recipient's Email,Sub Question,";
 
         header.append(headerFragment);
@@ -855,10 +923,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             StringBuilder rubricChoiceBuilder = new StringBuilder();
 
             rubricChoiceBuilder.append(rubricChoices.get(i));
-
-            if (hasAssignedWeights) {
-                rubricChoiceBuilder.append(" (Weight: ").append(dfWeight.format(rubricWeights.get(i))).append(')');
-            }
 
             header.append(SanitizationHelper.sanitizeForCsv(rubricChoiceBuilder.toString())).append(',');
         }
@@ -875,14 +939,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                 + "Sub Question" + "," + getCsvHeader() + "," + "Choice Number"
-                + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
+                + getCsvDetailedInstructorsCommentsHeader(noOfComments)
                 + System.lineSeparator();
     }
 
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
+            FeedbackQuestionAttributes question) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
@@ -895,13 +959,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
-        //To show comment only once for each response.
-        boolean shouldShowComments = hasCommentsForResponses;
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
-            //To show comment only once for each response.
-            shouldShowComments = i < 1 && shouldShowComments;
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
@@ -925,10 +985,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenIndexString) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
-                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
-                    + (shouldShowComments
-                            ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                    + System.lineSeparator());
+                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber));
+
+            // To show feedback participant comment only once for each response.
+            if (isFeedbackParticipantCommentsOnResponsesAllowed() && i == 0) {
+                String feedbackParticipantComment =
+                        fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
+                detailedResponsesRow.append(',').append(feedbackParticipantComment);
+            }
+            // To show instructor comment only once for each response.
+            if (i == 0) {
+                String instructorComment =
+                        fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
+                detailedResponsesRow.append(instructorComment);
+            }
+            detailedResponsesRow.append(System.lineSeparator());
         }
 
         return detailedResponsesRow.toString();
@@ -941,13 +1012,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         // For rubric questions,
         // 1) Description size should be valid
         // 2) At least 2 choices
         // 3) At least 1 sub-question
         // 4) Choices and sub-questions should not be empty
-        // 5) Choices must have corresponding weights if weights are assigned
+        // 5) Weights must be assigned to all cells if weights are assigned, which means
+        //    weight size should be equal to (numOfRubricChoices * numOfRubricSubQuestions).
 
         List<String> errors = new ArrayList<>();
 
@@ -984,7 +1056,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        if (hasAssignedWeights && rubricChoices.size() != rubricWeights.size()) {
+        if (hasAssignedWeights && !isValidWeightSize()) {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
         }
 
@@ -1004,16 +1076,29 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
+    }
+
+    @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
 
-    boolean hasAssignedWeights() {
+    public boolean hasAssignedWeights() {
         return hasAssignedWeights;
     }
 
-    List<Double> getRubricWeights() {
-        return new ArrayList<>(rubricWeights);
+    /**
+     * Returns a list of rubric weights if the weights are assigned,
+     * otherwise returns an empty list.
+     */
+    public List<List<Double>> getRubricWeights() {
+        if (hasAssignedWeights) {
+            return rubricWeightsForEachCell;
+        }
+
+        return new ArrayList<>();
     }
 
     public int getNumOfRubricChoices() {
@@ -1050,14 +1135,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
         int[] respondentsPerSubQuestion;
+        List<List<Double>> weights;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
+            Assumption.assertTrue("Per Recipient Stats is only available when weights are enabled", hasAssignedWeights);
             this.recipientEmail = recipientEmail;
             this.recipientName = recipientName;
             this.recipientTeam = recipientTeam;
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
             totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
             respondentsPerSubQuestion = new int[getNumOfRubricSubQuestions()];
+            weights = getRubricWeights();
         }
 
         public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
@@ -1072,7 +1160,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
                 if (choice >= 0) {
                     ++numOfResponsesPerSubQuestionPerChoice[i][choice];
-                    totalPerSubQuestion[i] += getRubricWeights().get(choice);
+                    totalPerSubQuestion[i] += weights.get(i).get(choice);
                     respondentsPerSubQuestion[i]++;
                 }
             }
@@ -1089,6 +1177,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String subQuestionString = SanitizationHelper.sanitizeForHtml(alphabeticalIndex + ") "
                     + getRubricSubQuestions().get(subQuestion));
             DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat dfWeight = new DecimalFormat("#.##");
 
             List<String> cols = new ArrayList<>();
 
@@ -1097,9 +1186,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             cols.add(recipientName);
             cols.add(subQuestionString);
 
-            // <td> entries which display number of responses per subQuestion per rubric choice
+            // <td> entries which display number of responses per subQuestion per rubric choice,
+            // and the corresponding weight of that choice of the specific sub-question.
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                cols.add(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]));
+                String responseFrequencyAndWeight = Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i])
+                        + " [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]";
+                cols.add(responseFrequencyAndWeight);
             }
 
             // <td> entries which display aggregate statistics
@@ -1141,6 +1233,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String subQuestionString = SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") "
                     + getRubricSubQuestions().get(subQuestion));
             DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat dfWeight = new DecimalFormat("#.##");
 
             // Append recipient identification details and rubric subQuestion
             csv.append(recipientTeam).append(',')
@@ -1150,7 +1243,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             // Append number of responses per subQuestion per rubric choice
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                csv.append(',').append(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]));
+                csv.append(',').append(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]))
+                    .append(" [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]");
             }
 
             // Append aggregate statistics
@@ -1178,8 +1272,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      */
     private static class RubricStatistics {
 
+        private RubricStatistics() {
+            // utility class
+        }
+
         /**
-         * Stores the frequency of being selected for each choice of each sub-question
+         * Returns the frequency of being selected for each choice of each sub-question
          * and the total number of responses for each sub-question.
          *
          * <p>Last element in each row stores the total number of responses for the sub-question.
@@ -1190,45 +1288,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * responseFrequency[subQuestionIndex][numOfRubricChoices]
          * -> is the total number of the responses for the given sub-question.
          */
-        int[][] responseFrequency;
+        public static int[][] calculateResponseFrequency(List<FeedbackResponseAttributes> responses,
+                                                         FeedbackRubricQuestionDetails questionDetails) {
+            int numOfRubricSubQuestions = questionDetails.getNumOfRubricSubQuestions();
+            int numOfRubricChoices = questionDetails.getNumOfRubricChoices();
+            int responseTotalIndex = numOfRubricChoices;
 
-        /**
-         * Stores the percentage value between [0,1] of each choice
-         * being selected for the sub-question.
-         *
-         * <p>Values are set to 0 if there are no responses to that sub-question.
-         * Average value is set to 0 if there are no assigned weights.
-         *
-         * <p>e.g.<br>
-         * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
-         * -> is the percentage choiceIndex is chosen for subQuestionIndex.<br>
-         * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
-         * -> is the average weight of the responses for the given sub-question.
-         */
-        float[][] percentageFrequencyAndAverage;
-
-        List<FeedbackResponseAttributes> responses;
-        FeedbackRubricQuestionDetails questionDetails;
-
-        int numOfRubricSubQuestions;
-        int numOfRubricChoices;
-        int responseTotalIndex;
-
-        RubricStatistics(List<FeedbackResponseAttributes> responses, FeedbackRubricQuestionDetails questionDetails) {
-
-            this.responses = responses;
-            this.questionDetails = questionDetails;
-
-            this.numOfRubricSubQuestions = questionDetails.getNumOfRubricSubQuestions();
-            this.numOfRubricChoices = questionDetails.getNumOfRubricChoices();
-            this.responseTotalIndex = numOfRubricChoices;
-
-            calculateResponseFrequency();
-            calculatePercentageFrequencyAndAverage();
-        }
-
-        void calculateResponseFrequency() {
-            responseFrequency = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
+            int[][] responseFrequency = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // count frequencies
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
@@ -1240,17 +1306,46 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     }
                 }
             }
+            return responseFrequency;
         }
 
         /**
-         * Calculates the percentage frequencies for each choice and average value for each sub-question.
-         * Precondition: responseFrequency has been calculated.
+         * Returns the frequency of being selected for each choice of each sub-question
+         * and the total number of responses for each sub-question for excluding self.
          */
-        void calculatePercentageFrequencyAndAverage() {
+        public static int[][] calculateResponseFrequencyExcludingSelf(List<FeedbackResponseAttributes> responses,
+                                                         FeedbackRubricQuestionDetails questionDetails) {
+
+            List<FeedbackResponseAttributes> responsesExcludingSelf = responses.stream()
+                    .filter(response -> !response.giver.equals(response.recipient)).collect(Collectors.toList());
+            return calculateResponseFrequency(responsesExcludingSelf, questionDetails);
+        }
+
+        /**
+         * Returns the calculated percentage frequencies for each choice and average value for each sub-question
+         * The percentage value between [0,1] of each choice being selected for the sub-question.
+         *
+         * <p>Values are set to 0 if there are no responses to that sub-question.
+         * Average value is set to 0 if there are no assigned weights.
+         *
+         * <p>e.g.<br>
+         * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
+         * -> is the percentage choiceIndex is chosen for subQuestionIndex.<br>
+         * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
+         * -> is the average weight of the responses for the given sub-question.
+         *
+         * @param responseFrequency decides whether the value returned is for excluding-self or including-self.
+         */
+        public static float[][] calculatePercentageFrequencyAndAverage(FeedbackRubricQuestionDetails questionDetails,
+                                                         int [][] responseFrequency) {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
                                      (Object[]) responseFrequency);
 
-            percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
+            int numOfRubricSubQuestions = questionDetails.getNumOfRubricSubQuestions();
+            int numOfRubricChoices = questionDetails.getNumOfRubricChoices();
+            int responseTotalIndex = numOfRubricChoices;
+
+            float[][] percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value
             for (int i = 0; i < percentageFrequencyAndAverage.length; i++) {
                 int totalForSubQuestion = responseFrequency[i][responseTotalIndex];
@@ -1262,22 +1357,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 for (int j = 0; j < numOfRubricChoices; j++) {
                     percentageFrequencyAndAverage[i][j] = (float) responseFrequency[i][j] / totalForSubQuestion;
                 }
+                List<List<Double>> weights = questionDetails.getRubricWeights();
                 // calculate the average for each sub-question
                 if (questionDetails.hasAssignedWeights()) {
                     for (int j = 0; j < numOfRubricChoices; j++) {
                         float choiceWeight =
-                                (float) (questionDetails.getRubricWeights().get(j) * percentageFrequencyAndAverage[i][j]);
+                                (float) (weights.get(i).get(j)
+                                        * percentageFrequencyAndAverage[i][j]);
                         percentageFrequencyAndAverage[i][numOfRubricChoices] += choiceWeight;
                     }
                 }
             }
-        }
-
-        int[][] getResponseFrequency() {
-            return responseFrequency;
-        }
-
-        float[][] getPercentageFrequencyAndAverage() {
             return percentageFrequencyAndAverage;
         }
 

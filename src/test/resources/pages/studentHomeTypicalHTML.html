@@ -19,7 +19,7 @@
         </a>
       </span>
     </div>
-    <table class="table-responsive table table-striped">
+    <table class="table-responsive table table-striped table-bordered margin-0">
       <tbody>
         <tr>
           <th class="align-center bold color_white">
@@ -42,14 +42,16 @@
         </a>
       </span>
     </div>
-    <table class="table-responsive table table-striped">
+    <table class="table-responsive table table-striped table-bordered margin-0">
       <thead>
         <tr>
           <th>
             Session Name
           </th>
-          <th>
+          <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
             Deadline
+            <span class="icon-sort unsorted">
+            </span>
           </th>
           <th>
             Submissions
@@ -67,8 +69,8 @@
           <td>
             Closed Feedback Session
           </td>
-          <td>
-            Mon, 30 Apr 2012, 11:59 PM
+          <td data-date-stamp="2012-04-30T15:59:00Z">
+            Mon, 30 Apr 2012, 11:59 PM SGT
           </td>
           <td>
             <span class="tool-tip-decorate" data-original-title="The feedback session is yet to be completed by you.<br>The session is now closed for submissions." data-placement="top" data-toggle="tooltip" title="">
@@ -93,8 +95,8 @@
           <td>
             Graced Feedback Session
           </td>
-          <td>
-            ${datetime.now}
+          <td data-date-stamp="${datetime.now.iso8601utc}">
+            ${datetime.now} SGT
           </td>
           <td>
             <span class="tool-tip-decorate" data-original-title="The feedback session is yet to be completed by you." data-placement="top" data-toggle="tooltip" title="">
@@ -107,7 +109,7 @@
             </span>
           </td>
           <td class="studentHomeActions">
-            <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="viewFeedbackResults1" name="viewFeedbackResults1" role="button" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="javascript:;" id="viewFeedbackResults1" name="viewFeedbackResults1" role="button" title="">
               View Responses
             </a>
             <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&fsname=Graced+Feedback+Session&user=SHomeUiT.charlie.d" id="submitFeedback1" role="button" title="">
@@ -119,8 +121,8 @@
           <td>
             First Feedback Session
           </td>
-          <td>
-            Fri, 30 Apr 2027, 11:59 PM
+          <td data-date-stamp="2027-04-30T15:59:00Z">
+            Fri, 30 Apr 2027, 11:59 PM SGT
           </td>
           <td>
             <span class="tool-tip-decorate" data-original-title="The feedback session is yet to be completed by you." data-placement="top" data-toggle="tooltip" title="">
@@ -133,7 +135,7 @@
             </span>
           </td>
           <td class="studentHomeActions">
-            <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="viewFeedbackResults2" name="viewFeedbackResults2" role="button" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="javascript:;" id="viewFeedbackResults2" name="viewFeedbackResults2" role="button" title="">
               View Responses
             </a>
             <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&fsname=First+Feedback+Session&user=SHomeUiT.charlie.d" id="submitFeedback2" role="button" title="">

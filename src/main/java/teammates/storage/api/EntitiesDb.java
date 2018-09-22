@@ -41,7 +41,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
 
-    private static final Logger log = Logger.getLogger();
+    protected static final Logger log = Logger.getLogger();
 
     /**
      * Preconditions:

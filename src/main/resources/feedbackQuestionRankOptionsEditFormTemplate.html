@@ -1,7 +1,9 @@
 <div class="row">
   <br>
   <div class="col-sm-6" id="rankOptionTable-${questionNumber}">
-    ${rankEditFormOptionFragments}
+    <div id="rankChoices-${questionNumber}">
+      ${rankEditFormOptionFragments}
+    </div>
     <div id="rankAddOptionRow-${questionNumber}">
       <div colspan="2">
         <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-${questionNumber}"
@@ -29,16 +31,17 @@
       <div class="col-sm-9 col-xs-12">
         <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at least the mentioned number of options.">
           <label class="bold-label">
-            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}"
-                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}-${questionNumber}" ${isMinOptionsToBeRankedEnabled}>
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}"
+                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}-${questionNumber}"
+                   data-linked-input-id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}-${questionNumber}" ${isMinOptionsToBeRankedEnabled}>
             Minimum number of options a respondent must rank
           </label>
         </div>
       </div>
       <div class="col-sm-3 col-xs-12">
         <div class="pull-right">
-          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}"
-            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionNumber}" min="1" step="any" value="${minOptionsToBeRanked}"/>
+          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}-${questionNumber}" min="1" step="any" placeholder="e.g. 1" value="${minOptionsToBeRanked}" required>
         </div>
       </div>
     </div>
@@ -47,16 +50,17 @@
       <div class="col-sm-9 col-xs-12">
         <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
           <label class="bold-label">
-            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}"
-                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}-${questionNumber}" ${isMaxOptionsToBeRankedEnabled}>
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}"
+                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}-${questionNumber}"
+                   data-linked-input-id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}-${questionNumber}" ${isMaxOptionsToBeRankedEnabled}>
             Maximum number of options a respondent can rank
           </label>
         </div>
       </div>
       <div class="col-sm-3 col-xs-12">
         <div class="pull-right">
-          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}"
-              id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}-${questionNumber}" min="1" step="any" value="${maxOptionsToBeRanked}"/>
+          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}"
+              id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}-${questionNumber}" min="1" step="any" placeholder="e.g. 1" value="${maxOptionsToBeRanked}" required>
         </div>
       </div>
     </div>

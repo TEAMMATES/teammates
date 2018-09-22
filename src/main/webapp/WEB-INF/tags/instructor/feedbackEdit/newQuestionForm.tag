@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks - new feedback question form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -25,11 +26,18 @@
             Add New Question <span class="caret"></span>
           </button>
           <ul id="add-new-question-dropdown" class="dropdown-menu">
+            <li data-questiontype="TEMPLATE" id="button_add_template_modal">
+              <a href="javascript:;"
+                 data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
+                 data-target="#addTemplateQuestionModal" data-toggle="modal">
+                 Choose from template questions
+              </a>
+            </li>
             ${fqForm.questionTypeOptions}
           </ul>
         </div>
 
-        <a href="/instructorHelp.jsp#fbQuestionTypes"
+        <a href="/instructorHelp.jsp#questions"
             target="_blank" rel="noopener noreferrer">
           <i class="glyphicon glyphicon-info-sign"></i>
         </a>
@@ -137,8 +145,5 @@
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO %>" >
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO %>" >
   <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
-  <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>"
-      value="<%= FeedbackParticipantType.NONE.toString() %>"
-      id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>

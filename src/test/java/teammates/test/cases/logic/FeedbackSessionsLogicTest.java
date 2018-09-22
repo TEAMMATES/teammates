@@ -1,9 +1,10 @@
 package teammates.test.cases.logic;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,18 +12,16 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionStats;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -32,9 +31,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
@@ -44,9 +46,11 @@ import teammates.test.driver.TimeHelperExtension;
  * SUT: {@link FeedbackSessionsLogic}.
  */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -59,7 +63,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
+        testGetSoftDeletedFeedbackSessionsListForInstructor();
+        testGetSoftDeletedFeedbackSessionsListForInstructors();
         testGetFeedbackSessionsClosingWithinTimeLimit();
+        testGetFeedbackSessionsClosedWithinThePastHour();
         testGetFeedbackSessionsWhichNeedOpenMailsToBeSent();
         testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent();
         testGetFeedbackSessionDetailsForInstructor();
@@ -80,7 +87,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
 
+        testMoveFeedbackSessionToRecycleBin();
+        testRestoreFeedbackSessionFromRecycleBin();
+        testRestoreAllFeedbackSessionsFromRecycleBin();
         testDeleteFeedbackSessionsForCourse();
+        testDeleteAllFeedbackSessions();
     }
 
     private void testGetFeedbackSessionsListForInstructor() {
@@ -97,6 +108,43 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         AssertHelper.assertSameContentIgnoreOrder(
                 finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
+
+    }
+
+    private void testGetSoftDeletedFeedbackSessionsListForInstructor() {
+        List<FeedbackSessionAttributes> softDeletedFsa = new ArrayList<>();
+        Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
+
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+
+        for (FeedbackSessionAttributes fsa : allFsa) {
+            if (fsa.getCourseId().equals(courseId) && fsa.isSessionDeleted()) {
+                softDeletedFsa.add(fsa);
+            }
+        }
+        AssertHelper.assertSameContentIgnoreOrder(
+                softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor));
+
+    }
+
+    private void testGetSoftDeletedFeedbackSessionsListForInstructors() {
+        List<FeedbackSessionAttributes> softDeletedFsa = new ArrayList<>();
+        Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
+
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        for (FeedbackSessionAttributes fsa : allFsa) {
+            if (fsa.getCourseId().equals(courseId) && fsa.isSessionDeleted()) {
+                softDeletedFsa.add(fsa);
+            }
+        }
+        AssertHelper.assertSameContentIgnoreOrder(
+                softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors));
 
     }
 
@@ -130,88 +178,138 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
 
-        ______TS("init : 0 non private sessions closing within time-limit");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        ______TS("init : 0 standard sessions closing within time-limit");
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("typical case : 1 non private session closing within time limit");
+        ______TS("case : 1 open session in undeleted course closing within time-limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.setTimeZone(0);
-        session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
+        coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
-        sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(1, sessionList.size());
-        assertEquals(session.getFeedbackSessionName(),
-                sessionList.get(0).getFeedbackSessionName());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        ______TS("case : 1 private session closing within time limit");
-        session.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-        fsLogic.updateFeedbackSession(session);
+        ______TS("case : 1 open session in deleted course closing within time-limit");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
-        sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
         assertEquals(0, sessionList.size());
 
-        // delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        // wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
+    }
+
+    private void testGetFeedbackSessionsClosedWithinThePastHour() throws Exception {
+
+        ______TS("init : 0 standard sessions closed within the past hour");
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in undeleted course within the past hour");
+        FeedbackSessionAttributes session = getNewFeedbackSession();
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-59));
+        fsLogic.createFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(1, sessionList.size());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
+
+        ______TS("case : 1 closed session in deleted course within the past hour");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
 
         ______TS("init : 0 open sessions");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 open session with mail unsent");
+        ______TS("case : 1 open session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.setTimeZone(0);
-        session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-23));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
-        ______TS("typical case : 1 open session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 open session in undeleted course with mail sent");
         session.setSentOpenEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 closed session with mail unsent");
-        session.setEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
+        ______TS("case : 1 closed session in undeleted course with mail unsent");
+        session.setSentOpenEmail(false);
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
 
-        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        //wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 open session in deleted course with mail sent");
+        session.setSentOpenEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in deleted course with mail unsent");
+        session.setSentOpenEmail(false);
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
@@ -223,28 +321,44 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 published session with mail unsent");
+        ______TS("case : 1 published session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        session.setTimeZone(0);
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
 
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
 
-        ______TS("case : 1 published session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 published session in undeleted course with mail sent");
         session.setSentPublishedEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setSentPublishedEmail(false);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in deleted course with mail sent");
+        session.setSentPublishedEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
     }
 
@@ -282,19 +396,20 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("test delete");
         fs = getNewFeedbackSession();
         // Create a question under the session to test for cascading during delete.
-        FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
-        fq.feedbackSessionName = fs.getFeedbackSessionName();
-        fq.courseId = fs.getCourseId();
-        fq.questionNumber = 1;
-        fq.creatorEmail = fs.getCreatorEmail();
-        fq.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
-        fq.giverType = FeedbackParticipantType.STUDENTS;
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.questionMetaData = new Text("question to be deleted through cascade");
-        fq.questionType = FeedbackQuestionType.TEXT;
-        fq.showResponsesTo = new ArrayList<>();
-        fq.showRecipientNameTo = new ArrayList<>();
-        fq.showGiverNameTo = new ArrayList<>();
+        FeedbackQuestionAttributes fq = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName(fs.getFeedbackSessionName())
+                .withCourseId(fs.getCourseId())
+                .withQuestionNumber(1)
+                .withCreatorEmail(fs.getCreatorEmail())
+                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.TEAMS)
+                .withQuestionMetaData("question to be deleted through cascade")
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withShowResponseTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .build();
 
         fqLogic.createFeedbackQuestion(fq);
 
@@ -311,7 +426,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
         FeedbackSessionAttributes copiedSession = fsLogic.copyFeedbackSession(
-                "Copied Session", typicalCourse2.getId(),
+                "Copied Session", typicalCourse2.getId(), typicalCourse2.getTimeZone(),
                 session1InCourse1.getFeedbackSessionName(),
                 session1InCourse1.getCourseId(), instructor2OfCourse1.email);
         verifyPresentInDatastore(copiedSession);
@@ -345,7 +460,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         try {
             fsLogic.copyFeedbackSession(
                     session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(),
-                    session1InCourse1.getFeedbackSessionName(),
+                    session1InCourse1.getTimeZone(), session1InCourse1.getFeedbackSessionName(),
                     session1InCourse1.getCourseId(), instructor2OfCourse1.email);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
@@ -357,7 +472,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionDetailsForInstructor() throws Exception {
 
-        // This file contains a session with a private session + a standard
+        // This file contains a session with a standard
         // session + a special session with all questions without recipients.
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
         removeAndRestoreDataBundle(newDataBundle);
@@ -371,7 +486,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         expectedSessions.add(newDataBundle.feedbackSessions.get("standard.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.responses.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session").toString());
 
         StringBuilder actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
@@ -384,7 +498,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String actualSessions = actualSessionsBuilder.toString();
         ______TS("standard session");
 
-        assertEquals(4, detailsList.size());
+        assertEquals(3, detailsList.size());
         AssertHelper.assertContains(expectedSessions, actualSessions);
 
         FeedbackSessionStats stats =
@@ -412,100 +526,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // 1 instructors, 1 students = 2
         assertEquals(2, stats.expectedTotal);
         // no responses
-        assertEquals(0, stats.submittedTotal);
-
-        ______TS("private session with questions");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session").getFeedbackSessionName() + "%"
-                               + newDataBundle.feedbackSessions.get("private.session").getCourseId()).stats;
-        assertEquals(1, stats.expectedTotal);
-        // For private sessions, we mark as completed only when creator has finished all questions.
-        assertEquals(0, stats.submittedTotal);
-
-        ______TS("change private session to non-private");
-        FeedbackSessionAttributes privateSession =
-                newDataBundle.feedbackSessions.get("private.session");
-        privateSession.setSessionVisibleFromTime(privateSession.getStartTime());
-        privateSession.setEndTime(TimeHelper.convertToDate("2015-04-01 2:00 PM UTC"));
-        privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        fsLogic.updateFeedbackSession(privateSession);
-
-        // Re-read details
-        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
-                newDataBundle.instructors.get("instructor1OfCourse1").googleId);
-        for (FeedbackSessionDetailsBundle details : detailsList) {
-            if (details.feedbackSession.getFeedbackSessionName().equals(
-                    newDataBundle.feedbackSessions.get("private.session").getFeedbackSessionName())) {
-                stats = details.stats;
-                break;
-            }
-        }
-        // 1 instructor (creator only), 6 students = 8
-        assertEquals(7, stats.expectedTotal);
-        // 1 instructor, 1 student responded
-        assertEquals(2, stats.submittedTotal);
-
-        ______TS("private session without questions");
-
-        expectedSessions.clear();
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.noquestions").toString());
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.done").toString());
-
-        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
-                newDataBundle.instructors.get("instructor2OfCourse1").googleId);
-
-        detailsMap.clear();
-        actualSessionsBuilder = new StringBuilder();
-        for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessionsBuilder.append(details.feedbackSession.toString());
-            detailsMap.put(
-                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
-                    details);
-        }
-        actualSessions = actualSessionsBuilder.toString();
-
-        AssertHelper.assertContains(expectedSessions, actualSessions);
-
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.noquestions")
-                                                             .getFeedbackSessionName()
-                + "%" + newDataBundle.feedbackSessions.get("private.session.noquestions")
-                                                      .getCourseId()).stats;
-
-        assertEquals(0, stats.expectedTotal);
-        assertEquals(0, stats.submittedTotal);
-
-        ______TS("completed private session");
-
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.done").getFeedbackSessionName() + "%"
-                + newDataBundle.feedbackSessions.get("private.session.done").getCourseId()).stats;
-
-        assertEquals(1, stats.expectedTotal);
-        assertEquals(1, stats.submittedTotal);
-
-        ______TS("private session with questions with no recipients");
-
-        expectedSessions.clear();
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.norecipients").toString());
-
-        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
-                newDataBundle.instructors.get("instructor1OfCourse3").googleId);
-
-        detailsMap.clear();
-        actualSessions = "";
-        actualSessionsBuilder = new StringBuilder();
-        for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessionsBuilder.append(details.feedbackSession.toString());
-            detailsMap.put(
-                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
-                    details);
-        }
-        actualSessions = actualSessionsBuilder.toString();
-        AssertHelper.assertContains(expectedSessions, actualSessions);
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients")
-                                                             .getFeedbackSessionName()
-                + "%" + newDataBundle.feedbackSessions.get("private.session.norecipients")
-                                                      .getCourseId()).stats;
-
-        assertEquals(0, stats.expectedTotal);
         assertEquals(0, stats.submittedTotal);
 
         ______TS("instructor does not exist");
@@ -544,9 +564,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(3, actualSessions.size());
 
-        // Course 2 only has an instructor session and a private session.
-        // The private session is not viewable to students,
-        // but the instructor session has questions where responses are visible
+        // Course 2 only has an instructor session.
+        // The instructor session has questions where responses are visible
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");
         assertEquals(1, actualSessions.size());
 
@@ -569,21 +588,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             AssertHelper.assertContains(session.toString(), expected);
         }
         assertEquals(6, actualSessions.size());
-
-        // We should only have one session here as session 2 is private and this instructor is not the creator.
+        // We should only have one session here as there is only one session in the course.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
 
         assertEquals(actualSessions.get(0).toString(),
-                dataBundle.feedbackSessions.get("session2InCourse2").toString());
+                dataBundle.feedbackSessions.get("session1InCourse2").toString());
         assertEquals(1, actualSessions.size());
-
-        ______TS("Private session viewing");
-
-        // This is the creator for the private session.
-        // We have already tested above that other instructors cannot see it.
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor1@course2.tmt");
-        AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
-                actualSessions.toString());
 
         ______TS("Feedback session without questions for students but with visible responses are visible");
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
@@ -620,6 +630,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C1", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
+
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse1");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
@@ -631,6 +649,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 2
+        frcList = actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(0, frcList.size());
 
         // Question for students to instructors
         expectedQuestion = getQuestionFromDatastore("qn5InSession1InCourse1");
@@ -703,7 +725,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         "Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
 
         // We just test this once.
-        assertEquals(dataBundle.feedbackSessions.get("session2InCourse2").toString(),
+        assertEquals(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actual.feedbackSession.toString());
 
         // There should be 2 question for students to do in session 1.
@@ -712,10 +734,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Question 1
         FeedbackQuestionAttributes expectedQuestion =
-                getQuestionFromDatastore("qn1InSession2InCourse2");
+                getQuestionFromDatastore("qn1InSession1InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
-        String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
+        String expectedResponsesString = getResponseFromDatastore("response1ForQ1S1C2", dataBundle).toString();
         List<String> actualResponses = new ArrayList<>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
@@ -723,22 +745,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C2", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
+
         // Question 2
-        expectedQuestion = getQuestionFromDatastore("qn2InSession2InCourse2");
+        expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
         assertTrue(actual.questionResponseBundle.get(expectedQuestion).isEmpty());
-
-        ______TS("private test: not creator");
-        actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Private feedback session", "idOfTypicalCourse2", "instructor2@course2.tmt");
-        assertEquals(0, actual.questionResponseBundle.size());
-
-        ______TS("private test: is creator");
-        actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Private feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
-        assertEquals(1, actual.questionResponseBundle.size());
-        expectedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
-        assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         ______TS("failure: invalid session");
 
@@ -755,7 +773,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionResultsForUser() throws Exception {
 
-        // This file contains a session with a private session + a standard
+        // This file contains a session with a standard
         // session which needs to have enough qn/response combinations to cover as much
         // of the SUT as possible
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
@@ -1048,67 +1066,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(7, results.visibilityTable.size());
         // TODO: test student2 too.
 
-        ______TS("private session");
-
-        session = responseBundle.feedbackSessions.get("private.session");
-
-        /*** Test result bundle for student1 ***/
-        student = responseBundle.students.get("student1InCourse1");
-        results = fsLogic.getFeedbackSessionResultsForStudent(session.getFeedbackSessionName(),
-                        session.getCourseId(), student.email);
-
-        assertEquals(0, results.questions.size());
-        assertEquals(0, results.responses.size());
-        assertEquals(0, results.emailNameTable.size());
-        assertEquals(0, results.emailTeamNameTable.size());
-        assertEquals(0, results.visibilityTable.size());
-
-        /*** Test result bundle for instructor1 ***/
-
-        instructor =
-                responseBundle.instructors.get("instructor1OfCourse1");
-        results = fsLogic.getFeedbackSessionResultsForInstructor(
-                session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email);
-
-        // Can see all responses regardless of visibility settings.
-        assertEquals(2, results.questions.size());
-        assertEquals(2, results.responses.size());
-
-        // Test the user email-name maps used for display purposes
-        mapString = results.emailNameTable.toString();
-        expectedStrings.clear();
-        Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
-                "Team 1.2=Team 1.2",
-                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS,
-                                                responseBundle.students.get("student3InCourse1").team),
-                "FSRTest.instr1@course1.tmt=Instructor1 Course1");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(4, results.emailNameTable.size());
-
-        // Test the user email-teamName maps used for display purposes
-        mapString = results.emailTeamNameTable.toString();
-        expectedStrings.clear();
-        Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
-                "Team 1.2=",
-                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS,
-                                                responseBundle.students.get("student3InCourse1").team),
-                "FSRTest.instr1@course1.tmt=Instructors");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(4, results.emailTeamNameTable.size());
-
-        // Test that name visibility is adhered to even when
-        // it is a private session. (to protect anonymity during session type conversion)"
-        mapString = tableToString(results.visibilityTable);
-        expectedStrings.clear();
-        Collections.addAll(expectedStrings,
-                getResponseId("p.qn1.resp1", responseBundle) + "={true,true}",
-                getResponseId("p.qn2.resp1", responseBundle) + "={true,false}");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(2, results.visibilityTable.size());
-
         ______TS("failure: no session");
 
         try {
@@ -1311,14 +1268,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"What do you like best about our product?\"",
                 "",
                 "Summary Statistics,",
-                "Choice, Response Count, Percentage",
-                "\"It's good\",1,50",
-                "\"It's perfect\",1,50",
+                "Choice, Response Count, Percentage (%)",
+                "\"It's good\",1,33.33",
+                "\"It's perfect\",2,66.67",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\",\"Student 2 comment\",Instructor1 Course1,\"Instructor 1 comment to student 2\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"It's perfect\",\"Student 3 comment\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
                 "",
@@ -1326,26 +1283,46 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 2,\"What do you like best about the class' product?\"",
                 "",
                 "Summary Statistics,",
-                "Choice, Response Count, Percentage",
+                "Choice, Response Count, Percentage (%)",
                 "\"It's good\",1,50",
                 "\"It's perfect\",1,50",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"",
-                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\",",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\",",
                 "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
                 "",
                 "",
                 "Question 3,\"What can be improved for this class?\"",
                 "",
                 "Summary Statistics,",
-                "Choice, Response Count, Percentage",
+                "Choice, Response Count, Percentage (%)",
                 "\"Content\",0,0",
                 "\"Teaching style\",0,0",
                 "\"Other\",1,100",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 4,\"What do you like best about our product?\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Weight, Response Count, Percentage (%), Weighted Percentage (%)",
+                "\"It's good\",\"1.25\",1,100,100",
+                "\"It's perfect\",\"1.7\",0,0,0",
+                "\"Other\",\"3\",0,0,0",
+                "",
+                "Per Recipient Statistics",
+                "Team, Recipient Name,\"It's good [1.25]\",\"It's perfect [1.7]\",\"Other [3]\",Total, Average",
+                "Team 1.1</td></div>'\", student1 In Course1</td></div>'\", 1, 0, 0, 1.25, 1.25",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\",",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
@@ -1375,10 +1352,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"What do you like best about our product?\"",
                 "",
                 "Summary Statistics,",
-                "Choice, Response Count, Percentage",
+                "Choice, Response Count, Percentage (%)",
                 "\"It's good\",2,66.67",
                 "\"It's perfect\",1,33.33",
-                "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,\"It's good\",\"It's perfect\"",
@@ -1391,10 +1367,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 2,\"What do you like best about the class' product?\"",
                 "",
                 "Summary Statistics,",
-                "Choice, Response Count, Percentage",
+                "Choice, Response Count, Percentage (%)",
                 "\"It's good\",1,33.33",
                 "\"It's perfect\",2,66.67",
-                "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
                 "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",,\"It's good\",\"It's perfect\"",
@@ -1405,12 +1380,17 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 3,\"Choose all the food you like\"",
                 "",
                 "Summary Statistics,",
-                "Choice, Response Count, Percentage",
-                "\"Pizza\",1,16.67",
-                "\"Pasta\",2,33.33",
-                "\"Chicken rice\",1,16.67",
-                "\"Other\",2,33.33",
+                "Choice, Weight, Response Count, Percentage (%), Weighted Percentage (%)",
+                "\"Pizza\",\"1\",1,16.67,9.09",
+                "\"Pasta\",\"2\",2,33.33,36.36",
+                "\"Chicken rice\",\"0\",1,16.67,0",
+                "\"Other\",\"3\",2,33.33,54.55",
                 "",
+                "Per Recipient Statistics",
+                "Team, Recipient Name,\"Pizza [1]\",\"Pasta [2]\",\"Chicken rice [0]\",\"Other [3]\",Total, Average",
+                "Team 1.1</td></div>'\", student1 In Course1</td></div>'\", 1, 1, 1, 1, 6.00, 1.50",
+                "Team 1.1</td></div>'\", student2 In Course1, 0, 1, 0, 0, 2.00, 2.00",
+                "Team 1.1</td></div>'\", student3 In Course1, 0, 0, 0, 1, 3.00, 3.00",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Pizza\",\"Pasta\",\"Chicken rice\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,\"Pizza\",\"Pasta\",\"Chicken rice\"",
@@ -1598,15 +1578,15 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
                 "",
                 "Summary Statistics,",
-                "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+                "\"In the points given below, an equal share is equal to 100 points. e.g. 80 means \"\"Equal share - 20%\"\" and 110 means \"\"Equal share + 10%\"\".\"",
                 "Claimed Contribution (CC) = the contribution claimed by the student.",
                 "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
-                "Team, Name, Email, CC, PC, Ratings Recieved",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"",
-                "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "Team, Name, Email, CC, PC, Ratings Received",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",N/A, N/A, N/A",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",75, N/A, N/A",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",103, N/A, N/A",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",122, N/A, N/A",
+                "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",N/A",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1659,15 +1639,15 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
                 "",
                 "Summary Statistics,",
-                "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+                "\"In the points given below, an equal share is equal to 100 points. e.g. 80 means \"\"Equal share - 20%\"\" and 110 means \"\"Equal share + 10%\"\".\"",
                 "Claimed Contribution (CC) = the contribution claimed by the student.",
                 "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
-                "Team, Name, Email, CC, PC, Ratings Recieved",
-                "\"" + student1AnonName + "'s Team\",\"" + student1AnonName + "\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student2AnonName + "'s Team\",\"" + student2AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student3AnonName + "'s Team\",\"" + student3AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student4AnonName + "'s Team\",\"" + student4AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student5AnonName + "'s Team\",\"" + student5AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "Team, Name, Email, CC, PC, Ratings Received",
+                "\"" + student1AnonName + "'s Team\",\"" + student1AnonName + "\",\"-\",\"100\",\"N/A\",N/A, N/A, N/A",
+                "\"" + student2AnonName + "'s Team\",\"" + student2AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",N/A, N/A, N/A",
+                "\"" + student3AnonName + "'s Team\",\"" + student3AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",N/A, N/A, N/A",
+                "\"" + student4AnonName + "'s Team\",\"" + student4AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",N/A, N/A, N/A",
+                "\"" + student5AnonName + "'s Team\",\"" + student5AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",N/A",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1700,12 +1680,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
                 "",
                 "Summary Statistics,",
-                "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+                "\"In the points given below, an equal share is equal to 100 points. e.g. 80 means \"\"Equal share - 20%\"\" and 110 means \"\"Equal share + 10%\"\".\"",
                 "Claimed Contribution (CC) = the contribution claimed by the student.",
                 "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
-                "Team, Name, Email, CC, PC, Ratings Recieved",
-                "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"",
-                "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "Team, Name, Email, CC, PC, Ratings Received",
+                "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",N/A",
+                "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",N/A",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1740,19 +1720,20 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"Please choose the best choice for the following sub-questions.\"",
                 "",
                 "Summary Statistics,",
-                ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
-                "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
-                "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
+                ",\"Yes\",\"No\",Average",
+                "\"a) This student has done a good job.\",67% (2) [1.25],33% (1) [-1.7],0.27",
+                "\"b) This student has tried his/her best.\",75% (3) [1.25],25% (1) [-1.7],0.51",
                 "",
-                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Total,Average",
-                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,1,-1.70,-1.70",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,1,-1.70,-1.70",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,0,0.00,0.00",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
+                "Per Recipient Statistics",
+                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes\",\"No\",Total,Average",
+                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],1 [-1.7],-1.70,-1.70",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",0 [1.25],1 [-1.7],-1.70,-1.70",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1 [1.25],0 [-1.7],1.25,1.25",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",0 [1.25],0 [-1.7],0.00,0.00",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1 [1.25],0 [-1.7],1.25,1.25",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
@@ -1781,17 +1762,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 2,\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\"",
                 "",
                 "Summary Statistics,",
-                ",\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Average",
-                "\"a) This student has done a good job.\",67% (2),33% (1),1.17",
-                "\"b) This student has tried his/her best.\",- (0),- (0),-",
+                ",\"Yes\",\"No\",Average",
+                "\"a) This student has done a good job.\",67% (2) [1.25],33% (1) [1],1.17",
+                "\"b) This student has tried his/her best.\",- (0) [1.25],- (0) [1],-",
                 "",
-                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Total,Average",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,1,1.00,1.00",
-                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
-                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
+                "Per Recipient Statistics",
+                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes\",\"No\",Total,Average",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [1],1.25,1.25",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],0 [1],0.00,0.00",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",0 [1.25],1 [1],1.00,1.00",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],0 [1],0.00,0.00",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",1 [1.25],0 [1],1.25,1.25",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0 [1.25],0 [1],0.00,0.00",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
@@ -1923,12 +1905,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session = dataBundle.feedbackSessions.get("archiveCourse.session1");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
 
-        session = dataBundle.feedbackSessions.get("session2InCourse2");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
-
-        ______TS("private session");
         session = dataBundle.feedbackSessions.get("session1InCourse2");
-        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
 
         ______TS("empty session");
         session = dataBundle.feedbackSessions.get("empty.session");
@@ -1964,7 +1942,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsa.setInstructions(null);
         fsa.setStartTime(null);
         fsa.setEndTime(null);
-        fsa.setFeedbackSessionType(null);
         fsa.setSessionVisibleFromTime(null);
         fsa.setResultsVisibleFromTime(null);
 
@@ -2023,28 +2000,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             assertEquals("Error unpublishing feedback session: Session has already been unpublished.", e.getMessage());
         }
 
-        ______TS("failure: private session");
-
-        sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
-
-        try {
-            fsLogic.publishFeedbackSession(sessionUnderTest);
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that private session can't "
-                    + "be published.");
-        } catch (InvalidParametersException e) {
-            assertEquals("Error publishing feedback session: Session is private and can't be published.", e.getMessage());
-        }
-
-        try {
-            fsLogic.unpublishFeedbackSession(sessionUnderTest);
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that private session should "
-                    + "not be published");
-        } catch (InvalidParametersException e) {
-            assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.",
-                         e.getMessage());
-        }
     }
 
     private void testIsFeedbackSessionCompletedByInstructor() throws Exception {
@@ -2095,16 +2050,15 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
-                .withCreatedTime(new Date())
-                .withStartTime(new Date())
-                .withEndTime(new Date())
-                .withSessionVisibleFromTime(new Date())
-                .withResultsVisibleFromTime(new Date())
-                .withGracePeriod(5)
+                .withCreatedTime(Instant.now())
+                .withStartTime(Instant.now())
+                .withEndTime(Instant.now())
+                .withSessionVisibleFromTime(Instant.now())
+                .withResultsVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
-                .withInstructions(new Text("Give feedback."))
+                .withInstructions("Give feedback.")
                 .build();
     }
 
@@ -2140,6 +2094,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 response.giver, response.recipient);
     }
 
+    private FeedbackResponseCommentAttributes getCommentFromDatastore(String jsonId, DataBundle bundle) {
+        FeedbackResponseCommentAttributes comment = bundle.feedbackResponseComments.get(jsonId);
+        return frcLogic.getFeedbackResponseComment(comment.feedbackResponseId, comment.commentGiver, comment.createdAt);
+    }
+
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
@@ -2159,10 +2118,76 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         return tableString;
     }
 
+    private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
+        String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+
+        assertFalse(feedbackSession.isSessionDeleted());
+
+        Instant deletedTime = fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+        feedbackSession.setDeletedTime(deletedTime);
+
+        FeedbackSessionAttributes actualFs = fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        assertEquals(JsonUtils.toJson(feedbackSession), JsonUtils.toJson(actualFs));
+        assertTrue(feedbackSession.isSessionDeleted());
+    }
+
+    private void testRestoreFeedbackSessionFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
+        String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+
+        assertTrue(feedbackSession.isSessionDeleted());
+
+        fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        feedbackSession.resetDeletedTime();
+
+        verifyPresentInDatastore(feedbackSession);
+        assertFalse(feedbackSession.isSessionDeleted());
+    }
+
+    private void testRestoreAllFeedbackSessionsFromRecycleBin()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        List<FeedbackSessionAttributes> softDeletedFsa = fsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
+        for (FeedbackSessionAttributes fsa : softDeletedFsa) {
+            assertTrue(fsa.isSessionDeleted());
+        }
+
+        fsLogic.restoreAllFeedbackSessionsFromRecycleBin(instructors);
+
+        for (FeedbackSessionAttributes fsa : softDeletedFsa) {
+            fsa.resetDeletedTime();
+
+            verifyPresentInDatastore(fsa);
+            assertFalse(fsa.isSessionDeleted());
+        }
+    }
+
     private void testDeleteFeedbackSessionsForCourse() {
 
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
         fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");
+        assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
+    }
+
+    private void testDeleteAllFeedbackSessions() throws InvalidParametersException, EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        instructors.add(instructor);
+
+        String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse3").getFeedbackSessionName();
+        String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName1, courseId);
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName2, courseId);
+
+        assertEquals(2, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
+        fsLogic.deleteAllFeedbackSessionsCascade(instructors);
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
 

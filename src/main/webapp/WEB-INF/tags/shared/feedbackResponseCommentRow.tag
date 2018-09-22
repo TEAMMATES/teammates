@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Feedback Response Comment" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -32,27 +33,23 @@
     <span class="text-muted">
       From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}
     </span>
-      <c:if test="${frc.withVisibilityIcon}">
-        <span class="glyphicon glyphicon-eye-open"
-            data-toggle="tooltip"
-            data-placement="top"
-            style="margin-left: 5px;"
-            title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
-      </c:if>
+    <span class="glyphicon glyphicon-eye-open"
+        data-toggle="tooltip"
+        data-placement="top"
+        style="margin-left: 5px;"
+        title="This response comment is visible to ${frc.visibilityIconString}"></span>
     </div>
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
         <form class="responseCommentDeleteForm pull-right">
-          <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
+          <c:set var="deleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>" />
+          <a href="${frc.editDeleteEnabled ? deleteUri : 'javascript:;'}"
               type="button"
               id="commentdelete-${divId}"
-              class="btn btn-default btn-xs icon-button"
+              class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
               data-toggle="tooltip"
               data-placement="top"
-              title="<%= Const.Tooltips.COMMENT_DELETE %>"
-              <c:if test="${not frc.editDeleteEnabled}">
-                disabled
-              </c:if>>
+              title="<%= Const.Tooltips.COMMENT_DELETE %>">
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
           </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
@@ -66,20 +63,19 @@
         <a type="button" id="commentedit-${divId}"
             <c:choose>
               <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
-                class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
+                class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
                 data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
                 data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
                 <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                 <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
               </c:when>
               <c:otherwise>
-                class="btn btn-default btn-xs icon-button pull-right"
+                class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
               </c:otherwise>
             </c:choose>
             data-toggle="tooltip"
             data-placement="top"
-            title="<%= Const.Tooltips.COMMENT_EDIT %>"
-            <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
+            title="<%= Const.Tooltips.COMMENT_EDIT %>">
           <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
         </a>
       </c:if>

@@ -5,8 +5,11 @@
         <span>
           <strong>
             Question
+            <span id="questionnum-static-1" style="display: none;">
+              1:
+            </span>
           </strong>
-          <select class="questionNumber nonDestructive text-primary" id="questionnum-1" name="questionnum">
+          <select class="questionNumber nonDestructive text-primary" id="questionnum-1" name="questionnum" style="display: inline-block;">
             <option value="1">
               1
             </option>
@@ -38,6 +41,13 @@
             <span class=" glyphicon glyphicon-trash">
             </span>
             Delete
+          </a>
+          <a class="btn btn-primary btn-xs btn-duplicate-qn" data-original-title="Make a copy of the existing question and add to the current feedback session." data-placement="top" data-qnnumber="1" data-toggle="tooltip" title="">
+            <span class="glyphicon glyphicon-file">
+            </span>
+            <span class="glyphicon glyphicon-file">
+            </span>
+            Duplicate
           </a>
         </span>
       </div>
@@ -77,26 +87,36 @@
         <div class="row">
           <br>
           <div class="col-sm-6" id="rankOptionTable-1">
-            <div class="margin-bottom-7px" id="rankOptionRow-0-1">
-              <div class="input-group width-100-pc">
-                <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>">
-                <span class="input-group-btn">
-                  <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
-                    <span class="glyphicon glyphicon-remove">
+            <div class="ui-sortable" id="rankChoices-1">
+              <div class="margin-bottom-7px ui-sortable-handle" id="rankOptionRow-0-1">
+                <div class="input-group width-100-pc">
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-resize-vertical">
                     </span>
-                  </button>
-                </span>
+                  </span>
+                  <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                    </button>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="margin-bottom-7px" id="rankOptionRow-1-1">
-              <div class="input-group width-100-pc">
-                <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  ">
-                <span class="input-group-btn">
-                  <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
-                    <span class="glyphicon glyphicon-remove">
+              <div class="margin-bottom-7px ui-sortable-handle" id="rankOptionRow-1-1">
+                <div class="input-group width-100-pc">
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-resize-vertical">
                     </span>
-                  </button>
-                </span>
+                  </span>
+                  <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  ">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
+                      <span class="glyphicon glyphicon-remove">
+                      </span>
+                    </button>
+                  </span>
+                </div>
               </div>
             </div>
             <div id="rankAddOptionRow-1">
@@ -122,14 +142,14 @@
               <div class="col-sm-9 col-xs-12">
                 <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
                   <label class="bold-label">
-                    <input id="minOptionsToBeRankedEnabled-1" name="minOptionsToBeRankedEnabled" type="checkbox">
+                    <input data-linked-input-id="minOptionsToBeRanked-1" id="minOptionsToBeRankedEnabled-1" name="minOptionsToBeRankedEnabled" type="checkbox">
                     Minimum number of options a respondent must rank
                   </label>
                 </div>
               </div>
               <div class="col-sm-3 col-xs-12">
                 <div class="pull-right">
-                  <input class="form-control" disabled="" id="minOptionsToBeRanked-1" min="1" name="minOptionsToBeRanked" step="any" type="number" value="1">
+                  <input class="form-control" disabled="" id="minOptionsToBeRanked-1" min="1" name="minOptionsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
                 </div>
               </div>
             </div>
@@ -138,14 +158,14 @@
               <div class="col-sm-9 col-xs-12">
                 <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
                   <label class="bold-label">
-                    <input id="maxOptionsToBeRankedEnabled-1" name="maxOptionsToBeRankedEnabled" type="checkbox">
+                    <input data-linked-input-id="maxOptionsToBeRanked-1" id="maxOptionsToBeRankedEnabled-1" name="maxOptionsToBeRankedEnabled" type="checkbox">
                     Maximum number of options a respondent can rank
                   </label>
                 </div>
               </div>
               <div class="col-sm-3 col-xs-12">
                 <div class="pull-right">
-                  <input class="form-control" disabled="" id="maxOptionsToBeRanked-1" min="1" name="maxOptionsToBeRanked" step="any" type="number" value="1">
+                  <input class="form-control" disabled="" id="maxOptionsToBeRanked-1" min="1" name="maxOptionsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
                 </div>
               </div>
             </div>

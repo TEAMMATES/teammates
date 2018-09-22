@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -23,7 +24,7 @@
           <b>Learning Innovation Fund-Technology (LIF-T)</b> initiative of NUS, for funding us for the 2015-2018 period.
         </li>
         <li>
-          <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015, GSoC2016, and and GSoC2017 editions.
+          <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015, GSoC2016, GSoC2017 and GSoC2018 editions.
         </li>
         <li>
           <b>Facebook Open Academy</b> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
@@ -63,6 +64,8 @@
 
     <section class="row">
       <h3>Contributors</h3>
+      <h4>Major contributions:</h4>
+      <ol id="contributors-major"></ol>
       <h4>Multiple contributions:</h4>
       <ol id="contributors-multiple"></ol>
       <h4>One-time contributions:</h4>

@@ -55,14 +55,6 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Removes document for the given Instructor.
-     * @param instructor to be removed from documents
-     */
-    public void deleteDocument(InstructorAttributes instructor) {
-        instructorsDb.deleteDocument(instructor);
-    }
-
-    /**
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
@@ -97,6 +89,11 @@ public final class InstructorsLogic {
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
 
         return instructorsDb.getInstructorForEmail(courseId, email);
+    }
+
+    public InstructorAttributes getInstructorById(String courseId, String email) {
+
+        return instructorsDb.getInstructorById(courseId, email);
     }
 
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {

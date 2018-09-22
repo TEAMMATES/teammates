@@ -1,6 +1,6 @@
 package teammates.logic.core;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -44,7 +44,7 @@ public final class AdminEmailsLogic {
      * Gets an admin email by subject and createDate.
      * @return null if no matched email found
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
+    public AdminEmailAttributes getAdminEmail(String subject, Instant createDate) {
         Assumption.assertNotNull(subject);
         Assumption.assertNotNull(createDate);
 
@@ -117,7 +117,7 @@ public final class AdminEmailsLogic {
         return adminEmailsDb.getAdminEmailsInTrashBin();
     }
 
-    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
+    public Instant createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
         return adminEmailsDb.createAdminEmail(newAdminEmail);
     }
 

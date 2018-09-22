@@ -1,6 +1,7 @@
 package teammates.logic.api;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -296,15 +297,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the given Instructor.
-     *
-     * @see InstructorsLogic#deleteDocument(InstructorAttributes)
-     */
-    public void deleteDocument(InstructorAttributes instructor) {
-        instructorsLogic.deleteDocument(instructor);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if not found.
@@ -315,6 +307,19 @@ public class Logic {
         Assumption.assertNotNull(email);
 
         return instructorsLogic.getInstructorForEmail(courseId, email);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return null if not found.
+     */
+    public InstructorAttributes getInstructorById(String courseId, String email) {
+
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
+
+        return instructorsLogic.getInstructorById(courseId, email);
     }
 
     /**
@@ -387,9 +392,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(startUtc, endUtc);
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -654,7 +659,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in.
+     * @return Courses the given instructors is in except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
@@ -663,14 +668,34 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses in Recycle Bin that the given instructors is in.
+     */
+    public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
+
+        Assumption.assertNotNull(instructorList);
+        return coursesLogic.getSoftDeletedCoursesForInstructors(instructorList);
+    }
+
+    public CourseAttributes getSoftDeletedCourseForInstructor(InstructorAttributes instructor) {
+
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getSoftDeletedCourseForInstructor(instructor);
+    }
+
+    /**
      * Updates the details of a course.
      *
-     * @see CoursesLogic#updateCourse(CourseAttributes)
+     * @see CoursesLogic#updateCourse(String, String, String)
      */
-    public void updateCourse(CourseAttributes course) throws InvalidParametersException,
-                                                             EntityDoesNotExistException {
-        Assumption.assertNotNull(course);
-        coursesLogic.updateCourse(course);
+    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(courseName);
+        Assumption.assertNotNull(courseTimeZone);
+        coursesLogic.updateCourse(courseId, courseName, courseTimeZone);
     }
 
     /**
@@ -692,8 +717,8 @@ public class Logic {
     }
 
     /**
-     * Deletes the course and all data related to the course
-     * (instructors, students, feedback sessions).
+     * Permanently deletes a course and all data related to the course
+     * (instructors, students, feedback sessions) from Recycle Bin.
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -701,6 +726,43 @@ public class Logic {
     public void deleteCourse(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Permanently deletes all courses and all data related to these courses
+     * (instructors, students, feedback sessions) from Recycle Bin.
+     */
+    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.deleteAllCoursesCascade(instructorList);
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     * All data related will not be deleted.
+     */
+    public void moveCourseToRecycleBin(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.moveCourseToRecycleBin(courseId);
+    }
+
+    /**
+     * Restores a course and all data related to the course from Recycle Bin by
+     * its given corresponding ID.
+     */
+    public void restoreCourseFromRecycleBin(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.restoreCourseFromRecycleBin(courseId);
+    }
+
+    /**
+     * Restores all courses and all data related to these courses from Recycle Bin.
+     */
+    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
     }
 
     /**
@@ -1108,27 +1170,28 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName,
-                                                         String copiedCourseId,
-                                                         String feedbackSessionName,
-                                                         String courseId,
-                                                         String instructorEmail) throws EntityAlreadyExistsException,
-                                                                                        InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
+            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 
-        Assumption.assertNotNull(copiedFeedbackSessionName);
-        Assumption.assertNotNull(copiedCourseId);
+        Assumption.assertNotNull(newFeedbackSessionName);
+        Assumption.assertNotNull(newCourseId);
+        Assumption.assertNotNull(newTimeZone);
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(instructorEmail);
 
-        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName,
-                copiedCourseId, feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.copyFeedbackSession(newFeedbackSessionName, newCourseId, newTimeZone,
+                feedbackSessionName, courseId, instructorEmail);
     }
 
     /**
-     * Preconditions: <br>
+     * Gets a feedback session from the data storage.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return null if not found or in recycle bin.
      */
     public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
 
@@ -1136,6 +1199,21 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a feedback session from the recycle bin.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -1198,6 +1276,24 @@ public class Logic {
     }
 
     /**
+     * Returns a {@code List} of all feedback sessions in Recycle Bin WITHOUT their response
+     * statistics for a instructor.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
+        Assumption.assertNotNull(instructor);
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
+    }
+
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructors(
+            List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
+    }
+
+    /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that an instructor can view/submit as a
      * {@link FeedbackSessionQuestionsBundle}.
@@ -1217,18 +1313,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     /**
@@ -1441,7 +1525,7 @@ public class Logic {
     }
 
     /**
-     * Deletes the feedback session but not the questions and
+     * Permanently deletes the feedback session in Recycle Bin, but not the questions and
      * responses associated to it.
      * Fails silently if no such feedback session. <br>
      * Preconditions: <br>
@@ -1453,6 +1537,55 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Permanently deletes feedback sessions in Recycle Bin, but not the questions and
+     * responses associated to them.
+     * Fails silently if no such feedback session. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList) {
+
+        Assumption.assertNotNull(instructorList);
+
+        feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
+    }
+
+    /**
+     * Soft-deletes a specific session to Recycle Bin.
+     */
+    public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Restores a specific session from Recycle Bin to feedback sessions table.
+     */
+    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Restores all sessions from Recycle Bin to feedback sessions table.
+     */
+    public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(instructorList);
+
+        feedbackSessionsLogic.restoreAllFeedbackSessionsFromRecycleBin(instructorList);
     }
 
     /**
@@ -1559,6 +1692,23 @@ public class Logic {
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(googleId);
         return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);
+    }
+
+    /**
+     * Generates template feedback questions for an instructor in the session.<br>
+     * Returns an empty list if there are no questions for the template
+     * for the session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackQuestionAttributes> populateFeedbackSessionTemplateQuestions(String templateType, String courseId,
+            String feedbackSessionName, String creatorEmail) {
+        Assumption.assertNotNull(templateType);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(creatorEmail);
+        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(
+                templateType, courseId, feedbackSessionName, creatorEmail);
     }
 
     /**
@@ -1853,7 +2003,7 @@ public class Logic {
     }
 
     public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(feedbackResponses);
         feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
@@ -1925,9 +2075,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId,
-                                                                        String giverEmail,
-                                                                        Date creationDate) {
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+            String responseId, String giverEmail, Instant creationDate) {
         Assumption.assertNotNull(responseId);
         Assumption.assertNotNull(giverEmail);
         Assumption.assertNotNull(creationDate);
@@ -1951,15 +2100,6 @@ public class Logic {
      */
     public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
         feedbackResponseCommentsLogic.putDocuments(comments);
-    }
-
-    /**
-     * Removes document for the given comment.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes comment) {
-        feedbackResponseCommentsLogic.deleteDocument(comment);
     }
 
     /**
@@ -2025,7 +2165,7 @@ public class Logic {
         return adminEmailsLogic.getAdminEmailById(emailId);
     }
 
-    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
+    public Instant createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
         Assumption.assertNotNull(newAdminEmail);
         return adminEmailsLogic.createAdminEmail(newAdminEmail);
     }
@@ -2096,9 +2236,9 @@ public class Logic {
     /**
      * Gets an admin email by subject and createDate.
      *
-     * @see AdminEmailsLogic#getAdminEmail(String, Date)
+     * @see AdminEmailsLogic#getAdminEmail(String, Instant)
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
+    public AdminEmailAttributes getAdminEmail(String subject, Instant createDate) {
         Assumption.assertNotNull(subject);
         Assumption.assertNotNull(createDate);
 
@@ -2187,4 +2327,12 @@ public class Logic {
         return studentsLogic.getSectionForTeam(courseId, teamName);
     }
 
+    /**
+     * Returns a list of feedback comments associated with feedbackResponseId.
+     *
+     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
+    }
 }

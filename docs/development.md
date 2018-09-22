@@ -5,6 +5,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 * [Managing the dev server](#managing-the-dev-server)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
 * [Testing](#testing)
+* [Measuring code coverage](#measuring-code-coverage)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
 * [Config points](#config-points)
@@ -25,14 +26,14 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
 To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
 
-Run the following command to build the JavaScript files for the application's use:
+Run the following command to build the JavaScript files for the application's use in development mode:
 ```sh
-npm run build
+npm run dev
 ```
 
-In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
-
 This command needs to be run before starting the dev server if there are updates to the JavaScript files.
+
+> Run the command `npm run build` instead for Production mode. This will optimize the build with minified JavaScript Files and produce full source maps.
 
 ### With command line
 
@@ -107,30 +108,33 @@ You need an instructor account which can be created by administrators.
    Email: `teammates.instructor@university.edu`<br>
    Institution: `National University of Singapore`<br>
 1. The system will send an email containing the join link to the added instructor.<br>
-   On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.<br>
-   Remember to change the base URL of the link if necessary, but keep the parameters,<br>
-   e.g change **`https://teammates-john.appspot.com`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`<br>
-   to **`http://localhost:8080`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
+   On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.
+
+Alternatively, an instructor can create other instructors for a course if s/he has sufficient privileges. A course co-owner, for example, will have such a privilege.
+
+1. Ensure that there is a course to add instructors to and an instructor in that course with the privilege to add instructors.
+1. Log in as that instructor.
+1. Add the instructors for the course (`Instructors` → `View/Edit`).
+1. The system will send an email containing the join link to each added instructor. Again, this will not happen on the dev server, so additional steps are required.
+1. Log out and log in to `http://localhost:8080/admin/adminSearchPage` as administrator.
+1. Search for the instructor you added in. From the search results, click anywhere on the desired row to get the course join link for that instructor.
+1. Log out and use that join link to log in as the new instructor.
 
 ### As student
 
-You need a student account which can be created by instructors.
+You need a student account which can be created by instructors (with sufficient privileges).
 
-1. Log in as an instructor. Add a course for yourself and then add the students for the course.
-1. The system will send an email containing the join link to each added student. Again, this will not happen on the dev server, so additional steps are required.
-1. Log out and log in to `http://localhost:8080/admin/adminSearchPage` as administrator.
-1. Search for the student you added in as instructor. From the search results, click anywhere on the desired row (except on the student name) to get the course join link for that student.
-1. Log out and use that join link (again, change the base URL to `http://localhost:8080` if necessary) to log in as a student.
+The steps for adding a student is almost identical to the steps for adding instructors by another instructor:
+- Where appropriate, change the reference to "instructor" to "student".
+- `Students` → `Enroll` to add students for the course.
 
 **Alternative**: Run the test cases, they create several student and instructor accounts in the datastore. Use one of them to log in.
 
 ## Testing
 
-TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
-It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
+TEAMMATES automated testing requires Firefox or Chrome.
 
-**NOTE**
-> The dev server sets its time zone to UTC at startup.
+Before running tests, modify `src/test/resources/test.properties` if necessary, e.g. to configure which browser and test accounts to use.
 
 ### Using Firefox
 
@@ -216,6 +220,47 @@ To run individual tests, right-click on the test files on the project explorer a
 Run tests using the configurations available under `Run → Run...`.
 
 To run individual tests, right-click on the test files on the project explorer and choose `Run`.
+
+## Measuring code coverage
+
+After or concurrently with testing, one may want to check the code coverage to see how much of the code base has (not) been covered by tests.
+
+### CLI
+
+You can use Gradle to obtain the coverage data with `jacocoReport` task after running tests, e.g.:
+```sh
+./gradlew appengineRun ciTests jacocoReport
+```
+The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+
+For JavaScript unit tests, coverage is done concurrently with the tests themselves.
+
+### Eclipse
+
+You need [EclEmma Java Code Coverage plugin](https://marketplace.eclipse.org/content/eclemma-java-code-coverage) to run code coverage session with Eclipse.
+
+For Java tests, choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite.
+The coverage will be reported in Eclipse after the test run is over.
+
+For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
+The coverage will be reported immediately in the test page.
+
+### IntelliJ IDEA
+
+For Java tests, you can measure code coverage for the project using `Run → Run... → CI Tests → ▶ → Cover `.
+
+Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use IntelliJ IDEA's code coverage runner.
+You can further configure your code coverage settings by referring to [IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-coverage.html).
+
+For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
+The coverage will be reported immediately in the test page.
+
+### Travis CI
+
+For Java tests, if your build and run is successful, [Codecov](https://codecov.io) will pull the test coverage data and generate a report on their server.
+The link to the report will be displayed in each PR, or by clicking the badge on the repository homepage.
+
+For JavaScript unit tests, coverage is done concurrently with the tests themselves.
 
 ## Deploying to a staging server
 

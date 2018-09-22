@@ -10,11 +10,17 @@ It is assumed that the team members are familiar with the [development workflow]
 * PR management
   * [Choosing a reviewer](#choosing-a-reviewer)
   * [Closing a PR](#closing-a-pr)
+  * [Reverting a PR](#reverting-a-pr)
 * Release management
   * [Making a release](#making-a-release)
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
+  * [Security vulnerabilities](#security-vulnerabilities)
+  * [Data migration](#data-migration)
+  * [Dependencies update](#dependencies-update)
+  * [Timezone database update](#timezone-database-update)
   * [Branch management](#branch-management)
+    * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
   * [Community membership](#community-membership)
   * [Beginner-level issues](#beginner-level-issues)
 
@@ -39,7 +45,7 @@ A new issue needs to be triaged by a team member. Here is the process:
    * No: to be dealt on a case-by-case basis. Possible actions include closing the issue, applying `s.OnHold` label and revisiting the issue in the future, or simply accepting the issue with low priority. In any case, leave a comment to explain the rationale of such action.
 1. Accept the issue by categorizing:
    * For messages directed to the team, add the label `c.Message`, and post a comment if you can respond or know someone who can. If the message is about help requests, add the label `a-DevHelp` as well.
-   * For other types of issues, add the category labels as appropriate. Do NOT add `e.*` label.
+   * For other types of issues, add the category labels as appropriate.
      * Issues marked as `c.Message` and `c.Release` are exempted from all other labels.
      * If an issue is at priority `p.High` or higher, labels `d.FirstTimers` and `d.Contributors` cannot be applied to it.
 
@@ -72,6 +78,19 @@ A PR can be closed without merging if:
 
 In any case, leave a comment to explain why the PR is closed without merging.
 
+### Reverting a PR
+
+There may be situations where a merged PR needs to be reverted, e.g. when the PR has an unintended side effect that is difficult to fix or the PR was incomplete but accidentally merged.
+
+For example, to revert the PR `#3944` (`Remove unnecessary System.out.printlns from Java files #3942`):
+* No issue needs to be opened for this.
+* There should only be one commit, which can be auto-generated with `git revert 1234567` (replace `1234567` with the appropriate commit SHA). A conflict resolution may be necessary.
+* PR title: Duplicate the first line of the reversion commit message. (e.g. `Revert "[#3942] Remove unnecessary System.out.printlns from Java files (#3944)"`).
+* PR description: `Reverts #...` (e.g. `Reverts #3944`).
+* Merge with "Rebase and merge" option.
+* Re-open the issue once the reversion is merged.
+* The reverted PR and the reversion PR should not be included in any milestone if the reverted PR does not belong in any released version.
+
 ## Release management
 
 **Roles: Release Lead (RL), Project Manager (PM)**
@@ -86,11 +105,16 @@ New releases are made every set period of time (typically every week), in which 
   * Create an issue for the release to announce the scheduled release time.
   * Update `about.jsp` with the names of new contributors, if any.
 * Release day:
-  * Ensure all issues and PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `e.*` labels.
+  * Ensure all PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `c.*` label.
   * Merge `release` branch with `master` branch and tag the release with format `V{major}.{minor}.0` (e.g. `V6.0.0`).
   * Close the current milestone and create a new milestone for the next + 1 release.
   * Announce the release via GitHub release feature as well as the release issue in the issue tracker. Be sure to credit all who contributed to the release in one way or another.
   * Assign PM to the "Release" issue.
+
+> **When to increase the major version number?**
+>
+> Increase the major version number at your discretion; usually it is done when an underlying framework on the system changes.
+> For example, version 5 was when Bootstrap was adopted as the UI framework, and version 6 was when Java 8 and Google Cloud SDK were adopted as the development tools.
 
 **Role: PM**
 
@@ -118,6 +142,67 @@ The PM's actions are the same as when [making a release](#making-a-release), min
 
 ## Other tasks
 
+### Security vulnerabilities
+
+Security vulnerabilities, once reported and confirmed, should be treated as a candidate for hot patch (i.e. fixed in the soonest possible time directly on the `release` branch).
+
+Since the detail of such vulnerability cannot be disclosed until it is fixed, an issue can be created just before a PR for the fix is submitted, with minimal information (e.g. simply "Security vulnerability" as an issue with no further description).
+The complete details can be filled in just before merging and/or after the fix is deployed.
+
+### Data migration
+
+Data migration is necessary when changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes") are introduced.
+
+A data migration is initiated by the developer working on the breaking changes and will be handed over to the core team once both the breaking changes and the data migration script(s) are merged.
+
+An issue for data migration should have been created after the breaking changes are merged. If not, [create the data migration issue](https://github.com/TEAMMATES/teammates/issues/new?template=data-migration.md).
+
+**Role: RL**
+
+* Release and deploy the new version containing the breaking changes following the normal release workflow. It may be a normal release or a hot patch release.
+* Update the status of data migration in the issue accordingly and assign it to the PM.
+
+**Role: PM**
+
+* (Optional but recommended) Wait for some time to ascertain that the system is stable under the new data schema.
+* Run the data migration script on the live site.
+* Update the status of data migration in the issue accordingly and assign it to the RL.
+
+**Role: RL**
+
+* Remove the code that is specifically tailored for the old data schema or assign an active team member to do it.
+  * While this may be a suitable beginner-level issue, in the interest of keeping as few legacy code in the code base as possible, it should be done by a team member with a minimum delay.
+* Close the data migration issue.
+
+### Dependencies update
+
+The third-party dependencies/libraries should be updated periodically (e.g. once every 3-6 months) in order to benefit from fixes developed by the library developers.
+
+To find which dependencies need update, you can use libraries like [`Gradle Versions Plugin`](https://plugins.gradle.org/plugin/com.github.ben-manes.versions) and [`npm-check-updates`](https://www.npmjs.com/package/npm-check-updates).
+
+* Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.
+* Only stable versions (i.e. non-beta and non-alpha) should be considered. `rc` versions can be considered at the team's discretion.
+* Updates with little to no breaking changes should be included in the periodic mass update; otherwise, an issue to update a specific dependency should be created.
+
+### Timezone database update
+
+The timezone databases `moment-timezone-with-data.min.js` for the front-end and `tzdb.dat` for the back-end should be updated when [IANA releases a new timezone database version](https://www.iana.org/time-zones). 
+
+`TimezoneSyncerTest.java` will ensure the above timezone databases are consistent and up-to-date.
+
+To update the front-end timezone database:
+
+1. Setup [moment-timezone](https://github.com/moment/moment-timezone) project locally with their [developer guide](https://github.com/moment/moment-timezone/blob/develop/contributing.md#contributing).
+1. Use `grunt data` to build the project with the latest IANA timezone data.
+1. Copy the compressed `moment-timezone-with-data.min.js` in the `build` folder and override the existing file in TEAMMATES.
+
+To update the back-end timezone database:
+
+1. Follow the instructions on [`tzupdater`](http://www.oracle.com/technetwork/java/javase/tzupdater-readme-136440.html) to update the timezone database in the local JRE.
+1. Copy the updated `$JAVA_HOME/jre/lib/tzdb.dat` and override the `tzdb.dat` in the project.
+
+To check the updates are successful, run `TimezoneSyncerTest.java`.
+
 ### Branch management
 
 Ideally, only two branches should exist in the main repository:
@@ -126,6 +211,22 @@ Ideally, only two branches should exist in the main repository:
 * `release` to contain the copy of the code running on the live server.
 
 The usage of any other branch should be accounted for, and the branches should be deleted as soon as they are no longer needed.
+
+#### Using a long-lived feature branch
+
+There may be times where a major feature development/refactoring necessitates a long-lived branch to be used to contain all the changes before merging everything to `master` branch in one go.
+
+For the usage of such a branch, the following practices should be observed:
+
+* There should be at least one team member in charge of the branch.
+* The first commit of the branch should be allowing CI to run on that branch. This can be done by modifying `.travis.yml` and `appveyor.yml`.
+* Keep this long-lived branch in sync with `master` periodically. Syncing should be done strictly by rebasing in order to preserve all the individual commits and to keep the commit history linear.
+  * The team member(s) in charge will be responsible for syncing with the `master` branch, including resolving conflicts.
+* When the long-lived branch is ready to be merged to the `master` branch:
+  * Rebase with the latest `master` branch and get rid of the commit which explicitly allows CI run.
+  * Submit a PR and get it merged as per the usual procedure.
+    * The PR title and issue number can be a dummy, but keep the PR title as informative as possible.
+    * Reviews can be skipped if the individual commits/PRs are sufficiently reviewed.
 
 ### Community membership
 

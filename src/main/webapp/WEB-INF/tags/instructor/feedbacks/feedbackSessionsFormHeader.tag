@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks and instructorFeedbackEdit - feedback session form header" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -5,16 +6,16 @@
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 
-<c:if test="${fsForm.feedbackSessionTypeEditable}">
+<c:if test="${fsForm.sessionTemplateTypeEditable}">
   <div class="row">
     <h4 class="label-control col-md-2 text-md">Create new </h4>
     <div class="col-md-5">
       <div class="col-xs-10 tablet-no-padding" title="Select a session type here."
           data-toggle="tooltip" data-placement="top">
         <select class="form-control"
-            name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
-            id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
-          <c:forEach items="${fsForm.feedbackSessionTypeOptions}" var="option">
+            name="<%= Const.ParamsNames.SESSION_TEMPLATE_TYPE %>"
+            id="<%= Const.ParamsNames.SESSION_TEMPLATE_TYPE %>">
+          <c:forEach items="${fsForm.sessionTemplateTypeOptions}" var="option">
             <option ${option.attributesToString}>
               ${option.content}
             </option>
@@ -23,7 +24,7 @@
       </div>
       <div class="col-xs-1">
         <h5>
-          <a href="/instructorHelp.jsp#fbSetupSession" target="_blank" rel="noopener noreferrer">
+          <a href="/instructorHelp.jsp#session-setup" target="_blank" rel="noopener noreferrer">
             <span class="glyphicon glyphicon-info-sign"></span>
           </a>
         </h5>
@@ -51,9 +52,9 @@
         <a href="${fsForm.fsDeleteLink}"
             data-course-id="${fsForm.courseId}"
             data-feedback-session-name="${fsForm.fsName}"
-            title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
+            title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECYCLE_BIN %>"
             data-toggle="tooltip" data-placement="top"
-            class="btn btn-primary btn-sm" id="fsDeleteLink">
+            class="btn btn-primary btn-sm" id="button_fsdelete">
           <span class="glyphicon glyphicon-trash"></span> Delete
         </a>
         <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">

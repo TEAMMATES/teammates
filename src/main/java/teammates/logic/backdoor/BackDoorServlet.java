@@ -104,8 +104,12 @@ public class BackDoorServlet extends HttpServlet {
             String studentEmail = req.getParameter(BackDoorOperation.PARAMETER_STUDENT_EMAIL);
             backDoorLogic.deleteStudent(courseId, studentEmail);
             break;
-        case OPERATION_EDIT_FEEDBACK_QUESTION:
+        case OPERATION_EDIT_COURSE:
             String newValues = req.getParameter(BackDoorOperation.PARAMETER_JSON_STRING);
+            backDoorLogic.editCourseAsJson(newValues);
+            break;
+        case OPERATION_EDIT_FEEDBACK_QUESTION:
+            newValues = req.getParameter(BackDoorOperation.PARAMETER_JSON_STRING);
             backDoorLogic.editFeedbackQuestionAsJson(newValues);
             break;
         case OPERATION_EDIT_FEEDBACK_SESSION:
@@ -162,6 +166,10 @@ public class BackDoorServlet extends HttpServlet {
             feedbackSessionName = req.getParameter(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME);
             courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
             return backDoorLogic.getFeedbackSessionAsJson(feedbackSessionName, courseId);
+        case OPERATION_GET_FEEDBACK_SESSION_FROM_RECYCLE_BIN_AS_JSON:
+            feedbackSessionName = req.getParameter(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME);
+            courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
+            return backDoorLogic.getFeedbackSessionFromRecycleBinAsJson(feedbackSessionName, courseId);
         case OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID:
             googleId = req.getParameter(BackDoorOperation.PARAMETER_GOOGLE_ID);
             courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);

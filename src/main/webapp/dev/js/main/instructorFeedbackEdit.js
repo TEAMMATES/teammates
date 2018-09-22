@@ -32,7 +32,6 @@ import {
 
 import {
     bindUncommonSettingsEvents,
-    collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
     showUncommonPanelsIfNotInDefaultValues,
@@ -41,9 +40,13 @@ import {
 
 import {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
+    changeConstSumDistributePointsFor,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumDistributePointsOptions,
+    toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -55,7 +58,10 @@ import {
 
 import {
     addMcqOption,
+    bindMcqHasAssignedWeightsCheckbox,
+    bindMcqOtherOptionEnabled,
     removeMcqOption,
+    toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
     changeMcqGenerateFor,
@@ -66,6 +72,7 @@ import {
     bindMsqEvents,
     removeMsqOption,
     toggleMsqGeneratedOptions,
+    toggleMsqHasAssignedWeights,
     toggleMsqMaxSelectableChoices,
     toggleMsqMinSelectableChoices,
     toggleMsqOtherOptionEnabled,
@@ -85,6 +92,7 @@ import {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 } from '../common/questionRank';
 
 import {
@@ -96,9 +104,9 @@ import {
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
-    moveAssignWeightsCheckbox,
     removeRubricCol,
     removeRubricRow,
+    toggleAssignWeightsRow,
 } from '../common/questionRubric';
 
 import {
@@ -111,6 +119,7 @@ import {
 } from '../common/scrollTo';
 
 import {
+    appendNewStatusMessage,
     clearStatusMessages,
     setStatusMessage,
     setStatusMessageToForm,
@@ -242,6 +251,15 @@ function checkEditFeedbackSession(form) {
     return true;
 }
 
+function duplicateQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        window.location.reload();
+        return false;
+    }
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('duplicate');
+    $(`#form_editquestion-${questionNum}`).submit();
+    return false;
+}
 /**
  * Disables the editing of feedback session details.
  */
@@ -276,6 +294,14 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.currentTarget);
+
+        // LEGACY IMPLEMENTATION: Ensure the 'editType' to be 'edit' before submitting,
+        // as the global state below might be modified erroneously elsewhere
+        const questionNum = $($form).data('qnnumber');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
+
+        addLoadingIndicator($('#button_submit'), 'Saving');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -285,14 +311,37 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.DANGER);
-                } else {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.SUCCESS);
+                const { statusMessagesToUser, resolvedTimeFields, hasError } = result;
+
+                for (let i = 0; i < statusMessagesToUser.length; i += 1) {
+                    const statusMessageToUser = statusMessagesToUser[i];
+                    appendNewStatusMessage(statusMessageToUser.text, BootstrapContextualColors[statusMessageToUser.color]);
+                }
+
+                const resolvedTimeInputIds = Object.keys(resolvedTimeFields);
+                for (let i = 0; i < resolvedTimeInputIds.length; i += 1) {
+                    const resolvedTimeInputId = resolvedTimeInputIds[i];
+                    const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
+                    $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                }
+
+                removeLoadingIndicator($('#button_submit'), 'Save Changes');
+                if (!hasError) {
                     disableEditFS();
                 }
             },
         });
+    });
+}
+
+/**
+ * If an input field is hidden, removes required attribute when saving changes. See issue #8688.
+ *
+ * TODO: Remove this function when #8688 is fixed.
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
     });
 }
 
@@ -316,31 +365,45 @@ function disableQuestion(questionNum) {
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
-
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).hide();
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).show();
     $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
     $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
 
     /* Check whether generate options for students/instructors/teams is selected
-       If so, hide 'add Other option' */
+       If so, hide 'add Other option' and weight checkbox for mcq and msq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#msqOtherWeight-${questionNum}`).hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        // Shows the enclosing parent div to show the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#msqOtherWeight-${questionNum}`).show();
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
+    toggleMcqHasAssignedWeights($currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
+    toggleMsqHasAssignedWeights($currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).hide();
 
-    moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
+    toggleAssignWeightsRow($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
     if (!hasAssignedWeights(questionNum)) {
-        $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
+        $currentQuestionTable.find(`.rubricWeights-${questionNum}`).hide();
     }
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
@@ -403,6 +466,77 @@ function backupQuestion(questionNum) {
 }
 
 /**
+ * Sets up the sortable question options grid. Binds an update event to the option elements
+ * which is triggered whenever the order of elements changes. The event handler updates the
+ * ids of elements to match the new order.
+ * @param qnType type of question
+ * @param questionNum question number
+ */
+function setupSortableQuestionOptionsGrid(qnType, questionNum) {
+    const optionsElement = $(`#${qnType}Choices-${questionNum}`);
+    const weightsElement = $(`#${qnType}Weights-${questionNum}`);
+    const optionWeightsMap = {};
+
+    let isWeightsCheckboxPresent = false;
+    let numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
+    function buildOptionWeightsMap() {
+        isWeightsCheckboxPresent = $(`#${qnType}HasAssignedWeights-${questionNum}`).length > 0;
+        numOptions = optionsElement.children(`div[id^="${qnType}OptionRow"]`).length;
+        if (isWeightsCheckboxPresent) {
+            for (let i = 0; i < numOptions; i += 1) {
+                const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
+                const weight = weightsElement.find(`input[type='number']:eq(${i})`).val();
+
+                optionWeightsMap[optionName] = weight;
+            }
+        }
+    }
+
+    function reorderOptionWeights() {
+        if (isWeightsCheckboxPresent) {
+            for (let i = 0; i < numOptions; i += 1) {
+                const optionName = optionsElement.find(`input[type='text']:eq(${i})`).attr('name');
+                const newWeight = optionWeightsMap[optionName];
+                weightsElement.find(`input[type='number']:eq(${i})`).val(newWeight);
+            }
+        }
+    }
+    function updateOptionAttributes(options) {
+        options.children().each(function (index) {
+            $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
+            $(this).find(`input[id^="${qnType}Option-"]`).attr({
+                name: `${qnType}Option-${index}`,
+                id: `${qnType}Option-${index}-${questionNum}`,
+            });
+            $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
+                    `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
+        });
+    }
+    function updateWeightAttributes(weights) {
+        if (isWeightsCheckboxPresent) {
+            weights.children().each(function (index) {
+                $(this).find(`input[id^="${qnType}Weight-"]`).attr({
+                    name: `${qnType}Weight-${index}`,
+                    id: `${qnType}Weight-${index}-${questionNum}`,
+                });
+            });
+        }
+    }
+
+    optionsElement.sortable({
+        cursor: 'move',
+        start() {
+            buildOptionWeightsMap();
+        },
+        update() {
+            reorderOptionWeights();
+            updateOptionAttributes(optionsElement);
+            updateWeightAttributes(weightsElement);
+        },
+    });
+}
+
+/**
  * Enables question fields and "save changes" button for the given question number,
  * and hides the edit link.
  * @param questionNum
@@ -425,6 +559,8 @@ function enableQuestion(questionNum) {
             .not('.disabled_radio')
             .prop('disabled', false);
 
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).hide();
+
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
 
@@ -433,22 +569,13 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).show();
 
-    if ($(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
-    } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $(`#msqChoiceTable-${questionNum}`).hide();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
-    } else {
-        $(`#mcqChoiceTable-${questionNum}`).show();
-        $(`#msqChoiceTable-${questionNum}`).show();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
-    }
+    toggleMcqGeneratedOptions($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).get(0), questionNum);
+    toggleMsqGeneratedOptions($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).get(0), questionNum);
+
+    setupSortableQuestionOptionsGrid('mcq', questionNum);
+    setupSortableQuestionOptionsGrid('msq', questionNum);
+    setupSortableQuestionOptionsGrid('constSum', questionNum);
+    setupSortableQuestionOptionsGrid('rank', questionNum);
 
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
@@ -458,16 +585,23 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Recipient-${questionNum}`).show();
     } else {
         $(`#constSumOptionTable-${questionNum}`).show();
+        $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
 
-    $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
+    toggleConstSumOptionsRadioButton(questionNum);
+    if ($(`#constSum_UnevenDistribution-${questionNum}`).prop('checked')) {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
+    } else {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', true);
+    }
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(questionNum);
         setContribQnVisibilityFormat(questionNum);
     }
 
+    $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).hide();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
@@ -483,7 +617,7 @@ function enableQuestion(questionNum) {
 }
 
 /**
-* Enables editing of question fields and enables the "save changes" button for
+ *Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
@@ -512,6 +646,8 @@ function enableNewQuestion() {
         /* eslint-enable camelcase */
     }
 
+    removeRequiredIfElementHidden(); // TODO: Remove this function call when #8688 is fixed.
+
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
 
     $newQuestionTable.find('text,button,textarea,select,input')
@@ -527,18 +663,27 @@ function enableNewQuestion() {
     // If instructor had assigned rubric weights before,
     // then display the weights row, otherwise hide it.
     if (hasAssignedWeights(NEW_QUESTION)) {
-        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
+        $newQuestionTable.find(`.rubricWeights-${NEW_QUESTION}`).show();
     } else {
-        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+        $newQuestionTable.find(`.rubricWeights-${NEW_QUESTION}`).hide();
     }
 
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
-    moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
+    toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
-    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    setupSortableQuestionOptionsGrid('mcq', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('msq', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('constSum', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('rank', NEW_QUESTION);
+
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqHasAssignedWeights($(`#msqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
+
+    toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -550,6 +695,7 @@ function enableNewQuestion() {
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
+    toggleConstSumOptionsRadioButton(NEW_QUESTION);
 }
 
 /**
@@ -636,8 +782,10 @@ function restoreOriginal(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
         $(`#button_question_submit-${questionNum}`).hide();
-        $(`#questionnum-${questionNum}`).val(questionNum);
-        $(`#questionnum-${questionNum}`).prop('disabled', true);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).val(questionNum);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).prop('disabled', true);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).show();
     }
 
     // re-attach events for form elements
@@ -721,10 +869,12 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        $(`#constSumOption_Option-${NEW_QUESTION}`).show();
         showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         break;
     case 'CONSTSUM_RECIPIENT': {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
@@ -737,6 +887,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
@@ -971,6 +1122,26 @@ function bindCopyEvents() {
     });
 }
 
+function bindAddTemplateQnEvents() {
+    const $button = $('#button_add_template_submit');
+
+    $('#addTemplateQuestionModal .panel-title').click(function (e) {
+        if (!$(e.target).is('input')) {
+            $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
+        }
+    });
+
+    $('[id^="addTemplateQuestion-"]').click(() => {
+        const numCheckboxChecked = $('input[name="templatequestionnum"]:checked').length;
+
+        $button.prop('disabled', numCheckboxChecked <= 0);
+    });
+
+    $button.click(() => {
+        $('#addTemplateQuestionModalForm').submit();
+    });
+}
+
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1094,7 +1265,15 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function () {
+    $('form.form_question').submit(function (event) {
+        // LEGACY IMPLEMENTATION: Submission and deletion logic are coupled and determined by the global state.
+        // However, validating the form does not make sense when deleting.
+        const questionNum = $(event.currentTarget).data('qnnumber');
+        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
+        if (editType === 'delete') {
+            return true;
+        }
+
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
         const formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
@@ -1113,7 +1292,10 @@ function readyFeedbackEditPage() {
             });
 
     $('#add-new-question-dropdown > li').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
+        const questionType = $(this).data('questiontype');
+        if (questionType !== 'TEMPLATE') {
+            showNewQuestionFrame(questionType);
+        }
     });
 
     // Copy Binding
@@ -1121,6 +1303,7 @@ function readyFeedbackEditPage() {
     bindCopyEvents();
     setupQuestionCopyModal();
 
+    bindAddTemplateQnEvents();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
         enableEditFS();
@@ -1132,14 +1315,18 @@ function readyFeedbackEditPage() {
     formatNumberBoxes();
     formatCheckBoxes();
     formatQuestionNumbers();
-    collapseIfPrivateSession();
 
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMcqHasAssignedWeightsCheckbox();
+    bindMcqOtherOptionEnabled();
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
+    bindConstSumOptionsRadioButtons();
+
+    bindAutoFillEmptyRankOptionsChangeEvent();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
@@ -1180,6 +1367,10 @@ $(document).ready(() => {
         getVisibilityMessage(e.currentTarget);
     });
 
+    $(document).on('click', '.btn-duplicate-qn', (e) => {
+        duplicateQuestion($(e.currentTarget).data('qnnumber'));
+    });
+
     $(document).on('click', '.btn-discard-changes', (e) => {
         discardChanges($(e.currentTarget).data('qnnumber'));
     });
@@ -1201,6 +1392,8 @@ $(document).ready(() => {
 window.updateConstSumPointsValue = updateConstSumPointsValue;
 window.addConstSumOption = addConstSumOption;
 window.removeConstSumOption = removeConstSumOption;
+window.toggleConstSumDistributePointsOptions = toggleConstSumDistributePointsOptions;
+window.changeConstSumDistributePointsFor = changeConstSumDistributePointsFor;
 window.addMcqOption = addMcqOption;
 window.removeMcqOption = removeMcqOption;
 window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;
@@ -1221,6 +1414,7 @@ window.addRubricCol = addRubricCol;
 window.removeRubricCol = removeRubricCol;
 window.highlightRubricCol = highlightRubricCol;
 
+window.scrollToElement = scrollToElement;
 window.isWithinView = isWithinView;
 
 export {

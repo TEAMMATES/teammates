@@ -38,10 +38,15 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
         String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
         Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_COURSE, courseId);
 
+        String instructorId = getRequestParamValue(ParamsNames.USER_ID);
+        Assumption.assertPostParamNotNull(ParamsNames.USER_ID, instructorId);
+
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+
+            InstructorAttributes instructorToNotify = logic.getInstructorForGoogleId(courseId, instructorId);
 
             List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             for (StudentAttributes student : studentList) {
@@ -59,7 +64,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             }
 
             List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    session, studentsToRemindList, instructorsToRemindList, instructorList);
+                    session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
             log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));

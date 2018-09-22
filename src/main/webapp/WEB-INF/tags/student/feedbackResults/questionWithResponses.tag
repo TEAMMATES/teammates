@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="studentFeedbackResults.jsp - Student feedback results question with responses" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/feedbackResults" prefix="feedbackResults" %>
@@ -12,9 +13,19 @@
 
     <c:if test="${questionWithResponses.questionDetails.individualResponsesShownToStudents}">
 
-      <c:forEach items="${questionWithResponses.responseTables}" var="responseTable">
-        <feedbackResults:responseTable responseTable="${responseTable}"/>
+      <c:forEach items="${questionWithResponses.othersResponseTables}" var="othersResponseTable">
+        <feedbackResults:responseTable responseTable="${othersResponseTable}"/>
       </c:forEach>
+
+      <c:if test="${!questionWithResponses.isSelfResponseTablesEmpty}">
+
+        <h5><b>Your own responses:</b></h5>
+
+        <c:forEach items="${questionWithResponses.selfResponseTables}" var="selfResponseTable">
+          <feedbackResults:responseTable responseTable="${selfResponseTable}"/>
+        </c:forEach>
+
+      </c:if>
 
     </c:if>
   </div>

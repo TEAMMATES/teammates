@@ -2,18 +2,18 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -32,103 +32,138 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
-        List<FeedbackSessionAttributes> list = new LinkedList<>();
-
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startUtc);
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endUtc);
-
-        // To retrieve legacy data where local dates are stored instead of UTC
-        // TODO: remove after all legacy data has been converted
-        Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
-        Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
-
+    /**
+     * Gets a list of feedback sessions that have start/end time laid between {@code rangeStart} and {@code rangeEnd}.
+     */
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSession> endEntities = load()
-                .filter("endTime >", curStart)
-                .filter("endTime <=", curEnd)
+                .filter("endTime >", rangeStart)
+                .filter("endTime <=", rangeEnd)
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", curStart)
-                .filter("startTime <", curEnd)
+                .filter("startTime >=", rangeStart)
+                .filter("startTime <", rangeEnd)
                 .list();
 
-        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
+        // remove duplications
+        endEntities.removeAll(startEntities);
+        endEntities.addAll(startEntities);
 
-        endTimeEntities.removeAll(startTimeEntities);
-        startTimeEntities.removeAll(endTimeEntities);
-        endTimeEntities.addAll(startTimeEntities);
-
-        // TODO: remove after all legacy data has been converted
-        for (FeedbackSession feedbackSession : endTimeEntities) {
-            FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
-
-            boolean isStartTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getStartTime(), true, false);
-            boolean isEndTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getEndTime(), false, true);
-
-            if (isStartTimeWithinRange || isEndTimeWithinRange) {
-                list.add(fs);
-            }
-        }
-
-        return list;
+        return makeAttributes(endEntities);
     }
 
     /**
-     * Preconditions: <br>
+     * Gets a feedback session that is not soft-deleted.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
-     * @return Null if not found.
+     *
+     * @return null if not found or soft-deleted.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
+        FeedbackSessionAttributes feedbackSession =
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
                 "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+
+        if (feedbackSession != null && feedbackSession.isSessionDeleted()) {
+            log.info("Trying to access soft-deleted session: " + feedbackSessionName + "/" + courseId);
+            return null;
+        }
+        return feedbackSession;
+    }
+
+    /**
+     * Gets a soft-deleted feedback session.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return null if not found or not soft-deleted.
+     */
+    public FeedbackSessionAttributes getSoftDeletedFeedbackSession(String courseId, String feedbackSessionName) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        FeedbackSessionAttributes feedbackSession =
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
+                "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+
+        if (feedbackSession != null && !feedbackSession.isSessionDeleted()) {
+            log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
+            return null;
+        }
+
+        return feedbackSession;
     }
 
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return An empty list if no sessions are found for the given course.
+     * @return a list of all sessions for the given course expect those in the Recycle Bin. Otherwise returns an empty list.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId));
+        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent open emails.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of sessions for the given course in the Recycle Bin. Otherwise returns an empty list.
+     */
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(FeedbackSessionAttributes::isSessionDeleted)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * and possibly need an open email to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpenEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpenEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent closing emails.
+     * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
+     * and possibly need a closing email to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosingEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosingEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent closed emails.
+     * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
+     * and possibly need a closed email to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosedEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosedEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
-     * Returns An empty list if no sessions are found that have unsent published emails.
+     * Gets a list of undeleted published feedback sessions which possibly need a published email
+     * to be sent.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail());
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -157,13 +192,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         fs.setInstructions(newAttributes.getInstructions());
+        fs.setDeletedTime(newAttributes.getDeletedTime());
         fs.setStartTime(newAttributes.getStartTime());
         fs.setEndTime(newAttributes.getEndTime());
         fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
         fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
-        fs.setOffset(newAttributes.getTimeZone());
-        fs.setGracePeriod(newAttributes.getGracePeriod());
-        fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
+        fs.setTimeZone(newAttributes.getTimeZone().getId());
+        fs.setGracePeriod(newAttributes.getGracePeriodMinutes());
         fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
         fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
         fs.setSentClosedEmail(newAttributes.isSentClosedEmail());
@@ -173,6 +208,37 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
 
         saveEntity(fs, newAttributes);
+    }
+
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseTimeZone);
+
+        List<Key<FeedbackSession>> sessionKeys = getFeedbackSessionKeysForCourse(courseId);
+        for (Key<FeedbackSession> sessionKey : sessionKeys) {
+            try {
+                ofy().transact(new VoidWork() {
+                    @Override
+                    public void vrun() {
+                        FeedbackSession session = ofy().load().key(sessionKey).now();
+                        if (session == null) {
+                            throw new RuntimeException(new EntityDoesNotExistException(
+                                    ERROR_UPDATE_NON_EXISTENT + sessionKey.getName()));
+                        }
+                        session.setTimeZone(courseTimeZone.getId());
+                        saveEntity(session);
+                    }
+                });
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof EntityDoesNotExistException) {
+                    log.severe(e.getMessage());
+                    continue;
+                }
+                throw e;
+            }
+        }
     }
 
     public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
@@ -439,16 +505,20 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load().filter("courseId =", courseId).list();
     }
 
+    private List<Key<FeedbackSession>> getFeedbackSessionKeysForCourse(String courseId) {
+        return load().filter("courseId =", courseId).keys().list();
+    }
+
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         return load()
-                .filter("startTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentOpenEmail =", false)
                 .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentClosingEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -456,7 +526,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentClosedEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -466,7 +536,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
-                .filter("feedbackSessionType !=", FeedbackSessionType.PRIVATE)
                 .list();
     }
 

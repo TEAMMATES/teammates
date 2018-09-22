@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Student/Instructor feedback submission form" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -27,7 +28,8 @@
   <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
     <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
         isShowRealQuestionNumber="${data.showRealQuestionNumber}"
-        questionWithResponses="${questionWithResponses}"/>
+        questionWithResponses="${questionWithResponses}"
+        moderatedPersonEmail="${moderatedPersonEmail}"/>
   </c:forEach>
 
   <div class="bold align-center">
@@ -40,7 +42,7 @@
         There are no questions for you to answer here!
       </c:when>
       <c:otherwise>
-        <input type="checkbox" name="sendsubmissionemail">
+        <input type="checkbox" name="sendsubmissionemail" ${data.isResponsePresent ? "" : "checked"}>
         Send me a confirmation email
         <button type="submit" class="btn btn-primary center-block margin-top-7px"
             id="response_submit_button" data-toggle="tooltip"

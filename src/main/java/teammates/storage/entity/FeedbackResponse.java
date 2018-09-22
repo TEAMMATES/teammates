@@ -1,6 +1,6 @@
 package teammates.storage.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
@@ -8,6 +8,8 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
+import com.googlecode.objectify.annotation.Translate;
+import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
@@ -49,11 +51,19 @@ public class FeedbackResponse extends BaseEntity {
 
     private String receiverSection;
 
-    private Text answer; //TODO: rename to responseMetaData, will require database conversion
+    /**
+     * Serialized {@link teammates.common.datatransfer.questions.FeedbackResponseDetails} stored as a string.
+     *
+     * @see teammates.common.datatransfer.attributes.FeedbackResponseAttributes#getResponseDetails()
+     */
+    @Unindex
+    private Text answer;
 
-    private Date createdAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant createdAt;
 
-    private Date updatedAt;
+    @Translate(value = InstantTranslatorFactory.class)
+    private Instant updatedAt;
 
     @SuppressWarnings("unused")
     private FeedbackResponse() {
@@ -62,7 +72,7 @@ public class FeedbackResponse extends BaseEntity {
 
     public FeedbackResponse(String feedbackSessionName, String courseId,
             String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
-            String giverEmail, String giverSection, String recipient, String recipientSection, Text answer) {
+            String giverEmail, String giverSection, String recipient, String recipientSection, String answer) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
@@ -71,11 +81,11 @@ public class FeedbackResponse extends BaseEntity {
         this.giverSection = giverSection;
         this.receiver = recipient;
         this.receiverSection = recipientSection;
-        this.answer = answer;
+        setAnswer(answer);
 
         this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
 
-        this.setCreatedAt(new Date());
+        this.setCreatedAt(Instant.now());
     }
 
     public String getId() {
@@ -146,28 +156,28 @@ public class FeedbackResponse extends BaseEntity {
         this.receiverSection = recipientSection;
     }
 
-    public Text getResponseMetaData() {
-        return answer;
+    public String getResponseMetaData() {
+        return answer == null ? null : answer.getValue();
     }
 
-    public void setAnswer(Text answer) {
-        this.answer = answer;
+    public void setAnswer(String answer) {
+        this.answer = answer == null ? null : new Text(answer);
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
-    public void setCreatedAt(Date newDate) {
+    public void setCreatedAt(Instant newDate) {
         this.createdAt = newDate;
         setLastUpdate(newDate);
     }
 
-    public void setLastUpdate(Date newDate) {
+    public void setLastUpdate(Instant newDate) {
         if (!keepUpdateTimestamp) {
             this.updatedAt = newDate;
         }
@@ -175,6 +185,6 @@ public class FeedbackResponse extends BaseEntity {
 
     @OnSave
     public void updateLastUpdateTimestamp() {
-        this.setLastUpdate(new Date());
+        this.setLastUpdate(Instant.now());
     }
 }

@@ -2,12 +2,11 @@ package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 
 import teammates.test.driver.TestProperties;
 
@@ -15,6 +14,9 @@ public class GoogleLoginPage extends LoginPage {
 
     private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in - Google Accounts";
     private static final String EXPECTED_SNIPPET_APPROVAL = "requesting permission to access your Google Account";
+
+    @FindBy(css = "div[role='presentation']")
+    private WebElement loginPanel;
 
     @FindBy(id = "identifierId")
     private WebElement identifierTextBox;
@@ -103,20 +105,24 @@ public class GoogleLoginPage extends LoginPage {
 
     private void waitForRedirectIfAny() {
         String loginRedirectUrl = TestProperties.TEAMMATES_URL + "/_ah/conflogin";
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until((Function<WebDriver, Boolean>) d -> {
-            String url = d.getCurrentUrl();
+        waitFor(d -> {
+            String url = Preconditions.checkNotNull(d).getCurrentUrl();
             boolean isTeammatesPage = url.startsWith(TestProperties.TEAMMATES_URL) && !url.startsWith(loginRedirectUrl);
             boolean isApprovalPage = d.getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
             return isTeammatesPage || isApprovalPage;
         });
     }
 
+    private void waitForLoginPanelAnimationToComplete() {
+        // the login panel will have attribute `aria-busy="true"` while in animation
+        waitFor(ExpectedConditions.attributeToBe(loginPanel, "aria-busy", ""));
+    }
+
     private void submitCredentials(String username, String password) {
         completeFillIdentifierSteps(username);
         click(identifierNextButton);
 
-        waitForElementVisibility(passwordTextBox);
+        waitForLoginPanelAnimationToComplete();
         fillTextBox(passwordTextBox, password);
 
         click(passwordNextButton);
@@ -124,27 +130,19 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void completeFillIdentifierSteps(String identifier) {
-        By oldUiSignInWithDifferentAccountBy = By.id("account-chooser-link");
-        By oldUiAddAccountBy = By.id("account-chooser-add-account");
-        By switchAccountButtonBy = By.cssSelector("*[aria-label='Switch account']");
+        By switchAccountButtonBy = By.id("profileIdentifier");
         By useAnotherAccountButtonBy = By.id("identifierLink");
-
-        if (isElementPresent(oldUiSignInWithDifferentAccountBy)) {
-            click(oldUiSignInWithDifferentAccountBy);
-            waitForPageToLoad();
-            click(waitForElementPresence(oldUiAddAccountBy));
-            waitForPageToLoad();
-        }
 
         if (isElementPresent(switchAccountButtonBy)) {
             click(switchAccountButtonBy);
-            click(waitForElementPresence(useAnotherAccountButtonBy));
-
-        } else if (isElementPresent(useAnotherAccountButtonBy)) {
-            click(useAnotherAccountButtonBy);
+            waitForLoginPanelAnimationToComplete();
         }
 
-        waitForElementVisibility(identifierTextBox);
+        if (isElementPresent(useAnotherAccountButtonBy)) {
+            click(useAnotherAccountButtonBy);
+            waitForLoginPanelAnimationToComplete();
+        }
+
         fillTextBox(identifierTextBox, identifier);
     }
 

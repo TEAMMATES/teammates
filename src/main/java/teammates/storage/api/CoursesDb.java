@@ -2,6 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.DateTimeException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,7 +76,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
     /**
      * Updates the course.<br>
-     * Updates only name and course archive status.<br>
+     * Updates only name, deletion date and course archive status.<br>
      * Preconditions: <br>
      * * {@code courseToUpdate} is non-null.<br>
      */
@@ -95,13 +97,16 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         }
 
         courseEntityToUpdate.setName(courseToUpdate.getName());
-        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
+        courseEntityToUpdate.setDeletedAt(courseToUpdate.deletedAt);
+        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone().getId());
 
         saveEntity(courseEntityToUpdate, courseToUpdate);
     }
 
     /**
-     * Note: This is a non-cascade delete.<br>
+     * Permanently deletes the course from the Datastore.
+     *
+     * <p>Note: This is a non-cascade delete.<br>
      *   <br> Fails silently if there is no such object.
      * <br> Preconditions:
      * <br> * {@code courseId} is not null.
@@ -111,7 +116,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
         // only the courseId is important here, everything else are placeholders
         deleteEntity(CourseAttributes
-                .builder(courseId, "Non-existent course", "UTC")
+                .builder(courseId, "Non-existent course", Const.DEFAULT_TIME_ZONE)
                 .build());
     }
 
@@ -148,7 +153,17 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     protected CourseAttributes makeAttributes(Course entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), entity.getTimeZone())
-                .withCreatedAt(entity.getCreatedAt()).build();
+        ZoneId courseTimeZone;
+        try {
+            courseTimeZone = ZoneId.of(entity.getTimeZone());
+        } catch (DateTimeException e) {
+            log.severe("Timezone '" + entity.getTimeZone() + "' of course '" + entity.getUniqueId()
+                    + "' is not supported. UTC will be used instead.");
+            courseTimeZone = Const.DEFAULT_TIME_ZONE;
+        }
+        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)
+                .withCreatedAt(entity.getCreatedAt())
+                .withDeletedAt(entity.getDeletedAt())
+                .build();
     }
 }

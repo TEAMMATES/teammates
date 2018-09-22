@@ -13,18 +13,18 @@
         </h4>
         <div class="col-md-5">
           <div class="col-xs-10 tablet-no-padding" data-original-title="Select a session type here." data-placement="top" data-toggle="tooltip" title="">
-            <select class="form-control" id="fstype" name="fstype">
+            <select class="form-control" id="sessionTemplateType" name="sessionTemplateType">
               <option value="STANDARD">
-                Session with your own questions
+                session with my own questions
               </option>
               <option selected="" value="TEAMEVALUATION">
-                Team peer evaluation session
+                session using template: team peer evaluation
               </option>
             </select>
           </div>
           <div class="col-xs-1">
             <h5>
-              <a href="/instructorHelp.jsp#fbSetupSession" rel="noopener noreferrer" target="_blank">
+              <a href="/instructorHelp.jsp#session-setup" rel="noopener noreferrer" target="_blank">
                 <span class="glyphicon glyphicon-info-sign">
                 </span>
               </a>
@@ -63,148 +63,57 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="You should not need to change this as your timezone is auto-detected. <br><br>However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="To change this, edit the course settings. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
               <div class="form-group">
                 <h5 class="col-sm-2 col-md-4">
                   <label class="control-label" for="timezone">
-                    Timezone
+                    Time Zone
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <select class="form-control" id="timezone" name="timezone">
-                    <option value="-12">
-                      (UTC -12:00) Baker Island, Howland Island
-                    </option>
-                    <option value="-11">
-                      (UTC -11:00) American Samoa, Niue
-                    </option>
-                    <option value="-10">
-                      (UTC -10:00) Hawaii, Cook Islands
-                    </option>
-                    <option value="-9.5">
-                      (UTC -09:30) Marquesas Islands
-                    </option>
-                    <option value="-9">
-                      (UTC -09:00) Gambier Islands, Alaska
-                    </option>
-                    <option value="-8">
-                      (UTC -08:00) Los Angeles, Vancouver, Tijuana
-                    </option>
-                    <option value="-7">
-                      (UTC -07:00) Phoenix, Calgary, Ciudad Juárez
-                    </option>
-                    <option value="-6">
-                      (UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg
-                    </option>
-                    <option value="-5">
-                      (UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston
-                    </option>
-                    <option value="-4.5">
-                      (UTC -04:30) Caracas
-                    </option>
-                    <option value="-4">
-                      (UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax
-                    </option>
-                    <option value="-3.5">
-                      (UTC -03:30) St. John's
-                    </option>
-                    <option value="-3">
-                      (UTC -03:00) Buenos Aires, Montevideo, São Paulo
-                    </option>
-                    <option value="-2">
-                      (UTC -02:00) Fernando de Noronha, South Georgia and the South Sandwich Islands
-                    </option>
-                    <option value="-1">
-                      (UTC -01:00) Cape Verde, Greenland, Azores islands
-                    </option>
-                    <option value="0">
-                      (UTC) Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London
-                    </option>
-                    <option value="1">
-                      (UTC +01:00) Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw
-                    </option>
-                    <option value="2">
-                      (UTC +02:00) Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest
-                    </option>
-                    <option value="3">
-                      (UTC +03:00) Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh
-                    </option>
-                    <option value="3.5">
-                      (UTC +03:30) Tehran
-                    </option>
-                    <option value="4">
-                      (UTC +04:00) Baku, Dubai, Moscow
-                    </option>
-                    <option value="4.5">
-                      (UTC +04:30) Kabul
-                    </option>
-                    <option value="5">
-                      (UTC +05:00) Karachi, Tashkent
-                    </option>
-                    <option value="5.5">
-                      (UTC +05:30) Colombo, Delhi
-                    </option>
-                    <option value="5.75">
-                      (UTC +05:45) Kathmandu
-                    </option>
-                    <option value="6">
-                      (UTC +06:00) Almaty, Dhaka, Yekaterinburg
-                    </option>
-                    <option value="6.5">
-                      (UTC +06:30) Yangon
-                    </option>
-                    <option value="7">
-                      (UTC +07:00) Jakarta, Bangkok, Novosibirsk, Hanoi
-                    </option>
-                    <option value="8">
-                      (UTC +08:00) Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk
-                    </option>
-                    <option value="8.75">
-                      (UTC +08:45) Eucla
-                    </option>
-                    <option value="9">
-                      (UTC +09:00) Seoul, Tokyo, Pyongyang, Ambon, Irkutsk
-                    </option>
-                    <option value="9.5">
-                      (UTC +09:30) Adelaide
-                    </option>
-                    <option value="10">
-                      (UTC +10:00) Canberra, Yakutsk, Port Moresby
-                    </option>
-                    <option value="10.5">
-                      (UTC +10:30) Lord Howe Islands
-                    </option>
-                    <option value="11">
-                      (UTC +11:00) Vladivostok, Noumea
-                    </option>
-                    <option value="12">
-                      (UTC +12:00) Auckland, Suva
-                    </option>
-                    <option value="12.75">
-                      (UTC +12:45) Chatham Islands
-                    </option>
-                    <option value="13">
-                      (UTC +13:00) Phoenix Islands, Tokelau, Tonga
-                    </option>
-                    <option value="14">
-                      (UTC +14:00) Line Islands
-                    </option>
-                  </select>
+                  <h5 class="form-control-static font-weight-normal" data-time-zone="" id="timezone">
+                    Africa/Johannesburg
+                  </h5>
                 </div>
               </div>
             </div>
           </div>
           <br class="hidden-xs">
           <div class="row">
-            <div class="col-sm-12" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+            <div class="col-sm-12 col-md-6">
               <div class="form-group">
-                <h5 class="col-sm-2">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="coursename">
+                    Course name
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <input class="course-attributes-data" data-name="Programming Methodology" data-time-zone="Africa/Johannesburg" id="CFeedbackUiT.CS1101" type="hidden">
+                  <input class="course-attributes-data" data-name="Programming Language Concepts" data-time-zone="UTC" id="CFeedbackUiT.CS2104" type="hidden">
+                  <h5 class="form-control-static font-weight-normal" id="coursename">
+                    Programming Methodology
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row">
+            <div class="col-sm-12 col-md-6" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
                   <label class="control-label" for="fsname">
                     Session name
                   </label>
                 </h5>
-                <div class="col-sm-10">
+                <div class="col-sm-10 col-md-8">
                   <input class="form-control" id="fsname" maxlength="38" name="fsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value="">
+                  <div>
+                    <span id="charLeft-fsname">
+                      38
+                    </span>
+                    characters left
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +153,7 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="${date.nexthour}">
+                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="">
                 </div>
                 <div class="col-xs-6">
                   <select class="form-control" id="starttime" name="starttime">
@@ -461,7 +370,7 @@
                 <div class="row">
                   <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
                     <label class="label-control">
-                      Session visible from
+                      Make session visible
                     </label>
                   </div>
                 </div>
@@ -560,20 +469,12 @@
                     <input checked="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
                   </div>
                 </div>
-                <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to be private. A private session is never visible to anyone. Private sessions can be used to record your own comments about others, for your own reference." data-placement="top" data-toggle="tooltip" title="">
-                    <label for="sessionVisibleFromButton_never">
-                      Never
-                    </label>
-                    <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
-                  </div>
-                </div>
               </div>
               <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                 <div class="row">
                   <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
                     <label class="label-control">
-                      Responses visible from
+                      Make responses visible
                     </label>
                   </div>
                 </div>
@@ -675,17 +576,9 @@
                 <div class="row radio">
                   <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
                     <label for="resultsVisibleFromButton_later">
-                      Publish manually
+                      Not now (publish manually)
                     </label>
                     <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
-                  </div>
-                </div>
-                <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
-                    <label for="resultsVisibleFromButton_never">
-                      Never
-                    </label>
-                    <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -829,7 +722,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -858,8 +751,20 @@
                     </a>
                   </li>
                   <li>
-                    <a class="session-publish-for-test" data-fsname="Awaiting Session #" data-sending-published-email="true" disabled="" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
+                    <a class="session-publish-for-test disabled" data-fsname="Awaiting Session #" data-sending-published-email="true" href="javascript:;">
                       Publish Results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="Awaiting Session #">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS2104">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
                     </a>
                   </li>
                 </ul>
@@ -867,7 +772,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Awaiting Session #" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-fsname="Awaiting Session #" href="javascript:;">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -891,93 +796,6 @@
           </td>
         </tr>
         <tr class="sessionsRow" id="session1">
-          <td>
-            CFeedbackUiT.CS2104
-          </td>
-          <td>
-            Private Session #
-          </td>
-          <td>
-            <span class="tool-tip-decorate" data-original-title="This is a private session. Nobody can see it but you." data-placement="top" data-toggle="tooltip" title="">
-              Private
-            </span>
-          </td>
-          <td>
-            <span class="tool-tip-decorate" data-original-title="This feedback session is not published as it is private and only visible to you." data-placement="top" data-toggle="tooltip" title="">
-              -
-            </span>
-          </td>
-          <td class="session-response-for-test">
-            <a href="/page/feedbackSessionStatsPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&user=CFeedbackUiT.instructor" oncontextmenu="return false;">
-              Show
-            </a>
-          </td>
-          <td class="no-print">
-            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
-              Edit
-            </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Private Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
-              Delete
-            </a>
-            <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Private Session #" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy-CFeedbackUiT.CS2104-Private Session #">
-                Copy
-              </a>
-            </div>
-            <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&user=CFeedbackUiT.instructor">
-                Submit
-              </a>
-            </div>
-            <div data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&user=CFeedbackUiT.instructor">
-                  Results
-                </a>
-                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options" data-toggle="dropdown" disabled="" type="button">
-                  <span class="caret">
-                  </span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li>
-                    <a class="session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&user=CFeedbackUiT.instructor">
-                      View Results
-                    </a>
-                  </li>
-                  <li>
-                    <a class="session-publish-for-test" data-fsname="Private Session #" data-sending-published-email="true" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
-                      Publish Results
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Private Session #" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
-                  Remind
-                </a>
-                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
-                  <span class="caret">
-                  </span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Private Session #" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
-                      Remind all students
-                    </a>
-                  </li>
-                  <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session+%23&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Private Session #" data-target="#remindModal" data-toggle="modal" href="javascript:;">
-                      Remind particular students
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr class="sessionsRow" id="session2">
           <td>
             CFeedbackUiT.CS1101
           </td>
@@ -1003,7 +821,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -1036,6 +854,18 @@
                       Publish Results
                     </a>
                   </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="Open Session #">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS1101">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -1064,7 +894,7 @@
             </div>
           </td>
         </tr>
-        <tr class="sessionsRow" id="session3">
+        <tr class="sessionsRow" id="session2">
           <td>
             CFeedbackUiT.CS2104
           </td>
@@ -1090,7 +920,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -1099,7 +929,7 @@
               </a>
             </div>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" disabled="" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.instructor">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px disabled" href="javascript:;">
                 Submit
               </a>
             </div>
@@ -1123,12 +953,29 @@
                       Unpublish Results
                     </a>
                   </li>
+                  <li>
+                    <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
+                      Resend link to view results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="First Session #1">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS2104">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-fsname="First Session #1" href="javascript:;">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -1151,7 +998,7 @@
             </div>
           </td>
         </tr>
-        <tr class="sessionsRow" id="session4">
+        <tr class="sessionsRow" id="session3">
           <td>
             CFeedbackUiT.CS1101
           </td>
@@ -1177,7 +1024,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&editsessiondetails=true&user=CFeedbackUiT.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -1186,7 +1033,7 @@
               </a>
             </div>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" disabled="" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&user=CFeedbackUiT.instructor">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px disabled" href="javascript:;">
                 Submit
               </a>
             </div>
@@ -1210,12 +1057,29 @@
                       Unpublish Results
                     </a>
                   </li>
+                  <li>
+                    <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
+                      Resend link to view results
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                        <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+                        <input name="fsname" type="hidden" value="Manual Session #1">
+                        <input name="courseid" type="hidden" value="CFeedbackUiT.CS1101">
+                        <input name="frshowstats" type="hidden" value="true">
+                        <input name="frindicatemissingresponses" type="hidden" value="true">
+                      </form>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Manual Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-fsname="Manual Session #1" href="javascript:;">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -1241,8 +1105,9 @@
       </tbody>
     </table>
     <p class="col-md-12 text-muted">
-      Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.
+      Note: The table above doesn't contain sessions from archived courses and soft-deleted courses. To view sessions from an archived course, unarchive the course first; to view sessions from a soft-deleted course, restore the course first.
     </p>
+    <br>
     <br>
     <br>
     <br>
@@ -1261,6 +1126,16 @@
                 (Select the student(s) you want to remind)
               </small>
             </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group" id="studentList">
@@ -1348,17 +1223,6 @@
                     <input type="radio">
                   </td>
                   <td>
-                    CFeedbackUiT.CS2104
-                  </td>
-                  <td>
-                    Private Session #
-                  </td>
-                </tr>
-                <tr style="cursor:pointer;">
-                  <td>
-                    <input type="radio">
-                  </td>
-                  <td>
                     CFeedbackUiT.CS1101
                   </td>
                   <td>
@@ -1431,6 +1295,36 @@
               Cancel
             </button>
             <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
+            <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
             <input name="user" type="hidden" value="CFeedbackUiT.instructor">
           </div>
         </form>

@@ -1,5 +1,9 @@
 package teammates.test.cases.storage;
 
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -33,7 +37,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Success: typical case");
 
         CourseAttributes c = CourseAttributes
-                .builder("CDbT.tCC.newCourse", "Basic Computing", "UTC")
+                .builder("CDbT.tCC.newCourse", "Basic Computing", ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
@@ -51,7 +55,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Failure: create a course with invalid parameter");
 
         CourseAttributes invalidIdCourse = CourseAttributes
-                .builder("Invalid id", "Basic Computing", "UTC")
+                .builder("Invalid id", "Basic Computing", ZoneId.of("UTC"))
                 .build();
         try {
             coursesDb.createEntity(invalidIdCourse);
@@ -64,7 +68,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         CourseAttributes invalidNameCourse = CourseAttributes
-                .builder("CDbT.tCC.newCourse", longCourseName, "UTC")
+                .builder("CDbT.tCC.newCourse", longCourseName, ZoneId.of("UTC"))
                 .build();
         try {
             coursesDb.createEntity(invalidNameCourse);
@@ -72,18 +76,6 @@ public class CoursesDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
                                         e.getMessage());
-        }
-
-        CourseAttributes invalidTimeZoneCourse = CourseAttributes
-                .builder("CDbT.tCC.newCourse", "Basic Computing", "InvalidTimeZone")
-                .build();
-
-        try {
-            coursesDb.createEntity(invalidTimeZoneCourse);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
-                                         e.getMessage());
         }
 
         ______TS("Failure: null parameter");
@@ -122,6 +114,34 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetCourses() throws InvalidParametersException {
+        CourseAttributes c = createNewCourse();
+        List<String> courseIds = new ArrayList<>();
+
+        ______TS("Success: get an existent course");
+
+        courseIds.add(c.getId());
+        List<CourseAttributes> retrieved = coursesDb.getCourses(courseIds);
+        assertEquals(1, retrieved.size());
+
+        ______TS("Failure: get a non-existent course");
+
+        courseIds.remove(c.getId());
+        courseIds.add("non-existent-course");
+        retrieved = coursesDb.getCourses(courseIds);
+        assertEquals(0, retrieved.size());
+
+        ______TS("Failure: get null parameters");
+
+        try {
+            coursesDb.getCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
     public void testUpdateCourse() throws Exception {
 
         ______TS("Failure: null paramater");
@@ -136,7 +156,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Failure: update course with invalid parameters");
 
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("", "", "")
+                .builder("", "", ZoneId.of("UTC"))
                 .build();
 
         try {
@@ -147,14 +167,12 @@ public class CoursesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
             AssertHelper.assertContains("The field 'course name' is empty",
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
-                                        e.getMessage());
         }
 
         ______TS("fail: non-exisitng course");
 
         CourseAttributes nonExistentCourse = CourseAttributes
-                .builder("CDbT.non-exist-course", "Non existing course", "UTC")
+                .builder("CDbT.non-exist-course", "Non existing course", ZoneId.of("UTC"))
                 .build();
 
         try {
@@ -167,13 +185,16 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
 
         CourseAttributes c = createNewCourse();
+        c.setDeletedAt();
         CourseAttributes updatedCourse = CourseAttributes
-                .builder(c.getId(), c.getName() + " updated", "UTC")
+                .builder(c.getId(), c.getName() + " updated", ZoneId.of("UTC"))
+                .withDeletedAt(c.deletedAt)
                 .build();
 
         coursesDb.updateCourse(updatedCourse);
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertEquals(c.getName() + " updated", retrieved.getName());
+        assertEquals(c.deletedAt, retrieved.deletedAt);
     }
 
     @Test
@@ -205,7 +226,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     private CourseAttributes createNewCourse() throws InvalidParametersException {
 
         CourseAttributes c = CourseAttributes
-                .builder("Computing101", "Basic Computing", "UTC")
+                .builder("Computing101", "Basic Computing", ZoneId.of("UTC"))
                 .build();
 
         try {

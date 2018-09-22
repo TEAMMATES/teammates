@@ -3,6 +3,8 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +81,8 @@ public class GaeSimulation {
         LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
                                             localTasks, localSearch, localModules, localLog);
+
+        helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
         helper.setUp();
 
         sc = new ServletRunner().newClient();
@@ -220,7 +224,7 @@ public class GaeSimulation {
             paramMultiMap.get(key).add(parameters[i + 1]);
         }
 
-        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[values.size()])));
+        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
 
         try {
             InvocationContext ic = sc.newInvocation(request);
@@ -228,6 +232,20 @@ public class GaeSimulation {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Returns an environment attribute with application host name.
+     */
+    public static Map<String, Object> getEnvironmentAttributesWithApplicationHostname() {
+        Map<String, Object> attributes = new HashMap<>();
+        try {
+            attributes.put("com.google.appengine.runtime.default_version_hostname",
+                    new URL(TestProperties.TEAMMATES_URL).getAuthority());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        return attributes;
     }
 
 }

@@ -1,11 +1,14 @@
 package teammates.logic.core;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -68,9 +71,7 @@ public final class CoursesLogic {
     public void createCourse(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        CourseAttributes courseToAdd = CourseAttributes
-                .builder(courseId, courseName, courseTimeZone)
-                .build();
+        CourseAttributes courseToAdd = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
         coursesDb.createEntity(courseToAdd);
     }
 
@@ -474,15 +475,17 @@ public final class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
 
-        List<String> courseIds = new ArrayList<>();
-        for (StudentAttributes s : studentDataList) {
-            courseIds.add(s.course);
-        }
+        List<String> courseIds = studentDataList.stream()
+                .filter(student -> !getCourse(student.course).isCourseDeleted())
+                .map(StudentAttributes::getCourse)
+                .collect(Collectors.toList());
+
         return coursesDb.getCourses(courseIds);
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for all courses a given instructor belongs to.
+     * Returns a list of {@link CourseAttributes} for all courses a given instructor belongs to,
+     * except for courses in recycle bin.
      *
      * @param googleId The Google ID of the instructor
      */
@@ -491,7 +494,8 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to.
+     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to,
+     * except for courses in recycle bin.
      *
      * @param googleId The Google ID of the instructor
      * @param omitArchived if {@code true}, omits all the archived courses from the return
@@ -502,15 +506,16 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors.
+     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors
+     * except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> courseIdList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
-            courseIdList.add(instructor.courseId);
-        }
+        List<String> courseIdList = instructorList.stream()
+                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
@@ -524,6 +529,41 @@ public final class CoursesLogic {
         }
 
         return courseList;
+    }
+
+    /**
+     * Returns a list of {@link CourseAttributes} for soft-deleted courses for a given list of instructors.
+     */
+    public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+
+        List<String> softDeletedCourseIdList = instructorList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
+
+        List<CourseAttributes> softDeletedCourseList = coursesDb.getCourses(softDeletedCourseIdList);
+
+        if (softDeletedCourseIdList.size() > softDeletedCourseList.size()) {
+            for (CourseAttributes ca : softDeletedCourseList) {
+                softDeletedCourseIdList.remove(ca.getId());
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + softDeletedCourseIdList.toString());
+        }
+
+        return softDeletedCourseList;
+    }
+
+    public CourseAttributes getSoftDeletedCourseForInstructor(InstructorAttributes instructor) {
+        Assumption.assertNotNull("Supplied parameter was null", instructor);
+
+        CourseAttributes softDeletedCourse = coursesDb.getCourse(instructor.courseId);
+
+        if (!softDeletedCourse.isCourseDeleted()) {
+            return null;
+        }
+        return softDeletedCourse;
     }
 
     /**
@@ -595,12 +635,13 @@ public final class CoursesLogic {
 
     /**
      * Updates the course details.
-     * @param newCourse the course object containing new details of the course
+     * @param courseId Id of the course to update
+     * @param courseName new name of the course
+     * @param courseTimeZone new time zone of the course
      */
-    public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException,
-                                                                EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newCourse);
-
+    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes newCourse = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
         CourseAttributes oldCourse = coursesDb.getCourse(newCourse.getId());
 
         if (oldCourse == null) {
@@ -608,10 +649,13 @@ public final class CoursesLogic {
         }
 
         coursesDb.updateCourse(newCourse);
+        if (!newCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
+            feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(newCourse.getId(), newCourse.getTimeZone());
+        }
     }
 
     /**
-     * Delete a course from its given corresponding ID.
+     * Permanently deletes a course in Recycle Bin by its given corresponding ID.
      * This will also cascade the data in other databases which are related to this course.
      */
     public void deleteCourseCascade(String courseId) {
@@ -621,16 +665,73 @@ public final class CoursesLogic {
         coursesDb.deleteCourse(courseId);
     }
 
+    /**
+     * Permanently deletes all courses in Recycle Bin.
+     * This will also cascade the data in other databases which are related to these courses.
+     */
+    public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+
+        List<String> softDeletedCourseIdList = instructorList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
+
+        for (String courseId : softDeletedCourseIdList) {
+            deleteCourseCascade(courseId);
+        }
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     * @return Soft-deletion time of the course.
+     */
+    public Instant moveCourseToRecycleBin(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = coursesDb.getCourse(courseId);
+        course.setDeletedAt();
+        coursesDb.updateCourse(course);
+
+        return course.deletedAt;
+    }
+
+    /**
+     * Restores a course from Recycle Bin by its given corresponding ID.
+     */
+    public void restoreCourseFromRecycleBin(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = coursesDb.getCourse(courseId);
+        course.resetDeletedAt();
+        coursesDb.updateCourse(course);
+    }
+
+    /**
+     * Restores all courses from Recycle Bin.
+     */
+    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+
+        List<String> softDeletedCourseIdList = instructorList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
+
+        for (String courseId : softDeletedCourseIdList) {
+            restoreCourseFromRecycleBin(courseId);
+        }
+    }
+
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
-        List<String> courseIdList = new ArrayList<>();
+        List<String> courseIdList = instructorAttributesList.stream()
+                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
-        for (InstructorAttributes ia : instructorAttributesList) {
-            courseIdList.add(ia.courseId);
-        }
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
         // Check that all courseIds queried returned a course.
@@ -717,5 +818,36 @@ public final class CoursesLogic {
             }
         }
         return archivedCourseIds;
+    }
+
+    /**
+     * Checks that {@code courseTimeZone} is valid and then returns a {@link CourseAttributes}.
+     * Field validation is usually done in {@link CoursesDb} by calling {@link CourseAttributes#getInvalidityInfo()}.
+     * However, a {@link CourseAttributes} cannot be created with an invalid time zone string.
+     * Hence, validation of this field is carried out here.
+     *
+     * @throws InvalidParametersException containing error messages for all fields if {@code courseTimeZone} is invalid
+     */
+    private CourseAttributes validateAndCreateCourseAttributes(
+            String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
+
+        // Imitate `CourseAttributes.getInvalidityInfo`
+        FieldValidator validator = new FieldValidator();
+        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
+            CourseAttributes dummyCourse = CourseAttributes
+                    .builder(courseId, courseName, Const.DEFAULT_TIME_ZONE)
+                    .build();
+            List<String> errors = dummyCourse.getInvalidityInfo();
+            errors.add(timeZoneErrorMessage);
+            // Imitate exception throwing in `CoursesDb`
+            throw new InvalidParametersException(errors);
+        }
+
+        // If time zone field is valid, leave validation  of other fields to `CoursesDb` like usual
+        return CourseAttributes
+                .builder(courseId, courseName, ZoneId.of(courseTimeZone))
+                .build();
     }
 }

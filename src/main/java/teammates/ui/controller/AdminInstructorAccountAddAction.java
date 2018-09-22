@@ -1,10 +1,6 @@
 package teammates.ui.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -127,12 +123,6 @@ public class AdminInstructorAccountAddAction extends Action {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         String courseId = generateDemoCourseId(pageData.instructorEmail);
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        c.set(Calendar.AM_PM, Calendar.PM);
-        c.set(Calendar.HOUR, 11);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
         String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
                 // replace email
@@ -140,9 +130,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 // replace name
                 "Demo_Instructor", pageData.instructorName,
                 // replace course
-                "demo.course", courseId,
-                // update feedback session time
-                "2013-04-01 11:59 PM UTC", formatter.format(c.getTime()));
+                "demo.course", courseId);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 

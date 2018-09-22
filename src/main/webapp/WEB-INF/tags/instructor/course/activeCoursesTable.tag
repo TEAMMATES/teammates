@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourse - Course table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
@@ -67,6 +68,7 @@
 
   <c:if test="${empty activeCourses.rows}">
     <tr>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>

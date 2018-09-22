@@ -6,11 +6,12 @@ import javax.mail.internet.MimeMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
 
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.resource.Email;
-import com.sendgrid.SendGrid;
+import com.sendgrid.Mail;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
@@ -68,15 +69,18 @@ public class EmailSenderTest extends BaseLogicTest {
     @Test
     public void testConvertToSendgrid() {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        SendGrid.Email email = new SendgridService().parseToEmail(wrapper);
+        Mail email = new SendgridService().parseToEmail(wrapper);
 
-        assertEquals(wrapper.getSenderEmail(), email.getFrom());
-        assertEquals(wrapper.getSenderName(), email.getFromName());
-        assertEquals(wrapper.getRecipient(), email.getTos()[0]);
-        assertEquals(wrapper.getBcc(), email.getBccs()[0]);
-        assertEquals(wrapper.getReplyTo(), email.getReplyTo());
+        assertEquals(wrapper.getSenderEmail(), email.getFrom().getEmail());
+        assertEquals(wrapper.getSenderName(), email.getFrom().getName());
+        assertEquals(wrapper.getRecipient(), email.personalization.get(0).getTos().get(0).getEmail());
+        assertEquals(wrapper.getBcc(), email.personalization.get(0).getBccs().get(0).getEmail());
+        assertEquals(wrapper.getReplyTo(), email.getReplyto().getEmail());
         assertEquals(wrapper.getSubject(), email.getSubject());
-        assertEquals(wrapper.getContent(), email.getHtml());
+        assertEquals("text/plain", email.getContent().get(0).getType());
+        assertEquals(Jsoup.parse(wrapper.getContent()).text(), email.getContent().get(0).getValue());
+        assertEquals("text/html", email.getContent().get(1).getType());
+        assertEquals(wrapper.getContent(), email.getContent().get(1).getValue());
     }
 
     @Test

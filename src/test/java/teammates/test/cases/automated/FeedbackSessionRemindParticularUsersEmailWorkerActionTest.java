@@ -41,14 +41,15 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends B
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
                 ParamsNames.SUBMISSION_REMIND_USERLIST, student1.email,
                 ParamsNames.SUBMISSION_REMIND_USERLIST, instructor1.email,
+                ParamsNames.USER_ID, instructor1.googleId,
                 ParamsNames.SUBMISSION_REMIND_USERLIST, "non-existent"
         };
 
         FeedbackSessionRemindParticularUsersEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        // send 2 emails as specified in the submission parameters
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
+        // send 3 emails as specified in the submission parameters
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
 
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();

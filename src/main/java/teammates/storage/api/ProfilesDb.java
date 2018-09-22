@@ -2,13 +2,12 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
@@ -84,8 +83,8 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         profileToUpdate.setInstitute(newSpa.institute);
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
-        profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        profileToUpdate.setModifiedDate(new Date());
+        profileToUpdate.setMoreInfo(newSpa.moreInfo);
+        profileToUpdate.setModifiedDate(Instant.now());
 
         boolean hasNewNonEmptyPictureKey = !newSpa.pictureKey.isEmpty()
                 && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
@@ -113,7 +112,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
                 && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
         if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
-            profileToUpdate.setModifiedDate(new Date());
+            profileToUpdate.setModifiedDate(Instant.now());
         }
 
         saveEntity(profileToUpdate);
@@ -164,7 +163,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         if (!sp.getPictureKey().equals(new BlobKey(""))) {
             deletePicture(sp.getPictureKey());
             sp.setPictureKey(new BlobKey(""));
-            sp.setModifiedDate(new Date());
+            sp.setModifiedDate(Instant.now());
         }
 
         saveEntity(sp);

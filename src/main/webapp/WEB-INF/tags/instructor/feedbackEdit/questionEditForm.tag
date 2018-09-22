@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks - form for editing feedback question" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -19,7 +20,9 @@
       <div class="row">
         <div class="col-sm-7">
           <span>
-            <strong>Question</strong>
+            <strong>Question
+              <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC %>-${fqForm.questionIndex}">${fqForm.questionIndex}:</span>
+            </strong>
             <select class="questionNumber nonDestructive text-primary"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>-${fqForm.questionIndex}">
@@ -56,6 +59,12 @@
                 data-qnnumber="${fqForm.questionIndex}"
                 data-toggle="tooltip" data-placement="top">
               <span class=" glyphicon glyphicon-trash"></span> Delete
+            </a>
+            <a class="btn btn-primary btn-xs btn-duplicate-qn"
+               data-qnnumber="${fqForm.questionIndex}"
+               data-toggle="tooltip" data-placement="top"
+               title="<%= Const.Tooltips.FEEDBACK_QUESTION_DUPLICATE %>">
+              <span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-file"></span> Duplicate
             </a>
           </span>
         </div>

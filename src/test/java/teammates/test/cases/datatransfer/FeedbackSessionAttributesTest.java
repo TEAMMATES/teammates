@@ -1,15 +1,13 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -19,23 +17,25 @@ import teammates.test.driver.TimeHelperExtension;
  * SUT: {@link FeedbackSessionAttributes}.
  */
 public class FeedbackSessionAttributesTest extends BaseTestCase {
-    private Date startTime;
-    private Date endTime;
+    private Instant startTime;
+    private Instant endTime;
 
     private FeedbackSessionAttributes fsa;
 
     @BeforeClass
     public void classSetup() {
-        startTime = TimeHelper.combineDateTime("09/05/2016", "1000");
-        endTime = TimeHelper.combineDateTime("09/05/2017", "1000");
+        ZoneId timeZone = ZoneId.of("Asia/Singapore");
+        startTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
+        endTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
 
         fsa = FeedbackSessionAttributes
                 .builder("", "", "")
                 .withStartTime(startTime)
                 .withEndTime(endTime)
-                .withTimeZone(8)
-                .withGracePeriod(15)
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
+                .withTimeZone(timeZone)
+                .withGracePeriodMinutes(15)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)
                 .withPublishedEmailEnabled(false)
@@ -52,22 +52,23 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
-        assertEquals(new Text(""), fsa.getInstructions());
+        assertEquals("", fsa.getInstructions());
         assertNotNull(fsa.getRespondingInstructorList());
         assertNotNull(fsa.getRespondingStudentList());
+        assertNull(fsa.getDeletedTime());
     }
 
     @Test
     public void testBuilderCopy() {
         FeedbackSessionAttributes original = FeedbackSessionAttributes
                 .builder("newFeedbackSessionName", "course", "email")
-                .withInstructions(new Text("default instructions"))
-                .withCreatedTime(TimeHelperExtension.getHoursOffsetToCurrentTime(0))
-                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(2))
-                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(5))
-                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1))
-                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(6))
-                .withTimeZone(8).withGracePeriod(0).withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withInstructions("default instructions")
+                .withCreatedTime(Instant.now())
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
+                .withTimeZone(ZoneId.of("Asia/Singapore")).withGracePeriodMinutes(0)
                 .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
                 .build();
 
@@ -78,13 +79,13 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getCreatorEmail(), copy.getCreatorEmail());
         assertEquals(original.getInstructions(), copy.getInstructions());
         assertEquals(original.getCreatedTime(), copy.getCreatedTime());
+        assertEquals(original.getDeletedTime(), copy.getDeletedTime());
         assertEquals(original.getStartTime(), copy.getStartTime());
         assertEquals(original.getEndTime(), copy.getEndTime());
         assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());
         assertEquals(original.getResultsVisibleFromTime(), copy.getResultsVisibleFromTime());
         assertEquals(original.getTimeZone(), copy.getTimeZone());
-        assertEquals(original.getGracePeriod(), copy.getGracePeriod());
-        assertEquals(original.getFeedbackSessionType(), copy.getFeedbackSessionType());
+        assertEquals(original.getGracePeriodMinutes(), copy.getGracePeriodMinutes());
         assertEquals(original.isOpeningEmailEnabled(), copy.isOpeningEmailEnabled());
         assertEquals(original.isClosingEmailEnabled(), copy.isClosingEmailEnabled());
         assertEquals(original.isPublishedEmailEnabled(), copy.isPublishedEmailEnabled());
@@ -111,26 +112,29 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes
                 .builder("", "", "")
-                .withStartTime(new Date())
-                .withEndTime(new Date())
-                .withCreatedTime(new Date())
-                .withResultsVisibleFromTime(new Date())
-                .withSessionVisibleFromTime(new Date())
+                .withStartTime(Instant.now())
+                .withEndTime(Instant.now())
+                .withCreatedTime(Instant.now())
+                .withResultsVisibleFromTime(Instant.now())
+                .withSessionVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(-100)
                 .build();
         assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
     }
 
     private List<String> buildExpectedErrorMessages() {
-        String feedbackSessionNameError = "The field 'feedback session name' is empty. The value of a/an feedback "
-                + "session name should be no longer than 38 characters. It should not be empty.";
+        String feedbackSessionNameError = "The field 'feedback session name' should not be empty. The value of 'feedback "
+                + "session name' field should be no longer than 38 characters.";
         String courseIdError = "The field 'course ID' is empty. A course ID can contain letters, numbers, fullstops, "
                 + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
                 + "cannot contain spaces.";
         String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
                 + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
                 + " and cannot contain spaces.";
+        String gracePeriodError = "Grace period should not be negative." + " "
+                + "The value must be one of the options in the grace period dropdown selector.";
 
-        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError);
+        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError);
     }
 
 }

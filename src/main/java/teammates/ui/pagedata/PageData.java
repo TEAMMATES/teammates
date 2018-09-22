@@ -1,11 +1,12 @@
 package teammates.ui.pagedata;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -15,6 +16,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 import teammates.common.util.SanitizationHelper;
@@ -23,6 +25,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
 /**
@@ -77,10 +80,6 @@ public class PageData {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
 
-    public static String displayDateTime(Date date) {
-        return TimeHelper.formatTime12H(date);
-    }
-
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
@@ -93,38 +92,13 @@ public class PageData {
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
+    protected List<String> getTimeZoneOptionsAsHtml(ZoneId existingTimeZone) {
+        List<ZoneId> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-        }
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\""
-                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption
-                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-        }
-        return result;
-    }
-
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
-            result.add(option);
-        }
-
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            String textToDisplay = "(" + utcFormatOption
-                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
-
-            ElementTag option = createOption(textToDisplay,
-                                             formatAsString(timeZoneOption), isExistingTimeZone);
-            result.add(option);
+        for (ZoneId timeZoneOption : options) {
+            result.add("<option value=\"" + timeZoneOption.getId() + "\""
+                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.getId()
+                    + ") " + TimeHelper.getCitiesForTimeZone(timeZoneOption) + "</option>");
         }
         return result;
     }
@@ -180,7 +154,7 @@ public class PageData {
     /**
      * Returns the grace period options as HTML code.
      */
-    public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+    public static List<ElementTag> getGracePeriodOptionsAsElementTags(long existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<>();
         for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i),
@@ -194,7 +168,7 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+    public static List<ElementTag> getTimeOptionsAsElementTags(LocalDateTime timeToShowAsSelected) {
         List<ElementTag> result = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
@@ -396,6 +370,44 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorCourseRestoreSoftDeletedCourseLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseRestoreAllSoftDeletedCoursesLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseDeleteSoftDeletedCourseLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseDeleteAllSoftDeletedCoursesLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackSessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
@@ -518,11 +530,78 @@ public class PageData {
         return link;
     }
 
+    /**
+     * Retrieves the link to load data for the resend session published email modal.
+     * @param courseId the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load data for the modal
+     */
+    public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackUnpublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorFeedbackRestoreSoftDeletedSessionLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorFeedbackRestoreAllSoftDeletedSessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorFeedbackDeleteSoftDeletedSessionLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorFeedbackDeleteAllSoftDeletedSessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
 
@@ -620,9 +699,7 @@ public class PageData {
     }
 
     public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return "Private";
-        } else if (session.isOpened()) {
+        if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
             return "Awaiting";
@@ -632,9 +709,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "-";
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return "Published";
         } else {
             return "Not Published";
@@ -642,10 +717,6 @@ public class PageData {
     }
 
     public static String getInstructorSubmissionsTooltipForFeedbackSession(FeedbackSessionAttributes session) {
-
-        if (session.isPrivateSession()) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
-        }
 
         StringBuilder msg = new StringBuilder(50);
         msg.append("The feedback session has been created");
@@ -668,11 +739,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
@@ -695,62 +762,11 @@ public class PageData {
         return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
     }
 
-    /**
-     * Returns the type of people that can view the response comment.
-     */
-    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
-                                                FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder(100);
-        List<FeedbackParticipantType> showCommentTo;
-        if (comment.isVisibilityFollowingFeedbackQuestion) {
-            showCommentTo = relatedQuestion.showResponsesTo;
-        } else {
-            showCommentTo = comment.showCommentTo;
-        }
-        for (int i = 0; i < showCommentTo.size(); i++) {
-            FeedbackParticipantType commentViewer = showCommentTo.get(i);
-            if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
-                peopleCanView.append("and ");
-            }
-
-            switch (commentViewer) {
-            case GIVER:
-                peopleCanView.append("response giver, ");
-                break;
-            case RECEIVER:
-                peopleCanView.append("response recipient, ");
-                break;
-            case OWN_TEAM:
-                peopleCanView.append("response giver's team, ");
-                break;
-            case RECEIVER_TEAM_MEMBERS:
-                peopleCanView.append("response recipient's team, ");
-                break;
-            case STUDENTS:
-                peopleCanView.append("other students in this course, ");
-                break;
-            case INSTRUCTORS:
-                peopleCanView.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        String peopleCanViewString = peopleCanView.toString();
-        return removeEndComma(peopleCanViewString);
-    }
-
-    public String removeEndComma(String str) {
-        return str.substring(0, str.length() - 2);
-    }
-
-    private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
+    private static boolean isTimeToBeSelected(LocalDateTime timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTime(timeToShowAsSelected);
-            if (cal.get(Calendar.MINUTE) == 0) {
-                if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {
+            if (timeToShowAsSelected.getMinute() == 0) {
+                if (timeToShowAsSelected.getHour() == hourOfTheOption) {
                     return true;
                 }
             } else {
@@ -766,20 +782,13 @@ public class PageData {
         return false;
     }
 
-    private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
+    private static boolean isGracePeriodToBeSelected(long existingGracePeriodValue, long gracePeriodOptionValue) {
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
         }
         int defaultGracePeriod = 15;
         return gracePeriodOptionValue == defaultGracePeriod;
-    }
-
-    private static String formatAsString(double num) {
-        if ((int) num == num) {
-            return Integer.toString((int) num);
-        }
-        return Double.toString(num);
     }
 
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
@@ -874,4 +883,128 @@ public class PageData {
         return statusMessagesToUser;
     }
 
+    /**
+     * Builds template that will be used by feedbackParticipant/Instructor to add comments to responses.
+     *
+     * @param question question of response
+     * @param responseId id of response (can be empty)
+     * @param giverName name of person/team giving comment (empty for feedback participant comments)
+     * @param recipientName name of person/team receiving comment (empty for feedback participant comments)
+     * @param timezone Time zone
+     * @param isCommentFromFeedbackParticipant true if comment giver is feedback participant
+     * @return Feedback response comment add form template
+     */
+    public FeedbackResponseCommentRow buildFeedbackResponseCommentFormForAdding(FeedbackQuestionAttributes question,
+            String responseId, String giverName, String recipientName, ZoneId timezone,
+            boolean isCommentFromFeedbackParticipant) {
+        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
+                .builder(question.courseId, question.feedbackSessionName, "", "")
+                .withFeedbackResponseId(responseId)
+                .withFeedbackQuestionId(question.getFeedbackQuestionId())
+                .withCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant)
+                .build();
+
+        frca.showCommentTo = new ArrayList<>();
+        frca.showGiverNameTo = new ArrayList<>();
+        FeedbackParticipantType[] relevantTypes = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.INSTRUCTORS
+        };
+
+        for (FeedbackParticipantType type : relevantTypes) {
+            if (isResponseCommentVisibleTo(question, type)) {
+                frca.showCommentTo.add(type);
+            }
+            if (isResponseCommentGiverNameVisibleTo(question, type)) {
+                frca.showGiverNameTo.add(type);
+            }
+        }
+
+        return new FeedbackResponseCommentRow(frca, giverName, recipientName,
+                getResponseCommentVisibilityString(question),
+                getResponseCommentGiverNameVisibilityString(question), getResponseVisibilityMap(question),
+                timezone);
+    }
+
+    /**
+     * Returns map in which key is feedback participant and value determines whether response is visible to it.
+     *
+     * @param question question associated with response
+     * @return map of all feedback participants as keys
+     */
+    public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
+        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
+
+        FeedbackParticipantType[] relevantTypes = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.INSTRUCTORS
+        };
+
+        for (FeedbackParticipantType participantType : relevantTypes) {
+            responseVisibilityMap.put(participantType, isResponseVisibleTo(participantType, question));
+        }
+
+        return responseVisibilityMap;
+    }
+
+    // TODO investigate and fix the differences between question.isResponseVisibleTo and this method
+    protected boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
+        switch (participantType) {
+        case GIVER:
+            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+        case INSTRUCTORS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        case OWN_TEAM_MEMBERS:
+            return question.giverType != FeedbackParticipantType.INSTRUCTORS
+                    && question.giverType != FeedbackParticipantType.SELF
+                    && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        case RECEIVER:
+            return question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+        case RECEIVER_TEAM_MEMBERS:
+            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                    && question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        case STUDENTS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+        default:
+            Assumption.fail("Invalid participant type");
+            return false;
+        }
+    }
+
+    /**
+     * Builds comment row for feedback participant comment.
+     *
+     * @param questionAttributes question associated with comment
+     * @param commentsForResponses map where key is response id and value is list of comments on that response
+     * @param responseId response id of response associated with comment
+     * @param isEditDeleteEnabled true if comment can be edited or deleted
+     * @return
+     */
+    public FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
+            FeedbackQuestionAttributes questionAttributes,
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, String responseId,
+            boolean isEditDeleteEnabled) {
+        if (!commentsForResponses.containsKey(responseId)) {
+            return null;
+        }
+        List<FeedbackResponseCommentAttributes> frcList = commentsForResponses.get(responseId);
+        for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
+            if (frcAttributes.isCommentFromFeedbackParticipant) {
+                return new FeedbackResponseCommentRow(frcAttributes, questionAttributes, isEditDeleteEnabled);
+            }
+        }
+        return null;
+    }
 }

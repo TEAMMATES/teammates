@@ -4,20 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -108,7 +113,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         for (String s : params) {
             list.add(s);
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     private String[] addStudentAuthenticationInfo(String[] params) {
@@ -122,7 +127,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         for (String s : params) {
             list.add(s);
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     protected String[] createValidParamsForProfile() {
@@ -173,19 +178,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionVisibleTime] = "0";
 
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
-            typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+            typicalCase[indexOfSessionPublishDate] = "Thu, 08 May, 2014";
             typicalCase[indexOfSessionPublishTime] = "2";
             break;
         case 2:
-            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-            typicalCase[indexOfSessionVisibleDate] = "";
-            typicalCase[indexOfSessionVisibleTime] = "0";
-
-            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
-
-            typicalCase[indexOfSessionInstructionsValue] = "<script>test</script>instructions";
-            break;
-        case 3:
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
             typicalCase[indexOfSessionInstructionsValue] = "";
             break;
@@ -202,15 +198,15 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
-                Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, "01/02/2012",
+                Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, "Wed, 01 Feb, 2012",
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
+                Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "Thu, 01 Jan, 2015",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
 
                 Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON,
                 Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
 
-                Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
+                Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "Sun, 01 Jan, 2012",
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
 
                 Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON,
@@ -218,7 +214,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
         };
@@ -274,7 +269,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(getActionUri(), parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (AssertionError | NullPostParameterException e) {
+        } catch (AssertionError | InvalidPostParametersException e) {
             ignoreExpectedException();
         }
     }
@@ -748,4 +743,27 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return url + (url.contains("?") ? "&" : "?") + key + "=" + value;
     }
 
+    protected static void verifyStatusMessage(StatusMessage statusMessage,
+            String expectedText, StatusMessageColor expectedColor) {
+        assertEquals(expectedText, statusMessage.getText());
+        assertEquals(expectedColor.name().toLowerCase(), statusMessage.getColor());
+    }
+
+    /**
+     * Filters feedback participant comment from all comments on a response.
+     *
+     * @param responseId response id of response
+     * @return feedback participant comment
+     */
+    protected FeedbackResponseCommentAttributes getFeedbackParticipantComment(String responseId) {
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
+        frcList = frcList.stream()
+                .filter(comment -> comment.isCommentFromFeedbackParticipant)
+                .collect(Collectors.toList());
+        if (frcList.isEmpty()) {
+            return null;
+        }
+        return frcList.get(0);
+    }
 }

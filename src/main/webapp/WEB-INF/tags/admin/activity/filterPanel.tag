@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Filter Panel in Admin Activity Log Page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -70,7 +71,7 @@
                 <strong>Sample Queries:</strong> <br>
                 <ul>
                   <li>E.g. role: Instructor AND request: InstructorCourse, InstructorEval AND from: 15/03/13</li>
-                  <li>E.g. from: 13/3/13 AND to: 17/3/13 AND person: teammates.test AND response: Pageload, System Error Report, Servlet Action Failure</li>
+                  <li>E.g. from: 13/03/13 AND to: 17/03/13 AND person: teammates.test AND response: Pageload, System Error Report, Servlet Action Failure</li>
                 </ul>
               </div>
             </div>

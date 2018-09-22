@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
@@ -231,17 +232,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Failure case: empty name, instructor feedbacks page");
@@ -260,17 +260,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Failure case: empty name, instructor feedback copy page");
@@ -289,17 +288,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Failure case: empty name, instructor feedback edit page");
@@ -318,30 +316,38 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Successful case");
 
         CourseAttributes course7 = dataBundle.courses.get("course7");
-        String copiedCourseName = "Session with valid name";
+        String feedbackSessionName = "First Session";
+        String newFeedbackSessionName = "Session with valid name";
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, copiedCourseName,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, newFeedbackSessionName,
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course7.getId()
         };
+
+        assertNotEquals(course6.getTimeZone().getId(), course.getTimeZone().getId());
+        assertNotEquals(course7.getTimeZone().getId(), course.getTimeZone().getId());
+        assertNotEquals(course6.getTimeZone().getId(), course7.getTimeZone().getId());
+
+        String sessionTimeZone =
+                FeedbackSessionsLogic.inst().getFeedbackSession(feedbackSessionName, course.getId()).getTimeZone().getId();
+        assertEquals(course.getTimeZone().getId(), sessionTimeZone);
 
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
@@ -356,16 +362,23 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                          + "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>"
                          + "New Feedback Session <span class=\"bold\">(Session with valid name)</span> "
                          + "for Courses: <br>FeedbackEditCopy.CS2103R,FeedbackEditCopy.CS2102<br>"
-                         + "<span class=\"bold\">From:</span> Sun Apr 01 21:59:00 UTC 2012<span class=\"bold\"> "
-                         + "to</span> Thu Apr 30 21:59:00 UTC 2026<br><span class=\"bold\">Session visible from:</span> "
-                         + "Sun Apr 01 21:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
-                         + "Fri May 01 21:59:00 UTC 2026<br><br><span class=\"bold\">Instructions:</span> "
-                         + "<Text: Instructions for first session><br>Copied from "
+                         + "<span class=\"bold\">From:</span> 2012-04-01T21:59:00Z<span class=\"bold\"> "
+                         + "to</span> 2026-04-30T21:59:00Z<br><span class=\"bold\">Session visible from:</span> "
+                         + "2012-04-01T21:59:00Z<br><span class=\"bold\">Results visible from:</span> "
+                         + "2026-05-01T21:59:00Z<br><br><span class=\"bold\">Instructions:</span> "
+                         + "Instructions for first session<br>Copied from "
                          + "<span class=\"bold\">(First Session)</span> "
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
                          + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
+        sessionTimeZone = FeedbackSessionsLogic.inst().getFeedbackSession(newFeedbackSessionName,
+                course6.getId()).getTimeZone().getId();
+        assertEquals(course6.getTimeZone().getId(), sessionTimeZone);
+
+        sessionTimeZone = FeedbackSessionsLogic.inst().getFeedbackSession(newFeedbackSessionName,
+                course7.getId()).getTimeZone().getId();
+        assertEquals(course7.getTimeZone().getId(), sessionTimeZone);
     }
 
     @Override

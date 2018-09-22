@@ -35,7 +35,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Sun, 01 Apr 2012, 11:59 PM UTC+0800
+                Sun, 01 Apr 2012, 11:59 PM SGT
               </p>
             </div>
           </div>
@@ -45,7 +45,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Thu, 30 Apr 2026, 11:59 PM UTC+0800
+                Thu, 30 Apr 2026, 11:59 PM SGT
               </p>
             </div>
           </div>
@@ -70,6 +70,11 @@
           What is the best selling point of your product?
         </span>
       </h4>
+      <h5>
+        <b>
+          Your own responses:
+        </b>
+      </h5>
       <div class="panel panel-info">
         <div class="panel-heading">
           <b>
@@ -101,7 +106,9 @@
                     <div class="row" id="commentBar-${comment.id}">
                       <div class="col-xs-10">
                         <span class="text-muted">
-                          From: Teammates Test [Mon, 02 Mar 2026, 07:59 AM UTC+0800] (last edited by Teammates Test at Tue, 03 Mar 2026, 07:59 AM UTC+0800)
+                          From: Teammates Test [Mon, 02 Mar 2026, 07:59 AM SGT] (last edited by Teammates Test at Tue, 03 Mar 2026, 07:59 AM SGT)
+                        </span>
+                        <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to other students in this course" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                         </span>
                       </div>
                       <div class="col-xs-2">
@@ -115,7 +122,9 @@
                     <div class="row" id="commentBar-${comment.id}">
                       <div class="col-xs-10">
                         <span class="text-muted">
-                          From: Teammates Test [Tue, 03 Mar 2026, 07:59 AM UTC+0800]
+                          From: Teammates Test [Tue, 03 Mar 2026, 07:59 AM SGT]
+                        </span>
+                        <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to other students in this course" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                         </span>
                       </div>
                       <div class="col-xs-2">
@@ -158,7 +167,7 @@
                     From:
                   </b>
                 </span>
-                Anonymous student ${participant.hash}
+                Anonymous student
               </td>
             </tr>
             <tr>
@@ -169,6 +178,65 @@
           </tbody>
         </table>
       </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            To:
+          </b>
+          Anonymous student
+        </div>
+        <table class="table">
+          <tbody>
+            <tr class="resultSubheader">
+              <td>
+                <span class="bold">
+                  <b>
+                    From:
+                  </b>
+                </span>
+                Anonymous student
+              </td>
+            </tr>
+            <tr>
+              <td class="text-preserve-space">
+                Response to Benny from Dropout.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            To:
+          </b>
+          Anonymous student
+        </div>
+        <table class="table">
+          <tbody>
+            <tr class="resultSubheader">
+              <td>
+                <span class="bold">
+                  <b>
+                    From:
+                  </b>
+                </span>
+                Anonymous student
+              </td>
+            </tr>
+            <tr>
+              <td class="text-preserve-space">
+                Response to Danny from Dropout.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h5>
+        <b>
+          Your own responses:
+        </b>
+      </h5>
       <div class="panel panel-info">
         <div class="panel-heading">
           <b>
@@ -250,60 +318,6 @@
           </tbody>
         </table>
       </div>
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <b>
-            To:
-          </b>
-          Anonymous student ${participant.hash}
-        </div>
-        <table class="table">
-          <tbody>
-            <tr class="resultSubheader">
-              <td>
-                <span class="bold">
-                  <b>
-                    From:
-                  </b>
-                </span>
-                Anonymous student ${participant.hash}
-              </td>
-            </tr>
-            <tr>
-              <td class="text-preserve-space">
-                Response to Benny from Dropout.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <b>
-            To:
-          </b>
-          Anonymous student ${participant.hash}
-        </div>
-        <table class="table">
-          <tbody>
-            <tr class="resultSubheader">
-              <td>
-                <span class="bold">
-                  <b>
-                    From:
-                  </b>
-                </span>
-                Anonymous student ${participant.hash}
-              </td>
-            </tr>
-            <tr>
-              <td class="text-preserve-space">
-                Response to Danny from Dropout.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
   <br>
@@ -315,7 +329,12 @@
           Feedback to class
         </span>
       </h4>
-      <div class="panel panel-primary">
+      <h5>
+        <b>
+          Your own responses:
+        </b>
+      </h5>
+      <div class="panel panel-info">
         <div class="panel-heading">
           <b>
             To:
@@ -331,7 +350,22 @@
                     From:
                   </b>
                 </span>
-                Anonymous student ${participant.hash}
+                You
+              </td>
+            </tr>
+            <tr>
+              <td class="text-preserve-space">
+                Secret feedback about class. (to nobody test)
+              </td>
+            </tr>
+            <tr class="resultSubheader">
+              <td>
+                <span class="bold">
+                  <b>
+                    From:
+                  </b>
+                </span>
+                Anonymous student
               </td>
             </tr>
             <tr>
@@ -460,6 +494,38 @@
           </tbody>
         </table>
       </div>
+      <h5>
+        <b>
+          Your own responses:
+        </b>
+      </h5>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <b>
+            To:
+          </b>
+          Benny Charles
+        </div>
+        <table class="table">
+          <tbody>
+            <tr class="resultSubheader">
+              <td>
+                <span class="bold">
+                  <b>
+                    From:
+                  </b>
+                </span>
+                You
+              </td>
+            </tr>
+            <tr>
+              <td class="text-preserve-space">
+                Teammate feedback from alice
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <br>
@@ -471,6 +537,11 @@
           Give feedback on how well the team worked together.
         </span>
       </h4>
+      <h5>
+        <b>
+          Your own responses:
+        </b>
+      </h5>
       <div class="panel panel-info">
         <div class="panel-heading">
           <b>
@@ -493,6 +564,59 @@
             <tr>
               <td class="text-preserve-space">
                 Feedback from alice to the team
+              </td>
+            </tr>
+            <tr class="resultSubheader">
+              <td>
+                <span class="bold">
+                  <b>
+                    From:
+                  </b>
+                </span>
+                Benny Charles
+              </td>
+            </tr>
+            <tr>
+              <td class="text-preserve-space">
+                Feedback from benny to the team
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        Question 7:
+        <span class="text-preserve-space">
+          This question should be hidden.
+        </span>
+      </h4>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            To:
+          </b>
+          You
+        </div>
+        <table class="table">
+          <tbody>
+            <tr class="resultSubheader">
+              <td>
+                <span class="bold">
+                  <b>
+                    From:
+                  </b>
+                </span>
+                Teammates Test
+              </td>
+            </tr>
+            <tr>
+              <td class="text-preserve-space">
+                Feedback from instructor to Alice
               </td>
             </tr>
           </tbody>

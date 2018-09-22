@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,11 +9,8 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentUpdateStatus;
@@ -673,15 +672,14 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
                 .builder("newFeedbackSessionName", courseIdForEnrollTest, instructorEmail)
-                .withInstructions(new Text("default instructions"))
-                .withCreatedTime(TimeHelperExtension.getHoursOffsetToCurrentTime(0))
-                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(2))
-                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(5))
-                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1))
-                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(6))
-                .withTimeZone(8)
-                .withGracePeriod(0)
-                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withInstructions("default instructions")
+                .withCreatedTime(Instant.now())
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
+                .withTimeZone(ZoneId.of("Asia/Singapore"))
+                .withGracePeriodMinutes(0)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)
                 .withPublishedEmailEnabled(false)

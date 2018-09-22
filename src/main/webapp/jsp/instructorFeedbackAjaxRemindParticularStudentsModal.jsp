@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -26,12 +27,12 @@
       <span class="icon-sort unsorted"></span>
     </th>
   </tr>
-  <c:forEach items="${data.responseStatus.noResponse}" var="userToRemindEmail">
+  <c:forEach items="${data.responseStatus.studentsWhoDidNotRespondSorted}" var="userToRemindEmail">
     <tr class="bg-danger">
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
+            <input type="checkbox" class="student-not-responded table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
           </label>
         </div>
       </td>
@@ -52,12 +53,12 @@
       </td>
     </tr>
   </c:forEach>
-  <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToRemindEmail">
+  <c:forEach items="${data.responseStatus.studentsWhoRespondedSorted}" var="userToRemindEmail">
     <tr class="bg-info">
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
+            <input type="checkbox" class="student-responded table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
           </label>
         </div>
       </td>

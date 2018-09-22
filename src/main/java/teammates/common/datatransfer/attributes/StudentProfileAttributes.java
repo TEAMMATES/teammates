@@ -1,11 +1,10 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -31,7 +30,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String gender; // only accepts "male", "female" or "other"
     public String moreInfo;
     public String pictureKey;
-    public Date modifiedDate;
+    public Instant modifiedDate;
 
     StudentProfileAttributes(String googleId) {
         this.googleId = googleId;
@@ -42,7 +41,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.gender = "other";
         this.moreInfo = "";
         this.pictureKey = "";
-        this.modifiedDate = new Date();
+        this.modifiedDate = Instant.now();
     }
 
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
@@ -52,7 +51,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withInstitute(sp.getInstitute())
                 .withGender(sp.getGender())
                 .withNationality(sp.getNationality())
-                .withMoreInfo(sp.getMoreInfo().getValue())
+                .withMoreInfo(sp.getMoreInfo())
                 .withPictureKey(sp.getPictureKey().getKeyString())
                 .withModifiedDate(sp.getModifiedDate())
                 .build();
@@ -145,7 +144,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
-                                  new Text(moreInfo), new BlobKey(this.pictureKey));
+                                  moreInfo, new BlobKey(this.pictureKey));
     }
 
     @Override
@@ -233,8 +232,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withModifiedDate(Date modifiedDate) {
-            profileAttributes.modifiedDate = modifiedDate == null ? new Date() : modifiedDate;
+        public Builder withModifiedDate(Instant modifiedDate) {
+            profileAttributes.modifiedDate = modifiedDate == null ? Instant.now() : modifiedDate;
             return this;
         }
 

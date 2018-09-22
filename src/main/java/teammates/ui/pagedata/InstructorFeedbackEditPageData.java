@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -26,6 +24,7 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
+import teammates.ui.template.FeedbackTemplateQuestionInfo;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
@@ -33,20 +32,36 @@ public class InstructorFeedbackEditPageData extends PageData {
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
-    private String statusForAjax;
     private boolean shouldLoadInEditMode;
     private boolean hasError;
     private CourseDetailsBundle courseDetails;
     private int numOfInstructors;
+    private FeedbackSessionAttributes feedbackSession;
+    private List<FeedbackTemplateQuestionInfo> templateQnForm;
+    private Map<String, String> resolvedTimeFields = new HashMap<>();
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
     }
 
+    /**
+     * Initializes EditPageData.
+     * @param feedbackSession         session in the course that the user is accessing
+     * @param questions               existing list of questions in the feedback session
+     * @param templateQuestions       list of template questions from feedbackSessionTeamEvaluationTemplate.json
+     * @param questionHasResponses    a map of questionIds to indicate if a question has response
+     * @param studentList             a list of students in the course
+     * @param instructorList          a list of instructors in the course
+     * @param instructor              the current instructor logged in
+     * @param shouldLoadInEditMode    true or false depending on if the session is editable
+     * @param numOfInstructors        number of instructors in the course
+     * @param courseDetails           course details of the selected course
+     */
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
-                     Map<String, Boolean> questionHasResponses, List<StudentAttributes> studentList,
-                     List<InstructorAttributes> instructorList, InstructorAttributes instructor,
-                     boolean shouldLoadInEditMode, int numOfInstructors, CourseDetailsBundle courseDetails) {
+                     List<FeedbackQuestionAttributes> templateQuestions, Map<String, Boolean> questionHasResponses,
+                     List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
+                     InstructorAttributes instructor, boolean shouldLoadInEditMode,
+                     int numOfInstructors, CourseDetailsBundle courseDetails) {
         Assumption.assertNotNull(feedbackSession);
 
         buildFsForm(feedbackSession);
@@ -63,11 +78,34 @@ public class InstructorFeedbackEditPageData extends PageData {
         // numOfInstructors can be different from instructorList.size()
         this.numOfInstructors = numOfInstructors;
 
+        this.feedbackSession = feedbackSession;
+
         buildNewQuestionForm(feedbackSession, questions.size() + 1);
 
         buildPreviewForm(feedbackSession, studentList, instructorList);
         this.shouldLoadInEditMode = shouldLoadInEditMode;
 
+        buildTemplateQuestionsForm(templateQuestions);
+    }
+
+    private void buildTemplateQuestionsForm(List<FeedbackQuestionAttributes> templateQuestions) {
+
+        templateQnForm = new ArrayList<>();
+        for (FeedbackQuestionAttributes fqa : templateQuestions) {
+            String questionTypeDisplayName = fqa.getQuestionDetails().getQuestionTypeDisplayName();
+            String questionText = fqa.getQuestionDetails().getQuestionText();
+            String recipientFeedbackPath = fqa.getRecipientType().toDisplayRecipientName();
+
+            templateQnForm.add(FeedbackTemplateQuestionInfo.builder()
+                    .withFeedbackQuestionNumber(fqa.getQuestionNumber())
+                    .withFeedbackQuestionType(questionTypeDisplayName)
+                    .withFeedbackQuestionText(questionText)
+                    .withFeedbackQuestionFeedbackPath(recipientFeedbackPath)
+                    .withFeedbackQuestionVisibilityOption(getDropdownMenuLabel(fqa))
+                    .withFeedbackQuestionVisibilityHints(fqa.getVisibilityMessage())
+                    .withFeedbackQuestionAttributes(fqa)
+                    .build());
+        }
     }
 
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
@@ -109,8 +147,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
         qnForm.setQuestionText(questionDetails.getQuestionText());
-        Text questionDescription = question.getQuestionDescription();
-        qnForm.setQuestionDescription(questionDescription == null ? null : questionDescription.getValue());
+        qnForm.setQuestionDescription(question.getQuestionDescription());
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
         qnForm.setQuestionTypeDisplayName(questionDetails.getQuestionTypeDisplayName());
@@ -355,12 +392,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         return previewForm;
     }
 
-    public String getStatusForAjax() {
-        return statusForAjax;
-    }
-
-    public void setStatusForAjax(String statusForAjax) {
-        this.statusForAjax = statusForAjax;
+    public List<FeedbackTemplateQuestionInfo> getTemplateQuestions() {
+        return templateQnForm;
     }
 
     /**
@@ -382,5 +415,17 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public boolean getShouldLoadInEditMode() {
         return shouldLoadInEditMode;
+    }
+
+    public FeedbackSessionAttributes getFeedbackSession() {
+        return feedbackSession;
+    }
+
+    public void putResolvedTimeField(String fieldInputId, String fieldInputValue) {
+        resolvedTimeFields.put(fieldInputId, fieldInputValue);
+    }
+
+    public Map<String, String> getResolvedTimeFields() {
+        return resolvedTimeFields;
     }
 }

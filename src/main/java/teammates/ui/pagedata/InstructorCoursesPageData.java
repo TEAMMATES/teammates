@@ -14,6 +14,8 @@ import teammates.ui.template.ActiveCoursesTableRow;
 import teammates.ui.template.ArchivedCoursesTable;
 import teammates.ui.template.ArchivedCoursesTableRow;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.SoftDeletedCoursesTable;
+import teammates.ui.template.SoftDeletedCoursesTableRow;
 
 /**
  * This is the PageData object for the 'Courses' page.
@@ -26,6 +28,7 @@ public class InstructorCoursesPageData extends PageData {
 
     private ArchivedCoursesTable archivedCourses;
     private ActiveCoursesTable activeCourses;
+    private SoftDeletedCoursesTable softDeletedCourses;
     private String courseIdToShow;
     private String courseNameToShow;
     private Map<String, InstructorAttributes> instructorsForCourses;
@@ -35,16 +38,19 @@ public class InstructorCoursesPageData extends PageData {
     }
 
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
+                     List<CourseAttributes> softDeletedCoursesParam,
                      Map<String, InstructorAttributes> instructorsForCoursesParam) {
-        init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", "");
+        init(activeCoursesParam, archivedCoursesParam, softDeletedCoursesParam, instructorsForCoursesParam, "", "");
     }
 
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
+                     List<CourseAttributes> softDeletedCoursesParam,
                      Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam,
                      String courseNameToShowParam) {
         this.instructorsForCourses = instructorsForCoursesParam;
         this.activeCourses = convertToActiveCoursesTable(activeCoursesParam);
         this.archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
+        this.softDeletedCourses = convertToSoftDeletedCoursesTable(softDeletedCoursesParam);
         this.courseIdToShow = courseIdToShowParam;
         this.courseNameToShow = courseNameToShowParam;
     }
@@ -73,6 +79,16 @@ public class InstructorCoursesPageData extends PageData {
         return archivedCourses;
     }
 
+    public SoftDeletedCoursesTable getSoftDeletedCourses() {
+        return softDeletedCourses;
+    }
+
+    public boolean isInstructorAllowedToModify() {
+        return getSoftDeletedCourses().getRows().stream()
+                .allMatch(course -> instructorsForCourses.get(course.getCourseId())
+                        .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+    }
+
     private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseAttributes> archivedCourses) {
         ArchivedCoursesTable archivedCoursesTable = new ArchivedCoursesTable();
 
@@ -90,9 +106,9 @@ public class InstructorCoursesPageData extends PageData {
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs course-delete-link",
-                                                   "t_course_delete" + idx, deleteLink, Const.Tooltips.COURSE_DELETE,
-                                                   !hasDeletePermission);
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs",
+                                                   "t_course_delete" + idx, deleteLink,
+                                                   Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(unarchivedButton);
@@ -142,9 +158,9 @@ public class InstructorCoursesPageData extends PageData {
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs course-delete-link "
-                                                   + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
-                                                   !hasDeletePermission);
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs "
+                                                   + "t_course_delete" + idx, "", deleteLink,
+                                                   Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(enrollButton);
@@ -166,8 +182,53 @@ public class InstructorCoursesPageData extends PageData {
         return activeCourses;
     }
 
+    private SoftDeletedCoursesTable convertToSoftDeletedCoursesTable(List<CourseAttributes> courses) {
+        SoftDeletedCoursesTable softDeletedCourses = new SoftDeletedCoursesTable();
+
+        int idx = -1;
+
+        for (CourseAttributes course : courses) {
+            idx++;
+
+            List<ElementTag> actionsParam = new ArrayList<>();
+
+            String restoreLink = getInstructorCourseRestoreSoftDeletedCourseLink(course.getId());
+            Boolean hasRestorePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+            ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
+                    restoreLink, Const.Tooltips.COURSE_RESTORE, !hasRestorePermission);
+
+            String deleteLink = getInstructorCourseDeleteSoftDeletedCourseLink(course.getId());
+            Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+            ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "
+                            + "t_course_delete_permanently" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
+                    !hasDeletePermission);
+            deleteButton.setAttribute("data-course-id", course.getId());
+            deleteButton.setAttribute("style", "color: red");
+
+            actionsParam.add(restoreButton);
+            actionsParam.add(deleteButton);
+
+            SoftDeletedCoursesTableRow row = new SoftDeletedCoursesTableRow(
+                    SanitizationHelper.sanitizeForHtml(course.getId()),
+                    SanitizationHelper.sanitizeForHtml(course.getName()),
+                    course.getCreatedAtDateString(),
+                    course.getCreatedAtDateStamp(),
+                    course.getCreatedAtFullDateTimeString(),
+                    course.getDeletedAtDateString(),
+                    course.getDeletedAtDateStamp(),
+                    course.getDeletedAtFullDateTimeString(),
+                    this.getInstructorCourseStatsLink(course.getId()),
+                    actionsParam);
+            softDeletedCourses.getRows().add(row);
+        }
+
+        return softDeletedCourses;
+    }
+
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
-                                    boolean isDisabled) {
+            boolean isDisabled) {
         ElementTag button = new ElementTag(content);
 
         button.setAttribute("class", buttonClass);

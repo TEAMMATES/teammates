@@ -40,12 +40,15 @@ const jQueryObjectStubForBootbox = {
     addClass() {
         return this;
     },
+    modal() {
+        return this;
+    },
 };
 
 bootbox.dialog = function (params) {
     $('#test-bootbox-modal-stub').html(
             `<div id="test-bootbox-modal-stub-title">${params.title}</div>`
-            + `<div id="test-bootbox-modal-stub-message">${params.message}</div>`
+            + `<div id="test-bootbox-modal-stub-message">${params.message}</div>`,
     );
     return jQueryObjectStubForBootbox;
 };
