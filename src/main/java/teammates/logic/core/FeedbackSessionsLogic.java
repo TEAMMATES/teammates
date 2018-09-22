@@ -111,10 +111,21 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * This method returns a single feedback session. Returns null if not found.
+     * Gets a feedback session from the data storage.
+     *
+     * @return null if not found or in recycle bin.
      */
     public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName);
+    }
+
+    /**
+     * Gets a feedback session from the recycle bin.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
+        return fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(
@@ -1074,13 +1085,14 @@ public final class FeedbackSessionsLogic {
      *         sent as they are published
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
-        List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (session.isPublished() && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()
+                    && session.isPublished()
+                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1088,12 +1100,11 @@ public final class FeedbackSessionsLogic {
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
-        List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isOpened()) {
+            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted() && session.isOpened()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1439,11 +1450,11 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
-        List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
+            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()
+                    && session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
                 requiredSessions.add(session);
             }
         }
@@ -1456,12 +1467,11 @@ public final class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
-        List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
         for (FeedbackSessionAttributes session : sessions) {
             // is session closed in the past 1 hour
-            if (session.isClosedWithinPastHour()) {
+            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted() && session.isClosedWithinPastHour()) {
                 requiredSessions.add(session);
             }
         }
@@ -1542,7 +1552,7 @@ public final class FeedbackSessionsLogic {
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
+        FeedbackSessionAttributes feedbackSession = fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
         feedbackSession.resetDeletedTime();
         fsDb.updateFeedbackSession(feedbackSession);
     }

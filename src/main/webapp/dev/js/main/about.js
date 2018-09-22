@@ -39,7 +39,7 @@
                         ${contributor.image
                                 ? `<img src="${contributor.image}" alt="${displayedName}" width="120px"><br>` : ''}
                         ${contributor.username ? getGitHubLink(contributor.username, displayedName) : contributor.name}
-                    </li>`
+                    </li>`,
             );
         });
 
@@ -50,7 +50,7 @@
                         ${committer.image ? `<img src="${committer.image}" alt="${committer.name}" width="120px"><br>` : ''}
                         ${getGitHubLink(committer.username, committer.name)}
                         (${committer.startPeriod} - ${(committer.endPeriod ? committer.endPeriod : '')})
-                    </li>`
+                    </li>`,
             );
         });
 
@@ -78,7 +78,7 @@
                                 <strong>${teammember.currentPosition}</strong>
                                 ${listDownPastPositions(teammember.pastPositions)}
                             </div>
-                        </div>`
+                        </div>`,
                 );
             } else {
                 $('#teammembers-past').append(
@@ -87,7 +87,7 @@
                                     ? `<img src="${teammember.image}" alt="${teammember.name}" width="120px"><br>` : ''}
                             ${url}
                             ${listDownPastPositions(teammember.pastPositions)}
-                        </li>`
+                        </li>`,
                 );
             }
         });

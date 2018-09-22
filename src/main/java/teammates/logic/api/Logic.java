@@ -297,15 +297,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the given Instructor.
-     *
-     * @see InstructorsLogic#deleteDocument(InstructorAttributes)
-     */
-    public void deleteDocument(InstructorAttributes instructor) {
-        instructorsLogic.deleteDocument(instructor);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if not found.
@@ -1195,8 +1186,12 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Gets a feedback session from the data storage.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return null if not found or in recycle bin.
      */
     public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
 
@@ -1204,6 +1199,21 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a feedback session from the recycle bin.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -2090,15 +2100,6 @@ public class Logic {
      */
     public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
         feedbackResponseCommentsLogic.putDocuments(comments);
-    }
-
-    /**
-     * Removes document for the given comment.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes comment) {
-        feedbackResponseCommentsLogic.deleteDocument(comment);
     }
 
     /**

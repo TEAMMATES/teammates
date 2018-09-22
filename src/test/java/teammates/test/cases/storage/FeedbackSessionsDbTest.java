@@ -9,11 +9,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -21,6 +19,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -33,12 +32,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() throws Exception {
-        addSessionsToDb();
-    }
-
-    private void addSessionsToDb() throws Exception {
+    @BeforeMethod
+    public void addSessionsToDb() throws Exception {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
             try {
@@ -47,6 +42,24 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 fsDb.updateFeedbackSession(dataBundle.feedbackSessions.get(i));
             }
         }
+    }
+
+    @AfterMethod
+    public void deleteSessionsFromDb() {
+        Set<String> keys = dataBundle.feedbackSessions.keySet();
+        for (String i : keys) {
+            fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
+        }
+        fsDb.deleteEntity(getNewFeedbackSession());
+    }
+
+    @Test
+    public void testGetAllOpenFeedbackSessions_typicalCase_shouldQuerySuccessfullyWithoutDuplication() {
+        Instant rangeStart = Instant.parse("2000-12-03T10:15:30.00Z");
+        Instant rangeEnd = Instant.parse("2050-04-30T21:59:00Z");
+        List<FeedbackSessionAttributes> actualAttributesList = fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+        assertEquals("should not return more than 13 sessions as there are only 13 distinct sessions in the range",
+                13, actualAttributesList.size());
     }
 
     @Test
@@ -96,15 +109,23 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetSoftDeletedFeedbackSession_typicalCase_shouldGetDeletedSession() {
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession("idOfTypicalCourse4",
+                "First feedback session"));
+    }
+
+    @Test
+    public void testGetSoftDeletedFeedbackSession_sessionIsNotDeleted_shouldReturnNull() {
+        assertNotNull(fsDb.getFeedbackSession("idOfTypicalCourse2", "Instructor feedback session"));
+        assertNull(fsDb.getSoftDeletedFeedbackSession("idOfTypicalCourse2", "Instructor feedback session"));
+    }
+
+    @Test
     public void testAllGetFeedbackSessions() {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
         testGetSoftDeletedFeedbackSessionsForCourse();
-        testGetFeedbackSessionsPossiblyNeedingOpenEmail();
-        testGetFeedbackSessionsPossiblyNeedingClosingEmail();
-        testGetFeedbackSessionsPossiblyNeedingClosedEmail();
-        testGetFeedbackSessionsPossiblyNeedingPublishedEmail();
     }
 
     private void testGetFeedbackSessions() {
@@ -121,6 +142,11 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("non-existant session");
 
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
+
+        ______TS("soft-deleted session");
+
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession("idOfTypicalCourse4", "First feedback session"));
+        assertNull(fsDb.getFeedbackSession("idOfTypicalCourse4", "First feedback session"));
 
         ______TS("null fsName");
 
@@ -212,7 +238,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getSoftDeletedFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
 
-    private void testGetFeedbackSessionsPossiblyNeedingOpenEmail() {
+    @Test
+    public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
 
         ______TS("standard success case");
 
@@ -221,50 +248,93 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertEquals(1, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentOpenEmail());
+            assertFalse(fsa.isSessionDeleted());
         }
 
+        ______TS("soft-deleted session should not appear");
+
+        // soft delete a feedback session now
+        FeedbackSessionAttributes feedbackSession = fsaList.get(0);
+        feedbackSession.setDeletedTime();
+        fsDb.updateFeedbackSession(feedbackSession);
+
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        assertEquals(0, fsaList.size());
     }
 
-    private void testGetFeedbackSessionsPossiblyNeedingClosingEmail() {
+    @Test
+    public void testGetFeedbackSessionsPossiblyNeedingClosingEmail() throws Exception {
 
         ______TS("standard success case");
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
-        assertEquals(11, fsaList.size());
+        assertEquals(9, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosingEmail());
             assertTrue(fsa.isClosingEmailEnabled());
+            assertFalse(fsa.isSessionDeleted());
         }
 
+        ______TS("soft-deleted session should not appear");
+
+        // soft delete a feedback session now
+        FeedbackSessionAttributes feedbackSession = fsaList.get(0);
+        feedbackSession.setDeletedTime();
+        fsDb.updateFeedbackSession(feedbackSession);
+
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        assertEquals(8, fsaList.size());
     }
 
-    private void testGetFeedbackSessionsPossiblyNeedingClosedEmail() {
+    @Test
+    public void testGetFeedbackSessionsPossiblyNeedingClosedEmail() throws Exception {
 
         ______TS("standard success case");
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
-        assertEquals(11, fsaList.size());
+        assertEquals(9, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosedEmail());
             assertTrue(fsa.isClosingEmailEnabled());
+            assertFalse(fsa.isSessionDeleted());
         }
 
+        ______TS("soft-deleted session should not appear");
+
+        // soft delete a feedback session now
+        FeedbackSessionAttributes feedbackSession = fsaList.get(0);
+        feedbackSession.setDeletedTime();
+        fsDb.updateFeedbackSession(feedbackSession);
+
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
+        assertEquals(8, fsaList.size());
     }
 
-    private void testGetFeedbackSessionsPossiblyNeedingPublishedEmail() {
+    @Test
+    public void testGetFeedbackSessionsPossiblyNeedingPublishedEmail() throws Exception {
 
         ______TS("standard success case");
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(13, fsaList.size());
+        assertEquals(11, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
+            assertFalse(fsa.isSessionDeleted());
         }
 
+        ______TS("soft-deleted session should not appear");
+
+        // soft delete a feedback session now
+        FeedbackSessionAttributes feedbackSession = fsaList.get(0);
+        feedbackSession.setDeletedTime();
+        fsDb.updateFeedbackSession(feedbackSession);
+
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
+        assertEquals(10, fsaList.size());
     }
 
     @Test
@@ -308,12 +378,14 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.deleteEntity(modifiedSession);
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
-        modifiedSession.setInstructions(new Text("new instructions"));
+        modifiedSession.setInstructions("new instructions");
         modifiedSession.setGracePeriodMinutes(0);
         modifiedSession.setSentOpenEmail(false);
         modifiedSession.setDeletedTime(Instant.now());
         fsDb.updateFeedbackSession(modifiedSession);
-        verifyPresentInDatastore(modifiedSession);
+        FeedbackSessionAttributes actualFs =
+                fsDb.getSoftDeletedFeedbackSession(modifiedSession.getCourseId(), modifiedSession.getFeedbackSessionName());
+        assertEquals(JsonUtils.toJson(modifiedSession), JsonUtils.toJson(actualFs));
         assertTrue(fsDb.getFeedbackSessionsForCourse("testCourse").isEmpty());
         assertFalse(fsDb.getSoftDeletedFeedbackSessionsForCourse("testCourse").isEmpty());
     }
@@ -328,21 +400,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
-                .withInstructions(new Text("Give feedback."))
+                .withInstructions("Give feedback.")
                 .build();
-    }
-
-    @AfterClass
-    public void classTearDown() {
-        deleteSessionsFromDb();
-    }
-
-    private void deleteSessionsFromDb() {
-        Set<String> keys = dataBundle.feedbackSessions.keySet();
-        for (String i : keys) {
-            fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
-        }
-        fsDb.deleteEntity(getNewFeedbackSession());
     }
 
 }

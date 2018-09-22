@@ -22,8 +22,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -1317,7 +1315,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, String instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");
@@ -1331,7 +1329,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
         // Fill in instructions
-        fillRichTextEditor("instructions", instructions.getValue());
+        fillRichTextEditor("instructions", instructions);
 
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");

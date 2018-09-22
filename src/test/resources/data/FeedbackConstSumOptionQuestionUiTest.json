@@ -62,9 +62,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "FConstSumOptionQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",

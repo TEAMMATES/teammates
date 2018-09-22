@@ -66,7 +66,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2011-12-31T22:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-06-22T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+                + "instructions|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("failure: Invalid parameters");
@@ -140,7 +140,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 1970-12-31T00:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+                + "instructions|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("success: At open session visible time, custom results visible time, UTC");
@@ -168,7 +168,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 1970-12-31T00:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 2014-05-08T02:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+                + "instructions|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("success: Masquerade mode, manual release results, UTC");
@@ -201,7 +201,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2012-01-01T00:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+                + "instructions|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
 
         ______TS("failure: Invalid grace period");

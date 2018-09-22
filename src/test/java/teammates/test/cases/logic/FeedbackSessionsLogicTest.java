@@ -12,8 +12,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
@@ -33,8 +31,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -46,6 +46,7 @@ import teammates.test.driver.TimeHelperExtension;
  * SUT: {@link FeedbackSessionsLogic}.
  */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -65,6 +66,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testGetSoftDeletedFeedbackSessionsListForInstructor();
         testGetSoftDeletedFeedbackSessionsListForInstructors();
         testGetFeedbackSessionsClosingWithinTimeLimit();
+        testGetFeedbackSessionsClosedWithinThePastHour();
         testGetFeedbackSessionsWhichNeedOpenMailsToBeSent();
         testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent();
         testGetFeedbackSessionDetailsForInstructor();
@@ -177,12 +179,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
 
         ______TS("init : 0 standard sessions closing within time-limit");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("typical case : 1 standard session closing within time limit");
+        ______TS("case : 1 open session in undeleted course closing within time-limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
@@ -190,29 +191,65 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
+        coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
-        sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(1, sessionList.size());
-        assertEquals(session.getFeedbackSessionName(),
-                sessionList.get(0).getFeedbackSessionName());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
 
-        // delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        // wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in deleted course closing within time-limit");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
+    }
+
+    private void testGetFeedbackSessionsClosedWithinThePastHour() throws Exception {
+
+        ______TS("init : 0 standard sessions closed within the past hour");
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in undeleted course within the past hour");
+        FeedbackSessionAttributes session = getNewFeedbackSession();
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-59));
+        fsLogic.createFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(1, sessionList.size());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
+
+        ______TS("case : 1 closed session in deleted course within the past hour");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
 
         ______TS("init : 0 open sessions");
-        List<FeedbackSessionAttributes> sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 open session with mail unsent");
+        ______TS("case : 1 open session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -221,33 +258,58 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
-        ______TS("typical case : 1 open session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 open session in undeleted course with mail sent");
         session.setSentOpenEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 closed session with mail unsent");
+        ______TS("case : 1 closed session in undeleted course with mail unsent");
+        session.setSentOpenEmail(false);
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
 
-        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-        //wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
-                session.getCourseId());
+        ______TS("case : 1 open session in deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 open session in deleted course with mail sent");
+        session.setSentOpenEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in deleted course with mail unsent");
+        session.setSentOpenEmail(false);
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatastore() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
 
     private void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
@@ -259,7 +321,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(0, sessionList.size());
 
-        ______TS("case : 1 published session with mail unsent");
+        ______TS("case : 1 published session in undeleted course with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         session.setTimeZone(ZoneId.of("UTC"));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -269,18 +331,34 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-        assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).getFeedbackSessionName(),
-                session.getFeedbackSessionName());
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
 
-        ______TS("case : 1 published session with mail sent");
+        assertEquals(1, sessionList.size());
+        assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
+
+        ______TS("case : 1 published session in undeleted course with mail sent");
         session.setSentPublishedEmail(true);
         fsLogic.updateFeedbackSession(session);
 
-        sessionList = fsLogic
-                .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in deleted course with mail unsent");
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+        session.setSentPublishedEmail(false);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 published session in deleted course with mail sent");
+        session.setSentPublishedEmail(true);
+        fsLogic.updateFeedbackSession(session);
+
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+
         assertEquals(0, sessionList.size());
     }
 
@@ -326,7 +404,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)
-                .withQuestionMetaData(new Text("question to be deleted through cascade"))
+                .withQuestionMetaData("question to be deleted through cascade")
                 .withQuestionType(FeedbackQuestionType.TEXT)
                 .withShowResponseTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
@@ -1980,7 +2058,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
-                .withInstructions(new Text("Give feedback."))
+                .withInstructions("Give feedback.")
                 .build();
     }
 
@@ -2050,7 +2128,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         Instant deletedTime = fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
         feedbackSession.setDeletedTime(deletedTime);
 
-        verifyPresentInDatastore(feedbackSession);
+        FeedbackSessionAttributes actualFs = fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        assertEquals(JsonUtils.toJson(feedbackSession), JsonUtils.toJson(actualFs));
         assertTrue(feedbackSession.isSessionDeleted());
     }
 

@@ -2,13 +2,11 @@ package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
-//CHECKSTYLE.ON:AvoidStarImport
+// CHECKSTYLE.ON:AvoidStarImport
 
 import java.time.Instant;
 
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -609,7 +607,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForEmailContent_invalid_returnEmptyString() {
-        Text emptyEmailContent = new Text("");
+        String emptyEmailContent = "";
         assertEquals("Valid Email Content should return empty string",
                      EMAIL_CONTENT_ERROR_MESSAGE,
                      validator.getInvalidityInfoForEmailContent(emptyEmailContent));
@@ -617,7 +615,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForEmailContent_valid_returnEmptyString() {
-        Text validEmailContent = new Text("Hello! I'm a Email Content.");
+        String validEmailContent = "Hello! I'm a Email Content.";
         assertEquals("Valid Email Content should return empty string", "",
                      validator.getInvalidityInfoForEmailContent(validEmailContent));
     }

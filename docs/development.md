@@ -5,6 +5,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 * [Managing the dev server](#managing-the-dev-server)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
 * [Testing](#testing)
+* [Measuring code coverage](#measuring-code-coverage)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
 * [Config points](#config-points)
@@ -219,6 +220,47 @@ To run individual tests, right-click on the test files on the project explorer a
 Run tests using the configurations available under `Run → Run...`.
 
 To run individual tests, right-click on the test files on the project explorer and choose `Run`.
+
+## Measuring code coverage
+
+After or concurrently with testing, one may want to check the code coverage to see how much of the code base has (not) been covered by tests.
+
+### CLI
+
+You can use Gradle to obtain the coverage data with `jacocoReport` task after running tests, e.g.:
+```sh
+./gradlew appengineRun ciTests jacocoReport
+```
+The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+
+For JavaScript unit tests, coverage is done concurrently with the tests themselves.
+
+### Eclipse
+
+You need [EclEmma Java Code Coverage plugin](https://marketplace.eclipse.org/content/eclemma-java-code-coverage) to run code coverage session with Eclipse.
+
+For Java tests, choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite.
+The coverage will be reported in Eclipse after the test run is over.
+
+For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
+The coverage will be reported immediately in the test page.
+
+### IntelliJ IDEA
+
+For Java tests, you can measure code coverage for the project using `Run → Run... → CI Tests → ▶ → Cover `.
+
+Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use IntelliJ IDEA's code coverage runner.
+You can further configure your code coverage settings by referring to [IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-coverage.html).
+
+For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
+The coverage will be reported immediately in the test page.
+
+### Travis CI
+
+For Java tests, if your build and run is successful, [Codecov](https://codecov.io) will pull the test coverage data and generate a report on their server.
+The link to the report will be displayed in each PR, or by clicking the badge on the repository homepage.
+
+For JavaScript unit tests, coverage is done concurrently with the tests themselves.
 
 ## Deploying to a staging server
 

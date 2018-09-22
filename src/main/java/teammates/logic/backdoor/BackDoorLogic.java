@@ -210,6 +210,14 @@ public class BackDoorLogic extends Logic {
         return JsonUtils.toJson(fs);
     }
 
+    /**
+     * Gets an json serialized feedback session from the recycle bin.
+     */
+    public String getFeedbackSessionFromRecycleBinAsJson(String feedbackSessionName, String courseId) {
+        FeedbackSessionAttributes fs = getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        return JsonUtils.toJson(fs);
+    }
+
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
         FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);

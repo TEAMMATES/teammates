@@ -14,7 +14,6 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,22 +178,6 @@ public final class TimeHelper {
      */
     public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
         return Instant.now().plus(Duration.ofDays(offsetInDays));
-    }
-
-    /**
-     * Converts the {@code localDate} from {@code localTimeZone} to UTC through shifting by the offset.
-     * Does not shift if {@code localDate} is a special representation.
-     * Warning: this is required for correct interpretation of time fields in legacy FeedbackSession entities.
-     * Do not remove until all FeedbackSession entities have been migrated to UTC.
-     */
-    @Deprecated
-    public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
-        if (isSpecialTime(convertDateToInstant(localDate))) {
-            return localDate;
-        }
-        return convertInstantToDate(
-                convertLocalDateTimeToInstant(convertDateToLocalDateTime(localDate),
-                        convertToZoneId(localTimeZone)));
     }
 
     /**
@@ -373,27 +356,14 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date stamp from an {@code instant} for the instructor's courses page.
+     * Formats a date stamp from an {@code instant} for the instructor's pages.
      * Example: 5 May 2017
      *
      * @param instant the instant to be formatted
      * @param zoneId  the time zone to calculate local date
      * @return the formatted date stamp string
      */
-    public static String formatDateForInstructorCoursesPage(Instant instant, ZoneId zoneId) {
-        return formatInstant(instant, zoneId, "d MMM yyyy");
-    }
-
-    /**
-     * Formats a date stamp from an {@code instant} for the instructor's feedback sessions page.
-     * Example: 5 May 2017
-     * TODO: rename formatDateForInstructorCoursesPage and remove this method to avoid duplicated code
-     *
-     * @param instant the instant to be formatted
-     * @param zoneId  the time zone to calculate local date
-     * @return the formatted date stamp string
-     */
-    public static String formatDateForInstructorSessionsPage(Instant instant, ZoneId zoneId) {
+    public static String formatDateForInstructorPages(Instant instant, ZoneId zoneId) {
         return formatInstant(instant, zoneId, "d MMM yyyy");
     }
 
@@ -442,40 +412,7 @@ public final class TimeHelper {
         return instant.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 || instant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
                 || instant.equals(Const.TIME_REPRESENTS_LATER)
-                || instant.equals(Const.TIME_REPRESENTS_NEVER)
                 || instant.equals(Const.TIME_REPRESENTS_NOW);
-    }
-
-    /**
-     * Temporary method for transition from storing time zone as double.
-     */
-    @Deprecated
-    public static ZoneId convertToZoneId(double timeZone) {
-        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
-    }
-
-    /**
-     * Temporary method for transition from java.util.Date.
-     */
-    @Deprecated
-    public static LocalDateTime convertDateToLocalDateTime(Date date) {
-        return date == null ? null : date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
-    }
-
-    /**
-     * Temporary method for transition from java.util.Date.
-     */
-    @Deprecated
-    public static Date convertInstantToDate(Instant instant) {
-        return instant == null ? null : Date.from(instant);
-    }
-
-    /**
-     * Temporary method for transition from java.util.Date.
-     */
-    @Deprecated
-    public static Instant convertDateToInstant(Date date) {
-        return date == null ? null : date.toInstant();
     }
 
     /**

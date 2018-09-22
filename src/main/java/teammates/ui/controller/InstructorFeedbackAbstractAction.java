@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -68,7 +66,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             throw new InvalidPostParametersException("Failed to parse grace period parameter: " + paramGracePeriod, nfe);
         }
 
-        attributes.setInstructions(new Text(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        attributes.setInstructions(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
 
         String type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {

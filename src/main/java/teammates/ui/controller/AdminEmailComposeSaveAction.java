@@ -3,8 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -62,7 +60,7 @@ public class AdminEmailComposeSaveAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .builder(subject, addressReceiver, groupReceiver, emailContent)
                     .withEmailId(emailId)
                     .build();
         } else {
@@ -82,7 +80,7 @@ public class AdminEmailComposeSaveAction extends Action {
                                           ) {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .builder(subject, addressReceiver, groupReceiver, content)
                 .build();
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
@@ -99,7 +97,7 @@ public class AdminEmailComposeSaveAction extends Action {
                                        String content) {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .builder(subject, addressReceiver, groupReceiver, content)
                 .build();
         try {
             logic.createAdminEmail(newDraft);
