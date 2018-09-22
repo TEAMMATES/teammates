@@ -1475,9 +1475,10 @@ public class InstructorFeedbackEditPage extends AppPage {
                 + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
 
         Actions builder = new Actions(browser.driver);
-        // drag option 10 units below target, move to target, move 10 units above target and release
+        // drag option to target, move 10 units above target and release
+        // multiple movements are used to slow down drag movement and provide
+        // enough time for the grid to create empty slots
         builder.clickAndHold(draggedOptionElement)
-                .moveToElement(targetElement, 0, 10)
                 .moveToElement(targetElement)
                 .moveToElement(targetElement, 0, -10)
                 .release()
