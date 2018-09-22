@@ -93,12 +93,12 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Retrieves the list of feedback responses for the section selected.
+     *
      * @param feedbackSessionName       Feedback session name
      * @param courseId                  Course ID
-     * @param section                   Name of the section selected
+     * @param section                   Name of the section selected, null if all section is selected
      * @return                          List of feedback response attributes that matches the section selected
      */
-
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInGiverAndRecipientSection(
             String feedbackSessionName, String courseId, String section) {
         if (section == null) {
