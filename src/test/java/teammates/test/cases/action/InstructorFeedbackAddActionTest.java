@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessageColor;
@@ -254,7 +254,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
             a = getAction(params);
             getRedirectResult(a);
             signalFailureToDetectException();
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());
         }

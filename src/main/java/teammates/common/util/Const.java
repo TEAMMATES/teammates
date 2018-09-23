@@ -1637,6 +1637,9 @@ public final class Const {
 
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null%n";
+
+        // HTTP parameter null message
+        public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
     }
 
     public static class PlaceholderText {

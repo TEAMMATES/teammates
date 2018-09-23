@@ -6,7 +6,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.ActionResult;
@@ -85,14 +85,14 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
             assertEquals(dlee.getMessage(), "DeadlineExceededException Testing");
         }
 
-        ______TS("test for NullPostParameterException");
-        error = NullPostParameterException.class.getSimpleName();
+        ______TS("test for NullHttpParameterException");
+        error = NullHttpParameterException.class.getSimpleName();
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            signalFailureToDetectException("NullPostParameterException");
-        } catch (NullPostParameterException nppe) {
-            assertEquals(nppe.getMessage(), "NullPostParameterException Testing");
+            signalFailureToDetectException("NullHttpParameterException");
+        } catch (NullHttpParameterException nppe) {
+            assertEquals(nppe.getMessage(), "NullHttpParameterException Testing");
         }
 
         ______TS("test for success scenario");

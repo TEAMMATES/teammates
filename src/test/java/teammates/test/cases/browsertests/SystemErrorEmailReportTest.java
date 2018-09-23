@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
@@ -37,7 +37,7 @@ public class SystemErrorEmailReportTest extends BaseE2ETestCase {
         testNullPointerException();
         testDeadlineExceededException();
         testUnauthorizedAccessException();
-        testNullPostParamException();
+        testNullHttpParamException();
     }
 
     private void testAssertionError() {
@@ -93,11 +93,11 @@ public class SystemErrorEmailReportTest extends BaseE2ETestCase {
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 
-    private void testNullPostParamException() {
-        ______TS("NullPostParamException testing");
+    private void testNullHttpParamException() {
+        ______TS("NullHttpParamException testing");
 
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
-                .withParam(Const.ParamsNames.ERROR, NullPostParameterException.class.getSimpleName());
+                .withParam(Const.ParamsNames.ERROR, NullHttpParameterException.class.getSimpleName());
         page.navigateTo(url);
         page.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE.replace("<br>", "\n"));
