@@ -524,8 +524,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (String key : answerFrequency.keySet()) {
-            int count = answerFrequency.get(key);
+        answerFrequency.forEach((key, count) -> {
             // If weights are allowed, show the corresponding weights of a choice.
             String weightString = "";
             if ("Other".equals(key)) {
@@ -541,7 +540,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     Slots.PERCENTAGE, df.format(100 * (double) count / responses.size()),
                     Slots.WEIGHTED_PERCENTAGE,
                             hasAssignedWeights ? df.format(weightedPercentagePerOption.get(key)) : "-"));
-        }
+        });
 
         // If weights are assigned, create the per recipient statistics table,
         // otherwise pass an empty string in it's place.
@@ -717,15 +716,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 weightedPercentagePerOption.put("Other", otherWeight);
             }
 
-            for (String key : weightedPercentagePerOption.keySet()) {
+            weightedPercentagePerOption.forEach((key, weight) -> {
                 int frequency = answerFrequency.get(key);
-                double weight = weightedPercentagePerOption.get(key);
                 double weightedPercentage = totalWeightedResponseCount == 0 ? 0
                         : 100 * ((frequency * weight) / totalWeightedResponseCount);
 
                 // Replace the value by the actual weighted percentage.
                 weightedPercentagePerOption.put(key, weightedPercentage);
-            }
+            });
             return weightedPercentagePerOption;
         }
 
@@ -734,13 +732,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
          * totalWeightedResponseCount += [(responseCount of option i) * (weight of option i)] for all options.
          */
         public double calculateTotalWeightedResponseCount(Map<String, Integer> answerFrequency) {
-            double totalWeightedResponseCount = 0;
-            for (String choice : answerFrequency.keySet()) {
-                double weight = "Other".equals(choice) ? otherWeight : weights.get(choices.indexOf(choice));
-                int responseCount = answerFrequency.get(choice);
-                totalWeightedResponseCount += responseCount * weight;
-            }
-            return totalWeightedResponseCount;
+            return answerFrequency.entrySet().stream()
+                    .map(entry -> {
+                        String choice = entry.getKey();
+                        double weight = "Other".equals(choice) ? otherWeight : weights.get(choices.indexOf(choice));
+                        return entry.getValue() * weight;
+                    })
+                    .mapToDouble(Double::doubleValue)
+                    .sum();
         }
 
         /**
@@ -860,8 +859,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 header = "Choice, Weight, Response Count, Percentage (%), Weighted Percentage (%)";
                 Map<String, Double> weightedPercentagePerOption = calculateWeightedPercentagePerOption(answerFrequency);
 
-                for (String key : answerFrequency.keySet()) {
-                    int responseCount = answerFrequency.get(key);
+                answerFrequency.forEach((key, responseCount) -> {
                     String weightString = "";
                     if ("Other".equals(key)) {
                         weightString = df.format(otherWeight);
@@ -874,7 +872,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                              .append(Integer.toString(responseCount)).append(',')
                              .append(df.format(100 * (double) responseCount / totalResponseCount)).append(',')
                              .append(df.format(weightedPercentagePerOption.get(key))).append(System.lineSeparator());
-                }
+                });
             } else {
                 header = "Choice, Response Count, Percentage (%)";
 
@@ -1013,9 +1011,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     boolean isOtherAnswer = frd.isOtherOptionAnswer();
                     String answer = isOtherAnswer ? "Other" : frd.getAnswerString();
 
-                    responseCountPerOption.computeIfPresent(answer, (choice, count) -> {
-                        return ++count;
-                    });
+                    responseCountPerOption.computeIfPresent(answer, (choice, count) -> count + 1);
                     return responseCountPerOption;
                 });
             });

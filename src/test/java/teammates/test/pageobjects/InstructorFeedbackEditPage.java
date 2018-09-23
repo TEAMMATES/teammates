@@ -1897,9 +1897,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
 
-    public String getQuestionType(int qnNumber) {
+    private String getQuestionType(int qnNumber) {
         return browser.driver.findElement(By.cssSelector("#form_editquestion-" + qnNumber + " input[name='questiontype']"))
-                .getAttribute("value").toString();
+                .getAttribute("value");
     }
 
     private boolean isRankOptionsQuestion(int qnIndex) {
@@ -1922,7 +1922,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         case "INSTRUCTORS":
         case "TEAMS":
             return Integer.parseInt(browser.driver.findElement(By.id("num-" + recipient.toLowerCase()))
-                    .getAttribute("value").toString());
+                    .getAttribute("value"));
         case "OWN_TEAM_MEMBERS":
         case "OWN_TEAM_MEMBERS_INCLUDING_SELF":
             return Integer.MAX_VALUE;
