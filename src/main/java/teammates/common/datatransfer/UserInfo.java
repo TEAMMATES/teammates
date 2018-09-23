@@ -7,7 +7,7 @@ import com.google.appengine.api.users.User;
  * <br> Contains user's Google ID and flags to indicate whether the user
  *  is an admin, instructor, student.
  */
-public class UserType {
+public class UserInfo {
 
     public String id;
 
@@ -15,11 +15,11 @@ public class UserType {
     public boolean isInstructor;
     public boolean isStudent;
 
-    public UserType(String googleId) {
+    public UserInfo(String googleId) {
         this.id = googleId;
     }
 
-    public UserType(User user) {
+    public UserInfo(User user) {
         this.id = user.getNickname();
     }
 

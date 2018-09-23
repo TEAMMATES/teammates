@@ -3,7 +3,7 @@ package teammates.ui.newcontroller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
 import teammates.logic.api.GateKeeper;
 
@@ -54,8 +54,8 @@ public abstract class Action {
             return;
         }
 
-        UserType userType = new GateKeeper().getCurrentUser();
-        if (userType != null) {
+        UserInfo userInfo = new GateKeeper().getCurrentUser();
+        if (userInfo != null) {
             authType = AuthType.REGISTERED;
             return;
         }

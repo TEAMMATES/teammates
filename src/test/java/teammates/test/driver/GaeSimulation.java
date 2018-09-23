@@ -27,7 +27,7 @@ import com.meterware.servletunit.InvocationContext;
 import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Const;
 import teammates.common.util.CryptoHelper;
@@ -129,7 +129,7 @@ public class GaeSimulation {
      */
     public void loginAsInstructor(String userId) {
         loginUser(userId);
-        UserType user = gateKeeper.getCurrentUser();
+        UserInfo user = gateKeeper.getCurrentUser();
         assertFalse(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -141,7 +141,7 @@ public class GaeSimulation {
      */
     public void loginAsStudent(String userId) {
         loginUser(userId);
-        UserType user = gateKeeper.getCurrentUser();
+        UserInfo user = gateKeeper.getCurrentUser();
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -153,7 +153,7 @@ public class GaeSimulation {
      */
     public void loginAsStudentInstructor(String userId) {
         loginUser(userId);
-        UserType user = gateKeeper.getCurrentUser();
+        UserInfo user = gateKeeper.getCurrentUser();
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);

@@ -2,7 +2,7 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -47,7 +47,7 @@ public class GateKeeperTest extends BaseLogicTest {
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudentWithoutDocument(instructorAsStudent);
 
-        UserType user = gateKeeper.getCurrentUser();
+        UserInfo user = gateKeeper.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
         assertTrue(user.isAdmin);
         assertTrue(user.isInstructor);
