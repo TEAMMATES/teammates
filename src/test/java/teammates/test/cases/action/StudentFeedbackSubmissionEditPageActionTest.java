@@ -10,7 +10,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
@@ -50,8 +49,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     @Test
     public void testExecuteAndPostProcess_registeredStudentAccessSoftDeletedSession_shouldNotAccessAndRedirect()
             throws Exception {
-        Logic logic = new Logic();
-
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
@@ -80,8 +77,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             expectedExceptionsMessageRegExp = ".*unregistered student trying to access non-existent session.*")
     public void testExecuteAndPostProcess_unregisteredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
             throws Exception {
-        Logic logic = new Logic();
-
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes unregStudent =
                 logic.getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");

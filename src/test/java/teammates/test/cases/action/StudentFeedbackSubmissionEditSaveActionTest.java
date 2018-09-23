@@ -27,7 +27,6 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -68,8 +67,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
             expectedExceptionsMessageRegExp = "Trying to access system using a non-existent feedback session entity")
     public void testExecuteAndPostProcess_registeredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
             throws Exception {
-        Logic logic = new Logic();
-
         logic.moveFeedbackSessionToRecycleBin("First feedback session", "idOfTypicalCourse1");
 
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -105,8 +102,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
             expectedExceptionsMessageRegExp = "Trying to access system using a non-existent feedback session entity")
     public void testExecuteAndPostProcess_unregisteredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
             throws Exception {
-        Logic logic = new Logic();
-
         logic.moveFeedbackSessionToRecycleBin("First feedback session", "idOfTypicalCourse1");
 
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();

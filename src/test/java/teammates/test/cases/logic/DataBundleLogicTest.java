@@ -9,11 +9,14 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.logic.core.DataBundleLogic;
 
 /**
- * SUT: {@link teammates.logic.backdoor.BackDoorLogic}.
+ * SUT: {@link DataBundleLogic}.
  */
-public class BackDoorLogicTest extends BaseLogicTest {
+public class DataBundleLogicTest extends BaseLogicTest {
+
+    private static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -25,21 +28,17 @@ public class BackDoorLogicTest extends BaseLogicTest {
     public void testPersistDataBundle() throws Exception {
 
         ______TS("empty data bundle");
-        String status = backDoorLogic.persistDataBundle(new DataBundle());
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        backDoorLogic.removeDataBundle(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
+        dataBundleLogic.persistDataBundle(dataBundle);
         verifyPresentInDatastore(dataBundle);
 
         ______TS("try to persist while entities exist");
 
-        backDoorLogic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
+        dataBundleLogic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
         verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
 
         ______TS("null parameter");
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> backDoorLogic.persistDataBundle(null));
+                () -> dataBundleLogic.persistDataBundle(null));
         assertEquals(Const.StatusCodes.NULL_PARAMETER, ipe.errorCode);
 
         ______TS("invalid parameters in an entity");
@@ -48,7 +47,7 @@ public class BackDoorLogicTest extends BaseLogicTest {
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
-        ipe = assertThrows(InvalidParametersException.class, () -> backDoorLogic.persistDataBundle(dataBundle));
+        ipe = assertThrows(InvalidParametersException.class, () -> dataBundleLogic.persistDataBundle(dataBundle));
         assertEquals(
                 getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
                         FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
@@ -58,16 +57,5 @@ public class BackDoorLogicTest extends BaseLogicTest {
         // Not checking for invalid values in other entities because they
         // should be checked at lower level methods
     }
-
-    /*
-     * Following methods are tested by the testPersistDataBundle method
-        getAccountAsJson(String)
-        getInstructorAsJson(String, String)
-        getCourseAsJson(String)
-        getStudentAsJson(String, String)
-        editAccountAsJson(String)
-        editStudentAsJson(String, String)
-        createCourse(String, String)
-    */
 
 }

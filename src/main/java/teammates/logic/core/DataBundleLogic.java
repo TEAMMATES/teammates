@@ -1,6 +1,5 @@
-package teammates.logic.backdoor;
+package teammates.logic.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
@@ -25,14 +23,10 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.AdminEmailsDb;
 import teammates.storage.api.CoursesDb;
@@ -46,9 +40,12 @@ import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Provides additional business logic for non-production usage (e.g. testing, client scripts).
+ * Handles operations related to data bundles.
+ *
+ * @see DataBundle
  */
-public class BackDoorLogic extends Logic {
+public final class DataBundleLogic {
+
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     private static final CoursesDb coursesDb = new CoursesDb();
@@ -59,6 +56,18 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
+
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+
+    private static DataBundleLogic instance = new DataBundleLogic();
+
+    private DataBundleLogic() {
+        // prevent initialization
+    }
+
+    public static DataBundleLogic inst() {
+        return instance;
+    }
 
     /**
      * Persists data in the given {@link DataBundle} to the Datastore, including
@@ -71,10 +80,9 @@ public class BackDoorLogic extends Logic {
      * For session respondent lists to be properly populated, all instructors, questions and responses
      * relevant to each session must be included in the data bundle.</p>
      *
-     * @return {@link Const.StatusCodes#BACKDOOR_STATUS_SUCCESS} if successful.
      * @throws InvalidParametersException if invalid data is encountered.
      */
-    public String persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException(Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
@@ -123,32 +131,12 @@ public class BackDoorLogic extends Logic {
         adminEmailsDb.createEntitiesDeferred(adminEmails);
 
         EntitiesDb.flush();
-
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-
-    public String createFeedbackResponseAndUpdateSessionRespondents(FeedbackResponseAttributes response)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        try {
-            int questionNumber = Integer.parseInt(response.feedbackQuestionId);
-            response.feedbackQuestionId = feedbackQuestionsLogic
-                    .getFeedbackQuestion(response.feedbackSessionName, response.courseId, questionNumber)
-                    .getId(); // inject real question ID
-        } catch (NumberFormatException e) {
-            // question ID already injected
-        }
-        frDb.createEntityWithoutExistenceCheck(response);
-        updateRespondents(response.feedbackSessionName, response.courseId);
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
     /**
      * Creates document for entities that have document, i.e. searchable.
-     * @return status of the request in the form 'status meassage'+'additional
-     *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
-     *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
-    public String putDocuments(DataBundle dataBundle) {
+    public void putDocuments(DataBundle dataBundle) {
         // query the entity in db first to get the actual data and create document for actual entity
 
         Map<String, StudentAttributes> students = dataBundle.students;
@@ -170,118 +158,6 @@ public class BackDoorLogic extends Logic {
                     responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
             fcDb.putDocument(fcInDb);
         }
-
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-
-    public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId);
-        return JsonUtils.toJson(accountData);
-    }
-
-    public String getStudentProfileAsJson(String googleId) {
-        StudentProfileAttributes profileData = getStudentProfile(googleId);
-        return JsonUtils.toJson(profileData);
-    }
-
-    public String getInstructorAsJsonById(String instructorId, String courseId) {
-        InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorId);
-        return JsonUtils.toJson(instructorData);
-    }
-
-    public String getInstructorAsJsonByEmail(String instructorEmail, String courseId) {
-        InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
-        return JsonUtils.toJson(instructorData);
-    }
-
-    public String getCourseAsJson(String courseId) {
-        CourseAttributes course = getCourse(courseId);
-        return JsonUtils.toJson(course);
-    }
-
-    public String getStudentAsJson(String courseId, String email) {
-        StudentAttributes student = getStudentForEmail(courseId, email);
-        return JsonUtils.toJson(student);
-    }
-
-    public String getAllStudentsAsJson(String courseId) {
-        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
-        return JsonUtils.toJson(studentList);
-    }
-
-    public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
-        FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-        return JsonUtils.toJson(fs);
-    }
-
-    /**
-     * Gets an json serialized feedback session from the recycle bin.
-     */
-    public String getFeedbackSessionFromRecycleBinAsJson(String feedbackSessionName, String courseId) {
-        FeedbackSessionAttributes fs = getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        return JsonUtils.toJson(fs);
-    }
-
-    public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
-        FeedbackQuestionAttributes fq =
-                feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
-        return JsonUtils.toJson(fq);
-    }
-
-    public String getFeedbackQuestionForIdAsJson(String questionId) {
-        FeedbackQuestionAttributes fq = feedbackQuestionsLogic.getFeedbackQuestion(questionId);
-        return JsonUtils.toJson(fq);
-    }
-
-    public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
-        FeedbackResponseAttributes fq =
-                feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
-        return JsonUtils.toJson(fq);
-    }
-
-    public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
-        List<FeedbackResponseAttributes> responseList =
-                feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
-        return JsonUtils.toJson(responseList);
-    }
-
-    public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
-        List<FeedbackResponseAttributes> responseList =
-                feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
-        return JsonUtils.toJson(responseList);
-    }
-
-    public void editAccountAsJson(String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        AccountAttributes account = JsonUtils.fromJson(newValues, AccountAttributes.class);
-        updateAccount(account);
-    }
-
-    public void editCourseAsJson(String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = JsonUtils.fromJson(newValues, CourseAttributes.class);
-        updateCourse(course.getId(), course.getName(), course.getTimeZone().getId());
-    }
-
-    public void editStudentAsJson(String originalEmail, String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
-        populateNullSection(student);
-        updateStudentWithoutDocument(originalEmail, student);
-    }
-
-    public void editFeedbackSessionAsJson(String feedbackSessionJson)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession =
-                JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
-        updateFeedbackSession(feedbackSession);
-    }
-
-    public void editFeedbackQuestionAsJson(String feedbackQuestionJson)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackQuestionAttributes feedbackQuestion =
-                JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
-        updateFeedbackQuestion(feedbackQuestion);
     }
 
     private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
@@ -363,7 +239,7 @@ public class BackDoorLogic extends Logic {
         SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
         for (InstructorAttributes instructor : courseInstructors) {
             List<FeedbackQuestionAttributes> questionsForInstructor =
-                    feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(
+                    fqLogic.getFeedbackQuestionsForInstructor(
                             new ArrayList<>(sessionQuestions), session.isCreator(instructor.email));
 
             List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
@@ -410,14 +286,14 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId of the
-    * question the response is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number corresponding to the created response
-    * should be inserted in the json file in place of the actual response ID.<br>
-    * This method will then generate the correct ID and replace the field.
-    **/
+     * This method is necessary to generate the feedbackQuestionId of the
+     * question the response is for.<br>
+     * Normally, the ID is already generated on creation,
+     * but the json file does not contain the actual response ID. <br>
+     * Therefore the question number corresponding to the created response
+     * should be inserted in the json file in place of the actual response ID.<br>
+     * This method will then generate the correct ID and replace the field.
+     */
     private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
             Map<String, String> questionIdMap) {
         for (FeedbackResponseAttributes response : responses) {
@@ -435,15 +311,15 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId
-    * and feedbackResponseId of the question and response the comment is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number and questionNumber%giverEmail%recipient
-    * corresponding to the created comment should be inserted in the json
-    * file in place of the actual ID.<br>
-    * This method will then generate the correct ID and replace the field.
-    **/
+     * This method is necessary to generate the feedbackQuestionId
+     * and feedbackResponseId of the question and response the comment is for.<br>
+     * Normally, the ID is already generated on creation,
+     * but the json file does not contain the actual response ID. <br>
+     * Therefore the question number and questionNumber%giverEmail%recipient
+     * corresponding to the created comment should be inserted in the json
+     * file in place of the actual ID.<br>
+     * This method will then generate the correct ID and replace the field.
+     */
     private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
             Map<String, String> questionIdMap) {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
@@ -590,21 +466,4 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    public boolean isPicturePresentInGcs(String pictureKey) {
-        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(pictureKey));
-    }
-
-    public void uploadAndUpdateStudentProfilePicture(String googleId,
-            byte[] pictureData) throws EntityDoesNotExistException, IOException {
-        String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
-        updateStudentProfilePicture(googleId, pictureKey);
-    }
-
-    public boolean isGroupListFilePresentInGcs(String groupListKey) {
-        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(groupListKey));
-    }
-
-    public void deleteGroupListFile(String groupListFileKey) {
-        GoogleCloudStorageHelper.deleteFile(new BlobKey(groupListFileKey));
-    }
 }

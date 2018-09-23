@@ -81,11 +81,6 @@
                             </from>
                             <to class="${logic}.api.**" />
                         </allow>
-                        <allow>
-                            <!-- to import sample data, need to be changed -->
-                            <from class="${ui}.controller.AdminInstructorAccountAddAction" />
-                            <to class="${logic}.backdoor.BackDoorLogic" />
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>
@@ -169,7 +164,6 @@
                         <allow>
                             <from>
                                 <include class="${logic}.core.**" />
-                                <include class="${logic}.backdoor.BackDoorLogic" />
                             </from>
                             <to class="${storage}.api.**" />
                         </allow>
@@ -190,6 +184,10 @@
                         <deny>
                             <from class="${logic}.core.${logicModule}Logic" />
                             <to class="${storage}.api.**" />
+                            <allow>
+                                <!-- Allow access from DataBundleLogic -->
+                                <from class="${logic}.core.DataBundleLogic" />
+                            </allow>
                             <allow>
                                 <to pattern="DbModule" />
                             </allow>
@@ -291,13 +289,13 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="TestDriverComponent: Only certain test cases can access GaeSimulation/BackDoorLogic">
+            <ruleset name="TestDriverComponent: Only certain test cases can access GaeSimulation/Logic">
                 <access-rule>
                     <deny>
                         <from class="${test}.**" />
                         <to>
                             <include class="${test}.driver.GaeSimulation" />
-                            <include class="${logic}.backdoor.BackDoorLogic" />
+                            <include class="${logic}.api.Logic" />
                         </to>
                         <allow>
                             <from>
