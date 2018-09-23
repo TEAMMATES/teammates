@@ -203,17 +203,6 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="LogicComponent: logic::api/logic::core should not access logic::backdoor">
-                <access-rule>
-                    <deny>
-                        <from>
-                            <include class="${logic}.api.**" />
-                            <include class="${logic}.core.**" />
-                        </from>
-                        <to class="${logic}.backdoor.**" />
-                    </deny>
-                </access-rule>
-            </ruleset>
 
             <ruleset name="StorageComponent: storage::search should not touch storage::entity">
                 <access-rule>
@@ -309,24 +298,6 @@
 
                                 <!-- violation that needs fixing -->
                                 <include class="${testCases}.pagedata.StudentFeedbackResultsPageDataTest" />
-                            </from>
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
-            <ruleset name="TestDriverComponent: BackDoor test driver is only for browser test">
-                <access-rule>
-                    <deny>
-                        <to class="${test}.driver.BackDoor" />
-                        <allow>
-                            <from>
-                                <include class="${test}.driver.BackDoor**$**" /> <!-- allow dependency to inner class -->
-                                <include class="${testCases}.browsertests.**" />
-                                <include class="${testCases}.testdriver.BackDoorTest" />
-                                <include class="${testCases}.BaseTestCaseWithBackDoorApiAccess" />
-
-                                <include class="${client}.scripts.ImportData" />
-                                <include class="${client}.scripts.PerformanceProfiler" />
                             </from>
                         </allow>
                     </deny>
