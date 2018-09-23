@@ -195,6 +195,18 @@ function getQuestionNumFromEditForm(form) {
     return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
+function bindRadioButtons(questionNum) {
+    if(!$(`#valueRadio-${questionNum}`).is(":checked")) {
+        $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
+    }
+    $(`#unlimitedRadio-${questionNum}`).on('click', () => {
+        $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
+    });
+    $(`#valueRadio-${questionNum}`).on('click', () => {
+        $(`#numberOfTeams-${questionNum}`).prop('disabled', false);
+    });
+}
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -614,6 +626,7 @@ function enableQuestion(questionNum) {
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
     hideInvalidRankRecipientFeedbackPaths(questionNum);
+    bindRadioButtons(questionNum);
 }
 
 /**
@@ -637,6 +650,7 @@ function enableEdit(questionNum, maxQuestions) {
 }
 
 function enableNewQuestion() {
+    console.log("enable new question");
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
@@ -696,6 +710,7 @@ function enableNewQuestion() {
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
     toggleConstSumOptionsRadioButton(NEW_QUESTION);
+    bindRadioButtons(NEW_QUESTION);
 }
 
 /**

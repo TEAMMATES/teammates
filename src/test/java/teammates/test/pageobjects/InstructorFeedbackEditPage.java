@@ -193,6 +193,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillQuestionDescription(qnDescription, NEW_QUESTION_NUM);
     }
 
+    public void clickRadioBtnToEnableNumOfEntities() {
+        WebElement radioBtn = browser.driver.findElement(By.id("valueRadio-" + NEW_QUESTION_NUM));
+        click(radioBtn);
+    }
+
     public void fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion(String num) {
         WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + NEW_QUESTION_NUM));
         WebElement numberOfRecipients = questionForm.findElement(By.className("numberOfEntitiesBox"));
