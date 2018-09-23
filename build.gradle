@@ -398,10 +398,10 @@ spotbugsMain {
 
 task printSpotbugsMainViolations {
     onlyIf {
-        file("build/reports/spotbugs/main.emacs").exists()
+        file("${buildDir}/reports/spotbugs/main.emacs").exists()
     }
     doFirst {
-        print new File("build/reports/spotbugs/main.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/main.emacs").getText("UTF-8")
     }
 }
 
@@ -411,10 +411,10 @@ spotbugsTest {
 
 task printSpotbugsTestViolations {
     onlyIf {
-        file("build/reports/spotbugs/test.emacs").exists()
+        file("${buildDir}/reports/spotbugs/test.emacs").exists()
     }
     doFirst {
-        print new File("build/reports/spotbugs/test.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/test.emacs").getText("UTF-8")
     }
 }
 
