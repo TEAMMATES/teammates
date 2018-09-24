@@ -1,7 +1,7 @@
 package teammates.common.util;
 
 /**
- * Shows more information for different types of details for each section
+ * Shows more information for different types of details for each section.
  */
 public enum SectionDetail {
     EITHER("Show response if either the giver or evaluee is in the selected section"),
