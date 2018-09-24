@@ -11,7 +11,8 @@ import teammates.ui.automated.FeedbackSessionPublishedRemindersAction;
 /**
  * SUT: {@link FeedbackSessionPublishedRemindersAction}.
  */
-public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionPublishedRemindersActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionPublishedRemindersAction> {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
@@ -81,11 +82,6 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
 
         verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
 
-    }
-
-    @Override
-    protected FeedbackSessionPublishedRemindersAction getAction(String... params) {
-        return (FeedbackSessionPublishedRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
 
 }

@@ -21,7 +21,8 @@ import teammates.ui.automated.FeedbackSessionClosedRemindersAction;
 /**
  * SUT: {@link FeedbackSessionClosedRemindersAction}.
  */
-public class FeedbackSessionClosedRemindersActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionClosedRemindersActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionClosedRemindersAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -97,11 +98,6 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseAutomatedActio
 
         verifyNoTasksAdded(action);
 
-    }
-
-    @Override
-    protected FeedbackSessionClosedRemindersAction getAction(String... params) {
-        return (FeedbackSessionClosedRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
 
 }
