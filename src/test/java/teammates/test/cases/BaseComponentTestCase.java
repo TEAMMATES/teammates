@@ -139,12 +139,10 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
         FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
                                                                      .toArray(new FeedbackResponseCommentAttributes[2]);
-        int i = 0;
-        for (String key : actual.comments.keySet()) {
-            for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
-                assertEquals(sortedComments[i].commentText, comment.commentText);
-                i++;
-            }
-        }
+        int[] i = new int[] { 0 };
+        actual.comments.forEach((key, comments) -> comments.forEach(comment -> {
+            assertEquals(sortedComments[i[0]].commentText, comment.commentText);
+            i[0]++;
+        }));
     }
 }

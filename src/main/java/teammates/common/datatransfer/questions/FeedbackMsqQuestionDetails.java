@@ -650,8 +650,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 hasAssignedWeights ? msqStats.calculateWeightedPercentagePerOption(answerFrequency)
                 : new LinkedHashMap<>();
 
-        for (String key : answerFrequency.keySet()) {
-            int count = answerFrequency.get(key);
+        answerFrequency.forEach((key, count) -> {
             // If weights are allowed, show the corresponding weights of a choice.
             String weightString = "";
             if ("Other".equals(key)) {
@@ -667,7 +666,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     Slots.PERCENTAGE, df.format(100 * divideOrReturnZero(count, numChoicesSelected)),
                     Slots.WEIGHTED_PERCENTAGE,
                             hasAssignedWeights ? df.format(weightedPercentagePerOption.get(key)) : "-"));
-        }
+        });
 
         // If weights are assigned, create the per recipient statistics table,
         // otherwise pass an empty string in it's place.
@@ -887,11 +886,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
      * We don't count responses that select 'None of the above' option.</p>
      */
     private int getNumberOfResponses(Map<String, Integer> answerFrequency) {
-        int numChoicesSelected = 0;
-
-        for (String choice : answerFrequency.keySet()) {
-            numChoicesSelected += answerFrequency.get(choice);
-        }
+        int numChoicesSelected = answerFrequency.values().stream().mapToInt(Integer::intValue).sum();
 
         // we will only show stats if there is at least one nonempty response
         if (numChoicesSelected == 0) {

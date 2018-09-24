@@ -59,7 +59,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("helperOfCourse1");
         StudentAttributes student = typicalBundle.students.get("student2InCourse1");
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
@@ -72,7 +72,6 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         ______TS("Instructor cannot view sections without View-Student-In-Sections privilege");
 
-        instructor = typicalBundle.instructors.get("helperOfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         submissionParams = new String[] {
@@ -83,8 +82,6 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         InstructorStudentRecordsAjaxPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
-        a = getAction(submissionParams);
-        r = getShowPageResult(a);
 
         assertEquals(
                 getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfHelperOfCourse1"),
