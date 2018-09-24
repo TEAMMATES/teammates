@@ -12,8 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -56,7 +54,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.setGracePeriodMinutes(30);
         editedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-        editedSession.setInstructions(new Text("Please fill in the edited feedback session."));
+        editedSession.setInstructions("Please fill in the edited feedback session.");
         editedSession.setEndTime(TimeHelper.parseInstant("2026-05-01 08:00 PM +0000"));
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
@@ -156,7 +154,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes savedSession = getFeedbackSessionWithRetry(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
-        editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
+        editedSession.setInstructions("<p>" + editedSession.getInstructionsString() + "</p>");
         assertEquals(editedSession.toString(), savedSession.toString());
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         feedbackEditPage.reloadPage();
@@ -250,7 +248,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("test end time earlier than start time");
         feedbackEditPage = getFeedbackEditPage();
-        editedSession.setInstructions(new Text("Made some changes"));
+        editedSession.setInstructions("Made some changes");
         feedbackEditPage.editFeedbackSession(editedSession.getEndTimeLocal(), editedSession.getStartTimeLocal(),
                                         editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
@@ -1080,7 +1078,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                         Const.DEFAULT_SECTION,
                         "alice.b.tmms@gmail.tmt",
                         Const.DEFAULT_SECTION,
-                        new Text("Response from instructor to Alice"));
+                        "Response from instructor to Alice");
         BackDoor.createFeedbackResponse(feedbackResponse);
 
         ______TS("check response rate before editing question");

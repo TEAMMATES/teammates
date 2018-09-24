@@ -29,9 +29,9 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
 
-    class EmptyObject {}
+    static class EmptyObject {}
 
-    class Account {
+    static class Account {
         private String email = "CFResultsScT.instr@gmail.tmt";
         private String googleId = "CFResultsScT.instr";
         private String institute = "TEAMMATES Test Institute 1";
@@ -39,13 +39,13 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private String name = "Teammates Test";
     }
 
-    class Course {
+    static class Course {
         private String id = "CFResultsScT.CS2104";
         private String name = "Programming Language Concepts";
         private String timeZone = "UTC";
     }
 
-    class Metadata {
+    static class Metadata {
         private String value;
 
         Metadata(String value) {
@@ -53,7 +53,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    class Question {
+    static class Question {
         private String courseId = "CFResultsScT.CS2104";
         private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
         private String feedbackSessionName = "Open Session";
@@ -72,7 +72,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    class Session {
+    static class Session {
         private String courseId = "CFResultsScT.CS2104";
         private String createdTime = "2012-04-01 11:59 PM UTC";
         private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
@@ -93,7 +93,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private double timeZone = 8.0;
     }
 
-    class Instructor {
+    static class Instructor {
         private String googleId = "CFResultsScT.instr";
         private String courseId = "CFResultsScT.CS2104";
         private String name = "Teammates Test";
@@ -106,11 +106,11 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private EmptyObject sectionLevel = new EmptyObject();
         private EmptyObject sessionLevel = new EmptyObject();
 
-        class Privileges {
+        static class Privileges {
             private CourseLevel courseLevel = new CourseLevel();
         }
 
-        class CourseLevel {
+        static class CourseLevel {
             private String canviewstudentinsection = "true";
             private String cansubmitsessioninsection = "true";
             private String canmodifysessioncommentinsection = "true";
@@ -122,7 +122,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    class Student {
+    static class Student {
         private String googleId = "CFResultsScT.";
         private String comments = "This is a student.";
         private String course = "CFResultsScT.CS2104";
@@ -142,7 +142,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    class Response {
+    static class Response {
         private String giver;
         private String recipient;
         private String feedbackQuestionId;

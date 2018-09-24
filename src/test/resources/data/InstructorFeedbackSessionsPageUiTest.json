@@ -325,9 +325,7 @@
       "feedbackSessionName": "First Session #1",
       "courseId": "CFeedbackUiT.CS2104",
       "creatorEmail": "teammates.test2@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2012-04-30T21:59:00Z",
@@ -347,9 +345,7 @@
       "feedbackSessionName": "Manual Session #1",
       "courseId": "CFeedbackUiT.CS1101",
       "creatorEmail": "teammates.test1@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the third feedback session"
-      },
+      "instructions": "Please please fill in the third feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-02T21:59:00Z",
       "endTime": "2012-04-29T21:59:00Z",
@@ -369,9 +365,7 @@
       "feedbackSessionName": "Open Session #",
       "courseId": "CFeedbackUiT.CS1101",
       "creatorEmail": "teammates.test2@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the fourth feedback session"
-      },
+      "instructions": "Please please fill in the fourth feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-02T21:59:00Z",
       "endTime": "2027-04-29T21:59:00Z",
@@ -391,9 +385,7 @@
       "feedbackSessionName": "Awaiting Session #",
       "courseId": "CFeedbackUiT.CS2104",
       "creatorEmail": "teammates.test2@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2014-04-01T23:59:00Z",
       "startTime": "2027-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -413,9 +405,7 @@
       "feedbackSessionName": "First Session #1",
       "courseId": "CFeedbackUiT.CS2105",
       "creatorEmail": "teammates.test2105@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "deletedTime": "2012-06-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -436,9 +426,7 @@
       "feedbackSessionName": "Second Session #2",
       "courseId": "CFeedbackUiT.CS2105",
       "creatorEmail": "teammates.test2105@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for second session"
-      },
+      "instructions": "Instructions for second session",
       "createdTime": "2012-04-01T23:59:00Z",
       "deletedTime": "2012-06-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -459,9 +447,7 @@
       "feedbackSessionName": "Third Session #3",
       "courseId": "CFeedbackUiT.CS2105",
       "creatorEmail": "teammates.test2105@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for third session"
-      },
+      "instructions": "Instructions for third session",
       "createdTime": "2012-04-01T23:59:00Z",
       "deletedTime": "2012-06-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -482,9 +468,7 @@
       "feedbackSessionName": "First Session #1",
       "courseId": "CFeedbackUiT.CS2106",
       "creatorEmail": "teammates.test2106@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "deletedTime": "2012-06-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -505,9 +489,7 @@
       "feedbackSessionName": "Second Session #2",
       "courseId": "CFeedbackUiT.CS2106",
       "creatorEmail": "teammates.test2106@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for second session"
-      },
+      "instructions": "Instructions for second session",
       "createdTime": "2012-04-01T23:59:00Z",
       "deletedTime": "2012-06-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -528,9 +510,7 @@
       "feedbackSessionName": "Third Session #3",
       "courseId": "CFeedbackUiT.CS2106",
       "creatorEmail": "teammates.test2106@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for third session"
-      },
+      "instructions": "Instructions for third session",
       "createdTime": "2012-04-01T23:59:00Z",
       "deletedTime": "2012-06-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",

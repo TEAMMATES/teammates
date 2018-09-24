@@ -253,9 +253,7 @@
       "feedbackSessionName": "First Feedback Session",
       "courseId": "CHomeUiT.CS2104",
       "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T04:00:00Z",
       "endTime": "2027-04-30T15:59:00Z",
@@ -275,9 +273,7 @@
       "feedbackSessionName": "Second Feedback Session",
       "courseId": "CHomeUiT.CS2104",
       "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2027-03-29T14:59:00Z",
       "endTime": "2027-04-30T04:00:00Z",
@@ -297,9 +293,7 @@
       "feedbackSessionName": "Third Feedback Session",
       "courseId": "CHomeUiT.CS2104",
       "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-10T15:59:00Z",
       "endTime": "2012-04-30T15:59:00Z",
@@ -319,9 +313,7 @@
       "feedbackSessionName": "Fourth Feedback Session",
       "courseId": "CHomeUiT.CS2104",
       "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-05T03:59:00Z",
       "endTime": "2012-04-20T04:00:00Z",
@@ -343,9 +335,7 @@
       "feedbackSessionName": "First Feedback Session",
       "courseId": "CHomeUiT.CS2104",
       "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -367,9 +357,7 @@
       "feedbackSessionName": "Third Feedback Session",
       "courseId": "CHomeUiT.CS2104",
       "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",

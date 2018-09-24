@@ -9,6 +9,7 @@ import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
+import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
@@ -50,7 +51,13 @@ public class FeedbackResponse extends BaseEntity {
 
     private String receiverSection;
 
-    private Text answer; //TODO: rename to responseMetaData, will require database conversion
+    /**
+     * Serialized {@link teammates.common.datatransfer.questions.FeedbackResponseDetails} stored as a string.
+     *
+     * @see teammates.common.datatransfer.attributes.FeedbackResponseAttributes#getResponseDetails()
+     */
+    @Unindex
+    private Text answer;
 
     @Translate(value = InstantTranslatorFactory.class)
     private Instant createdAt;
@@ -65,7 +72,7 @@ public class FeedbackResponse extends BaseEntity {
 
     public FeedbackResponse(String feedbackSessionName, String courseId,
             String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
-            String giverEmail, String giverSection, String recipient, String recipientSection, Text answer) {
+            String giverEmail, String giverSection, String recipient, String recipientSection, String answer) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
@@ -74,7 +81,7 @@ public class FeedbackResponse extends BaseEntity {
         this.giverSection = giverSection;
         this.receiver = recipient;
         this.receiverSection = recipientSection;
-        this.answer = answer;
+        setAnswer(answer);
 
         this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
 
@@ -149,12 +156,12 @@ public class FeedbackResponse extends BaseEntity {
         this.receiverSection = recipientSection;
     }
 
-    public Text getResponseMetaData() {
-        return answer;
+    public String getResponseMetaData() {
+        return answer == null ? null : answer.getValue();
     }
 
-    public void setAnswer(Text answer) {
-        this.answer = answer;
+    public void setAnswer(String answer) {
+        this.answer = answer == null ? null : new Text(answer);
     }
 
     public Instant getCreatedAt() {

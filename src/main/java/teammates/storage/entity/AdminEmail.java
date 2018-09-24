@@ -55,12 +55,12 @@ public class AdminEmail extends BaseEntity {
      *          html email content
      */
     public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
-                      Text content, Instant sendDate) {
+                      String content, Instant sendDate) {
         this.emailId = null;
         this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
         this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;
-        this.content = content;
+        setContent(content);
         this.sendDate = sendDate;
         this.createDate = Instant.now();
         this.isInTrashBin = false;
@@ -78,8 +78,8 @@ public class AdminEmail extends BaseEntity {
         this.subject = subject;
     }
 
-    public void setContent(Text content) {
-        this.content = content;
+    public void setContent(String content) {
+        this.content = content == null ? null : new Text(content);
     }
 
     public void setIsInTrashBin(boolean isInTrashBin) {
@@ -110,8 +110,8 @@ public class AdminEmail extends BaseEntity {
         return this.sendDate;
     }
 
-    public Text getContent() {
-        return this.content;
+    public String getContent() {
+        return this.content == null ? null : this.content.getValue();
     }
 
     public boolean getIsInTrashBin() {

@@ -22,8 +22,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -1317,7 +1315,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, String instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");
@@ -1331,7 +1329,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
         // Fill in instructions
-        fillRichTextEditor("instructions", instructions.getValue());
+        fillRichTextEditor("instructions", instructions);
 
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
@@ -1475,8 +1473,11 @@ public class InstructorFeedbackEditPage extends AppPage {
                 + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
 
         Actions builder = new Actions(browser.driver);
-        // drag option 10 units above target and release
+        // drag option to target, move 10 units above target and release
+        // multiple movements are used to slow down drag movement and provide
+        // enough time for the grid to create empty slots
         builder.clickAndHold(draggedOptionElement)
+                .moveToElement(targetElement)
                 .moveToElement(targetElement, 0, -10)
                 .release()
                 .build()
@@ -1896,9 +1897,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
 
-    public String getQuestionType(int qnNumber) {
+    private String getQuestionType(int qnNumber) {
         return browser.driver.findElement(By.cssSelector("#form_editquestion-" + qnNumber + " input[name='questiontype']"))
-                .getAttribute("value").toString();
+                .getAttribute("value");
     }
 
     private boolean isRankOptionsQuestion(int qnIndex) {
@@ -1921,7 +1922,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         case "INSTRUCTORS":
         case "TEAMS":
             return Integer.parseInt(browser.driver.findElement(By.id("num-" + recipient.toLowerCase()))
-                    .getAttribute("value").toString());
+                    .getAttribute("value"));
         case "OWN_TEAM_MEMBERS":
         case "OWN_TEAM_MEMBERS_INCLUDING_SELF":
             return Integer.MAX_VALUE;

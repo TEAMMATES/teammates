@@ -8,8 +8,6 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -168,7 +166,6 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testSanitizeForRichText() {
-        assertNull(SanitizationHelper.sanitizeForRichText((Text) null));
         assertNull(SanitizationHelper.sanitizeForRichText((String) null));
         assertEquals("", SanitizationHelper.sanitizeForRichText(""));
         assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
@@ -193,10 +190,6 @@ public class SanitizationHelperTest extends BaseTestCase {
                                   + "<span style=\"color:#339966\">Content</span>";
         String sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
-
-        Text actualRichTextObj = new Text(actualRichText);
-        Text sanitizedTextObj = SanitizationHelper.sanitizeForRichText(actualRichTextObj);
-        assertEquals(expectedRichText, sanitizedTextObj.getValue());
 
         actualRichText = "<table cellspacing = \"5\" onmouseover=\"alert('onmouseover');\">"
                 + "<thead><tr><td>No.</td><td colspan = \"2\">People</td></tr></thead>"

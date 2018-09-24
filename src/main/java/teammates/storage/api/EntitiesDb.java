@@ -38,17 +38,8 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_ADMIN_EMAIL = "Trying to update non-existent Admin Email: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION =
-            "Trying to update non-existing InstructorPermission: ";
-    public static final String ERROR_UPDATE_TO_EXISTENT_INSTRUCTOR_PERMISSION =
-            "Trying to update to existent InstructorPermission: ";
-    public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
-    public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
-            "Trying to make an non-existent account an Instructor :";
 
     protected static final Logger log = Logger.getLogger();
 
@@ -190,10 +181,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         ofy().save().entities(entitiesToSave).now();
     }
 
-    protected void saveEntitiesDeferred(Collection<E> entitiesToSave) {
-        saveEntitiesDeferred(entitiesToSave, makeAttributes(entitiesToSave));
-    }
-
     protected void saveEntitiesDeferred(Collection<E> entitiesToSave, Collection<A> entitiesToSaveAttributesForLogging) {
         for (A attributes : entitiesToSaveAttributesForLogging) {
             log.info(attributes.getBackupIdentifier());
@@ -240,10 +227,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
         ofy().delete().entity(entityToDelete).now();
         log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
-    }
-
-    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete) {
-        deleteEntitiesDirect(entitiesToDelete, makeAttributes(entitiesToDelete));
     }
 
     protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {

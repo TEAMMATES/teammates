@@ -212,7 +212,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
         assertEquals(genericAccount.getInstitute(), observedAccountAttributes.getInstitute());
         assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.createdAt);
-        assertEquals(genericAccount.getStudentProfile(), observedAccountAttributes.studentProfile);
     }
 
     @Test

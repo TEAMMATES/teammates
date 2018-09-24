@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -26,7 +24,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private String creatorEmail;
 
     // Optional fields
-    private Text instructions;
+    private String instructions;
     private Instant createdTime;
     private Instant deletedTime;
     private Instant startTime;
@@ -55,7 +53,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         timeZone = Const.DEFAULT_TIME_ZONE;
         gracePeriod = Duration.ZERO;
 
-        instructions = new Text("");
+        instructions = "";
     }
 
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
@@ -130,7 +128,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return null;
         }
 
-        return SanitizationHelper.sanitizeForRichText(instructions.getValue());
+        return SanitizationHelper.sanitizeForRichText(instructions);
     }
 
     @Override
@@ -421,11 +419,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.creatorEmail = creatorEmail;
     }
 
-    public Text getInstructions() {
+    public String getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(Text instructions) {
+    public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
 
@@ -645,11 +643,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             feedbackSessionAttributes.setCreatorEmail(creatorEmail);
         }
 
-        public Builder withInstructions(Text instructions) {
-            Text instructionsToSet = instructions == null
-                    ? new Text("")
-                    : instructions;
-            feedbackSessionAttributes.setInstructions(instructionsToSet);
+        public Builder withInstructions(String instructions) {
+            feedbackSessionAttributes.setInstructions(instructions == null ? "" : instructions);
             return this;
         }
 
