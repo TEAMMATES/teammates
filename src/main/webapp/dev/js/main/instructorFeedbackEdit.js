@@ -196,7 +196,7 @@ function getQuestionNumFromEditForm(form) {
 }
 
 function bindRadioButtons(questionNum) {
-    if(!$(`#valueRadio-${questionNum}`).is(":checked")) {
+    if (!$(`#valueRadio-${questionNum}`).is(':checked')) {
         $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
     }
     $(`#unlimitedRadio-${questionNum}`).on('click', () => {
