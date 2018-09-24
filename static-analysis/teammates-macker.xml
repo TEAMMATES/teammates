@@ -7,6 +7,7 @@
         <var name="common" value="teammates.common" />
         <var name="test" value="teammates.test" />
         <var name="testCases" value="teammates.test.cases" />
+        <var name="e2e" value="teammates.e2e" />
         <var name="client" value="teammates.client" />
 
         <ruleset name="Architectural rules for production code">
@@ -220,6 +221,21 @@
                         <allow>
                             <to class="${storage}.entity.**" /> <!-- allow dependency within the package -->
                         </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+
+            <ruleset name="CommonComponent: Assumption class can only be used by production code; non-production code should use JUnit instead">
+                <access-rule>
+                    <deny>
+                        <to>
+                            <include class="teammates.common.util.Assumption" />
+                        </to>
+                        <from>
+                            <include class="${test}.**" />
+                            <include class="${e2e}.**" />
+                            <include class="${client}.**" />
+                        </from>
                     </deny>
                 </access-rule>
             </ruleset>
@@ -458,6 +474,31 @@
                             <!-- allow data type translator in BaseEntity -->
                             <!-- this exception can be removed after upgrading to Objectify V6 -->
                             <from class="${storage}.entity.BaseEntity$InstantTranslatorFactory**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Assertion API can only be accessed via BaseTestCase and few selected classes">
+                <access-rule>
+                    <deny>
+                        <to>
+                            <include class="org.junit.Assert" />
+                        </to>
+                        <allow>
+                            <from>
+                                <include class="${testCases}.BaseTestCase" />
+                                <include class="${test}.driver.AssertHelper" />
+                                <include class="${test}.driver.EmailChecker" />
+                                <include class="${e2e}.util.HtmlHelper" />
+                            </from>
+                        </allow>
+
+                        <!-- to remove after front-end migration is done -->
+                        <allow>
+                            <from>
+                                <include class="${test}.pageobjects.**" />
+                                <include class="${test}.driver.GaeSimulation" />
+                            </from>
                         </allow>
                     </deny>
                 </access-rule>

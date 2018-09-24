@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
@@ -196,7 +195,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionInstructionsValue] = "";
             break;
         default:
-            Assumption.fail("Incorrect order");
+            fail("Incorrect order");
             break;
         }
 
