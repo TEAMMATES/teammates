@@ -650,7 +650,6 @@ function enableEdit(questionNum, maxQuestions) {
 }
 
 function enableNewQuestion() {
-    console.log("enable new question");
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
