@@ -1,20 +1,21 @@
-package teammates.client.scripts.scalabilitytests;
+package teammates.e2e.cases.scalability;
 
 import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.Stopwatch;
+import teammates.e2e.util.StudentEnrollmentGenerator;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
  *
- * <p>Run InstructorCourseEnrollPageScaleTestDataGenerator.java before running the tests.
+ * <p>Run {@link InstructorCourseEnrollPageScaleTestDataGenerator} before running the tests.
  */
 public class InstructorCourseEnrollPageScalabilityTest extends BaseE2ETestCase {
 
@@ -45,7 +46,7 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseE2ETestCase {
 
         InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
-        String enrollString = InstructorCourseEnrollPageDataGenerator.generateStudents(numStudents);
+        String enrollString = StudentEnrollmentGenerator.generateStudents(numStudents);
 
         log.info("Testing with " + numStudents + " students...");
         Stopwatch stopwatch = new Stopwatch();

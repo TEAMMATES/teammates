@@ -276,6 +276,7 @@ Package overview:
 - **`e2e.cases`**: Contains test cases.
   - **`.util`**: Component test cases for testing the test helpers.
   - **`.e2e`**: System test cases for testing the application as a whole.
+  - **`.scalability`**: Scalability tests (experimental).
 
 ## Client Component
 
@@ -283,5 +284,6 @@ The Client component contains scripts that can connect to the application back e
 
 Package overview:
 
+- **`client.util`**: Contains helpers needed for client scripts.
 - **`client.remoteapi`**: Classes needed to connect to the back end directly.
 - **`client.scripts`**: Scripts that deal with the back end data for administrative purposes.

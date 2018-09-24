@@ -1,22 +1,22 @@
-package teammates.client.scripts.scalabilitytests;
+package teammates.e2e.cases.scalability;
 
 import org.testng.annotations.Test;
 
-import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.Stopwatch;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE}.
  *
- * <p>Run InstructorFeedbackResultsPageScaleTestDataGenerator.java before running the tests.
+ * <p>Run {@link InstructorFeedbackResultsPageScaleTestDataGenerator} before running the tests.
  */
 public class InstructorFeedbackResultsPageScalabilityTest extends BaseE2ETestCase {
 
-    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
+    private static final String DATA_FOLDER_PATH = "src/e2e/java/teammates/e2e/cases/scalability/data/";
     private static final Logger log = Logger.getLogger();
 
     @Override

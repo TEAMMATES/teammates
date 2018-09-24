@@ -1,25 +1,19 @@
-package teammates.client.scripts.scalabilitytests;
+package teammates.e2e.util;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.kohsuke.randname.RandomNameGenerator;
 
-import teammates.test.driver.FileHelper;
-
 /**
- * Generates test data for InstructorCourseEnrollPageScaleTest.
+ * Helper class to generate student enrollment string.
  */
-public final class InstructorCourseEnrollPageDataGenerator {
-
-    private static final String FILENAME = "InstructorCourseEnrollPageScaleTestData";
+public final class StudentEnrollmentGenerator {
 
     private static final String HEADER = "Section | Team | Name | Email | Comments\n";
 
-    private InstructorCourseEnrollPageDataGenerator() {
-        // script-like; not meant to be instantiated
+    private StudentEnrollmentGenerator() {
+        // utility class
     }
 
     /**
@@ -42,15 +36,4 @@ public final class InstructorCourseEnrollPageDataGenerator {
         return students.toString();
     }
 
-    public static void main(String[] args) throws IOException {
-        //Number of students to be added for each data set
-        int[] studentGroups = {10, 20, 50, 75, 100, 150};
-        String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
-        new File(folderPath).mkdir();
-        for (int studentGroup : studentGroups) {
-            FileHelper.saveFile(
-                    folderPath + FILENAME + studentGroup,
-                    generateStudents(studentGroup));
-        }
-    }
 }

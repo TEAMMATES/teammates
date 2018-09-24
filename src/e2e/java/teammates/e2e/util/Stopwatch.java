@@ -1,4 +1,4 @@
-package teammates.client.scripts.util;
+package teammates.e2e.util;
 
 /**
  * Helper class to measure event durations.

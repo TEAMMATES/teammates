@@ -1,4 +1,4 @@
 /**
  * Contains scalability and performance tests.
  */
-package teammates.client.scripts.scalabilitytests;
+package teammates.e2e.cases.scalability;

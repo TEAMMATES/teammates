@@ -1,4 +1,4 @@
-package teammates.client.scripts.util;
+package teammates.client.util;
 
 /**
  * Helper class to help manage loops.

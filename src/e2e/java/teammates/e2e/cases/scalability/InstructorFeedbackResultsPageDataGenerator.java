@@ -1,4 +1,4 @@
-package teammates.client.scripts.scalabilitytests;
+package teammates.e2e.cases.scalability;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * Generates test data for InstructorFeedbackResultsPageScaleTest.
+ * Generates test data for {@link InstructorFeedbackResultsPageScalabilityTest}.
  */
 // Inner classes and their fields are only used for JSON object generation.
 @SuppressWarnings("unused")
@@ -191,7 +191,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         //Number of students and questions for each data set.
         int[] studentNums = {10, 20};
         int[] questionNums = {1, 5, 10};
-        String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
+        String folderPath = "src/e2e/java/teammates/e2e/cases/scalability/data/";
         new File(folderPath).mkdir();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         for (int studentNum : studentNums) {
