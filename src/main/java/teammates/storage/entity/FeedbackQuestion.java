@@ -74,10 +74,10 @@ public class FeedbackQuestion extends BaseEntity {
 
     private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<>();
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
     @SuppressWarnings("unused")

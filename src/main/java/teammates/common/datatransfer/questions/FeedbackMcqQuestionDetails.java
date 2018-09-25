@@ -244,16 +244,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String optionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
         Boolean isOtherSelected = existingMcqResponse.isOtherOptionAnswer();
 
-        for (int i = 0; i < choices.size(); i++) {
+        for (String choice : choices) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED,
-                                    existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
+                            Slots.CHECKED, existingMcqResponse.getAnswerString().equals(choice) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choice));
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
         if (otherEnabled) {
@@ -288,7 +287,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
 
-        for (int i = 0; i < choices.size(); i++) {
+        for (String choice : choices) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -296,7 +295,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choice));
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
@@ -963,6 +962,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Calculates the answer frequency for each option based on the received responses.
          */
+        @Override
         protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
@@ -989,6 +989,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a Map containing response counts for each option for every recipient.
          */
+        @Override
         protected Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
                 List<FeedbackResponseAttributes> responses) {
             Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();

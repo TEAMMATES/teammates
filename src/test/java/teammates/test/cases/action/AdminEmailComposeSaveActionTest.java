@@ -38,7 +38,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        final String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         ______TS("save new email : typical values given : success");

@@ -258,16 +258,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
         Boolean isOtherSelected = existingMsqResponse.isOtherOptionAnswer();
 
-        for (int i = 0; i < choices.size(); i++) {
+        for (String choice : choices) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
+                            Slots.CHECKED, existingMsqResponse.contains(choice) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choice),
+                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choice));
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
@@ -332,7 +332,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-        for (int i = 0; i < choices.size(); i++) {
+        for (String choice : choices) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -340,8 +340,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choice),
+                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choice));
             optionListHtml.append(optionFragment);
             optionListHtml.append(System.lineSeparator());
         }
@@ -577,9 +577,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
              + "</div>";
     }
 
-    // Confusing Ternary flagged for the `else if` condition below.
-    // Note: Exclusion to this rule will be added in future PMD patch.
-    @SuppressWarnings("PMD.ConfusingTernary")
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder(200);
@@ -921,6 +918,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
          * </p>
          * @param responses The list of response attributes.
          */
+        @Override
         protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
@@ -973,6 +971,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a Map containing response counts for each option for every recipient.
          */
+        @Override
         protected Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
                 List<FeedbackResponseAttributes> responses) {
             Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();

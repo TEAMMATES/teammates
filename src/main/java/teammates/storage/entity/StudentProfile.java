@@ -43,7 +43,7 @@ public class StudentProfile extends BaseEntity {
     private BlobKey pictureKey;
 
     @Index
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant modifiedDate;
 
     @SuppressWarnings("unused")

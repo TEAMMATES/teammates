@@ -39,10 +39,10 @@ public class CourseStudent extends BaseEntity {
     @Id
     private String id;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
     private transient String registrationKey;
