@@ -31,7 +31,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
                 "account", "true"
         };
 
-        final String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         AdminAccountDeleteAction deleteAction = getAction(submissionParams);

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Annotates the priority of a class or a method when running tests in a suite.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.METHOD, ElementType.TYPE })
+@Target({ ElementType.METHOD, ElementType.TYPE })
 public @interface Priority {
     int value() default 0;
 }

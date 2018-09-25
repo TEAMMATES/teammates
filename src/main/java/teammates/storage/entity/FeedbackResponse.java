@@ -59,10 +59,10 @@ public class FeedbackResponse extends BaseEntity {
     @Unindex
     private Text answer;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
     @SuppressWarnings("unused")

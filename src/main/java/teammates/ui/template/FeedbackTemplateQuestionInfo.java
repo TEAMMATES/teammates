@@ -21,10 +21,6 @@ public class FeedbackTemplateQuestionInfo {
     private List<String> qnVisibilityHints;
     private FeedbackQuestionAttributes feedbackQuestion;
 
-    public FeedbackTemplateQuestionInfo() {
-        // attributes to be built by Builder
-    }
-
     public static Builder builder() {
         return new Builder();
     }

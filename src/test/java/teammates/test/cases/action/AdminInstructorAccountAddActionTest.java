@@ -30,10 +30,10 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        final String name = "JamesBond";
-        final String email = "jamesbond89@gmail.tmt";
-        final String institute = "TEAMMATES Test Institute 1";
-        final String adminUserId = "admin.user";
+        String name = "JamesBond";
+        String email = "jamesbond89@gmail.tmt";
+        String institute = "TEAMMATES Test Institute 1";
+        String adminUserId = "admin.user";
 
         ______TS("Not enough parameters");
 
@@ -48,9 +48,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
         ______TS("Normal case: not importing demo couse, extra spaces around values");
-        final String nameWithSpaces = "   " + name + "   ";
-        final String emailWithSpaces = "   " + email + "   ";
-        final String instituteWithSpaces = "   " + institute + "   ";
+        String nameWithSpaces = "   " + name + "   ";
+        String emailWithSpaces = "   " + email + "   ";
+        String instituteWithSpaces = "   " + institute + "   ";
 
         AdminInstructorAccountAddAction a = getAction(
                 Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
@@ -69,7 +69,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
         ______TS("Error: invalid parameter");
 
-        final String invalidName = "James%20Bond99";
+        String invalidName = "James%20Bond99";
         a = getAction(
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
@@ -111,16 +111,16 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
-        final String normalIdSuffix = ".gma-demo";
-        final String atEmail = "@gmail.tmt";
-        final int normalIdSuffixLength = normalIdSuffix.length(); // 9
-        final String strShortWithWordDemo =
+        String normalIdSuffix = ".gma-demo";
+        String atEmail = "@gmail.tmt";
+        int normalIdSuffixLength = normalIdSuffix.length(); // 9
+        String strShortWithWordDemo =
                 StringHelperExtension.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
-        final String strWayShorterThanMaximum =
+        String strWayShorterThanMaximum =
                 StringHelperExtension.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
-        final String strOneCharShorterThanMaximum =
+        String strOneCharShorterThanMaximum =
                 StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
-        final String strOneCharLongerThanMaximum =
+        String strOneCharLongerThanMaximum =
                 StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
         assertEquals(strShortWithWordDemo + normalIdSuffix,
                      generateNextDemoCourseId(strShortWithWordDemo + atEmail, maximumIdLength));
@@ -159,9 +159,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitEmail = instructorEmail.split("@");
-        final String head = splitEmail[0];
-        final String emailAbbreviation = splitEmail[1].substring(0, 3);
+        String[] splitEmail = instructorEmail.split("@");
+        String head = splitEmail[0];
+        String emailAbbreviation = splitEmail[1].substring(0, 3);
         return head + "." + emailAbbreviation
                 + "-demo";
     }
