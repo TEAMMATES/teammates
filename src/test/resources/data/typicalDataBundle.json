@@ -1343,9 +1343,7 @@
       "feedbackSessionName": "Not answerable feedback session",
       "courseId": "idOfTypicalCourse3",
       "creatorEmail": "instructor1@course3.tmt",
-      "questionMetaData": {
-        "value": "This is a session for myself"
-      },
+      "questionMetaData": "This is a session for myself",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "SELF",
