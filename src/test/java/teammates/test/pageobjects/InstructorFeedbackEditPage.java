@@ -1021,7 +1021,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Checks if alert class is enabled on the visibility options div for the specified question number.
      */
     public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
-        final String visibilityOptionsDivXPath =
+        String visibilityOptionsDivXPath =
                 "//div[@id='questionTable-" + questionNo + "']//div[@class='visibility-checkbox-delegate panel-body']"
                 + "//b[@class='visibility-title']/../..";
         return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
@@ -1183,7 +1183,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Selects the recipient type in the feedback path and waits for the corresponding visibility message to load.
      */
     public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
-        final WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
+        WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
         selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(selectElement, recipientType);
     }
 

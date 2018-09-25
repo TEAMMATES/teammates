@@ -14,7 +14,7 @@ apply plugin: "jacoco"
 
 def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.10.1"
-def pmdVersion = "6.5.0"
+def pmdVersion = "6.6.0"
 def spotbugsVersion = "3.1.7"
 def jacocoVersion = "0.8.1"
 def guavaVersion = "22.0"

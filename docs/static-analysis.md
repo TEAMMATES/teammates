@@ -25,22 +25,20 @@ Conversely, when updating any tool, try to ensure that the tool version is suppo
 | Tool name | Eclipse integration | IntelliJ integration | Ruleset |
 | --- | --- | --- | --- |
 | [CheckStyle](http://checkstyle.sourceforge.net/) | [Checkstyle Plug-in](https://marketplace.eclipse.org/content/checkstyle-plug) | [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) | [`teammates-checkstyle.xml`]((../static-analysis/teammates-checkstyle.xml)) |
-| [PMD](https://pmd.github.io/) | [eclipse-pmd](https://marketplace.eclipse.org/content/eclipse-pmd)<sup>1</sup> | [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
-| [SpotBugs](https://spotbugs.github.io/) | [SpotBugs Eclipse Plugin](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) | <sup>2</sup> | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
+| [PMD](https://pmd.github.io/) | [eclipse-pmd](https://marketplace.eclipse.org/content/eclipse-pmd) | [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
+| [SpotBugs](https://spotbugs.github.io/) | [SpotBugs Eclipse Plugin](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) | -<sup>1</sup> | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
 | [Macker](https://github.com/andrena/macker) | - | - | [`teammates-macker.xml`](../static-analysis/teammates-macker.xml) |
-| [ESLint](http://eslint.org) | - | Built-in<sup>3,4</sup> | [`teammates-eslint.yml`](../static-analysis/teammates-eslint.yml) |
-| [stylelint](http://stylelint.io) | - | Built-in<sup>3,5</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
+| [ESLint](http://eslint.org) | - | Built-in<sup>2,3</sup> | [`teammates-eslint.yml`](../static-analysis/teammates-eslint.yml) |
+| [stylelint](http://stylelint.io) | - | Built-in<sup>2,4</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
 | [lintspaces](https://github.com/schorfES/node-lintspaces) | - | - | - |
 
-<sup>1</sup> Due to the lack of support for PMD 6, use the following rulesets instead: [`teammates-pmd-5.xml`](../static-analysis/teammates-pmd-5.xml) and [`teammates-pmdMain-5.xml`](../static-analysis/teammates-pmdMain-5.xml).
+<sup>1</sup> You may be able to use [FindBugs-IDEA](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea) plugin instead.
 
-<sup>2</sup> You may be able to use [FindBugs-IDEA](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea) plugin instead.
+<sup>2</sup> Integrations are built-in and can be found under `Languages & Frameworks` under `File → Settings` or `IntelliJ IDEA → Preferences`.
 
-<sup>3</sup> Integrations are built-in and can be found under `Languages & Frameworks` under `File → Settings` or `IntelliJ IDEA → Preferences`.
+<sup>3</sup> During setup: Under `Extra eslint options:`, add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
 
-<sup>4</sup> During setup: Under `Extra eslint options:`, add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
-
-<sup>5</sup> During setup: Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
+<sup>4</sup> During setup: Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
 
 ## Suppressing rules
 

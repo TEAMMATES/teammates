@@ -480,6 +480,7 @@ public final class BackDoor {
         }
     }
 
+    @SuppressWarnings("PMD.AssignmentInOperand") // necessary for reading stream response
     private static String readResponse(URLConnection conn) throws IOException {
         conn.setReadTimeout(10000);
         StringBuilder sb = new StringBuilder();

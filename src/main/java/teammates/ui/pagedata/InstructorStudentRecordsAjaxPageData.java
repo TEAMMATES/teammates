@@ -19,7 +19,8 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
         for (int i = 0; i < results.size(); i++) {
             FeedbackSessionResultsBundle result = results.get(i);
             String studentName = result.appendTeamNameToName(student.name, student.team);
-            this.resultsTables.add(new FeedbackResultsTable(i, studentName, student.email, result));
+            FeedbackResultsTable table = new FeedbackResultsTable(i, studentName, student.email, result);
+            this.resultsTables.add(table);
         }
     }
 

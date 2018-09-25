@@ -81,9 +81,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++) {
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
-                actualFrComment = actualFrComments.get(i);
+        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
+            if (comment.commentText.equals(frComment.commentText)) {
+                actualFrComment = comment;
                 break;
             }
         }
@@ -219,9 +219,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++) {
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
-                actualFrComment = actualFrComments.get(i);
+        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
+            if (comment.commentText.equals(frComment.commentText)) {
+                actualFrComment = comment;
                 break;
             }
         }

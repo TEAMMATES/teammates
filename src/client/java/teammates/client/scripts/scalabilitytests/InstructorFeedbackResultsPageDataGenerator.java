@@ -1,9 +1,10 @@
 package teammates.client.scripts.scalabilitytests;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import com.google.gson.GsonBuilder;
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
 // Inner classes and their fields are only used for JSON object generation.
-@SuppressWarnings({"PMD.UnusedPrivateField", "unused"})
+@SuppressWarnings("unused")
 public class InstructorFeedbackResultsPageDataGenerator {
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
@@ -195,10 +196,10 @@ public class InstructorFeedbackResultsPageDataGenerator {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         for (int studentNum : studentNums) {
             for (int questionNum : questionNums) {
-                try (Writer writer = new FileWriter(
+                try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(
                         folderPath
                         + "InstructorFeedbackResultsPageScaleTest-" + studentNum
-                        + "Students" + questionNum + "Questions.json")) {
+                        + "Students" + questionNum + "Questions.json"))) {
                     gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
                 }
             }
