@@ -30,13 +30,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String typicalFieldName = "my field";
         int typicalLength = 25;
 
-        try {
-            FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                    typicalLength, null);
-            signalFailureToDetectException("not expected to be null");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () ->
+                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null));
 
         int maxLength = 50;
         assertEquals("valid: typical value",
@@ -111,13 +106,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String typicalFieldName = "my field";
         int typicalLength = 25;
 
-        try {
-            FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                    typicalLength, null);
-            signalFailureToDetectException("not expected to be null");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () ->
+                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null));
 
         int maxLength = 50;
         assertEquals("valid: typical value",
@@ -166,12 +156,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String typicalFieldName = "name field";
         int typicalLength = 25;
 
-        try {
-            validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null);
-            signalFailureToDetectException("not expected to be null");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () ->
+                validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null));
 
         ______TS("typical success case");
 
@@ -390,13 +376,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForRole_null_throwException() {
-        String errorMessageForNullRole = "Did not throw the expected AssertionError for null value";
-        try {
-            validator.getInvalidityInfoForRole(null);
-            signalFailureToDetectException(errorMessageForNullRole);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForRole(null));
     }
 
     @Test
@@ -423,25 +403,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForGoogleId_null_throwException() {
-        String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
-        try {
-            validator.getInvalidityInfoForGoogleId(null);
-            signalFailureToDetectException(errorMessageForNullGoogleId);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForGoogleId(null));
     }
 
     @Test
     public void testGetInvalidityInfoForGoogleId_untrimmedGmailDomain_throwException() {
-        String errorMessageForUntrimmedEmailDomain = "Did not throw the expected AssertionError for Google ID "
-                                                     + "with untrimmed GMail domain (i.e., @gmail.com)";
-        try {
-            validator.getInvalidityInfoForGoogleId("abc@GMAIL.com");
-            signalFailureToDetectException(errorMessageForUntrimmedEmailDomain);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForGoogleId("abc@GMAIL.com"));
     }
 
     @Test
@@ -515,13 +482,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForEmail_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null email";
-        try {
-            validator.getInvalidityInfoForEmail(null);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForEmail(null));
     }
 
     @Test
@@ -596,13 +557,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
-        try {
-            validator.getInvalidityInfoForEmailContent(null);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForEmailContent(null));
     }
 
     @Test
@@ -622,13 +577,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForCourseId_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null Course ID";
-        try {
-            validator.getInvalidityInfoForCourseId(null);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForCourseId(null));
     }
 
     @Test
