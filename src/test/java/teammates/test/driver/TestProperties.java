@@ -1,7 +1,5 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.fail;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -199,10 +197,10 @@ public final class TestProperties {
      */
     public static void verifyReadyForGodMode() {
         if (!isDevServer()) {
-            fail("GodMode regeneration works only in dev server.");
+            throw new RuntimeException("GodMode regeneration works only in dev server.");
         }
         if (isStudentMotdUrlEmpty()) {
-            fail("Student MOTD URL defined in app.student.motd.url in build.properties "
+            throw new RuntimeException("Student MOTD URL defined in app.student.motd.url in build.properties "
                     + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
     }
