@@ -36,6 +36,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes frc1I1Q2S1C1 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
+        FeedbackResponseCommentAttributes frc1I1Q3S1C1 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q3S1C1");
         FeedbackResponseCommentAttributes frc1I3Q1S2C2 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S2C2");
 
@@ -65,7 +67,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ______TS("success: search for comments in instructor's course; query string matches some comments");
 
         bundle = commentsDb.search("\"self feedback\"", instructors);
-        verifySearchResults(bundle, frc1I1Q1S1C1, frc1I1Q2S1C1);
+        verifySearchResults(bundle, frc1I1Q1S1C1, frc1I1Q2S1C1, frc1I1Q3S1C1);
 
         ______TS("success: search for comments in instructor's course; confirms query string is case insensitive");
 
@@ -75,12 +77,12 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ______TS("success: search for comments using feedbackSessionName");
 
         bundle = commentsDb.search("\"First feedback session\"", instructors);
-        verifySearchResults(bundle, frc1I1Q2S1C1, frc1I1Q1S1C1);
+        verifySearchResults(bundle, frc1I1Q2S1C1, frc1I1Q1S1C1, frc1I1Q3S1C1);
 
         ______TS("success: search for comments using Instructor's email");
 
         bundle = commentsDb.search("instructor1@course1.tmt", instructors);
-        verifySearchResults(bundle, frc1I1Q2S1C1, frc1I1Q1S1C1);
+        verifySearchResults(bundle, frc1I1Q2S1C1, frc1I1Q1S1C1, frc1I1Q3S1C1);
 
         ______TS("success: search for comments using Student name");
 

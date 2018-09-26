@@ -609,8 +609,8 @@ public final class FeedbackQuestionsLogic {
     /**
      * Deletes a question.
      *
-     * <p>Question is identified by it's question number, and
-     * the feedback session name and course ID of the question.
+     * <p>Question is identified by its question number, the feedback session name
+     * and the course ID of the question.
      *
      * <p>Can be used when the question ID is unknown.
      *

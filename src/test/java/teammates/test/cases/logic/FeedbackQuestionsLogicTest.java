@@ -45,9 +45,18 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackQuestionsCascadeForSession_deleteSessionDirectly_shouldDoCascadeDeletion()
+    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionNotInRecycleBin_shouldDoCascadeDeletion()
             throws EntityDoesNotExistException {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+
         fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
 
         assertTrue(
@@ -55,22 +64,29 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
     }
 
     @Test
-    public void testDeleteFeedbackQuestionsCascadeForSession_deleteSessionInRecycleBin_shouldDoCascadeDeletion()
+    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionInRecycleBin_shouldDoCascadeDeletion()
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
         fsLogic.moveFeedbackSessionToRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId());
+        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+
         fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
 
-        //assertTrue(
-        //        fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
     }
 
     @Test
