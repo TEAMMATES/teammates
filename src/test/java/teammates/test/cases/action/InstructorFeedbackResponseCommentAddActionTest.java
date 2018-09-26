@@ -287,9 +287,9 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");

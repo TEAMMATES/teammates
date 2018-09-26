@@ -21,10 +21,10 @@ public class Course extends BaseEntity {
 
     private String name;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant deletedAt;
 
     private String timeZone;

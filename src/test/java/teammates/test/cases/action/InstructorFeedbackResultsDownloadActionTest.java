@@ -177,8 +177,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         ______TS("Typical case: results downloadable by question");
 
-        final int questionNum2 = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
-        final String question2Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
+        int questionNum2 = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        String question2Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum2).getId();
         String[] paramsQuestion2 = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -201,8 +201,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         ______TS("Typical case: results within section downloadable by question");
 
-        final int questionNum1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
-        final String question1Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
+        int questionNum1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
+        String question1Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum1).getId();
 
         String[] paramsQuestion1WithinSection = {

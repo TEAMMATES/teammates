@@ -458,7 +458,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return secondaryParticipantPanels;
     }
 
-    private List<InstructorFeedbackResultsResponsePanel> buildResponsePanels(final String additionalInfoId,
+    private List<InstructorFeedbackResultsResponsePanel> buildResponsePanels(String additionalInfoId,
                                     int primaryParticipantIndex, int secondaryRecipientIndex,
                                     List<FeedbackResponseAttributes> giverResponses) {
         List<InstructorFeedbackResultsResponsePanel> responsePanels = new ArrayList<>();

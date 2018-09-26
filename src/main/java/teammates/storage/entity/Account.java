@@ -27,7 +27,7 @@ public class Account extends BaseEntity {
 
     private String institute;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
     private Ref<StudentProfile> studentProfile;

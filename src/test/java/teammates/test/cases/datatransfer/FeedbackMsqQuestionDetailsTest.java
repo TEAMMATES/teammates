@@ -20,7 +20,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MSQ, msqDetails.getQuestionType());
-        assertTrue(msqDetails instanceof FeedbackMsqQuestionDetails);
         assertFalse(msqDetails.hasAssignedWeights());
         assertTrue(msqDetails.getMsqWeights().isEmpty());
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
@@ -40,7 +39,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
         assertEquals(msqDetails.getQuestionType(), FeedbackQuestionType.MSQ);
-        assertTrue(msqDetails instanceof FeedbackMsqQuestionDetails);
         assertTrue(msqDetails.hasAssignedWeights());
         assertTrue(msqDetails.getMsqChoices().isEmpty());
         // getMsqWeight() returns empty list as there are no msq choices set.

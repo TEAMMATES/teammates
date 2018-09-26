@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
@@ -1222,8 +1223,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("typical case: get results for single question");
-        final int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
-        final String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
+        int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum).getId();
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
@@ -2109,13 +2110,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table) {
-        StringBuilder tableStringBuilder = new StringBuilder();
-        table.forEach((key, value) -> tableStringBuilder.append('{' + key + "={" + value[0] + ',' + value[1] + "}},"));
-        String tableString = tableStringBuilder.toString();
-        if (!tableString.isEmpty()) {
-            tableString = tableString.substring(0, tableString.length() - 1);
-        }
-        return tableString;
+        return table.entrySet().stream()
+                .map(entry -> "{" + entry.getKey() + "={" + entry.getValue()[0] + ',' + entry.getValue()[1] + "}}")
+                .collect(Collectors.joining(","));
     }
 
     private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {

@@ -62,7 +62,7 @@ public class FeedbackResponseComment extends BaseEntity {
     private boolean isCommentFromFeedbackParticipant;
 
     /** The creation time of this comment. */
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
     /** The comment from giver about the feedback response. */
@@ -73,7 +73,7 @@ public class FeedbackResponseComment extends BaseEntity {
     private String lastEditorEmail;
 
     /** The time in which the comment is last edited. */
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant lastEditedAt;
 
     @SuppressWarnings("unused")

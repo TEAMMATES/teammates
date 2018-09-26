@@ -1021,7 +1021,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Checks if alert class is enabled on the visibility options div for the specified question number.
      */
     public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
-        final String visibilityOptionsDivXPath =
+        String visibilityOptionsDivXPath =
                 "//div[@id='questionTable-" + questionNo + "']//div[@class='visibility-checkbox-delegate panel-body']"
                 + "//b[@class='visibility-title']/../..";
         return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
@@ -1183,7 +1183,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Selects the recipient type in the feedback path and waits for the corresponding visibility message to load.
      */
     public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
-        final WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
+        WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
         selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(selectElement, recipientType);
     }
 
@@ -1473,8 +1473,11 @@ public class InstructorFeedbackEditPage extends AppPage {
                 + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
 
         Actions builder = new Actions(browser.driver);
-        // drag option 10 units above target and release
+        // drag option to target, move 10 units above target and release
+        // multiple movements are used to slow down drag movement and provide
+        // enough time for the grid to create empty slots
         builder.clickAndHold(draggedOptionElement)
+                .moveToElement(targetElement)
                 .moveToElement(targetElement, 0, -10)
                 .release()
                 .build()
@@ -1894,9 +1897,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
 
-    public String getQuestionType(int qnNumber) {
+    private String getQuestionType(int qnNumber) {
         return browser.driver.findElement(By.cssSelector("#form_editquestion-" + qnNumber + " input[name='questiontype']"))
-                .getAttribute("value").toString();
+                .getAttribute("value");
     }
 
     private boolean isRankOptionsQuestion(int qnIndex) {
@@ -1919,7 +1922,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         case "INSTRUCTORS":
         case "TEAMS":
             return Integer.parseInt(browser.driver.findElement(By.id("num-" + recipient.toLowerCase()))
-                    .getAttribute("value").toString());
+                    .getAttribute("value"));
         case "OWN_TEAM_MEMBERS":
         case "OWN_TEAM_MEMBERS_INCLUDING_SELF":
             return Integer.MAX_VALUE;
