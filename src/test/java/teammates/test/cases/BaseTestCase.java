@@ -2,7 +2,6 @@ package teammates.test.cases;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.function.Executable;
@@ -70,14 +69,6 @@ public class BaseTestCase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    protected void signalFailureToDetectException(String... messages) {
-        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
-    }
-
-    protected void ignoreExpectedException() {
-        assertTrue(true);
     }
 
     protected static void ignorePossibleException() {

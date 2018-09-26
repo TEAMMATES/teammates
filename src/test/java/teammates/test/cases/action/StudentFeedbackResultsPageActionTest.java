@@ -141,6 +141,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         try {
             getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
@@ -169,7 +170,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
@@ -185,7 +187,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
@@ -200,7 +202,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          exception.getMessage());
