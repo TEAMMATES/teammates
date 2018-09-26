@@ -90,6 +90,7 @@ dependencies {
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "org.httpunit:httpunit:1.7.2",
+                    "org.junit.jupiter:junit-jupiter-api:5.3.1",
                     "org.seleniumhq.selenium:selenium-java:2.53.1",
                     testng,
                     "org.kohsuke:wordnet-random-name:1.3",
