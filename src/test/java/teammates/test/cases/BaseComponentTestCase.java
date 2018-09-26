@@ -142,6 +142,8 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         int[] i = new int[] { 0 };
         actual.comments.forEach((key, comments) -> comments.forEach(comment -> {
             assertEquals(sortedComments[i[0]].commentText, comment.commentText);
+            assertEquals(sortedComments[i[0]].courseId, comment.courseId);
+            assertEquals(sortedComments[i[0]].feedbackSessionName, comment.feedbackSessionName);
             i[0]++;
         }));
     }
