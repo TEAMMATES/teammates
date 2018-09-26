@@ -117,21 +117,23 @@ public class InstructorSearchPageData extends PageData {
 
         List<FeedbackSessionRow> rows = new ArrayList<>();
 
-        for (String fsName : frcSearchResultBundle.questions.keySet()) {
-            String courseId = frcSearchResultBundle.sessions.get(fsName).getCourseId();
+        for (String fsIdentifier : frcSearchResultBundle.questions.keySet()) {
+            String[] identifier = fsIdentifier.split("%");
+            String fsName = identifier[0];
+            String courseId = identifier[1];
 
             rows.add(new FeedbackSessionRow(fsName, courseId, createQuestionTables(
-                                                                fsName, frcSearchResultBundle)));
+                                                                fsIdentifier, frcSearchResultBundle)));
         }
         return rows;
     }
 
     private List<QuestionTable> createQuestionTables(
-                                    String fsName,
+                                    String fsIdentifier,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
         List<QuestionTable> questionTables = new ArrayList<>();
-        List<FeedbackQuestionAttributes> questionList = frcSearchResultBundle.questions.get(fsName);
+        List<FeedbackQuestionAttributes> questionList = frcSearchResultBundle.questions.get(fsIdentifier);
 
         for (FeedbackQuestionAttributes question : questionList) {
             int questionNumber = question.questionNumber;
