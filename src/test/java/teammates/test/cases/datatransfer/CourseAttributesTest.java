@@ -56,7 +56,6 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals(validId, caWithDeletedAt.getId());
         assertEquals(validName, caWithDeletedAt.getName());
         assertEquals(validTimeZone, caWithDeletedAt.getTimeZone());
-        assertEquals(Instant.now(), caWithDeletedAt.createdAt);
         assertEquals(validDeletedAt, caWithDeletedAt.deletedAt);
     }
 
