@@ -35,6 +35,7 @@ public final class HtmlHelper {
     private static final String REGEX_ENCRYPTED_REGKEY = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
+    private static final String REGEX_TIMEZONE = "[A-Za-z][A-Za-z0-9~/._+-]+";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
@@ -472,6 +473,8 @@ public final class HtmlHelper {
                               "\\${datetime\\.now}")
                       .replaceAll(dateTodayInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
                       .replaceAll(dateTodayInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
+                      .replaceAll(Const.ParamsNames.INSTRUCTOR_TIMEZONE + "=" + REGEX_TIMEZONE,
+                              Const.ParamsNames.INSTRUCTOR_TIMEZONE + "=\\${instructor\\.timezone}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",

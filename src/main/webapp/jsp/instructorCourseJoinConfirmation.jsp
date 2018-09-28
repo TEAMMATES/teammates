@@ -1,11 +1,14 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <c:set var="logoutUrl" value="<%= Const.ActionURIs.LOGOUT %>" />
 <c:set var="jsIncludes">
+  <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
+  <script type="text/javascript" src="/data/moment-timezone-with-data-2013-2023.min.js"></script>
   <script type="text/javascript" src="/js/instructorCourseJoinConfirmation.js"></script>
 </c:set>
 <ti:instructorPage title="Course Join Confirmation" jsIncludes="${jsIncludes}">
