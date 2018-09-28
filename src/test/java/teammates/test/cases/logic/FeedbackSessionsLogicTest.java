@@ -146,7 +146,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testRestoreFeedbackSessionFromRecycleBin();
         testRestoreAllFeedbackSessionsFromRecycleBin();
         testDeleteFeedbackSessionsForCourse();
-        testDeleteAllFeedbackSessions();
     }
 
     private void testGetFeedbackSessionsListForInstructor() {
@@ -2230,22 +2229,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
 
-    private void testDeleteAllFeedbackSessions() throws InvalidParametersException, EntityDoesNotExistException {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
-        List<InstructorAttributes> instructors = new ArrayList<>();
-        instructors.add(instructor);
-
-        String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse3").getFeedbackSessionName();
-        String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
-        String courseId = dataBundle.courses.get("typicalCourse3").getId();
-        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName1, courseId);
-        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName2, courseId);
-
-        assertEquals(2, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
-        fsLogic.deleteAllFeedbackSessionsCascade(instructors);
-        assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse3").isEmpty());
-    }
-
     @Test
     public void testDeleteAllFeedbackSessionsCascade_shouldDoCascadeDeletionCorrectly()
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2254,21 +2237,31 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructors.add(instructor);
 
         String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse1").getFeedbackSessionName();
+        String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse1").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse1").getId();
         assertFalse(fqLogic.getFeedbackQuestionsForSession(feedbackSessionName1, courseId).isEmpty());
+        assertFalse(fqLogic.getFeedbackQuestionsForSession(feedbackSessionName2, courseId).isEmpty());
         assertFalse(frLogic.getFeedbackResponsesForSession(feedbackSessionName1, courseId).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForSession(feedbackSessionName2, courseId).isEmpty());
         assertFalse(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName1).isEmpty());
         fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName1, courseId);
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName2, courseId);
         assertNull(fsLogic.getFeedbackSession(feedbackSessionName1, courseId));
+        assertNull(fsLogic.getFeedbackSession(feedbackSessionName2, courseId));
         assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName1, courseId));
-        assertEquals(1, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
+        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName2, courseId));
+        assertEquals(2, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
 
         fsLogic.deleteAllFeedbackSessionsCascade(instructors);
 
         assertNull(fsLogic.getFeedbackSession(feedbackSessionName1, courseId));
+        assertNull(fsLogic.getFeedbackSession(feedbackSessionName2, courseId));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName1, courseId));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName2, courseId));
         assertTrue(frLogic.getFeedbackResponsesForSession(feedbackSessionName1, courseId).isEmpty());
+        assertTrue(frLogic.getFeedbackResponsesForSession(feedbackSessionName2, courseId).isEmpty());
         assertTrue(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName1).isEmpty());
+        assertTrue(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName2).isEmpty());
     }
 
 }
