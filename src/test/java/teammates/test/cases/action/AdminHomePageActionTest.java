@@ -22,13 +22,13 @@ public class AdminHomePageActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() {
 
         ______TS("Normal case: starting with a blank adminHome page");
-        final String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
-        final AdminHomePageAction a = getAction();
+        AdminHomePageAction a = getAction();
 
-        final ShowPageResult result = getShowPageResult(a);
+        ShowPageResult result = getShowPageResult(a);
         assertEquals(Const.ViewURIs.ADMIN_HOME, result.destination);
-        final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
+        AdminHomePageData startingPageData = (AdminHomePageData) result.data;
         assertEquals("", startingPageData.instructorEmail);
         assertEquals("", startingPageData.instructorInstitution);
         assertEquals("", startingPageData.instructorName);

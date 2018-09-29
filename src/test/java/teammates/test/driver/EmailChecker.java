@@ -27,7 +27,7 @@ public final class EmailChecker {
      *         folder is assumed to be {@link TestProperties#TEST_EMAILS_FOLDER}.
      */
     public static void verifyEmailContent(String emailContent, String filePathParam) throws IOException {
-        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;
+        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;
         String actual = processEmailForComparison(emailContent);
         try {
             String expected = FileHelper.readFile(filePath);

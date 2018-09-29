@@ -169,8 +169,8 @@ public class TeamEvalResult {
     }
 
     public static boolean isSanitized(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            if (!isSanitized(array[i])) {
+        for (int value : array) {
+            if (!isSanitized(value)) {
                 return false;
             }
         }

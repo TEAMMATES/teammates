@@ -80,9 +80,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -105,9 +103,7 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn1InSession1InCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -128,9 +124,7 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn2InSession1InCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Rate 1 other student's product"
-      },
+      "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -153,9 +147,7 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn3InSession1InCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "My comments on the class"
-      },
+      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -190,9 +182,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Student 1 self feedback."
-      },
+      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -204,9 +194,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "I'm cool'"
-      },
+      "responseMetaData": "I'm cool'",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -218,9 +206,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 2 to student 1."
-      },
+      "responseMetaData": "Response from student 2 to student 1.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -232,9 +218,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 1 to student 2."
-      },
+      "responseMetaData": "Response from student 1 to student 2.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -246,9 +230,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 3 \"to\" student 2.\r\nMultiline test."
-      },
+      "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     }
@@ -268,9 +250,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 1 comment to student 1 self feedback"
-      },
+      "commentText": "Instructor 1 comment to student 1 self feedback",
       "lastEditorEmail": "instructor1@course1.tmt",
       "lastEditedAt": "2012-04-02T23:59:00Z"
     },
@@ -288,9 +268,7 @@
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-02-01T23:59:00Z",
-      "commentText": {
-        "value": "Student 1 comment to student 1 self feedback"
-      }
+      "commentText": "Student 1 comment to student 1 self feedback"
     }
   },
   "profiles": {}

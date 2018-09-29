@@ -3,8 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -136,7 +134,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 .withShowRecipientNameTo(showRecipientNameTo)
                 .withQuestionType(questionType)
                 .withQuestionMetaData(questionDetails)
-                .withQuestionDescription(new Text(questionDescription))
+                .withQuestionDescription(questionDescription)
                 .build();
     }
 

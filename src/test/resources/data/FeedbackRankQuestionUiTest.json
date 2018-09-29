@@ -149,9 +149,7 @@
       "feedbackSessionName": "Edit Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Please edit this session"
-      },
+      "instructions": "Please edit this session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -171,9 +169,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "For instructors to submit and view results"
-      },
+      "instructions": "For instructors to submit and view results",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -193,9 +189,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "For students to submit and view results"
-      },
+      "instructions": "For students to submit and view results",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -215,9 +209,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for closed session"
-      },
+      "instructions": "Instructions for closed session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2012-04-30T21:59:00Z",
@@ -239,9 +231,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for every team, the areas of improve that they should work on\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Teamwork\",\"Time management\",\"Quality Control\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for every team, the areas of improve that they should work on\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Teamwork\",\"Time management\",\"Quality Control\"]}",
       "questionNumber": 1,
       "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
@@ -264,9 +254,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an student, rank for every team, the areas of improve that they should work on\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Teamwork\",\"Time management\",\"Quality Control\",\"Quality Assurance\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an student, rank for every team, the areas of improve that they should work on\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Teamwork\",\"Time management\",\"Quality Control\",\"Quality Assurance\"]}",
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -289,9 +277,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for every team, the areas of improve that they should work on\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Teamwork\",\"Time management\",\"Quality Control\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for every team, the areas of improve that they should work on\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Teamwork\",\"Time management\",\"Quality Control\"]}",
       "questionNumber": 1,
       "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
@@ -314,9 +300,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Style\",\"Organisation\",\"Related work\",\"Progress made\",\"Future work\",\"Motivation\",\"Pictures\",\"Graphs\",\"Reporting\",\"Level of detail\",\"Samples of data collected and work\",\";\",\"Originality\",\"Introduction\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Style\",\"Organisation\",\"Related work\",\"Progress made\",\"Future work\",\"Motivation\",\"Pictures\",\"Graphs\",\"Reporting\",\"Level of detail\",\"Samples of data collected and work\",\";\",\"Originality\",\"Introduction\"]}",
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
@@ -339,9 +323,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As instructor, among the 2 reports you have reviewed, rank them\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As instructor, among the 2 reports you have reviewed, rank them\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 3,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "INSTRUCTORS",
@@ -364,9 +346,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As an instructor, rank the teams. You are allowed to give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As an instructor, rank the teams. You are allowed to give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 4,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "INSTRUCTORS",
@@ -389,9 +369,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\",\"Level of detail\",\"Approachability\",\"Effort\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\",\"Level of detail\",\"Approachability\",\"Effort\"]}",
       "questionNumber": 5,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -414,9 +392,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the instructors\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the instructors\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 6,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -439,9 +415,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank you and your team members\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank you and your team members\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 7,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -464,9 +438,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank your team members\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank your team members\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 8,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -489,9 +461,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank up to 7 students in the course\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank up to 7 students in the course\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 9,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -514,9 +484,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the other teams, you can give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the other teams, you can give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 10,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -539,9 +507,7 @@
       "feedbackSessionName": "Instructor Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the areas of improvement you think you should make progress on. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Style\",\"Sleep\",\"Related work\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the areas of improvement you think you should make progress on. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Style\",\"Sleep\",\"Related work\"]}",
       "questionNumber": 11,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -564,9 +530,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\",\"Level of detail\",\"Approachability\",\"Effort\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\",\"Level of detail\",\"Approachability\",\"Effort\"]}",
       "questionNumber": 1,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -589,9 +553,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the instructors\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the instructors\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 2,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -614,9 +576,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank you and your team members, own team members can see the responses but not recipient name\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank you and your team members, own team members can see the responses but not recipient name\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 3,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -641,9 +601,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank your team members\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank your team members\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 4,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -666,9 +624,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank up to 7 students in the course. All students can see the responses, but not the giver's name.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank up to 7 students in the course. All students can see the responses, but not the giver's name.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 5,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -693,9 +649,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the other teams, you can give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the other teams, you can give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 6,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -718,9 +672,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the areas of improvement you think you should make progress on. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Style\",\"Sleep\",\"Related work\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a student, rank the areas of improvement you think you should make progress on. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Style\",\"Sleep\",\"Related work\"]}",
       "questionNumber": 7,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -743,9 +695,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Style\",\"Organisation\",\"Related work\",\"Progress made\",\"Future work\",\"Motivation\",\"Pictures\",\"Graphs\",\"Reporting\",\"Level of detail\",\"Samples of data collected and work\",\";\",\"Originality\",\"Introduction\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good. \",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Style\",\"Organisation\",\"Related work\",\"Progress made\",\"Future work\",\"Motivation\",\"Pictures\",\"Graphs\",\"Reporting\",\"Level of detail\",\"Samples of data collected and work\",\";\",\"Originality\",\"Introduction\"]}",
       "questionNumber": 8,
       "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
@@ -768,9 +718,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2, \"questionText\":\"Rank atleast 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2, \"questionText\":\"Rank atleast 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}",
       "questionNumber": 9,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -793,9 +741,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2, \"questionText\":\"Rank at most 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2, \"questionText\":\"Rank at most 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}",
       "questionNumber": 10,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -818,9 +764,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 options based on popularity.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"C\",\"C++\",\"Java\",\"C#\",\"Python\"]}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 options based on popularity.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"C\",\"C++\",\"Java\",\"C#\",\"Python\"]}",
       "questionNumber": 11,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -843,9 +787,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2,\"questionText\":\"Rank atleast 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2,\"questionText\":\"Rank atleast 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 12,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -868,9 +810,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2,\"questionText\":\"Rank atmost 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2,\"questionText\":\"Rank atmost 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 13,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -893,9 +833,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 15,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -918,9 +856,7 @@
       "feedbackSessionName": "Student Session",
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
-      "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank other teams\",\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank other teams\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 16,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "TEAMS",
@@ -949,9 +885,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -962,9 +896,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -975,9 +907,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -988,9 +918,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1001,9 +929,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1014,9 +940,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1027,9 +951,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1040,9 +962,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1053,9 +973,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "emily.f.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 1"
     },
@@ -1066,9 +984,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1079,9 +995,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "emily.f.tmms@gmail.tmt",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 1"
     },
@@ -1092,9 +1006,7 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "tmms.test@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[5,4,3,2,1,6,7,8,9,10,11,12,13,14],\"questionType\":\"RANK_OPTIONS\"}"
-      },
+      "responseMetaData": "{\"answers\":[5,4,3,2,1,6,7,8,9,10,11,12,13,14],\"questionType\":\"RANK_OPTIONS\"}",
       "giverSection": "None",
       "recipientSection": "Section 1"
     },
@@ -1105,9 +1017,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "recipient": "TEAM 2",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1118,9 +1028,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "recipient": "TEAM 3",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 2"
     },
@@ -1131,9 +1039,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "TEAM 2",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": {
-        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -1144,9 +1050,7 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "TEAM 3",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": {
-        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
-      },
+      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 1"
     }

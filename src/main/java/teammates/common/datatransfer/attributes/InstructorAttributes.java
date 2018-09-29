@@ -21,8 +21,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     /**
      * Sorts the Instructors list alphabetically by name.
      */
-    public static Comparator<InstructorAttributes> compareByName = Comparator.comparing(instructor ->
-            instructor.name.toLowerCase());
+    public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
+            Comparator.comparing(instructor -> instructor.name.toLowerCase());
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 

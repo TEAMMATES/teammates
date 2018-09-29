@@ -73,8 +73,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT,
-                        feedbackResponseComment.commentText.getValue() + " (Edited)",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
@@ -90,7 +89,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         FeedbackResponseCommentAttributes frc =
                 feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
-        assertEquals(feedbackResponseComment.commentText.getValue() + " (Edited)", frc.commentText.getValue());
+        assertEquals(feedbackResponseComment.commentText + " (Edited)", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertFalse(frc.isCommentFromFeedbackParticipant);
@@ -266,8 +265,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT,
-                        feedbackResponseComment.commentText.getValue() + " (Edited)",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
@@ -280,7 +278,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         assertEquals("", result.getStatusMessage());
 
         frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
-        assertEquals(feedbackResponseComment.commentText.getValue() + " (Edited)", frc.commentText.getValue());
+        assertEquals(feedbackResponseComment.commentText + " (Edited)", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertEquals("instructor2@course1.tmt", frc.lastEditorEmail);
@@ -301,7 +299,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT,
-                feedbackResponseComment.commentText.getValue() + " (Edited for published session)",
+                feedbackResponseComment.commentText + " (Edited for published session)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
         };
@@ -313,8 +311,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
         frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
-        assertEquals(feedbackResponseComment.commentText.getValue() + " (Edited for published session)",
-                frc.commentText.getValue());
+        assertEquals(feedbackResponseComment.commentText + " (Edited for published session)",
+                frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertFalse(frc.isCommentFromFeedbackParticipant);
@@ -347,9 +345,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 

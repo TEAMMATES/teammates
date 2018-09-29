@@ -4,8 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -19,7 +17,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public List<String> addressReceiver;
     public List<String> groupReceiver;
     public String subject;
-    public Text content;
+    public String content;
 
     // Optional fields
     public Instant sendDate;
@@ -43,7 +41,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      * <li>{@code false} for {@code isInTrashBin}</li>
      * </ul>
      */
-    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver, Text content) {
+    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver, String content) {
         return new Builder(subject, addressReceiver, groupReceiver, content);
     }
 
@@ -126,7 +124,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     }
 
     public String getContentValue() {
-        return this.content.getValue();
+        return this.content;
     }
 
     public boolean getIsInTrashBin() {
@@ -157,7 +155,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public static class Builder {
         private final AdminEmailAttributes adminEmailAttributes;
 
-        public Builder(String subject, List<String> addressReceiver, List<String> groupReceiver, Text content) {
+        public Builder(String subject, List<String> addressReceiver, List<String> groupReceiver, String content) {
 
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, subject);
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, addressReceiver);

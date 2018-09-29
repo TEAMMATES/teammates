@@ -6,8 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -83,9 +81,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++) {
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
-                actualFrComment = actualFrComments.get(i);
+        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
+            if (comment.commentText.equals(frComment.commentText)) {
+                actualFrComment = comment;
                 break;
             }
         }
@@ -215,16 +213,16 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        frComment.commentText = new Text("Updated feedback response comment");
+        frComment.commentText = "Updated feedback response comment";
         frcLogic.updateFeedbackResponseComment(frComment);
         verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++) {
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
-                actualFrComment = actualFrComments.get(i);
+        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
+            if (comment.commentText.equals(frComment.commentText)) {
+                actualFrComment = comment;
                 break;
             }
         }

@@ -63,7 +63,7 @@ public class BaseTestCase {
 
     protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
-            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+            String pathToJsonFile = (pathToJsonFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);

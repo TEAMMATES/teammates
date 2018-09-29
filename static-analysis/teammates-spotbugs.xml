@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Bug pattern="BC_VACUOUS_INSTANCEOF" />
+    </Match>
+    <Match>
+        <Bug pattern="DLS_DEAD_LOCAL_STORE" />
+    </Match>
+    <Match>
+        <Bug pattern="DLS_DEAD_LOCAL_STORE_IN_RETURN" />
+    </Match>
+    <Match>
+        <Bug pattern="DM_BOXED_PRIMITIVE_FOR_PARSING" />
+    </Match>
+    <Match>
+        <Bug pattern="DM_STRING_TOSTRING" />
+    </Match>
+    <Match>
+        <Bug pattern="EC_UNRELATED_TYPES" />
+    </Match>
+    <Match>
+        <Bug pattern="ES_COMPARING_STRINGS_WITH_EQ" />
+    </Match>
+    <Match>
+        <Bug pattern="MS_SHOULD_BE_FINAL" />
+    </Match>
+    <Match>
+        <Bug pattern="RANGE_STRING_INDEX" />
+    </Match>
+    <Match>
+        <Bug pattern="SIC_INNER_SHOULD_BE_STATIC" />
+    </Match>
+    <Match>
+        <Bug pattern="UC_USELESS_OBJECT" />
+    </Match>
+    <Match>
+        <Bug pattern="VA_FORMAT_STRING_USES_NEWLINE" />
+    </Match>
+    <Match>
+        <Bug pattern="WMI_WRONG_MAP_ITERATOR" />
+    </Match>
+</FindBugsFilter>
