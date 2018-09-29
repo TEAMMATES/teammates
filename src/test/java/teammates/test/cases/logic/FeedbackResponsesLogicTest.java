@@ -226,7 +226,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                                                FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
-                                               studentToUpdate.email, "Section 1", new Text("New Response to self"));
+                                               studentToUpdate.email, "Section 1", "New Response to self");
         frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
 
         // All these responses should be gone after he changes teams
