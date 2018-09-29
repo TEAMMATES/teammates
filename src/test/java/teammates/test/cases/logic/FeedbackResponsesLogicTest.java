@@ -344,9 +344,18 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        frLogic.createFeedbackResponses(Arrays.asList(response));
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        restoreFeedbackResponse(response);
         fsLogic.addStudentRespondent(response.giver, response.feedbackSessionName, response.courseId);
+    }
+
+    private void restoreFeedbackResponse(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (frLogic.getFeedbackResponse(response.getId()) != null) {
+            frLogic.updateFeedbackResponse(response);
+        } else {
+            frLogic.createFeedbackResponses(Arrays.asList(response));
+        }
     }
 
     private void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
