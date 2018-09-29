@@ -351,10 +351,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private void restoreFeedbackResponse(FeedbackResponseAttributes response)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        if (frLogic.getFeedbackResponse(response.getId()) != null) {
-            frLogic.updateFeedbackResponse(response);
-        } else {
+        if (frLogic.getFeedbackResponse(response.getId()) == null) {
             frLogic.createFeedbackResponses(Arrays.asList(response));
+        } else {
+            frLogic.updateFeedbackResponse(response);
         }
     }
 
