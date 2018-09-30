@@ -178,6 +178,11 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("access a closed session");
 
+        Instant originalResultVisibleTime = closedSession.getResultsVisibleFromTime();
+        // Session is closed but not published; modify result visible time
+        closedSession.setResultsVisibleFromTime(Instant.now().plus(Duration.ofDays(1L)));
+        FeedbackSessionsLogic.inst().updateFeedbackSession(closedSession);
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, closedSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
@@ -188,9 +193,14 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         try {
             getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
+
+        // Restore original result visible time
+        closedSession.setResultsVisibleFromTime(originalResultVisibleTime);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(closedSession);
 
         ______TS("access a non-existent session");
 
