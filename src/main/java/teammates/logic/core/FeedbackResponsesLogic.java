@@ -18,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
+import teammates.common.util.SectionDetail;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
@@ -161,7 +162,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section, String sectionDetail) {
+            String feedbackQuestionId, String section, SectionDetail sectionDetail) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
@@ -233,7 +234,7 @@ public final class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserRole role, String section, String sectionDetail) {
+            UserRole role, String section, SectionDetail sectionDetail) {
 
         List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 

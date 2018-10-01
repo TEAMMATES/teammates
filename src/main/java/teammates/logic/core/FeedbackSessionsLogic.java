@@ -60,7 +60,6 @@ public final class FeedbackSessionsLogic {
     private static final String PARAM_QUESTION_ID = "questionId";
     private static final String PARAM_RANGE = "range";
     private static final String PARAM_SECTION = "section";
-    private static final String PARAM_SECTION_DETAIL = "sectionDetail";
     private static final String PARAM_TO_SECTION = "toSection";
     private static final String PARAM_VIEW_TYPE = "viewType";
 
@@ -628,7 +627,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_QUESTION_ID, questionId);
 
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
-                                                          UserRole.INSTRUCTOR, roster, params);
+                                                          UserRole.INSTRUCTOR, roster, params, SectionDetail.NOT_APPLICABLE);
     }
 
     /**
@@ -638,7 +637,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 String feedbackSessionName, String courseId, String userEmail,
-                                                String questionId, String selectedSection, String selectedSectionDetail)
+                                                String questionId, String selectedSection, SectionDetail selectedSectionDetail)
                                         throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -649,10 +648,9 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_QUESTION_ID, questionId);
         params.put(PARAM_SECTION, selectedSection);
-        params.put(PARAM_SECTION_DETAIL, selectedSectionDetail);
 
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
-                                                          UserRole.INSTRUCTOR, roster, params);
+                                                          UserRole.INSTRUCTOR, roster, params, selectedSectionDetail);
     }
 
     /**
@@ -663,14 +661,15 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-                feedbackSessionName, courseId, userEmail, null, null, range, viewType);
+                feedbackSessionName, courseId, userEmail, null, SectionDetail.NOT_APPLICABLE,
+                range, viewType);
     }
 
     /**
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetail,
+            String feedbackSessionName, String courseId, String userEmail, String section, SectionDetail sectionDetail,
             int range, String viewType)
             throws EntityDoesNotExistException {
 
@@ -682,14 +681,14 @@ public final class FeedbackSessionsLogic {
 
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_SECTION, section);
-        params.put(PARAM_SECTION_DETAIL, sectionDetail);
+
         if (range > 0) {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
         params.put(PARAM_VIEW_TYPE, viewType);
 
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
-                                                          UserRole.INSTRUCTOR, roster, params);
+                                                          UserRole.INSTRUCTOR, roster, params, sectionDetail);
     }
 
     /**
@@ -713,7 +712,7 @@ public final class FeedbackSessionsLogic {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
-                                                          UserRole.INSTRUCTOR, roster, params);
+                                                          UserRole.INSTRUCTOR, roster, params, SectionDetail.NOT_APPLICABLE);
     }
 
     /**
@@ -737,7 +736,7 @@ public final class FeedbackSessionsLogic {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
-                                                          UserRole.INSTRUCTOR, roster, params);
+                                                          UserRole.INSTRUCTOR, roster, params, SectionDetail.NOT_APPLICABLE);
     }
 
     /**
@@ -755,7 +754,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String sectionDetail)
+            String section, SectionDetail sectionDetail)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -765,9 +764,9 @@ public final class FeedbackSessionsLogic {
 
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_SECTION, section);
-        params.put(PARAM_SECTION_DETAIL, sectionDetail);
+
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
-                courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
+                courseId, userEmail, UserRole.INSTRUCTOR, roster, params, sectionDetail);
     }
 
     /**
@@ -804,7 +803,7 @@ public final class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail, String section,
-            String sectionDetail, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
+            SectionDetail sectionDetail, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
@@ -843,7 +842,7 @@ public final class FeedbackSessionsLogic {
         }
         if (sectionDetail != null) {
             exportBuilder.append(String.format("Section View Detail,%s", SanitizationHelper.sanitizeForCsv(
-                    SectionDetail.valueOf(sectionDetail).getSectionDetail()))).append(System.lineSeparator());
+                    sectionDetail.getSectionDetail()))).append(System.lineSeparator());
         }
 
         exportBuilder.append(System.lineSeparator()).append(System.lineSeparator());
@@ -1682,36 +1681,30 @@ public final class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments);
     }
 
-    private Map<String, String> initializeParamsWithSelectedSectionDetail(String sectionDetail) {
+    private Map<String, String> initializeParamsWithSelectedSectionDetail(SectionDetail sectionDetail) {
 
         Map<String, String> params = new HashMap<>();
-        // this happens when 'all' section is selected
-        if (sectionDetail == null) {
-            // default for 'all' section selected
-            params.put(PARAM_IN_SECTION, "true");
-            params.put(PARAM_FROM_SECTION, "false");
-            params.put(PARAM_TO_SECTION, "false");
-            return params;
-        }
 
         switch(sectionDetail) {
-        case "EITHER":
+        // default for 'all' section selected will be EITHER case
+        case NOT_APPLICABLE:
+        case EITHER:
             // either giver or recipient needs to be in the selected section
             params.put(PARAM_IN_SECTION, "true");
             params.put(PARAM_FROM_SECTION, "false");
             params.put(PARAM_TO_SECTION, "false");
             break;
-        case "GIVER":
+        case GIVER:
             params.put(PARAM_IN_SECTION, "false");
             params.put(PARAM_FROM_SECTION, "true");
             params.put(PARAM_TO_SECTION, "false");
             break;
-        case "EVALUEE":
+        case EVALUEE:
             params.put(PARAM_IN_SECTION, "false");
             params.put(PARAM_FROM_SECTION, "false");
             params.put(PARAM_TO_SECTION, "true");
             break;
-        case "BOTH":
+        case BOTH:
             // both giver and recipient must be from the selected section
             params.put(PARAM_IN_SECTION, "false");
             params.put(PARAM_FROM_SECTION, "true");
@@ -1727,7 +1720,7 @@ public final class FeedbackSessionsLogic {
 
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserWithParams(
             String feedbackSessionName, String courseId, String userEmail,
-            UserRole role, CourseRoster roster, Map<String, String> params)
+            UserRole role, CourseRoster roster, Map<String, String> params, SectionDetail sectionDetail)
             throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
@@ -1745,7 +1738,6 @@ public final class FeedbackSessionsLogic {
         boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get(PARAM_IS_INCLUDE_RESPONSE_STATUS));
 
         String section = params.get(PARAM_SECTION);
-        String sectionDetail = params.get(PARAM_SECTION_DETAIL);
         String questionId = params.get(PARAM_QUESTION_ID);
 
         if (questionId != null) {
@@ -1882,7 +1874,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForQuestionId(String feedbackSessionName,
                 String courseId, String userEmail, UserRole role, CourseRoster roster, FeedbackSessionAttributes session,
                 List<FeedbackQuestionAttributes> allQuestions, Map<String, FeedbackQuestionAttributes> relevantQuestions,
-                boolean isIncludeResponseStatus, String section, String sectionDetail, String questionId) {
+                boolean isIncludeResponseStatus, String section, SectionDetail sectionDetail, String questionId) {
 
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
         Map<String, String> emailNameTable = new HashMap<>();
