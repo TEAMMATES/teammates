@@ -780,17 +780,6 @@ public final class FeedbackSessionsLogic {
                 UserRole.STUDENT, null);
     }
 
-    /**
-     * Gets results of a feedback session to show to a student.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
-            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
-            throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSectionByQuestions(
-                feedbackSessionName, courseId, userEmail,
-                UserRole.STUDENT, null, roster);
-    }
-
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
             String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
