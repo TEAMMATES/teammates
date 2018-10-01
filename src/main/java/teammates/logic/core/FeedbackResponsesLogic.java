@@ -48,20 +48,6 @@ public final class FeedbackResponsesLogic {
         return instance;
     }
 
-    public void createFeedbackResponse(FeedbackResponseAttributes fra)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        try {
-            frDb.createEntity(fra);
-        } catch (EntityAlreadyExistsException eaee) {
-            FeedbackResponse existingResponse = frDb.getFeedbackResponseEntityOptimized(fra);
-            try {
-                updateFeedbackResponse(fra, existingResponse);
-            } catch (EntityAlreadyExistsException entityAlreadyExistsException) {
-                Assumption.fail();
-            }
-        }
-    }
-
     public void createFeedbackResponses(List<FeedbackResponseAttributes> fra)
             throws InvalidParametersException {
         frDb.createEntities(fra);
