@@ -153,7 +153,6 @@ public class Logic {
         Assumption.assertNotNull(googleId);
 
         accountsLogic.deleteAccountCascade(googleId);
-        profilesLogic.deleteStudentProfile(googleId);
     }
 
     /**

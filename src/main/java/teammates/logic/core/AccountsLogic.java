@@ -30,6 +30,7 @@ public final class AccountsLogic {
 
     private static final AccountsDb accountsDb = new AccountsDb();
 
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -314,7 +315,16 @@ public final class AccountsLogic {
         }
     }
 
+    /**
+     * Deletes both instructor and student privileges, as long as the account and associated student profile.
+     *
+     * <ul>
+     * <li>Does not delete courses, which can result in orphan courses.</li>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     */
     public void deleteAccountCascade(String googleId) {
+        profilesLogic.deleteStudentProfile(googleId);
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         studentsLogic.deleteStudentsForGoogleIdAndCascade(googleId);
         accountsDb.deleteAccount(googleId);

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -17,6 +18,7 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
@@ -28,6 +30,7 @@ import teammates.test.driver.Priority;
 public class AccountsLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final Logic logic = new Logic();
@@ -477,6 +480,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor5");
         AccountAttributes account = dataBundle.accounts.get("instructor5");
+        // create a profile for the account
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(account.googleId)
+                .withShortName("Test")
+                .build();
+        profilesLogic.updateOrCreateStudentProfile(studentProfile);
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
@@ -488,12 +496,14 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
         studentsLogic.createStudentCascadeWithoutDocument(student);
         verifyPresentInDatastore(account);
+        verifyPresentInDatastore(studentProfile);
         verifyPresentInDatastore(instructor);
         verifyPresentInDatastore(student);
 
         accountsLogic.deleteAccountCascade(instructor.googleId);
 
         verifyAbsentInDatastore(account);
+        verifyAbsentInDatastore(studentProfile);
         verifyAbsentInDatastore(instructor);
         verifyAbsentInDatastore(student);
     }

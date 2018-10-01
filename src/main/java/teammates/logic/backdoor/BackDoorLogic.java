@@ -558,7 +558,7 @@ public class BackDoorLogic extends Logic {
 
         accountsDb.deleteAccounts(dataBundle.accounts.values());
         // delete associated profiles
-        // TODO: Remove the following line after tests have been run against staging server
+        // TODO: Remove the following line after tests have been run against LIVE server
         dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
         profilesDb.deleteEntities(dataBundle.profiles.values());
 
