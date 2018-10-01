@@ -22,6 +22,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.SectionDetail;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -439,12 +440,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // other more in-dept sectionDetail types are tested in FeedbackResponsesDbTest.java
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1", "EITHER");
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1", SectionDetail.EITHER);
 
         assertEquals(responses.size(), 3);
 
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2", "BOTH");
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2", SectionDetail.BOTH);
 
         assertEquals(responses.size(), 0);
 

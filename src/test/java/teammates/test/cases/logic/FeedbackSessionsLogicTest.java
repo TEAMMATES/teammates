@@ -35,6 +35,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.SectionDetail;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -1018,7 +1019,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A", "EITHER");
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.EITHER);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         // after filtering by section, the number of responses seen by instructor will differ.
@@ -1075,7 +1076,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A", "EVALUEE");
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.EVALUEE);
 
         // Responses viewed by instructor after filtering: q1r1, q2r1, q4r3
         assertEquals(3, results.responses.size());
@@ -1085,7 +1086,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A", "GIVER");
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.GIVER);
 
         // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
         assertEquals(7, results.responses.size());
@@ -1095,7 +1096,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A", "BOTH");
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.BOTH);
 
         // Responses viewed by instructor after filtering: q2r1, q2r3, q3r1, q4r3
         assertEquals(4, results.responses.size());

@@ -20,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SectionDetail;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -258,35 +259,35 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
-                "EITHER");
         assertEquals(1, responses.size());
+                SectionDetail.EITHER);
 
         ______TS("Responses filtered by both giver and recipient from section");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", "BOTH");
         assertEquals(1, responses.size());
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", SectionDetail.BOTH);
 
         ______TS("Show response after filtering by giver from section");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", "GIVER");
         assertEquals(1, responses.size());
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.GIVER);
 
         ______TS("Show response after filtering by recipient from section");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", "EVALUEE");
         assertEquals(1, responses.size());
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.EVALUEE);
 
         ______TS("null params");
 
         try {
-            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1", "EITHER");
+            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1", SectionDetail.EITHER);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
 
         try {
-            frDb.getFeedbackResponsesForQuestionInSection(questionId, null, "EITHER");
+            frDb.getFeedbackResponsesForQuestionInSection(questionId, null, SectionDetail.EITHER);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -302,7 +303,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("non-existent feedback question");
 
         assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1",
-                "EITHER").isEmpty());
+                SectionDetail.EITHER).isEmpty());
     }
 
     @Test
