@@ -41,8 +41,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        SectionDetail selectedSectionDetail = null;
         String sectionDetailValue = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL);
+        SectionDetail selectedSectionDetail = SectionDetail.NOT_APPLICABLE;
 
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
@@ -203,7 +203,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // depending on the section detail, this function will filter accordingly
                 bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                 instructor.email, selectedSection,
-                                                                                selectedSectionDetail.name());
+                                                                                selectedSectionDetail);
             }
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
@@ -214,7 +214,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // bundle for a specific question and a specific section
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 feedbackSessionName, courseId,
-                                                instructor.email, questionId, selectedSection, selectedSectionDetail.name());
+                                                instructor.email, questionId, selectedSection, selectedSectionDetail);
             }
         }
 
@@ -238,7 +238,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, selectedSectionDetail.name(), null,
+                                        selectedSection, selectedSectionDetail, null,
                                         isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
