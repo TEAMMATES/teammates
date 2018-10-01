@@ -22,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.SectionDetail;
 import teammates.storage.entity.FeedbackResponse;
 
 /**
@@ -118,7 +119,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section, String sectionDetail) {
+            String feedbackQuestionId, String section, SectionDetail sectionDetail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionDetail);
@@ -486,10 +487,10 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     private Set<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section, String sectionDetail) {
+                String feedbackQuestionId, String section, SectionDetail sectionDetail) {
         Set<FeedbackResponse> feedbackResponses = new HashSet<>();
-        if ("BOTH".equals(sectionDetail)) {
-            // show responses in section with giver but without recipient
+        if (sectionDetail == SectionDetail.BOTH) {
+            // responses in section with giver or recipient as None are added to respective section selected
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
@@ -502,15 +503,21 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .filter("receiverSection =", section)
                     .list());
 
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .filter("receiverSection =", section)
+                    .list());
+
         }
-        if ("GIVER".equals(sectionDetail) || "EITHER".equals(sectionDetail) || "BOTH".equals(sectionDetail)) {
+        if (sectionDetail == SectionDetail.GIVER || sectionDetail == SectionDetail.EITHER) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
                     .list());
 
         }
-        if ("EVALUEE".equals(sectionDetail) || "EITHER".equals(sectionDetail) || "BOTH".equals(sectionDetail)) {
+        if (sectionDetail == SectionDetail.EVALUEE || sectionDetail == SectionDetail.EITHER) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("receiverSection =", section)
