@@ -49,7 +49,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         }
     }
 
-    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn") // Needs to log before returning.
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
         AppUrl resultsUrl =
                 createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)

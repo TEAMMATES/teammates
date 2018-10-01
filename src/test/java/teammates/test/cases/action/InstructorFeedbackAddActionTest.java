@@ -70,7 +70,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2011-12-31T22:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-06-22T00:00:00Z<br>"
                 + "<br><span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackAdd";
+                + "instructions|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
@@ -169,7 +169,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 1970-12-31T00:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 2014-05-07T23:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackAdd";
+                + "instructions|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
@@ -204,7 +204,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2011-12-31T22:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-06-22T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||"
+                + "instructions|||"
                 + "/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         expectedString = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
@@ -243,7 +243,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2011-12-31T22:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: >|||/page/instructorFeedbackAdd";
+                + "|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 

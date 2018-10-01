@@ -75,12 +75,10 @@
     <module name="EmptyCatchBlock"/>
     <module name="EmptyStatement"/>
     <module name="DefaultComesLast"/>
-    <module name="ExplicitInitialization"/>
     <module name="InnerAssignment">
       <property name="tokens" value="DIV_ASSIGN,BXOR_ASSIGN,STAR_ASSIGN,BAND_ASSIGN,MOD_ASSIGN,PLUS_ASSIGN,SL_ASSIGN,ASSIGN,MINUS_ASSIGN,SR_ASSIGN,BSR_ASSIGN,BOR_ASSIGN"/>
     </module>
     <module name="PackageDeclaration"/>
-    <module name="ParameterAssignment"/>
     <module name="OneStatementPerLine"/>
     <module name="InterfaceTypeParameterName"/>
     <module name="PackageName"/>
@@ -93,12 +91,8 @@
     </module>
     <module name="DeclarationOrder"/>
     <module name="RedundantImport"/>
-    <module name="SimplifyBooleanExpression"/>
-    <module name="SimplifyBooleanReturn"/>
-    <module name="StringLiteralEquality"/>
     <module name="UnnecessaryParentheses"/>
     <module name="CovariantEquals"/>
-    <module name="EqualsAvoidNull"/>
     <module name="MultipleVariableDeclarations"/>
     <module name="SeparatorWrap">
       <property name="tokens" value="COMMA,SEMI"/>

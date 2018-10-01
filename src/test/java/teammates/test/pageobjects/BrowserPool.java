@@ -24,11 +24,13 @@ public final class BrowserPool {
         pool = new ArrayList<>(CAPACITY);
     }
 
-    private static synchronized BrowserPool getInstance() {
-        if (instance == null) {
-            instance = new BrowserPool();
+    private static BrowserPool getInstance() {
+        synchronized (BrowserPool.class) {
+            if (instance == null) {
+                instance = new BrowserPool();
+            }
+            return instance;
         }
-        return instance;
     }
 
     /**

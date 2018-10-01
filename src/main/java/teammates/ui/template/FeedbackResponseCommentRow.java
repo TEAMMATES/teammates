@@ -46,7 +46,7 @@ public class FeedbackResponseCommentRow {
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
-        this.commentText = frc.commentText.getValue();
+        this.commentText = frc.commentText;
         this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
         this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
 
@@ -59,7 +59,7 @@ public class FeedbackResponseCommentRow {
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, FeedbackQuestionAttributes question,
             boolean isEditDeleteEnabled) {
         this.commentId = frc.getId();
-        this.commentText = frc.commentText.getValue();
+        this.commentText = frc.commentText;
         this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
         this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
         this.courseId = frc.courseId;

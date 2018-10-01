@@ -314,10 +314,22 @@ public final class BackDoor {
     }
 
     /**
-     * Gets a feedback session data from the datastore.
+     * Gets a feedback session data from the data storage.
      */
     public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        String feedbackSessionJson = makePostRequest(params);
+        return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
+    }
+
+    /**
+     * Gets a feedback session data from the recycle bin.
+     */
+    public static FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String courseId, String feedbackSessionName) {
+        Map<String, String> params =
+                createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_SESSION_FROM_RECYCLE_BIN_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String feedbackSessionJson = makePostRequest(params);
@@ -468,6 +480,7 @@ public final class BackDoor {
         }
     }
 
+    @SuppressWarnings("PMD.AssignmentInOperand") // necessary for reading stream response
     private static String readResponse(URLConnection conn) throws IOException {
         conn.setReadTimeout(10000);
         StringBuilder sb = new StringBuilder();

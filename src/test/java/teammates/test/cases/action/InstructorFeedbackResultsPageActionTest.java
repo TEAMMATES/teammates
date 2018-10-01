@@ -1,9 +1,12 @@
 package teammates.test.cases.action;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResultsPageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -17,6 +20,35 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
+    }
+
+    @Override
+    protected void prepareTestData() {
+        // see setup()
+    }
+
+    @BeforeMethod
+    public void setup() {
+        removeAndRestoreTypicalDataBundle();
+    }
+
+    @Test(expectedExceptions = UnauthorizedAccessException.class,
+            expectedExceptionsMessageRegExp = "Trying to access system using a non-existent feedback session entity")
+    public void testExecuteAndPostProcess_accessDeletedSession_shouldNotAccess() throws Exception {
+        gaeSimulation.loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session2InCourse1");
+
+        FeedbackSessionsLogic.inst()
+                .moveFeedbackSessionToRecycleBin(session.getFeedbackSessionName(), session.getCourseId());
+
+        String[] param = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question"
+        };
+
+        InstructorFeedbackResultsPageAction action = getAction(param);
+        getShowPageResult(action);
     }
 
     @Override

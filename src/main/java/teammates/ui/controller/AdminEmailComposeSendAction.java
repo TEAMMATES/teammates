@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -75,7 +74,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .builder(subject, addressReceiver, groupReceiver, emailContent)
                     .withEmailId(emailId)
                     .build();
 
@@ -92,7 +91,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .builder(subject, addressReceiver, groupReceiver, emailContent)
                     .withEmailId(emailId)
                     .build();
         }
@@ -143,7 +142,7 @@ public class AdminEmailComposeSendAction extends Action {
                                     String content) {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .builder(subject, addressReceiver, groupReceiver, content)
                 .withSendDate(Instant.now())
                 .build();
         try {
@@ -167,7 +166,7 @@ public class AdminEmailComposeSendAction extends Action {
                                         String content) {
 
         AdminEmailAttributes finalisedEmail = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .builder(subject, addressReceiver, groupReceiver, content)
                 .withSendDate(Instant.now())
                 .build();
 

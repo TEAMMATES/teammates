@@ -6,8 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -83,9 +81,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++) {
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
-                actualFrComment = actualFrComments.get(i);
+        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
+            if (comment.commentText.equals(frComment.commentText)) {
+                actualFrComment = comment;
                 break;
             }
         }
@@ -93,7 +91,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertNotNull(actualFrComment);
 
         //delete afterwards
-        frcLogic.deleteFeedbackResponseComment(frComment);
+        frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
+        assertNull(frcLogic.getFeedbackResponseComment(frComment.getId()));
     }
 
     @Test
@@ -214,16 +213,16 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        frComment.commentText = new Text("Updated feedback response comment");
+        frComment.commentText = "Updated feedback response comment";
         frcLogic.updateFeedbackResponseComment(frComment);
         verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for (int i = 0; i < actualFrComments.size(); i++) {
-            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
-                actualFrComment = actualFrComments.get(i);
+        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
+            if (comment.commentText.equals(frComment.commentText)) {
+                actualFrComment = comment;
                 break;
             }
         }
@@ -264,40 +263,31 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponseComment() throws Exception {
-        //create a frComment to delete
-        FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-        frComment.setId(null);
-        frComment.feedbackQuestionId = getQuestionIdInDataBundle("qn2InSession1InCourse1");
-        frComment.feedbackResponseId = getResponseIdInDataBundle("response2ForQ2S1C1", "qn2InSession1InCourse1");
-
-        frcLogic.createFeedbackResponseComment(frComment);
+    public void testDeleteFeedbackResponseCommentById() throws Exception {
 
         ______TS("silent fail nothing to delete");
 
-        frComment.feedbackResponseId = "invalid responseId";
-        //without proper frCommentId and its feedbackResponseId,
-        //it cannot be deleted
-        frcLogic.deleteFeedbackResponseComment(frComment);
+        assertNull(frcLogic.getFeedbackResponseComment(1234567L));
+        frcLogic.deleteFeedbackResponseCommentById(1234567L);
 
+        ______TS("typical success case");
+        FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSession(
                                  frComment.courseId, frComment.feedbackSessionName).get(1);
-        verifyPresentInDatastore(actualFrComment);
+        frcLogic.deleteFeedbackResponseCommentById(actualFrComment.getId());
+        verifyAbsentInDatastore(actualFrComment);
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseCommentsForResponse() {
 
         ______TS("typical success case");
 
-        frcLogic.deleteFeedbackResponseComment(actualFrComment);
-        verifyAbsentInDatastore(actualFrComment);
-
-        ______TS("typical success case for response");
-
-        FeedbackResponseCommentAttributes anotherFrComment =
-                restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q3S1C1");
-        verifyPresentInDatastore(anotherFrComment);
-        frcLogic.deleteFeedbackResponseCommentsForResponse(anotherFrComment.feedbackResponseId);
-        verifyAbsentInDatastore(anotherFrComment);
-
+        FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q3S1C1");
+        verifyPresentInDatastore(frComment);
+        frcLogic.deleteFeedbackResponseCommentsForResponse(frComment.feedbackResponseId);
+        verifyAbsentInDatastore(frComment);
     }
 
     @Test

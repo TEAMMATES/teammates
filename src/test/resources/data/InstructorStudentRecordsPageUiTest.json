@@ -347,9 +347,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -369,9 +367,7 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-03-20T23:59:00Z",
       "startTime": "2013-06-01T21:59:00Z",
       "endTime": "2026-04-28T21:59:00Z",
@@ -391,9 +387,7 @@
       "feedbackSessionName": "3rd feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "instructor2@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:57:00Z",
       "startTime": "2013-02-01T23:57:00Z",
       "endTime": "2013-04-28T23:57:00Z",
@@ -413,9 +407,7 @@
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2027-04-30T15:59:00Z",
@@ -437,9 +429,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -459,9 +449,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "Rate 5 other students' products"
-      },
+      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -483,9 +471,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "My comments on the class"
-      },
+      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -514,9 +500,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}",
       "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -536,9 +520,7 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to 2 other teams."
-      },
+      "questionMetaData": "Give feedback to 2 other teams.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -558,9 +540,7 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "ISR.CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to 1 of your team mates"
-      },
+      "questionMetaData": "Give feedback to 1 of your team mates",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -580,9 +560,7 @@
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
       "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "Please rate the following teams"
-      },
+      "questionMetaData": "Please rate the following teams",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -601,9 +579,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "My product is light."
-      }
+      "responseMetaData": "My product is light."
     },
     "response2": {
       "feedbackSessionName": "First feedback session",
@@ -612,9 +588,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "Benny is a good student."
-      }
+      "responseMetaData": "Benny is a good student."
     },
     "response3": {
       "feedbackSessionName": "First feedback session",
@@ -623,9 +597,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "Danny starts with D."
-      }
+      "responseMetaData": "Danny starts with D."
     },
     "response4": {
       "feedbackSessionName": "First feedback session",
@@ -634,9 +606,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "Alice is a good coder."
-      }
+      "responseMetaData": "Alice is a good coder."
     },
     "response5": {
       "feedbackSessionName": "First feedback session",
@@ -645,9 +615,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "Charlie did alot of work."
-      }
+      "responseMetaData": "Charlie did alot of work."
     },
     "response6": {
       "feedbackSessionName": "First feedback session",
@@ -656,9 +624,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     }
   },
   "feedbackResponseComments": {
@@ -680,9 +646,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-02T23:59:00Z",
-      "commentText": {
-        "value": "First comment to Alice about feedback to Benny from different instructor"
-      }
+      "commentText": "First comment to Alice about feedback to Benny from different instructor"
     },
     "comment2FromT1C1ToR1Q2S1C1": {
       "courseId": "ISR.CS2104",
@@ -698,9 +662,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor second comment to Alice about feedback to Benny"
-      },
+      "commentText": "Instructor second comment to Alice about feedback to Benny",
       "lastEditorEmail": "teammates.test@gmail.tmt",
       "lastEditedAt": "2026-03-02T23:59:00Z"
     },
@@ -718,9 +680,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-02T23:59:00Z",
-      "commentText": {
-        "value": "Instructor third comment to Alice about feedback to Benny"
-      }
+      "commentText": "Instructor third comment to Alice about feedback to Benny"
     },
     "comment1OnR1Q4S1C2": {
       "courseId": "ISR.CS2104",
@@ -736,9 +696,7 @@
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2016-01-01T23:59:00Z",
-      "commentText": {
-        "value": "Benny's comment to alice"
-      }
+      "commentText": "Benny's comment to alice"
     },
     "comment1FromT1C1ToR1Q4S1C1": {
       "courseId": "ISR.CS2104",
@@ -754,9 +712,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-02T23:59:00Z",
-      "commentText": {
-        "value": "Instructor comment to Benny about feedback to Alice"
-      }
+      "commentText": "Instructor comment to Benny about feedback to Alice"
     }
   },
   "profiles": {

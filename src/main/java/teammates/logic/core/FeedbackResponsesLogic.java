@@ -1,11 +1,10 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -47,20 +46,6 @@ public final class FeedbackResponsesLogic {
 
     public static FeedbackResponsesLogic inst() {
         return instance;
-    }
-
-    public void createFeedbackResponse(FeedbackResponseAttributes fra)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        try {
-            frDb.createEntity(fra);
-        } catch (EntityAlreadyExistsException eaee) {
-            FeedbackResponse existingResponse = frDb.getFeedbackResponseEntityOptimized(fra);
-            try {
-                updateFeedbackResponse(fra, existingResponse);
-            } catch (EntityAlreadyExistsException entityAlreadyExistsException) {
-                Assumption.fail();
-            }
-        }
     }
 
     public void createFeedbackResponses(List<FeedbackResponseAttributes> fra)
@@ -763,17 +748,16 @@ public final class FeedbackResponsesLogic {
     private void addNewResponses(
             List<FeedbackResponseAttributes> existingResponses,
             List<FeedbackResponseAttributes> newResponses) {
+        List<String> existingResponseIds = existingResponses.stream()
+                .map(FeedbackResponseAttributes::getId)
+                .collect(Collectors.toList());
 
-        Map<String, FeedbackResponseAttributes> responses = new HashMap<>();
-
-        for (FeedbackResponseAttributes existingResponse : existingResponses) {
-            responses.put(existingResponse.getId(), existingResponse);
-        }
         for (FeedbackResponseAttributes newResponse : newResponses) {
-            responses.computeIfAbsent(newResponse.getId(), key -> {
+            String newResponseId = newResponse.getId();
+            if (!existingResponseIds.contains(newResponseId)) {
                 existingResponses.add(newResponse);
-                return newResponse;
-            });
+                existingResponseIds.add(newResponseId);
+            }
         }
     }
 

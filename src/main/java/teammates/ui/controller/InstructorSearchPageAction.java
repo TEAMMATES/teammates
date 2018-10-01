@@ -1,8 +1,6 @@
 package teammates.ui.controller;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -55,12 +53,6 @@ public class InstructorSearchPageAction extends Action {
             }
 
             totalResultsSize = frCommentSearchResults.numberOfResults + studentSearchResults.numberOfResults;
-
-            Set<String> instructorEmails = new HashSet<>();
-
-            for (InstructorAttributes instructor : instructors) {
-                instructorEmails.add(instructor.email);
-            }
 
             if (totalResultsSize == 0) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS,

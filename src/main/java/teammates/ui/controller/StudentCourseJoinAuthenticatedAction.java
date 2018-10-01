@@ -55,7 +55,7 @@ public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticate
             return createRedirectResult(nextUrl);
         }
 
-        final String studentInfo = "Action Student Joins Course"
+        String studentInfo = "Action Student Joins Course"
                 + "<br>Google ID: " + account.googleId
                 + "<br>Key : " + regkey;
         RedirectResult response = createRedirectResult(nextUrl);

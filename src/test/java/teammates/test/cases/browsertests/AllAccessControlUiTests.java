@@ -173,7 +173,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         errorReportPage.navigateTo(url);
         errorReportPage.verifyErrorReportFormContents();
         errorReportPage.fillFormAndClickSubmit("This is an error report.");
-        final String failedStatusMessage = "Failed to record the error message. Please email our support team at "
+        String failedStatusMessage = "Failed to record the error message. Please email our support team at "
                 + Config.SUPPORT_EMAIL + ".";
         errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(failedStatusMessage);
     }

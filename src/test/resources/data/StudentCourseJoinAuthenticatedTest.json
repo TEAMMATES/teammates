@@ -172,9 +172,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -194,9 +192,7 @@
       "feedbackSessionName": "Nonviewable feedback session",
       "courseId": "idOfCourseNoEvals",
       "creatorEmail": "instructor1@course2.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2300-04-01T15:59:00Z",
       "endTime": "2317-04-30T15:59:00Z",
@@ -218,9 +214,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -240,9 +234,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Rate 1 other student's product"
-      },
+      "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -264,9 +256,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "My comments on the class"
-      },
+      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -295,9 +285,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Instructor comments on the class"
-      },
+      "questionMetaData": "Instructor comments on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -326,9 +314,7 @@
       "feedbackSessionName": "Nonviewable feedback session",
       "courseId": "idOfCourseNoEvals",
       "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": {
-        "value": "Please rate your instructors"
-      },
+      "questionMetaData": "Please rate your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",

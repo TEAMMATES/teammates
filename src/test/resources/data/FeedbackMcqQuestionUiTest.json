@@ -122,9 +122,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "FMcqQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -144,9 +142,7 @@
       "feedbackSessionName": "MCQ Weight Session",
       "courseId": "FMcqQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Please answer the following questions."
-      },
+      "instructions": "Please answer the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -168,9 +164,7 @@
       "feedbackSessionName": "MCQ Weight Session",
       "courseId": "FMcqQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"Question without weights attached!\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"Question without weights attached!\"}",
       "questionNumber": 1,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -190,9 +184,7 @@
       "feedbackSessionName": "MCQ Weight Session",
       "courseId": "FMcqQnUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.5,3.0],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"Question with weights attached!\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.5,3.0],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"Question with weights attached!\"}",
       "questionNumber": 2,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -217,9 +209,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}"
     },
     "response2ForQ1S2": {
       "feedbackSessionName": "MCQ Weight Session",
@@ -228,9 +218,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response3ForQ1S2": {
       "feedbackSessionName": "MCQ Weight Session",
@@ -239,9 +227,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response1ForQ2S2": {
       "feedbackSessionName": "MCQ Weight Session",
@@ -250,9 +236,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response2ForQ2S2": {
       "feedbackSessionName": "MCQ Weight Session",
@@ -261,9 +245,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response3ForQ2S2": {
       "feedbackSessionName": "MCQ Weight Session",
@@ -272,9 +254,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     }
   },
   "feedbackResponseComments": {},

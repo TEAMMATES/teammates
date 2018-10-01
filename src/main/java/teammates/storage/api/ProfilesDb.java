@@ -5,7 +5,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.time.Instant;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
@@ -81,7 +80,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         profileToUpdate.setInstitute(newSpa.institute);
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
-        profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
+        profileToUpdate.setMoreInfo(newSpa.moreInfo);
         profileToUpdate.setModifiedDate(Instant.now());
 
         boolean hasNewNonEmptyPictureKey = !newSpa.pictureKey.isEmpty()

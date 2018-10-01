@@ -166,9 +166,7 @@
       "feedbackSessionName": "Open Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for Open Session"
-      },
+      "instructions": "Instructions for Open Session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -188,9 +186,7 @@
       "feedbackSessionName": "Grace Period Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2012-04-02T15:59:00Z",
@@ -210,9 +206,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the second feedback session"
-      },
+      "instructions": "Please please fill in the second feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2026-04-02T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -232,9 +226,7 @@
       "feedbackSessionName": "Awaiting Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the last feedback session"
-      },
+      "instructions": "Please please fill in the last feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2035-04-02T15:59:00Z",
       "endTime": "2036-04-30T15:59:00Z",
@@ -256,9 +248,7 @@
       "feedbackSessionName": "Open Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -279,9 +269,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to your instructors"
-      },
+      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -301,9 +289,7 @@
       "feedbackSessionName": "Awaiting Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to your instructors"
-      },
+      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -323,9 +309,7 @@
       "feedbackSessionName": "Grace Period Session",
       "courseId": "IFQSubmitUiT.CS2104",
       "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to yourself."
-      },
+      "questionMetaData": "Give feedback to yourself.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
