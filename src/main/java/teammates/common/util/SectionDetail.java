@@ -7,7 +7,8 @@ public enum SectionDetail {
     EITHER("Show response if either the giver or evaluee is in the selected section"),
     GIVER("Show response if the giver is in the selected section"),
     EVALUEE("Show response if the evaluee is in the selected section"),
-    BOTH("Show response only if both are in the selected section");
+    BOTH("Show response only if both are in the selected section"),
+    NOT_APPLICABLE("All responses from all sections are selected");
 
     private String sectionDetail;
 
