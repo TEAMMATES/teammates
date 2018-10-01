@@ -1397,8 +1397,8 @@ public class Logic {
      *      String, SectionDetail, String, boolean, boolean)
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
-            String courseId, String feedbackSessionName, String instructorEmail,
-            String section, SectionDetail sectionDetail, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
+            String courseId, String feedbackSessionName, String instructorEmail, String section,
+            SectionDetail sectionDetail, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(courseId);
@@ -1904,9 +1904,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(String feedbackSessionName,
-                                                                                        String courseId,
-                                                                                        String userEmail,
-                                                                                        String section, SectionDetail sectionDetail)
+            String courseId, String userEmail, String section, SectionDetail sectionDetail)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);

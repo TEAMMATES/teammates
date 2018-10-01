@@ -636,9 +636,9 @@ public final class FeedbackSessionsLogic {
      * This will not retrieve the list of comments for this question.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                                                String feedbackSessionName, String courseId, String userEmail,
-                                                String questionId, String selectedSection, SectionDetail selectedSectionDetail)
-                                        throws EntityDoesNotExistException {
+            String feedbackSessionName, String courseId, String userEmail, String questionId,
+            String selectedSection, SectionDetail selectedSectionDetail)
+            throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
