@@ -58,6 +58,33 @@ function linkAjaxForCourseStats() {
     $('td[id^="course-stats"] > a').click(courseStatsClickHandler);
 }
 
+function bindCollapseEvents() {
+    const tables = $('div.courses-tables');
+    const panels = $(tables[0]).children('.panel');
+    const heading = $(panels[0]).children('.panel-heading');
+    const bodyCollapse = $(panels[0]).children('.panel-collapse');
+    if (heading.length !== 0 && bodyCollapse.length !== 0) {
+        $(heading[0]).attr('data-target', '#softDeletedPanelBodyCollapse');
+        $(heading[0]).attr('id', 'softDeletedPanelHeading');
+        $(heading[0]).css('cursor', 'pointer');
+        $(bodyCollapse[0]).attr('id', 'softDeletedPanelBodyCollapse');
+    }
+
+    $(heading[0]).click((e) => {
+        if ($(e.target).hasClass('ajax_submit')) {
+            const toggleChevronDown = $(panels[0]).find('.glyphicon-chevron-down');
+            const toggleChevronUp = $(panels[0]).find('.glyphicon-chevron-up');
+            if (toggleChevronDown.length === 0) {
+                $(bodyCollapse).collapse('toggle');
+                $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+            } else {
+                $(bodyCollapse).collapse('toggle');
+                $(toggleChevronDown[0]).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+            }
+        }
+    });
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -73,7 +100,7 @@ $(document).ready(() => {
             url: `${$(this).attr('action')}?${formData}`,
             beforeSend() {
                 $('#coursesList').html(
-                        '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
+                        '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>',
                 );
                 isFetchingCourses = true;
             },
@@ -83,7 +110,7 @@ $(document).ready(() => {
                 $('#coursesList').html('');
                 setStatusMessage(
                         'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.',
-                        BootstrapContextualColors.WARNING
+                        BootstrapContextualColors.WARNING,
                 );
                 $('#retryAjax').click((ev) => {
                     ev.preventDefault();
@@ -106,6 +133,8 @@ $(document).ready(() => {
                         .html(appendedCoursesTable);
                 toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
+
+                bindCollapseEvents();
             },
         });
     };

@@ -8,8 +8,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -54,16 +52,17 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
-        assertEquals(new Text(""), fsa.getInstructions());
+        assertEquals("", fsa.getInstructions());
         assertNotNull(fsa.getRespondingInstructorList());
         assertNotNull(fsa.getRespondingStudentList());
+        assertNull(fsa.getDeletedTime());
     }
 
     @Test
     public void testBuilderCopy() {
         FeedbackSessionAttributes original = FeedbackSessionAttributes
                 .builder("newFeedbackSessionName", "course", "email")
-                .withInstructions(new Text("default instructions"))
+                .withInstructions("default instructions")
                 .withCreatedTime(Instant.now())
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
@@ -80,6 +79,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getCreatorEmail(), copy.getCreatorEmail());
         assertEquals(original.getInstructions(), copy.getInstructions());
         assertEquals(original.getCreatedTime(), copy.getCreatedTime());
+        assertEquals(original.getDeletedTime(), copy.getDeletedTime());
         assertEquals(original.getStartTime(), copy.getStartTime());
         assertEquals(original.getEndTime(), copy.getEndTime());
         assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());

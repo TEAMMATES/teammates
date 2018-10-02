@@ -39,6 +39,7 @@ public class InstructorCoursesPageAction extends Action {
         List<CourseAttributes> allCourses = new ArrayList<>();
         List<CourseAttributes> activeCourses = new ArrayList<>();
         List<CourseAttributes> archivedCourses = new ArrayList<>();
+        List<CourseAttributes> softDeletedCourses = new ArrayList<>();
 
         if (data.isUsingAjax()) {
             // Get list of InstructorAttributes that belong to the user.
@@ -49,6 +50,7 @@ public class InstructorCoursesPageAction extends Action {
 
             // Get corresponding courses of the instructors.
             allCourses = logic.getCoursesForInstructor(instructorList);
+            softDeletedCourses = logic.getSoftDeletedCoursesForInstructors(instructorList);
 
             List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
             for (CourseAttributes course : allCourses) {
@@ -62,9 +64,10 @@ public class InstructorCoursesPageAction extends Action {
             // Sort CourseDetailsBundle lists by course id
             CourseAttributes.sortById(activeCourses);
             CourseAttributes.sortById(archivedCourses);
+            CourseAttributes.sortById(softDeletedCourses);
         }
 
-        data.init(activeCourses, archivedCourses, instructorsForCourses);
+        data.init(activeCourses, archivedCourses, softDeletedCourses, instructorsForCourses);
 
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (data.isUsingAjax() && allCourses.isEmpty()) {

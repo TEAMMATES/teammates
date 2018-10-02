@@ -1,14 +1,13 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Translate;
 
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 
 /**
  * Represents a course entity.
@@ -22,8 +21,11 @@ public class Course extends BaseEntity {
 
     private String name;
 
-    // TODO: change to `java.time.Instant` once we have upgraded to Objectify 6
-    private Date createdAt;
+    @Translate(InstantTranslatorFactory.class)
+    private Instant createdAt;
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
 
     private String timeZone;
 
@@ -32,7 +34,7 @@ public class Course extends BaseEntity {
         // required by Objectify
     }
 
-    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt, Instant deletedAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -45,6 +47,7 @@ public class Course extends BaseEntity {
         } else {
             this.setCreatedAt(createdAt);
         }
+        this.setDeletedAt(deletedAt);
     }
 
     public String getUniqueId() {
@@ -64,11 +67,19 @@ public class Course extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return TimeHelper.convertDateToInstant(this.createdAt);
+        return createdAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
-        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
+        this.createdAt = createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public String getTimeZone() {

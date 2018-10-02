@@ -1,6 +1,6 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public final class EmailChecker {
      *         folder is assumed to be {@link TestProperties#TEST_EMAILS_FOLDER}.
      */
     public static void verifyEmailContent(String emailContent, String filePathParam) throws IOException {
-        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;
+        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;
         String actual = processEmailForComparison(emailContent);
         try {
             String expected = FileHelper.readFile(filePath);
@@ -58,7 +58,7 @@ public final class EmailChecker {
      * Injects values specified in configuration files to the appropriate placeholders.
      */
     private static String injectTestProperties(String emailContent) {
-        return emailContent.replace("${app.url}", TestProperties.TEAMMATES_URL)
+        return emailContent.replace("${app.url}", Config.APP_URL)
                            .replace("${support.email}", Config.SUPPORT_EMAIL);
     }
 

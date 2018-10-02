@@ -89,17 +89,14 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
             logPage.clickViewActionsButtonOfFirstEntry();
             String actualPersonInfo = logPage.getFilterBoxString();
             assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);
-        } catch (NoSuchElementException exceptionFromEmptyLogs) {
+        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             /*
-             * This can happen if this test is run right after the server is started.
-             * In this case, no view actions can be done.
-             */
-            ignorePossibleException();
-        } catch (IndexOutOfBoundsException exceptionFromInvisibleTmtLogs) {
-            /*
-             * This can happen if all the log entries are from test accounts
+             * NoSuchElementException can happen if this test is run right after the server is started.
+             *
+             * IndexOutOfBoundsException can happen if all the log entries are from test accounts
              * (i.e emails ending with .tmt) because they are invisible.
-             * In this case, no view actions can be done.
+             *
+             * In either case, no view actions can be done.
              */
             ignorePossibleException();
         }
@@ -138,12 +135,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
 
-        try {
-            browser.driver.switchTo().alert();
-            signalFailureToDetectException("Script managed to get injected");
-        } catch (NoAlertPresentException e) {
-            // this is what we expect, since we expect the script injection to fail
-        }
+        // Expect no alert to appear since the script injection should fail
+        assertThrows(NoAlertPresentException.class, () -> browser.driver.switchTo().alert());
     }
 
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {

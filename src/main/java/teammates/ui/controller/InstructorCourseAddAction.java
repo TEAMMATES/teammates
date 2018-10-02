@@ -53,6 +53,7 @@ public class InstructorCourseAddAction extends Action {
 
         // Get corresponding courses of the instructors.
         List<CourseAttributes> allCourses = logic.getCoursesForInstructor(instructorList);
+        List<CourseAttributes> softDeletedCourses = logic.getSoftDeletedCoursesForInstructors(instructorList);
 
         List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
         for (CourseAttributes course : allCourses) {
@@ -66,6 +67,7 @@ public class InstructorCourseAddAction extends Action {
         // Sort CourseDetailsBundle lists by course id
         CourseAttributes.sortById(activeCourses);
         CourseAttributes.sortById(archivedCourses);
+        CourseAttributes.sortById(softDeletedCourses);
 
         String courseIdToShowParam = "";
         String courseNameToShowParam = "";
@@ -86,7 +88,8 @@ public class InstructorCourseAddAction extends Action {
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
 
-        data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
+        data.init(activeCourses, archivedCourses, softDeletedCourses, instructorsForCourses, courseIdToShowParam,
+                courseNameToShowParam);
 
         return isError ? createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data)
                 : createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);

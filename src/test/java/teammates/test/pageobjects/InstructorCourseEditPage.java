@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -443,14 +443,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(courseNameTextBox, value);
     }
 
-    public InstructorCoursesPage clickDeleteCourseLinkAndConfirm() {
-        clickAndConfirm(deleteCourseLink);
+    public InstructorCoursesPage clickDeleteCourseLink() {
+        click(deleteCourseLink);
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
-    }
-
-    public void clickDeleteCourseLinkAndCancel() {
-        clickAndCancel(deleteCourseLink);
     }
 
     /**

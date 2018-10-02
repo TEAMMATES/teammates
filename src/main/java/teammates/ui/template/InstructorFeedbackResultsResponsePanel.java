@@ -16,10 +16,11 @@ public class InstructorFeedbackResultsResponsePanel {
 
     private String displayableResponse;
 
-    private List<FeedbackResponseCommentRow> comments;
+    private List<FeedbackResponseCommentRow> instructorComments;
     private FeedbackResponseCommentRow frcForAdding;
     private boolean isAllowedToAddComment;
-    private boolean isCommentsOnResponsesAllowed;
+
+    private FeedbackResponseCommentRow feedbackParticipantComment;
 
     // The indexes are used for the parameters of js functions for handling response comments
     private int sectionId;
@@ -31,9 +32,8 @@ public class InstructorFeedbackResultsResponsePanel {
                                                   String questionText, int sectionId, String additionalInfoText,
                                                   ElementTag rowAttributes,
                                                   String displayableResponse,
-                                                  List<FeedbackResponseCommentRow> comments,
-                                                  boolean isAllowedToAddComment,
-                                                  boolean isCommentsOnResponsesAllowed) {
+                                                  List<FeedbackResponseCommentRow> instructorComments,
+                                                  boolean isAllowedToAddComment) {
         this.question = question;
         this.response = response;
         this.questionText = questionText;
@@ -41,9 +41,8 @@ public class InstructorFeedbackResultsResponsePanel {
         this.sectionId = sectionId;
         this.rowAttributes = rowAttributes;
         this.displayableResponse = displayableResponse;
-        this.comments = comments;
+        this.instructorComments = instructorComments;
         this.isAllowedToAddComment = isAllowedToAddComment;
-        this.isCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
     }
 
     public void setCommentsIndexes(int recipientIndex, int giverIndex, int qnIndex) {
@@ -76,8 +75,8 @@ public class InstructorFeedbackResultsResponsePanel {
         return displayableResponse;
     }
 
-    public List<FeedbackResponseCommentRow> getComments() {
-        return comments;
+    public List<FeedbackResponseCommentRow> getInstructorComments() {
+        return instructorComments;
     }
 
     public boolean isAllowedToAddComment() {
@@ -112,7 +111,11 @@ public class InstructorFeedbackResultsResponsePanel {
         this.sectionId = sectionId;
     }
 
-    public boolean isCommentsOnResponsesAllowed() {
-        return isCommentsOnResponsesAllowed;
+    public void setFeedbackParticipantComment(FeedbackResponseCommentRow feedbackParticipantComment) {
+        this.feedbackParticipantComment = feedbackParticipantComment;
+    }
+
+    public FeedbackResponseCommentRow getFeedbackParticipantComment() {
+        return feedbackParticipantComment;
     }
 }

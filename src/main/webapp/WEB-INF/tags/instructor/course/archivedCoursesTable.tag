@@ -5,14 +5,16 @@
 <%@ attribute name="archivedCourses" type="teammates.ui.template.ArchivedCoursesTable" required="true" %>
 <%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
 
-<h2 class="text-muted">Archived courses</h2>
+<h2 class="text-muted">
+  <span class="glyphicon glyphicon-floppy-disk"></span> Archived courses
+</h2>
 <table class="table table-bordered table-striped" id="tableArchivedCourses">
   <thead>
-    <tr class="fill-default">
+    <tr class="fill-info">
       <th id="button_sortid" class="button-sort-none toggle-sort">
         Course ID<span class="icon-sort unsorted"></span>
       </th>
-      <th id="button_sortid" class="button-sort-none toggle-sort">
+      <th id="button_sortname" class="button-sort-none toggle-sort">
         Course Name<span class="icon-sort unsorted"></span>
       </th>
       <th id="button_sortcoursecreateddate" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" class="button-sort-none toggle-sort">

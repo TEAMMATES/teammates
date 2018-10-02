@@ -25,7 +25,7 @@ public class EmailCheckerTest {
 
     private String injectContextDependentValuesForTest(String emailContent) {
         return emailContent.replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
-                           .replace("<!-- app.url -->", TestProperties.TEAMMATES_URL);
+                           .replace("<!-- app.url -->", Config.APP_URL);
     }
 
 }

@@ -16,7 +16,4 @@
     <rule ref="category/java/bestpractices.xml/SystemPrintln"/>
     <rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes"/>
     <rule ref="category/java/design.xml/SignatureDeclareThrowsException"/>
-    <rule ref="category/java/errorprone.xml/InvalidSlf4jMessageFormat"/>
-    <rule ref="category/java/errorprone.xml/LoggerIsNotStaticFinal"/>
-    <rule ref="category/java/errorprone.xml/MoreThanOneLogger"/>
 </ruleset>

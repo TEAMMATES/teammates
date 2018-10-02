@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -64,16 +63,11 @@ public final class HttpRequestHelper {
     public static String printRequestParameters(HttpServletRequest request) {
         StringBuilder requestParameters = new StringBuilder();
         requestParameters.append('{');
-        for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
-            String param = f.nextElement().toString();
+        getParameterMap(request).forEach((param, parameterValues) -> {
             requestParameters.append(param).append("::");
-            String[] parameterValues = request.getParameterValues(param);
-            for (String parameterValue : parameterValues) {
-                requestParameters.append(parameterValue).append("//");
-            }
-            requestParameters.setLength(requestParameters.length() - 2);
+            requestParameters.append(String.join("//", parameterValues));
             requestParameters.append(", ");
-        }
+        });
         if (!"{".equals(requestParameters.toString())) {
             requestParameters.setLength(requestParameters.length() - 2);
         }

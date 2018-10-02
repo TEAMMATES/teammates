@@ -20,7 +20,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MCQ, mcqDetails.getQuestionType());
-        assertTrue(mcqDetails instanceof FeedbackMcqQuestionDetails);
         assertFalse(mcqDetails.hasAssignedWeights());
         assertTrue(mcqDetails.getMcqWeights().isEmpty());
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
@@ -40,7 +39,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertEquals(mcqDetails.getQuestionType(), FeedbackQuestionType.MCQ);
-        assertTrue(mcqDetails instanceof FeedbackMcqQuestionDetails);
         assertTrue(mcqDetails.hasAssignedWeights());
         assertTrue(mcqDetails.getMcqChoices().isEmpty());
         // getMcqWeight() returns empty list as there are no mcq choices set.
@@ -112,6 +110,27 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         // As one weight can not be parsed, there will be only one weight in the list
         assertEquals(1, weights.size());
         assertEquals(1.55, weights.get(0));
+    }
+
+    @Test
+    public void testGetMcqWeights_weightsDisabledValidWeights_weightListShouldBeEmpty() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        HashMap<String, String[]> requestParams = new HashMap<>();
+
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "mcq question text" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, new String[] { "NONE" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", new String[] { "Choice 2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, new String[] { "off" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", new String[] { "2.55" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", new String[] { "1.55" });
+
+        assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
+        assertFalse(mcqDetails.hasAssignedWeights());
+        // As weights are disabled, getMcqWeights should return an empty list.
+        assertTrue(mcqDetails.getMcqWeights().isEmpty());
     }
 
     @Test
@@ -236,7 +255,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testGetMcqOtherWeight_nullOtherWeight_exceptionThrown() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
@@ -254,7 +273,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         // Removed to send null as otherWeight parameter
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, new String[] { "" });
 
-        mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ);
+        assertThrows(AssertionError.class, () -> mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
     }
 
     @Test

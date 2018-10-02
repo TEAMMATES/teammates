@@ -20,6 +20,7 @@ public class CourseAttributesTest extends BaseTestCase {
     private String validId = "validId";
     private ZoneId validTimeZone = ZoneId.of("UTC");
     private Instant validCreatedAt = Instant.ofEpochMilli(98765);
+    private Instant validDeletedAt = validCreatedAt.plusSeconds(1000);
 
     @Test
     public void testStandardBuilder() {
@@ -27,6 +28,7 @@ public class CourseAttributesTest extends BaseTestCase {
                 .builder(validId, validName, validTimeZone)
                 .build();
         assertEquals(Instant.now(), courseAttributes.createdAt);
+        assertEquals(null, courseAttributes.deletedAt);
         assertEquals(validId, courseAttributes.getId());
         assertEquals(validName, courseAttributes.getName());
         assertEquals(validTimeZone, courseAttributes.getTimeZone());
@@ -42,39 +44,55 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals(validName, caWithCreatedAt.getName());
         assertEquals(validTimeZone, caWithCreatedAt.getTimeZone());
         assertEquals(validCreatedAt, caWithCreatedAt.createdAt);
+        assertEquals(null, caWithCreatedAt.deletedAt);
+    }
+
+    @Test
+    public void testBuilderWithDeletedAt() {
+        CourseAttributes caWithDeletedAt = CourseAttributes
+                .builder(validId, validName, validTimeZone)
+                .withDeletedAt(validDeletedAt)
+                .build();
+        assertEquals(validId, caWithDeletedAt.getId());
+        assertEquals(validName, caWithDeletedAt.getName());
+        assertEquals(validTimeZone, caWithDeletedAt.getTimeZone());
+        assertEquals(Instant.now(), caWithDeletedAt.createdAt);
+        assertEquals(validDeletedAt, caWithDeletedAt.deletedAt);
+    }
+
+    @Test
+    public void testBuilderWithCreatedAtAndDeletedAt() {
+        CourseAttributes caWithCreatedAtAndDeletedAt = CourseAttributes
+                .builder(validId, validName, validTimeZone)
+                .withCreatedAt(validCreatedAt)
+                .withDeletedAt(validDeletedAt)
+                .build();
+        assertEquals(validId, caWithCreatedAtAndDeletedAt.getId());
+        assertEquals(validName, caWithCreatedAtAndDeletedAt.getName());
+        assertEquals(validTimeZone, caWithCreatedAtAndDeletedAt.getTimeZone());
+        assertEquals(validCreatedAt, caWithCreatedAtAndDeletedAt.createdAt);
+        assertEquals(validDeletedAt, caWithCreatedAtAndDeletedAt.deletedAt);
     }
 
     @Test
     public void testBuilderWithNullId() {
-        try {
-            CourseAttributes.builder(null, validName, validTimeZone)
-                    .build();
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> CourseAttributes.builder(null, validName, validTimeZone).build());
+        assertEquals("Non-null value expected", ae.getMessage());
     }
 
     @Test
     public void testBuilderWithNullName() {
-        try {
-            CourseAttributes.builder(validId, null, validTimeZone)
-                    .build();
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> CourseAttributes.builder(validId, null, validTimeZone).build());
+        assertEquals("Non-null value expected", ae.getMessage());
     }
 
     @Test
     public void testBuilderWithNullTimeZone() {
-        try {
-            CourseAttributes.builder(validId, validName, null)
-                    .build();
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> CourseAttributes.builder(validId, validName, null).build());
+        assertEquals("Non-null value expected", ae.getMessage());
     }
 
     @Test
@@ -84,6 +102,15 @@ public class CourseAttributesTest extends BaseTestCase {
                 .withCreatedAt(null)
                 .build();
         assertEquals(Instant.now(), courseAttributes.createdAt);
+    }
+
+    @Test
+    public void testBuilderWithNullDeletedAt() {
+        CourseAttributes courseAttributes = CourseAttributes
+                .builder(validId, validName, validTimeZone)
+                .withDeletedAt(null)
+                .build();
+        assertEquals(null, courseAttributes.deletedAt);
     }
 
     @Test

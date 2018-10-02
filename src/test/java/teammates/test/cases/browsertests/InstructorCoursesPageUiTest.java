@@ -97,8 +97,12 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         // Explanation: Checks 'actions' that can be performed using the page.
         testAddAction();
         testSortCourses();
-        testDeleteAction();
+        testMoveToRecycleBinAction();
+        testRestoreAction();
+        testRestoreAllAction();
         testArchiveAction();
+        testDeleteAction();
+        testDeleteAllAction();
 
         /* Explanation: The above categorization of test cases is useful in
          * identifying test cases. However, do not follow it blindly.
@@ -279,17 +283,49 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
-    private void testDeleteAction() throws Exception {
+    private void testMoveToRecycleBinAction() throws Exception {
 
-        /* Explanation: We test both 'confirm' and 'cancel' cases here.
-         */
+        ______TS("move course to Recycle Bin action success");
 
         String courseId = "CCAddUiTest.course1";
-        coursesPage.clickAndCancel(coursesPage.getDeleteLink(courseId));
-        assertNotNull(BackDoor.getCourse(courseId));
+        assertFalse(validCourse.isCourseDeleted());
 
-        coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
-                   .verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
+        coursesPage.moveCourseToRecycleBin(courseId);
+        validCourse.setDeletedAt();
+
+        assertNotNull(BackDoor.getCourse(courseId));
+        assertTrue(validCourse.isCourseDeleted());
+        coursesPage.verifyHtmlMainContent("/instructorCoursesMoveToRecycleBinSuccessful.html");
+    }
+
+    private void testRestoreAction() throws Exception {
+
+        ______TS("restore action success");
+
+        String courseId = "CCAddUiTest.course1";
+        assertTrue(validCourse.isCourseDeleted());
+
+        coursesPage.restoreCourse(courseId);
+        validCourse.resetDeletedAt();
+
+        assertNotNull(BackDoor.getCourse(courseId));
+        assertFalse(validCourse.isCourseDeleted());
+        coursesPage.verifyHtmlMainContent("/instructorCoursesRestoreSuccessful.html");
+    }
+
+    private void testRestoreAllAction() throws Exception {
+
+        ______TS("restore all action success");
+
+        CourseAttributes courseCS2105 = testData.courses.get("CS2105");
+        assertTrue(courseCS2105.isCourseDeleted());
+
+        coursesPage.restoreAllCourses();
+        courseCS2105.resetDeletedAt();
+
+        assertNotNull(BackDoor.getCourse(courseCS2105.getId()));
+        assertFalse(courseCS2105.isCourseDeleted());
+        coursesPage.verifyHtmlMainContent("/instructorCoursesRestoreAllSuccessful.html");
     }
 
     private void testArchiveAction() throws Exception {
@@ -356,6 +392,50 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.unarchiveCourse(courseId);
         coursesPage.verifyContains("You are not authorized to view this page.");
 
+    }
+
+    private void testDeleteAction() throws Exception {
+
+        ______TS("delete action success");
+
+        instructorId = testData.accounts.get("OtherInstructorWithCourses").googleId;
+        coursesPage = getCoursesPage();
+        coursesPage.verifyHtmlMainContent("/otherInstructorCoursesMultipleSoftDeletedCourses.html");
+
+        CourseAttributes courseCS2106 = testData.courses.get("CS2106");
+        assertTrue(courseCS2106.isCourseDeleted());
+
+        // Delete and cancel
+        coursesPage.deleteCourseAndCancel(courseCS2106.getId());
+
+        assertNotNull(BackDoor.getCourse(courseCS2106.getId()));
+
+        // Delete and confirm
+        coursesPage = getCoursesPage();
+        coursesPage.deleteCourseAndConfirm(courseCS2106.getId());
+
+        assertNull(BackDoor.getCourse(courseCS2106.getId()));
+        coursesPage.verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
+    }
+
+    private void testDeleteAllAction() throws Exception {
+
+        ______TS("delete all action success");
+
+        CourseAttributes courseCS2107 = testData.courses.get("CS2107");
+        assertTrue(courseCS2107.isCourseDeleted());
+
+        // Delete all and cancel
+        coursesPage.deleteAllCoursesAndCancel();
+
+        assertNotNull(BackDoor.getCourse(courseCS2107.getId()));
+
+        // Delete all and confirm
+        coursesPage = getCoursesPage();
+        coursesPage.deleteAllCoursesAndConfirm();
+
+        assertNull(BackDoor.getCourse(courseCS2107.getId()));
+        coursesPage.verifyHtmlMainContent("/instructorCoursesDeleteAllSuccessful.html");
     }
 
     private InstructorCoursesPage getCoursesPage() {

@@ -2,8 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -34,8 +32,7 @@ public class FeedbackSubmissionEditQuestion {
         this.qnIndx = qnIndx;
         questionId = questionAttributes.getId();
         questionText = questionAttributes.getQuestionDetails().getQuestionText();
-        Text description = questionAttributes.getQuestionDescription();
-        questionDescription = description == null ? null : description.getValue();
+        questionDescription = questionAttributes.getQuestionDescription();
         instructions = questionAttributes.getQuestionDetails().getInstructions();
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;

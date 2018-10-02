@@ -53,6 +53,10 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
         map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
         map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE, InstructorCourseRestoreSoftDeletedCourseAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL, InstructorCourseRestoreAllSoftDeletedCoursesAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE, InstructorCourseDeleteSoftDeletedCourseAction.class);
+        map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL, InstructorCourseDeleteAllSoftDeletedCoursesAction.class);
         map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
         map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
@@ -63,6 +67,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE, InstructorCourseInstructorEditSaveAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
+        map(INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE, InstructorCourseEnrollAjaxPageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE_ALL, InstructorCourseStudentDeleteAllAction.class);
@@ -91,6 +96,11 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                 InstructorFeedbackResendPublishedEmailAction.class);
         map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE, InstructorFeedbackRestoreSoftDeletedSessionAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL,
+                InstructorFeedbackRestoreAllSoftDeletedSessionsAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE, InstructorFeedbackDeleteSoftDeletedSessionAction.class);
+        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL, InstructorFeedbackDeleteAllSoftDeletedSessionsAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE, InstructorFeedbackQuestionCopyPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);
@@ -106,6 +116,7 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_STATS_PAGE, FeedbackSessionStatsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE, InstructorFeedbackSubmissionEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE, InstructorFeedbackSubmissionEditSaveAction.class);
+        map(INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD, InstructorFeedbackTemplateQuestionAddAction.class);
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
         map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
@@ -120,6 +131,8 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
+        map(FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE,
+                FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
         map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
         map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
         map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);

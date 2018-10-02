@@ -163,7 +163,7 @@ public class BackDoorLogic extends Logic {
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
+                    responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
             fcDb.putDocument(fcInDb);
         }
 
@@ -207,6 +207,14 @@ public class BackDoorLogic extends Logic {
 
     public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
+        return JsonUtils.toJson(fs);
+    }
+
+    /**
+     * Gets an json serialized feedback session from the recycle bin.
+     */
+    public String getFeedbackSessionFromRecycleBinAsJson(String feedbackSessionName, String courseId) {
+        FeedbackSessionAttributes fs = getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
         return JsonUtils.toJson(fs);
     }
 

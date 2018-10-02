@@ -24,7 +24,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[] {};
 
-        final String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         AdminAccountManagementPageAction action = getAction(submissionParams);

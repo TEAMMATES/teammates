@@ -42,8 +42,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName + " ", // with some extra spaces
+                Const.ParamsNames.INSTRUCTOR_EMAIL, " " + newInstructorEmail + " ", // with some extra spaces
 
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,

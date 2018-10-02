@@ -11,6 +11,10 @@ code {
     background-color: #F5F5F5;
 }
 
+mark {
+    background-color: #FF8;
+}
+
 .edit-uncommon-settings-button:hover {
     cursor: pointer;
 }
@@ -144,6 +148,12 @@ div[class*="col-"][class*="col-no-padding"] {
     padding: 0;
 }
 
+.form-control-clear {
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
 .ordered-table {
     counter-reset: rownumber;
 }
@@ -237,6 +247,10 @@ Apply to thead to make headers not bold.
     transform: scaleX(-1);
 }
 
+.height-45px {
+    height: 45px;
+}
+
 .height-fixed-md {
     max-height: 250px;
     min-height: 150px;
@@ -296,6 +310,10 @@ input.inline {
     margin-top: 7px;
 }
 
+.margin-top-10px {
+    margin-top: 10px;
+}
+
 .margin-top-15px {
     margin-top: 15px;
 }
@@ -306,6 +324,10 @@ input.inline {
 
 .padding-15px {
     padding: 15px;
+}
+
+.padding-top-55px {
+    padding-top: 55px;
 }
 
 .padding-right-10px {
@@ -320,16 +342,16 @@ input.inline {
     padding-left: 35px;
 }
 
+.padding-left-45px {
+    padding-left: 45px;
+}
+
 .padding-left-55px {
     padding-left: 55px;
 }
 
 .padding-left-7px {
     padding-left: 7px;
-}
-
-.padding-left-45px {
-    padding-left: 45px;
 }
 
 /*
@@ -366,6 +388,12 @@ input.inline {
 .padding-top-0,
 .padding-top-0.checkbox {
     padding-top: 0;
+}
+
+.form-group.student-info-row {
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom: 1px solid #CCC;
 }
 
 .text-large {
@@ -509,6 +537,10 @@ input.inline {
 .tool-tip-decorate {
     border-bottom: 1px dotted #808080;
     text-decoration: none;
+}
+
+.top-0px {
+    top: 0;
 }
 
 .text-box-error {
@@ -862,6 +894,10 @@ Prevents content overflow in navbar. */
     margin-bottom: 0;
 }
 
+.ui-sortable-handle .input-group-addon {
+    cursor: move;
+}
+
 .more-info {
     margin-top: 30px;
     padding-bottom: 30px;
@@ -889,25 +925,28 @@ Prevents content overflow in navbar. */
     padding: 20px 40px;
 }
 
-#student-data-spreadsheet .panel-body {
-    padding: 5px;
-    margin: 10px;
+.bottom-margin-correction {
+    margin-bottom: -15px;
+}
+
+.enroll-students-spreadsheet-buttons {
+    margin-top: -10px;
+    display: none;
 }
 
 #enrollstudents {
     display: none;
 }
 
-#number-of-rows {
-    width: 60px;
-    height: 32px;
-    padding: 4px;
-    border-radius: 4px;
-    border: 1px solid #AAA;
+#ajax-preload-image {
+    display: none;
 }
 
-#addEmptyRows {
-    margin-top: -3px;
+.ajax-status-message {
+    display: none;
+    font-weight: bold;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 #omni-comment-dropdown-trigger {

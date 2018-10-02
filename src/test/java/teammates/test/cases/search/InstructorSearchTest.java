@@ -25,6 +25,9 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
+        InstructorAttributes ins1InCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
+        InstructorAttributes ins2InCourse3 = dataBundle.instructors.get("instructor2OfCourse3");
+        InstructorAttributes ins1InCourse4 = dataBundle.instructors.get("instructor1OfCourse4");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
         InstructorAttributes ins1InTestingSanitizationCourse =
@@ -45,12 +48,13 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; query string matches some instructors");
 
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InTestingSanitizationCourse);
+        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3, ins1InCourse4,
+                ins1InTestingSanitizationCourse);
 
         ______TS("success: search for instructors in whole system; query string should be case-insensitive");
 
         results = instructorsDb.searchInstructorsInWholeSystem("InStRuCtOr2");
-        verifySearchResults(results, ins2InCourse1, ins2InCourse2);
+        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3);
 
         ______TS("success: search for instructors in whole system; instructors in archived courses should be included");
 
@@ -90,7 +94,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
 
         results = instructorsDb.searchInstructorsInWholeSystem("Custom");
-        verifySearchResults(results, helperInCourse1);
+        verifySearchResults(results, helperInCourse1, ins2InCourse3, ins1InCourse4);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
 
@@ -107,20 +111,20 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         instructorsDb.deleteInstructor(ins1InCourse1.courseId, ins1InCourse1.email);
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse2, ins1InTestingSanitizationCourse);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, ins1InCourse4, ins1InTestingSanitizationCourse);
 
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
 
         instructorsDb.createEntitiesWithoutExistenceCheck(Arrays.asList(ins1InCourse1));
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse2, ins1InTestingSanitizationCourse);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, ins1InCourse4, ins1InTestingSanitizationCourse);
 
         ______TS("success: search for instructors in whole system; deleting instructor without deleting document:"
                 + "document deleted during search, instructor unsearchable");
 
         instructorsDb.deleteEntity(ins2InCourse1);
         results = instructorsDb.searchInstructorsInWholeSystem("instructor2");
-        verifySearchResults(results, ins2InCourse2);
+        verifySearchResults(results, ins2InCourse2, ins2InCourse3);
     }
 
     /*
