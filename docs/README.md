@@ -13,11 +13,9 @@ Here are some documents important for TEAMMATES developers.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
 * How the [**issue tracker**](issues.md) is used - issue lifecycle, issue labels, etc.
-* [**Maintainer Guide**](maintainer-guide.md) - for core team members.
 
 ## Supplementary documents
 
-* The [**developer community structure**](community.md).
 * **Coding standards** for:
   [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
   [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true),
