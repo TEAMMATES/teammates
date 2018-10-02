@@ -48,12 +48,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertNull(retrieved);
 
         ______TS("failure: null parameter");
-        try {
-            accountsDb.getAccount(null);
-            signalFailureToDetectException(" - AssertionError");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.getAccount(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -157,25 +153,18 @@ public class AccountsDbTest extends BaseComponentTestCase {
         // Should we not allow empty fields?
         ______TS("failure case: invalid parameter");
         a.email = "invalid email";
-        try {
-            accountsDb.createAccount(a);
-            signalFailureToDetectException(" - InvalidParametersException");
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsDb.createAccount(a));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH),
-                    e.getMessage());
-        }
+                ipe.getMessage());
 
         ______TS("failure: null parameter");
-        try {
-            accountsDb.createAccount(null);
-            signalFailureToDetectException(" - AssertionError");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.createAccount(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -231,13 +220,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("non-existent account");
 
-        try {
-            a.googleId = "non.existent";
-            accountsDb.updateAccount(a);
-            signalFailureToDetectException(" - EntityDoesNotExistException");
-        } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
-        }
+        a.googleId = "non.existent";
+        AccountAttributes[] finalAccount = new AccountAttributes[] { a };
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> accountsDb.updateAccount(finalAccount[0]));
+        AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ednee.getMessage());
 
         ______TS("failure: invalid parameters");
 
@@ -247,22 +234,16 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.institute = StringHelperExtension.generateStringOfLength(65);
         a.studentProfile.shortName = "??";
 
-        try {
-            accountsDb.updateAccount(a);
-            signalFailureToDetectException(" - InvalidParametersException");
-        } catch (InvalidParametersException ipe) {
-            assertEquals(StringHelper.toString(a.getInvalidityInfo()), ipe.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsDb.updateAccount(finalAccount[0]));
+        assertEquals(StringHelper.toString(a.getInvalidityInfo()), ipe.getMessage());
 
         // Only check first 2 parameters (course & email) which are used to identify the student entry.
         // The rest are actually allowed to be null.
         ______TS("failure: null parameter");
-        try {
-            accountsDb.updateAccount(null);
-            signalFailureToDetectException(" - AssertionError");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> accountsDb.updateAccount(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -290,12 +271,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("failure null paramter");
 
-        try {
-            accountsDb.deleteAccount(null);
-            signalFailureToDetectException(" - AssertionError");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> accountsDb.deleteAccount(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private AccountAttributes createNewAccount() throws Exception {

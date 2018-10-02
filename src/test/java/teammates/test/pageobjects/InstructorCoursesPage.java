@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
