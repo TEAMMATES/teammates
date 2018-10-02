@@ -255,7 +255,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testGetMsqOtherWeight_nullOtherWeight_exceptionThrown() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
@@ -273,7 +273,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         // The following line is commented out, so otherWeight parameter is missing from the requestParams.
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, new String[] { "" });
 
-        msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ);
+        assertThrows(AssertionError.class, () -> msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
     }
 
     @Test

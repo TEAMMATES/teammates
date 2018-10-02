@@ -31,10 +31,10 @@ public class AdminEmail extends BaseEntity {
     private String subject;
 
     //For draft emails,this is null. For sent emails, this is not null;
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant sendDate;
 
-    @Translate(value = InstantTranslatorFactory.class)
+    @Translate(InstantTranslatorFactory.class)
     private Instant createDate;
 
     @Unindex

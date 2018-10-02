@@ -253,6 +253,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         try {
             a = getAction(params);
             getRedirectResult(a);
+            signalFailureToDetectException();
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());

@@ -1,9 +1,9 @@
 package teammates.test.pageobjects;
 
 import static com.google.common.base.Preconditions.checkState;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -404,7 +404,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void deleteFeedbackResponseComment(String commentIdSuffix, boolean hasParentCommentModal) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        final WebElement deleteCommentButton =
+        WebElement deleteCommentButton =
                 commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix));
 
         WebElement modalBackdrop = null;
@@ -503,7 +503,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * with the hover action triggered before each retry.
      */
     private void verifyPopoverImageUrlWithHoverRetry(
-            final String popoverSelector, final String hoverSelector, final String urlRegex, String taskName)
+            String popoverSelector, String hoverSelector, String urlRegex, String taskName)
             throws MaximumRetriesExceededException {
         uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
             @Override
@@ -522,7 +522,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * Similar to {@link #verifyPopoverImageUrlWithHoverRetry}, but for click actions.
      */
     private void verifyPopoverImageUrlWithClickRetry(
-            final String popoverSelector, final String clickSelector, final String urlRegex, String taskName)
+            String popoverSelector, String clickSelector, String urlRegex, String taskName)
             throws MaximumRetriesExceededException {
         uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
             @Override

@@ -251,7 +251,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         try {
             action = getAction(submissionParams);
-            result = getAjaxResult(action);
+            getAjaxResult(action);
+            signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("FeedbackResponseComment should not be null", e.getMessage());
         }
@@ -345,9 +346,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 

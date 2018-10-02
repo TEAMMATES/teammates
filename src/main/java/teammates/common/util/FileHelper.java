@@ -18,7 +18,7 @@ public final class FileHelper {
      * @param file The file name, which must be in the {@code resources} folder.
      */
     public static InputStream getResourceAsStream(String file) {
-        return Config.class.getClassLoader().getResourceAsStream(file);
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
     }
 
     /**

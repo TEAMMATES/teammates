@@ -67,6 +67,7 @@ public class InstructorFeedbackRestoreAllSoftDeletedSessionsActionTest extends B
         try {
             restoreAllAction = getAction();
             getRedirectResult(restoreAllAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor "
                     + "[instructor1@course3.tmt] for privilege [canmodifysession]", e.getMessage());

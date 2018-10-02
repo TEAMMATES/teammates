@@ -2,8 +2,9 @@ package teammates.client.scripts;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -45,7 +46,7 @@ public class GenerateFeedbackReport extends RemoteApiClient {
                 file.createNewFile();
             }
 
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()))) {
+            try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(fileName))) {
                 bw.write(fileContent);
             }
         } catch (IOException e) {

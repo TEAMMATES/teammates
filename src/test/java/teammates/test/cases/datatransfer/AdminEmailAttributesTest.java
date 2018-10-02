@@ -66,40 +66,40 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredSubjectParam() {
         ______TS("failure: subject cannot be null)");
 
-        AdminEmailAttributes
-                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(null, addressReceiverListString, groupReceiverListFileKey, content).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredAddressReceiverParam() {
         ______TS("failure: addressReceiverListString cannot be null)");
 
-        AdminEmailAttributes
-                .builder(subject, null, groupReceiverListFileKey, content)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(subject, null, groupReceiverListFileKey, content).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredGroupReceiverParam() {
         ______TS("failure: groupReceiverListFileKey cannot be null)");
 
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, null, content)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(subject, addressReceiverListString, null, content).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredContentParam() {
         ______TS("failure: content cannot be null)");
 
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(subject, addressReceiverListString, groupReceiverListFileKey, null).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("failure: subject must start with alphanumeric character");
 
         attributes.subject = "_InvalidSubject";
-        assertTrue(attributes.subject.startsWith("_"));
+        assertEquals('_', attributes.subject.charAt(0));
         String expectedSubjectCharsError = getInvalidityInfoForSubject(attributes.subject);
 
         assertEquals("Invalid subject input should return appropriate error string",
@@ -199,6 +199,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 validAdminEmailAttributesObject.getIdentificationString());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         AdminEmail adminEmail = validAdminEmailAttributesObject.toEntity();

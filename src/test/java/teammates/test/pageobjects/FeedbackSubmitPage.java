@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -161,7 +161,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = SanitizationHelper.sanitizeStringForXPath(name);
-        final WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
+        WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
         selectDropdownByVisibleValue(selectElement, choiceName);
     }
 
