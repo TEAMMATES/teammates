@@ -1329,14 +1329,14 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "3%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "3%instructor1@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-01-01T23:59:00Z",
-      "commentText": "Instructor 1 comment to student 1 self feedback Question 3"
+      "commentText": "Instructor 1 comment to instructor 1 self feedback Question 3"
     },
     "comment1FromT1C1ToR1Q1S1C2": {
       "courseId": "idOfTypicalCourse2",

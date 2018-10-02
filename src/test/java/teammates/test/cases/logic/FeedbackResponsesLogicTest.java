@@ -358,7 +358,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         ______TS("standard update email case");
 
         // Student 1 currently has 2 responses to him and 2 from himself.
-        // Student 1 currently has 1 response comment for responses to him
+        // Student 1 currently has 2 response comment for responses to him
         // and 1 response comment from responses from himself.
         StudentAttributes studentToUpdate = dataBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForReceiver =
@@ -375,7 +375,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         assertEquals(responsesForReceiver.size(), 2);
         assertEquals(responsesFromGiver.size(), 2);
-        assertEquals(responseCommentsForStudent.size(), 2);
+        assertEquals(responseCommentsForStudent.size(), 3);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, studentToUpdate.email, "new@email.tmt");
@@ -406,7 +406,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         assertEquals(responsesForReceiver.size(), 2);
         assertEquals(responsesFromGiver.size(), 2);
-        assertEquals(responseCommentsForStudent.size(), 2);
+        assertEquals(responseCommentsForStudent.size(), 3);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
