@@ -746,7 +746,8 @@ public final class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null, null);
+        return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null,
+                SectionDetail.NOT_APPLICABLE);
     }
 
     /**
@@ -786,8 +787,8 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, null, questionId,
-                isMissingResponsesShown, isStatsShown);
+                feedbackSessionName, courseId, userEmail, null, SectionDetail.NOT_APPLICABLE,
+                questionId, isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
@@ -829,7 +830,7 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
                          .append(System.lineSeparator());
         }
-        if (sectionDetail != null) {
+        if (sectionDetail != SectionDetail.NOT_APPLICABLE) {
             exportBuilder.append(String.format("Section View Detail,%s", SanitizationHelper.sanitizeForCsv(
                     sectionDetail.getSectionDetail()))).append(System.lineSeparator());
         }
