@@ -89,25 +89,21 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
     @Test
     public void testUpdateOrCreateStudentProfile_nullParameter_shouldThrowAssertionException() throws Exception {
-        try {
-            profilesDb.updateOrCreateStudentProfile(null);
-            signalFailureToDetectException(" - Assertion Error");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateOrCreateStudentProfile(null));
+
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
     public void testUpdateOrCreateStudentProfile_invalidParameter_shouldThrowInvalidParamException() {
-        try {
-            profilesDb.updateOrCreateStudentProfile(StudentProfileAttributes.builder("").build());
-            signalFailureToDetectException(" - InvalidParametersException");
-        } catch (InvalidParametersException ipe) {
-            assertEquals(getPopulatedEmptyStringErrorMessage(
-                             FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                             FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
-                         ipe.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> profilesDb.updateOrCreateStudentProfile(StudentProfileAttributes.builder("").build()));
+
+        assertEquals(getPopulatedEmptyStringErrorMessage(
+                FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
+                ipe.getMessage());
     }
 
     @Test
@@ -218,40 +214,28 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private void testUpdateProfilePictureWithNullParameters() {
         ______TS("null parameters");
         // googleId
-        try {
-            profilesDb.updateStudentProfilePicture(null, "anything");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture(null, "anything"));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         // pictureKey
-        try {
-            profilesDb.updateStudentProfilePicture("anything", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture("anything", null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testUpdateProfilePictureWithEmptyParameters(StudentProfileAttributes spa) {
         ______TS("empty parameters");
 
         // googleId
-        try {
-            profilesDb.updateStudentProfilePicture("", "anything");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains("GoogleId is empty", ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture("", "anything"));
+        AssertHelper.assertContains("GoogleId is empty", ae.getMessage());
 
         // picture key
-        try {
-            profilesDb.updateStudentProfilePicture(spa.googleId, "");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains("PictureKey is empty", ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture(spa.googleId, ""));
+        AssertHelper.assertContains("PictureKey is empty", ae.getMessage());
     }
 
     private void testUpdateProfilePictureSuccessInitiallyEmpty(

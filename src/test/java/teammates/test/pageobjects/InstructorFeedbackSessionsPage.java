@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -141,6 +141,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         try {
             getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
@@ -169,12 +170,18 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
 
         ______TS("access a closed session");
+
+        Instant originalResultVisibleTime = closedSession.getResultsVisibleFromTime();
+        // Session is closed but not published; modify result visible time
+        closedSession.setResultsVisibleFromTime(Instant.now().plus(Duration.ofDays(1L)));
+        FeedbackSessionsLogic.inst().updateFeedbackSession(closedSession);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, closedSession.getCourseId(),
@@ -185,10 +192,15 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
+
+        // Restore original result visible time
+        closedSession.setResultsVisibleFromTime(originalResultVisibleTime);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(closedSession);
 
         ______TS("access a non-existent session");
 
@@ -200,7 +212,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException exception) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          exception.getMessage());
