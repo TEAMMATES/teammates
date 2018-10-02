@@ -88,12 +88,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         coursesDb.deleteEntity(c);
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.getCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCoursesForInstructor() throws Exception {
@@ -123,19 +119,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.getCoursesForInstructor((String) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCoursesForInstructor((String) null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            coursesLogic.getCoursesForInstructor((List<InstructorAttributes>) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null", e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.getCoursesForInstructor((List<InstructorAttributes>) null));
+        assertEquals("Supplied parameter was null", ae.getMessage());
     }
 
     private void testGetSoftDeletedCoursesForInstructors() {
@@ -163,12 +152,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.getSoftDeletedCoursesForInstructors(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getSoftDeletedCoursesForInstructors(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetSoftDeletedCourseForInstructor() {
@@ -191,12 +176,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.getSoftDeletedCourseForInstructor(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getSoftDeletedCourseForInstructor(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testIsSampleCourse() {
@@ -225,12 +206,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.isSampleCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Course ID is null", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.isSampleCourse(null));
+        assertEquals("Course ID is null", ae.getMessage());
     }
 
     private void testIsCoursePresent() {
@@ -253,12 +230,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.isCoursePresent(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.isCoursePresent(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testVerifyCourseIsPresent() throws Exception {
@@ -269,12 +242,9 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .builder("non-existent-course", "non existent course", ZoneId.of("UTC"))
                 .build();
 
-        try {
-            coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId());
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("Course does not exist: ", e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId()));
+        AssertHelper.assertContains("Course does not exist: ", ednee.getMessage());
 
         ______TS("typical case: verify an existent course");
 
@@ -285,12 +255,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.verifyCourseIsPresent(null);
-            signalFailureToDetectException();
-        } catch (AssertionError | EntityDoesNotExistException e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.verifyCourseIsPresent(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCourseSummary() throws Exception {
@@ -337,28 +303,17 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("non-existent");
 
-        try {
-            coursesLogic.getCourseSummary("non-existent-course");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("The course does not exist:", e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseSummary("non-existent-course"));
+        AssertHelper.assertContains("The course does not exist:", ednee.getMessage());
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.getCourseSummary((CourseAttributes) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourseSummary((String) null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            coursesLogic.getCourseSummary((String) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourseSummary((CourseAttributes) null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCourseSummaryWithoutStats() throws Exception {
@@ -393,28 +348,18 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("non-existent");
 
-        try {
-            coursesLogic.getCourseSummaryWithoutStats("non-existent-course");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("The course does not exist:", e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseSummaryWithoutStats("non-existent-course"));
+        AssertHelper.assertContains("The course does not exist:", ednee.getMessage());
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.getCourseSummaryWithoutStats((CourseAttributes) null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            coursesLogic.getCourseSummaryWithoutStats((String) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourseSummaryWithoutStats((String) null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCourseDetails() throws Exception {
@@ -464,21 +409,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("non-existent");
 
-        try {
-            coursesLogic.getCourseSummary("non-existent-course");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("The course does not exist:", e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseSummary("non-existent-course"));
+        AssertHelper.assertContains("The course does not exist:", ednee.getMessage());
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.getCourseSummary((String) null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourseSummary((String) null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetTeamsForCourse() throws Exception {
@@ -514,21 +452,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("non-existent");
 
-        try {
-            coursesLogic.getTeamsForCourse("non-existent-course");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist", e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getTeamsForCourse("non-existent-course"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.getTeamsForCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getTeamsForCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCoursesForStudentAccount() throws Exception {
@@ -571,22 +502,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("non-existent student");
 
-        try {
-            coursesLogic.getCoursesForStudentAccount("non-existent-student");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCoursesForStudentAccount("non-existent-student"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.getCoursesForStudentAccount(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCoursesForStudentAccount(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCourseDetailsListForStudent() throws Exception {
@@ -613,22 +536,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         // student with no courses is not applicable
         ______TS("non-existent student");
 
-        try {
-            coursesLogic.getCourseDetailsListForStudent("non-existent-student");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseDetailsListForStudent("non-existent-student"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.getCourseDetailsListForStudent(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourseDetailsListForStudent(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCourseSummariesForInstructor() throws Exception {
@@ -657,22 +572,15 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Non-existent instructor");
 
-        try {
-            coursesLogic.getCourseSummariesForInstructor("non-existent-instructor", false);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseSummariesForInstructor("non-existent-instructor", false));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.getCourseSummariesForInstructor(null, false);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.getCourseSummariesForInstructor(null, false));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -699,12 +607,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null, false);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null, false));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetCourseStudentListAsCsv() throws Exception {
@@ -781,34 +686,26 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
+        String finalCourseId = courseId;
+        String finalInstructorId = instructorId;
+
         ______TS("Failure case: non existent instructor");
 
-        try {
-            coursesLogic.getCourseStudentListAsCsv(courseId, "non-existent-instructor");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseStudentListAsCsv(finalCourseId, "non-existent-instructor"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("Failure case: non existent course in the list of courses of the instructor");
 
-        try {
-            coursesLogic.getCourseStudentListAsCsv("non-existent-course", instructorId);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
+        ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getCourseStudentListAsCsv("non-existent-course", finalInstructorId));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("Failure case: null parameter");
 
-        try {
-            coursesLogic.getCourseStudentListAsCsv(courseId, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.getCourseStudentListAsCsv(finalCourseId, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testHasIndicatedSections() throws Exception {
@@ -825,22 +722,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: course does not exists");
 
-        try {
-            coursesLogic.hasIndicatedSections("non-existent-course");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.hasIndicatedSections("non-existent-course"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
 
         ______TS("Failure case: null parameter");
 
-        try {
-            coursesLogic.hasIndicatedSections(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.hasIndicatedSections(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -856,24 +745,18 @@ public class CoursesLogicTest extends BaseLogicTest {
         coursesLogic.deleteCourseCascade(c.getId());
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.createCourse(null, c.getName(), c.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.createCourse(null, c.getName(), c.getTimeZone().getId()));
+        assertEquals("Non-null value expected", ae.getMessage());
         ______TS("Invalid time zone");
 
         String invalidTimeZone = "Invalid Timezone";
-        try {
-            coursesLogic.createCourse(c.getId(), c.getName(), invalidTimeZone);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            String expectedErrorMessage = getPopulatedErrorMessage(
-                    FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                    FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
-            assertEquals(expectedErrorMessage, e.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.createCourse(c.getId(), c.getName(), invalidTimeZone));
+        String expectedErrorMessage = getPopulatedErrorMessage(
+                FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+        assertEquals(expectedErrorMessage, ipe.getMessage());
     }
 
     private void testCreateCourseAndInstructor() throws Exception {
@@ -898,12 +781,9 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .builder("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
                 .build();
 
-        try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("for a non-existent instructor", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone().getId()));
+        AssertHelper.assertContains("for a non-existent instructor", ae.getMessage());
         verifyAbsentInDatastore(c);
         verifyAbsentInDatastore(i);
 
@@ -919,12 +799,9 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .build();
 
         accountsDb.createAccount(a);
-        try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("doesn't have instructor privileges", e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone().getId()));
+        AssertHelper.assertContains("doesn't have instructor privileges", ae.getMessage());
         verifyAbsentInDatastore(c);
         verifyAbsentInDatastore(i);
 
@@ -943,13 +820,10 @@ public class CoursesLogicTest extends BaseLogicTest {
                 + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
                 + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces.";
 
-        try {
-            coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName(),
-                                                   invalidCourse.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            assertEquals(expectedError, e.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.createCourseAndInstructor(
+                        i.googleId, invalidCourse.getId(), invalidCourse.getName(), invalidCourse.getTimeZone().getId()));
+        assertEquals(expectedError, ipe.getMessage());
         verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);
 
@@ -960,30 +834,26 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .build();
         instructorsDb.createEntity(i); //create a duplicate instructor
 
-        try {
-            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
-                                                   courseWithDuplicateInstructor.getName(),
-                                                   courseWithDuplicateInstructor.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
-                                        e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.createCourseAndInstructor(
+                        i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName(),
+                        courseWithDuplicateInstructor.getTimeZone().getId()));
+        AssertHelper.assertContains(
+                "Unexpected exception while trying to create instructor for a new course",
+                ae.getMessage());
         verifyAbsentInDatastore(courseWithDuplicateInstructor);
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
         i.email = "ins.for.iccai.gmail.tmt";
 
-        try {
-            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
-                                                   courseWithDuplicateInstructor.getName(),
-                                                   courseWithDuplicateInstructor.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
-                                        e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.createCourseAndInstructor(
+                        i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName(),
+                        courseWithDuplicateInstructor.getTimeZone().getId()));
+        AssertHelper.assertContains(
+                "Unexpected exception while trying to create instructor for a new course",
+                ae.getMessage());
         verifyAbsentInDatastore(courseWithDuplicateInstructor);
 
         ______TS("success: typical case");
@@ -1001,14 +871,11 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        try {
-            coursesLogic.createCourseAndInstructor(null, courseWithDuplicateInstructor.getId(),
-                                                   courseWithDuplicateInstructor.getName(),
-                                                   courseWithDuplicateInstructor.getTimeZone().getId());
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.createCourseAndInstructor(
+                        null, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName(),
+                        courseWithDuplicateInstructor.getTimeZone().getId()));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testMoveCourseToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
@@ -1042,12 +909,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.moveCourseToRecycleBin(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.moveCourseToRecycleBin(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testRestoreCourseFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
@@ -1080,12 +943,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.restoreCourseFromRecycleBin(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.restoreCourseFromRecycleBin(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testRestoreAllCoursesFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
@@ -1124,12 +983,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.restoreAllCoursesFromRecycleBin(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> coursesLogic.restoreAllCoursesFromRecycleBin(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testDeleteCourse() {
@@ -1171,12 +1027,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.deleteCourseCascade(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.deleteCourseCascade(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testDeleteAllCourses() {
@@ -1202,12 +1054,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        try {
-            coursesLogic.deleteAllCoursesCascade(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.deleteAllCoursesCascade(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testUpdateCourse() throws Exception {
@@ -1228,21 +1076,18 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         String emptyName = "";
         String invalidTimeZone = "Invalid Timezone";
-        try {
-            coursesLogic.updateCourse(c.getId(), emptyName, invalidTimeZone);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            String expectedErrorMessage =
-                    getPopulatedEmptyStringErrorMessage(
-                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                            FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH)
-                    + System.lineSeparator()
-                    + getPopulatedErrorMessage(
-                            FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                            FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
-            assertEquals(expectedErrorMessage, e.getMessage());
-            verifyPresentInDatastore(c);
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.updateCourse(c.getId(), emptyName, invalidTimeZone));
+        String expectedErrorMessage =
+                getPopulatedEmptyStringErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH)
+                        + System.lineSeparator()
+                        + getPopulatedErrorMessage(
+                        FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                        FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+        assertEquals(expectedErrorMessage, ipe.getMessage());
+        verifyPresentInDatastore(c);
     }
 
 }

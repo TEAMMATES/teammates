@@ -73,38 +73,25 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         verifyPresentInDatastore(fsa);
 
         ______TS("duplicate");
-        try {
-            fsDb.createEntity(fsa);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                                                      fsa.getEntityTypeAsString())
-                                            + fsa.getIdentificationString(),
-                                        e.getMessage());
-        }
+        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fsDb.createEntity(fsa));
+        AssertHelper.assertContains(
+                String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.getEntityTypeAsString())
+                        + fsa.getIdentificationString(),
+                eaee.getMessage());
 
         fsDb.deleteEntity(fsa);
         verifyAbsentInDatastore(fsa);
 
         ______TS("null params");
 
-        try {
-            fsDb.createEntity(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.createEntity(null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("invalid params");
 
-        try {
-            fsa.setStartTime(Instant.now());
-            fsDb.createEntity(fsa);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            // start time is now after end time
-            AssertHelper.assertContains("start time", e.getLocalizedMessage());
-        }
+        fsa.setStartTime(Instant.now());
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class, () -> fsDb.createEntity(fsa));
+        AssertHelper.assertContains("start time", ipe.getLocalizedMessage());
 
     }
 
@@ -150,21 +137,15 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null fsName");
 
-        try {
-            fsDb.getFeedbackSession("idOfTypicalCourse1", null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> fsDb.getFeedbackSession("idOfTypicalCourse1", null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("null courseId");
 
-        try {
-            fsDb.getFeedbackSession(null, "First feedback session");
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> fsDb.getFeedbackSession(null, "First feedback session"));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
     }
 
@@ -189,12 +170,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        try {
-            fsDb.getFeedbackSessionsForCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.getFeedbackSessionsForCourse(null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existant course");
 
@@ -222,12 +199,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        try {
-            fsDb.getSoftDeletedFeedbackSessionsForCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.getSoftDeletedFeedbackSessionsForCourse(null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existant course");
 
@@ -341,12 +314,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     public void testUpdateFeedbackSession() throws Exception {
 
         ______TS("null params");
-        try {
-            fsDb.updateFeedbackSession(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.updateFeedbackSession(null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+
         ______TS("invalid feedback sesion attributes");
         FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
         fsDb.deleteEntity(invalidFs);
@@ -354,25 +324,20 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         Instant afterEndTime = invalidFs.getEndTime().plus(Duration.ofDays(30));
         invalidFs.setStartTime(afterEndTime);
         invalidFs.setResultsVisibleFromTime(afterEndTime);
-        try {
-            fsDb.updateFeedbackSession(invalidFs);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            assertEquals(
-                    String.format(TIME_FRAME_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME,
-                                  SESSION_START_TIME_FIELD_NAME),
-                    e.getLocalizedMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> fsDb.updateFeedbackSession(invalidFs));
+        assertEquals(
+                String.format(TIME_FRAME_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME),
+                ipe.getLocalizedMessage());
+
         ______TS("feedback session does not exist");
         FeedbackSessionAttributes nonexistantFs = getNewFeedbackSession();
         nonexistantFs.setFeedbackSessionName("non existant fs");
         nonexistantFs.setCourseId("non.existant.course");
-        try {
-            fsDb.updateFeedbackSession(nonexistantFs);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(FeedbackSessionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsDb.updateFeedbackSession(nonexistantFs));
+        AssertHelper.assertContains(FeedbackSessionsDb.ERROR_UPDATE_NON_EXISTENT, ednee.getLocalizedMessage());
+
         ______TS("standard success case");
         FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
         fsDb.deleteEntity(modifiedSession);

@@ -8,9 +8,7 @@ import teammates.common.exception.NullPostParameterException;
  * an unchecked {@link AssertionError} will be thrown at runtime.
  *
  * <p>Normally, we use Java assertion to do runtime checking, but GAE does not support the assertions.
- * The methods of this file is adapted from org.junit.Assert v4.10.
- *
- * @see org.junit.Assert
+ * The methods of this file are adapted from org.junit.jupiter.api.Assertions v5.3.1.
  */
 public final class Assumption {
 
@@ -20,116 +18,110 @@ public final class Assumption {
     }
 
     /**
-     * Asserts that a condition is true. If it isn't it throws an
-     * AssertionFailedError with the given message.
+     * <em>Asserts</em> that the supplied {@code condition} is {@code true}.
+     *
+     * <p>Fails with the supplied failure {@code message}.
      */
     public static void assertTrue(String message, boolean condition) {
         if (!condition) {
-            fail(message);
+            fail(buildPrefix(message) + "expected: <true> but was: <false>");
         }
     }
 
     /**
-     * Asserts that a condition is true. If it isn't it throws an
-     * AssertionFailedError.
+     * <em>Asserts</em> that the supplied {@code condition} is {@code true}.
      */
     public static void assertTrue(boolean condition) {
         assertTrue(null, condition);
     }
 
     /**
-     * Asserts that a condition is false. If it isn't it throws an
-     * AssertionFailedError with the given message.
+     * <em>Asserts</em> that the supplied {@code condition} is not {@code true}.
+     *
+     * <p>Fails with the supplied failure {@code message}.
      */
     public static void assertFalse(String message, boolean condition) {
-        assertTrue(message, !condition);
+        if (condition) {
+            fail(buildPrefix(message) + "expected: <false> but was: <true>");
+        }
     }
 
     /**
-     * Asserts that a condition is false. If it isn't it throws an
-     * AssertionFailedError.
+     * <em>Asserts</em> that the supplied {@code condition} is not {@code true}.
      */
     public static void assertFalse(boolean condition) {
         assertFalse(null, condition);
     }
 
     /**
-     * Fails a test with the given message.
+     * <em>Fails</em> a test with the given failure {@code message}.
      */
     public static void fail(String message) {
         throw new AssertionError(message);
     }
 
     /**
-     * Fails a test with no message.
+     * <em>Fails</em> a test <em>without</em> a failure message.
+     *
+     * <p>Although failing <em>with</em> an explicit failure message is recommended,
+     * this method may be useful when maintaining legacy code.
+     *
+     * @deprecated Use the version that makes failure message compulsory
      */
+    @Deprecated
     public static void fail() {
-        fail(null);
+        throw new AssertionError();
     }
 
     /**
-     * Asserts that two Strings are equal.
+     * <em>Asserts</em> that {@code expected} and {@code actual} are equal.
+     *
+     * <p>If both are {@code null}, they are considered equal.
+     *
+     * <p>Fails with the supplied failure {@code message}.
      */
-    public static void assertEquals(String message, String expected,
-            String actual) {
-        if (expected == null && actual == null) {
-            return;
+    public static void assertEquals(String message, String expected, String actual) {
+        if (!objectsAreEqual(expected, actual)) {
+            failNotEqual(expected, actual, message);
         }
-
-        if (expected != null && expected.equals(actual)) {
-            return;
-        }
-
-        throw new AssertionError(format(message, expected, actual));
     }
 
     /**
-     * Asserts that two longs are equal. If they are not an AssertionFailedError
-     * is thrown with the given message.
+     * <em>Asserts</em> that {@code expected} and {@code actual} are equal.
+     *
+     * <p>Fails with the supplied failure {@code message}.
      */
     public static void assertEquals(String message, long expected, long actual) {
-        if (expected == actual) {
-            return;
+        if (expected != actual) {
+            failNotEqual(String.valueOf(expected), String.valueOf(actual), message);
         }
-
-        failNotEquals(message, expected, actual);
     }
 
     /**
-     * Asserts that two longs are equal.
+     * <em>Asserts</em> that {@code expected} and {@code actual} are equal.
      */
     public static void assertEquals(long expected, long actual) {
         assertEquals(null, expected, actual);
     }
 
     /**
-     * Asserts that an object isn't null.
+     * <em>Asserts</em> that {@code actual} is not {@code null}.
      */
     public static void assertNotNull(Object object) {
         assertNotNull(null, object);
     }
 
     /**
-     * Asserts that all objects aren't null. If it is an AssertionFailedError is
-     * thrown with the given message.
+     * <em>Asserts</em> that {@code objects} are all not {@code null}.
+     *
+     * <p>Fails with the supplied failure {@code message}.
      */
     public static void assertNotNull(String message, Object... objects) {
         for (Object object : objects) {
-            assertTrue(message, object != null);
+            if (object == null) {
+                fail(message);
+            }
         }
-    }
-
-    public static void failNotEquals(String message, Object expected,
-            Object actual) {
-        fail(format(message, expected, actual));
-    }
-
-    private static String format(String message, Object expected, Object actual) {
-        String formatted = "";
-        if (message != null) {
-            formatted = message + " ";
-        }
-        return formatted + "expected:<" + expected + "> but was:<" + actual + ">";
     }
 
     public static <T> void assertPostParamNotNull(String parameterName, T postParameter) {
@@ -139,12 +131,43 @@ public final class Assumption {
         }
     }
 
+    /**
+     * <em>Asserts</em> that the given string is neither {@code null} nor empty.
+     */
     public static void assertNotEmpty(String str) {
-        assertFalse(str.isEmpty());
+        assertFalse(StringHelper.isEmpty(str));
     }
 
+    /**
+     * <em>Asserts</em> that the given string is neither {@code null} nor empty.
+     *
+     * <p>Fails with the supplied failure {@code message}.
+     */
     public static void assertNotEmpty(String message, String str) {
-        assertFalse(message, str.isEmpty());
+        assertFalse(message, StringHelper.isEmpty(str));
+    }
+
+    private static String format(String expected, String actual, String message) {
+        return buildPrefix(message) + formatValues(expected, actual);
+    }
+
+    private static boolean objectsAreEqual(Object obj1, Object obj2) {
+        if (obj1 == null) {
+            return obj2 == null;
+        }
+        return obj1.equals(obj2);
+    }
+
+    private static void failNotEqual(String expected, String actual, String message) {
+        fail(format(expected, actual, message));
+    }
+
+    private static String buildPrefix(String message) {
+        return StringHelper.isEmpty(message) ? "" : message + " ==> ";
+    }
+
+    private static String formatValues(String expected, String actual) {
+        return String.format("expected: <%s> but was: <%s>", expected, actual);
     }
 
 }

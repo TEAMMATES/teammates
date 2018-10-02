@@ -251,7 +251,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         try {
             action = getAction(submissionParams);
-            result = getAjaxResult(action);
+            getAjaxResult(action);
+            signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("FeedbackResponseComment should not be null", e.getMessage());
         }

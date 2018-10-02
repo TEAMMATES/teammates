@@ -76,35 +76,23 @@ public class CourseAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithNullId() {
-        try {
-            CourseAttributes.builder(null, validName, validTimeZone)
-                    .build();
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> CourseAttributes.builder(null, validName, validTimeZone).build());
+        assertEquals("Non-null value expected", ae.getMessage());
     }
 
     @Test
     public void testBuilderWithNullName() {
-        try {
-            CourseAttributes.builder(validId, null, validTimeZone)
-                    .build();
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> CourseAttributes.builder(validId, null, validTimeZone).build());
+        assertEquals("Non-null value expected", ae.getMessage());
     }
 
     @Test
     public void testBuilderWithNullTimeZone() {
-        try {
-            CourseAttributes.builder(validId, validName, null)
-                    .build();
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Non-null value expected", e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> CourseAttributes.builder(validId, validName, null).build());
+        assertEquals("Non-null value expected", ae.getMessage());
     }
 
     @Test
