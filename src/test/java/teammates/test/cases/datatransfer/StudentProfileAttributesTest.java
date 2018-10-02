@@ -37,10 +37,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .build();
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testBuilderWithNullValuesForRequiredFields() {
-        StudentProfileAttributes.builder(null)
-                .build();
+        assertThrows(AssertionError.class, () -> StudentProfileAttributes.builder(null).build());
     }
 
     @Test

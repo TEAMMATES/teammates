@@ -1,6 +1,6 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
 import java.time.LocalDate;

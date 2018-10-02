@@ -768,48 +768,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of  a feedback session to show to an instructor from a specific section.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSection(
-            String feedbackSessionName, String courseId, String userEmail,
-            String section)
-            throws EntityDoesNotExistException {
-
-        CourseRoster roster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<>();
-        params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "false");
-        params.put(PARAM_IN_SECTION, "false");
-        params.put(PARAM_FROM_SECTION, "true");
-        params.put(PARAM_TO_SECTION, "false");
-        params.put(PARAM_SECTION, section);
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
-                courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
-    }
-
-    /**
-     * Gets results of  a feedback session to show to an instructor to a specific section.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSection(
-            String feedbackSessionName, String courseId, String userEmail,
-            String section)
-            throws EntityDoesNotExistException {
-
-        CourseRoster roster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<>();
-        params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "false");
-        params.put(PARAM_FROM_SECTION, "false");
-        params.put(PARAM_TO_SECTION, "true");
-        params.put(PARAM_SECTION, section);
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
-                courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
-    }
-
-    /**
      * Gets results of a feedback session to show to a student.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
@@ -818,17 +776,6 @@ public final class FeedbackSessionsLogic {
         return getFeedbackSessionResultsForUserInSectionByQuestions(
                 feedbackSessionName, courseId, userEmail,
                 UserRole.STUDENT, null);
-    }
-
-    /**
-     * Gets results of a feedback session to show to a student.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
-            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
-            throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSectionByQuestions(
-                feedbackSessionName, courseId, userEmail,
-                UserRole.STUDENT, null, roster);
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(

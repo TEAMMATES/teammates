@@ -44,6 +44,7 @@ public class InstructorFeedbackRestoreSoftDeletedSessionActionTest extends BaseA
         InstructorFeedbackRestoreSoftDeletedSessionAction restoreAction = getAction(submissionParams);
         try {
             getRedirectResult(restoreAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Second feedback session] is not accessible to instructor "
                     + "[instructor2@course3.tmt] for privilege [canmodifysession]", e.getMessage());

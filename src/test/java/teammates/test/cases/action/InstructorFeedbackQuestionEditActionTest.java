@@ -359,7 +359,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         try {
             a = getAction(submissionParams);
-            r = getRedirectResult(a);
+            getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -386,7 +386,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         try {
             a = getAction(submissionParams);
-            r = getRedirectResult(a);
+            getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
