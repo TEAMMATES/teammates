@@ -40,6 +40,7 @@ public class InstructorCourseDeleteAllSoftDeletedCoursesActionTest extends BaseA
         try {
             deleteAllAction = getAction();
             getRedirectResult(deleteAllAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Course [idOfTypicalCourse3] is not accessible to instructor [instructor2@course3.tmt] "
                     + "for privilege [canmodifycourse]", e.getMessage());
@@ -74,6 +75,7 @@ public class InstructorCourseDeleteAllSoftDeletedCoursesActionTest extends BaseA
         try {
             deleteAllAction = getAction();
             getRedirectResult(deleteAllAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Course [icdat.owncourse] is not accessible to instructor [instructor1@course3.tmt] "
                     + "for privilege [canmodifycourse]", e.getMessage());

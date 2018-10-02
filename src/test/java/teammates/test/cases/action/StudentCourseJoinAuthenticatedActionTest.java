@@ -63,6 +63,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         try {
             StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams);
             getRedirectResult(authenticatedAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("No student with given registration key:" + invalidKey, uae.getMessage());
         }

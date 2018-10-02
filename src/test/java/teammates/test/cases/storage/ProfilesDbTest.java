@@ -55,42 +55,33 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private void testUpdateProfileWithNullParameter()
             throws InvalidParametersException, EntityDoesNotExistException {
         ______TS("null parameter");
-        try {
-            profilesDb.updateStudentProfile(null);
-            signalFailureToDetectException(" - Assertion Error");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> profilesDb.updateStudentProfile(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testUpdateProfileWithInvalidParameters()
             throws Exception {
         ______TS("invalid paramters case");
-        try {
-            profilesDb.updateStudentProfile(StudentProfileAttributes.builder("").build());
-            signalFailureToDetectException(" - InvalidParametersException");
-        } catch (InvalidParametersException ipe) {
-            assertEquals(getPopulatedEmptyStringErrorMessage(
-                             FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                             FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
-                         ipe.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> profilesDb.updateStudentProfile(StudentProfileAttributes.builder("").build()));
+        assertEquals(
+                getPopulatedEmptyStringErrorMessage(
+                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
+                ipe.getMessage());
     }
 
     private void testUpdatingNonExistentProfile(AccountAttributes a)
             throws Exception {
         ______TS("non-existent account");
 
-        try {
-            a.studentProfile.googleId = "non-ExIsTenT";
-            profilesDb.updateStudentProfile(a.studentProfile);
-            signalFailureToDetectException(" - EntityDoesNotExistException");
-        } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(
-                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId,
-                    edne.getMessage());
-            a.studentProfile.googleId = a.googleId;
-        }
+        a.studentProfile.googleId = "non-ExIsTenT";
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> profilesDb.updateStudentProfile(a.studentProfile));
+        AssertHelper.assertContains(
+                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId,
+                ednee.getMessage());
+        a.studentProfile.googleId = a.googleId;
     }
 
     private void testUpdateProfileSuccessNoChangesToProfile(AccountAttributes a)
@@ -155,20 +146,14 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             throws EntityDoesNotExistException {
         ______TS("null parameters");
         // googleId
-        try {
-            profilesDb.updateStudentProfilePicture(null, "anything");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture(null, "anything"));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         // pictureKey
-        try {
-            profilesDb.updateStudentProfilePicture("anything", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture("anything", null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testUpdateProfilePictureWithEmptyParameters(AccountAttributes a)
@@ -176,32 +161,23 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         ______TS("empty parameters");
 
         // googleId
-        try {
-            profilesDb.updateStudentProfilePicture("", "anything");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains("GoogleId is empty", ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture("", "anything"));
+        AssertHelper.assertContains("GoogleId is empty", ae.getMessage());
 
         // picture key
-        try {
-            profilesDb.updateStudentProfilePicture(a.googleId, "");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains("PictureKey is empty", ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateStudentProfilePicture(a.googleId, ""));
+        AssertHelper.assertContains("PictureKey is empty", ae.getMessage());
     }
 
     private void testUpdateProfilePictureOnNonExistentProfile() {
         ______TS("non-existent profile");
 
-        try {
-            profilesDb.updateStudentProfilePicture("non-eXisTEnt", "random");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt",
-                    edne.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> profilesDb.updateStudentProfilePicture("non-eXisTEnt", "random"));
+        AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt",
+                ednee.getMessage());
     }
 
     private void testUpdateProfilePictureSuccessInitiallyEmpty(

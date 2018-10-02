@@ -147,12 +147,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         responseToUpdate.recipient = "student3InCourse1@gmail.tmt";
 
-        try {
-            frLogic.updateFeedbackResponse(responseToUpdate);
-            signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains("Trying to create a Feedback Response that exists", e.getMessage());
-        }
+        FeedbackResponseAttributes[] finalResponse = new FeedbackResponseAttributes[] { responseToUpdate };
+        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
+                () -> frLogic.updateFeedbackResponse(finalResponse[0]));
+        AssertHelper.assertContains("Trying to create a Feedback Response that exists", eaee.getMessage());
 
         ______TS("success: recipient changed to something else");
 
@@ -192,14 +190,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         responseToUpdate.setId("invalidId");
 
-        try {
-            frLogic.updateFeedbackResponse(responseToUpdate);
-            signalFailureToDetectException("Should have detected that this response does not exist");
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(
-                        "Trying to update a feedback response that does not exist.",
-                        e.getMessage());
-        }
+        finalResponse[0] = responseToUpdate;
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> frLogic.updateFeedbackResponse(finalResponse[0]));
+        AssertHelper.assertContains(
+                "Trying to update a feedback response that does not exist.",
+                ednee.getMessage());
     }
 
     private void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
@@ -492,12 +488,11 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
 
-        try {
-            frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserRole.ADMIN, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(e.getMessage(), "The role of the requesting use has to be Student or Instructor");
-        }
+        FeedbackQuestionAttributes finalFq = fq;
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                        finalFq, instructor.email, UserRole.ADMIN, null));
+        assertEquals("The role of the requesting use has to be Student or Instructor", ae.getMessage());
     }
 
     private void testIsNameVisibleTo() {

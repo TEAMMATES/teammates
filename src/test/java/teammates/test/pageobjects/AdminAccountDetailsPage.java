@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.openqa.selenium.By;
 

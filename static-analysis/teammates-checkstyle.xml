@@ -160,7 +160,7 @@
       <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
     <module name="IllegalImport">
-      <property name="illegalPkgs" value="sun,com.google.appengine.repackaged,com.google.appengine.labs.repackaged"/>
+      <property name="illegalPkgs" value="sun,com.google.appengine.repackaged,com.google.appengine.labs.repackaged,org.junit.Assert,org.testng.Assert,org.testng.AssertJUnit"/>
     </module>
     <module name="NoLineWrap"/>
     <module name="SuppressionCommentFilter">
