@@ -3,6 +3,7 @@ package teammates.test.cases;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.function.Executable;
 import org.testng.annotations.AfterClass;
@@ -131,27 +132,27 @@ public class BaseTestCase {
     }
 
     protected static void assertEquals(int expected, int actual) {
-        Assertions.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(String message, int expected, int actual) {
-        Assertions.assertEquals(expected, actual, message);
+        Assert.assertEquals(message, expected, actual);
     }
 
     protected static void assertEquals(long expected, long actual) {
-        Assertions.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(double expected, double actual, double delta) {
-        Assertions.assertEquals(expected, actual, delta);
+        Assert.assertEquals(expected, actual, delta);
     }
 
     protected static void assertEquals(Object expected, Object actual) {
-        Assertions.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(String message, Object expected, Object actual) {
-        Assertions.assertEquals(expected, actual, message);
+        Assert.assertEquals(message, expected, actual);
     }
 
     protected static void assertNotEquals(Object unexpected, Object actual) {
