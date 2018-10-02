@@ -262,7 +262,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ae = assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, null, SectionDetail.EITHER));
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
-      
+
         ae = assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", null));
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
