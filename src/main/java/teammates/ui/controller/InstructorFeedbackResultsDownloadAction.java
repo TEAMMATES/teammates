@@ -17,7 +17,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
-        SectionDetail sectionDetail = SectionDetail.valueOf(getRequestParamValue(Const.ParamsNames.SECTION_NAME_DETAIL));
+        String sectionDetailValue = getRequestParamValue(Const.ParamsNames.SECTION_NAME_DETAIL);
+        SectionDetail sectionDetail = SectionDetail.NOT_APPLICABLE;
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
@@ -37,6 +38,11 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         String fileContent;
         String fileName;
+
+        // initialize SectionDetail correctly
+        if (section != null && sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
+            sectionDetail = SectionDetail.valueOf(sectionDetailValue);
+        }
 
         try {
             if ("true".equals(simulateExcessDataForTesting)) {
