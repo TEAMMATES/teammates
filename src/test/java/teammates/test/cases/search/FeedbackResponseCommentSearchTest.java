@@ -27,6 +27,10 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q2S1C1");
         FeedbackResponseCommentAttributes frc1I3Q1S2C2 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S2C2");
+        FeedbackResponseCommentAttributes frc1I1Q1S3C1 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S3C1");
+        FeedbackResponseCommentAttributes frc1I1Q1S3C2 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S3C2");
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
@@ -75,6 +79,11 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         bundle = commentsDb.search("\"student2 In Course1\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1C1);
+
+        ______TS("success: search for comments in different sessions with the same session name");
+
+        bundle = commentsDb.search("\"special\"", instructors);
+        verifySearchResults(bundle, frc1I1Q1S3C1, frc1I1Q1S3C2);
 
         ______TS("success: search for comments; confirms deleted comments are not included in results");
         FeedbackResponseCommentAttributes commentToDelete = commentsDb.getFeedbackResponseComment(frc1I3Q1S2C2.courseId,
