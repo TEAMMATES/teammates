@@ -37,8 +37,8 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN_VARIANT_ONE) || 
-                getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN_VARIANT_TWO);
+        return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN_VARIANT_ONE) 
+                || getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN_VARIANT_TWO);
     }
 
     @Override
