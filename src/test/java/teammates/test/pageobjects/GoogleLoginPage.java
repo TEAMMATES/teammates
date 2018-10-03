@@ -12,7 +12,8 @@ import teammates.test.driver.TestProperties;
 
 public class GoogleLoginPage extends LoginPage {
 
-    private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in - Google Accounts";
+    private static final String EXPECTED_SNIPPET_SIGN_IN_VARIANT_ONE = "Sign in - Google Accounts";
+    private static final String EXPECTED_SNIPPET_SIGN_IN_VARIANT_TWO = "Sign in - Google accounts";
     private static final String EXPECTED_SNIPPET_APPROVAL = "requesting permission to access your Google Account";
 
     @FindBy(css = "div[role='presentation']")
@@ -36,7 +37,8 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN);
+        return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN_VARIANT_ONE) || 
+                getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN_VARIANT_TWO);
     }
 
     @Override
