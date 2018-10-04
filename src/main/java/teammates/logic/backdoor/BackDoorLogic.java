@@ -455,7 +455,8 @@ public class BackDoorLogic extends Logic {
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
             comment.feedbackQuestionId = questionIdMap.get(questionKey);
 
-            String[] responseIdParam = comment.feedbackResponseId.split("%");
+            // format of feedbackResponseId: questionNumber%giverEmail%recipient
+            String[] responseIdParam = comment.feedbackResponseId.split("%", 3);
             comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
         }
     }

@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -143,8 +143,8 @@ public final class AssertHelper {
     public static void assertLogIdContainsUserId(String actualMessage, String userIdentifier) {
         int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
         String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
-        assertTrue(actualId.contains(userIdentifier),
-                "expected actual message's id to contain " + userIdentifier + " but was " + actualId);
+        assertTrue("expected actual message's id to contain " + userIdentifier + " but was " + actualId,
+                actualId.contains(userIdentifier));
     }
 
     /**
