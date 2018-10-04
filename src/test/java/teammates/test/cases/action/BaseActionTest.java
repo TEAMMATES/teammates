@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidPostParametersException;
@@ -20,6 +22,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -62,6 +65,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
+    }
+
+    @Deprecated
+    protected void signalFailureToDetectException(String... messages) {
+        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
+    }
+
+    @Deprecated
+    protected void ignoreExpectedException() {
+        assertTrue(true);
     }
 
     /** Executes the action and returns the result.
@@ -456,7 +469,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(getActionUri(), params);
             assertFalse(c.isValidUser());
         } catch (UnauthorizedAccessException ue) {
-            ignoreExpectedException();
+            ignorePossibleException();
         }
     }
 
@@ -662,7 +675,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             assertEquals(classNameOfResult, result.getClass().getName());
             AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage());
         } catch (UnauthorizedAccessException e) {
-            ignoreExpectedException();
+            ignorePossibleException();
         }
     }
 
@@ -746,4 +759,21 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         assertEquals(expectedColor.name().toLowerCase(), statusMessage.getColor());
     }
 
+    /**
+     * Filters feedback participant comment from all comments on a response.
+     *
+     * @param responseId response id of response
+     * @return feedback participant comment
+     */
+    protected FeedbackResponseCommentAttributes getFeedbackParticipantComment(String responseId) {
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
+        frcList = frcList.stream()
+                .filter(comment -> comment.isCommentFromFeedbackParticipant)
+                .collect(Collectors.toList());
+        if (frcList.isEmpty()) {
+            return null;
+        }
+        return frcList.get(0);
+    }
 }

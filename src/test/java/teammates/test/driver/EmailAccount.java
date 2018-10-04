@@ -59,20 +59,20 @@ public final class EmailAccount {
             }
         }
 
-        final List<Message> messageStubs = listMessagesResponse.getMessages();
+        List<Message> messageStubs = listMessagesResponse.getMessages();
 
         if (isEmpty(messageStubs)) {
             return null;
         }
 
         for (Message messageStub : messageStubs) {
-            final Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
+            Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
                     .execute();
 
-            final MimeMessage email = convertFromMessageToMimeMessage(message);
+            MimeMessage email = convertFromMessageToMimeMessage(message);
 
             if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
-                final String body = getTextFromEmail(email);
+                String body = getTextFromEmail(email);
 
                 markMessageAsRead(service, username, messageStub);
 
@@ -84,7 +84,7 @@ public final class EmailAccount {
     }
 
     private static void markMessageAsRead(Gmail service, String username, Message messageStub) throws IOException {
-        final ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
+        ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
                 .setRemoveLabelIds(Collections.singletonList("UNREAD"));
         service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
     }

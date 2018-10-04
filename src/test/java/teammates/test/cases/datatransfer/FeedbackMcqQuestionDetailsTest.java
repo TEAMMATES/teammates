@@ -20,7 +20,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MCQ, mcqDetails.getQuestionType());
-        assertTrue(mcqDetails instanceof FeedbackMcqQuestionDetails);
         assertFalse(mcqDetails.hasAssignedWeights());
         assertTrue(mcqDetails.getMcqWeights().isEmpty());
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
@@ -40,7 +39,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertEquals(mcqDetails.getQuestionType(), FeedbackQuestionType.MCQ);
-        assertTrue(mcqDetails instanceof FeedbackMcqQuestionDetails);
         assertTrue(mcqDetails.hasAssignedWeights());
         assertTrue(mcqDetails.getMcqChoices().isEmpty());
         // getMcqWeight() returns empty list as there are no mcq choices set.
@@ -257,7 +255,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testGetMcqOtherWeight_nullOtherWeight_exceptionThrown() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
@@ -275,7 +273,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         // Removed to send null as otherWeight parameter
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, new String[] { "" });
 
-        mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ);
+        assertThrows(AssertionError.class, () -> mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
     }
 
     @Test

@@ -3,10 +3,11 @@ package teammates.test.pageobjects;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -109,8 +109,8 @@ public abstract class AppPage {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
-    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td)[1]")
-    private WebElement spreadsheetFirstCell;
+    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td[@class =\"enroll-handsontable\"])[1]")
+    private WebElement enrollSpreadsheetFirstCell;
 
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -231,7 +231,7 @@ public abstract class AppPage {
         waitFor(driver -> {
             // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
             // to understand more on a web document's readyState
-            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) Preconditions.checkNotNull(driver);
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
             return "complete".equals(javascriptExecutor.executeScript("return document.readyState"));
         });
     }
@@ -239,10 +239,10 @@ public abstract class AppPage {
     /**
      * Waits until TinyMCE editor is fully loaded.
      */
-    public void waitForRichTextEditorToLoad(final String id) {
+    public void waitForRichTextEditorToLoad(String id) {
         waitFor(driver -> {
             String script = "return tinymce.get('" + id + "') !== null";
-            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) Preconditions.checkNotNull(driver);
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
             return (Boolean) javascriptExecutor.executeScript(script);
         });
     }
@@ -250,7 +250,7 @@ public abstract class AppPage {
     /**
      * Waits until the element is not covered by any other element.
      */
-    public void waitForElementNotCovered(final WebElement element) {
+    public void waitForElementNotCovered(WebElement element) {
         waitFor(d -> !isElementCovered(element));
     }
 
@@ -357,8 +357,8 @@ public abstract class AppPage {
             }
 
             private Boolean isCurrentScrollingPositionSameAsPrevious() {
-                final String currentHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
-                final String currentBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
+                String currentHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
+                String currentBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
 
                 if (currentHtmlScrollPosition.equals(prevHtmlScrollPosition)
                         && currentBodyScrollPosition.equals(prevBodyScrollPosition)) {
@@ -601,7 +601,7 @@ public abstract class AppPage {
     private void clearAndSendKeys(WebElement element, CharSequence... keysToSend) {
         Map<String, Object> result = clearWithoutEvents(element);
         @SuppressWarnings("unchecked")
-        final Map<String, String> errors = (Map<String, String>) result.get("errors");
+        Map<String, String> errors = (Map<String, String>) result.get("errors");
         if (errors != null) {
             throw new InvalidElementStateException(errors.get("detail"));
         }
@@ -631,7 +631,7 @@ public abstract class AppPage {
         }
 
         @SuppressWarnings("unchecked")
-        final Map<String, Object> result = (Map<String, Object>) executeScript(
+        Map<String, Object> result = (Map<String, Object>) executeScript(
                 "const element = arguments[0];"
                         + "if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {"
                         + "   if (element.readOnly) {"
@@ -668,7 +668,7 @@ public abstract class AppPage {
 
     protected void fillSpreadsheet(String value) {
         try {
-            scrollElementToFirstCellAndSendKeys(spreadsheetFirstCell, value);
+            scrollElementToFirstCellAndSendKeys(enrollSpreadsheetFirstCell, value);
         } catch (WebDriverException e) {
             System.out.println("Unexpectedly not able to click on the spreadsheet element because of: ");
             System.out.println(e);
@@ -1162,7 +1162,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
-        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
+        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
@@ -1230,7 +1230,7 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
-    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath)
+    public AppPage verifyHtmlMainContentWithReloadRetry(String filePath)
             throws IOException, MaximumRetriesExceededException {
         return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
                 "HTML verification") {
@@ -1665,5 +1665,30 @@ public abstract class AppPage {
             executeScript("const event = new Event(arguments[1], {bubbles: true});"
                     + "arguments[0].dispatchEvent(event);", element, CHANGE_EVENT);
         }
+    }
+
+    /**
+     * Verifies that comment row doesn't exist for given rowIdSuffix.
+     *
+     * @param rowIdSuffix suffix id of comment row
+     */
+    public void verifyCommentRowMissing(String rowIdSuffix) {
+        try {
+            waitForAjaxLoaderGifToDisappear();
+            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
+            fail("Row expected to be missing found.");
+        } catch (NoSuchElementException expected) {
+            // row expected to be missing
+        }
+    }
+
+    /**
+     * Verifies the comment text.
+     *
+     * @param commentRowIdSuffix suffix id of comment delete button
+     * @param commentText comment text to be verified
+     */
+    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
     }
 }

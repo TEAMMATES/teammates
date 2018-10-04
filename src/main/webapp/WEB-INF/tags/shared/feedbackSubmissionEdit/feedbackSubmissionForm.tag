@@ -29,7 +29,8 @@
   <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
     <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
         isShowRealQuestionNumber="${data.showRealQuestionNumber}"
-        questionWithResponses="${questionWithResponses}"/>
+        questionWithResponses="${questionWithResponses}"
+        moderatedPersonEmail="${moderatedPersonEmail}"/>
   </c:forEach>
 
   <div class="bold align-center">

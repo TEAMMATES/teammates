@@ -65,18 +65,13 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
     }
 
-    public void deleteDocument(InstructorAttributes instructorToDelete) {
-        if (instructorToDelete.key == null) {
-            InstructorAttributes instructor =
-                    getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
-
-            // handle legacy data which do not have key attribute (key == null)
-            if (instructor.key != null) {
-                deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
-            }
-        } else {
-            deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructorToDelete.key));
-        }
+    /**
+     * Removes search document for the given instructor by using {@code encryptedRegistrationKey}.
+     *
+     * <p>See {@link InstructorSearchDocument#toDocument()} for more details.</p>
+     */
+    public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
+        deleteDocument(Const.SearchIndex.INSTRUCTOR, encryptedRegistrationKey);
     }
 
     /**
@@ -265,7 +260,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         InstructorAttributes instructorToDeleteAttributes = makeAttributes(instructorToDelete);
 
-        deleteDocument(instructorToDeleteAttributes);
+        deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructorToDelete.getRegistrationKey()));
         deleteEntityDirect(instructorToDelete, instructorToDeleteAttributes);
 
         Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
@@ -302,7 +297,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private void deleteInstructors(List<Instructor> instructors) {
         for (Instructor instructor : instructors) {
-            deleteDocument(makeAttributes(instructor));
+            deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructor.getRegistrationKey()));
         }
         ofy().delete().entities(instructors).now();
     }

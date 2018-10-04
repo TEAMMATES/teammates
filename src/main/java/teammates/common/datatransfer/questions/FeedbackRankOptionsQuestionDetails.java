@@ -389,8 +389,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             Map<String, Integer> normalisedRankForOption =
                     obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
 
-            for (int i = 0; i < options.size(); i++) {
-                String optionReceivingRanks = options.get(i);
+            for (String optionReceivingRanks : options) {
                 int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
 
                 if (rankReceived != Const.POINTS_NOT_SUBMITTED) {
@@ -471,6 +470,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
         return null;
+    }
+
+    @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
     }
 
     @Override

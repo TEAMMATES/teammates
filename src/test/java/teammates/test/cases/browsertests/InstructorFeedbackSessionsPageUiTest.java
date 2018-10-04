@@ -12,8 +12,6 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
@@ -49,11 +47,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .builder("New Session ##", course.getId(), "teammates.test1@gmail.tmt")
                 .withStartTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withEndTime(TimeHelper.parseInstant("2035-04-30 8:00 PM +0000"))
-                .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
+                .withCreatedTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriodMinutes(0)
-                .withInstructions(new Text("Please fill in the new feedback session."))
+                .withInstructions("Please fill in the new feedback session.")
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)
                 .withTimeZone(course.getTimeZone())
@@ -101,7 +99,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAddDeleteActions() throws Exception {
         testAddAction();
-        testDeleteAction();
+        testMoveToRecycleBinAction();
     }
 
     @Test
@@ -109,6 +107,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         testRemindActions();
         testPublishAndResendLinkAction();
         testUnpublishAction();
+    }
+
+    @Test
+    public void testRecycleBinActions() throws Exception {
+        testRestoreAction();
+        testRestoreAllAction();
+        testDeleteAction();
+        testDeleteAllAction();
     }
 
     @Test
@@ -186,7 +192,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.clickManualPublishTimeButton();
 
-        Text instructions = newSession.getInstructions();
+        String instructions = newSession.getInstructions();
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -194,7 +200,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 instructions, newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
-        assertEquals(getMockedTinyMceContent(instructions.getValue()), feedbackPage.getInstructions());
+        assertEquals(getMockedTinyMceContent(instructions), feedbackPage.getInstructions());
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -205,7 +211,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
 
-        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
+        newSession.setInstructions(getMockedTinyMceContent(instructions));
         assertEquals(newSession.toString(), savedSession.toString());
         newSession.setInstructions(instructions);
 
@@ -291,7 +297,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
 
         // fill in defaults
-        newSession.setInstructions(new Text(getMockedTinyMceContent("Please answer all the given questions.")));
+        newSession.setInstructions(getMockedTinyMceContent("Please answer all the given questions."));
         newSession.setGracePeriodMinutes(15);
 
         feedbackPage.addFeedbackSession(
@@ -323,7 +329,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2008-03-01 3:00 PM +0000"));
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
 
-        newSession.setInstructions(new Text(""));
+        newSession.setInstructions("");
 
         newSession.setClosingEmailEnabled(false);
         newSession.setPublishedEmailEnabled(false);
@@ -350,7 +356,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickManualPublishTimeButton();
 
-        instructions = new Text("cannot see responses<script>test</script>$^/\\=?");
+        instructions = "cannot see responses<script>test</script>$^/\\=?";
 
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
@@ -359,7 +365,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
-        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
+        newSession.setInstructions(getMockedTinyMceContent(instructions));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -391,7 +397,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2035-09-01 11:00 PM +0000"));
         newSession.setGracePeriodMinutes(5);
 
-        newSession.setInstructions(new Text(StringHelperExtension.generateStringOfLength(3000)));
+        newSession.setInstructions(StringHelperExtension.generateStringOfLength(3000));
         newSession.setPublishedEmailEnabled(true);
         newSession.setClosingEmailEnabled(true);
 
@@ -403,7 +409,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-        newSession.setInstructions(new Text(getMockedTinyMceContent(newSession.getInstructionsString())));
+        newSession.setInstructions(getMockedTinyMceContent(newSession.getInstructionsString()));
         assertEquals(newSession.toString(), savedSession.toString());
 
         ______TS("failure case: invalid input: (end < start < visible) and (publish < visible)");
@@ -421,7 +427,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2012-05-01 2:00 PM +0000"));
         newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2012-04-30 11:00 PM +0000"));
         newSession.setGracePeriodMinutes(30);
-        newSession.setInstructions(new Text("Test instructions"));
+        newSession.setInstructions("Test instructions");
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -580,19 +586,114 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
     }
 
-    private void testDeleteAction() throws Exception {
+    private void testMoveToRecycleBinAction() throws Exception {
 
         String courseId = newSession.getCourseId();
         String sessionName = "Long Instruction Test ##";
 
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.clickAndCancel(feedbackPage.getDeleteLink(courseId, sessionName));
-        assertNotNull("session should not have been deleted",
-                      BackDoor.getFeedbackSession(courseId, sessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions)
+                .moveSessionToRecycleBin(courseId, sessionName);
+        newSession.setDeletedTime();
 
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
+        assertNotNull("session should be in recycle bin",
+                BackDoor.getFeedbackSessionFromRecycleBin(courseId, sessionName));
+        assertTrue(newSession.isSessionDeleted());
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecycleBinSuccessful.html");
+
+    }
+
+    private void testRestoreAction() throws Exception {
+
+        String instructorId = testData.accounts.get("instructorWithCS2105").googleId;
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.verifyHtmlMainContent("/instructorOfCS2105WithMultipleSoftDeletedSessions.html");
+        FeedbackSessionAttributes session1OfCS2105 = testData.feedbackSessions.get("session1OfCS2105");
+        assertTrue(session1OfCS2105.isSessionDeleted());
+
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.restoreSession(session1OfCS2105.getCourseId(), session1OfCS2105.getFeedbackSessionName());
+        session1OfCS2105.resetDeletedTime();
+
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_RESTORED));
+        assertNotNull(BackDoor.getFeedbackSession(session1OfCS2105.getCourseId(), session1OfCS2105.getSessionName()));
+        assertFalse(session1OfCS2105.isSessionDeleted());
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackRestoreSuccessful.html");
+
+    }
+
+    private void testRestoreAllAction() throws Exception {
+
+        FeedbackSessionAttributes session2OfCS2105 = testData.feedbackSessions.get("session2OfCS2105");
+        FeedbackSessionAttributes session3OfCS2105 = testData.feedbackSessions.get("session3OfCS2105");
+        assertTrue(session2OfCS2105.isSessionDeleted());
+        assertTrue(session3OfCS2105.isSessionDeleted());
+
+        feedbackPage.restoreAllSessions();
+        session2OfCS2105.resetDeletedTime();
+        session3OfCS2105.resetDeletedTime();
+
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_ALL_RESTORED));
+        assertNotNull(BackDoor.getFeedbackSession(session2OfCS2105.getCourseId(),
+                session2OfCS2105.getFeedbackSessionName()));
+        assertNotNull(BackDoor.getFeedbackSession(session3OfCS2105.getCourseId(),
+                session3OfCS2105.getFeedbackSessionName()));
+        assertFalse(session2OfCS2105.isSessionDeleted());
+        assertFalse(session3OfCS2105.isSessionDeleted());
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackRestoreAllSuccessful.html");
+
+    }
+
+    private void testDeleteAction() throws Exception {
+
+        String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.verifyHtmlMainContent("/instructorOfCS2106WithMultipleSoftDeletedSessions.html");
+        FeedbackSessionAttributes session1OfCS2106 = testData.feedbackSessions.get("session1OfCS2106");
+        assertTrue(session1OfCS2106.isSessionDeleted());
+
+        // Delete and cancel
+        feedbackPage.deleteSessionAndCancel(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
+
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(session1OfCS2106.getCourseId(),
+                session1OfCS2106.getFeedbackSessionName()));
+
+        // Delete and confirm
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.deleteSessionAndConfirm(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
+
+        assertNull(BackDoor.getFeedbackSession(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName()));
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteSuccessful.html");
+
+    }
+
+    private void testDeleteAllAction() throws Exception {
+
+        String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
+        FeedbackSessionAttributes session2OfCS2106 = testData.feedbackSessions.get("session2OfCS2106");
+        FeedbackSessionAttributes session3OfCS2106 = testData.feedbackSessions.get("session3OfCS2106");
+        assertTrue(session2OfCS2106.isSessionDeleted());
+        assertTrue(session3OfCS2106.isSessionDeleted());
+
+        // Delete all and cancel
+        feedbackPage.deleteAllSessionsAndCancel();
+
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(session2OfCS2106.getCourseId(),
+                session2OfCS2106.getFeedbackSessionName()));
+        assertNotNull(BackDoor.getFeedbackSessionFromRecycleBin(session3OfCS2106.getCourseId(),
+                session3OfCS2106.getFeedbackSessionName()));
+
+        // Delete all and confirm
+        feedbackPage = getFeedbackPageForInstructor(instructorId);
+        feedbackPage.deleteAllSessionsAndConfirm();
+
+        assertNull(BackDoor.getFeedbackSession(session2OfCS2106.getCourseId(), session2OfCS2106.getFeedbackSessionName()));
+        assertNull(BackDoor.getFeedbackSession(session3OfCS2106.getCourseId(), session3OfCS2106.getFeedbackSessionName()));
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteAllSuccessful.html");
 
     }
 

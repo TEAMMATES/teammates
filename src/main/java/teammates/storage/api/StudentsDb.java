@@ -88,16 +88,13 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         return StudentSearchDocument.fromResults(results);
     }
 
-    public void deleteDocument(StudentAttributes studentToDelete) {
-        String key = studentToDelete.key;
-        if (key == null) {
-            StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
-            if (student == null) {
-                return;
-            }
-            key = student.key;
-        }
-        deleteDocument(Const.SearchIndex.STUDENT, key);
+    /**
+     * Removes search document for the given student by using {@code unencryptedRegistrationKey}.
+     *
+     * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
+     */
+    public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
+        deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
     }
 
     public void createStudentWithoutDocument(StudentAttributes student)
@@ -408,7 +405,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
             if (courseStudentToDelete != null) {
                 StudentAttributes courseStudentToDeleteAttributes = makeAttributes(courseStudentToDelete);
-                deleteDocument(courseStudentToDeleteAttributes);
+                deleteDocumentByStudentKey(courseStudentToDelete.getRegistrationKey());
                 deleteEntityDirect(courseStudentToDelete, courseStudentToDeleteAttributes);
             }
         } else {
@@ -576,7 +573,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         for (CourseStudent student : students) {
             StudentAttributes studentAttributes = makeAttributes(student);
             studentsAttributes.add(studentAttributes);
-            deleteDocument(studentAttributes);
+            deleteDocumentByStudentKey(student.getRegistrationKey());
         }
         deleteEntitiesDirect(students, studentsAttributes);
     }

@@ -70,9 +70,7 @@
       "feedbackSessionName": "Open Session",
       "courseId": "SFQSubmitUiT.CS2104",
       "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -92,9 +90,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "SFQSubmitUiT.CS2104",
       "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the second feedback session"
-      },
+      "instructions": "Please please fill in the second feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-02T15:59:00Z",
       "endTime": "2012-04-30T15:59:00Z",
@@ -114,9 +110,7 @@
       "feedbackSessionName": "Awaiting Session",
       "courseId": "SFQSubmitUiT.CS2104",
       "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the last feedback session"
-      },
+      "instructions": "Please please fill in the last feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2035-04-02T15:59:00Z",
       "endTime": "2035-04-30T15:59:00Z",
@@ -138,9 +132,7 @@
       "feedbackSessionName": "Open Session",
       "courseId": "SFQSubmitUiT.CS2104",
       "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -163,9 +155,7 @@
       "feedbackSessionName": "Closed Session",
       "courseId": "SFQSubmitUiT.CS2104",
       "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to your instructors"
-      },
+      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -185,9 +175,7 @@
       "feedbackSessionName": "Awaiting Session",
       "courseId": "SFQSubmitUiT.CS2104",
       "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to your instructors"
-      },
+      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",

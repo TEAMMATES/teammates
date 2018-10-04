@@ -14,7 +14,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
   <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-  <script type="text/javascript" src="/data/moment-timezone-with-data-2013-2023.min.js"></script>
+  <script type="text/javascript" src="/data/moment-timezone-with-data.min.js"></script>
   <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
 </c:set>
 
@@ -46,6 +46,7 @@
   </c:forEach>
 
   <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
+  <feedbackEdit:addTemplateQuestionModal feedbackSessionName="${data.fsForm.fsName}" courseId="${data.fsForm.courseId}"/>
   <feedbackEdit:copyQuestionModal feedbackSessionName="${data.fsForm.fsName}" courseId="${data.fsForm.courseId}"/>
 
   <br>

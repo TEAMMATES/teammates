@@ -71,8 +71,11 @@ public enum BackDoorOperation {
     /** Operation type: getting a list of feedback response data for particular recipient from the datastore as JSON. */
     OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON,
 
-    /** Operation type: getting a feedback session data from the datastore as JSON. */
+    /** Operation type: getting a feedback session data from the data storage as JSON. */
     OPERATION_GET_FEEDBACK_SESSION_AS_JSON,
+
+    /** Operation type: getting a feedback session data from the recycle bin as JSON. */
+    OPERATION_GET_FEEDBACK_SESSION_FROM_RECYCLE_BIN_AS_JSON,
 
     /** Operation type: getting an instructor data for particular google ID from the datastore as JSON. */
     OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID,

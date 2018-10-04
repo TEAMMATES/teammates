@@ -55,9 +55,7 @@
       "feedbackSessionName": "AutSessRem Opening Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2037-04-30T15:59:00Z",
@@ -77,9 +75,7 @@
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T23:59:00Z",
       "endTime": "2037-04-30T23:59:00Z",
@@ -99,9 +95,7 @@
       "feedbackSessionName": "AutSessRem Closed Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T23:59:00Z",
       "endTime": "2037-04-30T23:59:00Z",
@@ -121,9 +115,7 @@
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2013-04-30T21:59:00Z",
@@ -145,9 +137,7 @@
       "feedbackSessionName": "AutSessRem Opening Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "questionMetaData": {
-        "value": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
-      },
+      "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -167,9 +157,7 @@
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "questionMetaData": {
-        "value": "This question is so that closing reminders will be sent to students as it is unanswered."
-      },
+      "questionMetaData": "This question is so that closing reminders will be sent to students as it is unanswered.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -189,9 +177,7 @@
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
-      "questionMetaData": {
-        "value": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
-      },
+      "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",

@@ -1,7 +1,5 @@
 package teammates.test.cases.util;
 
-import static org.junit.Assert.assertArrayEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -48,9 +46,9 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace(System.lineSeparator() + "   "));
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test
     public void testIsWhiteSpaceNull() {
-        StringHelper.isWhiteSpace(null);
+        assertThrows(NullPointerException.class, () -> StringHelper.isWhiteSpace(null));
     }
 
     @Test
@@ -212,12 +210,7 @@ public class StringHelperTest extends BaseTestCase {
 
         String[] invalidCiphertexts = {invalidHexString, ciphertextLength120, ciphertextLength136};
         for (String invalidCiphertext : invalidCiphertexts) {
-            try {
-                StringHelper.decrypt(invalidCiphertext);
-                signalFailureToDetectException();
-            } catch (InvalidParametersException e) {
-                ignoreExpectedException();
-            }
+            assertThrows(InvalidParametersException.class, () -> StringHelper.decrypt(invalidCiphertext));
         }
     }
 
@@ -426,10 +419,10 @@ public class StringHelperTest extends BaseTestCase {
         assertArrayEquals(expected, StringHelper.trim(input));
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test
     public void testTrimWithNullString() {
         String[] input = {"  apple tea", "banana  ", "   carrot cake      ", null};
-        StringHelper.trim(input);
+        assertThrows(NullPointerException.class, () -> StringHelper.trim(input));
     }
 
     @Test
@@ -458,9 +451,9 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("5||14||null", StringHelper.join("||", Arrays.asList(5, 14, null)));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testJoinWithNullElements() {
-        StringHelper.join(",", (List<Integer>) null);
+        assertThrows(IllegalArgumentException.class, () -> StringHelper.join(",", (List<Integer>) null));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -153,7 +153,7 @@ public final class HtmlHelper {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
                         || isPopoverAttribute(attribute)
-                        || isHandsontableAttribute(attribute) // ignored due to
+                        || isHandsontableAttribute(attribute) // ignored due to screen resolution issues
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
@@ -258,7 +258,8 @@ public final class HtmlHelper {
     }
 
     private static boolean isHandsontableAttribute(Node attribute) {
-        return checkForAttributeWithSpecificValue(attribute, "id", "spreadsheet");
+        return checkForAttributeWithSpecificValue(attribute, "id", "enrollSpreadsheet")
+                || checkForAttributeWithSpecificValue(attribute, "id", "existingDataSpreadsheet");
     }
 
     /**
@@ -530,7 +531,7 @@ public final class HtmlHelper {
                 .replace("<!-- now.datetime.sessions -->",
                         TimeHelper.formatDateTimeForDisplay(now, Const.DEFAULT_TIME_ZONE))
                 .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateTimeToIso8601Utc(now))
-                .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateForInstructorCoursesPage(
+                .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateForInstructorPages(
                         now, Const.DEFAULT_TIME_ZONE));
     }
 

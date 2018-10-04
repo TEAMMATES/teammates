@@ -119,7 +119,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         try {
             editAction = getAction(submissionParams);
-            pageResult = getShowPageResult(editAction);
+            getShowPageResult(editAction);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Trying to access system using a non-existent instructor entity", e.getMessage());

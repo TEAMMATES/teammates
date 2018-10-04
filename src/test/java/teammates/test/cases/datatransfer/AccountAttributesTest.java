@@ -31,12 +31,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
         ______TS("null studentProfile");
 
         account.studentProfile = null;
-        try {
-            account.isValid();
-            signalFailureToDetectException(" - AssertionError");
-        } catch (AssertionError ae) {
-            assertEquals("Non-null value expected for studentProfile", ae.getMessage());
-        }
+        AccountAttributes[] finalAccount = new AccountAttributes[] { account };
+        AssertionError ae = assertThrows(AssertionError.class, () -> finalAccount[0].isValid());
+        assertEquals("Non-null value expected for studentProfile", ae.getMessage());
 
         ______TS("invalid account");
 
@@ -211,7 +208,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
         assertEquals(genericAccount.getInstitute(), observedAccountAttributes.getInstitute());
         assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.createdAt);
-        assertEquals(genericAccount.getStudentProfile(), observedAccountAttributes.studentProfile);
     }
 
     @Test

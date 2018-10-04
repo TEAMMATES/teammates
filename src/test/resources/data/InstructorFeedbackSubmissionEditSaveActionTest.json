@@ -122,9 +122,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -144,9 +142,7 @@
       "feedbackSessionName": "Second Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the second feedback session"
-      },
+      "instructions": "Please please fill in the second feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2026-04-02T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -166,9 +162,7 @@
       "feedbackSessionName": "Third Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the last feedback session"
-      },
+      "instructions": "Please please fill in the last feedback session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-02T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -188,9 +182,7 @@
       "feedbackSessionName": "Session in Grace Period",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-03-20T23:59:00Z",
       "startTime": "2013-06-01T21:59:00Z",
       "endTime": "2026-04-28T21:59:00Z",
@@ -212,9 +204,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -235,9 +225,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Rate 3 students' products"
-      },
+      "questionMetaData": "Rate 3 students' products",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -259,9 +247,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Comments about the class"
-      },
+      "questionMetaData": "Comments about the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -279,9 +265,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "This question should be hidden."
-      },
+      "questionMetaData": "This question should be hidden.",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -301,9 +285,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "This question should be hidden."
-      },
+      "questionMetaData": "This question should be hidden.",
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -323,9 +305,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to other instructors."
-      },
+      "questionMetaData": "Give feedback to other instructors.",
       "questionNumber": 6,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -345,9 +325,7 @@
       "feedbackSessionName": "Second Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Give feedback to your instructors"
-      },
+      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -367,9 +345,7 @@
       "feedbackSessionName": "Session in Grace Period",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Give feedback."
-      },
+      "questionMetaData": "Give feedback.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -394,9 +370,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": {
-        "value": "Instructor self feedback."
-      }
+      "responseMetaData": "Instructor self feedback."
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First Session",
@@ -405,9 +379,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Instructor feedback to student 1."
-      }
+      "responseMetaData": "Instructor feedback to student 1."
     },
     "response1ForGracePeriodSession": {
       "feedbackSessionName": "Session in Grace Period",
@@ -416,9 +388,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor2@course1.tmt",
-      "responseMetaData": {
-        "value": "Response from instructor 1 to instructor 2."
-      }
+      "responseMetaData": "Response from instructor 1 to instructor 2."
     }
   },
   "feedbackResponseComments": {},
