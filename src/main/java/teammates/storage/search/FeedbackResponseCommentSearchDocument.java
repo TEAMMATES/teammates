@@ -222,16 +222,27 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocumentByCommentId(feedbackResponseCommentId);
                 continue;
             }
-            // construct responseId to comment map
-            bundle.comments
-                    .computeIfAbsent(comment.feedbackResponseId, key -> new ArrayList<>())
-                    .add(comment);
-
             // get related response from results
             FeedbackResponseAttributes response = frDb.getFeedbackResponse(comment.feedbackResponseId);
             if (response == null) {
                 continue;
             }
+            // get related question from results
+            FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
+            if (question == null) {
+                continue;
+            }
+            // get related session from results
+            FeedbackSessionAttributes session = fsDb.getFeedbackSession(comment.courseId, comment.feedbackSessionName);
+            if (session == null) {
+                continue;
+            }
+
+            // construct responseId to comment map
+            bundle.comments
+                    .computeIfAbsent(comment.feedbackResponseId, key -> new ArrayList<>())
+                    .add(comment);
+
             // construct questionId to response map
             bundle.responses.putIfAbsent(response.feedbackQuestionId, new ArrayList<>());
             if (!isAdded.contains(response.getId())) {
@@ -239,11 +250,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 bundle.responses.get(response.feedbackQuestionId).add(response);
             }
 
-            // get related question from results
-            FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
-            if (question == null) {
-                continue;
-            }
             // construct session name to question map
             bundle.questions.putIfAbsent(question.feedbackSessionName, new ArrayList<>());
             if (!isAdded.contains(question.getId())) {
@@ -251,11 +257,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 bundle.questions.get(question.feedbackSessionName).add(question);
             }
 
-            // get related session from results
-            FeedbackSessionAttributes session = fsDb.getFeedbackSession(comment.courseId, comment.feedbackSessionName);
-            if (session == null) {
-                continue;
-            }
             // construct session name to session map
             if (!isAdded.contains(session.getFeedbackSessionName())) {
                 isAdded.add(session.getFeedbackSessionName());
