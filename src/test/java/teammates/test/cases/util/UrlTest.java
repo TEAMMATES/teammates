@@ -44,21 +44,11 @@ public class UrlTest extends BaseTestCase {
 
         ______TS("malformed URL: no protocol");
 
-        try {
-            url = new Url("www.google.com/page");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> new Url("www.google.com/page"));
 
         ______TS("malformed URL: unknown protocol");
 
-        try {
-            url = new Url("randomprotocol://www.google.com/page");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> new Url("randomprotocol://www.google.com/page"));
 
     }
 
@@ -115,12 +105,7 @@ public class UrlTest extends BaseTestCase {
 
         ______TS("malformed URL: not http(s)");
 
-        try {
-            url = new AppUrl("file:///C:/path/to/file.ext");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> new AppUrl("file:///C:/path/to/file.ext"));
 
     }
 

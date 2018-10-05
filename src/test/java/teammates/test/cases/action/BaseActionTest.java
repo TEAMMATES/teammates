@@ -67,6 +67,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Deprecated
+    protected void signalFailureToDetectException(String... messages) {
+        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
+    }
+
+    @Deprecated
+    protected void ignoreExpectedException() {
+        assertTrue(true);
+    }
+
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
@@ -459,7 +469,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(getActionUri(), params);
             assertFalse(c.isValidUser());
         } catch (UnauthorizedAccessException ue) {
-            ignoreExpectedException();
+            ignorePossibleException();
         }
     }
 
@@ -665,7 +675,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             assertEquals(classNameOfResult, result.getClass().getName());
             AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage());
         } catch (UnauthorizedAccessException e) {
-            ignoreExpectedException();
+            ignorePossibleException();
         }
     }
 

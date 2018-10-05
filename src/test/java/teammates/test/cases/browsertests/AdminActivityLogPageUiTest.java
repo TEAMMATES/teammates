@@ -135,12 +135,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
 
-        try {
-            browser.driver.switchTo().alert();
-            signalFailureToDetectException("Script managed to get injected");
-        } catch (NoAlertPresentException e) {
-            // this is what we expect, since we expect the script injection to fail
-        }
+        // Expect no alert to appear since the script injection should fail
+        assertThrows(NoAlertPresentException.class, () -> browser.driver.switchTo().alert());
     }
 
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {

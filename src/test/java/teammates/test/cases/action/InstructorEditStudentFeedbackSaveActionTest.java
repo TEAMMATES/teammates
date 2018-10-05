@@ -294,6 +294,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -321,6 +322,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -392,6 +394,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                              + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
@@ -502,6 +505,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Another feedback session] is not accessible to instructor ["
                              + instructorHelper3.email + "] for privilege ["

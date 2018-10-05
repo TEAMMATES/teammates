@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -55,8 +56,62 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     @Override
     protected void prepareTestData() {
+        // see beforeMethod()
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
         dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
         removeAndRestoreDataBundle(dataBundle);
+    }
+
+    @Test
+    public void testDeleteFeedbackSessionCascade_deleteDirectly_shouldDoCascadeDeletion()
+            throws EntityDoesNotExistException {
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+
+        // delete existing feedback session directly
+        fsLogic.deleteFeedbackSessionCascade(fsa.getFeedbackSessionName(), fsa.getCourseId());
+
+        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertTrue(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+    }
+
+    @Test
+    public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+        fsLogic.moveFeedbackSessionToRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId());
+        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+
+        // delete feedback session in recycle bin
+        fsLogic.deleteFeedbackSessionCascade(fsa.getFeedbackSessionName(), fsa.getCourseId());
+
+        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertTrue(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
     }
 
     @Test
@@ -92,7 +147,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testRestoreFeedbackSessionFromRecycleBin();
         testRestoreAllFeedbackSessionsFromRecycleBin();
         testDeleteFeedbackSessionsForCourse();
-        testDeleteAllFeedbackSessions();
     }
 
     private void testGetFeedbackSessionsListForInstructor() {
@@ -157,14 +211,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("non-existent session/courseId");
 
-        try {
-            fsLogic.isFeedbackSessionHasQuestionForStudents("nOnEXistEnT session", "someCourse");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a non-existent feedback session: "
-                         + "someCourse" + "/" + "nOnEXistEnT session",
-                         edne.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.isFeedbackSessionHasQuestionForStudents("nOnEXistEnT session", "someCourse"));
+        assertEquals("Trying to check a non-existent feedback session: someCourse/nOnEXistEnT session",
+                ednee.getMessage());
 
         ______TS("session contains students");
 
@@ -370,29 +420,24 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.createFeedbackSession(fs);
         verifyPresentInDatastore(fs);
 
+        FeedbackSessionAttributes finalFs = fs;
         ______TS("test create with invalid session name");
         fs.setFeedbackSessionName("test & test");
-        try {
-            fsLogic.createFeedbackSession(fs);
-            signalFailureToDetectException();
-        } catch (Exception e) {
-            assertEquals("The provided feedback session name is not acceptable to TEAMMATES "
-                             + "as it cannot contain the following special html characters in brackets: "
-                             + "(&lt; &gt; &quot; &#x2f; &#39; &amp;)",
-                         e.getMessage());
-        }
+        Exception e = assertThrows(Exception.class, () -> fsLogic.createFeedbackSession(finalFs));
+        assertEquals(
+                "The provided feedback session name is not acceptable to TEAMMATES "
+                        + "as it cannot contain the following special html characters in brackets: "
+                        + "(&lt; &gt; &quot; &#x2f; &#39; &amp;)",
+                e.getMessage());
 
         fs.setFeedbackSessionName("test %| test");
-        try {
-            fsLogic.createFeedbackSession(fs);
-            signalFailureToDetectException();
-        } catch (Exception e) {
-            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as a/an feedback session name "
-                             + "because it contains invalid characters. A/An feedback session name "
-                             + "must start with an alphanumeric character, and cannot contain "
-                             + "any vertical bar (|) or percent sign (%).",
-                         e.getMessage());
-        }
+        e = assertThrows(Exception.class, () -> fsLogic.createFeedbackSession(finalFs));
+        assertEquals(
+                "\"test %| test\" is not acceptable to TEAMMATES as a/an feedback session name "
+                        + "because it contains invalid characters. A/An feedback session name "
+                        + "must start with an alphanumeric character, and cannot contain "
+                        + "any vertical bar (|) or percent sign (%).",
+                e.getMessage());
 
         ______TS("test delete");
         fs = getNewFeedbackSession();
@@ -458,15 +503,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: duplicate session");
 
-        try {
-            fsLogic.copyFeedbackSession(
-                    session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(),
-                    session1InCourse1.getTimeZone(), session1InCourse1.getFeedbackSessionName(),
-                    session1InCourse1.getCourseId(), instructor2OfCourse1.email);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            ignoreExpectedException();
-        }
+        assertThrows(EntityAlreadyExistsException.class,
+                () -> fsLogic.copyFeedbackSession(
+                        session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(),
+                        session1InCourse1.getTimeZone(), session1InCourse1.getFeedbackSessionName(),
+                        session1InCourse1.getCourseId(), instructor2OfCourse1.email));
 
         fsLogic.deleteFeedbackSessionCascade(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
     }
@@ -541,12 +582,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("non-existent course");
 
-        try {
-            fsLogic.getFeedbackSessionsForUserInCourse("NonExistentCourseId", "randomUserId");
-            signalFailureToDetectException("Did not detect that course does not exist.");
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Error getting feedback session(s): Course does not exist.", edne.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.getFeedbackSessionsForUserInCourse("NonExistentCourseId", "randomUserId"));
+        assertEquals("Error getting feedback session(s): Course does not exist.", ednee.getMessage());
 
         ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
 
@@ -696,25 +734,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: invalid session");
 
-        try {
-            fsLogic.getFeedbackSessionQuestionsForStudent(
-                    "invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.tmt");
-            signalFailureToDetectException("Did not detect that session does not exist.");
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to get a non-existent feedback session: "
-                         + "idOfTypicalCourse1" + "/" + "invalid session",
-                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.getFeedbackSessionQuestionsForStudent(
+                        "invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.tmt"));
+        assertEquals("Trying to get a non-existent feedback session: idOfTypicalCourse1/invalid session",
+                ednee.getMessage());
 
         ______TS("failure: non-existent student");
 
-        try {
-            fsLogic.getFeedbackSessionQuestionsForStudent(
-                    "Second feedback session", "idOfTypicalCourse1", "randomUserId");
-            signalFailureToDetectException("Did not detect that student does not exist.");
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Error getting feedback session(s): Student does not exist.", edne.getMessage());
-        }
+        ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.getFeedbackSessionQuestionsForStudent(
+                        "Second feedback session", "idOfTypicalCourse1", "randomUserId"));
+        assertEquals("Error getting feedback session(s): Student does not exist.", ednee.getMessage());
 
     }
 
@@ -761,15 +792,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: invalid session");
 
-        try {
-            fsLogic.getFeedbackSessionQuestionsForInstructor(
-                    "invalid session", "idOfTypicalCourse1", "instructor1@course1.tmt");
-            signalFailureToDetectException("Did not detect that session does not exist.");
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to get a non-existent feedback session: "
-                         + "idOfTypicalCourse1" + "/" + "invalid session",
-                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.getFeedbackSessionQuestionsForInstructor(
+                        "invalid session", "idOfTypicalCourse1", "instructor1@course1.tmt"));
+        assertEquals("Trying to get a non-existent feedback session: idOfTypicalCourse1/invalid session",
+                ednee.getMessage());
     }
 
     private void testGetFeedbackSessionResultsForUser() throws Exception {
@@ -1069,14 +1096,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: no session");
 
-        try {
-            fsLogic.getFeedbackSessionResultsForInstructor("invalid session", session.getCourseId(), instructor.email);
-            signalFailureToDetectException("Did not detect that session does not exist.");
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to view a non-existent feedback session: "
-                         + session.getCourseId() + "/" + "invalid session",
-                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.getFeedbackSessionResultsForInstructor(
+                        "invalid session", session.getCourseId(), instructor.email));
+        assertEquals("Trying to view a non-existent feedback session: " + session.getCourseId() + "/invalid session",
+                ednee.getMessage());
         //TODO: check for cases where a person is both a student and an instructor
     }
 
@@ -1117,9 +1141,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Question 3,\"My comments on the class\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
                 // checking comma inside cell
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\",Instructor1 Course1,\"Instructor 1 comment to instructor 1 self feedback Question 3\"",
                 "",
                 "",
                 "Question 4,\"Instructor comments on the class\"",
@@ -1199,8 +1223,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Question 3,\"My comments on the class\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\",Instructor1 Course1,\"Instructor 1 comment to instructor 1 self feedback Question 3\"",
                 "",
                 "",
                 "Question 4,\"Instructor comments on the class\"",
@@ -1876,15 +1900,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("Non-existent Course/Session");
 
-        try {
-            fsLogic.getFeedbackSessionResultsSummaryAsCsv("non.existent", "no course",
-                    instructor.email, null, true, true);
-            signalFailureToDetectException("Failed to detect non-existent feedback session.");
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to view a non-existent feedback session: "
-                         + "no course" + "/" + "non.existent",
-                         e.getMessage());
-        }
+        InstructorAttributes finalInstructor = instructor;
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                        "non.existent", "no course", finalInstructor.email, null, true, true));
+        assertEquals("Trying to view a non-existent feedback session: no course/non.existent",
+                ednee.getMessage());
     }
 
     private String getStudentAnonEmail(DataBundle dataBundle, String studentKey) {
@@ -1917,26 +1938,21 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private void testUpdateFeedbackSession() throws Exception {
 
         ______TS("failure 1: null object");
-        try {
-            fsLogic.updateFeedbackSession(null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsLogic.updateFeedbackSession(null));
+        AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("failure 2: non-existent session name");
         FeedbackSessionAttributes fsa = FeedbackSessionAttributes
                 .builder("asdf_randomName1423", "idOfTypicalCourse1", "")
                 .build();
 
-        try {
-            fsLogic.updateFeedbackSession(fsa);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to update a non-existent feedback session: "
-                         + fsa.getCourseId() + "/" + fsa.getFeedbackSessionName(),
-                         edne.getMessage());
-        }
+        FeedbackSessionAttributes finalFsa = fsa;
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.updateFeedbackSession(finalFsa));
+        assertEquals(
+                "Trying to update a non-existent feedback session: "
+                        + fsa.getCourseId() + "/" + fsa.getFeedbackSessionName(),
+                ednee.getMessage());
 
         ______TS("success 1: all changeable values sent are null");
         fsa = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1972,13 +1988,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: already published");
 
-        try {
-            fsLogic.publishFeedbackSession(sessionUnderTest);
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that session is already published.");
-        } catch (InvalidParametersException e) {
-            assertEquals("Error publishing feedback session: Session has already been published.", e.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> fsLogic.publishFeedbackSession(sessionUnderTest));
+        assertEquals("Error publishing feedback session: Session has already been published.", ipe.getMessage());
 
         ______TS("success: unpublish");
 
@@ -1993,13 +2005,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: not published");
 
-        try {
-            fsLogic.unpublishFeedbackSession(sessionUnderTest);
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that session is not published.");
-        } catch (InvalidParametersException e) {
-            assertEquals("Error unpublishing feedback session: Session has already been unpublished.", e.getMessage());
-        }
+        ipe = assertThrows(InvalidParametersException.class, () -> fsLogic.unpublishFeedbackSession(sessionUnderTest));
+        assertEquals("Error unpublishing feedback session: Session has already been unpublished.", ipe.getMessage());
 
     }
 
@@ -2031,14 +2038,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: non-existent feedback session for student");
 
-        try {
-            fsLogic.isFeedbackSessionFullyCompletedByStudent("nonExistentFSName", fs.getCourseId(), "random.student@email");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a non-existent feedback session: "
-                         + fs.getCourseId() + "/" + "nonExistentFSName",
-                         edne.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.isFeedbackSessionFullyCompletedByStudent(
+                        "nonExistentFSName", fs.getCourseId(), "random.student@email"));
+        assertEquals("Trying to check a non-existent feedback session: " + fs.getCourseId() + "/nonExistentFSName",
+                ednee.getMessage());
 
         ______TS("success case: fully done by student 1");
         assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
@@ -2172,20 +2176,39 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
 
-    private void testDeleteAllFeedbackSessions() throws InvalidParametersException, EntityDoesNotExistException {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
+    @Test
+    public void testDeleteAllFeedbackSessionsCascade_shouldDoCascadeDeletionCorrectly()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         List<InstructorAttributes> instructors = new ArrayList<>();
         instructors.add(instructor);
 
-        String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse3").getFeedbackSessionName();
-        String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
-        String courseId = dataBundle.courses.get("typicalCourse3").getId();
+        String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse1").getFeedbackSessionName();
+        String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse1").getFeedbackSessionName();
+        String courseId = dataBundle.courses.get("typicalCourse1").getId();
+        assertFalse(fqLogic.getFeedbackQuestionsForSession(feedbackSessionName1, courseId).isEmpty());
+        assertFalse(fqLogic.getFeedbackQuestionsForSession(feedbackSessionName2, courseId).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForSession(feedbackSessionName1, courseId).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForSession(feedbackSessionName2, courseId).isEmpty());
+        assertFalse(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName1).isEmpty());
         fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName1, courseId);
         fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName2, courseId);
-
+        assertNull(fsLogic.getFeedbackSession(feedbackSessionName1, courseId));
+        assertNull(fsLogic.getFeedbackSession(feedbackSessionName2, courseId));
+        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName1, courseId));
+        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName2, courseId));
         assertEquals(2, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
+
         fsLogic.deleteAllFeedbackSessionsCascade(instructors);
-        assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
+
+        assertNull(fsLogic.getFeedbackSession(feedbackSessionName1, courseId));
+        assertNull(fsLogic.getFeedbackSession(feedbackSessionName2, courseId));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName1, courseId));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName2, courseId));
+        assertTrue(frLogic.getFeedbackResponsesForSession(feedbackSessionName1, courseId).isEmpty());
+        assertTrue(frLogic.getFeedbackResponsesForSession(feedbackSessionName2, courseId).isEmpty());
+        assertTrue(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName1).isEmpty());
+        assertTrue(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName2).isEmpty());
     }
 
 }
