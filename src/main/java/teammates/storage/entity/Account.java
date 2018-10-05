@@ -2,10 +2,8 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Translate;
 
@@ -30,10 +28,7 @@ public class Account extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    private Ref<StudentProfile> studentProfile;
-
-    @Ignore // session-specific based on whether profile retrieval is enabled
-    private boolean isStudentProfileEnabled = true;
+    // TODO remove studentProfile attribute in Datastore
 
     @SuppressWarnings("unused")
     private Account() {
@@ -53,24 +48,15 @@ public class Account extends BaseEntity {
      *            The official email of the user.
      * @param institute
      *            The university/school/institute e.g., "Abrons State University, Alaska"
-     * @param studentProfile
-     *            It is a StudentProfile object that contains all the attributes
-     *            of a student profile
      */
     public Account(String googleId, String name, boolean isInstructor,
-            String email, String institute, StudentProfile studentProfile) {
+            String email, String institute) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setIsInstructor(isInstructor);
         this.setEmail(email);
         this.setInstitute(institute);
         this.setCreatedAt(Instant.now());
-        this.setStudentProfile(studentProfile);
-    }
-
-    public Account(String googleId, String name, boolean isInstructor,
-            String email, String institute) {
-        this(googleId, name, isInstructor, email, institute, new StudentProfile(googleId));
     }
 
     public String getGoogleId() {
@@ -119,42 +105,5 @@ public class Account extends BaseEntity {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }
-
-    /**
-     * Fetches the student profile from the datastore the first time this is called. Returns null if student profile was
-     * explicitly set to null (e.g. when the student profile is intentionally not retrieved).
-     */
-    public StudentProfile getStudentProfile() {
-        if (!isStudentProfileEnabled) {
-            return null;
-        }
-        if (studentProfile == null) {
-            return null;
-        }
-        return studentProfile.get();
-    }
-
-    /**
-     * Sets a reference to {@code studentProfile} which subsequent calls to {@code getStudentProfile()} will use to fetch
-     * the profile from the datastore. To disable this behaviour (e.g. when the student profile is intentionally not
-     * retrieved), set to null.
-     */
-    public void setStudentProfile(StudentProfile studentProfile) {
-        if (studentProfile == null) {
-            setIsStudentProfileEnabled(false);
-            return;
-        }
-        setIsStudentProfileEnabled(true);
-        this.studentProfile = Ref.create(studentProfile);
-    }
-
-    /**
-     * Sets whether or not the student profile fetch should be enabled. When the entity is fetched from the local cache,
-     * this value might be outdated as it is preserved from the previous session. Hence, this property should be set on
-     * every new session (every call that gets the entity).
-     */
-    public void setIsStudentProfileEnabled(boolean isStudentProfileEnabled) {
-        this.isStudentProfileEnabled = isStudentProfileEnabled;
     }
 }

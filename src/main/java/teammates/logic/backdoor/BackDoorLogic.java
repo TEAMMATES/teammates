@@ -42,6 +42,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -49,6 +50,7 @@ import teammates.storage.api.StudentsDb;
  */
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
+    private static final ProfilesDb profilesDb = new ProfilesDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
@@ -78,6 +80,7 @@ public class BackDoorLogic extends Logic {
         }
 
         Collection<AccountAttributes> accounts = dataBundle.accounts.values();
+        Collection<StudentProfileAttributes> profiles = dataBundle.profiles.values();
         Collection<CourseAttributes> courses = dataBundle.courses.values();
         Collection<InstructorAttributes> instructors = dataBundle.instructors.values();
         Collection<StudentAttributes> students = dataBundle.students.values();
@@ -103,6 +106,7 @@ public class BackDoorLogic extends Logic {
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
         accountsDb.createEntitiesDeferred(googleIdAccountMap.values());
+        profilesDb.createEntitiesDeferred(profiles);
         coursesDb.createEntitiesDeferred(courses);
         instructorsDb.createEntitiesDeferred(instructors);
         studentsDb.createEntitiesDeferred(students);
@@ -171,7 +175,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId, true);
+        AccountAttributes accountData = getAccount(googleId);
         return JsonUtils.toJson(accountData);
     }
 
@@ -282,7 +286,6 @@ public class BackDoorLogic extends Logic {
 
     private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
             Map<String, AccountAttributes> googleIdAccountMap) {
-        populateNullStudentProfiles(accounts);
         for (AccountAttributes account : accounts) {
             googleIdAccountMap.put(account.googleId, account);
         }
@@ -503,14 +506,6 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
-        for (AccountAttributes account : accounts) {
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder(account.googleId).build();
-            }
-        }
-    }
-
     private void populateNullSection(StudentAttributes student) {
         student.section = student.section == null ? "None" : student.section;
     }
@@ -522,7 +517,6 @@ public class BackDoorLogic extends Logic {
                 .withEmail(instructor.email)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withDefaultStudentProfileAttributes(instructor.googleId)
                 .build();
     }
 
@@ -533,7 +527,6 @@ public class BackDoorLogic extends Logic {
                 .withEmail(student.email)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(false)
-                .withDefaultStudentProfileAttributes(student.googleId)
                 .build();
     }
 
@@ -564,8 +557,11 @@ public class BackDoorLogic extends Logic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        populateNullStudentProfiles(dataBundle.accounts.values());
         accountsDb.deleteAccounts(dataBundle.accounts.values());
+        // delete associated profiles
+        // TODO: Remove the following line after tests have been run against LIVE server
+        dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
+        profilesDb.deleteEntities(dataBundle.profiles.values());
 
         for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
             // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.

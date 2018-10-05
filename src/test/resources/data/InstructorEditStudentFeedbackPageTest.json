@@ -33,17 +33,7 @@
       "name": "Student 1 in course IESFPTCourse",
       "isInstructor": false,
       "email": "student1InIESFPTCourse@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "student1InIESFPTCourse",
-        "shortName": "Stud1",
-        "email": "i.m.stud1@gmail.tmt",
-        "institute": "TEAMMATES Test Institute 3",
-        "nationality": "American",
-        "gender": "male",
-        "moreInfo": "I am just a student :P",
-        "pictureKey": "asdf34&hfn3!@"
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "student2InIESFPTCourse": {
       "googleId": "student2InIESFPTCourse",
@@ -583,5 +573,16 @@
     }
   },
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {
+    "student1InIESFPTCourse": {
+      "googleId": "student1InIESFPTCourse",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 3",
+      "nationality": "American",
+      "gender": "male",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": "asdf34&hfn3!@"
+    }
+  }
 }

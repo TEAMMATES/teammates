@@ -163,9 +163,8 @@ It contains minimal logic beyond what is directly relevant to CRUD operations.
 In particular, it is reponsible for:
 - Validating data inside entities before creating/updating them, to ensure they are in a valid state.
 - Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
-- Protecting persistable objects: Classes in the `storage::entity` package are not visible outside this component to prevent accidental modification to the entity's attributes (these classes have been marked as "persistence capable" and changes to their attributes are automatically persisted to the Datastore by default).
-  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned, where values can be modified easily without any impact on the persistent data copy. These datatransfer classes are in `common::datatransfer` package, to be explained later.
-  - Note: This decision was taken before GAE started supporting [the ability to "detach" entities](https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata) to prevent accidental modifications to persistable data. The decision to use data transfer objects is to be reconsidered in the future.
+- Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
+  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
 
 The `Storage` component does not perform any cascade delete/create operations. Cascade logic is handled by the `Logic` component.
 

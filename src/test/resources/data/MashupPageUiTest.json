@@ -19,34 +19,14 @@
       "name": "Alice Betsy",
       "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "alice.b.tmms",
-        "shortName": "Alice",
-        "email": "",
-        "institute": "TEAMMATES Test Institute 10",
-        "nationality": "",
-        "gender": "female",
-        "moreInfo": "Some info",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "benny.c.tmms": {
       "googleId": "benny.c.tmms",
       "name": "Benny Charles",
       "isInstructor": false,
       "email": "benny.c.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "benny.c.tmms",
-        "shortName": "Benny",
-        "email": "",
-        "institute": "TEAMMATES Test Institute 4",
-        "nationality": "",
-        "gender": "male",
-        "moreInfo": "This is a lot more info so that the instructor can see the extent of info that can be given",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "charlie.d.tmms": {
       "googleId": "charlie.d.tmms",
@@ -792,5 +772,26 @@
       "commentText": "Other instructor's comment to student self feedback"
     }
   },
-  "profiles": {}
+  "profiles": {
+    "alice.b.tmms": {
+      "googleId": "alice.b.tmms",
+      "shortName": "Alice",
+      "email": "",
+      "institute": "TEAMMATES Test Institute 10",
+      "nationality": "",
+      "gender": "female",
+      "moreInfo": "Some info",
+      "pictureKey": ""
+    },
+    "benny.c.tmms": {
+      "googleId": "benny.c.tmms",
+      "shortName": "Benny",
+      "email": "",
+      "institute": "TEAMMATES Test Institute 4",
+      "nationality": "",
+      "gender": "male",
+      "moreInfo": "This is a lot more info so that the instructor can see the extent of info that can be given",
+      "pictureKey": ""
+    }
+  }
 }

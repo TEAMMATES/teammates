@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -21,7 +20,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.search.SearchDocument;
@@ -233,10 +231,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             log.info(attributes.getBackupIdentifier());
         }
         ofy().delete().entities(entitiesToDelete).now();
-    }
-
-    public void deletePicture(BlobKey key) {
-        GoogleCloudStorageHelper.deleteFile(key);
     }
 
     protected abstract LoadType<E> load();
