@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -60,6 +61,11 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return backDoorLogic.getAccount(account.googleId);
+    }
+
+    @Override
+    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
+        return backDoorLogic.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     @Override
