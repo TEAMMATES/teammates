@@ -5,17 +5,7 @@
       "name": "Alice Betsy",
       "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 2",
-      "studentProfile": {
-        "googleId": "alice.b.tmms.sampleData",
-        "shortName": "Alice",
-        "email": "alice@b.tmt",
-        "institute": "TEAMMATES Test Institute 5",
-        "nationality": "Chinese",
-        "gender": "female",
-        "moreInfo": "I am Alice from TEAMMATES Test Institute 1 and am here at Cambridge for exchange. My Major in TEAMMATES Test Institute 5 is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 2"
     },
     "benny.c.tmms": {
       "googleId": "benny.c.tmms.sampleData",
@@ -29,51 +19,21 @@
       "name": "Danny Engrid",
       "isInstructor": false,
       "email": "danny.e.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 4",
-      "studentProfile": {
-        "googleId": "danny.e.tmms.sampleData",
-        "shortName": "Danny",
-        "email": "danny@e.tmt",
-        "institute": "TEAMMATES Test Institute 7",
-        "nationality": "Singaporean",
-        "gender": "male",
-        "moreInfo": "",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 4"
     },
     "emma.f.tmms": {
       "googleId": "emma.f.tmms.sampleData",
       "name": "Emma Farrell",
       "isInstructor": false,
       "email": "emma.f.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5",
-      "studentProfile": {
-        "googleId": "emma.f.tmms.sampleData",
-        "shortName": "Emm",
-        "email": "emma@f.tmt",
-        "institute": "TEAMMATES Test Institute 8",
-        "nationality": "Indian",
-        "gender": "female",
-        "moreInfo": "I am Emma from TEAMMATES Test Institute 8 India and am here at TEAMMATES Test Institute 5 for exchange. ",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 5"
     },
     "charlie.d.tmms": {
       "googleId": "charlie.d.tmms.sampleData",
       "name": "Charlie Davis",
       "isInstructor": false,
       "email": "charlie.d.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5",
-      "studentProfile": {
-        "googleId": "charlie.d.tmms.sampleData",
-        "shortName": "Char",
-        "email": "charlie@d.tmt",
-        "institute": "TEAMMATES Test Institute 8",
-        "nationality": "American",
-        "gender": "male",
-        "moreInfo": "I am Charlie - an exchange student",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 5"
     },
     "teammates.demo.instructor@demo.course": {
       "googleId": "teammates.demo.instructor",
@@ -94,17 +54,7 @@
       "name": "Gene Hudson",
       "isInstructor": false,
       "email": "gene.h.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 6",
-      "studentProfile": {
-        "googleId": "gene.h.tmms.sampleData",
-        "shortName": "Gene",
-        "email": "gene@h.tmt",
-        "institute": "TEAMMATES Test Institute 5",
-        "nationality": "Nigerian",
-        "gender": "female",
-        "moreInfo": "",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 6"
     }
   },
   "courses": {
@@ -2629,5 +2579,56 @@
       "lastEditedAt": "2012-04-30T21:39:00Z"
     }
   },
-  "profiles": {}
+  "profiles": {
+    "alice.b.tmms": {
+      "googleId": "alice.b.tmms.sampleData",
+      "shortName": "Alice",
+      "email": "alice@b.tmt",
+      "institute": "TEAMMATES Test Institute 5",
+      "nationality": "Chinese",
+      "gender": "female",
+      "moreInfo": "I am Alice from TEAMMATES Test Institute 1 and am here at Cambridge for exchange. My Major in TEAMMATES Test Institute 5 is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!",
+      "pictureKey": ""
+    },
+    "danny.e.tmms": {
+      "googleId": "danny.e.tmms.sampleData",
+      "shortName": "Danny",
+      "email": "danny@e.tmt",
+      "institute": "TEAMMATES Test Institute 7",
+      "nationality": "Singaporean",
+      "gender": "male",
+      "moreInfo": "",
+      "pictureKey": ""
+    },
+    "emma.f.tmms": {
+      "googleId": "emma.f.tmms.sampleData",
+      "shortName": "Emm",
+      "email": "emma@f.tmt",
+      "institute": "TEAMMATES Test Institute 8",
+      "nationality": "Indian",
+      "gender": "female",
+      "moreInfo": "I am Emma from TEAMMATES Test Institute 8 India and am here at TEAMMATES Test Institute 5 for exchange. ",
+      "pictureKey": ""
+    },
+    "charlie.d.tmms": {
+      "googleId": "charlie.d.tmms.sampleData",
+      "shortName": "Char",
+      "email": "charlie@d.tmt",
+      "institute": "TEAMMATES Test Institute 8",
+      "nationality": "American",
+      "gender": "male",
+      "moreInfo": "I am Charlie - an exchange student",
+      "pictureKey": ""
+    },
+    "gene.h.tmms@demo.course": {
+      "googleId": "gene.h.tmms.sampleData",
+      "shortName": "Gene",
+      "email": "gene@h.tmt",
+      "institute": "TEAMMATES Test Institute 5",
+      "nationality": "Nigerian",
+      "gender": "female",
+      "moreInfo": "",
+      "pictureKey": ""
+    }
+  }
 }

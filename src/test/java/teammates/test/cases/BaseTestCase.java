@@ -3,8 +3,7 @@ package teammates.test.cases;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.function.Executable;
+import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -115,79 +114,122 @@ public class BaseTestCase {
      */
 
     protected static void assertTrue(boolean condition) {
-        Assertions.assertTrue(condition);
+        Assert.assertTrue(condition);
     }
 
     protected static void assertTrue(String message, boolean condition) {
-        Assertions.assertTrue(condition, message);
+        Assert.assertTrue(message, condition);
     }
 
     protected static void assertFalse(boolean condition) {
-        Assertions.assertFalse(condition);
+        Assert.assertFalse(condition);
     }
 
     protected static void assertFalse(String message, boolean condition) {
-        Assertions.assertFalse(condition, message);
+        Assert.assertFalse(message, condition);
     }
 
     protected static void assertEquals(int expected, int actual) {
-        Assertions.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(String message, int expected, int actual) {
-        Assertions.assertEquals(expected, actual, message);
+        Assert.assertEquals(message, expected, actual);
     }
 
     protected static void assertEquals(long expected, long actual) {
-        Assertions.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(double expected, double actual, double delta) {
-        Assertions.assertEquals(expected, actual, delta);
+        Assert.assertEquals(expected, actual, delta);
     }
 
     protected static void assertEquals(Object expected, Object actual) {
-        Assertions.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(String message, Object expected, Object actual) {
-        Assertions.assertEquals(expected, actual, message);
+        Assert.assertEquals(message, expected, actual);
     }
 
-    protected static void assertNotEquals(Object unexpected, Object actual) {
-        Assertions.assertNotEquals(unexpected, actual);
+    protected static void assertNotEquals(Object first, Object second) {
+        Assert.assertNotEquals(first, second);
     }
 
     protected static void assertNotSame(Object unexpected, Object actual) {
-        Assertions.assertNotSame(unexpected, actual);
+        Assert.assertNotSame(unexpected, actual);
     }
 
-    protected static void assertNull(Object actual) {
-        Assertions.assertNull(actual);
+    protected static void assertNull(Object object) {
+        Assert.assertNull(object);
     }
 
-    protected static void assertNull(String message, Object actual) {
-        Assertions.assertNull(actual, message);
+    protected static void assertNull(String message, Object object) {
+        Assert.assertNull(message, object);
     }
 
-    protected static void assertNotNull(Object actual) {
-        Assertions.assertNotNull(actual);
+    protected static void assertNotNull(Object object) {
+        Assert.assertNotNull(object);
     }
 
-    protected static void assertNotNull(String message, Object actual) {
-        Assertions.assertNotNull(actual, message);
+    protected static void assertNotNull(String message, Object object) {
+        Assert.assertNotNull(message, object);
     }
 
     protected static void fail(String message) {
-        Assertions.fail(message);
+        Assert.fail(message);
     }
 
-    protected static void assertArrayEquals(Object[] expected, Object[] actual) {
-        Assertions.assertArrayEquals(expected, actual);
+    protected static void assertArrayEquals(Object[] expecteds, Object[] actuals) {
+        Assert.assertArrayEquals(expecteds, actuals);
     }
 
+    // This method is adapted from JUnit 5's assertThrows.
+    // Once we upgrade to JUnit 5, their built-in method shall be used instead.
+    @SuppressWarnings({
+            "unchecked",
+            "PMD.AvoidCatchingThrowable", // As per reference method's specification
+    })
     protected static <T extends Throwable> T assertThrows(Class<T> expectedType, Executable executable) {
-        return Assertions.assertThrows(expectedType, executable);
+        try {
+            executable.execute();
+        } catch (Throwable actualException) {
+            if (expectedType.isInstance(actualException)) {
+                return (T) actualException;
+            } else {
+                String message = String.format("Expected %s to be thrown, but %s was instead thrown.",
+                        getCanonicalName(expectedType), getCanonicalName(actualException.getClass()));
+                throw new AssertionError(message, actualException);
+            }
+        }
+
+        String message = String.format("Expected %s to be thrown, but nothing was thrown.", getCanonicalName(expectedType));
+        throw new AssertionError(message);
+    }
+
+    private static String getCanonicalName(Class<?> clazz) {
+        String canonicalName = clazz.getCanonicalName();
+        return canonicalName == null ? clazz.getName() : canonicalName;
+    }
+
+    /**
+     * {@code Executable} is a functional interface that can be used to
+     * implement any generic block of code that potentially throws a
+     * {@link Throwable}.
+     *
+     * <p>The {@code Executable} interface is similar to {@link Runnable},
+     * except that an {@code Executable} can throw any kind of exception.
+     */
+    // This interface is adapted from JUnit 5's Executable interface.
+    // Once we upgrade to JUnit 5, this interface shall no longer be necessary.
+    public interface Executable {
+
+        /**
+         * Executes a block of code, potentially throwing a {@link Throwable}.
+         */
+        void execute() throws Throwable;
+
     }
 
 }

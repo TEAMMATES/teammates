@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
@@ -26,6 +27,11 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return getAccount(account.googleId);
+    }
+
+    @Override
+    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
+        return BackDoor.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     protected AccountAttributes getAccountWithRetry(String googleId) throws MaximumRetriesExceededException {

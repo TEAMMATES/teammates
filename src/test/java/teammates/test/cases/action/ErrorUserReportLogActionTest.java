@@ -52,7 +52,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
 
         // getting basic AccountAttributes because ErrorUserReportLogAction only logs this.
         AccountAttributes instructor1ofCourse1AccountAttributes = accountsLogic
-                .getAccount(instructor1ofCourse1.googleId, false);
+                .getAccount(instructor1ofCourse1.googleId);
 
         String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ====== \n"
                 + "REQUESTED URL: " + testErrorReportRequestedUrl + "\n"

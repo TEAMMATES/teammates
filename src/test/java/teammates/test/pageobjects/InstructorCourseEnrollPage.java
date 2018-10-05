@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

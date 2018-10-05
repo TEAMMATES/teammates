@@ -4,9 +4,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.ProfilesLogic;
 
 /**
@@ -14,7 +12,6 @@ import teammates.logic.core.ProfilesLogic;
  */
 public class ProfilesLogicTest extends BaseLogicTest {
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     @Override
@@ -40,28 +37,18 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .withMoreInfo("moreInfo")
                 .build();
 
-        AccountAttributes accountWithStudentProfile = AccountAttributes.builder()
-                .withGoogleId("id")
-                .withName("name")
-                .withEmail("test@email.come")
-                .withInstitute("dev")
-                .withIsInstructor(true)
-                .withStudentProfileAttributes(expectedSpa)
-                .build();
+        profilesLogic.updateOrCreateStudentProfile(expectedSpa);
 
-        accountsLogic.createAccount(accountWithStudentProfile);
-
-        StudentProfileAttributes actualSpa = profilesLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        StudentProfileAttributes actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
 
         ______TS("update SP");
 
         expectedSpa.pictureKey = "non-empty";
-        accountWithStudentProfile.studentProfile.pictureKey = expectedSpa.pictureKey;
-        profilesLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
+        profilesLogic.updateOrCreateStudentProfile(expectedSpa);
 
-        actualSpa = profilesLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
 
@@ -69,22 +56,30 @@ public class ProfilesLogicTest extends BaseLogicTest {
 
         expectedSpa.pictureKey = writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
         profilesLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
-        actualSpa = profilesLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
+    }
 
-        ______TS("delete profile picture");
+    @Test
+    public void testDeleteStudentProfile() throws Exception {
+        // more tests in ProfilesDbTest
 
-        profilesLogic.deleteStudentProfilePicture(expectedSpa.googleId);
-        assertFalse(doesFileExistInGcs(new BlobKey(expectedSpa.pictureKey)));
+        profilesLogic.updateOrCreateStudentProfile(
+                StudentProfileAttributes.builder("sp.logic.test")
+                        .withShortName("Test Name")
+                        .withPictureKey(writeFileToGcs("sp.logic.test", "src/test/resources/images/profile_pic_default.png"))
+                        .build()
+        );
+        // make sure we create an profile with picture key
+        StudentProfileAttributes savedProfile = profilesLogic.getStudentProfile("sp.logic.test");
+        assertNotNull(savedProfile);
+        assertFalse(savedProfile.pictureKey.isEmpty());
 
-        actualSpa = profilesLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        expectedSpa.pictureKey = "";
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-
-        // remove the account that was created
-        accountsLogic.deleteAccountCascade("id");
+        profilesLogic.deleteStudentProfile("sp.logic.test");
+        // check that profile get deleted and picture get deleted
+        verifyAbsentInDatastore(savedProfile);
+        assertFalse(doesFileExistInGcs(new BlobKey(savedProfile.pictureKey)));
     }
 
     @Test
