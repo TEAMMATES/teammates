@@ -57,10 +57,9 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
         assertNull(sd.comments);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testBuilderWithNullValuesForRequiredFields() {
-        StudentAttributes.builder(null, null, null)
-                .build();
+        assertThrows(AssertionError.class, () -> StudentAttributes.builder(null, null, null).build());
     }
 
     @Test

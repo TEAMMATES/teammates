@@ -35,8 +35,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("studentForHelperCourse").googleId = student1GoogleId;
+        testData.profiles.get("studentForHelperCourse").googleId = student1GoogleId;
         testData.accounts.get("studentForHelperCourse").email = student1Email;
-        testData.accounts.get("studentForHelperCourse").studentProfile.googleId = student1GoogleId;
         testData.students.get("studentForHelperCourse").googleId = student1GoogleId;
         testData.students.get("studentForHelperCourse").email = student1Email;
 
@@ -45,8 +45,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
+        testData.profiles.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.accounts.get("studentWithExistingProfile").email = student2Email;
-        testData.accounts.get("studentWithExistingProfile").studentProfile.googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").email = student2Email;
 

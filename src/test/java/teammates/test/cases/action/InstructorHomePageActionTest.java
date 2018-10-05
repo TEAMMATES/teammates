@@ -56,8 +56,6 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                                      + "|||/page/instructorHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
-        submissionParams = new String[] {};
-
         ______TS("instructor with multiple courses, sort by course id, masquerade mode");
 
         submissionParams = new String[] {

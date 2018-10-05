@@ -88,6 +88,10 @@ public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticate
                                                                courseDisplayText), StatusMessageColor.INFO));
 
             StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
+            if (spa == null) {
+                // create an empty profile to generate the message
+                spa = StudentProfileAttributes.builder(account.googleId).build();
+            }
 
             String updateProfileMessage = spa.generateUpdateMessageForStudent();
             if (!updateProfileMessage.isEmpty()) {

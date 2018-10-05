@@ -67,6 +67,7 @@ public class InstructorFeedbackDeleteAllSoftDeletedSessionsActionTest extends Ba
         try {
             deleteAllAction = getAction();
             getRedirectResult(deleteAllAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor "
                     + "[instructor1@course3.tmt] for privilege [canmodifysession]", e.getMessage());

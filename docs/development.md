@@ -221,6 +221,25 @@ Run tests using the configurations available under `Run → Run...`.
 
 To run individual tests, right-click on the test files on the project explorer and choose `Run`.
 
+### Testing against production server
+
+If you are testing against a production server (staging server or live server), some additional tasks need to be done.
+
+1. You need to setup a `Gmail API`<sup>1</sup> as follows:
+   * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md) and download it.
+   * Copy the file to `src/test/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
+   * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
+
+1. Edit `src/test/resources/test.properties` as instructed is in its comments.
+   * In particular, you will need legitimate Google accounts to be used for testing.
+
+1. Run the full test suite or any subset of it as how you would have done it in dev server.
+   * You may want to run `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first time.
+   * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
+
+<sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
+This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
+
 ## Measuring code coverage
 
 After or concurrently with testing, one may want to check the code coverage to see how much of the code base has (not) been covered by tests.
@@ -266,81 +285,8 @@ For JavaScript unit tests, coverage is done concurrently with the tests themselv
 
 > `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
-This instruction set assumes that the app identifier is `teammates-john`.
-
-1. Create your own app on GAE.<br>
-   Suggested app identifier: `teammates-yourname` (e.g `teammates-john`).<br>
-   The URL of the app will be like this: `https://teammates-john.appspot.com`.
-
-1. [Authorize your Google account to be used by the Google Cloud SDK](https://cloud.google.com/sdk/docs/authorizing) if you have not done so.
-   ```sh
-   gcloud auth login
-   ```
-   Follow the steps until you see `You are now logged in as [...]` on the console.
-
-1. Modify configuration files.
-   * `src/main/resources/build.properties`<br>
-     Edit the file as instructed in its comments.
-   * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-     Modify to match app name and app id of your own app, and the version number if you need to. Do not modify anything else.
-
-1. Deploy the application to your staging server.
-   * With command line
-     * Run the following command:
-
-       ```sh
-       ./gradlew appengineDeployAll
-       ```
-     * Wait until you see all the following messages or similar on the console:
-       * `Deployed service [default] to [https://6-0-0-dot-teammates-john.appspot.com]`
-       * `Cron jobs have been updated.`
-       * `Indexes are being rebuilt. This may take a moment.`
-       * `Task queues have been updated.`
-   * With Eclipse
-     * Refer to [this guide](https://cloud.google.com/eclipse/docs/deploying) to deploy your application.
-   * With IntelliJ
-     * Refer to [this guide](https://cloud.google.com/tools/intellij/docs/deploy-std#deploying_to_the_standard_environment) to deploy your application.
-
-1. (Optional) Set the version you deployed as the "default":
-   * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
-   * Click `Versions` under `Main` menu on the left bar.
-   * Tick the checkbox next to the deployed version and select `Migrate Traffic`. Wait for a few minutes.
-   * If you do not wish to set the deployed version as the default, you can access the deployed app using
-     `https://{version}-dot-teammates-john.appspot.com`, e.g `https://6-0-0-dot-teammates-john.appspot.com`.
-
-1. (Optional) You can run the tests against the deployed app.
-   * You need to setup `Gmail API` for the project as follows:
-   
-     **NOTE**
-     > Setup of Gmail API is required when testing against the staging server.\
-     See [Notes on Gmail API](#notes-on-gmail-api) for more details.
-     
-     * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
-       and click `API Manager`.\
-       Click `ENABLE API`.\
-       Click `Gmail API` under `G Suite APIs` and then click `ENABLE`.
-     * Alternatively, you can use [Gmail API Wizard](https://console.cloud.google.com/start/api?id=gmail) to enable
-       `Gmail API`.
-     * Click `Credentials` in the menu of the `API Manager`.
-     * Click `Create credentials` and then select `OAuth client ID`.
-     * Choose `Other`, give it a name, e.g. `teammates` and click `Create`. You will then get shown your client ID details,
-       click `OK`.
-     * Click the `Download JSON` icon.
-     * Copy the file to `src/test/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to
-       `client_secret.json`.
-   * Edit `src/test/resources/test.properties` as instructed is in its comments.
-   * Run the full test suite or any subset of it as how you would have done it in dev server. You may want to run
-     `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
-     time. Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with
-     no billing enabled.
-
-#### Notes on Gmail API
-1. We need to set up the Gmail API because our test suite uses the Gmail API to access Gmail accounts used for testing (these
-accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
-1. This setup is needed only when testing against the staging server because no actual emails are sent by the dev server and
-therefore delivery of emails is not tested when testing against the dev server.
-1. While we only show how to use the Gmail API with the TEAMMATES project in Google Cloud Console, it is also possible to use
-   the Gmail API with any other Google Cloud Platform project and use the credentials in our project.
+For most cases, you do not need a staging server as the dev server has covered almost all of the application's functionality.
+If you need to deploy your application to a staging server, refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md).
 
 ## Running client scripts
 

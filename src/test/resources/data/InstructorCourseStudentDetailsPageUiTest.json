@@ -19,17 +19,7 @@
       "name": "José Gómez",
       "isInstructor": false,
       "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5",
-      "studentProfile": {
-        "googleId": "CCSDetailsUiT.jose.tmms",
-        "shortName": "Jose",
-        "email": "jose@e.tmt",
-        "institute": "TEAMMATES Test Institute 7",
-        "nationality": "Laotian",
-        "gender": "other",
-        "moreInfo": "This is a lot of info...",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 5"
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "CCSDetailsUiT.sanitizationInstruct",
@@ -43,17 +33,7 @@
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
       "email": "CCSDetailsUiT.stud@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
-      "studentProfile": {
-        "googleId": "CCSDetailsUiT.sanitizationStud",
-        "shortName": "name\"/><script>alert('hi!');</script>",
-        "email": "weird&'@gmail.tmt",
-        "institute": "school'/><script>alert('hi!');</script>",
-        "nationality": "American",
-        "gender": "other",
-        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-        "pictureKey": ""
-      }
+      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -172,5 +152,26 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {
+    "registeredStudent": {
+      "googleId": "CCSDetailsUiT.jose.tmms",
+      "shortName": "Jose",
+      "email": "jose@e.tmt",
+      "institute": "TEAMMATES Test Institute 7",
+      "nationality": "Laotian",
+      "gender": "other",
+      "moreInfo": "This is a lot of info...",
+      "pictureKey": ""
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationStud",
+      "shortName": "name\"/><script>alert('hi!');</script>",
+      "email": "weird&'@gmail.tmt",
+      "institute": "school'/><script>alert('hi!');</script>",
+      "nationality": "American",
+      "gender": "other",
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "pictureKey": ""
+    }
+  }
 }
