@@ -70,60 +70,13 @@ public class Logic {
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     /**
-     * Creates a new Account based on given values. If a profile is not given,
-     * a default empty profile is created for the user<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     */
-    public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute,
-                              StudentProfileAttributes studentProfileParam) throws InvalidParametersException {
-
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(name);
-        Assumption.assertNotNull(isInstructor);
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(institute);
-
-        StudentProfileAttributes studentProfile = studentProfileParam;
-        if (studentProfile == null) {
-            studentProfile = StudentProfileAttributes.builder(googleId).build();
-        }
-        AccountAttributes accountToAdd = AccountAttributes.builder()
-                .withGoogleId(googleId)
-                .withName(name)
-                .withEmail(email)
-                .withInstitute(institute)
-                .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(studentProfile)
-                .build();
-
-        accountsLogic.createAccount(accountToAdd);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * This is just for legacy code that creates an Account without the profile parameter
-     */
-    public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute)
-            throws InvalidParametersException {
-
-        createAccount(googleId, name, isInstructor, email, institute, null);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
     public AccountAttributes getAccount(String googleId) {
-        return accountsLogic.getAccount(googleId, false);
-    }
-
-    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         Assumption.assertNotNull(googleId);
 
-        return accountsLogic.getAccount(googleId, retrieveStudentProfile);
+        return accountsLogic.getAccount(googleId);
     }
 
     /**
@@ -153,25 +106,30 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.<br>
-     * * {@code newAccountAttributes} represents an existing account.
+     * Updates/Creates student profile based on the given new profile attributes.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws InvalidParametersException if attributes in {@code newStudentProfileAttributes} are not valid
      */
-    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateOrCreateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(newStudentProfileAttributes);
 
-        profilesLogic.updateStudentProfile(newStudentProfileAttributes);
+        profilesLogic.updateOrCreateStudentProfile(newStudentProfileAttributes);
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.<br>
-     * * {@code newAccountAttributes} represents an existing account.
+     * Updates {@code pictureKey} for the student profile associated with {@code googleId}.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * <p>If the associated profile doesn't exist, create a new one.</p>
      */
-    public void updateStudentProfilePicture(String googleId, String newPictureKey)
-            throws EntityDoesNotExistException {
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) {
 
         Assumption.assertNotNull(googleId);
         Assumption.assertNotNull(newPictureKey);
@@ -180,11 +138,14 @@ public class Logic {
     }
 
     /**
-     * Deletes both instructor and student privileges.
-     * Does not delete courses. Can result in orphan courses
-     * (to be rectified in future).
-     * Fails silently if no such account. <br>
-     * Preconditions: <br>
+     * Deletes both instructor and student privileges, as long as the account and associated student profile.
+     *
+     * <ul>
+     * <li>Does not delete courses, which can result in orphan courses.</li>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
     public void deleteAccount(String googleId) {
@@ -194,13 +155,14 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
 
-    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(googleId);
-
-        profilesLogic.deleteStudentProfilePicture(googleId);
-    }
-
+    /**
+     * Delete the picture associated with the {@code key} in Cloud Storage.
+     *
+     * <br/> Preconditions: <br/>
+     * All parameters are non-null.
+     *
+     * <p>Fails silently if the {@code key} doesn't exist.</p>
+     */
     public void deletePicture(BlobKey key) {
         Assumption.assertNotNull(key);
 
@@ -234,7 +196,6 @@ public class Logic {
                     .withEmail(email)
                     .withInstitute(institute)
                     .withIsInstructor(true)
-                    .withDefaultStudentProfileAttributes(googleId)
                     .build();
             accountsLogic.createAccount(account);
         }
@@ -845,10 +806,12 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Gets student profile associated with the {@code googleId}.
+     *
+     * <br/> Preconditions: <br/>
      * * All parameters are non-null.
      *
-     * @return Null if no match found.
+     * @return null if no match found.
      */
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);

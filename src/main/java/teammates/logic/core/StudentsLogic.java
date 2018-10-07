@@ -12,12 +12,10 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -41,7 +39,6 @@ public final class StudentsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     private StudentsLogic() {
         // prevent initialization
@@ -118,12 +115,6 @@ public final class StudentsLogic {
      */
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
         return studentsDb.searchStudentsInWholeSystem(queryString);
-    }
-
-    public StudentProfileAttributes getStudentProfile(String googleId) {
-        Assumption.assertNotNull(googleId);
-
-        return profilesLogic.getStudentProfile(googleId);
     }
 
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {

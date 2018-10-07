@@ -20,12 +20,12 @@ public class StudentProfileEditSaveAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         try {
-            account.studentProfile = extractProfileData();
-            logic.updateStudentProfile(account.studentProfile);
+            StudentProfileAttributes studentProfile = extractProfileData();
+            logic.updateOrCreateStudentProfile(studentProfile);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId
                           + ")</span> edited.<br>"
-                          + SanitizationHelper.sanitizeForHtmlTag(account.studentProfile.toString());
+                          + SanitizationHelper.sanitizeForHtmlTag(studentProfile.toString());
         } catch (InvalidParametersException ipe) {
             setStatusForException(ipe);
         }

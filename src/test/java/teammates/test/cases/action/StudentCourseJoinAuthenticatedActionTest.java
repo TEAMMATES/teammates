@@ -7,12 +7,14 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
@@ -40,6 +42,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
+        ProfilesDb profilesDb = new ProfilesDb();
 
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
@@ -120,15 +123,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                         + "contact us</a> so that we can investigate.",
                 redirectResult.getStatusMessage());
 */
-        ______TS("join course with no feedback sessions, profile is empty");
-        AccountAttributes studentWithEmptyProfile = dataBundle.accounts.get("noFSStudent");
-        studentWithEmptyProfile = accountsDb.getAccount(studentWithEmptyProfile.googleId, true);
-        assertNotNull(studentWithEmptyProfile.studentProfile);
-        assertEquals("", studentWithEmptyProfile.studentProfile.pictureKey);
-        assertEquals("", studentWithEmptyProfile.studentProfile.shortName);
-        assertEquals("", studentWithEmptyProfile.studentProfile.nationality);
-        assertEquals("", studentWithEmptyProfile.studentProfile.moreInfo);
-        assertEquals("", studentWithEmptyProfile.studentProfile.email);
+        ______TS("join course with no feedback sessions");
+        AccountAttributes studentWithNoProfileAccount = dataBundle.accounts.get("noFSStudent");
+        StudentProfileAttributes profileForStudent = profilesDb.getStudentProfile(studentWithNoProfileAccount.googleId);
+        assertNull(profileForStudent);
 
         StudentAttributes studentWithEmptyProfileAttributes = dataBundle.students.get("noFSStudentWithNoProfile");
         studentWithEmptyProfileAttributes = studentsDb.getStudentForEmail(
@@ -161,14 +159,14 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getStatusMessage());
 
         ______TS("join course with no feedback sessions, profile has only one missing field");
-        AccountAttributes studentWithoutProfilePicture = dataBundle.accounts.get("noFSStudent2");
-        studentWithoutProfilePicture = accountsDb.getAccount(studentWithoutProfilePicture.googleId, true);
-        assertNotNull(studentWithoutProfilePicture.studentProfile);
-        assertEquals("", studentWithoutProfilePicture.studentProfile.pictureKey);
-        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.email.isEmpty());
+        AccountAttributes studentWithoutProfilePictureAccount = dataBundle.accounts.get("noFSStudent2");
+        profileForStudent = profilesDb.getStudentProfile(studentWithoutProfilePictureAccount.googleId);
+        assertNotNull(profileForStudent);
+        assertEquals("", profileForStudent.pictureKey);
+        assertFalse(profileForStudent.nationality.isEmpty());
+        assertFalse(profileForStudent.shortName.isEmpty());
+        assertFalse(profileForStudent.moreInfo.isEmpty());
+        assertFalse(profileForStudent.email.isEmpty());
 
         StudentAttributes studentWithoutProfilePictureAttributes = dataBundle.students.get("noFSStudentWithPartialProfile");
 
@@ -207,13 +205,13 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         ______TS("join course with no feedback sessions, profile has no missing field");
         AccountAttributes studentWithFullProfile = dataBundle.accounts.get("noFSStudent3");
 
-        studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId, true);
-        assertNotNull(studentWithFullProfile.studentProfile);
-        assertFalse(studentWithFullProfile.studentProfile.pictureKey.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.isEmpty());
-        assertFalse(studentWithoutProfilePicture.studentProfile.email.isEmpty());
+        profileForStudent = profilesDb.getStudentProfile(studentWithFullProfile.googleId);
+        assertNotNull(profileForStudent);
+        assertFalse(profileForStudent.pictureKey.isEmpty());
+        assertFalse(profileForStudent.nationality.isEmpty());
+        assertFalse(profileForStudent.shortName.isEmpty());
+        assertFalse(profileForStudent.moreInfo.isEmpty());
+        assertFalse(profileForStudent.email.isEmpty());
 
         StudentAttributes studentWithFullProfileAttributes = dataBundle.students.get("noFSStudentWithFullProfile");
         studentWithFullProfileAttributes = studentsDb.getStudentForEmail(
@@ -251,7 +249,6 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 .withEmail("newStudent@gmail.com")
                 .withInstitute("TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
-                .withDefaultStudentProfileAttributes("idOfNewStudent")
                 .build();
 
         accountsDb.createAccount(newStudentAccount);
@@ -317,10 +314,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
         String courseIdentifier = "[" + courseTestSanitization.getId() + "] "
                 + SanitizationHelper.sanitizeForHtml(courseTestSanitization.getName());
+        StudentProfileAttributes expectedSpa = dataBundle.profiles.get("student1InTestingSanitizationCourse");
         String expectedStatusMessage =
                 String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseIdentifier) + "<br>"
                 + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, courseIdentifier) + "<br>"
-                + accountTestSanitization.studentProfile.generateUpdateMessageForStudent();
+                + expectedSpa.generateUpdateMessageForStudent();
         assertEquals(expectedStatusMessage, redirectResult.getStatusMessage());
     }
 
