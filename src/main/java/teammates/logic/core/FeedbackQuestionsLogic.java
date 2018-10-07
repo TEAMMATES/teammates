@@ -60,11 +60,8 @@ public final class FeedbackQuestionsLogic {
 
         String feedbackSessionName = fqa.feedbackSessionName;
         String courseId = fqa.courseId;
-        List<FeedbackQuestionAttributes> questions = null;
-
-        try {
-            questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
+        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        if (questions.size() == 0) {
             Assumption.fail("Session disappeared.");
         }
         if (fqa.questionNumber < 0) {
@@ -127,12 +124,8 @@ public final class FeedbackQuestionsLogic {
      * Gets a {@link List} of every FeedbackQuestion in the given session.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
-            String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
+            String feedbackSessionName, String courseId) {
 
-        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get questions for a feedback session that does not exist.");
-        }
         List<FeedbackQuestionAttributes> questions =
                 fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         questions.sort(null);
@@ -465,14 +458,10 @@ public final class FeedbackQuestionsLogic {
         int newQuestionNumber = newQuestion.questionNumber;
         String feedbackSessionName = oldQuestion.feedbackSessionName;
         String courseId = oldQuestion.courseId;
-        List<FeedbackQuestionAttributes> questions = null;
-
-        try {
-            questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
+        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        if (questions.size() == 0) {
             Assumption.fail("Session disappeared.");
         }
-
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
         updateFeedbackQuestion(newQuestion);
     }
@@ -629,13 +618,10 @@ public final class FeedbackQuestionsLogic {
         // Cascade delete responses for question.
         frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), true);
 
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
-        try {
-            questionsToShiftQnNumber = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
+        List<FeedbackQuestionAttributes> questionsToShiftQnNumber = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        if (questionsToShiftQnNumber.size() == 0) {
             Assumption.fail("Session disappeared.");
         }
-
         fqDb.deleteEntity(questionToDelete);
 
         if (questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
