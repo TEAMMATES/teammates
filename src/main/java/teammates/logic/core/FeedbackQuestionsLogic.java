@@ -61,7 +61,7 @@ public final class FeedbackQuestionsLogic {
         String feedbackSessionName = fqa.feedbackSessionName;
         String courseId = fqa.courseId;
         List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (questions.size() == 0) {
+        if (questions.isEmpty()) {
             Assumption.fail("Session disappeared.");
         }
         if (fqa.questionNumber < 0) {
@@ -178,8 +178,7 @@ public final class FeedbackQuestionsLogic {
     /**
      *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy.
      */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
-            throws EntityDoesNotExistException {
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) {
 
         List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
@@ -459,7 +458,7 @@ public final class FeedbackQuestionsLogic {
         String feedbackSessionName = oldQuestion.feedbackSessionName;
         String courseId = oldQuestion.courseId;
         List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (questions.size() == 0) {
+        if (questions.isEmpty()) {
             Assumption.fail("Session disappeared.");
         }
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
@@ -618,8 +617,9 @@ public final class FeedbackQuestionsLogic {
         // Cascade delete responses for question.
         frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), true);
 
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (questionsToShiftQnNumber.size() == 0) {
+        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
+                getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        if (questionsToShiftQnNumber.isEmpty()) {
             Assumption.fail("Session disappeared.");
         }
         fqDb.deleteEntity(questionToDelete);

@@ -83,6 +83,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
 
         assertTrue(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
                 frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
