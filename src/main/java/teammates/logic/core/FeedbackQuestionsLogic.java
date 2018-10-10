@@ -61,7 +61,7 @@ public final class FeedbackQuestionsLogic {
         String feedbackSessionName = fqa.feedbackSessionName;
         String courseId = fqa.courseId;
         List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (questions.isEmpty()) {
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
         if (fqa.questionNumber < 0) {
@@ -458,7 +458,7 @@ public final class FeedbackQuestionsLogic {
         String feedbackSessionName = oldQuestion.feedbackSessionName;
         String courseId = oldQuestion.courseId;
         List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (questions.isEmpty()) {
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
@@ -619,7 +619,7 @@ public final class FeedbackQuestionsLogic {
 
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (questionsToShiftQnNumber.isEmpty()) {
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
         fqDb.deleteEntity(questionToDelete);
@@ -638,26 +638,6 @@ public final class FeedbackQuestionsLogic {
                 updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
         }
-    }
-
-    /*
-     * Removes questions with no recipients.
-     */
-    public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
-            List<FeedbackQuestionAttributes> questions, String giver)
-            throws EntityDoesNotExistException {
-        List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<>();
-        for (FeedbackQuestionAttributes question : questions) {
-            int numRecipients = question.numberOfEntitiesToGiveFeedbackTo;
-            if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS) {
-                numRecipients = this.getRecipientsForQuestion(question, giver)
-                        .size();
-            }
-            if (numRecipients > 0) {
-                questionsWithRecipients.add(question);
-            }
-        }
-        return questionsWithRecipients;
     }
 
 }
