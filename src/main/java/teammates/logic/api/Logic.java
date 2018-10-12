@@ -1,54 +1,17 @@
 package teammates.logic.api;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import teammates.common.datatransfer.*;
+import teammates.common.datatransfer.attributes.*;
+import teammates.common.exception.*;
+import teammates.common.util.Assumption;
+import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.logic.core.*;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
-
-import com.google.appengine.api.blobstore.BlobKey;
-
-import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.FeedbackSessionResponseStatus;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
-import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.ExceedingRangeException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
-import teammates.common.util.Assumption;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.logic.core.FeedbackResponseCommentsLogic;
-import teammates.logic.core.FeedbackResponsesLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.ProfilesLogic;
-import teammates.logic.core.StudentsLogic;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -567,18 +530,6 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return A less detailed version of courses for the specified instructor attributes.
-     *         Returns an empty list if none found.
-     */
-    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) {
-
-        Assumption.assertNotNull(instructorList);
-        return coursesLogic.getCourseSummariesForInstructor(instructorList);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      *
      * @return Details of courses the student is in. CourseData objects
      *         returned contain details of feedback sessions too (except the ones
@@ -725,18 +676,6 @@ public class Logic {
         coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
     }
 
-    /**
-     * Creates a student. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void createStudent(StudentAttributes student)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(student);
-        studentsLogic.createStudentCascade(student);
-    }
-
     public void createStudentWithoutDocument(StudentAttributes student) throws EntityAlreadyExistsException,
                                                                                InvalidParametersException,
                                                                                EntityDoesNotExistException {
@@ -840,28 +779,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<StudentAttributes> getStudentsForSection(String section, String courseId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(section);
-        return studentsLogic.getStudentsForSection(section, courseId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<StudentAttributes> getStudentsForTeam(String team, String courseId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(team);
-        return studentsLogic.getStudentsForTeam(team, courseId);
-    }
-
-    /**
      * Returns a list of section names for the course with ID courseId.
      *
      * <p>Preconditions: <br>
@@ -872,19 +789,6 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
-    }
-
-    /**
-     * Returns a list of section names for the specified course.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see CoursesLogic#getSectionsNameForCourse(CourseAttributes)
-     */
-    public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(course);
-        return coursesLogic.getSectionsNameForCourse(course);
     }
 
     /**
@@ -1048,14 +952,6 @@ public class Logic {
         studentsLogic.deleteAllStudentsInCourse(courseId);
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(studentEmail);
-
-        studentsLogic.deleteStudentCascadeWithoutDocument(courseId, studentEmail);
-    }
-
     /**
      *  Checks if a course has sections for each team
      *  Preconditions: <br>
@@ -1203,21 +1099,6 @@ public class Logic {
     }
 
     /**
-     * Returns a {@code List} of all feedback sessions bundled with their
-     * response statistics for a instructor given by his googleId.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see FeedbackSessionsLogic#getFeedbackSessionDetailsForInstructor(String)
-     */
-    public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
-            String googleId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(googleId);
-        return feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(googleId);
-    }
-
-    /**
      * Returns a {@code List} of all feedback sessions WITHOUT their response
      * statistics for a instructor given by his googleId.
      *
@@ -1297,18 +1178,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
@@ -1739,25 +1608,6 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName,
                                                                                                courseId, userEmail,
                                                                                                range, viewType);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session in a section within the given range
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-        Assumption.assertNotNull(viewType);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-                                        feedbackSessionName, courseId, userEmail, section, range, viewType);
     }
 
     /**
@@ -2205,14 +2055,5 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(teamName);
         return studentsLogic.getSectionForTeam(courseId, teamName);
-    }
-
-    /**
-     * Returns a list of feedback comments associated with feedbackResponseId.
-     *
-     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
     }
 }
