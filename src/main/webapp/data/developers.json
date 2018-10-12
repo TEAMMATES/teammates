@@ -533,11 +533,6 @@
       "username": "theitrain"
     },
     {
-      "multiple": true,
-      "name": "Jacob Li",
-      "username": "jacoblipech"
-    },
-    {
       "name": "Jaikirat Singh Sandhu",
       "username": "SandhuJai"
     },
@@ -867,11 +862,6 @@
       "name": "Mohit Singh Kanwal"
     },
     {
-      "multiple": true,
-      "name": "Mudit Gupta",
-      "username": "mg14777"
-    },
-    {
       "name": "Muhammad Shehroz Sajjad",
       "username": "mshehrozsajjad"
     },
@@ -930,11 +920,6 @@
     {
       "name": "Nicolás Marzano",
       "username": "nmmarzano"
-    },
-    {
-      "multiple": true,
-      "name": "Nidhi Gupta",
-      "username": "nidhi98gupta"
     },
     {
       "multiple": true,
@@ -1320,16 +1305,6 @@
     },
     {
       "multiple": true,
-      "name": "Sukanta Roy",
-      "username": "sukanta-27"
-    },
-    {
-      "multiple": true,
-      "name": "Sun Shengran",
-      "username": "dalessr"
-    },
-    {
-      "multiple": true,
       "name": "Supraja Bhavani Sekhar",
       "username": "supraja2610"
     },
@@ -1357,11 +1332,6 @@
     {
       "multiple": true,
       "name": "Tan Guo Wei"
-    },
-    {
-      "multiple": true,
-      "name": "Tan Heng Yeow",
-      "username": "tanhengyeow"
     },
     {
       "multiple": true,
@@ -1602,8 +1572,15 @@
       "startPeriod": "Jan 2018"
     },
     {
+      "name": "Jacob Li",
+      "username": "jacoblipech",
+      "image": "images/teammembers/jacob.png",
+      "startPeriod": "May 2018"
+    },
+    {
       "name": "Joanne Ong",
       "username": "joanneong",
+      "image": "images/teammembers/joanne.png",
       "startPeriod": "Jan 2018"
     },
     {
@@ -1612,9 +1589,22 @@
       "startPeriod": "Jan 2018"
     },
     {
+      "name": "Mudit Gupta",
+      "username": "mg14777",
+      "image": "images/teammembers/mudit.png",
+      "startPeriod": "May 2018"
+    },
+    {
       "name": "Nguyen Quoc Bao",
       "username": "bqnguyen94",
+      "image": "images/teammembers/bao.png",
       "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Nidhi Gupta",
+      "username": "nidhi98gupta",
+      "image": "images/teammembers/nidhi.png",
+      "startPeriod": "May 2018"
     },
     {
       "name": "Pan Haozhe",
@@ -1624,21 +1614,43 @@
     {
       "name": "Phang Chun Rong",
       "username": "Crphang",
+      "image": "images/teammembers/chunrong.png",
       "startPeriod": "Jan 2018"
     },
     {
       "name": "Shradheya Thakre",
       "username": "tshradheya",
+      "image": "images/teammembers/shradheya.png",
       "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Sukanta Roy",
+      "username": "sukanta-27",
+      "image": "images/teammembers/sukanta.png",
+      "startPeriod": "May 2018"
+    },
+    {
+      "name": "Sun Shengran",
+      "username": "dalessr",
+      "image": "images/teammembers/shengran.png",
+      "startPeriod": "May 2018"
+    },
+    {
+      "name": "Tan Heng Yeow",
+      "username": "tanhengyeow",
+      "image": "images/teammembers/hengyeow.png",
+      "startPeriod": "May 2018"
     },
     {
       "name": "Tran Tien Dat",
       "username": "tran-tien-dat",
+      "image": "images/teammembers/dat.png",
       "startPeriod": "Jan 2018"
     },
     {
       "name": "Wen Xin",
       "username": "wenmogu",
+      "image": "images/teammembers/wenxin.png",
       "startPeriod": "Jan 2018"
     },
     {
