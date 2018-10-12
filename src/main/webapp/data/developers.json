@@ -1756,26 +1756,6 @@
       ]
     },
     {
-      "name": "Lee Yi Min",
-      "username": "leeyimin",
-      "image": "images/teammembers/yimin.png",
-      "currentPosition": "Area Lead (Aug 2017 - )",
-      "pastPositions": [
-        "Snr Developer (May 2017 - Jul 2017)",
-        "Committer (Jan 2017 - Apr 2017)"
-      ]
-    },
-    {
-      "name": "Thenaesh Elango",
-      "username": "thenaesh",
-      "image": "images/teammembers/thenaesh.png",
-      "currentPosition": "Area Lead (Aug 2017 - )",
-      "pastPositions": [
-        "Snr Developer (May 2017 - Jul 2017)",
-        "Committer (Jan 2017 - Apr 2017)"
-      ]
-    },
-    {
       "name": "Tan Li Hao",
       "username": "LiHaoTan",
       "image": "images/teammembers/lihao.png",
@@ -1805,6 +1785,26 @@
         "Area Lead (Jan 2017 - May 2017)",
         "Snr Developer (Aug 2016 - Dec 2016)",
         "Committer (May 2016 - Jul 2016)"
+      ]
+    },
+    {
+      "name": "Lee Yi Min",
+      "username": "leeyimin",
+      "image": "images/teammembers/yimin.png",
+      "pastPositions": [
+        "Area Lead (Aug 2017 - Apr 2018)",
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
+      "name": "Thenaesh Elango",
+      "username": "thenaesh",
+      "image": "images/teammembers/thenaesh.png",
+      "pastPositions": [
+        "Area Lead (Aug 2017 - Apr 2018)",
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
       ]
     },
     {
