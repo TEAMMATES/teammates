@@ -252,6 +252,10 @@
       "username": "brnomendes"
     },
     {
+      "name": "Carson Shoupe",
+      "username": "carsonshoupe"
+    },
+    {
       "multiple": true,
       "name": "Chan Junwei",
       "username": "chanjunweimy"
@@ -687,6 +691,10 @@
       "username": "ParmaarK"
     },
     {
+      "name": "Krishnakantah Jayashree Chnadrashekhar",
+      "username": "kjayashr"
+    },
+    {
       "multiple": true,
       "name": "Kseniia Solodovnik"
     },
@@ -702,6 +710,9 @@
     {
       "name": "Kyle Olson",
       "username": "kyleaolson"
+    },
+    {
+      "username": "Labirinto"
     },
     {
       "name": "Ladislav Jaroščák",
@@ -1003,6 +1014,7 @@
       "username": "freddusya"
     },
     {
+      "multiple": true,
       "name": "Pramod Gupta",
       "username": "IAmPramod"
     },
