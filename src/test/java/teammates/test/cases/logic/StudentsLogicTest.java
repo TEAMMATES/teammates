@@ -605,6 +605,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
+        // delete leftover data if any
+        accountsLogic.deleteAccountCascade(instructorId);
         AccountAttributes accountToAdd = AccountAttributes.builder()
                 .withGoogleId(instructorId)
                 .withName("Instructor 1")

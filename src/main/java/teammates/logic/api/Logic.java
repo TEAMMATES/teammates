@@ -93,19 +93,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.<br>
-     * * {@code newAccountAttributes} represents an existing account.
-     */
-    public void updateAccount(AccountAttributes newAccountAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(newAccountAttributes);
-
-        accountsLogic.updateAccount(newAccountAttributes);
-    }
-
-    /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
      * <br/> Preconditions: <br/>
@@ -152,48 +139,6 @@ public class Logic {
         Assumption.assertNotNull(key);
 
         profilesLogic.deletePicture(key);
-    }
-
-    /**
-     * Creates an instructor and an new account if the instructor doesn't not have account yet.<br>
-     * Used as a shorthand when the account entity is not important and is
-     * only needed for completeness<br>
-     * <b>Note: Now used for the purpose of testing only.</b><br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    @Deprecated
-    public void createInstructorAccount(String googleId, String courseId, String name, String email,
-                                        Boolean isArchived, String roleParam, boolean isDisplayedToStudents,
-                                        String displayedNameParam, String privileges, String institute)
-            throws EntityAlreadyExistsException, InvalidParametersException {
-
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(name);
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(institute);
-
-        if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = AccountAttributes.builder()
-                    .withGoogleId(googleId)
-                    .withName(name)
-                    .withEmail(email)
-                    .withInstitute(institute)
-                    .withIsInstructor(true)
-                    .build();
-            accountsLogic.createAccount(account);
-        }
-
-        // In case when roleParam is null, default values used both for role and for privileges.
-        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
-                .withRole(roleParam).withDisplayedName(displayedNameParam)
-                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
-                .withIsArchived(isArchived)
-                .build();
-
-        instructorsLogic.createInstructor(instructor);
     }
 
     /**
@@ -419,14 +364,14 @@ public class Logic {
     }
 
     /**
-     * Removes instructor access but does not delete the account.
-     * The account will continue to have student access. <br>
-     * Fails silently if no match found.<br>
-     * Preconditions: <br>
+     * Downgrades an instructor account to student account.
+     *
+     * <p>Cascade deletes all instructors associated with the account.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void downgradeInstructorToStudentCascade(String googleId) {
-
+    public void downgradeInstructorToStudentCascade(String googleId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(googleId);
 
         accountsLogic.downgradeInstructorToStudentCascade(googleId);

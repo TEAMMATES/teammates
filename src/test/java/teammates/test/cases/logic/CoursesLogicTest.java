@@ -779,8 +779,11 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during course creation");
 
-        a.isInstructor = true;
-        accountsDb.updateAccount(a);
+        accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(a.googleId)
+                        .withIsInstructor(true)
+                        .build()
+        );
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id", "Fresh course for tccai", ZoneId.of("UTC"))

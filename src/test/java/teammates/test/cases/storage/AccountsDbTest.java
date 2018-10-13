@@ -10,11 +10,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AccountsDb}.
@@ -42,6 +40,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("failure: null parameter");
         AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.getAccount(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+        // delete created account
+        accountsDb.deleteAccount(a.googleId);
     }
 
     @Test
@@ -102,21 +103,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
                 .build();
 
         accountsDb.createAccount(a);
-
-        ______TS("success case: duplicate account");
-        accountsDb.createAccount(a);
-
-        ______TS("test persistence of latest entry");
-        AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId);
-
-        assertFalse(accountDataTest.isInstructor);
-        // Change a field
-        accountDataTest.isInstructor = true;
-        accountsDb.createAccount(accountDataTest);
-        // Re-retrieve
-        accountDataTest = accountsDb.getAccount(a.googleId);
-        assertTrue(accountDataTest.isInstructor);
-
         accountsDb.deleteAccount(a.googleId);
 
         // Should we not allow empty fields?
@@ -141,38 +127,35 @@ public class AccountsDbTest extends BaseComponentTestCase {
         AccountAttributes a = createNewAccount();
 
         ______TS("typical edit success case");
-        a.name = "Edited name";
-        accountsDb.updateAccount(a);
+        assertFalse(a.isInstructor);
+        AccountAttributes updatedAccount = accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(a.googleId)
+                        .withIsInstructor(true)
+                        .build()
+        );
 
         AccountAttributes actualAccount = accountsDb.getAccount(a.googleId);
 
-        assertEquals(a.name, actualAccount.name);
+        assertTrue(actualAccount.isInstructor);
+        assertTrue(updatedAccount.isInstructor);
 
         ______TS("non-existent account");
 
-        a.googleId = "non.existent";
-        AccountAttributes[] finalAccount = new AccountAttributes[] { a };
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsDb.updateAccount(finalAccount[0]));
+                () -> accountsDb.updateAccount(
+                        AccountAttributes.updateOptionsBuilder("non.existent")
+                                .withIsInstructor(true)
+                                .build()
+                ));
         AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ednee.getMessage());
 
-        ______TS("failure: invalid parameters");
-
-        a.googleId = "";
-        a.email = "test-no-at-funny.com";
-        a.name = "%asdf";
-        a.institute = StringHelperExtension.generateStringOfLength(65);
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountsDb.updateAccount(finalAccount[0]));
-        assertEquals(StringHelper.toString(a.getInvalidityInfo()), ipe.getMessage());
-
-        // Only check first 2 parameters (course & email) which are used to identify the student entry.
-        // The rest are actually allowed to be null.
         ______TS("failure: null parameter");
+
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> accountsDb.updateAccount(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+        accountsDb.deleteAccount(a.googleId);
     }
 
     @Test
@@ -185,8 +168,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         accountsDb.deleteAccount(a.googleId);
 
-        AccountAttributes newAccountdeleted = accountsDb.getAccount(a.googleId);
-        assertNull(newAccountdeleted);
+        AccountAttributes newAccountDeleted = accountsDb.getAccount(a.googleId);
+        assertNull(newAccountDeleted);
 
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
