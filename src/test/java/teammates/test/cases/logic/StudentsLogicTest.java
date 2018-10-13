@@ -21,7 +21,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -53,7 +52,6 @@ public class StudentsLogicTest extends BaseLogicTest {
     @Test
     public void testAll() throws Exception {
 
-        testGetStudentProfile();
         testGetStudentForEmail();
         testGetStudentForRegistrationKey();
         testGetStudentsForGoogleId();
@@ -124,9 +122,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .withEmail("instructor@icet.tmt")
                         .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
-                        .withStudentProfileAttributes(StudentProfileAttributes.builder(instructorId)
-                                .withShortName("ICET")
-                                .build())
                         .build());
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
@@ -189,41 +184,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         student1.googleId = "googleId";
         studentsLogic.updateStudentCascadeWithoutDocument(student1.email, student1);
 
-    }
-
-    private void testGetStudentProfile() throws Exception {
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        AccountAttributes student1 = dataBundle.accounts.get("student1InCourse1");
-
-        ______TS("success: default profile");
-
-        StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
-        StudentProfileAttributes expectedSpa = student1.studentProfile;
-
-        // fill-in auto-generated and default values
-        expectedSpa.institute = actualSpa.institute;
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-
-        ______TS("success: edited profile");
-
-        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder(student1.googleId).build();
-
-        expectedStudentProfile.shortName = "short";
-        expectedStudentProfile.email = "personal@email.tmt";
-        expectedStudentProfile.institute = "institute";
-        expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = "female";
-        expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
-
-        student1.studentProfile = expectedStudentProfile;
-        accountsLogic.updateAccount(student1, true);
-
-        StudentProfileAttributes actualStudentProfile = studentsLogic.getStudentProfile(student1InCourse1.googleId);
-        expectedStudentProfile.modifiedDate = actualStudentProfile.modifiedDate;
-        assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
     }
 
     private void testValidateSections() throws Exception {
@@ -630,7 +590,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     * {@link #signalFailureToDetectException()}.
+     * {@link #signalFailureToDetectException(String...)} ()}.
      *
      * @param invalidEnrollLines is assumed to be invalid
      */
@@ -645,16 +605,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
-        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(instructorId)
-                .withShortName("Ins1").withGender("male")
-                .build();
         AccountAttributes accountToAdd = AccountAttributes.builder()
                 .withGoogleId(instructorId)
                 .withName("Instructor 1")
                 .withEmail(instructorEmail)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(profileAttributes)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
@@ -758,16 +714,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder("tes.instructor")
-                .withShortName("Ins 1").withGender("male")
-                .build();
         accountToAdd = AccountAttributes.builder()
                 .withGoogleId("tes.instructor")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(studentAttributes)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);

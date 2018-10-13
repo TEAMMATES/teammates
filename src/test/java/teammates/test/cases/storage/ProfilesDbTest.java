@@ -2,18 +2,16 @@ package teammates.test.cases.storage;
 
 import java.io.IOException;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.api.AccountsDb;
-import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -24,126 +22,196 @@ import teammates.test.driver.AssertHelper;
 public class ProfilesDbTest extends BaseComponentTestCase {
 
     private ProfilesDb profilesDb = new ProfilesDb();
-    private AccountsDb accountsDb = new AccountsDb();
 
-    @Test
-    public void testGetStudentProfile() {
+    private StudentProfileAttributes typicalProfileWithPicture;
+    private StudentProfileAttributes typicalProfileWithoutPicture;
+    private String typicalPictureKey;
 
-        ______TS("success case");
-        // implicitly tested in update
+    @BeforeMethod
+    public void createTypicalData() throws Exception {
+        // typical picture
+        typicalPictureKey = uploadDefaultPictureForProfile("valid.googleId");
+        assertTrue(doesFileExistInGcs(new BlobKey(typicalPictureKey)));
 
-        ______TS("non-existent account");
-        assertNull(profilesDb.getStudentProfile("non-eXisTent"));
+        // typical profiles
+        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withPictureKey(typicalPictureKey)
+                .build().toEntity());
+        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId2")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withPictureKey(typicalPictureKey)
+                .build().toEntity());
+
+        // save entity and picture
+        typicalProfileWithPicture = profilesDb.getStudentProfile("valid.googleId");
+        typicalProfileWithoutPicture = profilesDb.getStudentProfile("valid.googleId2");
+    }
+
+    @AfterMethod
+    public void deleteTypicalData() {
+        // delete entity
+        profilesDb.deleteEntity(typicalProfileWithPicture);
+        profilesDb.deleteEntity(typicalProfileWithoutPicture);
+        verifyAbsentInDatastore(typicalProfileWithPicture);
+        verifyAbsentInDatastore(typicalProfileWithoutPicture);
+
+        // delete picture
+        profilesDb.deletePicture(new BlobKey(typicalPictureKey));
+        assertFalse(doesFileExistInGcs(new BlobKey(typicalPictureKey)));
     }
 
     @Test
-    public void testUpdateStudentProfile() throws Exception {
-        AccountAttributes a = createNewAccount();
-
-        // failure cases
-        testUpdateProfileWithNullParameter();
-        testUpdateProfileWithInvalidParameters();
-        testUpdatingNonExistentProfile(a);
-
-        // success cases
-        testUpdateProfileSuccessWithNoPictureKey(a);
-        testUpdateProfileSuccessInitiallyEmptyPictureKey(a);
-        testUpdateProfileSuccessNoChangesToProfile(a);
-        testUpdateProfileSuccessWithSamePictureKey(a);
+    public void testGetStudentProfile_nonExistentStudentProfile_shouldReturnNull() {
+        assertNull(profilesDb.getStudentProfile("nonExistent"));
     }
 
-    private void testUpdateProfileWithNullParameter()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        ______TS("null parameter");
-        AssertionError ae = assertThrows(AssertionError.class, () -> profilesDb.updateStudentProfile(null));
+    @Test
+    public void testGetStudentProfile_existentStudentProfile_shouldNotReturnNull() {
+        assertNotNull(profilesDb.getStudentProfile(typicalProfileWithPicture.googleId));
+        assertNotNull(profilesDb.getStudentProfile(typicalProfileWithoutPicture.googleId));
+    }
+
+    @Test
+    public void testUpdateOrCreateStudentProfile_nonExistentProfile_shouldCreateNewProfile()
+            throws Exception {
+        StudentProfileAttributes spa =
+                StudentProfileAttributes.builder("non-ExIsTenT")
+                        .withShortName("Test")
+                        .build();
+        profilesDb.updateOrCreateStudentProfile(spa);
+
+        verifyPresentInDatastore(spa);
+
+        // tear down
+        profilesDb.deleteEntity(spa);
+    }
+
+    @Test
+    public void testUpdateOrCreateStudentProfile_nullParameter_shouldThrowAssertionException() throws Exception {
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> profilesDb.updateOrCreateStudentProfile(null));
+
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testUpdateProfileWithInvalidParameters()
-            throws Exception {
-        ______TS("invalid paramters case");
+    @Test
+    public void testUpdateOrCreateStudentProfile_invalidParameter_shouldThrowInvalidParamException() {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> profilesDb.updateStudentProfile(StudentProfileAttributes.builder("").build()));
-        assertEquals(
-                getPopulatedEmptyStringErrorMessage(
-                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
+                () -> profilesDb.updateOrCreateStudentProfile(StudentProfileAttributes.builder("").build()));
+
+        assertEquals(getPopulatedEmptyStringErrorMessage(
+                FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
                 ipe.getMessage());
     }
 
-    private void testUpdatingNonExistentProfile(AccountAttributes a)
+    @Test
+    public void testUpdateOrCreateStudentProfile_noChangesToProfile_shouldNotChangeProfileContent()
             throws Exception {
-        ______TS("non-existent account");
+        // update same profile
+        profilesDb.updateOrCreateStudentProfile(typicalProfileWithPicture);
 
-        a.studentProfile.googleId = "non-ExIsTenT";
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> profilesDb.updateStudentProfile(a.studentProfile));
-        AssertHelper.assertContains(
-                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId,
-                ednee.getMessage());
-        a.studentProfile.googleId = a.googleId;
+        StudentProfileAttributes storedProfile = profilesDb.getStudentProfile(typicalProfileWithPicture.googleId);
+        // other fields remain
+        verifyPresentInDatastore(typicalProfileWithPicture);
+        // picture remains
+        assertTrue(doesFileExistInGcs(new BlobKey(storedProfile.pictureKey)));
+        // modifiedDate remains
+        assertEquals(typicalProfileWithPicture.modifiedDate, storedProfile.modifiedDate);
     }
 
-    private void testUpdateProfileSuccessNoChangesToProfile(AccountAttributes a)
+    @Test
+    public void testUpdateOrCreateStudentProfile_withEmptyPictureKey_shouldUpdateSuccessfullyAndNotChangePictureKey()
             throws Exception {
-        ______TS("success case: same profile");
-        profilesDb.updateStudentProfile(a.studentProfile);
+        typicalProfileWithPicture.pictureKey = "";
+
+        profilesDb.updateOrCreateStudentProfile(typicalProfileWithPicture);
+
+        typicalProfileWithPicture.pictureKey = typicalPictureKey;
+        verifyPresentInDatastore(typicalProfileWithPicture);
+    }
+
+    @Test
+    public void testUpdateOrCreateStudentProfile_withNonEmptyPictureKey_shouldUpdateSuccessfully() throws Exception {
+        typicalProfileWithoutPicture.pictureKey = uploadDefaultPictureForProfile(typicalProfileWithPicture.googleId);
+
+        profilesDb.updateOrCreateStudentProfile(typicalProfileWithoutPicture);
+
+        verifyPresentInDatastore(typicalProfileWithoutPicture);
+
+        // tear down
+        profilesDb.deletePicture(new BlobKey(typicalProfileWithoutPicture.pictureKey));
+    }
+
+    @Test
+    public void testUpdateOrCreateStudentProfile_withSamePictureKey_shouldUpdateProfileButNotPictureKey() throws Exception {
+        typicalProfileWithPicture.shortName = "s";
+        profilesDb.updateOrCreateStudentProfile(typicalProfileWithPicture);
 
         // picture should not be deleted
-        assertTrue(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
+        assertTrue(doesFileExistInGcs(new BlobKey(typicalProfileWithPicture.pictureKey)));
+        verifyPresentInDatastore(typicalProfileWithPicture);
     }
 
-    private void testUpdateProfileSuccessWithNoPictureKey(AccountAttributes a)
-            throws Exception {
-        ______TS("typical success case, no picture");
-        a.studentProfile.moreInfo = "This is more than enough info...";
-        a.studentProfile.email = "e@email.com";
+    @Test
+    public void testDeleteStudentProfile_nonExistentEntity_shouldFailSilently() {
+        profilesDb.deleteStudentProfile("test.non-existent");
 
-        profilesDb.updateStudentProfile(a.studentProfile);
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
-
-        assertEquals(a.studentProfile.moreInfo, updatedProfile.moreInfo);
-        assertEquals(a.studentProfile.email, updatedProfile.email);
+        assertNull(profilesDb.getStudentProfile("test.non-existent"));
     }
 
-    private void testUpdateProfileSuccessInitiallyEmptyPictureKey(AccountAttributes a)
-            throws Exception,
-            EntityDoesNotExistException {
-        ______TS("success case: add picture (initially empty)");
-        a.studentProfile.pictureKey = uploadDefaultPictureForProfile(a.googleId);
-        profilesDb.updateStudentProfile(a.studentProfile);
+    @Test
+    public void testDeleteStudentProfile_profileWithoutPicture_shouldDeleteCorrectly() {
+        profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
 
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
-
-        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
+        verifyAbsentInDatastore(typicalProfileWithoutPicture);
     }
 
-    private void testUpdateProfileSuccessWithSamePictureKey(AccountAttributes a)
-            throws Exception {
-        ______TS("success case: same pictureKey");
-        a.studentProfile.shortName = "s";
-        profilesDb.updateStudentProfile(a.studentProfile);
+    @Test
+    public void testDeleteStudentProfile_profileWithPicture_shouldDeleteCorrectly() {
+        profilesDb.deleteStudentProfile(typicalProfileWithPicture.googleId);
 
-        // picture should not be deleted
-        assertTrue(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
+        // check that profile get deleted and picture get deleted
+        verifyAbsentInDatastore(typicalProfileWithPicture);
+        assertFalse(doesFileExistInGcs(new BlobKey(typicalProfileWithPicture.pictureKey)));
     }
 
     @Test
     public void testUpdateStudentProfilePicture() throws Exception {
-        AccountAttributes a = createNewAccount();
-
         // failure test cases
         testUpdateProfilePictureWithNullParameters();
-        testUpdateProfilePictureWithEmptyParameters(a);
-        testUpdateProfilePictureOnNonExistentProfile();
+        testUpdateProfilePictureWithEmptyParameters(typicalProfileWithPicture);
 
         // success test cases
-        testUpdateProfilePictureSuccessInitiallyEmpty(a);
-        testUpdateProfilePictureSuccessSamePictureKey(a);
+        testUpdateProfilePictureSuccessInitiallyEmpty(typicalProfileWithoutPicture);
+        testUpdateProfilePictureSuccessSamePictureKey(typicalProfileWithPicture);
     }
 
-    private void testUpdateProfilePictureWithNullParameters()
-            throws EntityDoesNotExistException {
+    @Test
+    public void testUpdateProfilePicture_nonExistentProfile_shouldCreateProfile() {
+        profilesDb.updateStudentProfilePicture("non-eXisTEnt", "random");
+
+        StudentProfileAttributes sp = profilesDb.getStudentProfile("non-eXisTEnt");
+        assertNotNull(sp);
+        assertEquals("random", sp.pictureKey);
+    }
+
+    @Test
+    public void testDeletePicture_unknownBlobKey_shouldFailSilently() {
+        profilesDb.deletePicture(new BlobKey("unknown"));
+
+        assertFalse(doesFileExistInGcs(new BlobKey("unknown")));
+    }
+
+    @Test
+    public void testDeletePicture_typicalBlobKey_shouldDeleteSuccessfully() {
+        profilesDb.deletePicture(new BlobKey(typicalPictureKey));
+
+        assertFalse(doesFileExistInGcs(new BlobKey(typicalPictureKey)));
+    }
+
+    private void testUpdateProfilePictureWithNullParameters() {
         ______TS("null parameters");
         // googleId
         AssertionError ae = assertThrows(AssertionError.class,
@@ -156,8 +224,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testUpdateProfilePictureWithEmptyParameters(AccountAttributes a)
-            throws EntityDoesNotExistException {
+    private void testUpdateProfilePictureWithEmptyParameters(StudentProfileAttributes spa) {
         ______TS("empty parameters");
 
         // googleId
@@ -167,61 +234,25 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         // picture key
         ae = assertThrows(AssertionError.class,
-                () -> profilesDb.updateStudentProfilePicture(a.googleId, ""));
+                () -> profilesDb.updateStudentProfilePicture(spa.googleId, ""));
         AssertHelper.assertContains("PictureKey is empty", ae.getMessage());
     }
 
-    private void testUpdateProfilePictureOnNonExistentProfile() {
-        ______TS("non-existent profile");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> profilesDb.updateStudentProfilePicture("non-eXisTEnt", "random"));
-        AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt",
-                ednee.getMessage());
-    }
-
     private void testUpdateProfilePictureSuccessInitiallyEmpty(
-            AccountAttributes a) throws IOException,
-            EntityDoesNotExistException {
+            StudentProfileAttributes spa) throws IOException {
         ______TS("update picture key - initially empty");
 
-        a.studentProfile.pictureKey = uploadDefaultPictureForProfile(a.googleId);
-        profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
+        spa.pictureKey = uploadDefaultPictureForProfile(spa.googleId);
+        profilesDb.updateStudentProfilePicture(spa.googleId, spa.pictureKey);
 
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
+        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(spa.googleId);
 
-        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
+        assertEquals(spa.pictureKey, updatedProfile.pictureKey);
     }
 
-    private void testUpdateProfilePictureSuccessSamePictureKey(
-            AccountAttributes a) throws EntityDoesNotExistException {
+    private void testUpdateProfilePictureSuccessSamePictureKey(StudentProfileAttributes spa) {
         ______TS("update picture key - same key; does nothing");
-        profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
-    }
-
-    @Test
-    public void testDeleteProfilePicture() throws Exception {
-        AccountAttributes a = createNewAccount();
-        a.studentProfile.pictureKey = uploadDefaultPictureForProfile(a.googleId);
-        testDeletePictureSuccess(a);
-        testDeleteProfilePictureForProfileWithNoPicture(a);
-    }
-
-    private void testDeleteProfilePictureForProfileWithNoPicture(
-            AccountAttributes a) throws EntityDoesNotExistException {
-        ______TS("delete picture, currently empty - fails silently");
-        profilesDb.deleteStudentProfilePicture(a.googleId);
-    }
-
-    private void testDeletePictureSuccess(AccountAttributes a)
-            throws EntityDoesNotExistException {
-        ______TS("delete picture");
-
-        profilesDb.deleteStudentProfilePicture(a.googleId);
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
-
-        assertFalse(doesFileExistInGcs(new BlobKey(updatedProfile.pictureKey)));
-        assertEquals("", updatedProfile.pictureKey);
+        profilesDb.updateStudentProfilePicture(spa.googleId, spa.pictureKey);
     }
 
     //-------------------------------------------------------------------------------------------------------
@@ -233,22 +264,4 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         // we upload a small text file as the actual file does not matter here
         return writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt");
     }
-
-    private AccountAttributes createNewAccount() throws Exception {
-        AccountAttributes a = AccountAttributes.builder()
-                .withGoogleId("valid.googleId")
-                .withEmail("valid@email.com")
-                .withName("Valid Fresh Account")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(false)
-                .build();
-
-        a.studentProfile = StudentProfileAttributes.builder(a.googleId)
-            .withInstitute("TEAMMATES Test Institute 1")
-            .build();
-
-        accountsDb.createAccount(a);
-        return a;
-    }
-
 }

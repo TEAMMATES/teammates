@@ -5,10 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,15 +19,75 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+
+    @Override
+    protected void prepareTestData() {
+        // see beforeMethod()
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionNotInRecycleBin_shouldDoCascadeDeletion()
+            throws EntityDoesNotExistException {
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+
+        fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+
+        assertTrue(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionInRecycleBin_shouldDoCascadeDeletion()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+        fsLogic.moveFeedbackSessionToRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId());
+        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+
+        fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+
+        assertTrue(
+                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
+                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+    }
 
     @Test
     public void allTests() throws Exception {

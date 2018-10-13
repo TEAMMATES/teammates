@@ -12,17 +12,7 @@
       "name": "Student 1 in course 1",
       "isInstructor": false,
       "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "student1InCourse1",
-        "shortName": "Stud1",
-        "email": "i.m.stud1@gmail.tmt",
-        "institute": "TEAMMATES Test Institute 1",
-        "nationality": "American",
-        "gender": "male",
-        "moreInfo": "I am just a student :P",
-        "pictureKey": "asdf34&hfn3!@"
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
@@ -271,5 +261,16 @@
       "commentText": "Student 1 comment to student 1 self feedback"
     }
   },
-  "profiles": {}
+  "profiles": {
+    "student1InCourse1": {
+      "googleId": "student1InCourse1",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "nationality": "American",
+      "gender": "male",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": "asdf34&hfn3!@"
+    }
+  }
 }

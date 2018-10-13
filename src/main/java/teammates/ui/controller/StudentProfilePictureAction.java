@@ -97,8 +97,6 @@ public class StudentProfilePictureAction extends Action {
         // picture request is only relevant for registered student
         if (!student.googleId.isEmpty()) {
             StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-
-            // TODO: remove the null check once all legacy data has been ported
             if (profile != null) {
                 return profile.pictureKey;
             }

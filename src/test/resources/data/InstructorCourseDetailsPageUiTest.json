@@ -54,17 +54,7 @@
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
       "email": "CCDetailsUiT.normal@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
-      "studentProfile": {
-        "googleId": "student1InTSCourse",
-        "shortName": "Stud1<script> alert('hi!'); </script>",
-        "email": "weird&'@gmail.tmt",
-        "institute": "inst<script> alert('hi!'); </script>",
-        "nationality": "American",
-        "gender": "other",
-        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-        "pictureKey": ""
-      }
+      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -308,5 +298,16 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {
+    "CCDetailsUiT.student1InTSCourse": {
+      "googleId": "student1InTSCourse",
+      "shortName": "Stud1<script> alert('hi!'); </script>",
+      "email": "weird&'@gmail.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "nationality": "American",
+      "gender": "other",
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "pictureKey": ""
+    }
+  }
 }

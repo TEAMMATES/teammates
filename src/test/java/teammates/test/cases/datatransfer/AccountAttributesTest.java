@@ -5,12 +5,9 @@ import java.time.Instant;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.ProfilesDb;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
 
@@ -27,13 +24,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         AccountAttributes account = createValidAccountAttributesObject();
         assertTrue("all valid values", account.isValid());
-
-        ______TS("null studentProfile");
-
-        account.studentProfile = null;
-        AccountAttributes[] finalAccount = new AccountAttributes[] { account };
-        AssertionError ae = assertThrows(AssertionError.class, () -> finalAccount[0].isValid());
-        assertEquals("Non-null value expected for studentProfile", ae.getMessage());
 
         ______TS("invalid account");
 
@@ -71,8 +61,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.googleId, account.name,
-                account.isInstructor, account.email, account.institute,
-                account.studentProfile.toEntity());
+                account.isInstructor, account.email, account.institute);
 
         Account actualAccount = account.toEntity();
 
@@ -81,15 +70,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-
-        ProfilesDb profilesDb = new ProfilesDb();
-        profilesDb.saveEntity(account.studentProfile.toEntity());
-
-        String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
-        String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
-        assertEquals(expectedProfile, actualProfile);
-
-        profilesDb.deleteEntity(account.studentProfile);
     }
 
     @Test
@@ -118,24 +98,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.name), actualAccount.name);
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
-        expectedAccount.studentProfile.sanitizeForSaving();
-        assertEquals(expectedAccount.studentProfile.toString(), actualAccount.studentProfile.toString());
-    }
-
-    @Test
-    public void testLegacyAccountEntityToAttributes() {
-        Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
-        a.setStudentProfile(null);
-
-        AccountAttributes attr = AccountAttributes.valueOf(a);
-
-        assertEquals(a.getGoogleId(), attr.googleId);
-        assertEquals(a.getEmail(), attr.email);
-        assertEquals(a.getInstitute(), attr.institute);
-        assertEquals(a.getName(), attr.name);
-        assertNull(a.getStudentProfile());
-        assertNull(attr.studentProfile);
-
     }
 
     @Test
@@ -148,7 +110,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertNull(observedAccountAttributes.getInstitute());
         assertFalse(observedAccountAttributes.isInstructor());
         assertNull(observedAccountAttributes.getName());
-        assertNull(observedAccountAttributes.studentProfile);
     }
 
     @Test
@@ -167,7 +128,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withInstitute(expectedInstitute)
                 .withIsInstructor(expectedIsInstructor)
                 .withCreatedAt(expectedCreatedAt)
-                .withDefaultStudentProfileAttributes(expectedGoogleId)
                 .build();
 
         assertEquals(expectedGoogleId, observedAccountAttributes.getGoogleId());
@@ -176,7 +136,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(expectedInstitute, observedAccountAttributes.getInstitute());
         assertEquals(expectedIsInstructor, observedAccountAttributes.isInstructor());
         assertEquals(expectedName, observedAccountAttributes.getName());
-        assertEquals(expectedGoogleId, observedAccountAttributes.studentProfile.googleId);
     }
 
     @Test
@@ -186,15 +145,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withName("  random  name with   extra spaces    ")
                 .withEmail("         email@example.com ")
                 .withInstitute("    random  institute name      with extra    spaces  ")
-                .withStudentProfileAttributes(StudentProfileAttributes.builder("googleId@gmail.com")
-                        .build())
                 .build();
 
         assertEquals("googleId", observedAccountAttributes.getGoogleId());
         assertEquals("random name with extra spaces", observedAccountAttributes.getName());
         assertEquals("email@example.com", observedAccountAttributes.getEmail());
         assertEquals("random institute name with extra spaces", observedAccountAttributes.getInstitute());
-        assertEquals("googleId", observedAccountAttributes.studentProfile.googleId);
     }
 
     @Test
@@ -212,13 +168,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_typicalData_createsDeepCopy() {
+    public void getCopy_typicalData_createsCopyCorrectly() {
         AccountAttributes account = createValidAccountAttributesObject();
 
         AccountAttributes copy = account.getCopy();
 
         assertNotSame(account, copy);
-        assertNotSame(account.studentProfile, copy.studentProfile);
         assertFalse(account.isInstructor);
 
         assertEquals(account.googleId, copy.googleId);
@@ -228,14 +183,13 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_allFieldsNull_createsDeepCopy() {
+    public void getCopy_allFieldsNull_createsCopyCorrectly() {
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(null)
                 .withName(null)
                 .withEmail(null)
                 .withInstitute(null)
                 .withIsInstructor(false)
-                .withStudentProfileAttributes(null)
                 .build();
 
         AccountAttributes copy = account.getCopy();
@@ -243,7 +197,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertNotSame(account, copy);
         assertFalse(account.isInstructor);
 
-        assertNull("student profile should be null", copy.studentProfile);
         assertNull("google id should be null", copy.googleId);
         assertNull("name should be null", copy.name);
         assertNull("institute should be null", copy.institute);
@@ -264,9 +217,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(StudentProfileAttributes.builder(googleId)
-                        .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
-                        .build())
                 .build();
     }
 
@@ -284,21 +234,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(StudentProfileAttributes.builder(googleId)
-                        .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
-                        .build())
                 .build();
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
-
-        String shortName = "<name>";
-        String personalEmail = "'toSanitize@email.com'";
-        String profileInstitute = "";
-        String nationality = "&\"invalid nationality &";
-        String gender = "'\"'other";
-        String moreInfo = "<<script> alert('hi!'); </script>";
-        String pictureKey = "";
 
         return AccountAttributes.builder()
                 .withGoogleId("googleId@gmail.com")
@@ -306,16 +245,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withInstitute("\\/")
                 .withEmail("&<email>&")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(StudentProfileAttributes.builder("googleId@gmail.com")
-                    .withShortName(shortName)
-                    .withEmail(personalEmail)
-                    .withInstitute(profileInstitute)
-                    .withNationality(nationality)
-                    .withGender(gender)
-                    .withMoreInfo(moreInfo)
-                    .withPictureKey(pictureKey)
-                    .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
-                    .build())
                 .build();
 
     }

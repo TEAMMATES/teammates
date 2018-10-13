@@ -7,7 +7,17 @@ env:
 extends:
     - airbnb-base
 
+parserOptions:
+    ecmaVersion: 6
+
 rules:
+    comma-dangle: ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore" # not valid in ES6
+    }]
     eqeqeq: ["error", "always"]
     func-names: "off"
     function-paren-newline: "off"

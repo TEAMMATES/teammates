@@ -103,17 +103,7 @@
       "name": "Student 1 in course 1",
       "isInstructor": false,
       "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "student1InCourse1",
-        "shortName": "Stud1",
-        "email": "i.m.stud1@gmail.tmt",
-        "institute": "TEAMMATES Test Institute 3",
-        "nationality": "American",
-        "gender": "male",
-        "moreInfo": "I am just a student :P",
-        "pictureKey": "asdf34&hfn3!@"
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
@@ -134,17 +124,7 @@
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
       "email": "normal@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
-      "studentProfile": {
-        "googleId": "student1InTestingSanitizationCourse",
-        "shortName": "Stud1<script> alert('hi!'); </script>",
-        "email": "weird&'@gmail.tmt",
-        "institute": "inst<script> alert('hi!'); </script>",
-        "nationality": "American",
-        "gender": "other",
-        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-        "pictureKey": ""
-      }
+      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -1564,13 +1544,13 @@
       "giverSection": "None",
       "receiverSection": "None",
       "commentGiverType": "INSTRUCTORS",
-      "feedbackResponseId": "3%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "3%instructor1@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-01-01T23:59:00Z",
-      "commentText": "Instructor 1 comment to student 1 self feedback Question 3"
+      "commentText": "Instructor 1 comment to instructor 1 self feedback Question 3"
     },
     "comment1FromT1C1ToR1Q1S1C3": {
       "courseId": "idOfTypicalCourse3",
@@ -1589,5 +1569,26 @@
       "commentText": "Instructor 3 comment to instr1C3 response to student1C3"
     }
   },
-  "profiles": {}
+  "profiles": {
+    "student1InCourse1": {
+      "googleId": "student1InCourse1",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 3",
+      "nationality": "American",
+      "gender": "male",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": "asdf34&hfn3!@"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "student1InTestingSanitizationCourse",
+      "shortName": "Stud1<script> alert('hi!'); </script>",
+      "email": "weird&'@gmail.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "nationality": "American",
+      "gender": "other",
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "pictureKey": ""
+    }
+  }
 }

@@ -139,7 +139,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 .withEmail("david@email.com")
                 .withInstitute("NUS")
                 .withIsInstructor(false)
-                .withDefaultStudentProfileAttributes("idOfNewStudent")
                 .build();
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
@@ -197,7 +196,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 .withEmail("david@email.com")
                 .withInstitute("NUS")
                 .withIsInstructor(false)
-                .withDefaultStudentProfileAttributes("anotherGoogleId")
                 .build();
         logMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCoursesPage";
