@@ -38,8 +38,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q2S1C1");
         FeedbackResponseCommentAttributes frc1I1Q3S1C1 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q3S1C1");
-        FeedbackResponseCommentAttributes frc1I3Q1S2C2 = dataBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q1S3C3");
+        FeedbackResponseCommentAttributes frc1I3Q1S1C3 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S1C3");
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
@@ -109,29 +109,29 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
     public void testSearchComment_feedbackSessionDeleted_commentShouldNotBeSearchable()
             throws InvalidParametersException, EntityDoesNotExistException {
         // perform normal search
-        FeedbackResponseCommentAttributes frc1I3Q1S2C2 =
-                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S2C2");
+        FeedbackResponseCommentAttributes frc1I3Q1S1C3 =
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C3");
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
-        instructors.add(dataBundle.instructors.get("instructor3OfCourse2"));
+        instructors.add(dataBundle.instructors.get("instructor1OfCourse3"));
         FeedbackResponseCommentSearchResultBundle bundle =
-                commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
-        verifySearchResults(bundle, frc1I3Q1S2C2);
+                commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
+        verifySearchResults(bundle, frc1I3Q1S1C3);
 
         // session soft-deleted
-        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
+        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(frc1I3Q1S1C3.feedbackSessionName, frc1I3Q1S1C3.courseId);
         assertNotNull(feedbackSessionsLogic
-                        .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
-        bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
+                        .getFeedbackSessionFromRecycleBin(frc1I3Q1S1C3.feedbackSessionName, frc1I3Q1S1C3.courseId));
+        bundle = commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
         assertEquals(0, bundle.comments.size());
         assertEquals(0, bundle.responses.size());
         assertEquals(0, bundle.questions.size());
         assertEquals(0, bundle.sessions.size());
 
         // session deleted completely
-        feedbackSessionsLogic.deleteFeedbackSessionCascade(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
+        feedbackSessionsLogic.deleteFeedbackSessionCascade(frc1I3Q1S1C3.feedbackSessionName, frc1I3Q1S1C3.courseId);
         assertNull(feedbackSessionsLogic
-                        .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
-        bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
+                        .getFeedbackSessionFromRecycleBin(frc1I3Q1S1C3.feedbackSessionName, frc1I3Q1S1C3.courseId));
+        bundle = commentsDb.search("\"Instructor 3 comment to instr1C3 response to student1C3\"", instructors);
         assertEquals(0, bundle.comments.size());
         assertEquals(0, bundle.responses.size());
         assertEquals(0, bundle.questions.size());
