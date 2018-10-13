@@ -1825,13 +1825,14 @@ public class Logic {
     }
 
     /**
-     * Create a feedback response comment, and return the created comment
-     * Preconditions: <br>
+     * Create a feedback response comment, and return the created comment.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(feedbackResponseComment);
         return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
@@ -1903,16 +1904,21 @@ public class Logic {
     }
 
     /**
-     * Update a feedback response comment and return the updated feedback response comment
-     * Preconditions: <br>
+     * Updates a feedback response comment by {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
-            FeedbackResponseCommentAttributes feedbackResponseComment)
+            FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(feedbackResponseComment);
-        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(updateOptions);
     }
 
     /**

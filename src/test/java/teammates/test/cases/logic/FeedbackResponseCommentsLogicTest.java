@@ -83,29 +83,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         frcLogic.createFeedbackResponseComment(frComment);
         verifyPresentInDatastore(frComment);
-
-        ______TS("successful case: add duplicate frComment - comment will reuse ID of existing comment and update "
-                + "itself");
-
-        FeedbackResponseCommentAttributes actualComment =
-                frcLogic.getFeedbackResponseComment(
-                        frComment.feedbackResponseId, frComment.commentGiver, frComment.createdAt);
-
-        frComment.commentText = "New Text";
-        frcLogic.createFeedbackResponseComment(frComment);
-
-        // verify that ID of duplicate comment has been set by method (uses existing ID of original comment)
-        assertEquals(actualComment.getId(), frComment.getId());
-
-        // re-fetch the comment from database
-        actualComment = frcLogic.getFeedbackResponseComment(frComment.getId());
-
-        // check whether the comment text has been updated
-        assertEquals(frComment.commentText, actualComment.commentText);
-
-        //delete afterwards
-        frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
-        assertNull(frcLogic.getFeedbackResponseComment(frComment.getId()));
     }
 
     @Test
@@ -218,24 +195,14 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testUpdateFeedbackResponseComment() throws Exception {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
-        ______TS("fail: invalid params");
-
-        frComment.courseId = "invalid course name";
-        FeedbackResponseCommentAttributes finalFrca = frComment;
-        String expectedError =
-                "\"" + frComment.courseId + "\" is not acceptable to TEAMMATES as a/an course ID "
-                + "because it is not in the correct format. A course ID can contain letters, "
-                + "numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer "
-                + "than 40 characters, cannot be empty and cannot contain spaces.";
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> frcLogic.updateFeedbackResponseComment(finalFrca));
-        assertEquals(expectedError, ipe.getMessage());
-        frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-
         ______TS("typical success case");
-
         frComment.commentText = "Updated feedback response comment";
-        frcLogic.updateFeedbackResponseComment(frComment);
+        FeedbackResponseCommentAttributes updatedComment = frcLogic.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(frComment.getId())
+                        .withCommentText(frComment.commentText)
+                        .build()
+        );
+        assertEquals(frComment.commentText, updatedComment.commentText);
         verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
