@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,40 +130,38 @@ public class CoursesDbTest extends BaseComponentTestCase {
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.updateCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ______TS("Failure: update course with invalid parameters");
-
-        CourseAttributes invalidCourse = CourseAttributes
-                .builder("", "", ZoneId.of("UTC"))
-                .build();
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> coursesDb.updateCourse(invalidCourse));
-        AssertHelper.assertContains("The field 'course ID' is empty", ipe.getMessage());
-        AssertHelper.assertContains("The field 'course name' is empty", ipe.getMessage());
-
         ______TS("fail: non-exisitng course");
 
-        CourseAttributes nonExistentCourse = CourseAttributes
-                .builder("CDbT.non-exist-course", "Non existing course", ZoneId.of("UTC"))
-                .build();
-
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> coursesDb.updateCourse(nonExistentCourse));
+                () -> coursesDb.updateCourse(
+                        CourseAttributes.updateOptionsBuilder("CDbT.non-exist-course")
+                                .withName("Non existing course")
+                                .build()
+                ));
         assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT_COURSE, ednee.getMessage());
 
         ______TS("success: typical case");
 
         CourseAttributes c = createNewCourse();
-        CourseAttributes updatedCourse = CourseAttributes
-                .builder(c.getId(), c.getName() + " updated", ZoneId.of("UTC"))
-                .withDeletedAt(c.deletedAt)
-                .build();
 
-        coursesDb.updateCourse(updatedCourse);
-        Instant deletedTime = coursesDb.softDeleteCourse(updatedCourse.getId());
+        CourseAttributes updatedCourse = coursesDb.updateCourse(
+                CourseAttributes.updateOptionsBuilder(c.getId())
+                        .withName(c.getName() + " updated")
+                        .build()
+        );
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertEquals(c.getName() + " updated", retrieved.getName());
-        assertEquals(deletedTime, retrieved.deletedAt);
+        assertEquals(c.getName() + " updated", updatedCourse.getName());
+
+        ______TS("Failure: update course with invalid parameters");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> coursesDb.updateCourse(
+                        CourseAttributes.updateOptionsBuilder(c.getId())
+                            .withName("")
+                            .build()
+                ));
+        AssertHelper.assertContains("The field 'course name' is empty", ipe.getMessage());
     }
 
     @Test
