@@ -252,6 +252,10 @@
       "username": "brnomendes"
     },
     {
+      "name": "Carson Shoupe",
+      "username": "carsonshoupe"
+    },
+    {
       "multiple": true,
       "name": "Chan Junwei",
       "username": "chanjunweimy"
@@ -533,11 +537,6 @@
       "username": "theitrain"
     },
     {
-      "multiple": true,
-      "name": "Jacob Li",
-      "username": "jacoblipech"
-    },
-    {
       "name": "Jaikirat Singh Sandhu",
       "username": "SandhuJai"
     },
@@ -692,6 +691,10 @@
       "username": "ParmaarK"
     },
     {
+      "name": "Krishnakantah Jayashree Chnadrashekhar",
+      "username": "kjayashr"
+    },
+    {
       "multiple": true,
       "name": "Kseniia Solodovnik"
     },
@@ -707,6 +710,9 @@
     {
       "name": "Kyle Olson",
       "username": "kyleaolson"
+    },
+    {
+      "username": "Labirinto"
     },
     {
       "name": "Ladislav Jaroščák",
@@ -867,11 +873,6 @@
       "name": "Mohit Singh Kanwal"
     },
     {
-      "multiple": true,
-      "name": "Mudit Gupta",
-      "username": "mg14777"
-    },
-    {
       "name": "Muhammad Shehroz Sajjad",
       "username": "mshehrozsajjad"
     },
@@ -930,11 +931,6 @@
     {
       "name": "Nicolás Marzano",
       "username": "nmmarzano"
-    },
-    {
-      "multiple": true,
-      "name": "Nidhi Gupta",
-      "username": "nidhi98gupta"
     },
     {
       "multiple": true,
@@ -1018,6 +1014,7 @@
       "username": "freddusya"
     },
     {
+      "multiple": true,
       "name": "Pramod Gupta",
       "username": "IAmPramod"
     },
@@ -1320,16 +1317,6 @@
     },
     {
       "multiple": true,
-      "name": "Sukanta Roy",
-      "username": "sukanta-27"
-    },
-    {
-      "multiple": true,
-      "name": "Sun Shengran",
-      "username": "dalessr"
-    },
-    {
-      "multiple": true,
       "name": "Supraja Bhavani Sekhar",
       "username": "supraja2610"
     },
@@ -1357,11 +1344,6 @@
     {
       "multiple": true,
       "name": "Tan Guo Wei"
-    },
-    {
-      "multiple": true,
-      "name": "Tan Heng Yeow",
-      "username": "tanhengyeow"
     },
     {
       "multiple": true,
@@ -1602,8 +1584,15 @@
       "startPeriod": "Jan 2018"
     },
     {
+      "name": "Jacob Li",
+      "username": "jacoblipech",
+      "image": "images/teammembers/jacob.png",
+      "startPeriod": "May 2018"
+    },
+    {
       "name": "Joanne Ong",
       "username": "joanneong",
+      "image": "images/teammembers/joanne.png",
       "startPeriod": "Jan 2018"
     },
     {
@@ -1612,9 +1601,22 @@
       "startPeriod": "Jan 2018"
     },
     {
+      "name": "Mudit Gupta",
+      "username": "mg14777",
+      "image": "images/teammembers/mudit.png",
+      "startPeriod": "May 2018"
+    },
+    {
       "name": "Nguyen Quoc Bao",
       "username": "bqnguyen94",
+      "image": "images/teammembers/bao.png",
       "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Nidhi Gupta",
+      "username": "nidhi98gupta",
+      "image": "images/teammembers/nidhi.png",
+      "startPeriod": "May 2018"
     },
     {
       "name": "Pan Haozhe",
@@ -1624,21 +1626,43 @@
     {
       "name": "Phang Chun Rong",
       "username": "Crphang",
+      "image": "images/teammembers/chunrong.png",
       "startPeriod": "Jan 2018"
     },
     {
       "name": "Shradheya Thakre",
       "username": "tshradheya",
+      "image": "images/teammembers/shradheya.png",
       "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Sukanta Roy",
+      "username": "sukanta-27",
+      "image": "images/teammembers/sukanta.png",
+      "startPeriod": "May 2018"
+    },
+    {
+      "name": "Sun Shengran",
+      "username": "dalessr",
+      "image": "images/teammembers/shengran.png",
+      "startPeriod": "May 2018"
+    },
+    {
+      "name": "Tan Heng Yeow",
+      "username": "tanhengyeow",
+      "image": "images/teammembers/hengyeow.png",
+      "startPeriod": "May 2018"
     },
     {
       "name": "Tran Tien Dat",
       "username": "tran-tien-dat",
+      "image": "images/teammembers/dat.png",
       "startPeriod": "Jan 2018"
     },
     {
       "name": "Wen Xin",
       "username": "wenmogu",
+      "image": "images/teammembers/wenxin.png",
       "startPeriod": "Jan 2018"
     },
     {
@@ -1732,26 +1756,6 @@
       ]
     },
     {
-      "name": "Lee Yi Min",
-      "username": "leeyimin",
-      "image": "images/teammembers/yimin.png",
-      "currentPosition": "Area Lead (Aug 2017 - )",
-      "pastPositions": [
-        "Snr Developer (May 2017 - Jul 2017)",
-        "Committer (Jan 2017 - Apr 2017)"
-      ]
-    },
-    {
-      "name": "Thenaesh Elango",
-      "username": "thenaesh",
-      "image": "images/teammembers/thenaesh.png",
-      "currentPosition": "Area Lead (Aug 2017 - )",
-      "pastPositions": [
-        "Snr Developer (May 2017 - Jul 2017)",
-        "Committer (Jan 2017 - Apr 2017)"
-      ]
-    },
-    {
       "name": "Tan Li Hao",
       "username": "LiHaoTan",
       "image": "images/teammembers/lihao.png",
@@ -1781,6 +1785,26 @@
         "Area Lead (Jan 2017 - May 2017)",
         "Snr Developer (Aug 2016 - Dec 2016)",
         "Committer (May 2016 - Jul 2016)"
+      ]
+    },
+    {
+      "name": "Lee Yi Min",
+      "username": "leeyimin",
+      "image": "images/teammembers/yimin.png",
+      "pastPositions": [
+        "Area Lead (Aug 2017 - Apr 2018)",
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
+      "name": "Thenaesh Elango",
+      "username": "thenaesh",
+      "image": "images/teammembers/thenaesh.png",
+      "pastPositions": [
+        "Area Lead (Aug 2017 - Apr 2018)",
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
       ]
     },
     {
