@@ -866,7 +866,7 @@
       "isPublishedEmailEnabled": true
     },
     "session2InCourse2": {
-      "feedbackSessionName": "First feedback session",
+      "feedbackSessionName": "Not answerable feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -886,7 +886,7 @@
       "isPublishedEmailEnabled": true
     },
     "session1InCourse3": {
-      "feedbackSessionName": "Not answerable feedback session",
+      "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse3",
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1320,7 +1320,7 @@
       ]
     },
     "qn1InSession1InCourse3": {
-      "feedbackSessionName": "Not answerable feedback session",
+      "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse3",
       "creatorEmail": "instructor1@course3.tmt",
       "questionMetaData": "This is a session for myself",
@@ -1479,7 +1479,7 @@
       "recipientSection": "None"
     },
     "response1ForQ1S1C3": {
-      "feedbackSessionName": "Not answerable feedback session",
+      "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse3",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
@@ -1554,7 +1554,7 @@
     },
     "comment1FromT1C1ToR1Q1S1C3": {
       "courseId": "idOfTypicalCourse3",
-      "feedbackSessionName": "Not answerable feedback session",
+      "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",
       "commentGiver": "instructor3@course.tmt",
       "giverSection": "None",

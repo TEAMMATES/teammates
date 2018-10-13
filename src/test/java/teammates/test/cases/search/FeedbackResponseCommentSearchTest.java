@@ -77,7 +77,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ______TS("success: search for comments using feedbackSessionName");
 
         bundle = commentsDb.search("\"First feedback session\"", instructors);
-        verifySearchResults(bundle, frc1I1Q2S1C1, frc1I1Q1S1C1, frc1I1Q3S1C1);
+        verifySearchResults(bundle, frc1I1Q2S1C1, frc1I1Q1S1C1, frc1I1Q3S1C1, frc1I3Q1S1C3);
 
         ______TS("success: search for comments using Instructor's email");
 

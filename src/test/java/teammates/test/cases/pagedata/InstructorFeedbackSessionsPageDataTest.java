@@ -185,7 +185,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         softDeletedFsRows = softDeletedFsTableModel.getRows();
         assertEquals(2, softDeletedFsRows.size());
 
-        firstFsName = "Not answerable feedback session";
+        firstFsName = "First feedback session";
         assertEquals(firstFsName, fsRows.get(0).getName());
         String secondFsName = "Second feedback session";
         assertEquals(secondFsName, softDeletedFsRows.get(0).getSessionName());
