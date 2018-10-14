@@ -183,6 +183,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
                 responseToUpdate.recipient).toString());
+<<<<<<< HEAD
+=======
+
+>>>>>>> f5dc38264414dcfd86de5b8fa4c59809ecca1f5f
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
 
@@ -213,6 +217,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // 1 response from him a team member, and
         // 1 team response from him to another team.
         FeedbackQuestionAttributes teamQuestion = getQuestionFromDatastore("team.members.feedback");
+<<<<<<< HEAD
         assertEquals(1,
                 frLogic.getFeedbackResponsesForReceiverForQuestion(
                 teamQuestion.getId(), studentToUpdate.email).size());
@@ -223,6 +228,15 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(1,
                 frLogic.getFeedbackResponsesFromGiverForQuestion(
+=======
+        assertEquals(1, frLogic.getFeedbackResponsesForReceiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size());
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size());
+
+        teamQuestion = getQuestionFromDatastore("team.feedback");
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForQuestion(
+>>>>>>> f5dc38264414dcfd86de5b8fa4c59809ecca1f5f
                 teamQuestion.getId(), studentToUpdate.email).size());
 
         // Add one more non-team response
@@ -239,6 +253,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, "Team 1.2");
 
         teamQuestion = getQuestionFromDatastore("team.members.feedback");
+<<<<<<< HEAD
         assertEquals(0,
                 frLogic.getFeedbackResponsesForReceiverForQuestion(
                 teamQuestion.getId(), studentToUpdate.email).size());
@@ -249,12 +264,25 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(0,
                 frLogic.getFeedbackResponsesForReceiverForQuestion(
+=======
+        assertEquals(0, frLogic.getFeedbackResponsesForReceiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size());
+        assertEquals(0, frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), studentToUpdate.email).size());
+
+        teamQuestion = getQuestionFromDatastore("team.feedback");
+        assertEquals(0, frLogic.getFeedbackResponsesForReceiverForQuestion(
+>>>>>>> f5dc38264414dcfd86de5b8fa4c59809ecca1f5f
                 teamQuestion.getId(), studentToUpdate.email).size());
 
         // Non-team response should remain
 
+<<<<<<< HEAD
         assertEquals(1,
                 frLogic.getFeedbackResponsesFromGiverForQuestion(
+=======
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForQuestion(
+>>>>>>> f5dc38264414dcfd86de5b8fa4c59809ecca1f5f
                 getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                 studentToUpdate.email).size());
 
