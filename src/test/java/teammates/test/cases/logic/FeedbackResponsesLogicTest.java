@@ -158,8 +158,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
-        assertEquals(responseToUpdate.toString(), frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-        responseToUpdate.recipient).toString());
+        assertEquals(responseToUpdate.toString(), 
+                frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
+                responseToUpdate.recipient).toString());
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giver, "student2InCourse1@gmail.tmt"));
 
@@ -174,8 +175,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
-        assertEquals(responseToUpdate.toString(), frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-        responseToUpdate.recipient).toString());
+        assertEquals(responseToUpdate.toString(), 
+                frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
+                responseToUpdate.recipient).toString());
+                
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
 
