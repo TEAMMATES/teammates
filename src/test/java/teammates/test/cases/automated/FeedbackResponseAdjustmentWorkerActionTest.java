@@ -62,7 +62,11 @@ public class FeedbackResponseAdjustmentWorkerActionTest
         List<StudentEnrollDetails> enrollList = new ArrayList<>();
         enrollList.add(enrollDetails);
 
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student.course, student.email)
+                        .withTeamName(student.team)
+                        .withSectionName(student.section)
+                        .build());
 
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, student.course,

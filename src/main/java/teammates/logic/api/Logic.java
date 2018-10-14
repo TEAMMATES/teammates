@@ -810,9 +810,16 @@ public class Logic {
         return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
 
+    /**
+     * Resets the googleId associated with the student.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
     public void resetStudentGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
+
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
@@ -827,22 +834,29 @@ public class Logic {
     }
 
     /**
-     * All attributes except courseId be changed. Trying to change courseId will
-     * be treated as trying to edit a student in a different course.<br>
-     * Changing team name will not delete existing submissions under that team <br>
-     * Cascade logic: Email changed-> changes email in all existing submissions <br>
-     * Team changed-> creates new submissions for the new team, deletes
-     * submissions for previous team structure. <br>
-     * Preconditions: <br>
+     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
      */
-    public void updateStudent(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public StudentAttributes updateStudentCascade(StudentAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(student);
+        Assumption.assertNotNull(updateOptions);
 
-        studentsLogic.updateStudentCascade(originalEmail, student);
+        return studentsLogic.updateStudentCascade(updateOptions);
     }
 
     /**

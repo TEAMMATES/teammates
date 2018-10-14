@@ -252,7 +252,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // make the student 'unregistered' again
         studentData.googleId = "";
-        studentsLogic.updateStudentCascade(studentData.email, studentData);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(studentData.course, studentData.email)
+                        .withGoogleId(studentData.googleId)
+                        .build()
+        );
         assertEquals("",
                 logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 

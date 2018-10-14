@@ -315,6 +315,78 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
     }
 
     @Test
+    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
+        StudentAttributes.UpdateOptions updateOptions =
+                StudentAttributes.updateOptionsBuilder("courseId", "email@email.com")
+                        .withNewEmail("new@email.com")
+                        .withName("John Doe")
+                        .withLastName("Wu")
+                        .withComment("Comment")
+                        .withGoogleId("googleId")
+                        .withTeamName("teamName")
+                        .withSectionName("sectionName")
+                        .build();
+
+        assertEquals("courseId", updateOptions.getCourseId());
+        assertEquals("email@email.com", updateOptions.getEmail());
+
+        StudentAttributes studentAttributes =
+                StudentAttributes.builder("course", "Alice", "alice@gmail.tmt")
+                        .withLastName("Li")
+                        .withComments("Comment B")
+                        .withGoogleId("googleIdC")
+                        .withTeam("TEAM B")
+                        .withSection("Section C")
+                        .build();
+
+        // last name is specified in updateOptions, use the value.
+        studentAttributes.update(updateOptions);
+
+        assertEquals("new@email.com", studentAttributes.getEmail());
+        assertEquals("John Doe", studentAttributes.getName());
+        assertEquals("Wu", studentAttributes.getLastName());
+        assertEquals("Comment", studentAttributes.getComments());
+        assertEquals("googleId", studentAttributes.googleId);
+        assertEquals("teamName", studentAttributes.getTeam());
+        assertEquals("sectionName", studentAttributes.getSection());
+
+        updateOptions =
+                StudentAttributes.updateOptionsBuilder("courseId", "new@email.com")
+                        .withName("John Doe")
+                        .build();
+
+        // last name not specified in updateOptions, split the name.
+        studentAttributes.update(updateOptions);
+        assertEquals("Doe", studentAttributes.getLastName());
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder(null, "email@email.com"));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", null));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
+                        .withNewEmail(null));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
+                        .withName(null));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
+                        .withLastName(null));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
+                        .withComment(null));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
+                        .withTeamName(null));
+        assertThrows(AssertionError.class, () ->
+                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
+                        .withSectionName(null));
+    }
+
+    @Test
     public void testIsEnrollInfoSameAs() {
         StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());
         StudentAttributes other = StudentAttributes.valueOf(generateTypicalStudentObject());

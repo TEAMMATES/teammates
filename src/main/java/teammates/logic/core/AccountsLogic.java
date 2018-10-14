@@ -104,7 +104,10 @@ public final class AccountsLogic {
         // Register the student
         student.googleId = googleId;
         try {
-            studentsLogic.updateStudentCascade(student.email, student);
+            studentsLogic.updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(student.course, student.email)
+                            .withGoogleId(student.googleId)
+                            .build());
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e));
         }
@@ -159,11 +162,10 @@ public final class AccountsLogic {
         StudentAttributes student = studentsLogic.getStudentForEmail(instructor.courseId, instructor.email);
         if (student != null) {
             student.googleId = googleId;
-            try {
-                studentsLogic.updateStudentCascade(instructor.email, student);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Student disappeared while updating " + TeammatesException.toStringWithStackTrace(e));
-            }
+            studentsLogic.updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(student.course, student.email)
+                            .withGoogleId(student.googleId)
+                            .build());
         }
 
         return instructor;
