@@ -18,6 +18,26 @@ export class InstructorPageComponent implements OnInit {
       url: '/web/instructor',
       display: 'Home',
     },
+    {
+      url: '/web/instructor/courses',
+      display: 'Courses',
+    },
+    {
+      url: '/web/instructor/sessions',
+      display: 'Sessions',
+    },
+    {
+      url: '/web/instructor/students',
+      display: 'Students',
+    },
+    {
+      url: '/web/instructor/search',
+      display: 'Search',
+    },
+    {
+      url: '/web/instructor/help',
+      display: 'Help',
+    },
   ];
 
   private backendUrl: string = environment.backendUrl;
