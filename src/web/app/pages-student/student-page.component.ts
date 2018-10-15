@@ -18,6 +18,14 @@ export class StudentPageComponent implements OnInit {
       url: '/web/student',
       display: 'Home',
     },
+    {
+      url: '/web/student/profile',
+      display: 'Profile',
+    },
+    {
+      url: '/web/student/help',
+      display: 'Help',
+    },
   ];
 
   private backendUrl: string = environment.backendUrl;
