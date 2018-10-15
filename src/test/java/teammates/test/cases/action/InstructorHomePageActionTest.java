@@ -28,7 +28,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
         ______TS("persistence issue");
 
-        gaeSimulation.loginUser("unreg_user");
+        gaeSimulation.loginAsUnregistered("unreg_user");
         InstructorHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         assertFalse(a.account.isInstructor);

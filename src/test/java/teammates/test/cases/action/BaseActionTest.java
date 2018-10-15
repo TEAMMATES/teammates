@@ -356,7 +356,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        gaeSimulation.loginUser(unregUserId);
+        gaeSimulation.loginAsUnregistered(unregUserId);
         verifyCanAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
@@ -481,7 +481,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        gaeSimulation.loginUser(unregUserId);
+        gaeSimulation.loginAsUnregistered(unregUserId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));

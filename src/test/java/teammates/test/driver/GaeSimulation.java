@@ -100,7 +100,7 @@ public class GaeSimulation {
     /**
      * Logs in the user to the GAE simulation environment without admin rights.
      */
-    public void loginUser(String userId) {
+    private void loginUser(String userId) {
         helper.setEnvIsLoggedIn(true);
         helper.setEnvEmail(userId);
         helper.setEnvAuthDomain("gmail.com");
@@ -124,9 +124,23 @@ public class GaeSimulation {
     }
 
     /**
+     * Logs in the user to the GAE simulation environment as an unregistered user
+     * (without any right).
+     */
+    @Deprecated
+    public void loginAsUnregistered(String userId) {
+        loginUser(userId);
+        UserInfo user = gateKeeper.getCurrentUser();
+        assertFalse(user.isStudent);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isAdmin);
+    }
+
+    /**
      * Logs in the user to the GAE simulation environment as an instructor
      * (without admin rights or student rights).
      */
+    @Deprecated
     public void loginAsInstructor(String userId) {
         loginUser(userId);
         UserInfo user = gateKeeper.getCurrentUser();
@@ -139,6 +153,7 @@ public class GaeSimulation {
      * Logs in the user to the GAE simulation environment as a student
      * (without admin rights or instructor rights).
      */
+    @Deprecated
     public void loginAsStudent(String userId) {
         loginUser(userId);
         UserInfo user = gateKeeper.getCurrentUser();
@@ -151,6 +166,7 @@ public class GaeSimulation {
      * Logs in the user to the GAE simulation environment as a student-instructor
      * (without admin rights).
      */
+    @Deprecated
     public void loginAsStudentInstructor(String userId) {
         loginUser(userId);
         UserInfo user = gateKeeper.getCurrentUser();
