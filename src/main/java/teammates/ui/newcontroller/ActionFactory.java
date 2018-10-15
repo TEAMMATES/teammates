@@ -10,6 +10,7 @@ import javax.ws.rs.HttpMethod;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Logger;
 
 /**
@@ -22,11 +23,11 @@ public class ActionFactory {
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map("/auth", HttpMethod.GET, AuthInfoAction.class);
+        map(ResourceURIs.AUTH, HttpMethod.GET, AuthInfoAction.class);
     }
 
-    private static void map(String actionUri, String method, Class<? extends Action> actionClass) {
-        ACTION_MAPPINGS.computeIfAbsent("/webapi" + actionUri, k -> new HashMap<>()).put(method, actionClass);
+    private static void map(String uri, String method, Class<? extends Action> actionClass) {
+        ACTION_MAPPINGS.computeIfAbsent(ResourceURIs.URI_PREFIX + uri, k -> new HashMap<>()).put(method, actionClass);
     }
 
     /**

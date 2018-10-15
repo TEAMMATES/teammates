@@ -948,6 +948,22 @@ public final class Const {
 
     }
 
+    public static class WebPageURIs {
+
+        public static final String ADMIN_HOME_PAGE = "/web/admin/home";
+        public static final String INSTRUCTOR_HOME_PAGE = "/web/instructor/home";
+        public static final String STUDENT_HOME_PAGE = "/web/student/home";
+
+    }
+
+    public static class ResourceURIs {
+
+        public static final String URI_PREFIX = "/webapi";
+
+        public static final String AUTH = "/auth";
+
+    }
+
     public static class ActionURIs {
 
         /* _PAGE/Page in the Action URI name means 'show page' */

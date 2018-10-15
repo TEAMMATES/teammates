@@ -38,9 +38,12 @@ public class AuthInfoAction extends Action {
 
         Map<String, Object> output = new HashMap<>();
         if (user == null) {
-            output.put("studentLoginUrl", gateKeeper.getLoginUrl(frontendUrl + "/web/student"));
-            output.put("instructorLoginUrl", gateKeeper.getLoginUrl(frontendUrl + "/web/instructor"));
-            output.put("adminLoginUrl", gateKeeper.getLoginUrl(frontendUrl + "/web/admin"));
+            output.put("studentLoginUrl",
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE));
+            output.put("instructorLoginUrl",
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE));
+            output.put("adminLoginUrl",
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE));
         } else {
             output.put("user", user);
             output.put("logoutUrl", gateKeeper.getLogoutUrl(frontendUrl + "/web"));
