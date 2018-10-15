@@ -18,6 +18,18 @@ export class AdminPageComponent implements OnInit {
       url: '/web/admin',
       display: 'Home',
     },
+    {
+      url: '/web/admin/search',
+      display: 'Search',
+    },
+    {
+      url: '/web/admin/sessions',
+      display: 'Sessions',
+    },
+    {
+      url: '/web/admin/email',
+      display: 'Email',
+    },
   ];
 
   private backendUrl: string = environment.backendUrl;
