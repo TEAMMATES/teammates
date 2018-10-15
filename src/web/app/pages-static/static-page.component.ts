@@ -39,6 +39,14 @@ export class StaticPageComponent implements OnInit {
       url: '/web/front/terms',
       display: 'Terms',
     },
+    {
+      url: '/web/front/help/student',
+      display: 'Student Help',
+    },
+    {
+      url: '/web/front/help/instructor',
+      display: 'Instructor Help',
+    },
   ];
 
   private backendUrl: string = environment.backendUrl;

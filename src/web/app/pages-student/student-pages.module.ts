@@ -5,6 +5,12 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
 import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
+import { SessionResultPageComponent } from '../pages-session/session-result-page/session-result-page.component';
+import { SessionResultPageModule } from '../pages-session/session-result-page/session-result-page.module';
+import {
+  SessionSubmissionPageComponent,
+} from '../pages-session/session-submission-page/session-submission-page.component';
+import { SessionSubmissionPageModule } from '../pages-session/session-submission-page/session-submission-page.module';
 import { StudentCourseDetailsPageComponent } from './student-course-details-page/student-course-details-page.component';
 import { StudentHomePageComponent } from './student-home-page/student-home-page.component';
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
@@ -21,6 +27,19 @@ const routes: Routes = [
   {
     path: 'course',
     component: StudentCourseDetailsPageComponent,
+  },
+  {
+    path: 'sessions',
+    children: [
+      {
+        path: 'result',
+        component: SessionResultPageComponent,
+      },
+      {
+        path: 'submission',
+        component: SessionSubmissionPageComponent,
+      },
+    ],
   },
   {
     path: 'help',
@@ -46,6 +65,8 @@ const routes: Routes = [
     CommonModule,
     PageNotFoundModule,
     StudentHelpPageModule,
+    SessionResultPageModule,
+    SessionSubmissionPageModule,
     RouterModule.forChild(routes),
   ],
   declarations: [

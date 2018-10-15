@@ -6,6 +6,10 @@ import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
 import {
+  SessionSubmissionPageComponent,
+} from '../pages-session/session-submission-page/session-submission-page.component';
+import { SessionSubmissionPageModule } from '../pages-session/session-submission-page/session-submission-page.module';
+import {
   InstructorCourseDetailsPageComponent,
 } from './instructor-course-details-page/instructor-course-details-page.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page/instructor-course-edit-page.component';
@@ -86,6 +90,10 @@ const routes: Routes = [
         component: InstructorSessionsEditPageComponent,
       },
       {
+        path: 'submission',
+        component: SessionSubmissionPageComponent,
+      },
+      {
         path: 'result',
         component: InstructorSessionsResultPageComponent,
       },
@@ -132,6 +140,7 @@ const routes: Routes = [
     CommonModule,
     PageNotFoundModule,
     InstructorHelpPageModule,
+    SessionSubmissionPageModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
