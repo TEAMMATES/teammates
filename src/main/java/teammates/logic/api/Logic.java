@@ -1332,26 +1332,28 @@ public class Logic {
     }
 
     /**
-     * Updates the details of a feedback session <br>
-     * Does not affect the questions and responses associated with it.
-     * Preconditions: <br>
+     * Updates the details of a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
+     *
+     * <p>Adjust email sending status if necessary.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated feedback session
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) throws InvalidParametersException,
-                                                                                       EntityDoesNotExistException {
+    public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(updatedSession);
-        feedbackSessionsLogic.updateFeedbackSession(updatedSession);
+        return feedbackSessionsLogic.updateFeedbackSession(updateOptions);
     }
 
-    public void updateRespondents(String feedbackSessionName, String courseId) throws InvalidParametersException,
-                                                                                      EntityDoesNotExistException {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.updateRespondentsForSession(feedbackSessionName, courseId);
-    }
-
+    /**
+     * Adds an instructor with {@code email} in the instructor respondent set
+     * in feedback session {@code feedbackSessionName} in {@code courseId}.
+     */
     public void addInstructorRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1362,6 +1364,10 @@ public class Logic {
         feedbackSessionsLogic.addInstructorRespondent(email, feedbackSessionName, courseId);
     }
 
+    /**
+     * Adds a student with {@code email} in the student respondent set
+     * in feedback session {@code feedbackSessionName} in {@code courseId}.
+     */
     public void addStudentRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1372,6 +1378,10 @@ public class Logic {
         feedbackSessionsLogic.addStudentRespondent(email, feedbackSessionName, courseId);
     }
 
+    /**
+     * Deletes an instructor with {@code email} in the instructor respondent set
+     * in session {@code feedbackSessionName} of course {@code courseId}.
+     */
     public void deleteInstructorRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1382,6 +1392,10 @@ public class Logic {
         feedbackSessionsLogic.deleteInstructorRespondent(email, feedbackSessionName, courseId);
     }
 
+    /**
+     * Deletes a student with {@code email} in the student respondent set
+     * in session {@code feedbackSessionName} of course {@code courseId}.
+     */
     public void deleteStudentRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1393,11 +1407,12 @@ public class Logic {
     }
 
     /**
-     * Publishes the feedback session and send email alerts to students.
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * @throws InvalidParametersException
-     *             if the feedback session is not ready to be published.
+     * Publishes a feedback session.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws InvalidParametersException if session is already published
      */
     public void publishFeedbackSession(FeedbackSessionAttributes session)
             throws EntityDoesNotExistException, InvalidParametersException {
