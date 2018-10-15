@@ -48,9 +48,24 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
 
         try {
             if (instructorId == null) {
-                logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
+                logic.updateInstructor(
+                        InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorEmail)
+                                .withName(instructorToEdit.name)
+                                .withDisplayedName(instructorToEdit.displayedName)
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
+                                .withPrivilege(instructorToEdit.privileges)
+                                .withRole(instructorToEdit.role)
+                                .build());
             } else {
-                logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
+                logic.updateInstructorCascade(
+                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorId)
+                                .withEmail(instructorToEdit.email)
+                                .withName(instructorToEdit.name)
+                                .withDisplayedName(instructorToEdit.displayedName)
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
+                                .withPrivilege(instructorToEdit.privileges)
+                                .withRole(instructorToEdit.role)
+                                .build());
             }
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);

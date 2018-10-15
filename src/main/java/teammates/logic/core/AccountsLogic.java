@@ -127,7 +127,10 @@ public final class AccountsLogic {
         // Register the instructor
         instructor.googleId = googleId;
         try {
-            instructorsLogic.updateInstructorByEmail(instructor.email, instructor);
+            instructorsLogic.updateInstructorByEmail(
+                    InstructorAttributes.updateOptionsWithEmailBuilder(instructor.courseId, instructor.email)
+                            .withGoogleId(instructor.googleId)
+                            .build());
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Instructor disappeared while trying to register "
                     + TeammatesException.toStringWithStackTrace(e));

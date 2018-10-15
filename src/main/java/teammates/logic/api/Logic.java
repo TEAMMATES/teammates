@@ -314,27 +314,39 @@ public class Logic {
     }
 
     /**
-     * Update the name and email address of an instructor with the specific Google ID.
-     * Preconditions: <br>
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
+     *
+     * <p>Cascade update the comments and responses given by the instructor.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
-     * @param instr InstructorAttributes object containing the details to be updated
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
      */
-    public void updateInstructorByGoogleId(String googleId, InstructorAttributes instr)
+    public InstructorAttributes updateInstructorCascade(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(instr);
-
-        instructorsLogic.updateInstructorByGoogleId(googleId, instr);
+        return instructorsLogic.updateInstructorByGoogleIdCascade(updateOptions);
     }
 
-    public void updateInstructorByEmail(String email, InstructorAttributes instr)
+    /**
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithEmail}.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
+     */
+    public InstructorAttributes updateInstructor(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(instr);
-
-        instructorsLogic.updateInstructorByEmail(email, instr);
+        return instructorsLogic.updateInstructorByEmail(updateOptions);
     }
 
     /**
@@ -560,9 +572,11 @@ public class Logic {
     }
 
     /**
-     * Change the archive status of a course for a instructor.<br>
-     * Preconditions: <br>
+     * Changes the archive status of a course for an instructor.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
      * @param courseId The course of which the archive status is to be changed
      * @param archiveStatus The archive status to be set
      */
@@ -802,9 +816,13 @@ public class Logic {
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
+    /**
+     * Resets the associated googleId of an instructor.
+     */
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
+
         instructorsLogic.resetInstructorGoogleId(originalEmail, courseId);
     }
 
