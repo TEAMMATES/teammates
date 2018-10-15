@@ -941,6 +941,13 @@ public final class Const {
         public static final String COURSE_ID = "courseId";
     }
 
+    public static class CsrfConfig {
+
+        public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
+        public static final String TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+
+    }
+
     public static class ActionURIs {
 
         /* _PAGE/Page in the Action URI name means 'show page' */

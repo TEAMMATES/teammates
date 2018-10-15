@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.CryptoHelper;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -45,13 +47,13 @@ public class AuthInfoAction extends Action {
             output.put("logoutUrl", gateKeeper.getLogoutUrl(frontendUrl + "/web"));
         }
 
-        String xsrfToken = CryptoHelper.computeSessionToken(req.getSession().getId());
-        String existingXsrfToken = req.getHeader("X-XSRF-TOKEN");
-        if (!xsrfToken.equals(existingXsrfToken)) {
-            Cookie xsrfTokenCookie = new Cookie("XSRF-TOKEN", xsrfToken);
-            xsrfTokenCookie.setSecure(!Config.isDevServer());
-            xsrfTokenCookie.setPath("/");
-            resp.addCookie(xsrfTokenCookie);
+        String csrfToken = CryptoHelper.computeSessionToken(req.getSession().getId());
+        String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.CsrfConfig.TOKEN_COOKIE_NAME);
+        if (!csrfToken.equals(existingCsrfToken)) {
+            Cookie csrfTokenCookie = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, csrfToken);
+            csrfTokenCookie.setSecure(!Config.isDevServer());
+            csrfTokenCookie.setPath("/");
+            resp.addCookie(csrfTokenCookie);
         }
 
         return new JsonResult(output);

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.HttpMethod;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
@@ -20,7 +21,7 @@ public class ActionFactory {
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map("/auth", "GET", AuthInfoAction.class);
+        map("/auth", HttpMethod.GET, AuthInfoAction.class);
     }
 
     private static void map(String actionUri, String method, Class<? extends Action> actionClass) {

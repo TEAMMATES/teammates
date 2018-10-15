@@ -33,8 +33,7 @@ export class HttpRequestService {
   get(endpoint: string, paramsMap: object = {}): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getXsrfHeader();
-    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, headers, withCredentials });
+    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, withCredentials });
   }
 
   /**
@@ -43,7 +42,7 @@ export class HttpRequestService {
   post(endpoint: string, paramsMap: object = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getXsrfHeader();
+    const headers: HttpHeaders = this.getCsrfHeader();
     return this.httpClient.post(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
   }
 
@@ -53,7 +52,7 @@ export class HttpRequestService {
   put(endpoint: string, paramsMap: object = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getXsrfHeader();
+    const headers: HttpHeaders = this.getCsrfHeader();
     return this.httpClient.put(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
   }
 
@@ -63,18 +62,18 @@ export class HttpRequestService {
   delete(endpoint: string, paramsMap: object = {}): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getXsrfHeader();
+    const headers: HttpHeaders = this.getCsrfHeader();
     return this.httpClient.delete(`${this.backendUrl}/webapi${endpoint}`, { params, headers, withCredentials });
   }
 
-  private getXsrfHeader(): HttpHeaders {
+  private getCsrfHeader(): HttpHeaders {
     if (!document.cookie) {
       return new HttpHeaders();
     }
-    const xsrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('XSRF-TOKEN'));
-    if (xsrfTokenCookie.length) {
+    const csrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('CSRF-TOKEN'));
+    if (csrfTokenCookie.length) {
       return new HttpHeaders({
-        'X-XSRF-TOKEN': xsrfTokenCookie[0].replace('XSRF-TOKEN=', ''),
+        'X-CSRF-TOKEN': csrfTokenCookie[0].replace('CSRF-TOKEN=', ''),
       });
     }
     return new HttpHeaders();
