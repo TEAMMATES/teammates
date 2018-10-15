@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -34,8 +35,8 @@ import teammates.common.util.CryptoHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
-import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionFactory;
+import teammates.ui.newcontroller.Action;
+import teammates.ui.newcontroller.ActionFactory;
 
 /**
  * Provides a Singleton in-memory simulation of the GAE for unit testing.
@@ -201,16 +202,36 @@ public class GaeSimulation {
     }
 
     /**
+     * Returns an {@link teammates.ui.controller.Action} object that matches the parameters given.
+     *
+     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
+     */
+    public teammates.ui.controller.Action getActionObject(String uri, String... parameters) {
+        InvocationContext ic = invokeWebRequest(uri, parameters);
+        HttpServletRequest req = ic.getRequest();
+        teammates.ui.controller.Action action = new teammates.ui.controller.ActionFactory().getAction(req);
+        action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
+        return action;
+    }
+
+    /**
      * Returns an {@link Action} object that matches the parameters given.
      *
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
-    public Action getActionObject(String uri, String... parameters) {
-        HttpServletRequest req = createWebRequest(uri, parameters);
-        Action action = new ActionFactory().getAction(req);
-        action.setTaskQueuer(new MockTaskQueuer());
-        action.setEmailSender(new MockEmailSender());
-        return action;
+    public Action getNewActionObject(String uri, String method, String... parameters) {
+        try {
+            InvocationContext ic = invokeWebRequest(uri, parameters);
+            HttpServletRequest req = ic.getRequest();
+            HttpServletResponse resp = ic.getResponse();
+            Action action = new ActionFactory().getAction(req, method, resp);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -220,8 +241,10 @@ public class GaeSimulation {
      */
     public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
         try {
-            HttpServletRequest req = createWebRequest(uri, parameters);
-            AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
+            InvocationContext ic = invokeWebRequest(uri, parameters);
+            HttpServletRequest req = ic.getRequest();
+            HttpServletResponse resp = ic.getResponse();
+            AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
             return action;
@@ -244,7 +267,7 @@ public class GaeSimulation {
         }
     }
 
-    private HttpServletRequest createWebRequest(String uri, String... parameters) {
+    private InvocationContext invokeWebRequest(String uri, String... parameters) {
         // This is not testing servlet, so any HTTP method suffices
         WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);
 
@@ -264,8 +287,7 @@ public class GaeSimulation {
         paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
 
         try {
-            InvocationContext ic = sc.newInvocation(request);
-            return ic.getRequest();
+            return sc.newInvocation(request);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

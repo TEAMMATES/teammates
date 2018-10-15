@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
@@ -32,7 +31,7 @@ public class AuthInfoAction extends Action {
     }
 
     @Override
-    public ActionResult execute(HttpServletResponse resp) {
+    public ActionResult execute() {
         GateKeeper gateKeeper = new GateKeeper();
         UserInfo user = gateKeeper.getCurrentUser();
         String frontendUrl = req.getParameter("frontendUrl");

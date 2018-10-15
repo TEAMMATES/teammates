@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.ActionMappingException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -57,7 +58,7 @@ public class WebApiServlet extends HttpServlet {
 
         Action action;
         try {
-            action = new ActionFactory().getAction(req);
+            action = new ActionFactory().getAction(req, req.getMethod(), resp);
         } catch (ActionMappingException e) {
             throwError(resp, e.getStatusCode(), e.getMessage());
             return;
@@ -70,14 +71,15 @@ public class WebApiServlet extends HttpServlet {
         }
 
         try {
-            ActionResult result = action.execute(resp);
+            ActionResult result = action.execute();
             result.send(resp);
             // TODO handle all sorts of Exceptions
 
             long timeTaken = System.currentTimeMillis() - startTime;
 
             log.info(action.getLogMessage() + "|||" + timeTaken);
-
+        } catch (InvalidHttpParameterException ihpe) {
+            throwError(resp, 400, ihpe.getMessage());
         } catch (Throwable t) {
             throwError(resp, 500, t.getMessage());
         }
