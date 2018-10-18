@@ -23,7 +23,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Url;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminInstructorAccountAddAction extends Action {
@@ -134,8 +133,7 @@ public class AdminInstructorAccountAddAction extends Action {
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.persistDataBundle(data);
+        logic.persistDataBundle(data);
 
         List<FeedbackResponseCommentAttributes> frComments =
                 logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);

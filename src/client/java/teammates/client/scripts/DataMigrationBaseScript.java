@@ -3,7 +3,7 @@ package teammates.client.scripts;
 import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.client.scripts.util.LoopHelper;
+import teammates.client.util.LoopHelper;
 
 /**
  * Base script to be used as template for all data migration scripts.

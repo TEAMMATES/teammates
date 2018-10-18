@@ -253,7 +253,7 @@ Package overview:
 
 Notes:
 - Component tests: Some of these are pure unit tests (i.e. testing one component in isolation) while others are integration tests that test units as well as integration of units with each other.
-- Front-end files (particularly TypeScript) are tested separately with `Karma`/`Jasmine`.
+- Front-end files (particularly TypeScript) are tested separately with `Karma`/`Jasmine`. The test cases are found in `*.spec.ts` files.
 
 This is how TEAMMATES testing maps to standard types of testing.
 
@@ -268,6 +268,8 @@ TEAMMATES
 
 The E2E component has no knowledge of the internal workings of the application and can only interact either with Web browser (as a whole application) or REST API calls (for the back-end logic). Its primary function is for E2E tests.
 
+![E2E Component](images/E2EComponent.png)
+
 Package overview:
 
 - **`e2e.util`**: Contains helpers needed for running E2E tests.
@@ -275,12 +277,16 @@ Package overview:
 - **`e2e.cases`**: Contains test cases.
   - **`.util`**: Component test cases for testing the test helpers.
   - **`.e2e`**: System test cases for testing the application as a whole.
+  - **`.scalability`**: Scalability tests (experimental).
 
 ## Client Component
 
-The Client component contains scripts that can connect to the application back end for administrative purposes, such as migrating data to a new schema and calculating statistics.
+The Client component contains scripts that can connect directly to the application back-end for administrative purposes, such as migrating data to a new schema and calculating statistics.
+
+![Client Component](images/ClientComponent.png)
 
 Package overview:
 
+- **`client.util`**: Contains helpers needed for client scripts.
 - **`client.remoteapi`**: Classes needed to connect to the back end directly.
 - **`client.scripts`**: Scripts that deal with the back end data for administrative purposes.

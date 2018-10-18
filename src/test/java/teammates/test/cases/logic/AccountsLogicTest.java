@@ -15,7 +15,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
@@ -33,7 +32,6 @@ public class AccountsLogicTest extends BaseLogicTest {
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final Logic logic = new Logic();
 
     @SuppressWarnings("deprecation")
     @Test
