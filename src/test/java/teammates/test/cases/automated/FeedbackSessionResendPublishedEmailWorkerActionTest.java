@@ -18,7 +18,8 @@ import teammates.ui.automated.FeedbackSessionResendPublishedEmailWorkerAction;
 /**
  * SUT: {@link FeedbackSessionResendPublishedEmailWorkerAction}.
  */
-public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionResendPublishedEmailWorkerActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionResendPublishedEmailWorkerAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 

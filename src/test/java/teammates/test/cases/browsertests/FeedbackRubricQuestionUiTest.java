@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -470,9 +469,9 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
      *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     private void moveRubricColumn(int qnNumber, int[] colIndexes, int from, int to, String[]... columns) {
-        Assumption.assertEquals(colIndexes.length, columns.length);
-        Assumption.assertTrue(from >= 0 && from < colIndexes.length);
-        Assumption.assertTrue(to >= 0 && to < colIndexes.length);
+        assertEquals(colIndexes.length, columns.length);
+        assertTrue(from >= 0 && from < colIndexes.length);
+        assertTrue(to >= 0 && to < colIndexes.length);
 
         // This determines which column needs to be swapped and compared with the current column.
         // Value 1 indicates column needs to be moved right. Swaps and comparisons happen accordingly.

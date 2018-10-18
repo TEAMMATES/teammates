@@ -27,8 +27,8 @@ public final class Config {
     /** The value of the "app.backup.gcs.bucketname" in build.properties file. */
     public static final String BACKUP_GCS_BUCKETNAME;
 
-    /** The value of the "app.xsrf.key" in build.properties file. */
-    public static final String XSRF_KEY;
+    /** The value of the "app.csrf.key" in build.properties file. */
+    public static final String CSRF_KEY;
 
     /** The value of the "app.backdoor.key" in build.properties file. */
     public static final String BACKDOOR_KEY;
@@ -81,7 +81,7 @@ public final class Config {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
-        XSRF_KEY = properties.getProperty("app.xsrf.key");
+        CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
         BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");

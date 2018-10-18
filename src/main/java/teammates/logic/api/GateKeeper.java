@@ -4,7 +4,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -34,28 +34,28 @@ public class GateKeeper {
         return userService.getCurrentUser() != null;
     }
 
-    public UserType getCurrentUser() {
+    public UserInfo getCurrentUser() {
         User user = getCurrentGoogleUser();
 
         if (user == null) {
             return null;
         }
 
-        UserType userType = new UserType(user);
+        UserInfo userInfo = new UserInfo(user);
 
         if (isAdministrator()) {
-            userType.isAdmin = true;
+            userInfo.isAdmin = true;
         }
 
         if (isInstructor()) {
-            userType.isInstructor = true;
+            userInfo.isInstructor = true;
         }
 
         if (isStudent()) {
-            userType.isStudent = true;
+            userInfo.isStudent = true;
         }
 
-        return userType;
+        return userInfo;
     }
 
     public String getLoginUrl(String redirectPage) {

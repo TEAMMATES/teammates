@@ -3,7 +3,6 @@ package teammates.test.cases.action;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorHomePageAction;
@@ -29,7 +28,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
         ______TS("persistence issue");
 
-        gaeSimulation.loginUser("unreg_user");
+        gaeSimulation.loginAsUnregistered("unreg_user");
         InstructorHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         assertFalse(a.account.isInstructor);
@@ -68,7 +67,6 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         String instructorWithMultipleCourses = typicalBundle.accounts.get("instructor3").googleId;
 
         //create another course for sorting
-        Logic logic = new Logic();
         String newCourseIdForSorting = "idOfTypicalCourse"; // should be 1st if sort by course id
         String newCourseNameForSorting = "Typical Course 3"; //should be 3rd if sort by course name
         logic.createCourseAndInstructor(instructorWithMultipleCourses, newCourseIdForSorting,

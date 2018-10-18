@@ -6,7 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.TaskWrapper;
@@ -72,8 +72,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
         try {
             publishAction.executeAndPostProcess();
-            signalFailureToDetectException("NullPostParameterException expected");
-        } catch (NullPostParameterException e) {
+            signalFailureToDetectException("NullHttpParameterException expected");
+        } catch (NullHttpParameterException e) {
             errorMessage = e.getMessage();
         }
 
@@ -88,8 +88,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
         try {
             publishAction.executeAndPostProcess();
-            signalFailureToDetectException("NullPostParameterException expected");
-        } catch (NullPostParameterException e) {
+            signalFailureToDetectException("NullHttpParameterException expected");
+        } catch (NullHttpParameterException e) {
             errorMessage = e.getMessage();
         }
 

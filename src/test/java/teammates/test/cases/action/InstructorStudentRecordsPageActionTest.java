@@ -14,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -27,8 +26,6 @@ import teammates.ui.pagedata.InstructorStudentRecordsPageData;
  * SUT: {@link InstructorStudentRecordsPageAction}.
  */
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
-
-    private final Logic logic = new Logic();
 
     @Override
     protected String getActionUri() {

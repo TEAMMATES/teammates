@@ -8,6 +8,7 @@
 
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
+    <suppress checks="UncommentedMain" files="e2e[/\\]cases[/\\]scalability[/\\].*\.java"/>
 
     <!-- To be implemented slowly -->
     <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>

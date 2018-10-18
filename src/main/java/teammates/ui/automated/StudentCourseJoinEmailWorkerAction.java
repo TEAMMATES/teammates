@@ -6,7 +6,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends registration email for a student of a course.
@@ -25,12 +24,9 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
     public void execute() {
-        String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.COURSE_ID, courseId);
-        String studentEmail = getRequestParamValue(ParamsNames.STUDENT_EMAIL);
-        Assumption.assertPostParamNotNull(ParamsNames.STUDENT_EMAIL, studentEmail);
-        String isRejoinString = getRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
-        Assumption.assertPostParamNotNull(ParamsNames.IS_STUDENT_REJOINING, isRejoinString);
+        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
+        String studentEmail = getNonNullRequestParamValue(ParamsNames.STUDENT_EMAIL);
+        String isRejoinString = getNonNullRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
         boolean isRejoin = Boolean.parseBoolean(isRejoinString);
 
         CourseAttributes course = logic.getCourse(courseId);
@@ -40,8 +36,8 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(student);
 
         EmailWrapper email = isRejoin
-                ? new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student)
-                : new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+                ? emailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student)
+                : emailGenerator.generateStudentCourseJoinEmail(course, student);
         try {
             emailSender.sendEmail(email);
         } catch (Exception e) {

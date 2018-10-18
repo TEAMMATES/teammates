@@ -4,43 +4,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.HttpMethod;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
+import teammates.common.util.Const.ResourceURIs;
 
 /**
  * Generates the matching {@link Action} for a given URI and request method.
  */
 public class ActionFactory {
 
-    private static final Logger log = Logger.getLogger();
-
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map("/auth", "GET", AuthInfoAction.class);
+        map(ResourceURIs.AUTH, HttpMethod.GET, AuthInfoAction.class);
     }
 
-    private static void map(String actionUri, String method, Class<? extends Action> actionClass) {
-        ACTION_MAPPINGS.computeIfAbsent("/webapi" + actionUri, k -> new HashMap<>()).put(method, actionClass);
+    private static void map(String uri, String method, Class<? extends Action> actionClass) {
+        ACTION_MAPPINGS.computeIfAbsent(ResourceURIs.URI_PREFIX + uri, k -> new HashMap<>()).put(method, actionClass);
     }
 
     /**
      * Returns the matching {@link Action} object for the URI and method in {@code req}.
      */
-    public Action getAction(HttpServletRequest req) throws ActionMappingException {
-        String url = req.getRequestURL().toString();
-        String method = req.getMethod();
-        log.info("URL received: [" + method + "] " + url);
-
+    public Action getAction(HttpServletRequest req, String method, HttpServletResponse resp) throws ActionMappingException {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
         Action action = getAction(uri, method);
-        action.init(req);
+        action.init(req, resp);
         return action;
     }
 
