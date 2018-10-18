@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
+import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
+import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
+import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
+import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import { FeaturesPageComponent } from './features-page/features-page.component';
@@ -41,6 +45,19 @@ const routes: Routes = [
     component: UsermapPageComponent,
   },
   {
+    path: 'help',
+    children: [
+      {
+        path: 'student',
+        component: StudentHelpPageComponent,
+      },
+      {
+        path: 'instructor',
+        component: InstructorHelpPageComponent,
+      },
+    ],
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',
@@ -59,6 +76,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PageNotFoundModule,
+    StudentHelpPageModule,
+    InstructorHelpPageModule,
     RouterModule.forChild(routes),
   ],
   declarations: [

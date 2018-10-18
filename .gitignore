@@ -47,5 +47,5 @@ geckodriver*
 chromedriver*
 src/main/webapp/dist
 src/main/webapp/assets
-src/client/java/teammates/client/scripts/scalabilitytests/data/
+src/e2e/java/teammates/e2e/cases/scalability/data/
 src/e2e/resources/gmail-api/

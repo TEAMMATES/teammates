@@ -13,7 +13,7 @@ import teammates.ui.automated.StudentCourseJoinEmailWorkerAction;
 /**
  * SUT: {@link StudentCourseJoinEmailWorkerAction}.
  */
-public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionTest {
+public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionTest<StudentCourseJoinEmailWorkerAction> {
 
     @Override
     protected String getActionUri() {
@@ -63,11 +63,6 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionT
                                    course1.getName(), course1.getId()),
                      email.getSubject());
         assertEquals(stu1InCourse1.email, email.getRecipient());
-    }
-
-    @Override
-    protected StudentCourseJoinEmailWorkerAction getAction(String... params) {
-        return (StudentCourseJoinEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
 }
