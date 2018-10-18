@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -152,6 +153,26 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     }
 
     /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.shortNameOption.ifPresent(s -> shortName = s);
+        updateOptions.emailOption.ifPresent(s -> email = s);
+        updateOptions.instituteOption.ifPresent(s -> institute = s);
+        updateOptions.nationalityOption.ifPresent(s -> nationality = s);
+        updateOptions.genderOption.ifPresent(s -> gender = s);
+        updateOptions.moreInfoOption.ifPresent(s -> moreInfo = s);
+        updateOptions.pictureKeyOption.ifPresent(s -> pictureKey = s);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a profile.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String googleId) {
+        return new UpdateOptions.Builder(googleId);
+    }
+
+    /**
      * A Builder class for {@link StudentProfileAttributes}.
      */
     public static class Builder {
@@ -223,5 +244,109 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         private boolean isGenderValid(String gender) {
             return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link StudentProfileAttributes}.
+     */
+    public static class UpdateOptions {
+        private String googleId;
+
+        private UpdateOption<String> shortNameOption = UpdateOption.empty();
+        private UpdateOption<String> emailOption = UpdateOption.empty();
+        private UpdateOption<String> instituteOption = UpdateOption.empty();
+        private UpdateOption<String> nationalityOption = UpdateOption.empty();
+        private UpdateOption<String> genderOption = UpdateOption.empty();
+        private UpdateOption<String> moreInfoOption = UpdateOption.empty();
+        private UpdateOption<String> pictureKeyOption = UpdateOption.empty();
+
+        private UpdateOptions(String googleId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, googleId);
+
+            this.googleId = googleId;
+        }
+
+        public String getGoogleId() {
+            return googleId;
+        }
+
+        @Override
+        public String toString() {
+            return "StudentAttributes.UpdateOptions ["
+                    + "googleId = " + googleId
+                    + ", shortName = " + shortNameOption
+                    + ", email = " + emailOption
+                    + ", institute = " + instituteOption
+                    + ", nationality = " + nationalityOption
+                    + ", gender = " + genderOption
+                    + ", moreInfo = " + moreInfoOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private UpdateOptions updateOptions;
+
+            private Builder(String googleId) {
+                updateOptions = new UpdateOptions(googleId);
+            }
+
+            public Builder withShortName(String shortName) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, shortName);
+
+                updateOptions.shortNameOption = UpdateOption.of(shortName);
+                return this;
+            }
+
+            public Builder withEmail(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+                updateOptions.emailOption = UpdateOption.of(email);
+                return this;
+            }
+
+            public Builder withInstitute(String institute) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, institute);
+
+                updateOptions.instituteOption = UpdateOption.of(institute);
+                return this;
+            }
+
+            public Builder withNationality(String nationality) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, nationality);
+
+                updateOptions.nationalityOption = UpdateOption.of(nationality);
+                return this;
+            }
+
+            public Builder withGender(String gender) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, gender);
+
+                updateOptions.genderOption = UpdateOption.of(gender);
+                return this;
+            }
+
+            public Builder withMoreInfo(String moreInfo) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, moreInfo);
+
+                updateOptions.moreInfoOption = UpdateOption.of(moreInfo);
+                return this;
+            }
+
+            public Builder withPictureKey(String pictureKey) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, pictureKey);
+
+                updateOptions.pictureKeyOption = UpdateOption.of(pictureKey);
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 }

@@ -424,7 +424,10 @@ public class AccountsLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(account.googleId)
                 .withShortName("Test")
                 .build();
-        profilesLogic.updateOrCreateStudentProfile(studentProfile);
+        profilesLogic.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(account.googleId)
+                        .withShortName(studentProfile.shortName)
+                        .build());
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
