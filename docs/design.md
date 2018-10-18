@@ -141,7 +141,6 @@ API for retrieving entities:
 + Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
 + Entity not found:
   - Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
-  - Throws `EntityDoesNotExistsExeption` if a parent entity of a target entity is not found e.g., trying to list students of a non-existent course.
 
 API for updating entities:
 + Primary keys cannot be edited except: `Student.email`.
