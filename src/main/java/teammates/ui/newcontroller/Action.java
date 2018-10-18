@@ -3,15 +3,9 @@ package teammates.ui.newcontroller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.UserInfo;
-import teammates.common.exception.NullHttpParameterException;
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
-import teammates.logic.api.TaskQueuer;
 
 /**
  * An "action" to be performed by the system.
@@ -20,46 +14,21 @@ import teammates.logic.api.TaskQueuer;
  */
 public abstract class Action {
 
-    protected Logic logic = new Logic();
-    protected GateKeeper gateKeeper = new GateKeeper();
-    protected EmailGenerator emailGenerator = new EmailGenerator();
-    protected TaskQueuer taskQueuer = new TaskQueuer();
-    protected EmailSender emailSender = new EmailSender();
-
     protected HttpServletRequest req;
-    protected HttpServletResponse resp;
-    protected UserInfo userInfo;
     private AuthType authType;
 
     /**
      * Initializes the action object based on the HTTP request.
      */
-    protected void init(HttpServletRequest req, HttpServletResponse resp) {
+    public void init(HttpServletRequest req) {
         this.req = req;
-        this.resp = resp;
-        initAuthInfo();
-    }
-
-    public TaskQueuer getTaskQueuer() {
-        return taskQueuer;
-    }
-
-    public void setTaskQueuer(TaskQueuer taskQueuer) {
-        this.taskQueuer = taskQueuer;
-    }
-
-    public EmailSender getEmailSender() {
-        return emailSender;
-    }
-
-    public void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
+        initAuthInfo(req);
     }
 
     /**
      * Returns true if the requesting user has sufficient authority to access the resource.
      */
-    protected boolean checkAccessControl() {
+    public boolean checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             return false;
@@ -79,52 +48,20 @@ public abstract class Action {
         return checkSpecificAccessControl();
     }
 
-    private void initAuthInfo() {
+    private void initAuthInfo(HttpServletRequest req) {
         if (Config.BACKDOOR_KEY.equals(req.getParameter("backdoorkey"))) {
             authType = AuthType.ALL_ACCESS;
             return;
         }
 
-        userInfo = gateKeeper.getCurrentUser();
-        if (userInfo != null) {
+        UserType userType = new GateKeeper().getCurrentUser();
+        if (userType != null) {
             authType = AuthType.REGISTERED;
             return;
         }
 
         String regkey = req.getParameter("regkey");
         authType = regkey == null ? AuthType.UNAUTHENTICATED : AuthType.UNREGISTERED;
-    }
-
-    /**
-     * Returns the first value for the specified parameter in the HTTP request, or null if such parameter is not found.
-     */
-    protected String getRequestParamValue(String paramName) {
-        return req.getParameter(paramName);
-    }
-
-    /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request.
-     */
-    protected String getNonNullRequestParamValue(String paramName) {
-        return getNonNullRequestParamValues(paramName)[0];
-    }
-
-    /**
-     * Returns the values for the specified parameter in the HTTP request, or null if such parameter is not found.
-     */
-    protected String[] getRequestParamValues(String paramName) {
-        return req.getParameterValues(paramName);
-    }
-
-    /**
-     * Returns the values for the specified parameter expected to be present in the HTTP request.
-     */
-    protected String[] getNonNullRequestParamValues(String paramName) {
-        String[] values = getRequestParamValues(paramName);
-        if (values == null) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
-        }
-        return values;
     }
 
     /**
@@ -148,6 +85,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    protected abstract ActionResult execute();
+    protected abstract ActionResult execute(HttpServletResponse resp);
 
 }

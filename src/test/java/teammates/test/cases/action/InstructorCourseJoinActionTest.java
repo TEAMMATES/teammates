@@ -104,7 +104,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
 
         InstructorAttributes newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
 
-        gaeSimulation.loginAsUnregistered(instructor.googleId);
+        gaeSimulation.loginUser(instructor.googleId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(newInstructor.key)

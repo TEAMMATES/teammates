@@ -10,6 +10,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
@@ -51,7 +52,7 @@ public class FeedbackSessionResendPublishedEmailWorkerAction extends AutomatedAc
                 }
             }
 
-            List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
+            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(
                     session, studentsToEmailList, instructorsToEmailList);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {

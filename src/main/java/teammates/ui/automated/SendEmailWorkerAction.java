@@ -1,6 +1,7 @@
 package teammates.ui.automated;
 
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -24,12 +25,22 @@ public class SendEmailWorkerAction extends AutomatedAction {
 
     @Override
     public void execute() {
-        String emailSubject = getNonNullRequestParamValue(ParamsNames.EMAIL_SUBJECT);
-        String emailContent = getNonNullRequestParamValue(ParamsNames.EMAIL_CONTENT);
-        String emailSenderEmail = getNonNullRequestParamValue(ParamsNames.EMAIL_SENDER);
+        String emailSubject = getRequestParamValue(ParamsNames.EMAIL_SUBJECT);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_SUBJECT, emailSubject);
+
+        String emailContent = getRequestParamValue(ParamsNames.EMAIL_CONTENT);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_CONTENT, emailContent);
+
+        String emailSenderEmail = getRequestParamValue(ParamsNames.EMAIL_SENDER);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_SENDER, emailSenderEmail);
+
         String emailSenderName = getRequestParamValue(ParamsNames.EMAIL_SENDERNAME);
-        String emailReceiver = getNonNullRequestParamValue(ParamsNames.EMAIL_RECEIVER);
-        String emailReply = getNonNullRequestParamValue(ParamsNames.EMAIL_REPLY_TO_ADDRESS);
+
+        String emailReceiver = getRequestParamValue(ParamsNames.EMAIL_RECEIVER);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_RECEIVER, emailReceiver);
+
+        String emailReply = getRequestParamValue(ParamsNames.EMAIL_REPLY_TO_ADDRESS);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReply);
 
         EmailWrapper message = new EmailWrapper();
         message.setRecipient(emailReceiver);

@@ -33,7 +33,8 @@ export class HttpRequestService {
   get(endpoint: string, paramsMap: { [key: string]: string } = {}): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, withCredentials });
+    const headers: HttpHeaders = this.getXsrfHeader();
+    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, headers, withCredentials });
   }
 
   /**
@@ -42,7 +43,7 @@ export class HttpRequestService {
   post(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getCsrfHeader();
+    const headers: HttpHeaders = this.getXsrfHeader();
     return this.httpClient.post(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
   }
 
@@ -52,7 +53,7 @@ export class HttpRequestService {
   put(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getCsrfHeader();
+    const headers: HttpHeaders = this.getXsrfHeader();
     return this.httpClient.put(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
   }
 
@@ -62,18 +63,18 @@ export class HttpRequestService {
   delete(endpoint: string, paramsMap: { [key: string]: string } = {}): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getCsrfHeader();
+    const headers: HttpHeaders = this.getXsrfHeader();
     return this.httpClient.delete(`${this.backendUrl}/webapi${endpoint}`, { params, headers, withCredentials });
   }
 
-  private getCsrfHeader(): HttpHeaders {
+  private getXsrfHeader(): HttpHeaders {
     if (!document.cookie) {
       return new HttpHeaders();
     }
-    const csrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('CSRF-TOKEN'));
-    if (csrfTokenCookie.length) {
+    const xsrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('XSRF-TOKEN'));
+    if (xsrfTokenCookie.length) {
       return new HttpHeaders({
-        'X-CSRF-TOKEN': csrfTokenCookie[0].replace('CSRF-TOKEN=', ''),
+        'X-XSRF-TOKEN': xsrfTokenCookie[0].replace('XSRF-TOKEN=', ''),
       });
     }
     return new HttpHeaders();

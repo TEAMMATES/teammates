@@ -11,7 +11,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -39,7 +39,7 @@ public class PublicImageServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String url = HttpRequestHelper.getRequestedUrl(req);
 
-        UserInfo userInfo = new GateKeeper().getCurrentUser();
+        UserType userType = new GateKeeper().getCurrentUser();
         String blobKey = req.getParameter(Const.ParamsNames.BLOB_KEY);
         Assumption.assertPostParamNotNull(Const.ParamsNames.BLOB_KEY, blobKey);
 
@@ -47,7 +47,7 @@ public class PublicImageServlet extends HttpServlet {
             if (blobKey.isEmpty()) {
                 String message = "Failed to serve image with URL : blobKey is missing";
                 Map<String, String[]> params = req.getParameterMap();
-                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userInfo));
+                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userType));
                 resp.sendError(1, "No image found");
             } else {
                 resp.setContentType("image/png");
@@ -60,11 +60,11 @@ public class PublicImageServlet extends HttpServlet {
                                + url + "</a>";
 
                 Map<String, String[]> params = req.getParameterMap();
-                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userInfo));
+                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userType));
             }
         } catch (IOException ioe) {
             Map<String, String[]> params = req.getParameterMap();
-            log.warning(new LogMessageGenerator().generateActionFailureLogMessage(url, params, ioe, userInfo));
+            log.warning(new LogMessageGenerator().generateActionFailureLogMessage(url, params, ioe, userType));
         } catch (Exception e) {
             log.severe("Exception occured while performing " + Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION
                     + ": " + TeammatesException.toStringWithStackTrace(e));

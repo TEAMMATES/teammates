@@ -23,19 +23,19 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.api.Logic;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.GaeSimulation;
 
 /**
  * Base class for all component tests.
- * It runs a simulated Datastore ({@link GaeSimulation}) which can be accessed via {@link Logic}.
+ * It runs a simulated Datastore ({@link GaeSimulation}) which can be accessed via {@link BackDoorLogic}.
  */
 @Test(singleThreaded = true) // GaeSimulation is not thread safe
 public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
-    protected static final Logic logic = new Logic();
+    protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
 
     @Override
     @BeforeClass
@@ -60,49 +60,49 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return logic.getAccount(account.googleId);
+        return backDoorLogic.getAccount(account.googleId);
     }
 
     @Override
     protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return logic.getStudentProfile(studentProfileAttributes.googleId);
+        return backDoorLogic.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     @Override
     protected CourseAttributes getCourse(CourseAttributes course) {
-        return logic.getCourse(course.getId());
+        return backDoorLogic.getCourse(course.getId());
     }
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return logic.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber);
+        return backDoorLogic.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber);
     }
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
+        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
     }
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return logic.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return backDoorLogic.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
     }
 
     @Override
     protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
-        return logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+        return backDoorLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
         return instructor.googleId == null
-                ? logic.getInstructorForEmail(instructor.courseId, instructor.email)
-                : logic.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
+                ? backDoorLogic.getInstructorForEmail(instructor.courseId, instructor.email)
+                : backDoorLogic.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
     }
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return logic.getStudentForEmail(student.course, student.email);
+        return backDoorLogic.getStudentForEmail(student.course, student.email);
     }
 
     protected void removeAndRestoreTypicalDataBundle() {
@@ -113,8 +113,8 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected String doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
-            logic.removeDataBundle(dataBundle);
-            logic.persistDataBundle(dataBundle);
+            backDoorLogic.removeDataBundle(dataBundle);
+            backDoorLogic.persistDataBundle(dataBundle);
             return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
         } catch (Exception e) {
             return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
@@ -124,7 +124,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected String doPutDocuments(DataBundle dataBundle) {
         try {
-            logic.putDocuments(dataBundle);
+            backDoorLogic.putDocuments(dataBundle);
             return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
         } catch (Exception e) {
             return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.PageNotFoundException;
@@ -26,7 +26,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
     public void generateLogMessage_servletActionFailure() {
         ______TS("With google login");
 
-        UserInfo loginUser = new UserInfo("googleIdABC");
+        UserType loginUser = new UserType("googleIdABC");
         String url = "/randomPage";
         Map<String, String[]> paramMap = new HashMap<>();
         Exception e = new PageNotFoundException("randomPage");
@@ -118,11 +118,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         paramMap = new HashMap<>();
         logMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true|||Unregistered|||Unknown"
                      + "|||googleId|||Unknown|||Try student home|||" + url;
-        UserInfo userInfo = new UserInfo("googleId");
+        UserType userType = new UserType("googleId");
 
-        // userInfo and account will be passed for logged-in user
+        // userType and account will be passed for logged-in user
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, null, null, "Try student home");
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, null, null, "Try student home");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         ______TS("Google login (Student)");
@@ -132,7 +132,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         url = Const.ActionURIs.STUDENT_HOME_PAGE;
         logMessage = String.format(logTemplate, "studentHomePage", "Student");
-        userInfo.isStudent = true;
+        userType.isStudent = true;
         AccountAttributes acc = AccountAttributes.builder()
                 .withGoogleId("googleId")
                 .withName("david")
@@ -141,55 +141,55 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 .withIsInstructor(false)
                 .build();
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View Result");
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         ______TS("Google login (Instructor and Student auto detect)");
 
-        userInfo.isInstructor = true;
+        userType.isInstructor = true;
         url = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         logMessage = String.format(logTemplate, "studentFeedbackResultsPage", "Student");
 
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View Result");
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         url = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         logMessage = String.format(logTemplate, "instructorCourseEditPage", "Instructor");
 
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View Result");
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         ______TS("Google login (Admin role auto detect)");
 
-        userInfo.isAdmin = true;
+        userType.isAdmin = true;
         url = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         logMessage = String.format(logTemplate, "studentFeedbackResultsPage", "Student");
 
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View Result");
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         logMessage = String.format(logTemplate, "instructorCoursesPage", "Instructor");
 
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View Result");
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         url = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
         logMessage = "TEAMMATESLOG|||adminActivityLogPage|||adminActivityLogPage|||true|||Admin|||david"
                      + "|||googleId|||david@email.com|||View Result|||/admin/adminActivityLogPage";
 
-        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         ______TS("Google login (Admin Masquerade Mode)");
 
         url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
-        userInfo.isAdmin = true;
+        userType.isAdmin = true;
         acc = AccountAttributes.builder()
                 .withGoogleId("anotherGoogleId")
                 .withName("david")
@@ -200,10 +200,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCoursesPage";
 
-        // masquerade: userInfo and account don't have the same google id
+        // masquerade: userType and account don't have the same google id
         generatedMessage =
-                logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View comments");
-        AssertHelper.assertLogMessageEqualsInMasqueradeMode(logMessage, generatedMessage, userInfo.id);
+                logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View comments");
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(logMessage, generatedMessage, userType.id);
     }
 
     private Map<String, String[]> generateRequestParamsWithRegKey() {

@@ -16,8 +16,7 @@ import teammates.ui.automated.FeedbackSessionPublishedEmailWorkerAction;
 /**
  * SUT: {@link FeedbackSessionPublishedEmailWorkerAction}.
  */
-public class FeedbackSessionPublishedEmailWorkerActionTest
-        extends BaseAutomatedActionTest<FeedbackSessionPublishedEmailWorkerAction> {
+public class FeedbackSessionPublishedEmailWorkerActionTest extends BaseAutomatedActionTest {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
@@ -49,6 +48,12 @@ public class FeedbackSessionPublishedEmailWorkerActionTest
                                        session1.getFeedbackSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
         }
+    }
+
+    @Override
+    protected FeedbackSessionPublishedEmailWorkerAction getAction(String... params) {
+        return (FeedbackSessionPublishedEmailWorkerAction)
+                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
 }

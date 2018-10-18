@@ -1,7 +1,6 @@
 package teammates.ui.newcontroller;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,11 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -23,14 +20,6 @@ import teammates.common.util.Url;
  * Checks and validates origin of HTTP requests.
  */
 public class OriginCheckFilter implements Filter {
-
-    private static final String ALLOWED_HTTP_METHODS = String.join(", ", Arrays.asList(
-            HttpMethod.GET,
-            HttpMethod.POST,
-            HttpMethod.PUT,
-            HttpMethod.DELETE,
-            HttpMethod.OPTIONS
-    ));
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -44,13 +33,13 @@ public class OriginCheckFilter implements Filter {
 
         if (Config.isDevServer()) {
             response.setHeader("Access-Control-Allow-Origin", Config.APP_FRONTENDDEV_URL);
-            response.setHeader("Access-Control-Allow-Methods", ALLOWED_HTTP_METHODS);
-            response.setHeader("Access-Control-Allow-Headers", Const.CsrfConfig.TOKEN_HEADER_NAME);
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.setHeader("Access-Control-Allow-Headers", "X-XSRF-TOKEN");
             response.setHeader("Access-Control-Allow-Credentials", "true");
         }
 
-        if (Config.CSRF_KEY.equals(request.getParameter("csrfkey"))) {
-            // Can bypass CSRF check with the correct key
+        if (Config.XSRF_KEY.equals(request.getParameter("xsrfkey"))) {
+            // Can bypass XSRF check with the correct key
             chain.doFilter(req, res);
             return;
         }
@@ -66,10 +55,10 @@ public class OriginCheckFilter implements Filter {
         }
 
         switch (request.getMethod()) {
-        case HttpMethod.POST:
-        case HttpMethod.PUT:
-        case HttpMethod.DELETE:
-            String message = getCsrfTokenErrorIfAny(request);
+        case "POST":
+        case "PUT":
+        case "DELETE":
+            String message = getXsrfTokenErrorIfAny(request);
             if (message != null) {
                 denyAccess(message, response);
                 return;
@@ -127,10 +116,10 @@ public class OriginCheckFilter implements Filter {
         return origin.equals(target);
     }
 
-    private String getCsrfTokenErrorIfAny(HttpServletRequest request) {
-        String csrfToken = request.getHeader(Const.CsrfConfig.TOKEN_HEADER_NAME);
-        if (csrfToken == null) {
-            return "Missing CSRF token.";
+    private String getXsrfTokenErrorIfAny(HttpServletRequest request) {
+        String xsrfToken = request.getHeader("X-XSRF-TOKEN");
+        if (xsrfToken == null) {
+            return "Missing XSRF token.";
         }
 
         String sessionId = request.getRequestedSessionId();
@@ -140,9 +129,9 @@ public class OriginCheckFilter implements Filter {
         }
 
         try {
-            return sessionId.equals(StringHelper.decrypt(csrfToken)) ? null : "Invalid CSRF token.";
+            return sessionId.equals(StringHelper.decrypt(xsrfToken)) ? null : "Invalid XSRF token.";
         } catch (InvalidParametersException e) {
-            return "Invalid CSRF token.";
+            return "Invalid XSRF token.";
         }
     }
 

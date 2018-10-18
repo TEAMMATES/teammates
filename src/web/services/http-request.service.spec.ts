@@ -45,6 +45,7 @@ describe('HttpRequestService', () => {
     service.get('/url');
     expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, {
       withCredentials,
+      headers: jasmine.any(Object),
       params: jasmine.any(Object),
     });
   });

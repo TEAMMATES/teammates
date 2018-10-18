@@ -23,8 +23,7 @@ import teammates.ui.automated.FeedbackResponseAdjustmentWorkerAction;
 /**
  * SUT: {@link FeedbackResponseAdjustmentWorkerAction}.
  */
-public class FeedbackResponseAdjustmentWorkerActionTest
-        extends BaseAutomatedActionTest<FeedbackResponseAdjustmentWorkerAction> {
+public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedActionTest {
 
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -77,6 +76,11 @@ public class FeedbackResponseAdjustmentWorkerActionTest
                 getAllResponsesForStudentForSession(student, session.getFeedbackSessionName());
         assertTrue(newResponsesForSession.isEmpty());
 
+    }
+
+    @Override
+    protected FeedbackResponseAdjustmentWorkerAction getAction(String... params) {
+        return (FeedbackResponseAdjustmentWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
     private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(StudentAttributes student,

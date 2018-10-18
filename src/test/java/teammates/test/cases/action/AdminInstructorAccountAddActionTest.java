@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.api.Logic;
 import teammates.test.driver.StringHelperExtension;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
@@ -106,7 +107,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                      emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
-        logic.deleteCourse(getDemoCourseIdRoot(email));
+        new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
 
     private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {

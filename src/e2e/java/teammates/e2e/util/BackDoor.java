@@ -25,6 +25,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.backdoor.BackDoorOperation;
 
 /**
  * Used to access the datastore without going through the UI.
@@ -46,8 +47,8 @@ public final class BackDoor {
     public static String restoreDataBundle(DataBundle dataBundle) {
         removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_PERSIST_DATABUNDLE);
+        params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
 
@@ -59,8 +60,8 @@ public final class BackDoor {
     public static String removeDataBundle(DataBundle dataBundle) {
         removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_DATABUNDLE);
+        params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
 
@@ -92,8 +93,8 @@ public final class BackDoor {
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
         removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);
+        params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
 
@@ -102,8 +103,8 @@ public final class BackDoor {
      */
     public static String putDocuments(DataBundle dataBundle) {
         String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_PUT_DOCUMENTS);
+        params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
 
@@ -120,8 +121,8 @@ public final class BackDoor {
      * Gets an account data from the datastore.
      */
     public static AccountAttributes getAccount(String googleId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ACCOUNT_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         String accountJsonString = makePostRequest(params);
         return JsonUtils.fromJson(accountJsonString, AccountAttributes.class);
     }
@@ -130,8 +131,8 @@ public final class BackDoor {
      * Gets a student profile data from the datastore.
      */
     public static StudentProfileAttributes getStudentProfile(String googleId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTPROFILE_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         String studentProfileJsonString = makePostRequest(params);
         return JsonUtils.fromJson(studentProfileJsonString, StudentProfileAttributes.class);
     }
@@ -140,8 +141,8 @@ public final class BackDoor {
      * Checks if a profile picture with the specified key is present in GCS.
      */
     public static boolean getWhetherPictureIsPresentInGcs(String pictureKey) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", pictureKey);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
+        params.put(BackDoorOperation.PARAMETER_PICTURE_KEY, pictureKey);
         return Boolean.parseBoolean(makePostRequest(params));
     }
 
@@ -149,9 +150,9 @@ public final class BackDoor {
      * Uploads and updates a student's profile picture in the datastore.
      */
     public static String uploadAndUpdateStudentProfilePicture(String googleId, String pictureDataJsonString) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        params.put("PLACEHOLDER", pictureDataJsonString);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_STUDENT_PROFILE_PICTURE);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
+        params.put(BackDoorOperation.PARAMETER_PICTURE_DATA, pictureDataJsonString);
         return makePostRequest(params);
     }
 
@@ -159,8 +160,8 @@ public final class BackDoor {
      * Deletes an account from datastore.
      */
     public static String deleteAccount(String googleId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_ACCOUNT);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         return makePostRequest(params);
     }
 
@@ -177,9 +178,9 @@ public final class BackDoor {
      * Gets an instructor data with particular google ID from the datastore.
      */
     public static InstructorAttributes getInstructorByGoogleId(String googleId, String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
     }
@@ -188,9 +189,9 @@ public final class BackDoor {
      * Gets an instructor data with particular email from the datastore.
      */
     public static InstructorAttributes getInstructorByEmail(String instructorEmail, String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", instructorEmail);
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL);
+        params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
     }
@@ -199,9 +200,9 @@ public final class BackDoor {
      * Gets the encrypted registration key for an instructor in the datastore.
      */
     public static String getEncryptedKeyForInstructor(String courseId, String instructorEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", instructorEmail);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
         return makePostRequest(params);
     }
 
@@ -209,9 +210,9 @@ public final class BackDoor {
      * Deletes an instructor from the datastore.
      */
     public static String deleteInstructor(String courseId, String instructorEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", instructorEmail);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_INSTRUCTOR);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
         return makePostRequest(params);
     }
 
@@ -228,8 +229,8 @@ public final class BackDoor {
      * Gets a course data from the datastore.
      */
     public static CourseAttributes getCourse(String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_COURSE_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String courseJsonString = makePostRequest(params);
         return JsonUtils.fromJson(courseJsonString, CourseAttributes.class);
     }
@@ -238,8 +239,8 @@ public final class BackDoor {
      * Edits a course in the datastore.
      */
     public static String editCourse(CourseAttributes course) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", JsonUtils.toJson(course));
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_COURSE);
+        params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(course));
         return makePostRequest(params);
     }
 
@@ -247,8 +248,8 @@ public final class BackDoor {
      * Deletes a course from the datastore.
      */
     public static String deleteCourse(String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_COURSE);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         return makePostRequest(params);
     }
 
@@ -265,9 +266,9 @@ public final class BackDoor {
      * Gets a student data from the datastore.
      */
     public static StudentAttributes getStudent(String courseId, String studentEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", studentEmail);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENT_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_STUDENT_EMAIL, studentEmail);
         String studentJson = makePostRequest(params);
         return JsonUtils.fromJson(studentJson, StudentAttributes.class);
     }
@@ -276,8 +277,8 @@ public final class BackDoor {
      * Gets list of students data from the datastore.
      */
     public static List<StudentAttributes> getStudents(String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTS_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String studentsJson = makePostRequest(params);
         return JsonUtils.fromJson(studentsJson, new TypeToken<List<StudentAttributes>>(){}.getType());
     }
@@ -286,9 +287,9 @@ public final class BackDoor {
      * Gets the encrypted registration key for a student in the datastore.
      */
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", studentEmail);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_STUDENT_EMAIL, studentEmail);
         return makePostRequest(params);
     }
 
@@ -296,9 +297,9 @@ public final class BackDoor {
      * Edits a student in the datastore.
      */
     public static String editStudent(String originalEmail, StudentAttributes student) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", originalEmail);
-        params.put("PLACEHOLDER", JsonUtils.toJson(student));
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_STUDENT);
+        params.put(BackDoorOperation.PARAMETER_STUDENT_EMAIL, originalEmail);
+        params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(student));
         return makePostRequest(params);
     }
 
@@ -306,9 +307,9 @@ public final class BackDoor {
      * Deletes a student from the datastore.
      */
     public static String deleteStudent(String courseId, String studentEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", studentEmail);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_STUDENT);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_STUDENT_EMAIL, studentEmail);
         return makePostRequest(params);
     }
 
@@ -316,9 +317,9 @@ public final class BackDoor {
      * Gets a feedback session data from the data storage.
      */
     public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String feedbackSessionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
     }
@@ -328,9 +329,9 @@ public final class BackDoor {
      */
     public static FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String courseId, String feedbackSessionName) {
         Map<String, String> params =
-                createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", courseId);
+                createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_SESSION_FROM_RECYCLE_BIN_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String feedbackSessionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
     }
@@ -339,8 +340,8 @@ public final class BackDoor {
      * Edits a feedback session in the datastore.
      */
     public static String editFeedbackSession(FeedbackSessionAttributes updatedFeedbackSession) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", JsonUtils.toJson(updatedFeedbackSession));
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_FEEDBACK_SESSION);
+        params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(updatedFeedbackSession));
         return makePostRequest(params);
     }
 
@@ -348,9 +349,9 @@ public final class BackDoor {
      * Deletes a feedback session from the datastore.
      */
     public static String deleteFeedbackSession(String feedbackSessionName, String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", courseId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_SESSION);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         return makePostRequest(params);
     }
 
@@ -359,10 +360,10 @@ public final class BackDoor {
      */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
                                                                  int qnNumber) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", String.valueOf(qnNumber));
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_NUMBER, String.valueOf(qnNumber));
         String feedbackQuestionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
     }
@@ -371,8 +372,8 @@ public final class BackDoor {
      * Gets a feedback question data from the datastore.
      */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", questionId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         String feedbackQuestionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
     }
@@ -381,8 +382,8 @@ public final class BackDoor {
      * Edits a feedback question in the datastore.
      */
     public static String editFeedbackQuestion(FeedbackQuestionAttributes updatedFeedbackQuestion) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", JsonUtils.toJson(updatedFeedbackQuestion));
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_FEEDBACK_QUESTION);
+        params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(updatedFeedbackQuestion));
         return makePostRequest(params);
     }
 
@@ -390,8 +391,8 @@ public final class BackDoor {
      * Deletes a feedback question from the datastore.
      */
     public static String deleteFeedbackQuestion(String questionId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", questionId);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_QUESTION);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         return makePostRequest(params);
     }
 
@@ -400,8 +401,8 @@ public final class BackDoor {
      */
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         String feedbackResponseJson = JsonUtils.toJson(feedbackResponse);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackResponseJson);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_CREATE_FEEDBACK_RESPONSE);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_RESPONSE_JSON, feedbackResponseJson);
         return makePostRequest(params);
     }
 
@@ -410,10 +411,10 @@ public final class BackDoor {
      */
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giverEmail,
                                                                  String recipient) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackQuestionId);
-        params.put("PLACEHOLDER", giverEmail);
-        params.put("PLACEHOLDER", recipient);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
+        params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
+        params.put(BackDoorOperation.PARAMETER_RECIPIENT, recipient);
         String feedbackResponseJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackResponseJson, FeedbackResponseAttributes.class);
     }
@@ -424,9 +425,9 @@ public final class BackDoor {
     public static List<FeedbackResponseAttributes>
             getFeedbackResponsesForReceiverForCourse(String courseId, String recipientEmail) {
         Map<String, String> params =
-                createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", recipientEmail);
+                createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_RECIPIENT, recipientEmail);
         String feedbackResponsesJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackResponsesJson,
                                   new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
@@ -438,9 +439,9 @@ public final class BackDoor {
     public static List<FeedbackResponseAttributes>
             getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
         Map<String, String> params =
-                createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", giverEmail);
+                createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
         String feedbackResponsesJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackResponsesJson,
                                   new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
@@ -450,19 +451,19 @@ public final class BackDoor {
      * Deletes a feedback response from the datastore.
      */
     public static String deleteFeedbackResponse(String feedbackQuestionId, String giverEmail, String recipient) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackQuestionId);
-        params.put("PLACEHOLDER", giverEmail);
-        params.put("PLACEHOLDER", recipient);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_RESPONSE);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
+        params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
+        params.put(BackDoorOperation.PARAMETER_RECIPIENT, recipient);
         return makePostRequest(params);
     }
 
-    private static Map<String, String> createParamMap(String operation) {
+    private static Map<String, String> createParamMap(BackDoorOperation operation) {
         Map<String, String> map = new HashMap<>();
-        map.put("PLACEHOLDER", operation);
+        map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());
 
         // For authentication
-        map.put("PLACEHOLDER", TestProperties.BACKDOOR_KEY);
+        map.put(BackDoorOperation.PARAMETER_BACKDOOR_KEY, TestProperties.BACKDOOR_KEY);
 
         return map;
     }
@@ -526,8 +527,8 @@ public final class BackDoor {
      * Checks if a group recipient's file is present in GCS with specified Key.
      */
     public static boolean isGroupListFileKeyPresentInGcs(String groupListFileKey) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", groupListFileKey);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
         return Boolean.parseBoolean(makePostRequest(params));
     }
 
@@ -535,8 +536,8 @@ public final class BackDoor {
      * Deletes the uploaded test file for testing email using group mode.
      */
     public static String deleteGroupListFile(String groupListFileKey) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", groupListFileKey);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_GROUP_LIST_FILE);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
         return makePostRequest(params);
     }
 

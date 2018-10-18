@@ -12,6 +12,7 @@ import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
 import teammates.common.util.EmailWrapper;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Cron job: compiles application logs and sends severe logs compilation to the support email.
@@ -69,7 +70,7 @@ public class CompileLogsAction extends AutomatedAction {
     private void sendEmail(List<AppLogLine> logs) {
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!logs.isEmpty()) {
-            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(logs);
+            EmailWrapper message = new EmailGenerator().generateCompiledLogsEmail(logs);
             emailSender.sendReport(message);
         }
     }
