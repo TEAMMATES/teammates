@@ -10,6 +10,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -43,6 +44,7 @@ import teammates.common.util.SectionDetail;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -58,17 +60,18 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    protected static final AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
-    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    private static final AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    private static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     /**
      * Preconditions: <br>
@@ -2080,4 +2083,32 @@ public class Logic {
         Assumption.assertNotNull(teamName);
         return studentsLogic.getSectionForTeam(courseId, teamName);
     }
+
+    /**
+     * Persists the given data bundle to the datastore.
+     *
+     * @see DataBundleLogic#persistDataBundle(DataBundle)
+     */
+    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+        dataBundleLogic.persistDataBundle(dataBundle);
+    }
+
+    /**
+     * Removes the given data bundle from the datastore.
+     *
+     * @see DataBundleLogic#removeDataBundle(DataBundle)
+     */
+    public void removeDataBundle(DataBundle dataBundle) {
+        dataBundleLogic.removeDataBundle(dataBundle);
+    }
+
+    /**
+     * Puts searchable documents from the data bundle to the datastore.
+     *
+     * @see DataBundleLogic#putDocuments(DataBundle)
+     */
+    public void putDocuments(DataBundle dataBundle) {
+        dataBundleLogic.putDocuments(dataBundle);
+    }
+
 }

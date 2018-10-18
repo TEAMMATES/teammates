@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -204,7 +204,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             action = getAction(paramsWithNullCourseId);
             result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.COURSE_ID),
                          e.getMessage());
@@ -216,7 +216,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             action = getAction(paramsWithNullFeedbackSessionName);
             result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }

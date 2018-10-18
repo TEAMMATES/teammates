@@ -7,6 +7,8 @@
         <var name="common" value="teammates.common" />
         <var name="test" value="teammates.test" />
         <var name="testCases" value="teammates.test.cases" />
+        <var name="e2e" value="teammates.e2e" />
+        <var name="e2eCases" value="teammates.e2e.cases" />
         <var name="client" value="teammates.client" />
 
         <ruleset name="Architectural rules for production code">
@@ -81,49 +83,6 @@
                             </from>
                             <to class="${logic}.api.**" />
                         </allow>
-                        <allow>
-                            <!-- to import sample data, need to be changed -->
-                            <from class="${ui}.controller.AdminInstructorAccountAddAction" />
-                            <to class="${logic}.backdoor.BackDoorLogic" />
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
-            <ruleset name="UiComponent: Templates are only used in PageData">
-                <access-rule>
-                    <deny>
-                        <from class="${ui}.**" >
-                            <exclude class="${ui}.template.**" /> <!-- allow dependency within the package -->
-                        </from>
-                        <to class="${ui}.template.**" />
-                        <allow>
-                            <from class="${ui}.pagedata.**" />
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
-            <ruleset name="UiComponent: PageData is only used in Controller">
-                <access-rule>
-                    <deny>
-                        <from class="${ui}.**" >
-                            <exclude class="${ui}.pagedata.**" /> <!-- allow dependency within the package -->
-                        </from>
-                        <to class="${ui}.pagedata.**" />
-                        <allow>
-                            <from>
-                                <include class="${ui}.controller.**" />
-
-                                <!-- violations that need fixing -->
-                                <include class="${ui}.template.AdminAccountDetailsInstructorCourseListTableRow" />
-                                <include class="${ui}.template.AdminAccountDetailsStudentCourseListTableRow" />
-                                <include class="${ui}.template.AdminAccountManagementAccountTableRow" />
-                                <include class="${ui}.template.FeedbackSessionPublishButton" />
-                                <include class="${ui}.template.FeedbackSessionsAdditionalSettingsFormSegment" />
-                                <include class="${ui}.template.FeedbackSessionsForm" />
-                                <include class="${ui}.template.InstructorFeedbackSessionActions" />
-                                <include class="${ui}.template.StudentProfileEditBox" />
-                            </from>
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>
@@ -131,9 +90,9 @@
                 <access-rule>
                     <deny>
                         <from class="${ui}.**" />
-                        <to class="${ui}.controller.**" />
+                        <to class="${ui}.newcontroller.**" />
                         <allow>
-                            <from class="${ui}.controller.**" /> <!-- allow dependency within the package -->
+                            <from class="${ui}.newcontroller.**" /> <!-- allow dependency within the package -->
                         </allow>
                     </deny>
                 </access-rule>
@@ -169,7 +128,6 @@
                         <allow>
                             <from>
                                 <include class="${logic}.core.**" />
-                                <include class="${logic}.backdoor.BackDoorLogic" />
                             </from>
                             <to class="${storage}.api.**" />
                         </allow>
@@ -191,6 +149,10 @@
                             <from class="${logic}.core.${logicModule}Logic" />
                             <to class="${storage}.api.**" />
                             <allow>
+                                <!-- Allow access from DataBundleLogic -->
+                                <from class="${logic}.core.DataBundleLogic" />
+                            </allow>
+                            <allow>
                                 <to pattern="DbModule" />
                             </allow>
                         </deny>
@@ -202,17 +164,6 @@
                     <deny>
                         <from class="${logic}.core.**" />
                         <to class="${logic}.api.**" />
-                    </deny>
-                </access-rule>
-            </ruleset>
-            <ruleset name="LogicComponent: logic::api/logic::core should not access logic::backdoor">
-                <access-rule>
-                    <deny>
-                        <from>
-                            <include class="${logic}.api.**" />
-                            <include class="${logic}.core.**" />
-                        </from>
-                        <to class="${logic}.backdoor.**" />
                     </deny>
                 </access-rule>
             </ruleset>
@@ -233,6 +184,21 @@
                         <allow>
                             <to class="${storage}.entity.**" /> <!-- allow dependency within the package -->
                         </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+
+            <ruleset name="CommonComponent: Assumption class can only be used by production code; non-production code should use JUnit instead">
+                <access-rule>
+                    <deny>
+                        <to>
+                            <include class="teammates.common.util.Assumption" />
+                        </to>
+                        <from>
+                            <include class="${test}.**" />
+                            <include class="${e2e}.**" />
+                            <include class="${client}.**" />
+                        </from>
                     </deny>
                 </access-rule>
             </ruleset>
@@ -264,19 +230,6 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="TestDriverComponent: Only UI tests can access page object classes">
-                <access-rule>
-                    <deny>
-                        <from class="${test}.**" >
-                            <exclude class="${test}.pageobjects.**" /> <!-- allow dependency within the package -->
-                        </from>
-                        <to class="${test}.pageobjects.**" />
-                        <allow>
-                            <from class="${testCases}.browsertests.**" />
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
             <ruleset name="TestDriverComponent: Only certain test cases can test storage:entity">
                 <access-rule>
                     <deny>
@@ -291,19 +244,20 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="TestDriverComponent: Only certain test cases can access GaeSimulation/BackDoorLogic">
+            <ruleset name="TestDriverComponent: Only certain test cases can access GaeSimulation/Logic">
                 <access-rule>
                     <deny>
                         <from class="${test}.**" />
                         <to>
                             <include class="${test}.driver.GaeSimulation" />
-                            <include class="${logic}.backdoor.BackDoorLogic" />
+                            <include class="${logic}.api.Logic" />
                         </to>
                         <allow>
                             <from>
                                 <include class="${testCases}.storage.**" />
                                 <include class="${testCases}.logic.**" />
                                 <include class="${testCases}.action.**" />
+                                <include class="${testCases}.newaction.**" />
                                 <include class="${testCases}.automated.**" />
                                 <include class="${testCases}.search.**" />
                                 <include class="${testCases}.BaseComponentTestCase" />
@@ -316,20 +270,90 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="TestDriverComponent: BackDoor test driver is only for browser test">
+        </ruleset>
+
+        <ruleset name="Architectural rules for E2E code">
+            <ruleset name="PackageDiagram: E2E component should be self-contained">
                 <access-rule>
                     <deny>
-                        <to class="${test}.driver.BackDoor" />
+                        <to class="${e2e}.**" />
+                        <allow>
+                            <from class="${e2e}.**" />
+                        </allow>
+
+                        <!-- to remove after front-end migration is done -->
+                        <allow>
+                            <from class="${test}.pageobjects.**" />
+                            <to class="${e2e}.**" />
+                        </allow>
+                        <allow>
+                            <from class="${testCases}.browsertests.**" />
+                            <to class="${e2e}.**" />
+                        </allow>
+
+                        <!-- need to figure out the relation between E2E and client -->
+                        <allow>
+                            <from class="${client}.remoteapi.RemoteApiClient" />
+                            <to class="${e2e}.util.TestProperties" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: E2E cannot touch production code except for common components">
+                <access-rule>
+                    <deny>
+                        <from class="${e2e}.**" />
+                        <to>
+                            <include class="${ui}.**" />
+                            <include class="${logic}.**" />
+                            <include class="${storage}.**" />
+                        </to>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="E2EComponent: E2E test cases should not be dependent on each other">
+                <access-rule>
+                    <deny>
+                        <from class="${e2eCases}.**" />
+                        <to class="${e2eCases}.**" />
+                        <allow>
+                            <!-- allow dependency from inner class -->
+                            <from class="${e2eCases}.**$**" />
+                        </allow>
+                        <allow>
+                            <to>
+                                <!-- allow dependency to inner class -->
+                                <include class="${e2eCases}.**$**" />
+                                <!-- allow dependency to base class -->
+                                <include class="${e2eCases}.**Base**" />
+                            </to>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="E2EComponent: Only E2E tests can access page object classes">
+                <access-rule>
+                    <deny>
+                        <from class="${e2e}.**" >
+                            <exclude class="${e2e}.pageobjects.**" /> <!-- allow dependency within the package -->
+                        </from>
+                        <to class="${e2e}.pageobjects.**" />
                         <allow>
                             <from>
-                                <include class="${test}.driver.BackDoor**$**" /> <!-- allow dependency to inner class -->
-                                <include class="${testCases}.browsertests.**" />
-                                <include class="${testCases}.testdriver.BackDoorTest" />
-                                <include class="${testCases}.BaseTestCaseWithBackDoorApiAccess" />
-
-                                <include class="${client}.scripts.ImportData" />
-                                <include class="${client}.scripts.PerformanceProfiler" />
+                                <include class="${e2eCases}.e2e.**" />
+                                <include class="${e2eCases}.scalability.**" />
                             </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="E2EComponent: e2e::util should not have dependencies to anything within the e2e package">
+                <access-rule>
+                    <deny>
+                        <from class="${e2e}.util.**" />
+                        <to class="${e2e}.**" />
+                        <allow>
+                            <to class="${e2e}.util.**" /> <!-- allow dependency within the package -->
                         </allow>
                     </deny>
                 </access-rule>
@@ -489,6 +513,32 @@
                             <!-- allow data type translator in BaseEntity -->
                             <!-- this exception can be removed after upgrading to Objectify V6 -->
                             <from class="${storage}.entity.BaseEntity$InstantTranslatorFactory**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Assertion API can only be accessed via BaseTestCase and few selected classes">
+                <access-rule>
+                    <deny>
+                        <to>
+                            <include class="org.junit.Assert" />
+                        </to>
+                        <allow>
+                            <from>
+                                <include class="${testCases}.BaseTestCase" />
+                                <include class="${test}.driver.AssertHelper" />
+                                <include class="${test}.driver.CsvChecker" />
+                                <include class="${test}.driver.EmailChecker" />
+                                <include class="${e2e}.util.HtmlHelper" />
+                            </from>
+                        </allow>
+
+                        <!-- to remove after front-end migration is done -->
+                        <allow>
+                            <from>
+                                <include class="${test}.pageobjects.**" />
+                                <include class="${test}.driver.GaeSimulation" />
+                            </from>
                         </allow>
                     </deny>
                 </access-rule>

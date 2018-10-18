@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessageColor;
@@ -113,7 +113,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         longFsName = StringHelperExtension.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
                 instructor1ofCourse1.courseId, longFsName, 1);
-        backDoorLogic.updateCourse(course.getId(), course.getName(), "Asia/Jerusalem");
+        logic.updateCourse(course.getId(), course.getName(), "Asia/Jerusalem");
         // After Sun, 25 Oct 2015, 01:59:59 AM: clocks fell back to Sun, 25 Oct 2015, 01:00:00 AM
         params[21] = "Sun, 25 Oct, 2015";
         params[23] = "1";
@@ -177,7 +177,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 
         params = createParamsForTypicalFeedbackSession(
                          instructor1ofCourse1.courseId, "Course with DST time zone");
-        backDoorLogic.updateCourse(course.getId(), course.getName(), "Asia/Jerusalem");
+        logic.updateCourse(course.getId(), course.getName(), "Asia/Jerusalem");
         // After Fri, 28 Mar 2014, 01:59:59 AM: clocks sprang forward to Fri, 28 Mar 2014, 03:00:00 AM
         params[9] = "Fri, 28 Mar, 2014";
         params[11] = "2";
@@ -254,7 +254,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
             a = getAction(params);
             getRedirectResult(a);
             signalFailureToDetectException();
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());
         }

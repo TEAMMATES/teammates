@@ -13,7 +13,7 @@ import java.util.Map;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidPostParametersException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -36,7 +36,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      * @param course the course the feedback session is in.
      * @param creatorEmail the email address of the feedback session's creator.
      * @return feedback session attributes object.
-     * @throws InvalidPostParametersException if any of the request parameters are not in the expected format.
+     * @throws InvalidHttpParameterException if any of the request parameters are not in the expected format.
      */
     protected FeedbackSessionAttributes extractFeedbackSessionData(
             String fsName, CourseAttributes course, String creatorEmail) {
@@ -63,7 +63,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         try {
             attributes.setGracePeriodMinutes(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
-            throw new InvalidPostParametersException("Failed to parse grace period parameter: " + paramGracePeriod, nfe);
+            throw new InvalidHttpParameterException("Failed to parse grace period parameter: " + paramGracePeriod, nfe);
         }
 
         attributes.setInstructions(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
@@ -84,7 +84,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
         default:
-            throw new InvalidPostParametersException("Invalid resultsVisibleFrom setting: " + type);
+            throw new InvalidHttpParameterException("Invalid resultsVisibleFrom setting: " + type);
         }
 
         type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
@@ -100,7 +100,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
             break;
         default:
-            throw new InvalidPostParametersException("Invalid sessionVisibleFrom setting: " + type);
+            throw new InvalidHttpParameterException("Invalid sessionVisibleFrom setting: " + type);
         }
 
         String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
