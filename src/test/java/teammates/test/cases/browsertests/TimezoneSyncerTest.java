@@ -1,5 +1,11 @@
 package teammates.test.cases.browsertests;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeClass;
@@ -41,10 +47,25 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
         browser.driver.get(createUrl(Const.ViewURIs.TIMEZONE).toAbsoluteString());
         String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("version").text();
         browser.driver.get(IANA_TIMEZONE_DATABASE_URL);
-        String latestTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("version").text();
-        assertEquals(
-                "The timezone database version is not up-to-date, please update them according to the maintenance guide.",
-                latestTzVersion, currentTzVersion);
+        Document tzReleasePage = Jsoup.parse(browser.driver.getPageSource());
+        String latestTzVersion = tzReleasePage.getElementById("version").text();
+
+        if (!currentTzVersion.equals(latestTzVersion)) {
+            // find the release day
+            String releaseDateString = tzReleasePage.getElementById("date").text();
+            Pattern datePattern = Pattern.compile("\\(Released (.+)\\)");
+            Matcher matcher = datePattern.matcher(releaseDateString);
+            assertTrue(matcher.find());
+
+            LocalDate releaseDate = LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate nowDate = Instant.now().atZone(Const.DEFAULT_TIME_ZONE).toLocalDate();
+
+            assertTrue(
+                    "The timezone database version is not up-to-date for more than 20 days,"
+                            + " please update them according to the maintenance guide.",
+                    releaseDate.plusDays(20).isAfter(nowDate));
+
+        }
     }
 
 }
