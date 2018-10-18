@@ -31,11 +31,8 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
     public void execute() {
         log.info("Preparing admin email task queue in address mode...");
 
-        String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ID, emailId);
-
-        String addressReceiverListString = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
-        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
+        String emailId = getNonNullRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
+        String addressReceiverListString = getNonNullRequestParamValue(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
 
         AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);

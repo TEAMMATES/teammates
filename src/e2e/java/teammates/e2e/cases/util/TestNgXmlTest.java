@@ -71,7 +71,7 @@ public class TestNgXmlTest extends BaseTestCase {
                     && !name.startsWith("BaseE2ETestCase") && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
-            } else if (file.isDirectory()) {
+            } else if (file.isDirectory() && !"scalability".equals(name)) {
                 // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
 

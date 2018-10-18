@@ -7,8 +7,8 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
@@ -37,7 +37,7 @@ public class InstructorFeedbackCopyAction extends Action {
 
         CourseAttributes newCourse = logic.getCourse(newCourseId);
         if (newCourse == null) {
-            throw new InvalidPostParametersException("Specified course does not exist: " + newCourseId);
+            throw new InvalidHttpParameterException("Specified course does not exist: " + newCourseId);
         }
         ZoneId newTimeZone = newCourse.getTimeZone();
 

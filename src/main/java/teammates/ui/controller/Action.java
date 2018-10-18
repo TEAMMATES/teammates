@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -237,14 +237,14 @@ public abstract class Action {
     // These methods are used for user authentication
 
     protected void authenticateUser() {
-        UserType currentUser = gateKeeper.getCurrentUser();
+        UserInfo currentUser = gateKeeper.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
         if (isValidUser()) {
             account = authenticateAndGetNominalUser(currentUser);
         }
     }
 
-    protected AccountAttributes authenticateAndGetActualUser(UserType currentUser) {
+    protected AccountAttributes authenticateAndGetActualUser(UserInfo currentUser) {
         if (doesUserNeedToLogin(currentUser)) {
             return null;
         }
@@ -276,7 +276,7 @@ public abstract class Action {
         return getRequestParamValue(Const.ParamsNames.REGKEY);
     }
 
-    protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
+    protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserInfo currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
             return AccountAttributes.builder()
@@ -340,7 +340,7 @@ public abstract class Action {
         return !Const.SystemParams.LEGACY_PAGES_WITH_REDUCED_SECURITY.contains(request.getRequestURI());
     }
 
-    private boolean doesUserNeedToLogin(UserType currentUser) {
+    private boolean doesUserNeedToLogin(UserInfo currentUser) {
         boolean isGoogleLoginRequired =
                 !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean isUserLoggedIn = currentUser != null;
@@ -354,13 +354,13 @@ public abstract class Action {
         return false;
     }
 
-    protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
+    protected AccountAttributes authenticateAndGetNominalUser(UserInfo loggedInUserInfo) {
         String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
 
         AccountAttributes account = null;
 
         if (isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
-            if (loggedInUserType.isAdmin) {
+            if (loggedInUserInfo.isAdmin) {
                 // Allowing admin to masquerade as another user
                 account = logic.getAccount(paramRequestedUserId);
                 if (account == null) { // Unregistered user
@@ -374,7 +374,7 @@ public abstract class Action {
                 }
                 return account;
             }
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id
+            throw new UnauthorizedAccessException("User " + loggedInUserInfo.id
                                                 + " is trying to masquerade as " + paramRequestedUserId
                                                 + " without admin permission.");
         }
@@ -382,7 +382,7 @@ public abstract class Action {
         account = loggedInUser;
         if (isPersistenceIssue() && isHomePage()) {
             // let the user go through as this is a persistence issue
-        } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
+        } else if (doesUserNeedRegistration(account) && !loggedInUserInfo.isAdmin) {
             if (regkey != null && student != null) {
                 // TODO: encrypt the email as currently anyone with the regkey can
                 //       get the email because of this redirect:
@@ -544,7 +544,7 @@ public abstract class Action {
      * Returns The log message in the special format used for generating the 'activity log' for the Admin.
      */
     public String getLogMessage() {
-        UserType currUser = gateKeeper.getCurrentUser();
+        UserInfo currUser = gateKeeper.getCurrentUser();
         return new LogMessageGenerator().generatePageActionLogMessage(requestUrl, requestParameters, currUser,
                                                                       account, student, statusToAdmin);
     }
