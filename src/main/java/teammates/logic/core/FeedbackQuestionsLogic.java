@@ -60,10 +60,10 @@ public final class FeedbackQuestionsLogic {
 
         String feedbackSessionName = fqa.feedbackSessionName;
         String courseId = fqa.courseId;
-        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
+        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         if (fqa.questionNumber < 0) {
             fqa.questionNumber = questions.size() + 1;
         }
@@ -457,10 +457,10 @@ public final class FeedbackQuestionsLogic {
         int newQuestionNumber = newQuestion.questionNumber;
         String feedbackSessionName = oldQuestion.feedbackSessionName;
         String courseId = oldQuestion.courseId;
-        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
+        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
         updateFeedbackQuestion(newQuestion);
     }
@@ -616,12 +616,11 @@ public final class FeedbackQuestionsLogic {
         }
         // Cascade delete responses for question.
         frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), true);
-
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
-                getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
+        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
+                getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         fqDb.deleteEntity(questionToDelete);
 
         if (questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
