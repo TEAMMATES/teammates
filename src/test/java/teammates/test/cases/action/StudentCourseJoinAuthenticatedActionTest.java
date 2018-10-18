@@ -132,7 +132,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         studentWithEmptyProfileAttributes = studentsDb.getStudentForEmail(
                 studentWithEmptyProfileAttributes.course, studentWithEmptyProfileAttributes.email);
 
-        gaeSimulation.loginUser("idOfNoFSStudent");
+        gaeSimulation.loginAsUnregistered("idOfNoFSStudent");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
@@ -173,7 +173,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         studentWithoutProfilePictureAttributes = studentsDb.getStudentForEmail(
                 studentWithoutProfilePictureAttributes.course, studentWithoutProfilePictureAttributes.email);
 
-        gaeSimulation.loginUser("idOfNoFSStudent2");
+        gaeSimulation.loginAsUnregistered("idOfNoFSStudent2");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
@@ -217,7 +217,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         studentWithFullProfileAttributes = studentsDb.getStudentForEmail(
                 studentWithFullProfileAttributes.course, studentWithFullProfileAttributes.email);
 
-        gaeSimulation.loginUser("idOfNoFSStudent3");
+        gaeSimulation.loginAsUnregistered("idOfNoFSStudent3");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
@@ -264,7 +264,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         newStudentAttributes = studentsDb.getStudentForEmail(
                 newStudentAttributes.course, newStudentAttributes.email);
 
-        gaeSimulation.loginUser("idOfNewStudent");
+        gaeSimulation.loginAsUnregistered("idOfNewStudent");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
@@ -291,7 +291,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         StudentAttributes studentTestSanitization = dataBundle.students.get("student1InTestingSanitizationCourse");
         CourseAttributes courseTestSanitization = dataBundle.courses.get("testingSanitizationCourse");
 
-        gaeSimulation.loginUser(accountTestSanitization.googleId);
+        gaeSimulation.loginAsUnregistered(accountTestSanitization.googleId);
 
         // retrieve student from datastore to get regkey
         studentTestSanitization =

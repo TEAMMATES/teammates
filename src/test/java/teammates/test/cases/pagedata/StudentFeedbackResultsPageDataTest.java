@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
@@ -40,7 +39,6 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertNotNull(student);
         String dummyKey = "key123";
         student.key = dummyKey;
-        Logic logic = new Logic();
 
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student, dummySessionToken);
 
@@ -64,8 +62,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         questionsWithResponses.put(question2, responsesForQ2);
 
         // need to obtain questionId and responseId as methods in FeedbackSessionResultsBundle require them
-        questionsWithResponses = getActualQuestionsAndResponsesWithId(
-                                        logic, questionsWithResponses);
+        questionsWithResponses = getActualQuestionsAndResponsesWithId(questionsWithResponses);
 
         pageData.setBundle(logic.getFeedbackSessionResultsForStudent(
                 question1.feedbackSessionName, question1.courseId, student.email));
@@ -159,7 +156,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     }
 
     private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getActualQuestionsAndResponsesWithId(
-            Logic logic, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses =
                 new LinkedHashMap<>();
         questionsWithResponses.forEach((dataBundleQuestion, dataBundleResponses) -> {

@@ -10,7 +10,7 @@ import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.InvalidPostParametersException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
@@ -64,7 +64,7 @@ public class WebApiServlet extends HttpServlet {
 
         Action action;
         try {
-            action = new ActionFactory().getAction(req);
+            action = new ActionFactory().getAction(req, req.getMethod(), resp);
         } catch (ActionMappingException e) {
             throwError(resp, e.getStatusCode(), e.getMessage());
             return;
@@ -77,15 +77,15 @@ public class WebApiServlet extends HttpServlet {
         }
 
         try {
-            ActionResult result = action.execute(resp);
+            ActionResult result = action.execute();
             result.send(resp);
             // TODO handle all sorts of Exceptions
 
             long timeTaken = System.currentTimeMillis() - startTime;
 
             log.info(action.getLogMessage() + "|||" + timeTaken);
-        } catch (InvalidPostParametersException ippe) {
-            throwError(resp, 400, ippe.getMessage());
+        } catch (InvalidHttpParameterException ihpe) {
+            throwError(resp, 400, ihpe.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it

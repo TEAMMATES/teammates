@@ -89,7 +89,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         ______TS("success: Time zone with DST, gap start time, overlap end time");
 
-        backDoorLogic.updateCourse(course.getId(), course.getName(), "Europe/Andorra");
+        logic.updateCourse(course.getId(), course.getName(), "Europe/Andorra");
         // After Sun, 25 Mar 2012, 01:59:59 AM: clocks sprang forward to Sun, 25 Mar 2012, 03:00:00 AM
         params[5] = "Sun, 25 Mar, 2012";
         params[7] = "2";
@@ -120,7 +120,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
-        backDoorLogic.updateCourse(course.getId(), course.getName(), "Asia/Kathmandu");
+        logic.updateCourse(course.getId(), course.getName(), "Asia/Kathmandu");
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
 
@@ -150,7 +150,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
-        backDoorLogic.updateCourse(course.getId(), course.getName(), "UTC");
+        logic.updateCourse(course.getId(), course.getName(), "UTC");
 
         a = getAction(params);
         ar = getAjaxResult(a);

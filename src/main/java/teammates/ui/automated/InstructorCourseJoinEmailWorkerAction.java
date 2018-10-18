@@ -7,7 +7,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends registration email for an instructor of a course.
@@ -26,12 +25,9 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
     public void execute() {
-        String inviterId = getRequestParamValue(ParamsNames.INVITER_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.INVITER_ID, inviterId);
-        String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.COURSE_ID, courseId);
-        String instructorEmail = getRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertPostParamNotNull(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
+        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
+        String instructorEmail = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
 
         AccountAttributes inviter = logic.getAccount(inviterId);
         Assumption.assertNotNull(inviter);
@@ -47,7 +43,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);
         Assumption.assertNotNull(instructor);
 
-        EmailWrapper email = new EmailGenerator()
+        EmailWrapper email = emailGenerator
                 .generateInstructorCourseJoinEmail(inviter, instructor, course);
         try {
             emailSender.sendEmail(email);

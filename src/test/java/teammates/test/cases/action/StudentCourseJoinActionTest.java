@@ -68,7 +68,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 
         studentsDb.createEntity(newStudentData);
 
-        gaeSimulation.loginUser(idOfNewStudent);
+        gaeSimulation.loginAsUnregistered(idOfNewStudent);
 
         String newStudentKey = StringHelper.encrypt(studentsDb.getStudentForEmail(
                 newStudentData.course, newStudentData.email).key);
@@ -126,7 +126,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 
         ______TS("Non-existent student attempting to join course displays error");
 
-        gaeSimulation.loginUser(idOfNewStudent);
+        gaeSimulation.loginAsUnregistered(idOfNewStudent);
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, newStudentKey,
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE,
