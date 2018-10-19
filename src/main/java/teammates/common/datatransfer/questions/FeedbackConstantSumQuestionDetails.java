@@ -855,7 +855,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         //Check that points are given unevenly for all/at least some options as per the question settings
         Set<Integer> answerSet = new HashSet<>();
-        if (distributePointsFor.equals(
+        if (givenPoints.size() > 1 && distributePointsFor.equals(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
             boolean hasDifferentPoints = false;
             for (int i : givenPoints) {
@@ -870,8 +870,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
                 return errors;
             }
-        } else if (forceUnevenDistribution || distributePointsFor.equals(
-                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
+        } else if (givenPoints.size() > 1 && (forceUnevenDistribution || distributePointsFor.equals(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()))) {
             for (int i : givenPoints) {
                 if (answerSet.contains(i)) {
                     errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
