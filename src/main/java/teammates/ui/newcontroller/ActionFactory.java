@@ -25,7 +25,7 @@ public class ActionFactory {
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, AuthInfoAction.class);
+        map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

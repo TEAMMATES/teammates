@@ -12,7 +12,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.util.JsonUtils;
 
 /**
- * Action result in form of JSON key-value mappings.
+ * Action result in form of JSON object.
  *
  * <p>This is the most common format for REST-ful back-end API response.
  */
