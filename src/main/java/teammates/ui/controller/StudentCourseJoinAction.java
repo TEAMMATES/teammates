@@ -74,7 +74,7 @@ public class StudentCourseJoinAction extends Action {
 
     private ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
         // send straight to next page as the user can choose to login as he wishes
-        String redirectUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
+        String redirectUrl = Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
                 .withRegistrationKey(regkey)
                 .withParam(Const.ParamsNames.NEXT_URL, nextUrl)
                 .toString();

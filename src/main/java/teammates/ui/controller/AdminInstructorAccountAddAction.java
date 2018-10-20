@@ -87,7 +87,7 @@ public class AdminInstructorAccountAddAction extends Action {
         }
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
                                 .withInstructorInstitution(data.instructorInstitution)
                                 .toAbsoluteString();

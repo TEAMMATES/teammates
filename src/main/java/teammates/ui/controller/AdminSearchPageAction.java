@@ -119,7 +119,7 @@ public class AdminSearchPageAction extends Action {
             String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
 
             if (!googleIdOfAlreadyRegisteredInstructor.isEmpty()) {
-                String joinLinkWithoutInstitute = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                String joinLinkWithoutInstitute = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                                                 .toAbsoluteString();
                 data.instructorCourseJoinLinkMap.put(instructor.getIdentificationString(),
@@ -308,7 +308,7 @@ public class AdminSearchPageAction extends Action {
                                                                AdminSearchPageData data,
                                                                StudentAttributes student) {
 
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        String submitUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                .withCourseId(student.course)
                                .withSessionName(fsa.getFeedbackSessionName())
                                .withRegistrationKey(StringHelper.encrypt(student.key))
@@ -342,7 +342,7 @@ public class AdminSearchPageAction extends Action {
                     + openCloseDateFragment);
         }
 
-        String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        String viewResultUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                    .withCourseId(student.course)
                                    .withSessionName(fsa.getFeedbackSessionName())
                                    .withRegistrationKey(StringHelper.encrypt(student.key))

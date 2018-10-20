@@ -59,7 +59,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
      * @param courseId the course ID
      */
     public void init(String regKey, String email, String courseId) {
-        String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String joinUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(regKey)
                                         .withStudentEmail(email)
                                         .withCourseId(courseId)

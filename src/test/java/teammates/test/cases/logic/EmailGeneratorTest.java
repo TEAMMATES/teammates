@@ -301,7 +301,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withName("Joe Wilson")
                 .build();
 
-        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(regkey))
                                 .withInstructorInstitution("Test Institute")
                                 .toAbsoluteString();
@@ -332,7 +332,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
 
-        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                 .withRegistrationKey(StringHelper.encrypt(instructor1.key))
                 .withInstructorInstitution("Test Institute")
                 .toAbsoluteString();

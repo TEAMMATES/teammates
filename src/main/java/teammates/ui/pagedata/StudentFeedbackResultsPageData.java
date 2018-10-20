@@ -35,7 +35,7 @@ public class StudentFeedbackResultsPageData extends PageData {
 
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
 
-        String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String joinUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                                    .withRegistrationKey(StringHelper.encrypt(student.key))
                                                    .withStudentEmail(student.email)
                                                    .withCourseId(student.course)

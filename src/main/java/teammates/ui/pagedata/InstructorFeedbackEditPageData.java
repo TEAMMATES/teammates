@@ -300,7 +300,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
 
-        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        String doneEditingLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                                 .withUserId(account.googleId)
                                 .withCourseId(feedbackSession.getCourseId())
                                 .withSessionName(feedbackSession.getFeedbackSessionName())

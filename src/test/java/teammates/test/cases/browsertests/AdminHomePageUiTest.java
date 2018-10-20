@@ -91,7 +91,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
 
-        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String expectedjoinUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                                         .withRegistrationKey(encryptedKey)
                                                         .withInstructorInstitution(institute)
                                                         .toAbsoluteString();
@@ -138,7 +138,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
 
-        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        expectedjoinUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                                         .withRegistrationKey(encryptedKey)
                                                         .withInstructorInstitution(institute)
                                                         .toAbsoluteString();

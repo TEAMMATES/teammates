@@ -212,7 +212,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchStudentLinks createStudentLinks(StudentAttributes student) {
         String detailsPageLink = studentRecordsPageLinkMap.get(student.getIdentificationString());
         String homePageLink = studentIdToHomePageLinkMap.get(student.googleId);
-        String courseJoinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String courseJoinLink = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
 
         return new AdminSearchStudentLinks(detailsPageLink, homePageLink, courseJoinLink);
     }

@@ -294,7 +294,7 @@ public abstract class Action {
             if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
                 String expectedId = StringHelper.obscure(student.googleId);
                 expectedId = StringHelper.encrypt(expectedId);
-                String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
+                String redirectUrl = Config.getFrontEndAppUrl(Const.ActionURIs.LOGOUT)
                                           .withUserId(StringHelper.encrypt(loggedInUserId))
                                           .withParam(Const.ParamsNames.NEXT_URL, gateKeeper.getLoginUrl(requestUrl))
                                           .withParam(Const.ParamsNames.HINT, expectedId)
@@ -386,7 +386,7 @@ public abstract class Action {
             if (regkey != null && student != null) {
                 // TODO: encrypt the email as currently anyone with the regkey can
                 //       get the email because of this redirect:
-                String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
+                String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl())
                                     .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                     .toString();
                 setRedirectPage(joinUrl);
@@ -398,7 +398,7 @@ public abstract class Action {
 
         boolean isUserLoggedIn = account.googleId != null;
         if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-            String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
+            String redirectUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl())
                                   .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                   .toString();
             setRedirectPage(redirectUrl);
