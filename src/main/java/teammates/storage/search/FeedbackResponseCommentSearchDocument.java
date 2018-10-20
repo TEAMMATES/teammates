@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -250,11 +251,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 bundle.responses.get(response.feedbackQuestionId).add(response);
             }
 
-            // construct session name to question map
-            bundle.questions.putIfAbsent(question.feedbackSessionName, new ArrayList<>());
+            // construct course id and session name to question map
+            initializeCourseIdAndSessionNameToQuestionMapping(bundle, question.getCourseId(),
+                    question.feedbackSessionName);
+            String uniqueSessionIdentifier = question.getCourseId() + "%" + question.getFeedbackSessionName();
             if (!isAdded.contains(question.getId())) {
                 isAdded.add(question.getId());
-                bundle.questions.get(question.feedbackSessionName).add(question);
+                bundle.questions.get(uniqueSessionIdentifier).add(question);
             }
 
             // construct session name to session map
@@ -376,7 +379,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private static FeedbackQuestionAttributes getFeedbackQuestion(
             Map<String, List<FeedbackQuestionAttributes>> questions, FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = null;
-        for (FeedbackQuestionAttributes qn : questions.get(response.feedbackSessionName)) {
+        String uniqueSessionIdentifier = response.courseId + "%" + response.feedbackSessionName;
+        for (FeedbackQuestionAttributes qn : questions.get(uniqueSessionIdentifier)) {
             if (qn.getId().equals(response.feedbackQuestionId)) {
                 question = qn;
                 break;
@@ -525,5 +529,26 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
         frCommentSearchResults.questions.forEach((fsName, questionList) -> questionList.removeIf(fq ->
                 frCommentSearchResults.responses.get(fq.getId()).isEmpty()));
+    }
+
+    /**
+     * Initializes the course id and session name to question mapping.
+     *
+     * <p>Shifts existing questions (if any) for the session from the current mapping to the new mapping.</p>
+     */
+    private static void initializeCourseIdAndSessionNameToQuestionMapping(
+            FeedbackResponseCommentSearchResultBundle bundle, String courseId, String sessionName) {
+        String uniqueSessionIdentifier = courseId + "%" + sessionName;
+        if (bundle.questions.get(uniqueSessionIdentifier) == null) {
+            List<FeedbackQuestionAttributes> questionsInSession = new ArrayList<>();
+            List<FeedbackQuestionAttributes> existingQuestions = bundle.questions.get(sessionName);
+            if (existingQuestions != null && !existingQuestions.isEmpty()) {
+                questionsInSession = existingQuestions.stream()
+                        .filter(question -> question.getCourseId().equals(courseId))
+                        .collect(Collectors.toList());
+                existingQuestions.removeAll(questionsInSession);
+            }
+            bundle.questions.put(uniqueSessionIdentifier, questionsInSession);
+        }
     }
 }
