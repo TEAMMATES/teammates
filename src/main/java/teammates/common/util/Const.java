@@ -950,6 +950,7 @@ public final class Const {
     public static class WebPageURIs {
 
         public static final String ADMIN_HOME_PAGE = "/web/admin/home";
+        public static final String ADMIN_SEARCH_PAGE = "/web/admin/search";
         public static final String INSTRUCTOR_HOME_PAGE = "/web/instructor/home";
         public static final String STUDENT_HOME_PAGE = "/web/student/home";
 
@@ -1092,7 +1093,6 @@ public final class Const {
         public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
-        public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
         public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
         public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";

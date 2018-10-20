@@ -27,6 +27,7 @@ public class ActionFactory {
 
     static {
         map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
+        map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
     }
 
