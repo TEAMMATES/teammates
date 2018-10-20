@@ -114,8 +114,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("action: remind all");
 
         detailsPage.clickRemindAllAndCancel();
-        detailsPage.clickRemindAllAndConfirm();
+        if (isEmailEnabled) {
+            // verify that all students did not receive reminders
+            assertStudentDoesNotReceiveReminder(courseName, courseId, student1EmailAccount);
+            assertStudentDoesNotReceiveReminder(courseName, courseId, student2EmailAccount);
+        }
 
+        detailsPage.clickRemindAllAndConfirm();
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
             assertStudentHasReceivedReminder(courseName, courseId, student2EmailAccount);
