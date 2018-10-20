@@ -151,7 +151,6 @@ public final class Const {
                         ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
                         ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
                         ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
-                        ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD,
                         ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
@@ -961,6 +960,7 @@ public final class Const {
         public static final String URI_PREFIX = "/webapi";
 
         public static final String AUTH = "/auth";
+        public static final String ACCOUNTS = "/accounts";
 
     }
 
@@ -1086,8 +1086,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
         public static final String ADMIN_EMAIL_LOG_PAGE = "/admin/adminEmailLogPage";
-        public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
-        public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";

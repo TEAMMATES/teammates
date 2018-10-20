@@ -23,13 +23,11 @@ public class ActionFactory {
     private static Map<String, Class<? extends Action>> actionMappings = new HashMap<>();
 
     static {
-        map(ADMIN_HOME_PAGE, AdminHomePageAction.class);
         map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
         map(ADMIN_ACTIVITY_LOG_PAGE, AdminActivityLogPageAction.class);
         map(ADMIN_ACCOUNT_DETAILS_PAGE, AdminAccountDetailsPageAction.class);
         map(ADMIN_ACCOUNT_MANAGEMENT_PAGE, AdminAccountManagementPageAction.class);
         map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
-        map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
         map(ADMIN_SESSIONS_PAGE, AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);

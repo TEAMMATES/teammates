@@ -32,7 +32,7 @@ import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 
 /**
- * SUT: {@link Const.ActionURIs#ADMIN_HOME_PAGE}.
+ * SUT: {@link Const.WebPageURIs#ADMIN_HOME_PAGE}.
  */
 @Priority(6)
 public class AdminHomePageUiTest extends BaseE2ETestCase {
@@ -60,7 +60,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         ______TS("content: typical page");
 
-        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
+        AppUrl homeUrl = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
         homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
 
         homePage.verifyHtml("/adminHomePage.html");
@@ -209,7 +209,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         ______TS("action failure : trying to create instructor with an invalid email");
 
-        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        AppUrl homeUrl = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
 
         instructor.email = "AHPUiT.email.tmt";

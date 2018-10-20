@@ -63,7 +63,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         ______TS("admin pages");
 
-        verifyRedirectToLogin(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
+        verifyRedirectToLogin(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE));
 
     }
 
@@ -142,7 +142,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
     private void verifyCannotAccessAdminPages() {
         //cannot access directly
-        AppUrl url = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        AppUrl url = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
         verifyRedirectToForbidden(url);
         //cannot access by masquerading either
         url = url.withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
