@@ -77,7 +77,9 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
         ______TS("search for feedback response comments");
 
+        searchPage.clearSearchBox();
         searchContent = "response comment";
+        searchPage.inputSearchContent(searchContent);
         searchPage.clickFeedbackResponseCommentCheckBox();
         searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
@@ -92,6 +94,19 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchCommentsAsHelper.html");
+
+        searchPage = getInstructorSearchPage(instructorId);
+
+        ______TS("search for feedback response comments in multiple sessions with same session names");
+
+        String instructorMultipleCoursesId = testData.accounts.get("instructor4").googleId;
+        searchPage = getInstructorSearchPage(instructorMultipleCoursesId);
+        searchContent = "same";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickFeedbackResponseCommentCheckBox();
+        searchPage.clickStudentCheckBox();
+        searchPage.clickSearchButton();
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchSameSessionNames.html");
 
         searchPage = getInstructorSearchPage(instructorId);
 
