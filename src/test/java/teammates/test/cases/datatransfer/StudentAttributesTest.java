@@ -443,10 +443,11 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .build();
 
         sd.key = "testkey";
-        String regUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String regUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt("testkey"))
                 .withStudentEmail("email@email.com")
                 .withCourseId("course1")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, "student")
                 .toString();
         assertEquals(regUrl, sd.getRegistrationUrl());
     }

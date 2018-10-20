@@ -619,8 +619,9 @@ public class EmailGenerator {
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
-        String joinUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withParam(Const.ParamsNames.ENTITY_TYPE, "instructor")
                 .toAbsoluteString();
 
         return Templates.populateTemplate(emailBody,

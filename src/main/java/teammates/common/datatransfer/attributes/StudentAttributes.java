@@ -103,10 +103,11 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     public String getRegistrationUrl() {
-        return Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(key))
                 .withStudentEmail(email)
                 .withCourseId(course)
+                .withParam(Const.ParamsNames.ENTITY_TYPE, "student")
                 .toString();
     }
 

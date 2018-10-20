@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
@@ -29,6 +30,8 @@ public class ActionFactory {
         map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
         map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
+        map(ResourceURIs.JOIN, HttpGet.METHOD_NAME, GetCourseJoinStatusAction.class);
+        map(ResourceURIs.JOIN, HttpPut.METHOD_NAME, JoinCourseAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

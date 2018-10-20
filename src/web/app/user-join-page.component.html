@@ -1,3 +1,24 @@
-<p>
-  user-join-page works!
-</p>
+<div *ngIf="!isLoading">
+  <div *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="hasJoined">
+    The course join link is no longer valid as it has been used.
+  </div>
+  <div *ngIf="!hasJoined && !userId && !errorMessage">
+    You are not logged in. Please log in first.
+  </div>
+  <div class="panel panel-primary panel-narrow" *ngIf="!hasJoined && userId">
+    <div class="panel-heading">
+      <h3>Confirm your Google account</h3>
+    </div>
+    <div class="panel-body">
+      You are currently logged in as <strong>{{ userId }}</strong>.
+      <br>If this is not you, please log out and log in using your own Google account.
+      <br>If this is you, please confirm below to complete your registration.<br>
+      <div class="align-center">
+        <a class="btn btn-success" (click)="joinCourse()">Register for course</a>
+      </div>
+    </div>
+  </div>
+</div>

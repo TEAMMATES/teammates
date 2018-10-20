@@ -248,8 +248,9 @@ public class SearchAccountsAction extends Action {
                         .withUserId(instructor.googleId)
                         .toAbsoluteString();
             }
-            ib.courseJoinLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+            ib.courseJoinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                    .withParam(Const.ParamsNames.ENTITY_TYPE, "instructor")
                     .toAbsoluteString();
 
             instructorsBundle.add(ib);

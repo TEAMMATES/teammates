@@ -55,8 +55,6 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE, InstructorCourseDeleteSoftDeletedCourseAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL, InstructorCourseDeleteAllSoftDeletedCoursesAction.class);
         map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
-        map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
-        map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
         map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
         map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
         map(INSTRUCTOR_COURSE_EDIT_SAVE, InstructorCourseEditSaveAction.class);
@@ -122,9 +120,6 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
 
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
-        map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
-        map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
-        map(STUDENT_COURSE_JOIN_AUTHENTICATED, StudentCourseJoinAuthenticatedAction.class);
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);

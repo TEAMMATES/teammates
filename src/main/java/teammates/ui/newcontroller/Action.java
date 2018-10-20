@@ -7,6 +7,7 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -21,6 +22,7 @@ public abstract class Action {
 
     protected Logic logic;
     protected GateKeeper gateKeeper;
+    protected EmailGenerator emailGenerator;
     protected TaskQueuer taskQueuer;
     protected EmailSender emailSender;
 
@@ -37,6 +39,7 @@ public abstract class Action {
         this.resp = resp;
         logic = new Logic();
         gateKeeper = new GateKeeper();
+        emailGenerator = new EmailGenerator();
         setTaskQueuer(new TaskQueuer());
         setEmailSender(new EmailSender());
         initAuthInfo();

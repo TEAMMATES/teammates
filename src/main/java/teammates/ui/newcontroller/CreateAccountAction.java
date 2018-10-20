@@ -63,9 +63,10 @@ public class CreateAccountAction extends Action {
         }
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
                 .withInstructorInstitution(instructorInstitution)
+                .withParam(Const.ParamsNames.ENTITY_TYPE, "instructor")
                 .toAbsoluteString();
         EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
                 instructorList.get(0).email, instructorName, joinLink);
