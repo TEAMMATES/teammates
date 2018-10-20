@@ -82,7 +82,7 @@ public abstract class Action {
     }
 
     private void initAuthInfo() {
-        if (Config.BACKDOOR_KEY.equals(req.getParameter("backdoorkey"))) {
+        if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
             return;
         }
