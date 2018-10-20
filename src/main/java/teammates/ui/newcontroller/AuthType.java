@@ -6,24 +6,19 @@ package teammates.ui.newcontroller;
 public enum AuthType {
 
     /**
-     * Unauthenticated user.
+     * Public access.
      */
-    UNAUTHENTICATED(0),
+    PUBLIC(0),
 
     /**
-     * Unregistered user who uses the application via regkey.
+     * Logged in user.
      */
-    UNREGISTERED(1),
-
-    /**
-     * Registered user who uses the application via login.
-     */
-    REGISTERED(2),
+    LOGGED_IN(1),
 
     /**
      * All-access pass via secret key.
      */
-    ALL_ACCESS(3);
+    ALL_ACCESS(2);
 
     private final int level;
 

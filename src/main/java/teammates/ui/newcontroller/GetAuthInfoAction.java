@@ -20,7 +20,7 @@ public class GetAuthInfoAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
-        return AuthType.UNAUTHENTICATED;
+        return AuthType.PUBLIC;
     }
 
     @Override
