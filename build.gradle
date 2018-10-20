@@ -12,7 +12,7 @@ apply plugin: "pmd"
 apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.+"
+def appengineVersion = "1.9.65"
 def checkstyleVersion = "8.10.1"
 def pmdVersion = "6.6.0"
 def spotbugsVersion = "3.1.7"
