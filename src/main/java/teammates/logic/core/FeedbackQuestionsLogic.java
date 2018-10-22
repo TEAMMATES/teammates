@@ -60,13 +60,10 @@ public final class FeedbackQuestionsLogic {
 
         String feedbackSessionName = fqa.feedbackSessionName;
         String courseId = fqa.courseId;
-        List<FeedbackQuestionAttributes> questions = null;
-
-        try {
-            questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
+        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         if (fqa.questionNumber < 0) {
             fqa.questionNumber = questions.size() + 1;
         }
@@ -127,12 +124,8 @@ public final class FeedbackQuestionsLogic {
      * Gets a {@link List} of every FeedbackQuestion in the given session.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
-            String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
+            String feedbackSessionName, String courseId) {
 
-        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get questions for a feedback session that does not exist.");
-        }
         List<FeedbackQuestionAttributes> questions =
                 fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         questions.sort(null);
@@ -185,8 +178,7 @@ public final class FeedbackQuestionsLogic {
     /**
      *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy.
      */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
-            throws EntityDoesNotExistException {
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) {
 
         List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
@@ -465,14 +457,10 @@ public final class FeedbackQuestionsLogic {
         int newQuestionNumber = newQuestion.questionNumber;
         String feedbackSessionName = oldQuestion.feedbackSessionName;
         String courseId = oldQuestion.courseId;
-        List<FeedbackQuestionAttributes> questions = null;
-
-        try {
-            questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
-
+        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
         updateFeedbackQuestion(newQuestion);
     }
@@ -628,14 +616,11 @@ public final class FeedbackQuestionsLogic {
         }
         // Cascade delete responses for question.
         frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), true);
-
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
-        try {
-            questionsToShiftQnNumber = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             Assumption.fail("Session disappeared.");
         }
-
+        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
+                getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         fqDb.deleteEntity(questionToDelete);
 
         if (questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
@@ -652,26 +637,6 @@ public final class FeedbackQuestionsLogic {
                 updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
         }
-    }
-
-    /*
-     * Removes questions with no recipients.
-     */
-    public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
-            List<FeedbackQuestionAttributes> questions, String giver)
-            throws EntityDoesNotExistException {
-        List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<>();
-        for (FeedbackQuestionAttributes question : questions) {
-            int numRecipients = question.numberOfEntitiesToGiveFeedbackTo;
-            if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS) {
-                numRecipients = this.getRecipientsForQuestion(question, giver)
-                        .size();
-            }
-            if (numRecipients > 0) {
-                questionsWithRecipients.add(question);
-            }
-        }
-        return questionsWithRecipients;
     }
 
 }

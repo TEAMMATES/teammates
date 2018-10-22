@@ -84,6 +84,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
         assertTrue(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
                 frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
@@ -108,6 +110,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+        assertTrue(
+                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
@@ -2205,6 +2209,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertNull(fsLogic.getFeedbackSession(feedbackSessionName2, courseId));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName1, courseId));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName2, courseId));
+        assertTrue(fqLogic.getFeedbackQuestionsForSession(feedbackSessionName1, courseId).isEmpty());
+        assertTrue(fqLogic.getFeedbackQuestionsForSession(feedbackSessionName2, courseId).isEmpty());
         assertTrue(frLogic.getFeedbackResponsesForSession(feedbackSessionName1, courseId).isEmpty());
         assertTrue(frLogic.getFeedbackResponsesForSession(feedbackSessionName2, courseId).isEmpty());
         assertTrue(frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName1).isEmpty());
