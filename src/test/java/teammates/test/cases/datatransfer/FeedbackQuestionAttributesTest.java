@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -116,8 +114,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         String feedbackSession = "test session";
         String courseId = "some course";
         String creatorEmail = "test@case.com";
-        Text questionMetaData = new Text("test qn from teams->none.");
-        Text questionDescription = new Text("some description");
+        String questionMetaData = "test qn from teams->none.";
+        String questionDescription = "some description";
         int questionNumber = 1;
         int numOfEntities = 4;
         FeedbackQuestionType questionType = FeedbackQuestionType.TEXT;
@@ -172,13 +170,13 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         ______TS("sanitize whitespace");
 
-        Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
+        String contentWithWhitespaces = " content to be sanitized by removing leading/trailing whitespace ";
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionMetaData("test qn from teams->none.")
                 .withQuestionDescription(contentWithWhitespaces)
                 .build();
 
-        assertEquals(new Text("content to be sanitized by removing leading/trailing whitespace"),
+        assertEquals("content to be sanitized by removing leading/trailing whitespace",
                 feedbackQuestionAttributes.getQuestionDescription());
     }
 
@@ -383,7 +381,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withFeedbackSessionName("test session")
                 .withCourseId("some course")
                 .withCreatorEmail("test@case.com")
-                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionMetaData("test qn from teams->none.")
                 .withQuestionNumber(1)
                 .withQuestionType(FeedbackQuestionType.TEXT)
                 .withGiverType(FeedbackParticipantType.TEAMS)

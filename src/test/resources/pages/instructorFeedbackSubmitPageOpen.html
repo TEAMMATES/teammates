@@ -2440,7 +2440,7 @@
     </div>
     <br>
     <br>
-    <input name="questiontype-17" type="hidden" value="CONSTSUM">
+    <input name="questiontype-17" type="hidden" value="MSQ">
     <input name="questionid-17" type="hidden" value="${question.id}">
     <input name="questionresponsetotal-17" type="hidden" value="1">
     <div class="form-horizontal">
@@ -2449,7 +2449,7 @@
           Question 17:
           <br>
           <span class="text-preserve-space">
-            How important are the following factors to you? Give points accordingly.
+            Which teams would you like to be an instructor of again?
           </span>
         </div>
         <div class="panel-body">
@@ -2465,16 +2465,6 @@
             </li>
           </ul>
           <div class="constraints-17">
-            <p class="text-color-blue align-left text-bold">
-              Note:
-            </p>
-            <p class="text-color-blue padding-left-35px" id="constSumInstruction-17">
-              <span class="glyphicon glyphicon-info-sign padding-right-10px">
-              </span>
-              Total points distributed should add up to 100.
-              <br>
-            </p>
-            <hr class="margin-top-0 border-top-dark-gray">
           </div>
           <br>
           <div class="evalueeForm-17 form-group margin-0" style="padding-left: 75px">
@@ -2493,35 +2483,62 @@
               </label>
               (Student):
             </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-17">
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Grades
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-17-0-0" min="0" name="responsetext-17-0" onchange="updateConstSumQnMessages('17')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Fun
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-17-0-1" min="0" name="responsetext-17-0" onchange="updateConstSumQnMessages('17')" step="1" type="number" value="">
-                </div>
-              </div>
+            <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-17-0" type="checkbox" value="Team 1</td></div>'&quot;">
+                          Team 1&lt;/td&gt;&lt;/div&gt;'"
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-17-0" type="checkbox" value="Team 2">
+                          Team 2
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-17-0" type="checkbox" value="Team 3">
+                          Team 3
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-17-0" type="checkbox" value="">
+                          <i>
+                            None of the above
+                          </i>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input disabled="" name="msqMaxSelectableChoices-17" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-17" type="hidden" value="-1">
             </div>
-            <input id="constSumToRecipients-17" type="hidden" value="false">
-            <input id="constSumPointsPerOption-17" type="hidden" value="false">
-            <input id="constSumNumOption-17" type="hidden" value="2">
-            <input id="constSumPoints-17" type="hidden" value="100">
-            <input id="constSumUnevenDistribution-17" type="hidden" value="false">
-            <input id="constSumDistributePointsOptions-17" type="hidden" value="None">
-          </div>
-          <div id="constSumInputAlert-17-0" style="">
-            <p class="text-color-green padding-left-35px" id="constSumMessage-17-0">
-            </p>
-            <hr class="margin-top-0 border-top-dark-gray">
           </div>
         </div>
       </div>
@@ -2711,14 +2728,14 @@
     <br>
     <input name="questiontype-19" type="hidden" value="CONSTSUM">
     <input name="questionid-19" type="hidden" value="${question.id}">
-    <input name="questionresponsetotal-19" type="hidden" value="3">
+    <input name="questionresponsetotal-19" type="hidden" value="1">
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
           Question 19:
           <br>
           <span class="text-preserve-space">
-            Split points among the teams, based on how much effort you think the teams have put into the project
+            How important are the following factors to you? Give points accordingly.
           </span>
         </div>
         <div class="panel-body">
@@ -2727,7 +2744,7 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              The receiving teams can see your response, but not the name of the recipient, or your name.
+              You can see your own feedback in the results page later on.
             </li>
             <li class="unordered">
               Instructors in this course can see your response, the name of the recipient, and your name.
@@ -2740,152 +2757,55 @@
             <p class="text-color-blue padding-left-35px" id="constSumInstruction-19">
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              Total points distributed should add up to 300.
-              <br>
-              <span class="glyphicon glyphicon-info-sign padding-right-10px">
-              </span>
-              Every recipient should be allocated different number of points.
+              Total points distributed should add up to 100.
               <br>
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
           </div>
-          <div class="evalueeLabel-19 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
-          </div>
-          <br>
           <br>
           <div class="evalueeForm-19 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="Team 1</td></div>'&quot;">
-                    Team 1&lt;/td&gt;&lt;/div&gt;'"
-                  </option>
-                  <option style="display: none;" value="Team 2">
-                    Team 2
-                  </option>
-                  <option style="display: none;" value="Team 3">
-                    Team 3
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
                   </option>
                 </select>
                 <span>
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  Myself
                 </span>
               </label>
-              (Team):
+              (Student):
             </div>
             <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-19">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label" style="display:none">
+                <label class="const-sum-options-label">
+                  Grades
                 </label>
-                <div class="">
+                <div class="margin-left-auto">
                   <input class="form-control pointsBox" id="responsetext-19-0-0" min="0" name="responsetext-19-0" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="">
                 </div>
               </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Fun
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-19-0-1" min="0" name="responsetext-19-0" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="">
+                </div>
+              </div>
             </div>
-            <input id="constSumToRecipients-19" type="hidden" value="true">
-            <input id="constSumPointsPerOption-19" type="hidden" value="true">
-            <input id="constSumNumOption-19" type="hidden" value="0">
+            <input id="constSumToRecipients-19" type="hidden" value="false">
+            <input id="constSumPointsPerOption-19" type="hidden" value="false">
+            <input id="constSumNumOption-19" type="hidden" value="2">
             <input id="constSumPoints-19" type="hidden" value="100">
-            <input id="constSumUnevenDistribution-19" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-19" type="hidden" value="All options">
+            <input id="constSumUnevenDistribution-19" type="hidden" value="false">
+            <input id="constSumDistributePointsOptions-19" type="hidden" value="None">
           </div>
-          <div id="constSumInputAlert-19-0" style="display:none">
+          <div id="constSumInputAlert-19-0" style="">
             <p class="text-color-green padding-left-35px" id="constSumMessage-19-0">
-            </p>
-            <hr class="margin-top-0 border-top-dark-gray">
-          </div>
-          <br>
-          <div class="evalueeForm-19 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
-                    Team 1&lt;/td&gt;&lt;/div&gt;'"
-                  </option>
-                  <option value="Team 2">
-                    Team 2
-                  </option>
-                  <option style="display: none;" value="Team 3">
-                    Team 3
-                  </option>
-                </select>
-                <span>
-                  Team 2
-                </span>
-              </label>
-              (Team):
-            </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-19">
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label" style="display:none">
-                </label>
-                <div class="">
-                  <input class="form-control pointsBox" id="responsetext-19-1-0" min="0" name="responsetext-19-1" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="">
-                </div>
-              </div>
-            </div>
-            <input id="constSumToRecipients-19" type="hidden" value="true">
-            <input id="constSumPointsPerOption-19" type="hidden" value="true">
-            <input id="constSumNumOption-19" type="hidden" value="0">
-            <input id="constSumPoints-19" type="hidden" value="100">
-            <input id="constSumUnevenDistribution-19" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-19" type="hidden" value="All options">
-          </div>
-          <div id="constSumInputAlert-19-1" style="display:none">
-            <p class="text-color-green padding-left-35px" id="constSumMessage-19-1">
-            </p>
-            <hr class="margin-top-0 border-top-dark-gray">
-          </div>
-          <br>
-          <div class="evalueeForm-19 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-2" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
-                    Team 1&lt;/td&gt;&lt;/div&gt;'"
-                  </option>
-                  <option style="display: none;" value="Team 2">
-                    Team 2
-                  </option>
-                  <option value="Team 3">
-                    Team 3
-                  </option>
-                </select>
-                <span>
-                  Team 3
-                </span>
-              </label>
-              (Team):
-            </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-19">
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label" style="display:none">
-                </label>
-                <div class="">
-                  <input class="form-control pointsBox" id="responsetext-19-2-0" min="0" name="responsetext-19-2" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="">
-                </div>
-              </div>
-            </div>
-            <input id="constSumToRecipients-19" type="hidden" value="true">
-            <input id="constSumPointsPerOption-19" type="hidden" value="true">
-            <input id="constSumNumOption-19" type="hidden" value="0">
-            <input id="constSumPoints-19" type="hidden" value="100">
-            <input id="constSumUnevenDistribution-19" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-19" type="hidden" value="All options">
-          </div>
-          <div id="constSumInputAlert-19-2" style="">
-            <p class="text-color-green padding-left-35px" id="constSumMessage-19-2">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
           </div>
@@ -2903,7 +2823,7 @@
           Question 20:
           <br>
           <span class="text-preserve-space">
-            How much more time should the teams spend on the following, regarding their product? Give points accordingly.
+            Split points among the teams, based on how much effort you think the teams have put into the project
           </span>
         </div>
         <div class="panel-body">
@@ -2925,11 +2845,11 @@
             <p class="text-color-blue padding-left-35px" id="constSumInstruction-20">
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              Total points distributed should add up to 100.
+              Total points distributed should add up to 300.
               <br>
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              Every option should be allocated different number of points.
+              Every recipient should be allocated different number of points.
               <br>
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -2965,40 +2885,23 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-20">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-20">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Design
+                <label class="const-sum-options-label" style="display:none">
                 </label>
-                <div class="margin-left-auto">
+                <div class="">
                   <input class="form-control pointsBox" id="responsetext-20-0-0" min="0" name="responsetext-20-0" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
                 </div>
               </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Usability
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-20-0-1" min="0" name="responsetext-20-0" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Algo
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-20-0-2" min="0" name="responsetext-20-0" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
-                </div>
-              </div>
             </div>
-            <input id="constSumToRecipients-20" type="hidden" value="false">
-            <input id="constSumPointsPerOption-20" type="hidden" value="false">
-            <input id="constSumNumOption-20" type="hidden" value="3">
+            <input id="constSumToRecipients-20" type="hidden" value="true">
+            <input id="constSumPointsPerOption-20" type="hidden" value="true">
+            <input id="constSumNumOption-20" type="hidden" value="0">
             <input id="constSumPoints-20" type="hidden" value="100">
             <input id="constSumUnevenDistribution-20" type="hidden" value="true">
             <input id="constSumDistributePointsOptions-20" type="hidden" value="All options">
           </div>
-          <div id="constSumInputAlert-20-0" style="">
+          <div id="constSumInputAlert-20-0" style="display:none">
             <p class="text-color-green padding-left-35px" id="constSumMessage-20-0">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3026,40 +2929,23 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-20">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-20">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Design
+                <label class="const-sum-options-label" style="display:none">
                 </label>
-                <div class="margin-left-auto">
+                <div class="">
                   <input class="form-control pointsBox" id="responsetext-20-1-0" min="0" name="responsetext-20-1" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
                 </div>
               </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Usability
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-20-1-1" min="0" name="responsetext-20-1" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Algo
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-20-1-2" min="0" name="responsetext-20-1" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
-                </div>
-              </div>
             </div>
-            <input id="constSumToRecipients-20" type="hidden" value="false">
-            <input id="constSumPointsPerOption-20" type="hidden" value="false">
-            <input id="constSumNumOption-20" type="hidden" value="3">
+            <input id="constSumToRecipients-20" type="hidden" value="true">
+            <input id="constSumPointsPerOption-20" type="hidden" value="true">
+            <input id="constSumNumOption-20" type="hidden" value="0">
             <input id="constSumPoints-20" type="hidden" value="100">
             <input id="constSumUnevenDistribution-20" type="hidden" value="true">
             <input id="constSumDistributePointsOptions-20" type="hidden" value="All options">
           </div>
-          <div id="constSumInputAlert-20-1" style="">
+          <div id="constSumInputAlert-20-1" style="display:none">
             <p class="text-color-green padding-left-35px" id="constSumMessage-20-1">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3087,35 +2973,18 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-20">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-20">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Design
+                <label class="const-sum-options-label" style="display:none">
                 </label>
-                <div class="margin-left-auto">
+                <div class="">
                   <input class="form-control pointsBox" id="responsetext-20-2-0" min="0" name="responsetext-20-2" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
                 </div>
               </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Usability
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-20-2-1" min="0" name="responsetext-20-2" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Algo
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-20-2-2" min="0" name="responsetext-20-2" onchange="updateConstSumQnMessages('20')" step="1" type="number" value="">
-                </div>
-              </div>
             </div>
-            <input id="constSumToRecipients-20" type="hidden" value="false">
-            <input id="constSumPointsPerOption-20" type="hidden" value="false">
-            <input id="constSumNumOption-20" type="hidden" value="3">
+            <input id="constSumToRecipients-20" type="hidden" value="true">
+            <input id="constSumPointsPerOption-20" type="hidden" value="true">
+            <input id="constSumNumOption-20" type="hidden" value="0">
             <input id="constSumPoints-20" type="hidden" value="100">
             <input id="constSumUnevenDistribution-20" type="hidden" value="true">
             <input id="constSumDistributePointsOptions-20" type="hidden" value="All options">
@@ -3139,7 +3008,7 @@
           Question 21:
           <br>
           <span class="text-preserve-space">
-            Split points among the teams, based on how much effort you think the teams have put into the project
+            How much more time should the teams spend on the following, regarding their product? Give points accordingly.
           </span>
         </div>
         <div class="panel-body">
@@ -3161,11 +3030,11 @@
             <p class="text-color-blue padding-left-35px" id="constSumInstruction-21">
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              Total points distributed should add up to 300.
+              Total points distributed should add up to 100.
               <br>
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              At least one recipient should be allocated different number of points.
+              Every option should be allocated different number of points.
               <br>
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3201,23 +3070,40 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-21">
+            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-21">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label" style="display:none">
+                <label class="const-sum-options-label">
+                  Design
                 </label>
-                <div class="">
+                <div class="margin-left-auto">
                   <input class="form-control pointsBox" id="responsetext-21-0-0" min="0" name="responsetext-21-0" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
                 </div>
               </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-21-0-1" min="0" name="responsetext-21-0" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-21-0-2" min="0" name="responsetext-21-0" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
+                </div>
+              </div>
             </div>
-            <input id="constSumToRecipients-21" type="hidden" value="true">
-            <input id="constSumPointsPerOption-21" type="hidden" value="true">
-            <input id="constSumNumOption-21" type="hidden" value="0">
+            <input id="constSumToRecipients-21" type="hidden" value="false">
+            <input id="constSumPointsPerOption-21" type="hidden" value="false">
+            <input id="constSumNumOption-21" type="hidden" value="3">
             <input id="constSumPoints-21" type="hidden" value="100">
             <input id="constSumUnevenDistribution-21" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-21" type="hidden" value="At least some options">
+            <input id="constSumDistributePointsOptions-21" type="hidden" value="All options">
           </div>
-          <div id="constSumInputAlert-21-0" style="display:none">
+          <div id="constSumInputAlert-21-0" style="">
             <p class="text-color-green padding-left-35px" id="constSumMessage-21-0">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3245,23 +3131,40 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-21">
+            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-21">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label" style="display:none">
+                <label class="const-sum-options-label">
+                  Design
                 </label>
-                <div class="">
+                <div class="margin-left-auto">
                   <input class="form-control pointsBox" id="responsetext-21-1-0" min="0" name="responsetext-21-1" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
                 </div>
               </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-21-1-1" min="0" name="responsetext-21-1" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-21-1-2" min="0" name="responsetext-21-1" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
+                </div>
+              </div>
             </div>
-            <input id="constSumToRecipients-21" type="hidden" value="true">
-            <input id="constSumPointsPerOption-21" type="hidden" value="true">
-            <input id="constSumNumOption-21" type="hidden" value="0">
+            <input id="constSumToRecipients-21" type="hidden" value="false">
+            <input id="constSumPointsPerOption-21" type="hidden" value="false">
+            <input id="constSumNumOption-21" type="hidden" value="3">
             <input id="constSumPoints-21" type="hidden" value="100">
             <input id="constSumUnevenDistribution-21" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-21" type="hidden" value="At least some options">
+            <input id="constSumDistributePointsOptions-21" type="hidden" value="All options">
           </div>
-          <div id="constSumInputAlert-21-1" style="display:none">
+          <div id="constSumInputAlert-21-1" style="">
             <p class="text-color-green padding-left-35px" id="constSumMessage-21-1">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3289,21 +3192,38 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-21">
+            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-21">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label" style="display:none">
+                <label class="const-sum-options-label">
+                  Design
                 </label>
-                <div class="">
+                <div class="margin-left-auto">
                   <input class="form-control pointsBox" id="responsetext-21-2-0" min="0" name="responsetext-21-2" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
                 </div>
               </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-21-2-1" min="0" name="responsetext-21-2" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-21-2-2" min="0" name="responsetext-21-2" onchange="updateConstSumQnMessages('21')" step="1" type="number" value="">
+                </div>
+              </div>
             </div>
-            <input id="constSumToRecipients-21" type="hidden" value="true">
-            <input id="constSumPointsPerOption-21" type="hidden" value="true">
-            <input id="constSumNumOption-21" type="hidden" value="0">
+            <input id="constSumToRecipients-21" type="hidden" value="false">
+            <input id="constSumPointsPerOption-21" type="hidden" value="false">
+            <input id="constSumNumOption-21" type="hidden" value="3">
             <input id="constSumPoints-21" type="hidden" value="100">
             <input id="constSumUnevenDistribution-21" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-21" type="hidden" value="At least some options">
+            <input id="constSumDistributePointsOptions-21" type="hidden" value="All options">
           </div>
           <div id="constSumInputAlert-21-2" style="">
             <p class="text-color-green padding-left-35px" id="constSumMessage-21-2">
@@ -3324,7 +3244,7 @@
           Question 22:
           <br>
           <span class="text-preserve-space">
-            How much more time should the teams spend on the following, regarding their product? Give points accordingly.
+            Split points among the teams, based on how much effort you think the teams have put into the project
           </span>
         </div>
         <div class="panel-body">
@@ -3346,11 +3266,11 @@
             <p class="text-color-blue padding-left-35px" id="constSumInstruction-22">
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              Total points distributed should add up to 100.
+              Total points distributed should add up to 300.
               <br>
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
-              At least one option should be allocated different number of points.
+              At least one recipient should be allocated different number of points.
               <br>
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3386,40 +3306,23 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-22">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-22">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Design
+                <label class="const-sum-options-label" style="display:none">
                 </label>
-                <div class="margin-left-auto">
+                <div class="">
                   <input class="form-control pointsBox" id="responsetext-22-0-0" min="0" name="responsetext-22-0" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
                 </div>
               </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Usability
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-22-0-1" min="0" name="responsetext-22-0" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Algo
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-22-0-2" min="0" name="responsetext-22-0" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
-                </div>
-              </div>
             </div>
-            <input id="constSumToRecipients-22" type="hidden" value="false">
-            <input id="constSumPointsPerOption-22" type="hidden" value="false">
-            <input id="constSumNumOption-22" type="hidden" value="3">
+            <input id="constSumToRecipients-22" type="hidden" value="true">
+            <input id="constSumPointsPerOption-22" type="hidden" value="true">
+            <input id="constSumNumOption-22" type="hidden" value="0">
             <input id="constSumPoints-22" type="hidden" value="100">
             <input id="constSumUnevenDistribution-22" type="hidden" value="true">
             <input id="constSumDistributePointsOptions-22" type="hidden" value="At least some options">
           </div>
-          <div id="constSumInputAlert-22-0" style="">
+          <div id="constSumInputAlert-22-0" style="display:none">
             <p class="text-color-green padding-left-35px" id="constSumMessage-22-0">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3447,40 +3350,23 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-22">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-22">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Design
+                <label class="const-sum-options-label" style="display:none">
                 </label>
-                <div class="margin-left-auto">
+                <div class="">
                   <input class="form-control pointsBox" id="responsetext-22-1-0" min="0" name="responsetext-22-1" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
                 </div>
               </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Usability
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-22-1-1" min="0" name="responsetext-22-1" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Algo
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-22-1-2" min="0" name="responsetext-22-1" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
-                </div>
-              </div>
             </div>
-            <input id="constSumToRecipients-22" type="hidden" value="false">
-            <input id="constSumPointsPerOption-22" type="hidden" value="false">
-            <input id="constSumNumOption-22" type="hidden" value="3">
+            <input id="constSumToRecipients-22" type="hidden" value="true">
+            <input id="constSumPointsPerOption-22" type="hidden" value="true">
+            <input id="constSumNumOption-22" type="hidden" value="0">
             <input id="constSumPoints-22" type="hidden" value="100">
             <input id="constSumUnevenDistribution-22" type="hidden" value="true">
             <input id="constSumDistributePointsOptions-22" type="hidden" value="At least some options">
           </div>
-          <div id="constSumInputAlert-22-1" style="">
+          <div id="constSumInputAlert-22-1" style="display:none">
             <p class="text-color-green padding-left-35px" id="constSumMessage-22-1">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
@@ -3508,35 +3394,18 @@
               </label>
               (Team):
             </div>
-            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-22">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-22">
               <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Design
+                <label class="const-sum-options-label" style="display:none">
                 </label>
-                <div class="margin-left-auto">
+                <div class="">
                   <input class="form-control pointsBox" id="responsetext-22-2-0" min="0" name="responsetext-22-2" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
                 </div>
               </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Usability
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-22-2-1" min="0" name="responsetext-22-2" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
-                </div>
-              </div>
-              <div class="margin-top-7px margin-bottom-15px flex">
-                <label class="const-sum-options-label">
-                  Algo
-                </label>
-                <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-22-2-2" min="0" name="responsetext-22-2" onchange="updateConstSumQnMessages('22')" step="1" type="number" value="">
-                </div>
-              </div>
             </div>
-            <input id="constSumToRecipients-22" type="hidden" value="false">
-            <input id="constSumPointsPerOption-22" type="hidden" value="false">
-            <input id="constSumNumOption-22" type="hidden" value="3">
+            <input id="constSumToRecipients-22" type="hidden" value="true">
+            <input id="constSumPointsPerOption-22" type="hidden" value="true">
+            <input id="constSumNumOption-22" type="hidden" value="0">
             <input id="constSumPoints-22" type="hidden" value="100">
             <input id="constSumUnevenDistribution-22" type="hidden" value="true">
             <input id="constSumDistributePointsOptions-22" type="hidden" value="At least some options">
@@ -3551,16 +3420,16 @@
     </div>
     <br>
     <br>
-    <input name="questiontype-23" type="hidden" value="MSQ">
+    <input name="questiontype-23" type="hidden" value="CONSTSUM">
     <input name="questionid-23" type="hidden" value="${question.id}">
-    <input name="questionresponsetotal-23" type="hidden" value="1">
+    <input name="questionresponsetotal-23" type="hidden" value="3">
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
           Question 23:
           <br>
           <span class="text-preserve-space">
-            Which teams would you like to be an instructor of again?
+            How much more time should the teams spend on the following, regarding their product? Give points accordingly.
           </span>
         </div>
         <div class="panel-body">
@@ -3569,122 +3438,17 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              You can see your own feedback in the results page later on.
+              The receiving teams can see your response, but not the name of the recipient, or your name.
             </li>
             <li class="unordered">
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
           <div class="constraints-23">
-          </div>
-          <br>
-          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-0" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
-                    Myself
-                  </option>
-                </select>
-                <span>
-                  Myself
-                </span>
-              </label>
-              (Student):
-            </div>
-            <div class="col-sm-12">
-              <p class="text-muted" hidden="">
-                You need to choose at least -1 options.
-              </p>
-              <p class="text-muted" hidden="">
-                You cannot choose more than -1 options.
-              </p>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input name="responsetext-23-0" type="checkbox" value="Team 1</td></div>'&quot;">
-                          Team 1&lt;/td&gt;&lt;/div&gt;'"
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input name="responsetext-23-0" type="checkbox" value="Team 2">
-                          Team 2
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input name="responsetext-23-0" type="checkbox" value="Team 3">
-                          Team 3
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input name="responsetext-23-0" type="checkbox" value="">
-                          <i>
-                            None of the above
-                          </i>
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <input disabled="" name="msqMaxSelectableChoices-23" type="hidden" value="-1">
-              <input disabled="" name="msqMinSelectableChoices-23" type="hidden" value="-1">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-    <br>
-    <input name="questiontype-24" type="hidden" value="CONSTSUM">
-    <input name="questionid-24" type="hidden" value="${question.id}">
-    <input name="questionresponsetotal-24" type="hidden" value="1">
-    <div class="form-horizontal">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          Question 24:
-          <br>
-          <span class="text-preserve-space">
-            How much more time should be spent on the following? Give points accordingly.
-          </span>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            Only the following persons can see your responses:
-          </p>
-          <ul class="text-muted">
-            <li class="unordered">
-              You can see your own feedback in the results page later on.
-            </li>
-            <li class="unordered">
-              Instructors in this course can see your response, the name of the recipient, and your name.
-            </li>
-          </ul>
-          <div class="constraints-24">
             <p class="text-color-blue align-left text-bold">
               Note:
             </p>
-            <p class="text-color-blue padding-left-35px" id="constSumInstruction-24">
+            <p class="text-color-blue padding-left-35px" id="constSumInstruction-23">
               <span class="glyphicon glyphicon-info-sign padding-right-10px">
               </span>
               Total points distributed should add up to 100.
@@ -3696,30 +3460,44 @@
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
           </div>
+          <div class="evalueeLabel-23 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
           <br>
-          <div class="evalueeForm-24 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
+          <br>
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-24-0" style="display:none;max-width:125px">
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
-                    Myself
+                  <option value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
                   </option>
                 </select>
                 <span>
-                  Myself
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </span>
               </label>
-              (Student):
+              (Team):
             </div>
-            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-24">
+            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-23">
               <div class="margin-top-7px margin-bottom-15px flex">
                 <label class="const-sum-options-label">
                   Design
                 </label>
                 <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-24-0-0" min="0" name="responsetext-24-0" onchange="updateConstSumQnMessages('24')" step="1" type="number" value="">
+                  <input class="form-control pointsBox" id="responsetext-23-0-0" min="0" name="responsetext-23-0" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
                 </div>
               </div>
               <div class="margin-top-7px margin-bottom-15px flex">
@@ -3727,7 +3505,7 @@
                   Usability
                 </label>
                 <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-24-0-1" min="0" name="responsetext-24-0" onchange="updateConstSumQnMessages('24')" step="1" type="number" value="">
+                  <input class="form-control pointsBox" id="responsetext-23-0-1" min="0" name="responsetext-23-0" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
                 </div>
               </div>
               <div class="margin-top-7px margin-bottom-15px flex">
@@ -3735,19 +3513,141 @@
                   Algo
                 </label>
                 <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-24-0-2" min="0" name="responsetext-24-0" onchange="updateConstSumQnMessages('24')" step="1" type="number" value="">
+                  <input class="form-control pointsBox" id="responsetext-23-0-2" min="0" name="responsetext-23-0" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
                 </div>
               </div>
             </div>
-            <input id="constSumToRecipients-24" type="hidden" value="false">
-            <input id="constSumPointsPerOption-24" type="hidden" value="false">
-            <input id="constSumNumOption-24" type="hidden" value="3">
-            <input id="constSumPoints-24" type="hidden" value="100">
-            <input id="constSumUnevenDistribution-24" type="hidden" value="true">
-            <input id="constSumDistributePointsOptions-24" type="hidden" value="At least some options">
+            <input id="constSumToRecipients-23" type="hidden" value="false">
+            <input id="constSumPointsPerOption-23" type="hidden" value="false">
+            <input id="constSumNumOption-23" type="hidden" value="3">
+            <input id="constSumPoints-23" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-23" type="hidden" value="true">
+            <input id="constSumDistributePointsOptions-23" type="hidden" value="At least some options">
           </div>
-          <div id="constSumInputAlert-24-0" style="">
-            <p class="text-color-green padding-left-35px" id="constSumMessage-24-0">
+          <div id="constSumInputAlert-23-0" style="">
+            <p class="text-color-green padding-left-35px" id="constSumMessage-23-0">
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
+          </div>
+          <br>
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
+                  Team 2
+                </span>
+              </label>
+              (Team):
+            </div>
+            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-23">
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Design
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-23-1-0" min="0" name="responsetext-23-1" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-23-1-1" min="0" name="responsetext-23-1" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-23-1-2" min="0" name="responsetext-23-1" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
+                </div>
+              </div>
+            </div>
+            <input id="constSumToRecipients-23" type="hidden" value="false">
+            <input id="constSumPointsPerOption-23" type="hidden" value="false">
+            <input id="constSumNumOption-23" type="hidden" value="3">
+            <input id="constSumPoints-23" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-23" type="hidden" value="true">
+            <input id="constSumDistributePointsOptions-23" type="hidden" value="At least some options">
+          </div>
+          <div id="constSumInputAlert-23-1" style="">
+            <p class="text-color-green padding-left-35px" id="constSumMessage-23-1">
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
+          </div>
+          <br>
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
+                  Team 3
+                </span>
+              </label>
+              (Team):
+            </div>
+            <div class="col-sm-6 width-auto padding-left-55px margin-top-15px" id="constSumSubmissionFormOptionFragment-23">
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Design
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-23-2-0" min="0" name="responsetext-23-2" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-23-2-1" min="0" name="responsetext-23-2" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
+                </div>
+              </div>
+              <div class="margin-top-7px margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-23-2-2" min="0" name="responsetext-23-2" onchange="updateConstSumQnMessages('23')" step="1" type="number" value="">
+                </div>
+              </div>
+            </div>
+            <input id="constSumToRecipients-23" type="hidden" value="false">
+            <input id="constSumPointsPerOption-23" type="hidden" value="false">
+            <input id="constSumNumOption-23" type="hidden" value="3">
+            <input id="constSumPoints-23" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-23" type="hidden" value="true">
+            <input id="constSumDistributePointsOptions-23" type="hidden" value="At least some options">
+          </div>
+          <div id="constSumInputAlert-23-2" style="">
+            <p class="text-color-green padding-left-35px" id="constSumMessage-23-2">
             </p>
             <hr class="margin-top-0 border-top-dark-gray">
           </div>

@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -289,9 +287,9 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
@@ -302,7 +300,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
-                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, new Text(""))
+                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, "")
                 .withFeedbackQuestionId(question.getId())
                 .withFeedbackResponseId(response.getId())
                 .build();
@@ -339,7 +337,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
         List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
         frcList = frcList.stream()
-                       .filter(comment -> comment.commentText.getValue().equals(commentText))
+                       .filter(comment -> comment.commentText.equals(commentText))
                        .collect(Collectors.toList());
         return frcList;
     }

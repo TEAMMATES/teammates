@@ -26,7 +26,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -52,27 +51,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 "Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
     }
 
-    /*
-     * Removes search document for the given comment
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
-        Long id = commentToDelete.getId();
-
-        if (id == null) {
-            Key<FeedbackResponseComment> key = getEntityQueryKeys(commentToDelete).first().now();
-
-            if (key == null) {
-                return;
-            }
-
-            id = key.getId();
-        }
-
-        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, id.toString());
-    }
-
     /**
      * Removes search document for the comment with given id.
+     *
+     * <p>See {@link FeedbackResponseCommentSearchDocument#toDocument()} for more details.</p>
      *
      * @param commentId ID of comment
      */
@@ -317,16 +299,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Returns all feedback response comments in the Datastore.
-     *
-     * @deprecated Not scalable. Don't use unless in admin features.
-     */
-    @Deprecated
-    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return makeAttributes(load().list());
-    }
-
-    /**
      * Removes comment with given id.
      *
      * @param id ID of comment
@@ -338,7 +310,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
+                .filter("createdAt =", createdAt)
                 .filter("giverEmail =", giverEmail)
                 .first().now();
     }
@@ -352,7 +324,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
                 .filter("giverEmail =", giverEmail)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
+                .filter("createdAt =", createdAt)
                 .first().now();
     }
 
@@ -441,7 +413,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
         return load()
                 .filter("feedbackResponseId =", attributes.feedbackResponseId)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
+                .filter("createdAt =", attributes.createdAt)
                 .filter("giverEmail =", attributes.commentGiver)
                 .keys();
     }

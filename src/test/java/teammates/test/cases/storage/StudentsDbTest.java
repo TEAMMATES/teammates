@@ -72,17 +72,13 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         ______TS("fail : invalid params");
         s.course = "invalid id space";
-        try {
-            studentsDb.createEntity(s);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class, () -> studentsDb.createEntity(s));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
                         COURSE_ID_ERROR_MESSAGE, s.course,
                         FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
                         FieldValidator.COURSE_ID_MAX_LENGTH),
-                    e.getMessage());
-        }
+                ipe.getMessage());
         verifyAbsentInDatastore(s);
 
         ______TS("success : valid params");
@@ -100,24 +96,16 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
 
         ______TS("fail : duplicate");
-        try {
-            studentsDb.createEntity(s);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(
-                    String.format(
-                            StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                            s.getEntityTypeAsString())
-                            + s.getIdentificationString(), e.getMessage());
-        }
+        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
+                () -> studentsDb.createEntity(s));
+        AssertHelper.assertContains(
+                String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
+                        + s.getIdentificationString(),
+                eaee.getMessage());
 
         ______TS("null params check");
-        try {
-            studentsDb.createEntity(null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -158,18 +146,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertTrue(studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
 
         ______TS("null params case");
-        try {
-            studentsDb.getStudentForEmail(null, "valid@email.com");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-        try {
-            studentsDb.getStudentForEmail("any-course-id", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail(null, "valid@email.com"));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+        ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail("any-course-id", null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         studentsDb.deleteStudent(s.course, s.email);
         studentsDb.deleteStudent(s2.course, s2.email);
@@ -184,48 +165,35 @@ public class StudentsDbTest extends BaseComponentTestCase {
                                                      "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
 
         ______TS("non-existent case");
-        try {
-            studentsDb.updateStudentWithoutSearchability("non-existent-course", "non@existent.email", "no-name",
-                                                         "non-existent-team", "non-existent-section", "non.existent.ID",
-                                                         "blah", "blah");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
-                         e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> studentsDb.updateStudentWithoutSearchability("non-existent-course", "non@existent.email", "no-name",
+                        "non-existent-team", "non-existent-section", "non.existent.ID",
+                        "blah", "blah"));
+        assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
+                ednee.getMessage());
 
         // Only check first 2 params (course & email) which are used to identify the student entry.
         // The rest are actually allowed to be null.
         ______TS("null course case");
-        try {
-            studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section",
-                                                         "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section",
+                        "new@email.com", "new.google.id", "lorem ipsum dolor si amet"));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("null email case");
-        try {
-            studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section",
-                                                         "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section",
+                        "new@email.com", "new.google.id", "lorem ipsum dolor si amet"));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("duplicate email case");
-        s = createNewStudent();
+        StudentAttributes duplicate = createNewStudent();
         // Create a second student with different email address
         StudentAttributes s2 = createNewStudent("valid2@email.com");
-        try {
-            studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section",
-                                                         s2.email, "new.google.id", "lorem ipsum dolor si amet");
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email,
-                         e.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> studentsDb.updateStudentWithoutSearchability(duplicate.course, duplicate.email, "new-name",
+                        "new-team", "new-section", s2.email, "new.google.id", "lorem ipsum dolor si amet"));
+        assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email, ipe.getMessage());
 
         ______TS("typical success case");
         String originalEmail = s.email;
@@ -267,19 +235,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.deleteStudentWithoutDocument(s.course, s.email);
 
         // Null params check:
-        try {
-            studentsDb.deleteStudentWithoutDocument(null, s.email);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        StudentAttributes[] finalStudent = new StudentAttributes[] { s };
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> studentsDb.deleteStudentWithoutDocument(null, finalStudent[0].email));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            studentsDb.deleteStudentWithoutDocument(s.course, null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> studentsDb.deleteStudentWithoutDocument(finalStudent[0].course, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         studentsDb.deleteStudent(s.course, s.email);
 

@@ -31,16 +31,16 @@ This document lines out the common terms used in the project.
 
 ## Development-related
 
-+ **Dev site**: [Our developer web site](https://github.com/TEAMMATES/teammates).
-+ **Main repo**: The repository containing the latest stable code.
++ [**Main repo**](https://github.com/TEAMMATES/teammates): The repository containing the latest stable code.
++ [**Ops repo**](https://github.com/TEAMMATES/teammates-ops): The repository containing maintenance and operations-specific information.
 + **Specs**: System Specification.
 
 `* server`:
 
 + **Dev server**: The development server running on your computer.
 + **CI server**: Continuous Integration server used for building/testing patches. Can be Travis or AppVeyor.
-+ **Production server**: A server on AppSpot. Can be a staging server or the live server.
-+ **Staging server**: The server instance you created on AppSpot.
++ **Production server**: A server on Google App Engine. Can be a staging server or the live server.
++ **Staging server**: The server instance you created on Google App Engine for testing purpose.
 + **Live server**: The server running the released public version of the app (i.e. http://teammatesv4.appspot.com).
 
 `* tests`:

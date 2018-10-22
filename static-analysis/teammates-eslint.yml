@@ -7,7 +7,17 @@ env:
 extends:
     - airbnb-base
 
+parserOptions:
+    ecmaVersion: 6
+
 rules:
+    comma-dangle: ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore" # not valid in ES6
+    }]
     eqeqeq: ["error", "always"]
     func-names: "off"
     function-paren-newline: "off"
@@ -27,7 +37,13 @@ rules:
         ],
     }]
     linebreak-style: "off"
-    max-len: ["error", 125]
+    max-len: ["error", 125, 2, {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+    }]
     no-continue: "off"
     no-mixed-operators: "off"
     no-negated-condition: "error"

@@ -44,6 +44,7 @@ public class InstructorFeedbackDeleteSoftDeletedSessionActionTest extends BaseAc
         InstructorFeedbackDeleteSoftDeletedSessionAction deleteAction = getAction(submissionParams);
         try {
             getRedirectResult(deleteAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Second feedback session] is not accessible to instructor "
                     + "[instructor2@course3.tmt] for privilege [canmodifysession]", e.getMessage());

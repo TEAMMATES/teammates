@@ -1,12 +1,11 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
@@ -115,14 +114,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 
-        responseToUpdate.responseMetaData = new Text("Updated Response");
+        responseToUpdate.responseMetaData = "Updated Response";
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = new Text("Updated Response");
+        responseToUpdate.responseMetaData = "Updated Response";
 
         assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
                                                  responseToUpdate.recipient).toString(),
@@ -144,32 +143,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         responseToUpdate.recipientSection,
                         responseToUpdate.responseMetaData);
 
-        frLogic.createFeedbackResponse(existingResponse);
+        frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
 
         responseToUpdate.recipient = "student3InCourse1@gmail.tmt";
 
-        try {
-            frLogic.updateFeedbackResponse(responseToUpdate);
-            signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains("Trying to create a Feedback Response that exists", e.getMessage());
-        }
-
-        ______TS("success: standard update with carried params - using createFeedbackResponse");
-
-        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-
-        responseToUpdate.responseMetaData = new Text("Updated Response 2");
-        responseToUpdate.feedbackSessionName = "copy over";
-
-        frLogic.createFeedbackResponse(responseToUpdate);
-
-        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = new Text("Updated Response 2");
-
-        assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-                                                 responseToUpdate.recipient).toString(),
-                     responseToUpdate.toString());
+        FeedbackResponseAttributes[] finalResponse = new FeedbackResponseAttributes[] { responseToUpdate };
+        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
+                () -> frLogic.updateFeedbackResponse(finalResponse[0]));
+        AssertHelper.assertContains("Trying to create a Feedback Response that exists", eaee.getMessage());
 
         ______TS("success: recipient changed to something else");
 
@@ -209,14 +190,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         responseToUpdate.setId("invalidId");
 
-        try {
-            frLogic.updateFeedbackResponse(responseToUpdate);
-            signalFailureToDetectException("Should have detected that this response does not exist");
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(
-                        "Trying to update a feedback response that does not exist.",
-                        e.getMessage());
-        }
+        finalResponse[0] = responseToUpdate;
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> frLogic.updateFeedbackResponse(finalResponse[0]));
+        AssertHelper.assertContains(
+                "Trying to update a feedback response that does not exist.",
+                ednee.getMessage());
     }
 
     private void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
@@ -243,8 +222,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                                                FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
-                                               studentToUpdate.email, "Section 1", new Text("New Response to self"));
-        frLogic.createFeedbackResponse(responseToAdd);
+                                               studentToUpdate.email, "Section 1", "New Response to self");
+        frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
 
         // All these responses should be gone after he changes teams
 
@@ -361,16 +340,25 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        frLogic.createFeedbackResponse(response);
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        restoreFeedbackResponse(response);
         fsLogic.addStudentRespondent(response.giver, response.feedbackSessionName, response.courseId);
+    }
+
+    private void restoreFeedbackResponse(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (frLogic.getFeedbackResponse(response.getId()) == null) {
+            frLogic.createFeedbackResponses(Arrays.asList(response));
+        } else {
+            frLogic.updateFeedbackResponse(response);
+        }
     }
 
     private void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
 
         // Student 1 currently has 2 responses to him and 2 from himself.
-        // Student 1 currently has 1 response comment for responses to him
+        // Student 1 currently has 2 response comment for responses to him
         // and 1 response comment from responses from himself.
         StudentAttributes studentToUpdate = dataBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForReceiver =
@@ -387,7 +375,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         assertEquals(responsesForReceiver.size(), 2);
         assertEquals(responsesFromGiver.size(), 2);
-        assertEquals(responseCommentsForStudent.size(), 2);
+        assertEquals(responseCommentsForStudent.size(), 3);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, studentToUpdate.email, "new@email.tmt");
@@ -418,7 +406,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         assertEquals(responsesForReceiver.size(), 2);
         assertEquals(responsesFromGiver.size(), 2);
-        assertEquals(responseCommentsForStudent.size(), 2);
+        assertEquals(responseCommentsForStudent.size(), 3);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
@@ -493,19 +481,18 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         "Section 1",
                         existingResponse.responseMetaData);
 
-        frLogic.createFeedbackResponse(newResponse);
+        frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
         assertEquals(responses.size(), 4);
 
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
 
-        try {
-            frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserRole.ADMIN, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(e.getMessage(), "The role of the requesting use has to be Student or Instructor");
-        }
+        FeedbackQuestionAttributes finalFq = fq;
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                        finalFq, instructor.email, UserRole.ADMIN, null));
+        assertEquals("The role of the requesting use has to be Student or Instructor", ae.getMessage());
     }
 
     private void testIsNameVisibleTo() {
@@ -698,5 +685,4 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         }
         return responseComments;
     }
-
 }

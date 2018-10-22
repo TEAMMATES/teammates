@@ -2,6 +2,8 @@ package teammates.storage.search;
 
 import java.util.List;
 
+import com.google.appengine.api.search.QueryOptions;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 
@@ -13,6 +15,10 @@ public class StudentSearchQuery extends SearchQuery {
 
     public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
         super(instructors, queryString);
+        options = QueryOptions.newBuilder()
+                .setLimit(20)
+                .setFieldsToReturn(Const.SearchDocumentField.COURSE_ID)
+                .build();
     }
 
     /**
@@ -22,6 +28,10 @@ public class StudentSearchQuery extends SearchQuery {
      */
     public StudentSearchQuery(String queryString) {
         super(queryString);
+        options = QueryOptions.newBuilder()
+                .setLimit(20)
+                .setReturningIdsOnly(true)
+                .build();
     }
 
     @Override
