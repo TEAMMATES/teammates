@@ -27,7 +27,6 @@ public final class HtmlHelper {
     private static final String INDENTATION_STEP = "  ";
 
     private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI = "[A-F0-9]{32,}";
-    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32 = "[A-F0-9]{32}";
 
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
@@ -41,7 +40,7 @@ public final class HtmlHelper {
     private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC =
             "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.([0-9]{3}|[0-9]{6}))?Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
-    private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
+    private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
 
     private HtmlHelper() {
         // utility class
@@ -454,6 +453,12 @@ public final class HtmlHelper {
                       .replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
                                   + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT
                                   + " $1 \\${participant\\.hash}")
+                      // sessionToken in form inputs
+                      .replaceAll("( type=\"hidden\"|"
+                                  + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
+                                  + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
+                                  " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
+                                  + " type=\"hidden\" value=\"\\${sessionToken}\"")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
@@ -476,12 +481,6 @@ public final class HtmlHelper {
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
                                   "\\${admin\\.institute}")
-                      // sessionToken in form inputs
-                      .replaceAll("( type=\"hidden\"|"
-                                   + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
-                                   + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
-                                   " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
-                                   + " type=\"hidden\" value=\"\\${sessionToken}\"")
                       // sessionToken in URL parameters
                       .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
                                   "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
