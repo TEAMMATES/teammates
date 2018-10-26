@@ -11,7 +11,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
+
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpOptions;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -25,11 +31,11 @@ import teammates.common.util.Url;
 public class OriginCheckFilter implements Filter {
 
     private static final String ALLOWED_HTTP_METHODS = String.join(", ", Arrays.asList(
-            HttpMethod.GET,
-            HttpMethod.POST,
-            HttpMethod.PUT,
-            HttpMethod.DELETE,
-            HttpMethod.OPTIONS
+            HttpGet.METHOD_NAME,
+            HttpPost.METHOD_NAME,
+            HttpPut.METHOD_NAME,
+            HttpDelete.METHOD_NAME,
+            HttpOptions.METHOD_NAME
     ));
 
     @Override
@@ -66,9 +72,9 @@ public class OriginCheckFilter implements Filter {
         }
 
         switch (request.getMethod()) {
-        case HttpMethod.POST:
-        case HttpMethod.PUT:
-        case HttpMethod.DELETE:
+        case HttpPost.METHOD_NAME:
+        case HttpPut.METHOD_NAME:
+        case HttpDelete.METHOD_NAME:
             String message = getCsrfTokenErrorIfAny(request);
             if (message != null) {
                 denyAccess(message, response);
@@ -147,7 +153,7 @@ public class OriginCheckFilter implements Filter {
     }
 
     private void denyAccess(String message, HttpServletResponse response) throws IOException {
-        JsonResult result = new JsonResult(message, 403);
+        JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
         result.send(response);
     }
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.util.JsonUtils;
 
 /**
@@ -21,7 +23,7 @@ public class JsonResult extends ActionResult {
 
     public JsonResult(Object output) {
         this.output = output;
-        this.statusCode = 200;
+        this.statusCode = HttpStatus.SC_OK;
     }
 
     public JsonResult(String message, int statusCode) {
