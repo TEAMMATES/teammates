@@ -12,7 +12,7 @@ apply plugin: "pmd"
 apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.65"
+def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.10.1"
 def pmdVersion = "6.6.0"
 def spotbugsVersion = "3.1.7"
@@ -81,7 +81,6 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.4",
                     "com.sun.jersey:jersey-core:1.19.4",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.4",
-                    "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.11.3"
 
     testAnnotationProcessor testng
