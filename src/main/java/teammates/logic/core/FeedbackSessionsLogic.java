@@ -1428,7 +1428,7 @@ public final class FeedbackSessionsLogic {
                 getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
 
         for (FeedbackSessionAttributes session : feedbackSessionsList) {
-            deleteFeedbackSessionCascade(session.getSessionName(), session.getCourseId());
+            deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
         }
     }
 

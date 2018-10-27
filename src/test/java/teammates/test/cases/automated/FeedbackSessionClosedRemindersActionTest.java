@@ -83,7 +83,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseAutomatedActio
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
             assertEquals(String.format(EmailType.FEEDBACK_CLOSED.getSubject(), courseName,
-                                       session1.getSessionName()),
+                                       session1.getFeedbackSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
         }
 
