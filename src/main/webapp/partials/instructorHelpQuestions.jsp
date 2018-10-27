@@ -96,7 +96,7 @@
                               Recommended length
                             </span>
                             for the response:
-                            <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
+                            <input disabled="" type="number" class="form-control" name="recommendedlength" value="" min="0" step="1">
                             words
                           </div>
                         </div>
