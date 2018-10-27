@@ -23,15 +23,12 @@ public class ActionFactory {
     private static Map<String, Class<? extends Action>> actionMappings = new HashMap<>();
 
     static {
-        map(ADMIN_HOME_PAGE, AdminHomePageAction.class);
         map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
         map(ADMIN_ACTIVITY_LOG_PAGE, AdminActivityLogPageAction.class);
         map(ADMIN_ACCOUNT_DETAILS_PAGE, AdminAccountDetailsPageAction.class);
         map(ADMIN_ACCOUNT_MANAGEMENT_PAGE, AdminAccountManagementPageAction.class);
         map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
-        map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
         map(ADMIN_SESSIONS_PAGE, AdminSessionsPageAction.class);
-        map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
         map(ADMIN_EMAIL_COMPOSE_PAGE, AdminEmailComposePageAction.class);
         map(ADMIN_EMAIL_COMPOSE_SAVE, AdminEmailComposeSaveAction.class);
@@ -58,8 +55,6 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE, InstructorCourseDeleteSoftDeletedCourseAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL, InstructorCourseDeleteAllSoftDeletedCoursesAction.class);
         map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
-        map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
-        map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
         map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
         map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
         map(INSTRUCTOR_COURSE_EDIT_SAVE, InstructorCourseEditSaveAction.class);
@@ -125,9 +120,6 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
 
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
-        map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
-        map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
-        map(STUDENT_COURSE_JOIN_AUTHENTICATED, StudentCourseJoinAuthenticatedAction.class);
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
