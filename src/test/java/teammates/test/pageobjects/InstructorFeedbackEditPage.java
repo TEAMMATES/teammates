@@ -807,7 +807,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // If the other option is selected, no AJAX request is made
         if (!optionValue.equals(customVisibilityOptionsValue)) {
-            getjQueryAjaxHandler().waitForAjaxIfPresentAndRegisterHandlers();
+            getjQueryAjaxHandler().waitForAjaxIfPresentThenRegisterHandlers();
         }
 
         WebElement visibilityOptionsDropdown =

@@ -819,7 +819,7 @@ public abstract class AppPage {
      * @see AppPage#selectDropdownByVisibleValue(WebElement, String)
      */
     void selectDropdownByVisibleValueAndHandleAjaxRequests(WebElement element, String text) {
-        jQueryAjaxHandler.waitForAjaxIfPresentAndRegisterHandlers();
+        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
 
         if (selectDropdownByVisibleValue(element, text)) {
             jQueryAjaxHandler.waitForRequestComplete();
@@ -857,7 +857,7 @@ public abstract class AppPage {
      * @see AppPage#selectDropdownByActualValue(WebElement, String)
      */
     void selectDropdownByActualValueAndHandleAjaxRequests(WebElement element, String value) {
-        jQueryAjaxHandler.waitForAjaxIfPresentAndRegisterHandlers();
+        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
 
         if (selectDropdownByActualValue(element, value)) {
             jQueryAjaxHandler.waitForRequestComplete();
@@ -1480,7 +1480,7 @@ public abstract class AppPage {
          *
          * @throws IllegalStateException if the handlers are already registered in the document
          */
-        void waitForAjaxIfPresentAndRegisterHandlers() {
+        void waitForAjaxIfPresentThenRegisterHandlers() {
             checkState(!hasHandlers(), "`ajaxStart` and `ajaxStop` handlers need only be added once to the document.");
 
             waitForNoActiveAjaxRequests();
