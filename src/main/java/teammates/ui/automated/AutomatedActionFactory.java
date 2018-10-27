@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
@@ -68,7 +70,7 @@ public class AutomatedActionFactory {
         Class<? extends AutomatedAction> action = ACTION_MAPPINGS.get(uri);
 
         if (action == null) {
-            throw new ActionMappingException("Resource with URI " + uri + " is not found.", 404);
+            throw new ActionMappingException("Resource with URI " + uri + " is not found.", HttpStatus.SC_NOT_FOUND);
         }
 
         try {

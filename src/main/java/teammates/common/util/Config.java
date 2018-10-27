@@ -142,10 +142,24 @@ public final class Config {
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the application URL.
+     * The base URL will be the application front-end URL.
      * {@code relativeUrl} must start with a "/".
      */
-    public static AppUrl getAppUrl(String relativeUrl) {
+    public static AppUrl getFrontEndAppUrl(String relativeUrl) {
+        if (Config.isDevServer() && APP_FRONTENDDEV_URL != null) {
+            return new AppUrl(APP_FRONTENDDEV_URL + relativeUrl);
+        }
+
+        // In production, the back-end and front-end lives under the same domain
+        return getBackEndAppUrl(relativeUrl);
+    }
+
+    /**
+     * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
+     * The base URL will be the application back-end URL.
+     * {@code relativeUrl} must start with a "/".
+     */
+    public static AppUrl getBackEndAppUrl(String relativeUrl) {
         return new AppUrl(APP_URL + relativeUrl);
     }
 

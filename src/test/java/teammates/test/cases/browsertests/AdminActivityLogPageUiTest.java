@@ -57,11 +57,11 @@ public class AdminActivityLogPageUiTest extends BaseE2ETestCase {
         logPage.verifyIsCorrectPage();
 
         ______TS("content: navigate to other pages to get some logs");
-        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
+        logPage.navigateTo(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE));
         logPage.waitForPageToLoad();
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE));
+        logPage.navigateTo(createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE));
         logPage.waitForPageToLoad();
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
@@ -125,7 +125,7 @@ public class AdminActivityLogPageUiTest extends BaseE2ETestCase {
         ______TS("safe against injection from admin search page");
 
         AdminSearchPage searchPageForInjection = logPage
-                .navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE))
+                .navigateTo(createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE))
                 .changePageType(AdminSearchPage.class);
 
         String injectedScript = "Test Injected Script<script>alert('This is not good.');</script>";

@@ -3,6 +3,8 @@ package teammates.ui.automated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.logic.api.EmailGenerator;
@@ -78,7 +80,7 @@ public abstract class AutomatedAction {
 
     protected void setForRetry() {
         // Sets an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
-        response.setStatus(100);
+        response.setStatus(HttpStatus.SC_CONTINUE);
     }
 
     protected abstract String getActionDescription();

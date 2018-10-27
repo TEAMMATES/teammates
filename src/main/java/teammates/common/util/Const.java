@@ -151,7 +151,6 @@ public final class Const {
                         ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
                         ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
                         ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
-                        ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD,
                         ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
@@ -202,8 +201,6 @@ public final class Const {
 
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.STUDENT_COURSE_JOIN,
-                        ActionURIs.STUDENT_COURSE_JOIN_NEW,
                         ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
@@ -211,13 +208,7 @@ public final class Const {
 
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
-                        ActionURIs.STUDENT_HOME_PAGE,
-                        ActionURIs.INSTRUCTOR_COURSE_JOIN,
-                        ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED));
-
-        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Collections.unmodifiableList(
-                Arrays.asList(ActionURIs.STUDENT_COURSE_JOIN));
+                        ActionURIs.STUDENT_HOME_PAGE));
 
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
 
@@ -868,10 +859,6 @@ public final class Const {
         public static final String HINT = "hint";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "feedbacksessionnotvisible";
 
-        public static final String LOGIN_ADMIN = "admin";
-        public static final String LOGIN_INSTRUCTOR = "instructor";
-        public static final String LOGIN_STUDENT = "student";
-
         //Email parameters
         public static final String EMAIL_RECEIVER = "user";
         public static final String EMAIL_COURSE = "course";
@@ -925,6 +912,7 @@ public final class Const {
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
         public static final String ERROR_FEEDBACK_EMAIL_CONTENT = "errorfeedbackemailcontent";
         public static final String ERROR_FEEDBACK_URL_REQUESTED = "errorfeedbackrequestedurl";
+        public static final String ENTITY_TYPE = "entitytype";
     }
 
     public static class SearchIndex {
@@ -941,6 +929,14 @@ public final class Const {
         public static final String COURSE_ID = "courseId";
     }
 
+    public static class EntityType {
+
+        public static final String STUDENT = "student";
+        public static final String INSTRUCTOR = "instructor";
+        public static final String ADMIN = "admin";
+
+    }
+
     public static class CsrfConfig {
 
         public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
@@ -950,9 +946,17 @@ public final class Const {
 
     public static class WebPageURIs {
 
-        public static final String ADMIN_HOME_PAGE = "/web/admin/home";
-        public static final String INSTRUCTOR_HOME_PAGE = "/web/instructor/home";
-        public static final String STUDENT_HOME_PAGE = "/web/student/home";
+        private static final String URI_PREFIX = "/web";
+
+        private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
+        private static final String INSTRUCTOR_PAGE = URI_PREFIX + "/" + EntityType.INSTRUCTOR;
+        private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
+
+        public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
+        public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
+        public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
+        public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
     }
 
@@ -961,6 +965,8 @@ public final class Const {
         public static final String URI_PREFIX = "/webapi";
 
         public static final String AUTH = "/auth";
+        public static final String ACCOUNTS = "/accounts";
+        public static final String JOIN = "/join";
 
     }
 
@@ -999,8 +1005,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
-        public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
-        public static final String INSTRUCTOR_COURSE_JOIN_AUTHENTICATED = "/page/instructorCourseJoinAuthenticated";
         public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage";
@@ -1069,9 +1073,6 @@ public final class Const {
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
 
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
-        public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
-        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
-        public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
@@ -1086,15 +1087,12 @@ public final class Const {
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
         public static final String ADMIN_EMAIL_LOG_PAGE = "/admin/adminEmailLogPage";
-        public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
-        public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
         public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
-        public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
         public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
         public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
@@ -1212,7 +1210,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp";
         public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp";
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
-        public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
         public static final String INSTRUCTOR_FEEDBACK_SESSIONS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
@@ -1243,7 +1240,6 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
-        public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT =
