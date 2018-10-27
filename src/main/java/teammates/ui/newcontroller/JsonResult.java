@@ -7,10 +7,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.util.JsonUtils;
 
 /**
- * Action result in form of JSON key-value mappings.
+ * Action result in form of JSON object.
  *
  * <p>This is the most common format for REST-ful back-end API response.
  */
@@ -21,7 +23,7 @@ public class JsonResult extends ActionResult {
 
     public JsonResult(Object output) {
         this.output = output;
-        this.statusCode = 200;
+        this.statusCode = HttpStatus.SC_OK;
     }
 
     public JsonResult(String message, int statusCode) {

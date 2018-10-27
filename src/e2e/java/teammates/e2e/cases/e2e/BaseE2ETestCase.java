@@ -182,7 +182,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     protected AdminHomePage loginAdmin() {
-        return loginAdminToPage(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
+        return loginAdminToPage(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
 
 }

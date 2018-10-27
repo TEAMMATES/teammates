@@ -190,7 +190,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         RedirectResult r = getRedirectResult(action);
 
         expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE, true, "");
-        expectedDestination = Config.getAppUrl(expectedDestination)
+        expectedDestination = Config.getFrontEndAppUrl(expectedDestination)
                 .withCourseId(session.getCourseId()).withUserId("idOfInstructor1OfCourse1")
                 .withSessionName(session.getFeedbackSessionName()).toAbsoluteString();
         assertEquals(new URL(expectedDestination).getFile(), r.getDestinationWithParams());

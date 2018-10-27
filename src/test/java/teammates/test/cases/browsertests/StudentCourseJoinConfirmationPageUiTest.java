@@ -65,7 +65,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
         String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").getId();
         String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").getName();
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
-        joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
                         .withCourseId(courseId)
                         .withStudentEmail(studentEmail)
@@ -86,7 +86,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
         courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
         courseName = testData.courses.get("SCJConfirmationUiT.CS2103").getName();
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
-        joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
                                         .toAbsoluteString();
 
@@ -150,7 +150,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
         String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").getId();
         String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").getName();
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
-        joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN)
+        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
                                         .toAbsoluteString();
 
@@ -168,7 +168,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
         courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
         courseName = testData.courses.get("SCJConfirmationUiT.CS2103").getName();
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
-        joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN)
+        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
                                         .toAbsoluteString();
 
