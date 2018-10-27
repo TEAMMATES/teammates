@@ -468,12 +468,12 @@ def afterTestClosure = { descriptor, result ->
         println ""
 
         def msg = result.exception.getMessage()
-        def shouldDisplayAsDiff = msg.indexOf("<<expected>") != -1
+        def shouldDisplayAsDiff = msg.indexOf("<<[expected>") != -1
         if (shouldDisplayAsDiff) {
             def expectedFileName = "expected-${descriptor.getClassName()}"
             def actualFileName = "actual-${descriptor.getClassName()}"
-            file("${expectedFileName}").text = msg[(msg.indexOf("<<expected>") + 11)..(msg.indexOf("</expected>>") - 1)]
-            file("${actualFileName}").text = msg[(msg.indexOf("<<actual>") + 9)..(msg.indexOf("</actual>>") - 1)]
+            file("${expectedFileName}").text = msg[(msg.indexOf("<<[expected>") + 12)..(msg.indexOf("</expected]>>") - 1)]
+            file("${actualFileName}").text = msg[(msg.indexOf("<<[actual>") + 10)..(msg.indexOf("</actual]>>") - 1)]
             def diffCommand = isWindows ? "FC" : "diff"
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
