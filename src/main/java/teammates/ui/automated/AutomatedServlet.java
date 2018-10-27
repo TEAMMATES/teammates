@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogMessageGenerator;
@@ -45,8 +43,7 @@ abstract class AutomatedServlet extends HttpServlet {
             String requestUrl = req.getRequestURL().toString();
             log.severe("Exception occured while performing " + requestUrl + "|||"
                        + TeammatesException.toStringWithStackTrace(t));
-            // So task will be recognised as failed and GAE retry mechanism can kick in
-            resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            resp.setStatus(500); // so task will be recognised as failed and GAE retry mechanism can kick in
         }
     }
 

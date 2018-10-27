@@ -58,7 +58,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseE2ETestCase 
 
         ______TS("Click join link then cancel");
 
-        String joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
+        String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(invalidEncryptedKey)
                                         .toAbsoluteString();
         logout();
@@ -88,7 +88,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseE2ETestCase 
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
         String regkey = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
-        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
+        joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .toAbsoluteString();
 

@@ -65,7 +65,7 @@ public abstract class Action {
             return false;
         }
 
-        if (getMinAuthLevel() == AuthType.PUBLIC) {
+        if (getMinAuthLevel() == AuthType.UNAUTHENTICATED) {
             // No authentication necessary for this resource
             return true;
         }
@@ -80,13 +80,19 @@ public abstract class Action {
     }
 
     private void initAuthInfo() {
-        if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
+        if (Config.BACKDOOR_KEY.equals(req.getParameter("backdoorkey"))) {
             authType = AuthType.ALL_ACCESS;
             return;
         }
 
         userInfo = gateKeeper.getCurrentUser();
-        authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
+        if (userInfo != null) {
+            authType = AuthType.REGISTERED;
+            return;
+        }
+
+        String regkey = req.getParameter("regkey");
+        authType = regkey == null ? AuthType.UNAUTHENTICATED : AuthType.UNREGISTERED;
     }
 
     /**

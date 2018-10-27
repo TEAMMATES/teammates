@@ -95,7 +95,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account, sessionToken,
-                                                          Config.getFrontEndAppUrl(nextUrl)
+                                                          Config.getAppUrl(nextUrl)
                                                                 .withParam(Const.ParamsNames.ERROR,
                                                                            Boolean.FALSE.toString())
                                                                 .withParam(Const.ParamsNames.USER_ID,

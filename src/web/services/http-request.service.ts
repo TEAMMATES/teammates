@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
 /**
- * Handles HTTP requests to the application back-end.
- *
- * This service is not appropriate for requesting static asset files.
+ * Handles HTTP requests.
  */
 @Injectable({
   providedIn: 'root',

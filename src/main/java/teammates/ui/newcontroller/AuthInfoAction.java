@@ -10,17 +10,18 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.GateKeeper;
 
 /**
  * Action: gets user authentication information.
  *
  * <p>This does not log in or log out the user.
  */
-public class GetAuthInfoAction extends Action {
+public class AuthInfoAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.UNAUTHENTICATED;
     }
 
     @Override
@@ -31,6 +32,7 @@ public class GetAuthInfoAction extends Action {
 
     @Override
     public ActionResult execute() {
+        GateKeeper gateKeeper = new GateKeeper();
         UserInfo user = gateKeeper.getCurrentUser();
         String frontendUrl = req.getParameter("frontendUrl");
 
