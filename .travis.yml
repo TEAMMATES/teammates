@@ -39,7 +39,6 @@ before_script:
   - tar -xzf google-cloud-sdk.tar.gz
   - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
   - cd $TRAVIS_BUILD_DIR
-  - gcloud -q components update --version 219.0.1
   - gcloud -q components install app-engine-java
 
   - ./gradlew createConfigs testClasses
