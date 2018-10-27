@@ -39,11 +39,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         ______TS("Without google login (with key)");
 
-        url = Const.ActionURIs.STUDENT_COURSE_JOIN;
+        url = Const.WebPageURIs.JOIN_PAGE;
         paramMap = generateRequestParamsWithRegKey();
         e = new UnauthorizedAccessException("Unknown Registration Key KeyABC");
         generatedMessage = logCenter.generateActionFailureLogMessage(url, paramMap, e, null);
-        logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||Servlet Action Failure|||true"
+        logMessagePrefix = "TEAMMATESLOG|||join|||Servlet Action Failure|||true"
                            + "|||Unknown|||Unknown|||Unknown|||Unknown|||";
 
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
@@ -81,10 +81,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         ______TS("Not google login but with key (failure)");
 
-        url = Const.ActionURIs.STUDENT_COURSE_JOIN;
+        url = Const.WebPageURIs.JOIN_PAGE;
         paramMap = generateRequestParamsWithRegKey();
-        logMessage = "TEAMMATESLOG|||studentCourseJoin|||studentCourseJoin|||true|||Unknown|||Unknown|||"
-                     + "Unknown|||Unknown|||Not authorized|||/page/studentCourseJoin";
+        logMessage = "TEAMMATESLOG|||join|||join|||true|||Unknown|||Unknown|||"
+                     + "Unknown|||Unknown|||Not authorized|||/web/join";
 
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, null, null, null, "Not authorized");
@@ -93,8 +93,8 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         ______TS("Not google login but with key (success)");
 
-        url = Const.ActionURIs.STUDENT_COURSE_JOIN + "?user=test@email.com&course=1";
-        logMessage = "TEAMMATESLOG|||studentCourseJoin|||studentCourseJoin|||true|||Unregistered:CS2103|||Joe"
+        url = Const.WebPageURIs.JOIN_PAGE + "?user=test@email.com&course=1";
+        logMessage = "TEAMMATESLOG|||join|||join|||true|||Unregistered:CS2103|||Joe"
                      + "|||Unknown|||student@email|||Join Course|||" + url;
         StudentAttributes student = StudentAttributes
                 .builder("CS2103", "Joe", "student@email")

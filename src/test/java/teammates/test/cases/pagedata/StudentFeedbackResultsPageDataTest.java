@@ -78,9 +78,10 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertEquals("You are viewing feedback results as <span class='text-danger text-bold text-large'>"
                       + "student1 In Course1</td></div>'\"</span>. You may submit feedback for sessions that are "
                       + "currently open and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                      + "To access other features you need <a href='/web/join?"
                       + "key=" + StringHelper.encrypt(dummyKey)
-                      + "&studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                      + "&studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1&entitytype=student' "
+                      + "class='link'>"
                       + "to login using a Google account</a> (recommended).",
                       pageData.getRegisterMessage());
 
@@ -147,9 +148,10 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "<span class='text-danger text-bold text-large'>student1 In "
                       + "unregisteredCourse</span>. You may submit feedback for sessions that are currently open "
                       + "and view results without logging in. To access other features you need "
-                      + "<a href='/page/studentCourseJoinAuthentication?key="
+                      + "<a href='/web/join?key="
                       + StringHelper.encrypt("regKeyForStuNotYetJoinCourse")
-                      + "&studentemail=student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
+                      + "&studentemail=student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse"
+                      + "&entitytype=student' "
                       + "class='link'>to login using a Google account</a> (recommended).",
                       pageData.getRegisterMessage());
     }

@@ -426,14 +426,6 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
     }
 
-    public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(encryptedKey);
-        accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
-    }
-
     public void verifyInputForAdminHomePage(String name, String institute, String email)
             throws InvalidParametersException {
 

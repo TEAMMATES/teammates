@@ -124,7 +124,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         RedirectResult pageResult = getRedirectResult(a);
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
                            .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
                            .toString(),
@@ -152,7 +152,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         pageResult = getRedirectResult(a);
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
                            .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
                            .toString(),

@@ -320,7 +320,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
         JoinCourseException jce = assertThrows(JoinCourseException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse"));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null));
         assertEquals(
                 String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
                         "idOfInstructorWithOnlyOneSampleCourse"),
@@ -328,7 +328,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: instructor joined and new account be created");
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null);
 
         InstructorAttributes joinedInstructor =
                 instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -344,7 +344,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsDb.deleteAccount(loggedInGoogleId);
 
         //Try to join course again, Account object should be recreated
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
@@ -365,7 +365,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         encryptedKey[0] = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -391,7 +391,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         instructorsLogic.createInstructor(newIns);
         encryptedKey[0] = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -411,14 +411,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         InstructorAttributes[] finalInstructor = new InstructorAttributes[] { joinedInstructor };
         jce = assertThrows(JoinCourseException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null));
         assertEquals(joinedInstructor.googleId + " has already joined this course",
                 jce.getMessage());
 
         ______TS("failure: key belongs to a different user");
 
         jce = assertThrows(JoinCourseException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId"));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId", null));
         assertEquals("The join link used belongs to a different user whose "
                         + "Google ID is stude..ourse1 (only part of the Google ID is "
                         + "shown to protect privacy). If that Google ID is owned by you, "
@@ -433,8 +433,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         String invalidKey = StringHelper.encrypt("invalidKey");
 
         jce = assertThrows(JoinCourseException.class,
-                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId));
-        assertEquals("You have used an invalid join link: /page/instructorCourseJoin?key=" + invalidKey,
+                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, null));
+        assertEquals("You have used an invalid join link: /web/join?key=" + invalidKey,
                 jce.getMessage());
     }
 

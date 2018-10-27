@@ -443,11 +443,12 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .build();
 
         sd.key = "testkey";
-        String regUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                .withRegistrationKey(StringHelper.encrypt("testkey"))
-                                .withStudentEmail("email@email.com")
-                                .withCourseId("course1")
-                                .toString();
+        String regUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt("testkey"))
+                .withStudentEmail("email@email.com")
+                .withCourseId("course1")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
+                .toString();
         assertEquals(regUrl, sd.getRegistrationUrl());
     }
 
@@ -457,10 +458,10 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .builder("course1", "name 1", "email@email.com")
                 .withSection("sect 1").withComments("comment 1").withTeam("team 1")
                 .build();
-        String profilePicUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                                       .withStudentEmail(StringHelper.encrypt("email@email.com"))
-                                       .withCourseId(StringHelper.encrypt("course1"))
-                                       .toString();
+        String profilePicUrl = Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+                .withStudentEmail(StringHelper.encrypt("email@email.com"))
+                .withCourseId(StringHelper.encrypt("course1"))
+                .toString();
         assertEquals(profilePicUrl, studentAttributes.getPublicProfilePictureUrl());
     }
 
