@@ -294,7 +294,7 @@ public abstract class Action {
             if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
                 String expectedId = StringHelper.obscure(student.googleId);
                 expectedId = StringHelper.encrypt(expectedId);
-                String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
+                String redirectUrl = Config.getFrontEndAppUrl(Const.ActionURIs.LOGOUT)
                                           .withUserId(StringHelper.encrypt(loggedInUserId))
                                           .withParam(Const.ParamsNames.NEXT_URL, gateKeeper.getLoginUrl(requestUrl))
                                           .withParam(Const.ParamsNames.HINT, expectedId)
@@ -322,9 +322,9 @@ public abstract class Action {
         } else if (isARegisteredUser) {
             setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return null;
-        } else if (isNotLegacyLink() && isMissingAdditionalAuthenticationInfo) {
+        } else if (isMissingAdditionalAuthenticationInfo) {
             throw new UnauthorizedAccessException("Insufficient information to authenticate user");
-        } else if (isNotLegacyLink() && isAuthenticationFailure) {
+        } else if (isAuthenticationFailure) {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         } else {
             // Unregistered and not logged in access given to page
@@ -334,10 +334,6 @@ public abstract class Action {
         }
 
         return loggedInUser;
-    }
-
-    private boolean isNotLegacyLink() {
-        return !Const.SystemParams.LEGACY_PAGES_WITH_REDUCED_SECURITY.contains(request.getRequestURI());
     }
 
     private boolean doesUserNeedToLogin(UserInfo currentUser) {
@@ -386,7 +382,7 @@ public abstract class Action {
             if (regkey != null && student != null) {
                 // TODO: encrypt the email as currently anyone with the regkey can
                 //       get the email because of this redirect:
-                String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
+                String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl())
                                     .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                     .toString();
                 setRedirectPage(joinUrl);
@@ -398,7 +394,7 @@ public abstract class Action {
 
         boolean isUserLoggedIn = account.googleId != null;
         if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-            String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
+            String redirectUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl())
                                   .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                   .toString();
             setRedirectPage(redirectUrl);
@@ -417,9 +413,7 @@ public abstract class Action {
 
     private boolean isPageNotCourseJoinRelated() {
         String currentUri = request.getRequestURI();
-        return !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN)
-               && !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-               && !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+        return !currentUri.equals(Const.WebPageURIs.JOIN_PAGE);
     }
 
     private boolean isHomePage() {

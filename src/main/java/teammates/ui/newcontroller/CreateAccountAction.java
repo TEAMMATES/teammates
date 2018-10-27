@@ -1,6 +1,10 @@
-package teammates.ui.controller;
+package teammates.ui.newcontroller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -16,118 +20,82 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.common.util.Url;
 import teammates.logic.api.EmailGenerator;
-import teammates.ui.pagedata.AdminHomePageData;
 
-public class AdminInstructorAccountAddAction extends Action {
+/**
+ * Action: creates a new instructor account with sample courses.
+ */
+public class CreateAccountAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
+    protected AuthType getMinAuthLevel() {
+        return AuthType.LOGGED_IN;
+    }
+
+    @Override
+    protected boolean checkSpecificAccessControl() {
+        // Only admins can create new accounts
+        return userInfo.isAdmin;
+    }
+
+    @Override
     protected ActionResult execute() {
-
-        gateKeeper.verifyAdminPrivileges(account);
-
-        AdminHomePageData data = new AdminHomePageData(account, sessionToken);
-
-        data.instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
-        data.instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
-        data.instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();
-        data.isInstructorAddingResultForAjax = true;
-        data.statusForAjax = "";
-
-        data.instructorName = data.instructorName.trim();
-        data.instructorEmail = data.instructorEmail.trim();
-        data.instructorInstitution = data.instructorInstitution.trim();
+        String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
+        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
+        String instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();
 
         try {
-            logic.verifyInputForAdminHomePage(data.instructorName,
-                                              data.instructorInstitution, data.instructorEmail);
+            logic.verifyInputForAdminHomePage(instructorName, instructorInstitution, instructorEmail);
         } catch (InvalidParametersException e) {
-            data.statusForAjax = e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
-            data.isInstructorAddingResultForAjax = false;
-            statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
-            return createAjaxResult(data);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
         String courseId = null;
 
         try {
-            courseId = importDemoData(data);
-        } catch (Exception e) {
-
-            String retryUrl = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
-            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
-            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
-            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.SESSION_TOKEN, data.getSessionToken());
-
-            StringBuilder errorMessage = new StringBuilder(100);
-            String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
-            errorMessage.append(retryLink);
-
-            statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
-
-            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>"
-                             + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
-
-            errorMessage.append("<br>").append(message);
-            statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
-            statusToAdmin = message;
-
-            data.isInstructorAddingResultForAjax = false;
-            data.statusForAjax = errorMessage.toString();
-            return createAjaxResult(data);
+            courseId = importDemoData(instructorEmail, instructorName);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
-                                .withInstructorInstitution(data.instructorInstitution)
-                                .toAbsoluteString();
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
+                .withInstructorInstitution(instructorInstitution)
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
         EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).email, data.instructorName, joinLink);
+                instructorList.get(0).email, instructorName, joinLink);
         try {
             emailSender.sendEmail(email);
         } catch (EmailSendingException e) {
             log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }
-        data.statusForAjax = "Instructor " + SanitizationHelper.sanitizeForHtml(data.instructorName)
-                             + " has been successfully created " + "<a href=" + joinLink + ">" + Const.JOIN_LINK + "</a>";
-        statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
-        statusToAdmin = "A New Instructor <span class=\"bold\">"
-                + SanitizationHelper.sanitizeForHtmlTag(data.instructorName) + "</span> has been created.<br>"
-                + "<span class=\"bold\">Id: </span>"
-                + "ID will be assigned when the verification link was clicked and confirmed"
-                + "<br>"
-                + "<span class=\"bold\">Email: </span>" + SanitizationHelper.sanitizeForHtmlTag(data.instructorEmail)
-                + "<span class=\"bold\">Institution: </span>"
-                + SanitizationHelper.sanitizeForHtmlTag(data.instructorInstitution);
 
-        return createAjaxResult(data);
+        Map<String, String> output = new HashMap<>();
+        output.put("joinLink", joinLink);
+        return new JsonResult(output);
     }
 
     /**
-     * Imports Demo course to new instructor.
-     * @param pageData data from AdminHomePageData
-     * @return the ID of Demo course
+     * Imports demo course for the new instructor.
+     *
+     * @return the ID of demo course
      */
-    private String importDemoData(AdminHomePageData pageData)
+    private String importDemoData(String instructorEmail, String instructorName)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        String courseId = generateDemoCourseId(pageData.instructorEmail);
+        String courseId = generateDemoCourseId(instructorEmail);
 
         String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
                 // replace email
-                "teammates.demo.instructor@demo.course", pageData.instructorEmail,
+                "teammates.demo.instructor@demo.course", instructorEmail,
                 // replace name
-                "Demo_Instructor", pageData.instructorName,
+                "Demo_Instructor", instructorName,
                 // replace course
                 "demo.course", courseId);
 
@@ -136,7 +104,7 @@ public class AdminInstructorAccountAddAction extends Action {
         logic.persistDataBundle(data);
 
         List<FeedbackResponseCommentAttributes> frComments =
-                logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
+                logic.getFeedbackResponseCommentForGiver(courseId, instructorEmail);
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
@@ -165,7 +133,7 @@ public class AdminInstructorAccountAddAction extends Action {
     //    lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
     //
     // c. in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
-    //    before "@" of the intial input email, by continuously remove its last character
+    //    before "@" of the initial input email, by continuously removing its last character
 
     /**
      * Generate a course ID for demo course, and if the generated id already exists, try another one.
@@ -218,14 +186,12 @@ public class AdminInstructorAccountAddAction extends Action {
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {
-            return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
-                                             maximumIdLength);
+            return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId), maximumIdLength);
         }
 
         boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo");
         if (isFirstTimeDuplicate) {
-            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
-                                             maximumIdLength);
+            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0", maximumIdLength);
         }
 
         int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
@@ -234,4 +200,5 @@ public class AdminInstructorAccountAddAction extends Action {
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
+
 }

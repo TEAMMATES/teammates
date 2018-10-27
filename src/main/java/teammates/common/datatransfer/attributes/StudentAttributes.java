@@ -103,18 +103,19 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     public String getRegistrationUrl() {
-        return Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                           .withRegistrationKey(StringHelper.encrypt(key))
-                                           .withStudentEmail(email)
-                                           .withCourseId(course)
-                                           .toString();
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(key))
+                .withStudentEmail(email)
+                .withCourseId(course)
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
+                .toString();
     }
 
     public String getPublicProfilePictureUrl() {
-        return Config.getAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                           .withStudentEmail(StringHelper.encrypt(email))
-                           .withCourseId(StringHelper.encrypt(course))
-                           .toString();
+        return Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+                .withStudentEmail(StringHelper.encrypt(email))
+                .withCourseId(StringHelper.encrypt(course))
+                .toString();
     }
 
     public String getName() {

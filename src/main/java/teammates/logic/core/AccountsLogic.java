@@ -123,29 +123,11 @@ public final class AccountsLogic {
 
     /**
      * Joins the user as an instructor, and sets the institute too.
-     */
-    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
-
-        joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
-
-    }
-
-    /**
-     * Joins the user as an instructor.
-     */
-    public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
-
-        joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
-
-    }
-
-    /**
-     * Institute is set only if it is not null. If it is null, this instructor
+     *
+     * <p>Institute is set only if it is not null. If it is null, this instructor
      * is given the institute of an existing instructor of the same course.
      */
-    private void joinCourseForInstructorWithInstitute(String encryptedKey, String googleId, String institute)
+    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
         confirmValidJoinCourseRequest(encryptedKey, googleId);
@@ -228,7 +210,7 @@ public final class AccountsLogic {
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
 
         if (instructorForKey == null) {
-            String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?key=" + encryptedKey;
+            String joinUrl = Const.WebPageURIs.JOIN_PAGE + "?key=" + encryptedKey;
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                                           "You have used an invalid join link: " + joinUrl);
 

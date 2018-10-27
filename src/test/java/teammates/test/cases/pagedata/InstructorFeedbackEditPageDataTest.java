@@ -74,7 +74,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
 
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
                 .withUserId(instructor.googleId).toString(), fsForm.getCopyToLink());
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
         assertNull(fsForm.getCourses());
@@ -82,7 +82,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertFalse(fsForm.isSessionTemplateTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
         assertNull(fsForm.getSessionTemplateTypeOptions());
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(),
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(),
                      fsForm.getFormSubmitAction());
 
         assertEquals(data.getInstructorFeedbackDeleteLink(fs.getCourseId(),
@@ -203,14 +203,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
 
         // test question add form
         FeedbackQuestionEditForm newQuestionForm = data.getNewQnForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.getCourseId())
                         .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(-1, newQuestionForm.getQuestionIndex());
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                             .withUserId(instructor.googleId)
                             .withCourseId(fs.getCourseId())
                             .withSessionName(fs.getFeedbackSessionName()).toString(),
@@ -241,7 +241,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
                 instructorList.size(), courseDetails);
 
         fsForm = data.getFsForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
                            .withUserId(instructor.googleId).toString(),
                       fsForm.getCopyToLink());
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
@@ -277,13 +277,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertEquals(instructorList.size(), previewForm.getInstructorToPreviewAsOptions().size());
 
         newQuestionForm = data.getNewQnForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.getCourseId())
                         .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        assertEquals(Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                          .withUserId(instructor.googleId)
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),

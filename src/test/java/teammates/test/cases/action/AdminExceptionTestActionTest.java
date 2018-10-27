@@ -99,7 +99,7 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         error = "";
         action = getAction(Const.ParamsNames.ERROR, error);
         ActionResult result = action.executeAndPostProcess();
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, result.destination);
+        assertEquals(Const.WebPageURIs.ADMIN_HOME_PAGE, result.destination);
     }
 
     @Override

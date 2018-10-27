@@ -36,7 +36,7 @@ public class AdminExceptionTestAction extends Action {
         }
 
         statusToAdmin = "adminExceptionTest";
-        return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
+        return createRedirectResult(Const.WebPageURIs.ADMIN_HOME_PAGE);
     }
 
 }

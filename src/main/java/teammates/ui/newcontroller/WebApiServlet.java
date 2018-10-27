@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
@@ -72,7 +74,7 @@ public class WebApiServlet extends HttpServlet {
 
         boolean passAccessControlCheck = action.checkAccessControl();
         if (!passAccessControlCheck) {
-            throwError(resp, 403, "Not authorized to access this resource.");
+            throwError(resp, HttpStatus.SC_FORBIDDEN, "Not authorized to access this resource.");
             return;
         }
 
@@ -85,7 +87,7 @@ public class WebApiServlet extends HttpServlet {
 
             log.info(action.getLogMessage() + "|||" + timeTaken);
         } catch (InvalidHttpParameterException ihpe) {
-            throwError(resp, 400, ihpe.getMessage());
+            throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it
@@ -93,12 +95,12 @@ public class WebApiServlet extends HttpServlet {
 
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
-            throwError(resp, 408, e.getMessage());
+            throwError(resp, HttpStatus.SC_GATEWAY_TIMEOUT, e.getMessage());
 
         } catch (Throwable t) {
             log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(t));
-            throwError(resp, 500, t.getMessage());
+            throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, t.getMessage());
         }
     }
 

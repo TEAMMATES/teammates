@@ -5,7 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
+
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
@@ -20,7 +24,11 @@ public class ActionFactory {
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map(ResourceURIs.AUTH, HttpMethod.GET, AuthInfoAction.class);
+        map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
+        map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
+        map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
+        map(ResourceURIs.JOIN, HttpGet.METHOD_NAME, GetCourseJoinStatusAction.class);
+        map(ResourceURIs.JOIN, HttpPut.METHOD_NAME, JoinCourseAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {
@@ -42,14 +50,15 @@ public class ActionFactory {
 
     private Action getAction(String uri, String method) throws ActionMappingException {
         if (!ACTION_MAPPINGS.containsKey(uri)) {
-            throw new ActionMappingException("Resource with URI " + uri + " is not found.", 404);
+            throw new ActionMappingException("Resource with URI " + uri + " is not found.", HttpStatus.SC_NOT_FOUND);
         }
 
         Class<? extends Action> controllerClass =
                 ACTION_MAPPINGS.getOrDefault(uri, new HashMap<>()).get(method);
 
         if (controllerClass == null) {
-            throw new ActionMappingException("Method [" + method + "] is not allowed for URI " + uri + ".", 405);
+            throw new ActionMappingException("Method [" + method + "] is not allowed for URI " + uri + ".",
+                    HttpStatus.SC_METHOD_NOT_ALLOWED);
         }
 
         try {

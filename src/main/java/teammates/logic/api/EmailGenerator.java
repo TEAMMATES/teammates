@@ -124,7 +124,7 @@ public class EmailGenerator {
         }
 
         StringBuffer linksFragmentValue = new StringBuffer(1000);
-        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
 
         String joinFragmentValue = isYetToJoinCourse(student)
                                    ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
@@ -139,7 +139,7 @@ public class EmailGenerator {
             String reportUrlHtml = "(Feedback session is not yet published)";
 
             if (fsa.isOpened() || fsa.isClosed()) {
-                String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                String submitUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(StringHelper.encrypt(student.key))
@@ -149,7 +149,7 @@ public class EmailGenerator {
             }
 
             if (fsa.isPublished()) {
-                String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(StringHelper.encrypt(student.key))
@@ -189,7 +189,7 @@ public class EmailGenerator {
             FeedbackSessionAttributes session, StudentAttributes student, Instant timestamp) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        String submitUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .withRegistrationKey(StringHelper.encrypt(student.key))
@@ -205,7 +205,7 @@ public class EmailGenerator {
             FeedbackSessionAttributes session, InstructorAttributes instructor, Instant timestamp) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        String submitUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
@@ -253,15 +253,15 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject, String additionalContactInformation) {
 
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .toAbsoluteString();
+        String submitUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .toAbsoluteString();
 
-        String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .toAbsoluteString();
+        String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .toAbsoluteString();
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
@@ -426,19 +426,19 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
             String subject, String feedbackAction, String additionalContactInformation) {
 
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .withRegistrationKey(StringHelper.encrypt(student.key))
-                                 .withStudentEmail(student.email)
-                                 .toAbsoluteString();
+        String submitUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .withRegistrationKey(StringHelper.encrypt(student.key))
+                .withStudentEmail(student.email)
+                .toAbsoluteString();
 
-        String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .withRegistrationKey(StringHelper.encrypt(student.key))
-                                 .withStudentEmail(student.email)
-                                 .toAbsoluteString();
+        String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .withRegistrationKey(StringHelper.encrypt(student.key))
+                .withStudentEmail(student.email)
+                .toAbsoluteString();
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
@@ -602,7 +602,7 @@ public class EmailGenerator {
     }
 
     private String fillUpStudentJoinFragment(StudentAttributes student, String emailBody) {
-        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
 
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
@@ -610,7 +610,7 @@ public class EmailGenerator {
     }
 
     private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes student, String emailBody) {
-        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
 
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
@@ -619,9 +619,10 @@ public class EmailGenerator {
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
-        String joinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                               .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                               .toAbsoluteString();
+        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
 
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
