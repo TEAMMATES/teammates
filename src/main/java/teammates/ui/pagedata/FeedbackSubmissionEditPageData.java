@@ -63,7 +63,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                         .withRegistrationKey(regKey)
                                         .withStudentEmail(email)
                                         .withCourseId(courseId)
-                                        .withParam(Const.ParamsNames.ENTITY_TYPE, "student")
+                                        .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
                                         .toString();
 
         registerMessage = student == null

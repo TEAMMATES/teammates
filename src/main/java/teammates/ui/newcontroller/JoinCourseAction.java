@@ -36,9 +36,9 @@ public class JoinCourseAction extends Action {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
-        case "student":
+        case Const.EntityType.STUDENT:
             return joinCourseForStudent(regkey);
-        case "instructor":
+        case Const.EntityType.INSTRUCTOR:
             String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
             return joinCourseForInstructor(regkey, institute);
         default:

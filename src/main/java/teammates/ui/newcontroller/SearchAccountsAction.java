@@ -250,7 +250,7 @@ public class SearchAccountsAction extends Action {
             }
             ib.courseJoinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                    .withParam(Const.ParamsNames.ENTITY_TYPE, "instructor")
+                    .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                     .toAbsoluteString();
 
             instructorsBundle.add(ib);

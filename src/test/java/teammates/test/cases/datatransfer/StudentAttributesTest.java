@@ -447,7 +447,7 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .withRegistrationKey(StringHelper.encrypt("testkey"))
                 .withStudentEmail("email@email.com")
                 .withCourseId("course1")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, "student")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
                 .toString();
         assertEquals(regUrl, sd.getRegistrationUrl());
     }

@@ -304,7 +304,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(regkey))
                 .withInstructorInstitution("Test Institute")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, "instructor")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()
@@ -336,7 +336,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor1.key))
                 .withInstructorInstitution("Test Institute")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, "instructor")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()

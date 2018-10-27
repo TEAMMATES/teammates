@@ -859,10 +859,6 @@ public final class Const {
         public static final String HINT = "hint";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "feedbacksessionnotvisible";
 
-        public static final String LOGIN_ADMIN = "admin";
-        public static final String LOGIN_INSTRUCTOR = "instructor";
-        public static final String LOGIN_STUDENT = "student";
-
         //Email parameters
         public static final String EMAIL_RECEIVER = "user";
         public static final String EMAIL_COURSE = "course";
@@ -933,6 +929,14 @@ public final class Const {
         public static final String COURSE_ID = "courseId";
     }
 
+    public static class EntityType {
+
+        public static final String STUDENT = "student";
+        public static final String INSTRUCTOR = "instructor";
+        public static final String ADMIN = "admin";
+
+    }
+
     public static class CsrfConfig {
 
         public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
@@ -942,11 +946,17 @@ public final class Const {
 
     public static class WebPageURIs {
 
-        public static final String ADMIN_HOME_PAGE = "/web/admin/home";
-        public static final String ADMIN_SEARCH_PAGE = "/web/admin/search";
-        public static final String INSTRUCTOR_HOME_PAGE = "/web/instructor/home";
-        public static final String STUDENT_HOME_PAGE = "/web/student/home";
-        public static final String JOIN_PAGE = "/web/join";
+        private static final String URI_PREFIX = "/web";
+
+        private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
+        private static final String INSTRUCTOR_PAGE = URI_PREFIX + "/" + EntityType.INSTRUCTOR;
+        private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
+
+        public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
+        public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
+        public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
+        public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
     }
 

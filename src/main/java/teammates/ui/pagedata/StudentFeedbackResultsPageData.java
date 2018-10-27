@@ -39,7 +39,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                                                    .withRegistrationKey(StringHelper.encrypt(student.key))
                                                    .withStudentEmail(student.email)
                                                    .withCourseId(student.course)
-                                                   .withParam(Const.ParamsNames.ENTITY_TYPE, "student")
+                                                   .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
                                                    .toString();
 
         registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS,
