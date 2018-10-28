@@ -121,7 +121,7 @@ public abstract class Action {
      */
     protected String[] getNonNullRequestParamValues(String paramName) {
         String[] values = getRequestParamValues(paramName);
-        if (values == null) {
+        if (values == null || values.length == 0) {
             throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
         }
         return values;
