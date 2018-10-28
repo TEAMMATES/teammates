@@ -15,6 +15,7 @@
             <package name="teammates.test.cases.logic" />
             <package name="teammates.test.cases.pagedata" />
             <package name="teammates.test.cases.action" />
+            <package name="teammates.test.cases.newaction" />
         </packages>
     </test>
 </suite>
