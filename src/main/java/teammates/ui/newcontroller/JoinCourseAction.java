@@ -27,12 +27,12 @@ public class JoinCourseAction extends Action {
     }
 
     @Override
-    protected void checkSpecificAccessControl() {
+    public void checkSpecificAccessControl() {
         // Any user can use a join link as long as its parameters are valid
     }
 
     @Override
-    protected ActionResult execute() {
+    public ActionResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {

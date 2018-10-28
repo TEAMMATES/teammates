@@ -38,7 +38,7 @@ public class CreateAccountAction extends Action {
     }
 
     @Override
-    protected void checkSpecificAccessControl() {
+    public void checkSpecificAccessControl() {
         // Only admins can create new accounts
         if (!userInfo.isAdmin) {
             throw new UnauthorizedAccessException();
@@ -46,7 +46,7 @@ public class CreateAccountAction extends Action {
     }
 
     @Override
-    protected ActionResult execute() {
+    public ActionResult execute() {
         String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
         String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
         String instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();

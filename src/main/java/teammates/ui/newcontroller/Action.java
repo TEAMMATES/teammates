@@ -65,15 +65,10 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    protected void checkAccessControl() {
+    public void checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException();
-        }
-
-        if (getMinAuthLevel() == AuthType.PUBLIC) {
-            // No authentication necessary for this resource
-            return;
         }
 
         if (authType == AuthType.ALL_ACCESS) {
@@ -143,11 +138,11 @@ public abstract class Action {
     /**
      * Checks the specific access control needs for the resource.
      */
-    protected abstract void checkSpecificAccessControl();
+    public abstract void checkSpecificAccessControl();
 
     /**
      * Executes the action.
      */
-    protected abstract ActionResult execute();
+    public abstract ActionResult execute();
 
 }

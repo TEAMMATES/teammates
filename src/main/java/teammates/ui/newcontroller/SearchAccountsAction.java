@@ -38,7 +38,7 @@ public class SearchAccountsAction extends Action {
     }
 
     @Override
-    protected void checkSpecificAccessControl() {
+    public void checkSpecificAccessControl() {
         // Only admins can get accounts directly
         if (!userInfo.isAdmin) {
             throw new UnauthorizedAccessException();
@@ -46,7 +46,7 @@ public class SearchAccountsAction extends Action {
     }
 
     @Override
-    protected ActionResult execute() {
+    public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
 
         List<StudentAttributes> students = logic.searchStudentsInWholeSystem(searchKey).studentList;

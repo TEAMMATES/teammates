@@ -19,7 +19,7 @@ public class AdminExceptionTestAction extends Action {
     }
 
     @Override
-    protected void checkSpecificAccessControl() {
+    public void checkSpecificAccessControl() {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException();
         }
@@ -27,7 +27,7 @@ public class AdminExceptionTestAction extends Action {
 
     @Override
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
-    protected JsonResult execute() {
+    public JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
             throw new AssertionError("AssertionError testing");
