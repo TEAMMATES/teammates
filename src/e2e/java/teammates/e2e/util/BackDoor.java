@@ -32,6 +32,7 @@ import teammates.common.util.SanitizationHelper;
  * <p>It requires an authentication via "backdoor key" so that
  * the access is limited only to the person who deployed the application.
  */
+@Deprecated
 public final class BackDoor {
 
     private BackDoor() {

@@ -976,6 +976,7 @@ public final class Const {
 
         public static final String URI_PREFIX = "/webapi";
 
+        public static final String EXCEPTION = "/exception";
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
         public static final String JOIN = "/join";
@@ -1102,7 +1103,6 @@ public final class Const {
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
-        public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
