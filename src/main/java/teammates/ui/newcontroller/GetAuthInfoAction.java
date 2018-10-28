@@ -31,7 +31,10 @@ public class GetAuthInfoAction extends Action {
     @Override
     public ActionResult execute() {
         UserInfo user = gateKeeper.getCurrentUser();
-        String frontendUrl = req.getParameter("frontendUrl");
+        String frontendUrl = getRequestParamValue("frontendUrl");
+        if (frontendUrl == null) {
+            frontendUrl = "";
+        }
 
         Map<String, Object> output = new HashMap<>();
         if (user == null) {
