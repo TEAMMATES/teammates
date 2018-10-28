@@ -314,6 +314,7 @@ There are several files used to configure various aspects of the system.
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 * `build.properties`: Contains the general purpose configuration values to used by the web app.
 * `test.properties`: Contains the configuration values for the test driver.
+  * There are two separate `test.properties`; one for component tests and one for E2E tests.
 * `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
