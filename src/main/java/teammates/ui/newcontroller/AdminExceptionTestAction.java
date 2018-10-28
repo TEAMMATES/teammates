@@ -19,8 +19,10 @@ public class AdminExceptionTestAction extends Action {
     }
 
     @Override
-    protected boolean checkSpecificAccessControl() {
-        return Config.isDevServer();
+    protected void checkSpecificAccessControl() {
+        if (!Config.isDevServer()) {
+            throw new UnauthorizedAccessException();
+        }
     }
 
     @Override

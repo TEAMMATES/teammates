@@ -20,8 +20,8 @@ public class GetCourseJoinStatusAction extends Action {
     }
 
     @Override
-    protected boolean checkSpecificAccessControl() {
-        return true;
+    protected void checkSpecificAccessControl() {
+        // Any user can use a join link as long as its parameters are valid
     }
 
     @Override

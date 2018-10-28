@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.NullHttpParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.EmailGenerator;
@@ -62,26 +63,26 @@ public abstract class Action {
     }
 
     /**
-     * Returns true if the requesting user has sufficient authority to access the resource.
+     * Checks if the requesting user has sufficient authority to access the resource.
      */
-    protected boolean checkAccessControl() {
+    protected void checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
-            return false;
+            throw new UnauthorizedAccessException();
         }
 
         if (getMinAuthLevel() == AuthType.PUBLIC) {
             // No authentication necessary for this resource
-            return true;
+            return;
         }
 
         if (authType == AuthType.ALL_ACCESS) {
             // All-access pass granted
-            return true;
+            return;
         }
 
         // All other cases: to be dealt in case-by-case basis
-        return checkSpecificAccessControl();
+        checkSpecificAccessControl();
     }
 
     private void initAuthInfo() {
@@ -142,7 +143,7 @@ public abstract class Action {
     /**
      * Checks the specific access control needs for the resource.
      */
-    protected abstract boolean checkSpecificAccessControl();
+    protected abstract void checkSpecificAccessControl();
 
     /**
      * Executes the action.

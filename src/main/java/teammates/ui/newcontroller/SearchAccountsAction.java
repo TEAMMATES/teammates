@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -37,9 +38,11 @@ public class SearchAccountsAction extends Action {
     }
 
     @Override
-    protected boolean checkSpecificAccessControl() {
+    protected void checkSpecificAccessControl() {
         // Only admins can get accounts directly
-        return userInfo.isAdmin;
+        if (!userInfo.isAdmin) {
+            throw new UnauthorizedAccessException();
+        }
     }
 
     @Override

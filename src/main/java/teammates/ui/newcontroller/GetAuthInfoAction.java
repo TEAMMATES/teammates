@@ -24,9 +24,8 @@ public class GetAuthInfoAction extends Action {
     }
 
     @Override
-    public boolean checkSpecificAccessControl() {
+    public void checkSpecificAccessControl() {
         // Login information is available to everyone
-        return true;
     }
 
     @Override
