@@ -944,6 +944,18 @@ public final class Const {
 
     }
 
+    public static class LegacyURIs {
+
+        public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
+        public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
+        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
+        public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
+
+    }
+
     public static class WebPageURIs {
 
         private static final String URI_PREFIX = "/web";
