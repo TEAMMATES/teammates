@@ -807,7 +807,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // If the other option is selected, no AJAX request is made
         if (!optionValue.equals(customVisibilityOptionsValue)) {
-            getjQueryAjaxHandler().registerHandlers();
+            getjQueryAjaxHandler().waitForAjaxIfPresentThenRegisterHandlers();
         }
 
         WebElement visibilityOptionsDropdown =
@@ -1184,7 +1184,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
         WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(selectElement, recipientType);
+        selectDropdownByVisibleValueAndHandleAjaxRequests(selectElement, recipientType);
     }
 
     public void clickNewQuestionButton() {
@@ -1242,12 +1242,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
-        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, giverType.toString());
+        selectDropdownByActualValueAndHandleAjaxRequests(giverDropdown, giverType.toString());
     }
 
     public void selectRecipientToBe(FeedbackParticipantType recipientType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + questionNumber));
-        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, recipientType.toString());
+        selectDropdownByActualValueAndHandleAjaxRequests(giverDropdown, recipientType.toString());
     }
 
     /**
@@ -1255,7 +1255,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * to load.
      */
     public void selectGiverToBeStudentsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Students in this course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(giverDropdownForNewQuestion, "Students in this course");
     }
 
     /**
@@ -1263,7 +1263,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * message to load.
      */
     public void selectGiverToBeInstructorsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Instructors in this course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(giverDropdownForNewQuestion, "Instructors in this course");
     }
 
     /**
@@ -1271,7 +1271,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Other students in the course");
     }
 
@@ -1280,7 +1280,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeGiverTeamMembersAndGiverAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Giver's team members and Giver");
     }
 
@@ -1289,7 +1289,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeInstructorsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Instructors in the course");
     }
 
@@ -1299,7 +1299,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(recipientDropdown, "Other students in the course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(recipientDropdown, "Other students in the course");
     }
 
     public void enableOtherFeedbackPathOptions(int qnNumber) {
