@@ -1388,18 +1388,6 @@ public final class Const {
                 "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
 
-        public static final String JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER =
-                "The join link used belongs to a different user whose Google ID is "
-                + "%s (only part of the Google ID is shown to protect privacy). "
-                + "If that Google ID is owned by you, please logout and re-login "
-                + "using that Google account. If it doesn’t belong to you, please "
-                + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
-                + "body=Your name:%%0AYour course:%%0AYour university:\">"
-                + "contact us</a> so that we can investigate.";
-        public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER =
-                "The Google ID %s belongs to an existing user in the course."
-                + "Please login again using a different Google account, and try to join the course again.";
-
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
         public static final String STUDENT_GOOGLEID_RESET_FAIL =
                 "An error occurred when trying to reset student's google id";
@@ -1658,10 +1646,7 @@ public final class Const {
         public static final String BACKDOOR_STATUS_FAILURE = "[BACKDOOR_STATUS_FAILURE]";
 
         // General Error codes
-        public static final String ALREADY_JOINED = "ERRORCODE_ALREADY_JOINED";
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
-        public static final String INVALID_KEY = "ERRORCODE_INVALID_KEY";
-        public static final String KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
 
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";

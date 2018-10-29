@@ -43,7 +43,7 @@ public class GetCourseJoinStatusAction extends Action {
         if (student == null) {
             return new JsonResult("No student with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
         }
-        return getJoinStatusResult(student.googleId != null);
+        return getJoinStatusResult(student.isRegistered());
     }
 
     private JsonResult getInstructorJoinStatus(String regkey) {
@@ -51,7 +51,7 @@ public class GetCourseJoinStatusAction extends Action {
         if (instructor == null) {
             return new JsonResult("No instructor with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
         }
-        return getJoinStatusResult(instructor.googleId != null);
+        return getJoinStatusResult(instructor.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
