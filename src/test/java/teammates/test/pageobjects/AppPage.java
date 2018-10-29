@@ -813,12 +813,13 @@ public abstract class AppPage {
     }
 
     /**
-     * Selects the option by visible text and waits for the associated AJAX request to complete.
+     * Waits for all ongoing AJAX requests to complete if any before selecting the option by visible text, then
+     * waits for the associated AJAX request to complete.
      *
      * @see AppPage#selectDropdownByVisibleValue(WebElement, String)
      */
-    void selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(WebElement element, String text) {
-        jQueryAjaxHandler.registerHandlers();
+    void selectDropdownByVisibleValueAndHandleAjaxRequests(WebElement element, String text) {
+        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
 
         if (selectDropdownByVisibleValue(element, text)) {
             jQueryAjaxHandler.waitForRequestComplete();
@@ -850,12 +851,13 @@ public abstract class AppPage {
     }
 
     /**
-     * Selects the option by value and waits for the associated AJAX request to complete.
+     * Waits for all ongoing AJAX requests to complete if any before selecting the option by actual value, then
+     * waits for the associated AJAX request to complete.
      *
      * @see AppPage#selectDropdownByActualValue(WebElement, String)
      */
-    void selectDropdownByActualValueAndWaitForAjaxRequestComplete(WebElement element, String value) {
-        jQueryAjaxHandler.registerHandlers();
+    void selectDropdownByActualValueAndHandleAjaxRequests(WebElement element, String value) {
+        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
 
         if (selectDropdownByActualValue(element, value)) {
             jQueryAjaxHandler.waitForRequestComplete();
@@ -1463,12 +1465,25 @@ public abstract class AppPage {
         private static final String START_OCCURRED_ATTRIBUTE = "__ajaxStartOccurred__";
 
         /**
-         * Registers `ajaxStart` and `ajaxStop` handlers to track the state of an AJAX request.
+         * Waits until there is no ongoing jQuery AJAX requests.
+         */
+        void waitForNoActiveAjaxRequests() {
+            // `$.active` is a counter for holding the number of active AJAX requests
+            // but is not documented because it is used by JQuery internally.
+            // see https://stackoverflow.com/questions/3148225/jquery-active-function/3148506#3148506
+            waitFor(driver -> (Boolean) ((JavascriptExecutor) driver).executeScript("return $.active === 0"));
+        }
+
+        /**
+         * Waits for all AJAX requests to complete if any is present and registers `ajaxStart` and `ajaxStop` handlers to
+         * track the state of an AJAX request.
          *
          * @throws IllegalStateException if the handlers are already registered in the document
          */
-        void registerHandlers() {
+        void waitForAjaxIfPresentThenRegisterHandlers() {
             checkState(!hasHandlers(), "`ajaxStart` and `ajaxStop` handlers need only be added once to the document.");
+
+            waitForNoActiveAjaxRequests();
 
             executeScript("const seleniumArguments = arguments;"
                             + "$(document).ajaxStart(function() {"
