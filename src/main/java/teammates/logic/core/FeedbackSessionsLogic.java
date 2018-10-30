@@ -458,45 +458,6 @@ public final class FeedbackSessionsLogic {
         }
     }
 
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
-            String feedbackSessionName, String courseId, String feedbackQuestionId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
-
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
-        }
-
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
-        if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
-        }
-
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
-        Map<String, Map<String, String>> recipientList = new HashMap<>();
-
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
-
-        Set<String> hiddenInstructorEmails = null;
-
-        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
-            hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
-        }
-
-        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
-                new HashMap<>();
-        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
-
-        updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                bundle, recipientList, question, hiddenInstructorEmails);
-        updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
-
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
-    }
-
     private void updateBundleAndRecipientListWithResponsesForStudent(
             String userEmail,
             StudentAttributes student,
