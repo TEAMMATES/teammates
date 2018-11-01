@@ -460,8 +460,6 @@ task lint {
 def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
 def isAppVeyor = System.getenv("APPVEYOR") != null
-def failedXmlPath = "test-output/testng-failed.xml"
-def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
 // Displays full exception; to be run after the test fails after the last retry
 // For HTML tests, the exception is displayed in diff form instead of the extremely verbose full exception message
@@ -470,12 +468,12 @@ def afterTestClosure = { descriptor, result ->
         println ""
 
         def msg = result.exception.getMessage()
-        def shouldDisplayAsDiff = msg.indexOf("<<expected>") != -1
+        def shouldDisplayAsDiff = msg.indexOf("<<[expected>") != -1
         if (shouldDisplayAsDiff) {
             def expectedFileName = "expected-${descriptor.getClassName()}"
             def actualFileName = "actual-${descriptor.getClassName()}"
-            file("${expectedFileName}").text = msg[(msg.indexOf("<<expected>") + 11)..(msg.indexOf("</expected>>") - 1)]
-            file("${actualFileName}").text = msg[(msg.indexOf("<<actual>") + 9)..(msg.indexOf("</actual>>") - 1)]
+            file("${expectedFileName}").text = msg[(msg.indexOf("<<[expected>") + 12)..(msg.indexOf("</expected]>>") - 1)]
+            file("${actualFileName}").text = msg[(msg.indexOf("<<[actual>") + 10)..(msg.indexOf("</actual]>>") - 1)]
             def diffCommand = isWindows ? "FC" : "diff"
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
@@ -622,50 +620,6 @@ task ciTests {
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
-}
-
-task generateFailedCmd(type: Exec) {
-    def os = new ByteArrayOutputStream()
-    doFirst {
-        commandLine "gist", "-p", "build/reports/test-try-${numOfTestRetries + 1}/testng-failed.xml"
-        standardOutput = os
-    }
-    doLast {
-        def gistUrl = os.toString()
-        def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1).replaceAll("\\s", "")
-        println "Run failed tests locally by downloading the XML file containing the failed tests using the command:"
-        println "Windows: gradlew.bat -Pgist=${gistHash} downloadFailedXml"
-        println "Linux/OS X: ./gradlew -Pgist=${gistHash} downloadFailedXml"
-        println "followed by running \"Failed tests\" in Eclipse/IntelliJ or using the following command:"
-        println "Windows: gradlew.bat failedTests"
-        println "Linux/OS X: ./gradlew failedTests"
-    }
-}
-
-task cleanTestOutputDir {
-    doLast {
-        def testOutputDir = new File("test-output")
-        testOutputDir.deleteDir()
-    }
-}
-
-task downloadFailedXml {
-    description "Downloads testng-failed.xml from a failed run in Travis/AppVeyor."
-    group "Test"
-    onlyIf {
-        project.hasProperty("gist")
-    }
-    doFirst {
-        def failedXml = new File(failedXmlPath)
-        failedXml.getParentFile().mkdirs()
-        def downloadUrl = failedXmlUrl.replace(/gist_id/, project.getProperty("gist"))
-        new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}
-    }
-    doLast {
-        println "The XML file containing the failed tests has been downloaded successfully."
-        println "You can now run the failed tests locally."
-    }
-    dependsOn cleanTestOutputDir
 }
 
 // COVERAGE TASKS

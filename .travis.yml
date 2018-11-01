@@ -53,10 +53,6 @@ script:
   - ./gradlew appengineStart
   - ./gradlew ciTests
 
-after_failure:
-  - gem install gist
-  - ./gradlew generateFailedCmd
-
 after_success:
   - ./gradlew jacocoReport
   - bash <(curl -s https://codecov.io/bash)

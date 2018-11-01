@@ -260,7 +260,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             // construct session name to session map
             if (!isAdded.contains(session.getFeedbackSessionName())) {
                 isAdded.add(session.getFeedbackSessionName());
-                bundle.sessions.put(session.getSessionName(), session);
+                bundle.sessions.put(session.getFeedbackSessionName(), session);
             }
 
             // get giver and recipient names
