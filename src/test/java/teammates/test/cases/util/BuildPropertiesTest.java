@@ -13,7 +13,6 @@ public class BuildPropertiesTest extends BaseTestCase {
     @Test
     public void checkPresence() {
         assertNotNull(Config.APP_URL);
-        assertTrue(Config.PERSISTENCE_CHECK_DURATION >= 0);
     }
 
 }

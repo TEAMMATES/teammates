@@ -30,7 +30,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         ______TS("Unsuccessful case: Not enough parameters");
         verifyAssumptionFailure();
         String[] paramsNoCourseId = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
         verifyAssumptionFailure(paramsNoCourseId);
         String[] paramsNoFeedback = new String[] {
@@ -43,7 +43,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         fs = typicalBundle.feedbackSessions.get("awaiting.session");
         String[] paramsFeedbackSessionNotOpen = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
 
         InstructorFeedbackRemindAction action = getAction(paramsFeedbackSessionNotOpen);
@@ -57,7 +57,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
         action = getAction(paramsTypical);
