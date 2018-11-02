@@ -151,13 +151,15 @@ Make the changes to the code, tests, and documentations as needed by the issue.
   e.g. `[#3942] Remove unnecessary System.out.printlns from Java files`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
-
-  **Note**: if the PR does not fix an issue completely, use `Part of #3942` as the PR description instead. Do NOT use the above special keywords.
 * Ensure that "Allow edits from maintainers" is ticked.
 * You are encouraged to describe the changes you have made in your branch and how they resolve the issue.
 
 It is not required that you submit a PR only when your work is ready for review;
 make it clear in the PR (e.g. in the description, in a comment, or as an `s.*` label) whether it is still a work-in-progress or is ready for review.
+
+**Note**: if the PR does not fix an issue completely, observe the following:
+* Use an appropriate PR name (at your discretion) instead of copying-and-pasting the relevant issue name.
+* Use `Part of #3942` as the PR description. Do NOT use any of the special keywords.
 
 ### Step 5: Following up
 

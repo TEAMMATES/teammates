@@ -85,7 +85,7 @@ public class InstructorStudentRecordsPageAction extends Action {
     private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
                                         InstructorAttributes instructor, StudentAttributes student) {
         feedbacks.removeIf(tempFs -> !tempFs.getCourseId().equals(courseId)
-                || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                || !instructor.isAllowedForPrivilege(student.section, tempFs.getFeedbackSessionName(),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
     }
 

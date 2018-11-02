@@ -31,7 +31,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
 
         ______TS("Unsuccessful case: Not enough parameters");
         String[] paramsNoCourseId = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
         verifyAssumptionFailure(paramsNoCourseId);
         String[] paramsNoFeedback = new String[] {
@@ -43,7 +43,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
 
         String[] paramsNoUserToRemind = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
         InstructorFeedbackRemindParticularStudentsAction action = getAction(paramsNoUserToRemind);
@@ -57,7 +57,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         fs = typicalBundle.feedbackSessions.get("awaiting.session");
         String[] paramsFeedbackSessionNotOpen = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
         };
 
@@ -72,7 +72,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
         };
 
