@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -143,9 +143,8 @@ public final class AssertHelper {
     public static void assertLogIdContainsUserId(String actualMessage, String userIdentifier) {
         int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
         String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
-        assertTrue("expected actual message's id to contain " + userIdentifier
-                   + " but was " + actualId,
-                   actualId.contains(userIdentifier));
+        assertTrue("expected actual message's id to contain " + userIdentifier + " but was " + actualId,
+                actualId.contains(userIdentifier));
     }
 
     /**

@@ -11,8 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
@@ -284,9 +282,9 @@ public class FieldValidator {
      * @return An explanation of why the {@code emailContent} is not acceptable.
      *         Returns an empty string if the {@code emailContent} is acceptable.
      */
-    public String getInvalidityInfoForEmailContent(Text emailContent) {
+    public String getInvalidityInfoForEmailContent(String emailContent) {
         Assumption.assertNotNull("Non-null value expected", emailContent);
-        if (emailContent.getValue().isEmpty()) {
+        if (emailContent.isEmpty()) {
             return EMAIL_CONTENT_ERROR_MESSAGE;
         }
         return "";
@@ -696,6 +694,37 @@ public class FieldValidator {
         }
 
         return errors;
+    }
+
+    /**
+     * Checks if comment giver type is either instructor, student or team.
+     *
+     * @param commentGiverType comment giver type to be checked.
+     * @return Error string if type is invalid, otherwise empty string.
+     */
+    public String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
+        Assumption.assertNotNull("Non-null value expected", commentGiverType);
+        if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
+                   && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
+                   && !commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
+            return "Invalid comment giver type: " + commentGiverType;
+        }
+        return "";
+    }
+
+    /**
+     * Checks if visibility of comment is following question when comment is from a feedback participant.
+     *
+     * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.
+     * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
+     * @return Error string if condition is not met, otherwise empty string.
+     */
+    public String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(boolean isCommentFromFeedbackParticipant,
+            boolean isVisibilityFollowingFeedbackQuestion) {
+        if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
+            return "Comment by feedback participant not following visibility setting of the question.";
+        }
+        return "";
     }
 
     public List<String> getValidityInfoForFeedbackResponseVisibility(

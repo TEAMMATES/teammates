@@ -5,8 +5,6 @@ import java.time.ZoneId;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -309,7 +307,7 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         fr.giverSection = student.section;
         fr.recipient = student.email;
         fr.recipientSection = student.section;
-        fr.responseMetaData = new Text("Student 3 self feedback");
+        fr.responseMetaData = "Student 3 self feedback";
         fr.setId(fq.getId() + "%" + fr.giver + "%" + fr.recipient);
 
         // Make sure not already inside

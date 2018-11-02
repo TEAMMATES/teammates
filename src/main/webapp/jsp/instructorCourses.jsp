@@ -7,7 +7,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <c:set var="jsIncludes">
   <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-  <script type="text/javascript" src="/data/moment-timezone-with-data-2013-2023.min.js"></script>
+  <script type="text/javascript" src="/data/moment-timezone-with-data.min.js"></script>
   <script type="text/javascript" src="/js/instructorCourses.js"></script>
 </c:set>
 
@@ -45,8 +45,8 @@
         <br>
       </c:if>
 
-      <c:if test="${not empty data.recoveryCourses.rows}">
-        <course:recoveryCoursePanel />
+      <c:if test="${not empty data.softDeletedCourses.rows}">
+        <course:softDeletedCoursesPanel />
         <br>
         <br>
         <br>

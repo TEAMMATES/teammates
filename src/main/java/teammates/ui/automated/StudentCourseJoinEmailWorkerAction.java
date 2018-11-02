@@ -35,6 +35,7 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
 
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
+
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         Assumption.assertNotNull(student);
 

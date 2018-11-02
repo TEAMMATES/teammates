@@ -1,7 +1,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="courses">Courses</h2>
-<div id="contentHolder">
+<div class="contentHolder">
   <h3>Enrolling Students in Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-add-students">
@@ -454,7 +454,7 @@
                                   <input type="checkbox" name="canmodifyinstructor" value="true"> Add/Edit/Delete Instructors
                                 </div>
                                 <div class="col-sm-3">
-                                  <input type="checkbox" name="canmodifysession" value="true"> Create/Edit/Delete Sessions
+                                  <input type="checkbox" name="canmodifysession" value="true"> Create/Edit/Delete/Restore Sessions
                                 </div>
                                 <div class="col-sm-3">
                                   <input type="checkbox" name="canmodifystudent" value="true"> Enroll/Edit/Delete Students

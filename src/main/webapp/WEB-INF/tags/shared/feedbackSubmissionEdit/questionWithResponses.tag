@@ -7,6 +7,7 @@
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="moderatedPersonEmail" required="true" %>
 
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 
@@ -23,8 +24,7 @@
   <div class="panel panel-primary"<c:if test="${questionWithResponses.question.moderatedQuestion}"> id="moderated-question"</c:if>>
 
     <div class="panel-heading">
-      Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber : questionWithResponses.question.qnIndx}:
-      <br>
+      <b>Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber : questionWithResponses.question.qnIndx}:</b>
       <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
       <span class="text-preserve-space"><c:out value="${questionWithResponses.question.questionText}"/></span>
     </div>
@@ -33,7 +33,7 @@
       <c:if test="${not empty questionWithResponses.question.questionDescription}">
         <div class="panel panel-default">
           <div class="panel-body">
-            <b>More details:</b><br><hr>${questionWithResponses.question.questionDescription}
+            <b>More details:</b>${questionWithResponses.question.questionDescription}
           </div>
         </div>
 
@@ -77,7 +77,7 @@
 
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-            questionWithResponses="${questionWithResponses}"/>
+            questionWithResponses="${questionWithResponses}" moderatedPersonEmail="${moderatedPersonEmail}"/>
       </c:forEach>
     </div>
   </div>

@@ -32,7 +32,7 @@ public class LoopHelper {
     public void recordLoop() {
         count++;
         if (count % printCycle == 0) {
-            System.out.printf("[%d] %s\n", count, message);
+            System.out.printf("[%d] %s%n", count, message);
         }
     }
 

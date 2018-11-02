@@ -23,6 +23,9 @@ function addConstSumOption(questionNum) {
     $(`
     <div class="margin-bottom-7px" id="constSumOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group width-100-pc">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
+            </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
                     class="form-control constSumOptionTextBox">
@@ -35,7 +38,9 @@ function addConstSumOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#constSumAddOptionRow-${questionNum}`));
+    `).appendTo($(`#constSumChoices-${questionNum}`));
+
+    $(`#constSumChoices-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -54,10 +59,12 @@ function hideConstSumOptionTable(questionNum) {
 
 function removeConstSumOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
+
+    const $constSumChoices = $(`#constSumChoices-${questionNum}`);
     const $thisRow = $(`#constSumOptionRow-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of add option button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child rows the table has
+    const numberOfOptions = $constSumChoices.children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');

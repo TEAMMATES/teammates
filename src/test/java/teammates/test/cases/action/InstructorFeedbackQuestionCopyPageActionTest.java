@@ -53,7 +53,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
 
         action = getAction(submissionParams);
         try {
-            result = getShowPageResult(action);
+            getShowPageResult(action);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
@@ -70,7 +70,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
 
         action = getAction(submissionParams);
         try {
-            result = getShowPageResult(action);
+            getShowPageResult(action);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Feedback session [First feedback session] is not accessible "

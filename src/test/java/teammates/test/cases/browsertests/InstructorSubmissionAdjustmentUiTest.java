@@ -57,8 +57,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         ______TS("typical case : existing student changes team");
         loadEnrollmentPage();
 
-        final FeedbackSessionAttributes session = testData.feedbackSessions.get("session2InCourse1");
-        final StudentAttributes student = testData.students.get("student1InCourse1");
+        FeedbackSessionAttributes session = testData.feedbackSessions.get("session2InCourse1");
+        StudentAttributes student = testData.students.get("student1InCourse1");
 
         //Verify pre-existing submissions and responses
         List<FeedbackResponseAttributes> oldResponsesForSession =

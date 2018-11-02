@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.ui.pagedata.StudentProfilePageData;
 
 /**
@@ -9,22 +9,19 @@ import teammates.ui.pagedata.StudentProfilePageData;
  */
 public class StudentProfilePageAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
-
     @Override
     protected ActionResult execute() {
-        account.studentProfile = logic.getStudentProfile(account.googleId);
+        StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
+        if (spa == null) {
+            // create one on the fly
+            spa = StudentProfileAttributes.builder(account.googleId).build();
+        }
         String isEditingPhoto = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT);
         if (isEditingPhoto == null) {
             isEditingPhoto = "false";
         }
 
-        if (account.studentProfile == null) {
-            log.severe("Student Profile returned as null for " + account.toString());
-            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-        }
-
-        StudentProfilePageData data = new StudentProfilePageData(account, sessionToken, isEditingPhoto);
+        StudentProfilePageData data = new StudentProfilePageData(account, spa, sessionToken, isEditingPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: " + account.googleId;
 
         return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);

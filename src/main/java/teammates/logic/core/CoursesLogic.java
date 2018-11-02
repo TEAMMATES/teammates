@@ -201,14 +201,6 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of section names for the specified course.
-     */
-    public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
-        Assumption.assertNotNull("Course is null", course);
-        return getSectionsNameForCourse(course.getId(), true);
-    }
-
-    /**
      * Returns a list of section names for a course with or without a need to
      * check if the course is existent.
      *
@@ -534,36 +526,36 @@ public final class CoursesLogic {
     /**
      * Returns a list of {@link CourseAttributes} for soft-deleted courses for a given list of instructors.
      */
-    public List<CourseAttributes> getRecoveryCoursesForInstructors(List<InstructorAttributes> instructorList) {
+    public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
-        List<String> recoveryCourseIdList = instructorList.stream()
+        List<String> softDeletedCourseIdList = instructorList.stream()
                 .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 
-        List<CourseAttributes> recoveryCourseList = coursesDb.getCourses(recoveryCourseIdList);
+        List<CourseAttributes> softDeletedCourseList = coursesDb.getCourses(softDeletedCourseIdList);
 
-        if (recoveryCourseIdList.size() > recoveryCourseList.size()) {
-            for (CourseAttributes ca : recoveryCourseList) {
-                recoveryCourseIdList.remove(ca.getId());
+        if (softDeletedCourseIdList.size() > softDeletedCourseList.size()) {
+            for (CourseAttributes ca : softDeletedCourseList) {
+                softDeletedCourseIdList.remove(ca.getId());
             }
             log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
-                    + recoveryCourseIdList.toString());
+                    + softDeletedCourseIdList.toString());
         }
 
-        return recoveryCourseList;
+        return softDeletedCourseList;
     }
 
-    public CourseAttributes getRecoveryCourseForInstructor(InstructorAttributes instructor) {
+    public CourseAttributes getSoftDeletedCourseForInstructor(InstructorAttributes instructor) {
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
-        CourseAttributes recoveryCourse = coursesDb.getCourse(instructor.courseId);
+        CourseAttributes softDeletedCourse = coursesDb.getCourse(instructor.courseId);
 
-        if (!recoveryCourse.isCourseDeleted()) {
+        if (!softDeletedCourse.isCourseDeleted()) {
             return null;
         }
-        return recoveryCourse;
+        return softDeletedCourse;
     }
 
     /**
@@ -672,20 +664,21 @@ public final class CoursesLogic {
     public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
-        List<String> recoveryCourseIdList = instructorList.stream()
+        List<String> softDeletedCourseIdList = instructorList.stream()
                 .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 
-        for (String courseId : recoveryCourseIdList) {
+        for (String courseId : softDeletedCourseIdList) {
             deleteCourseCascade(courseId);
         }
     }
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
+     * @return Soft-deletion time of the course.
      */
-    public Instant moveCourseToRecovery(String courseId)
+    public Instant moveCourseToRecycleBin(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = coursesDb.getCourse(courseId);
         course.setDeletedAt();
@@ -697,7 +690,7 @@ public final class CoursesLogic {
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
-    public void restoreCourseFromRecovery(String courseId)
+    public void restoreCourseFromRecycleBin(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = coursesDb.getCourse(courseId);
         course.resetDeletedAt();
@@ -707,17 +700,17 @@ public final class CoursesLogic {
     /**
      * Restores all courses from Recycle Bin.
      */
-    public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
+    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
-        List<String> recoveryCourseIdList = instructorList.stream()
+        List<String> softDeletedCourseIdList = instructorList.stream()
                 .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 
-        for (String courseId : recoveryCourseIdList) {
-            restoreCourseFromRecovery(courseId);
+        for (String courseId : softDeletedCourseIdList) {
+            restoreCourseFromRecycleBin(courseId);
         }
     }
 

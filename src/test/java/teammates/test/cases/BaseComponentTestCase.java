@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -9,6 +10,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -17,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -61,6 +64,11 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
+    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
+        return backDoorLogic.getStudentProfile(studentProfileAttributes.googleId);
+    }
+
+    @Override
     protected CourseAttributes getCourse(CourseAttributes course) {
         return backDoorLogic.getCourse(course.getId());
     }
@@ -72,7 +80,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
+        return backDoorLogic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
     }
 
     @Override
@@ -123,4 +131,24 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         }
     }
 
+    /*
+     * Verifies that search results match with expected output.
+     * Compares the text for each comment as it is unique.
+     *
+     * @param actual the results from the search query.
+     * @param expected the expected results for the search query.
+     */
+    protected static void verifySearchResults(FeedbackResponseCommentSearchResultBundle actual,
+            FeedbackResponseCommentAttributes... expected) {
+        assertEquals(expected.length, actual.numberOfResults);
+        assertEquals(expected.length, actual.comments.size());
+        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
+        FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
+                                                                     .toArray(new FeedbackResponseCommentAttributes[2]);
+        int[] i = new int[] { 0 };
+        actual.comments.forEach((key, comments) -> comments.forEach(comment -> {
+            assertEquals(sortedComments[i[0]].commentText, comment.commentText);
+            i[0]++;
+        }));
+    }
 }

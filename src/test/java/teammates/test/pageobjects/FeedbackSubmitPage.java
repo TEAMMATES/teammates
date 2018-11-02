@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -161,7 +161,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = SanitizationHelper.sanitizeStringForXPath(name);
-        final WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
+        WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
         selectDropdownByVisibleValue(selectElement, choiceName);
     }
 
@@ -269,6 +269,46 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(modalMessage.getText(), expectedModalMessage.toString());
 
         clickDismissModalButtonAndWaitForModalHidden(closeButton);
+    }
+
+    /**
+     * Adds feedback participant comment.
+     *
+     * @param addResponseCommentId suffix id of comment add form
+     * @param commentText comment text
+     */
+    public void addFeedbackParticipantComment(String addResponseCommentId, String commentText) {
+        WebElement showResponseCommentAddFormButton =
+                browser.driver.findElement(By.id("button_add_comment" + addResponseCommentId));
+        click(showResponseCommentAddFormButton);
+        WebElement editorElement =
+                waitForElementPresence(By.cssSelector("#" + "showResponseCommentAddForm"
+                        + addResponseCommentId + " .mce-content-body"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), commentText);
+    }
+
+    /**
+     * Edits feedback participant comment.
+     *
+     * @param commentIdSuffix suffix id of comment edit form
+     * @param newCommentText new comment text
+     */
+    public void editFeedbackParticipantComment(String commentIdSuffix, String newCommentText) {
+        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        click(commentRow.findElements(By.tagName("a")).get(1));
+        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
+    }
+
+    /**
+     * Deletes feedback participant comment.
+     *
+     * @param commentIdSuffix suffix id of comment delete button
+     */
+    public void deleteFeedbackResponseComment(String commentIdSuffix) {
+        WebElement deleteCommentButton = browser.driver.findElement(By.id("commentdelete" + commentIdSuffix));
+        click(deleteCommentButton);
+        waitForConfirmationModalAndClickOk();
     }
 
     private void closeMoreInfoAboutEqualShareModal() {
