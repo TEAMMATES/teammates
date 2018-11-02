@@ -286,7 +286,7 @@ For JavaScript unit tests, coverage is done concurrently with the tests themselv
 > `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
 For most cases, you do not need a staging server as the dev server has covered almost all of the application's functionality.
-If you need to deploy your application to a staging server, refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md).
+If you need to deploy your application to a staging server, refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#deploying-to-a-staging-server).
 
 ## Running client scripts
 
@@ -294,12 +294,7 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-* In order to run any script *in a production environment*, you need to authorize your account for [Application Default Credentials](https://developers.google.com/identity/protocols/application-default-credentials).
-  ```sh
-  gcloud auth application-default login
-  ```
-  Follow the steps until you see `Credentials saved to file: [...].` printed on the console.
-
+* If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
 * It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
 ## Config points
@@ -324,7 +319,6 @@ There are several files used to configure various aspects of the system.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
-* `log4j.properties`: Contains the log4j configuration. Not used by us.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.

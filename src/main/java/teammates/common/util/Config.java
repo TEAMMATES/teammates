@@ -27,9 +27,6 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
-    /** The value of the "app.persistence.checkduration" in build.properties file. */
-    public static final int PERSISTENCE_CHECK_DURATION;
-
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
 
@@ -74,7 +71,6 @@ public final class Config {
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         GCS_BUCKETNAME = properties.getProperty("app.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
-        PERSISTENCE_CHECK_DURATION = Integer.parseInt(properties.getProperty("app.persistence.checkduration"));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         STUDENT_MOTD_URL = properties.getProperty("app.student.motd.url");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
