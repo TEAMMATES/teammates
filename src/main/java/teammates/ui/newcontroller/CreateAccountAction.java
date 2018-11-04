@@ -1,8 +1,6 @@
 package teammates.ui.newcontroller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
@@ -79,8 +77,7 @@ public class CreateAccountAction extends Action {
             log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }
 
-        Map<String, String> output = new HashMap<>();
-        output.put("joinLink", joinLink);
+        JoinLink output = new JoinLink(joinLink);
         return new JsonResult(output);
     }
 
@@ -202,6 +199,23 @@ public class CreateAccountAction extends Action {
         int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
+    }
+
+    /**
+     * Output format for {@link CreateAccountAction}.
+     */
+    public static class JoinLink {
+
+        private final String joinLink;
+
+        public JoinLink(String joinLink) {
+            this.joinLink = joinLink;
+        }
+
+        public String getJoinLink() {
+            return joinLink;
+        }
+
     }
 
 }

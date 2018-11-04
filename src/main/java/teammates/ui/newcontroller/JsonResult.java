@@ -2,8 +2,6 @@ package teammates.ui.newcontroller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,10 +25,7 @@ public class JsonResult extends ActionResult {
 
     public JsonResult(String message, int statusCode) {
         super(statusCode);
-
-        Map<String, String> output = new HashMap<>();
-        output.put("message", message);
-        this.output = output;
+        this.output = new MessageOutput(message);
     }
 
     public Object getOutput() {
@@ -43,6 +38,23 @@ public class JsonResult extends ActionResult {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
+    }
+
+    /**
+     * Generic output format for message-producing endpoint.
+     */
+    public static class MessageOutput {
+
+        private final String message;
+
+        public MessageOutput(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
     }
 
 }

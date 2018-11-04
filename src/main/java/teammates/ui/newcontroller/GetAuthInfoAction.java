@@ -1,8 +1,5 @@
 package teammates.ui.newcontroller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.Cookie;
 
 import teammates.common.datatransfer.UserInfo;
@@ -36,17 +33,15 @@ public class GetAuthInfoAction extends Action {
             frontendUrl = "";
         }
 
-        Map<String, Object> output = new HashMap<>();
+        AuthInfo output;
         if (user == null) {
-            output.put("studentLoginUrl",
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE));
-            output.put("instructorLoginUrl",
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE));
-            output.put("adminLoginUrl",
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE));
+            output = new AuthInfo(
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
+            );
         } else {
-            output.put("user", user);
-            output.put("logoutUrl", gateKeeper.getLogoutUrl(frontendUrl + "/web"));
+            output = new AuthInfo(user, gateKeeper.getLogoutUrl(frontendUrl + "/web"));
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
@@ -59,6 +54,55 @@ public class GetAuthInfoAction extends Action {
         }
 
         return new JsonResult(output);
+    }
+
+    /**
+     * Output format for {@link GetAuthInfoAction}.
+     */
+    public static class AuthInfo {
+
+        private final String studentLoginUrl;
+        private final String instructorLoginUrl;
+        private final String adminLoginUrl;
+        private final UserInfo user;
+        private final String logoutUrl;
+
+        public AuthInfo(String studentLoginUrl, String instructorLoginUrl, String adminLoginUrl) {
+            this.studentLoginUrl = studentLoginUrl;
+            this.instructorLoginUrl = instructorLoginUrl;
+            this.adminLoginUrl = adminLoginUrl;
+            this.user = null;
+            this.logoutUrl = null;
+        }
+
+        public AuthInfo(UserInfo user, String logoutUrl) {
+            this.studentLoginUrl = null;
+            this.instructorLoginUrl = null;
+            this.adminLoginUrl = null;
+            this.user = user;
+            this.logoutUrl = logoutUrl;
+        }
+
+        public String getStudentLoginUrl() {
+            return studentLoginUrl;
+        }
+
+        public String getInstructorLoginUrl() {
+            return instructorLoginUrl;
+        }
+
+        public String getAdminLoginUrl() {
+            return adminLoginUrl;
+        }
+
+        public UserInfo getUser() {
+            return user;
+        }
+
+        public String getLogoutUrl() {
+            return logoutUrl;
+        }
+
     }
 
 }

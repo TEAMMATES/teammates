@@ -30,7 +30,11 @@ rules:
       },
       "enums": true,
       "enum-members": true,
-      "interfaces": true,
+      "interfaces": {
+        "visibilities": [
+          "exported"
+        ]
+      },
       "methods": {
         "privacies": [
           "public",

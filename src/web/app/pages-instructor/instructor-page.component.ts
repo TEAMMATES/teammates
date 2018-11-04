@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { AuthInfo } from '../auth-info';
 
 /**
  * Base skeleton for instructor pages.
@@ -45,7 +46,7 @@ export class InstructorPageComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getAuthUser().subscribe((res: any) => {
+    this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.logoutUrl) {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
       }
