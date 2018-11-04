@@ -59,7 +59,7 @@ public class GetCourseJoinStatusAction extends Action {
     /**
      * Output format for {@link GetCourseJoinStatusAction}.
      */
-    public static class JoinStatus {
+    public static class JoinStatus extends ActionResult.ActionOutput {
 
         private final boolean hasJoined;
         private final String userId;

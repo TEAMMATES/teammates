@@ -3,4 +3,5 @@
  */
 export interface MessageOutput {
   message: string;
+  requestId?: string;
 }

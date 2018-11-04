@@ -59,7 +59,7 @@ public class GetAuthInfoAction extends Action {
     /**
      * Output format for {@link GetAuthInfoAction}.
      */
-    public static class AuthInfo {
+    public static class AuthInfo extends ActionResult.ActionOutput {
 
         private final String studentLoginUrl;
         private final String instructorLoginUrl;

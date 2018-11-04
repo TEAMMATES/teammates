@@ -16,11 +16,15 @@ import teammates.common.util.JsonUtils;
  */
 public class JsonResult extends ActionResult {
 
-    private final Object output;
+    private final ActionOutput output;
 
-    public JsonResult(Object output) {
+    public JsonResult(ActionOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
+    }
+
+    public JsonResult(String message) {
+        this(message, HttpStatus.SC_OK);
     }
 
     public JsonResult(String message, int statusCode) {
@@ -30,6 +34,10 @@ public class JsonResult extends ActionResult {
 
     public Object getOutput() {
         return output;
+    }
+
+    void setRequestId(String requestId) {
+        this.output.setRequestId(requestId);
     }
 
     @Override
@@ -43,7 +51,7 @@ public class JsonResult extends ActionResult {
     /**
      * Generic output format for message-producing endpoint.
      */
-    public static class MessageOutput {
+    public static class MessageOutput extends ActionOutput {
 
         private final String message;
 

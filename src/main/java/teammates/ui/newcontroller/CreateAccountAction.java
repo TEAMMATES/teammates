@@ -204,7 +204,7 @@ public class CreateAccountAction extends Action {
     /**
      * Output format for {@link CreateAccountAction}.
      */
-    public static class JoinLink {
+    public static class JoinLink extends ActionResult.ActionOutput {
 
         private final String joinLink;
 

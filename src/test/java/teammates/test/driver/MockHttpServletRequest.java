@@ -1,6 +1,8 @@
 package teammates.test.driver;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +16,7 @@ import java.util.Map;
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -21,6 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
@@ -37,6 +41,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private String method;
     private String requestUrl;
     private String requestedSessionId;
+    private String body;
 
     public MockHttpServletRequest(String method, String requestUrl) {
         this.cookies = new ArrayList<>();
@@ -167,7 +172,92 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public HttpSession getSession() {
-        return null;
+        return new HttpSession() {
+            @Override
+            public long getCreationTime() {
+                return 0;
+            }
+
+            @Override
+            public String getId() {
+                return "1234";
+            }
+
+            @Override
+            public long getLastAccessedTime() {
+                return 0;
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return null;
+            }
+
+            @Override
+            public void setMaxInactiveInterval(int interval) {
+                // not used
+            }
+
+            @Override
+            public int getMaxInactiveInterval() {
+                return 0;
+            }
+
+            @Override
+            public HttpSessionContext getSessionContext() {
+                return null;
+            }
+
+            @Override
+            public Object getAttribute(String name) {
+                return null;
+            }
+
+            @Override
+            public Object getValue(String name) {
+                return null;
+            }
+
+            @Override
+            public Enumeration<String> getAttributeNames() {
+                return null;
+            }
+
+            @Override
+            public String[] getValueNames() {
+                return new String[0];
+            }
+
+            @Override
+            public void setAttribute(String name, Object value) {
+                // not used
+            }
+
+            @Override
+            public void putValue(String name, Object value) {
+                // not used
+            }
+
+            @Override
+            public void removeAttribute(String name) {
+                // not used
+            }
+
+            @Override
+            public void removeValue(String name) {
+                // not used
+            }
+
+            @Override
+            public void invalidate() {
+                // not used
+            }
+
+            @Override
+            public boolean isNew() {
+                return false;
+            }
+        };
     }
 
     @Override
@@ -317,7 +407,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public BufferedReader getReader() {
-        return null;
+        byte[] bytes = this.body == null ? new byte[] {} : this.body.getBytes();
+        return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(bytes)));
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     @Override

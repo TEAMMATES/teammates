@@ -15,6 +15,7 @@ import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -103,6 +104,7 @@ public class WebApiServlet extends HttpServlet {
 
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
+        result.setRequestId(Config.getRequestId());
         result.send(resp);
     }
 

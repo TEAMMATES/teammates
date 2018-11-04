@@ -354,7 +354,7 @@ public class SearchAccountsAction extends Action {
     /**
      * Output format for {@link SearchAccountsAction}.
      */
-    public static class AdminAccountSearchResult {
+    public static class AdminAccountSearchResult extends ActionResult.ActionOutput {
 
         private final List<StudentBundle> students;
         private final List<InstructorBundle> instructors;

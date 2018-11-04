@@ -28,6 +28,7 @@ public class ActionFactory {
 
     static {
         map(ResourceURIs.EXCEPTION, HttpGet.METHOD_NAME, AdminExceptionTestAction.class);
+        map(ResourceURIs.ERROR_REPORT, HttpPost.METHOD_NAME, SendErrorReportAction.class);
         map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
         map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
