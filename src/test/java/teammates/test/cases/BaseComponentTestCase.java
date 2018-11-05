@@ -23,9 +23,11 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.retry.RetryManager;
 import teammates.logic.api.Logic;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.GaeSimulation;
+import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all component tests.
@@ -47,6 +49,11 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @AfterClass
     public void tearDownGae() {
         gaeSimulation.tearDown();
+    }
+
+    @Override
+    protected RetryManager getPersistenceRetryManager() {
+        return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
     }
 
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {

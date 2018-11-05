@@ -27,7 +27,6 @@ public class ActionFactory {
         map(ADMIN_ACTIVITY_LOG_PAGE, AdminActivityLogPageAction.class);
         map(ADMIN_ACCOUNT_DETAILS_PAGE, AdminAccountDetailsPageAction.class);
         map(ADMIN_ACCOUNT_MANAGEMENT_PAGE, AdminAccountManagementPageAction.class);
-        map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
         map(ADMIN_SESSIONS_PAGE, AdminSessionsPageAction.class);
         map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
         map(ADMIN_EMAIL_COMPOSE_PAGE, AdminEmailComposePageAction.class);

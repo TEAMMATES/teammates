@@ -946,6 +946,18 @@ public final class Const {
 
     }
 
+    public static class LegacyURIs {
+
+        public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
+        public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
+        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
+        public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
+
+    }
+
     public static class WebPageURIs {
 
         private static final String URI_PREFIX = "/web";
@@ -966,6 +978,7 @@ public final class Const {
 
         public static final String URI_PREFIX = "/webapi";
 
+        public static final String EXCEPTION = "/exception";
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
         public static final String JOIN = "/join";
@@ -1092,7 +1105,6 @@ public final class Const {
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
-        public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
@@ -1379,18 +1391,6 @@ public final class Const {
                 "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
 
-        public static final String JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER =
-                "The join link used belongs to a different user whose Google ID is "
-                + "%s (only part of the Google ID is shown to protect privacy). "
-                + "If that Google ID is owned by you, please logout and re-login "
-                + "using that Google account. If it doesn’t belong to you, please "
-                + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
-                + "body=Your name:%%0AYour course:%%0AYour university:\">"
-                + "contact us</a> so that we can investigate.";
-        public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER =
-                "The Google ID %s belongs to an existing user in the course."
-                + "Please login again using a different Google account, and try to join the course again.";
-
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
         public static final String STUDENT_GOOGLEID_RESET_FAIL =
                 "An error occurred when trying to reset student's google id";
@@ -1649,10 +1649,7 @@ public final class Const {
         public static final String BACKDOOR_STATUS_FAILURE = "[BACKDOOR_STATUS_FAILURE]";
 
         // General Error codes
-        public static final String ALREADY_JOINED = "ERRORCODE_ALREADY_JOINED";
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
-        public static final String INVALID_KEY = "ERRORCODE_INVALID_KEY";
-        public static final String KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
 
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
