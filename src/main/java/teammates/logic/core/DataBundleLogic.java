@@ -84,7 +84,7 @@ public final class DataBundleLogic {
      */
     public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
-            throw new InvalidParametersException(Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
+            throw new InvalidParametersException("Null data bundle");
         }
 
         Collection<AccountAttributes> accounts = dataBundle.accounts.values();

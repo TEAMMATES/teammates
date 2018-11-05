@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.DataBundleLogic;
 
@@ -37,9 +36,7 @@ public class DataBundleLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
 
         ______TS("null parameter");
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> dataBundleLogic.persistDataBundle(null));
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, ipe.errorCode);
+        assertThrows(InvalidParametersException.class, () -> dataBundleLogic.persistDataBundle(null));
 
         ______TS("invalid parameters in an entity");
         CourseAttributes invalidCourse = CourseAttributes
@@ -47,7 +44,8 @@ public class DataBundleLogicTest extends BaseLogicTest {
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
-        ipe = assertThrows(InvalidParametersException.class, () -> dataBundleLogic.persistDataBundle(dataBundle));
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> dataBundleLogic.persistDataBundle(dataBundle));
         assertEquals(
                 getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
                         FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,

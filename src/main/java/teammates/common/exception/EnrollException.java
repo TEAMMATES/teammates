@@ -6,7 +6,4 @@ public class EnrollException extends TeammatesException {
         super(message);
     }
 
-    public EnrollException(String specificErrorcode, String message) {
-        super(specificErrorcode, message);
-    }
 }

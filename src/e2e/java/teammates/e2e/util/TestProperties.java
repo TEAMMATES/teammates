@@ -89,8 +89,8 @@ public final class TestProperties {
     /** The value of "test.godmode.enabled" in test.properties file. */
     public static final boolean IS_GODMODE_ENABLED;
 
-    /** Maximum period for verification retries due to persistence delays. */
-    public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
+    /** The value of "test.persistence.timeout" in test.properties file. */
+    public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
 
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
@@ -164,6 +164,7 @@ public final class TestProperties {
             GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
+            PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
