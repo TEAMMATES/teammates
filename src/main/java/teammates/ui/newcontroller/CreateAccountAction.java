@@ -14,6 +14,7 @@ import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -37,13 +38,15 @@ public class CreateAccountAction extends Action {
     }
 
     @Override
-    protected boolean checkSpecificAccessControl() {
+    public void checkSpecificAccessControl() {
         // Only admins can create new accounts
-        return userInfo.isAdmin;
+        if (!userInfo.isAdmin) {
+            throw new UnauthorizedAccessException();
+        }
     }
 
     @Override
-    protected ActionResult execute() {
+    public ActionResult execute() {
         String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
         String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
         String instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();

@@ -497,6 +497,10 @@
                                 <include class="${ui}.controller.**" />
                                 <include class="${ui}.newcontroller.**" />
                                 <include class="${test}.driver.GaeSimulation" />
+                                <include class="${test}.driver.MockFilterChain" />
+                                <include class="${test}.driver.MockHttpServletRequest" />
+                                <include class="${test}.driver.MockHttpServletRequest$**" />
+                                <include class="${test}.driver.MockHttpServletResponse" />
                             </from>
                         </allow>
                     </deny>
