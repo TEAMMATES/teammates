@@ -37,7 +37,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
@@ -416,14 +415,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         Assumption.assertNotNull(googleId);
         Assumption.assertNotNull(encryptedKey);
-        Assumption.assertNotNull(institute);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
+        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
     }
 
     public void verifyInputForAdminHomePage(String name, String institute, String email)
@@ -912,12 +910,13 @@ public class Logic {
      * * All parameters are non-null.
      * @param key the encrypted registration key
      */
-    public void joinCourseForStudent(String key, String googleId) throws JoinCourseException, InvalidParametersException {
+    public StudentAttributes joinCourseForStudent(String key, String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         Assumption.assertNotNull(googleId);
         Assumption.assertNotNull(key);
 
-        accountsLogic.joinCourseForStudent(key, googleId);
+        return accountsLogic.joinCourseForStudent(key, googleId);
 
     }
 

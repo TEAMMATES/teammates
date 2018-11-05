@@ -20,12 +20,12 @@ public class GetCourseJoinStatusAction extends Action {
     }
 
     @Override
-    protected boolean checkSpecificAccessControl() {
-        return true;
+    public void checkSpecificAccessControl() {
+        // Any user can use a join link as long as its parameters are valid
     }
 
     @Override
-    protected ActionResult execute() {
+    public ActionResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
@@ -43,7 +43,7 @@ public class GetCourseJoinStatusAction extends Action {
         if (student == null) {
             return new JsonResult("No student with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
         }
-        return getJoinStatusResult(student.googleId != null);
+        return getJoinStatusResult(student.isRegistered());
     }
 
     private JsonResult getInstructorJoinStatus(String regkey) {
@@ -51,7 +51,7 @@ public class GetCourseJoinStatusAction extends Action {
         if (instructor == null) {
             return new JsonResult("No instructor with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
         }
-        return getJoinStatusResult(instructor.googleId != null);
+        return getJoinStatusResult(instructor.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {

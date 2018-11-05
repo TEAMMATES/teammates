@@ -63,6 +63,16 @@
     </servlet-mapping>
 
     <servlet>
+        <description>Servlet that handles mapping from legacy URL to new one</description>
+        <servlet-name>LegacyUrlMapper</servlet-name>
+        <servlet-class>teammates.ui.newcontroller.LegacyUrlMapper</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LegacyUrlMapper</servlet-name>
+        <url-pattern>/page/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <description>Servlet that handles cron jobs</description>
         <servlet-name>CronJobServlet</servlet-name>
         <servlet-class>teammates.ui.automated.CronJobServlet</servlet-class>
