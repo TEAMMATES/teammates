@@ -76,9 +76,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseE2ETestCase {
         // It might take a while for the submission adjustment to persist (especially on the live server),
         // during which the pre-existing submissions and responses would be counted.
         // Hence, this needs to be retried several times until the count becomes zero.
-        getPersistenceRetryManager().runUntilSuccessful(new RetryableTaskReturns<Integer>(
-                "Assert outdated responses removed"
-        ) {
+        persistenceRetryManager.runUntilSuccessful(new RetryableTaskReturns<Integer>("Assert outdated responses removed") {
             @Override
             public Integer run() {
                 return getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();

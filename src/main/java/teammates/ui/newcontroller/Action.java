@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.NullHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.EmailGenerator;
@@ -58,21 +57,26 @@ public abstract class Action {
     }
 
     /**
-     * Checks if the requesting user has sufficient authority to access the resource.
+     * Returns true if the requesting user has sufficient authority to access the resource.
      */
-    public void checkAccessControl() {
+    protected boolean checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
-            throw new UnauthorizedAccessException();
+            return false;
+        }
+
+        if (getMinAuthLevel() == AuthType.PUBLIC) {
+            // No authentication necessary for this resource
+            return true;
         }
 
         if (authType == AuthType.ALL_ACCESS) {
             // All-access pass granted
-            return;
+            return true;
         }
 
         // All other cases: to be dealt in case-by-case basis
-        checkSpecificAccessControl();
+        return checkSpecificAccessControl();
     }
 
     private void initAuthInfo() {
@@ -111,7 +115,7 @@ public abstract class Action {
      */
     protected String[] getNonNullRequestParamValues(String paramName) {
         String[] values = getRequestParamValues(paramName);
-        if (values == null || values.length == 0) {
+        if (values == null) {
             throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
         }
         return values;
@@ -133,11 +137,11 @@ public abstract class Action {
     /**
      * Checks the specific access control needs for the resource.
      */
-    public abstract void checkSpecificAccessControl();
+    protected abstract boolean checkSpecificAccessControl();
 
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute();
+    protected abstract ActionResult execute();
 
 }

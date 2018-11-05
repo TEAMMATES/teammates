@@ -19,27 +19,23 @@ import teammates.common.util.JsonUtils;
 public class JsonResult extends ActionResult {
 
     private final Object output;
+    private final int statusCode;
 
     public JsonResult(Object output) {
-        super(HttpStatus.SC_OK);
         this.output = output;
+        this.statusCode = HttpStatus.SC_OK;
     }
 
     public JsonResult(String message, int statusCode) {
-        super(statusCode);
-
         Map<String, String> output = new HashMap<>();
         output.put("message", message);
         this.output = output;
-    }
-
-    public Object getOutput() {
-        return output;
+        this.statusCode = statusCode;
     }
 
     @Override
     public void send(HttpServletResponse resp) throws IOException {
-        resp.setStatus(getStatusCode());
+        resp.setStatus(statusCode);
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));

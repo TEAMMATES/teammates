@@ -6,9 +6,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EmailSendingException;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -27,12 +27,12 @@ public class JoinCourseAction extends Action {
     }
 
     @Override
-    public void checkSpecificAccessControl() {
-        // Any user can use a join link as long as its parameters are valid
+    protected boolean checkSpecificAccessControl() {
+        return true;
     }
 
     @Override
-    public ActionResult execute() {
+    protected ActionResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
@@ -47,16 +47,15 @@ public class JoinCourseAction extends Action {
     }
 
     private JsonResult joinCourseForStudent(String regkey) {
-        StudentAttributes student;
+        StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
+        if (student == null) {
+            return new JsonResult("No student with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
+        }
 
         try {
-            student = logic.joinCourseForStudent(regkey, userInfo.id);
-        } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
-        } catch (EntityAlreadyExistsException eaee) {
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_BAD_REQUEST);
-        } catch (InvalidParametersException ipe) {
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            logic.joinCourseForStudent(regkey, userInfo.id);
+        } catch (JoinCourseException | InvalidParametersException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(student.course, student.name, student.email, false);
@@ -65,16 +64,15 @@ public class JoinCourseAction extends Action {
     }
 
     private JsonResult joinCourseForInstructor(String regkey, String institute) {
-        InstructorAttributes instructor;
+        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
+        if (instructor == null) {
+            return new JsonResult("No instructor with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
+        }
 
         try {
-            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute);
-        } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
-        } catch (EntityAlreadyExistsException eaee) {
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_BAD_REQUEST);
-        } catch (InvalidParametersException ipe) {
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            logic.joinCourseForInstructor(regkey, userInfo.id, institute);
+        } catch (JoinCourseException | InvalidParametersException | EntityDoesNotExistException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(instructor.courseId, instructor.name, instructor.email, true);

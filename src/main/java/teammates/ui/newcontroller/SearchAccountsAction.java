@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -38,15 +37,13 @@ public class SearchAccountsAction extends Action {
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    protected boolean checkSpecificAccessControl() {
         // Only admins can get accounts directly
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException();
-        }
+        return userInfo.isAdmin;
     }
 
     @Override
-    public ActionResult execute() {
+    protected ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
 
         List<StudentAttributes> students = logic.searchStudentsInWholeSystem(searchKey).studentList;

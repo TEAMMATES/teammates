@@ -24,17 +24,15 @@ public class GetAuthInfoAction extends Action {
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    public boolean checkSpecificAccessControl() {
         // Login information is available to everyone
+        return true;
     }
 
     @Override
     public ActionResult execute() {
         UserInfo user = gateKeeper.getCurrentUser();
-        String frontendUrl = getRequestParamValue("frontendUrl");
-        if (frontendUrl == null) {
-            frontendUrl = "";
-        }
+        String frontendUrl = req.getParameter("frontendUrl");
 
         Map<String, Object> output = new HashMap<>();
         if (user == null) {

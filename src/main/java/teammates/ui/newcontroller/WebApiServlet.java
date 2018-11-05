@@ -14,7 +14,6 @@ import com.google.apphosting.api.DeadlineExceededException;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -33,22 +32,22 @@ public class WebApiServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         invokeServlet(req, resp);
     }
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         invokeServlet(req, resp);
     }
 
     @Override
-    public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         invokeServlet(req, resp);
     }
 
     @Override
-    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         invokeServlet(req, resp);
     }
 
@@ -71,9 +70,13 @@ public class WebApiServlet extends HttpServlet {
             return;
         }
 
-        try {
-            action.checkAccessControl();
+        boolean passAccessControlCheck = action.checkAccessControl();
+        if (!passAccessControlCheck) {
+            throwError(resp, HttpStatus.SC_FORBIDDEN, "Not authorized to access this resource.");
+            return;
+        }
 
+        try {
             ActionResult result = action.execute();
             result.send(resp);
             // TODO handle all sorts of Exceptions
@@ -83,8 +86,6 @@ public class WebApiServlet extends HttpServlet {
             log.info(action.getLogMessage() + "|||" + timeTaken);
         } catch (InvalidHttpParameterException ihpe) {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
-        } catch (UnauthorizedAccessException uae) {
-            throwError(resp, HttpStatus.SC_FORBIDDEN, "Not authorized to access this resource.");
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it

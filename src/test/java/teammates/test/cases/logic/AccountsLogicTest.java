@@ -8,9 +8,11 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
@@ -186,10 +188,9 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("failure: wrong key");
 
-        String wrongKey = StringHelper.encrypt("wrongkey");
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourseForStudent(wrongKey, correctStudentId));
-        assertEquals("No student with given registration key: " + wrongKey, ednee.getMessage());
+        JoinCourseException jce = assertThrows(JoinCourseException.class,
+                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt("wrongkey"), correctStudentId));
+        assertEquals("You have used an invalid join link: %s", jce.getMessage());
 
         ______TS("failure: invalid parameters");
 
@@ -209,9 +210,10 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
 
-        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
+        jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), existingId));
-        assertEquals("Student has already joined course", eaee.getMessage());
+        assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, existingId),
+                jce.getMessage());
 
         ______TS("success: without encryption and account already exists");
 
@@ -234,15 +236,24 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("failure: already joined");
 
-        eaee = assertThrows(EntityAlreadyExistsException.class,
+        jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), correctStudentId));
-        assertEquals("Student has already joined course", eaee.getMessage());
+        assertEquals("You (" + correctStudentId + ") have already joined this course",
+                jce.getMessage());
 
         ______TS("failure: valid key belongs to a different user");
 
-        eaee = assertThrows(EntityAlreadyExistsException.class,
+        jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), "wrongstudent"));
-        assertEquals("Student has already joined course", eaee.getMessage());
+        assertEquals("The join link used belongs to a different user whose "
+                        + "Google ID is corre..dentId (only part of the Google ID is "
+                        + "shown to protect privacy). If that Google ID is owned by you, "
+                        + "please logout and re-login using that Google account. "
+                        + "If it doesn’t belong to you, please "
+                        + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                        + "body=Your name:%0AYour course:%0AYour university:\">"
+                        + "contact us</a> so that we can investigate.",
+                jce.getMessage());
 
         ______TS("success: with encryption and new account to be created");
 
@@ -308,9 +319,12 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
-        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
+        JoinCourseException jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null));
-        assertEquals("Instructor has already joined course", eaee.getMessage());
+        assertEquals(
+                String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                        "idOfInstructorWithOnlyOneSampleCourse"),
+                jce.getMessage());
 
         ______TS("success: instructor joined and new account be created");
 
@@ -396,23 +410,32 @@ public class AccountsLogicTest extends BaseLogicTest {
         encryptedKey[0] = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         InstructorAttributes[] finalInstructor = new InstructorAttributes[] { joinedInstructor };
-        eaee = assertThrows(EntityAlreadyExistsException.class,
+        jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null));
-        assertEquals("Instructor has already joined course", eaee.getMessage());
+        assertEquals(joinedInstructor.googleId + " has already joined this course",
+                jce.getMessage());
 
         ______TS("failure: key belongs to a different user");
 
-        eaee = assertThrows(EntityAlreadyExistsException.class,
+        jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId", null));
-        assertEquals("Instructor has already joined course", eaee.getMessage());
+        assertEquals("The join link used belongs to a different user whose "
+                        + "Google ID is stude..ourse1 (only part of the Google ID is "
+                        + "shown to protect privacy). If that Google ID is owned by you, "
+                        + "please logout and re-login using that Google account. "
+                        + "If it doesn’t belong to you, please "
+                        + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                        + "body=Your name:%0AYour course:%0AYour university:\">"
+                        + "contact us</a> so that we can investigate.",
+                jce.getMessage());
 
         ______TS("failure: invalid key");
         String invalidKey = StringHelper.encrypt("invalidKey");
 
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+        jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, null));
-        assertEquals("No instructor with given registration key: " + invalidKey,
-                ednee.getMessage());
+        assertEquals("You have used an invalid join link: /web/join?key=" + invalidKey,
+                jce.getMessage());
     }
 
     @Test

@@ -9,19 +9,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class ActionResult {
 
-    private final int statusCode;
-
-    protected ActionResult(int statusCode) {
-        this.statusCode = statusCode;
-    }
-
     /**
      * Packages and forwards the action result to the HTTP response.
      */
     public abstract void send(HttpServletResponse resp) throws IOException;
-
-    public int getStatusCode() {
-        return statusCode;
-    }
 
 }

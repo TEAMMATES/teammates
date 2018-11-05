@@ -98,30 +98,14 @@ public class GaeSimulation {
         }
     }
 
-    private UserInfo loginUser(String userId, boolean isAdmin) {
+    /**
+     * Logs in the user to the GAE simulation environment without admin rights.
+     */
+    private void loginUser(String userId) {
         helper.setEnvIsLoggedIn(true);
         helper.setEnvEmail(userId);
         helper.setEnvAuthDomain("gmail.com");
-        helper.setEnvIsAdmin(isAdmin);
-        return gateKeeper.getCurrentUser();
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment without admin rights.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginUser(String userId) {
-        return loginUser(userId, false);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as an admin.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsAdmin(String userId) {
-        return loginUser(userId, true);
+        helper.setEnvIsAdmin(false);
     }
 
     /**
@@ -130,6 +114,14 @@ public class GaeSimulation {
     public void logoutUser() {
         helper.setEnvIsLoggedIn(false);
         helper.setEnvIsAdmin(false);
+    }
+
+    /**
+     * Logs in the user to the GAE simulation environment as an admin.
+     */
+    public void loginAsAdmin(String userId) {
+        loginUser(userId);
+        helper.setEnvIsAdmin(true);
     }
 
     /**
@@ -230,7 +222,7 @@ public class GaeSimulation {
      */
     public Action getNewActionObject(String uri, String method, String... parameters) {
         try {
-            InvocationContext ic = invokeWebRequest(Const.ResourceURIs.URI_PREFIX + uri, parameters);
+            InvocationContext ic = invokeWebRequest(uri, parameters);
             HttpServletRequest req = ic.getRequest();
             HttpServletResponse resp = ic.getResponse();
             Action action = new ActionFactory().getAction(req, method, resp);
@@ -279,8 +271,6 @@ public class GaeSimulation {
         // This is not testing servlet, so any HTTP method suffices
         WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);
 
-        // TODO remove this portion once front-end migration is finished
-        // Reason: CSRF protection is not part of action tests
         if (Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(uri)) {
             request.setHeaderField("referer", SIMULATION_BASE_URL);
 
