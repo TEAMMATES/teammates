@@ -1345,6 +1345,7 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
 /**
  *Adds onchange event handler on
  *instructor feedback edit questions
+ *to validate recommended response length
  */
 function validateRecommendedLength() {
     let length = '0';
