@@ -96,7 +96,7 @@
                               Recommended length
                             </span>
                             for the response:
-                            <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
+                            <input disabled="" type="number" class="form-control recommendedlength" name="recommendedlength" value="">
                             words
                           </div>
                         </div>
@@ -4064,7 +4064,7 @@
                                 In the calculation, we do not allow (1) to affect (2). We use (2) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
                                 <a href="/technicalInformation.jsp#calculatePointsContribution" target="_blank">here</a>.
                               </p>
-                              <p>
+                           js   <p>
                                 The results and statistics are presented in the example below. Here is a summary of the terms used:
                               </p>
                               <ul>

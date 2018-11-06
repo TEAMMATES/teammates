@@ -1342,6 +1342,19 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     });
 }
 
+/**
+ *Adds onchange event handler on
+ *instructor feedback edit questions
+ */
+function validateRecommendedLength() {
+    let length = '0';
+    const re = /[0-9]+/;
+    if (re.test($('.recommendedlength').val())) {
+        length = $('.recommendedlength').val();
+    }
+    $('.recommendedlength').val(length);
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -1365,6 +1378,10 @@ $(document).ready(() => {
     $(document).on('change', '.participantSelect', (e) => {
         matchVisibilityOptionToFeedbackPath(e.currentTarget);
         getVisibilityMessage(e.currentTarget);
+    });
+
+    $(document).on('change', '.recommendedlength', () => {
+        validateRecommendedLength();
     });
 
     $(document).on('click', '.btn-duplicate-qn', (e) => {
