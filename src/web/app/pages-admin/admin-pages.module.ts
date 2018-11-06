@@ -8,6 +8,7 @@ import { AdminEmailPageComponent } from './admin-email-page/admin-email-page.com
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { AdminSearchPageComponent } from './admin-search-page/admin-search-page.component';
 import { AdminSessionsPageComponent } from './admin-sessions-page/admin-sessions-page.component';
+import { AdminTimezonePageComponent } from './admin-timezone-page/admin-timezone-page.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'email',
     component: AdminEmailPageComponent,
+  },
+  {
+    path: 'timezone',
+    component: AdminTimezonePageComponent,
   },
   {
     path: '',
@@ -53,6 +58,7 @@ const routes: Routes = [
     AdminSearchPageComponent,
     AdminSessionsPageComponent,
     AdminEmailPageComponent,
+    AdminTimezonePageComponent,
   ],
 })
 export class AdminPagesModule {}

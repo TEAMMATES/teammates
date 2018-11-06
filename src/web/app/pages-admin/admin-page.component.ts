@@ -31,6 +31,10 @@ export class AdminPageComponent implements OnInit {
       url: '/web/admin/email',
       display: 'Email',
     },
+    {
+      url: '/web/admin/timezone',
+      display: 'Timezone Listing',
+    },
   ];
 
   private backendUrl: string = environment.backendUrl;

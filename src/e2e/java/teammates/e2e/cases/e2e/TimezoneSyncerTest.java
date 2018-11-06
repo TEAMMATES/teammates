@@ -1,27 +1,32 @@
-package teammates.test.cases.browsertests;
+package teammates.e2e.cases.e2e;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.common.util.ThreadHelper;
 
 /**
- * Verifies that the timezone databases in momentjs and java.time are consistent and up-to-date.
+ * Verifies that the timezone databases in moment-timezone and java.time are consistent and up-to-date.
  *
  * <p>Implemented as a browser test as both back-end and front-end methods are involved.
  */
 public class TimezoneSyncerTest extends BaseE2ETestCase {
 
     private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
+    private static final int DAYS_TO_UPDATE_TZ = 20;
 
     @Override
     protected void prepareTestData() {
@@ -33,20 +38,28 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         loginAdmin();
     }
 
+    @BeforeMethod
+    public void navigateToTimezonePage() {
+        browser.driver.get(createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE).toAbsoluteString());
+        // TODO change this to proper wait
+        ThreadHelper.waitFor(2000);
+    }
+
     @Test
     public void testFrontendBackendTimezoneDatabasesAreConsistent() {
         // ensure the front-end and the back-end have the same timezone database version
-        browser.driver.get(createUrl(Const.ViewURIs.TIMEZONE).toAbsoluteString());
         Document pageSource = Jsoup.parse(browser.driver.getPageSource());
-        assertEquals(pageSource.getElementById("javatime").text().replace(" ", System.lineSeparator()),
-                     pageSource.getElementById("momentjs").text().replace(" ", System.lineSeparator()));
+        String javaOffsets = processOffsets(pageSource.getElementById("tz-java").text());
+        String momentOffsets = processOffsets(pageSource.getElementById("tz-moment").text());
+        assertEquals(javaOffsets, momentOffsets);
+        assertEquals(pageSource.getElementById("tzversion-java").text(),
+                pageSource.getElementById("tzversion-moment").text());
     }
 
     @Test
     public void testTimezoneDatabasesAreUpToDate() {
         // ensure the timezone databases are up-to-date
-        browser.driver.get(createUrl(Const.ViewURIs.TIMEZONE).toAbsoluteString());
-        String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("version").text();
+        String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("tzversion-java").text();
         browser.driver.get(IANA_TIMEZONE_DATABASE_URL);
         Document tzReleasePage = Jsoup.parse(browser.driver.getPageSource());
         String latestTzVersion = tzReleasePage.getElementById("version").text();
@@ -62,11 +75,26 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             LocalDate nowDate = Instant.now().atZone(Const.DEFAULT_TIME_ZONE).toLocalDate();
 
             assertTrue(
-                    "The timezone database version is not up-to-date for more than 20 days,"
+                    "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"
                             + " please update them according to the maintenance guide.",
-                    releaseDate.plusDays(20).isAfter(nowDate));
+                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate));
 
         }
+    }
+
+    private String processOffsets(String offsets) {
+        // This will process raw offset strings, e.g. Zone1 1 Zone2 -2 Zone3 3 ... to:
+        // Zone1 1
+        // Zone2 -2
+        // Zone3 3
+        // ...
+        // to facilitate easy diff-ing when the need arises
+        String[] list = offsets.split(" ");
+        List<String> merged = new ArrayList<>();
+        for (int i = 0; i < list.length; i += 2) {
+            merged.add(list[i] + " " + list[i + 1]);
+        }
+        return merged.stream().collect(Collectors.joining(System.lineSeparator()));
     }
 
 }

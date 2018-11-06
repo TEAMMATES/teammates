@@ -961,6 +961,7 @@ public final class Const {
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
@@ -976,6 +977,7 @@ public final class Const {
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
         public static final String JOIN = "/join";
+        public static final String TIMEZONE = "/timezone";
 
     }
 
@@ -1262,7 +1264,6 @@ public final class Const {
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
-        public static final String TIMEZONE = "/test/timezone.jsp";
     }
 
     /* These are status messages that may be shown to the user */
