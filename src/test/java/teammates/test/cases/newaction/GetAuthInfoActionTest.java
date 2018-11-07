@@ -46,6 +46,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
         assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
         assertNull(output.getUser());
+        assertFalse(output.isMasquerade());
         assertNull(output.getLogoutUrl());
 
         ______TS("Normal case: With logged in user");
@@ -61,9 +62,58 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertFalse(output.isMasquerade());
         assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
 
-        UserInfo user = (UserInfo) output.getUser();
+        UserInfo user = output.getUser();
+        assertFalse(user.isAdmin);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isStudent);
+        assertEquals("idOfInstructor1OfCourse1", user.id);
+
+        ______TS("Normal case: Admin masquerading as user");
+
+        loginAsAdmin();
+
+        a = getAction(new String[] {
+                Const.ParamsNames.USER_ID, "idOfInstructor1OfCourse1",
+        });
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (AuthInfo) r.getOutput();
+        assertNull(output.getStudentLoginUrl());
+        assertNull(output.getInstructorLoginUrl());
+        assertNull(output.getAdminLoginUrl());
+        assertTrue(output.isMasquerade());
+        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
+
+        user = output.getUser();
+        assertFalse(user.isAdmin);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isStudent);
+        assertEquals("idOfInstructor1OfCourse1", user.id);
+
+        ______TS("Failure case: Non-admin cannot masquerade");
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+
+        a = getAction(new String[] {
+                Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
+        });
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (AuthInfo) r.getOutput();
+        assertNull(output.getStudentLoginUrl());
+        assertNull(output.getInstructorLoginUrl());
+        assertNull(output.getAdminLoginUrl());
+        assertFalse(output.isMasquerade());
+        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
+
+        user = output.getUser();
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertFalse(user.isStudent);

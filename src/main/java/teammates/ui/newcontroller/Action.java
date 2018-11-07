@@ -30,7 +30,7 @@ public abstract class Action {
     protected HttpServletRequest req;
     protected HttpServletResponse resp;
     protected UserInfo userInfo;
-    private AuthType authType;
+    protected AuthType authType;
 
     /**
      * Initializes the action object based on the HTTP request.
@@ -83,6 +83,12 @@ public abstract class Action {
 
         userInfo = gateKeeper.getCurrentUser();
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
+
+        String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
+        if (userInfo != null && userInfo.isAdmin && userParam != null) {
+            userInfo = gateKeeper.getMasqueradeUser(userParam);
+            authType = AuthType.MASQUERADE;
+        }
     }
 
     /**

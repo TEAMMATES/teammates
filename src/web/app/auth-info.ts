@@ -6,6 +6,7 @@ export interface AuthInfo {
   instructorLoginUrl?: string;
   adminLoginUrl?: string;
   user?: UserInfo;
+  masquerade?: boolean;
   logoutUrl?: string;
 }
 
