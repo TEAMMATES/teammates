@@ -1,6 +1,7 @@
 package teammates.test.driver;
 
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
@@ -108,8 +109,24 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.statusCode = sc;
     }
 
-    public int getStatusCode() {
+    @Override
+    public int getStatus() {
         return this.statusCode;
+    }
+
+    @Override
+    public String getHeader(String s) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getHeaders(String s) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getHeaderNames() {
+        return null;
     }
 
     @Override
@@ -139,6 +156,11 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setContentLength(int len) {
+        // not used
+    }
+
+    @Override
+    public void setContentLengthLong(long l) {
         // not used
     }
 

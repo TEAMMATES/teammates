@@ -61,7 +61,6 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
                 logic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
             } catch (Exception e) {
                 String url = HttpRequestHelper.getRequestedUrl(request);
-                @SuppressWarnings("unchecked")
                 Map<String, String[]> params = request.getParameterMap();
                 // no logged-in user for worker
                 String logMessage = new LogMessageGenerator().generateActionFailureLogMessage(url, params, e, null);

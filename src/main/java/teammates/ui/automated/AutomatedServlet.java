@@ -33,7 +33,6 @@ abstract class AutomatedServlet extends HttpServlet {
             String url = HttpRequestHelper.getRequestedUrl(req);
             // Do not log task queue worker actions to prevent excessive logging
             if (!url.startsWith("/worker/")) {
-                @SuppressWarnings("unchecked")
                 Map<String, String[]> params = req.getParameterMap();
                 // no logged-in user for automated servlet
                 LogMessageGenerator logGenerator = new LogMessageGenerator();

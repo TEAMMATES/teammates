@@ -24,7 +24,7 @@ public class WebPageServletTest extends BaseTestCase {
         MockHttpServletResponse mockResponse = new MockHttpServletResponse();
         servlet.doGet(mockRequest, mockResponse);
 
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
     }
 

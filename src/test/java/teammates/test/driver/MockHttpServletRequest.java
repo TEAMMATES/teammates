@@ -3,6 +3,7 @@ package teammates.test.driver;
 import java.io.BufferedReader;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -10,13 +11,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 
 /**
  * Mocks {@link HttpServletRequest} for testing purpose.
@@ -165,6 +171,11 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
+    public String changeSessionId() {
+        return null;
+    }
+
+    @Override
     public boolean isRequestedSessionIdValid() {
         return false;
     }
@@ -185,12 +196,42 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
+    public boolean authenticate(HttpServletResponse httpServletResponse) {
+        return false;
+    }
+
+    @Override
+    public void login(String s, String s1) {
+        // not used
+    }
+
+    @Override
+    public void logout() {
+        // not used
+    }
+
+    @Override
+    public Collection<Part> getParts() {
+        return null;
+    }
+
+    @Override
+    public Part getPart(String s) {
+        return null;
+    }
+
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) {
+        return null;
+    }
+
+    @Override
     public Object getAttribute(String s) {
         return null;
     }
 
     @Override
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return null;
     }
 
@@ -206,6 +247,11 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public int getContentLength() {
+        return 0;
+    }
+
+    @Override
+    public long getContentLengthLong() {
         return 0;
     }
 
@@ -226,7 +272,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
-    public Enumeration getParameterNames() {
+    public Enumeration<String> getParameterNames() {
         return Collections.enumeration(this.params.keySet());
     }
 
@@ -236,7 +282,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
-    public Map getParameterMap() {
+    public Map<String, String[]> getParameterMap() {
         Map<String, String[]> result = new HashMap<>();
         this.params.forEach((key, values) -> result.put(key, values.toArray(new String[0])));
         return result;
@@ -300,7 +346,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
-    public Enumeration getLocales() {
+    public Enumeration<Locale> getLocales() {
         return null;
     }
 
@@ -347,6 +393,41 @@ public class MockHttpServletRequest implements HttpServletRequest {
     @Override
     public int getLocalPort() {
         return 0;
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        return null;
+    }
+
+    @Override
+    public AsyncContext startAsync() {
+        return null;
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) {
+        return null;
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        return false;
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        return false;
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        return null;
+    }
+
+    @Override
+    public DispatcherType getDispatcherType() {
+        return null;
     }
 
 }

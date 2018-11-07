@@ -34,7 +34,6 @@ public class PublicImageServlet extends HttpServlet {
         doPost(req, resp);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String url = HttpRequestHelper.getRequestedUrl(req);

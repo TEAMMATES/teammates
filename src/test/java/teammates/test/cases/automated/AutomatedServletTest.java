@@ -35,14 +35,14 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
         setupMocks(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("Failure case: invalid action mapping");
 
         setupMocks("/auto/mappingDoesNotExist");
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
     }
 
