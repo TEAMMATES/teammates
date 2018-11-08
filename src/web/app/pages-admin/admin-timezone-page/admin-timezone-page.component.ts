@@ -19,7 +19,7 @@ export class AdminTimezonePageComponent implements OnInit {
 
   javaTzVersion: string = '';
   javaTimezones: { [key: string]: number } = {};
-  momentTzVersion: { [key: string]: string } = {};
+  momentTzVersion: string = '';
   momentTimezones: { [key: string]: number } = {};
 
   constructor(private timezoneService: TimezoneService, private httpRequestService: HttpRequestService) {}

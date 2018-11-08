@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { default as developers } from '../../../data/developers.json';
 
 /**
  * About page.
@@ -20,7 +20,7 @@ export class AboutPageComponent implements OnInit {
   multipleContributors: any[] = [];
   singleContributors: any[] = [];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor() {}
 
   private setUrl(dev: any): any {
     if (dev.url) {
@@ -38,18 +38,16 @@ export class AboutPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get('./assets/data/developers.json').subscribe((res: any) => {
-      this.nDevelopers = res.teammembers.length + res.committers.length + res.contributors.length;
-      this.teamMembers = res.teammembers.filter((n: any) => n.currentPosition).map(this.setUrl);
-      this.pastTeamMembers = res.teammembers.filter((n: any) => !n.currentPosition).map(this.setUrl);
-      this.committers = res.committers.filter((n: any) => !n.endPeriod).map(this.setUrl);
-      this.pastCommitters = res.committers.filter((n: any) => n.endPeriod).map(this.setUrl);
-      this.majorContributors = res.contributors.filter((n: any) => n.major).map(this.setUrl);
-      this.multipleContributors = res.contributors.filter((n: any) => !n.major && n.multiple)
-          .map(this.setUrl).map(this.setDisplayedName);
-      this.singleContributors = res.contributors.filter((n: any) => !n.major && !n.multiple)
-          .map(this.setUrl).map(this.setDisplayedName);
-    });
+    this.nDevelopers = developers.teammembers.length + developers.committers.length + developers.contributors.length;
+    this.teamMembers = developers.teammembers.filter((n: any) => n.currentPosition).map(this.setUrl);
+    this.pastTeamMembers = developers.teammembers.filter((n: any) => !n.currentPosition).map(this.setUrl);
+    this.committers = developers.committers.filter((n: any) => !n.endPeriod).map(this.setUrl);
+    this.pastCommitters = developers.committers.filter((n: any) => n.endPeriod).map(this.setUrl);
+    this.majorContributors = developers.contributors.filter((n: any) => n.major).map(this.setUrl);
+    this.multipleContributors = developers.contributors.filter((n: any) => !n.major && n.multiple)
+        .map(this.setUrl).map(this.setDisplayedName);
+    this.singleContributors = developers.contributors.filter((n: any) => !n.major && !n.multiple)
+        .map(this.setUrl).map(this.setDisplayedName);
   }
 
 }
