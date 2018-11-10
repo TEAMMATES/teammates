@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorReportModule } from './error-report/error-report.module';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
@@ -77,6 +78,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     NgbModule,
+    ErrorReportModule,
     PageNotFoundModule,
     StatusMessageModule,
     SessionResultPageModule,

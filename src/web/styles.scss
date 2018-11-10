@@ -1,9 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~bootstrap/dist/css/bootstrap.css';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+.btn {
+  font-size: inherit;
+}
+
+.color-orange {
+  color: #E46D0B;
+}
+
+.color-blue {
+  color: #4379D1;
+}
 
 .hidden {
   display: none;
+}
+
+.modal-dialog {
+  min-width: 800px;
+}
+
+.modal-content {
+  padding: 30px 20px;
 }
 
 // The following few properties are for the usermap page.

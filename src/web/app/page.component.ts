@@ -19,12 +19,14 @@ export class PageComponent implements OnInit {
 
   @Input() studentLoginUrl: string = '';
   @Input() instructorLoginUrl: string = '';
+  @Input() user: string = '';
   @Input() isStudent: boolean = false;
   @Input() isInstructor: boolean = false;
   @Input() isAdmin: boolean = false;
   @Input() isValidUser: boolean = false;
   @Input() logoutUrl: string = '';
   @Input() pageTitle: string = '';
+  @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
 
   isCollapsed: boolean = true;
@@ -53,6 +55,7 @@ export class PageComponent implements OnInit {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
+        window.scrollTo(0, 0); // reset viewport
         this.messageList = [];
         let r: ActivatedRoute = this.route;
         while (r.firstChild) {

@@ -82,8 +82,6 @@ export class AdminHomePageComponent {
       instructor.joinLink = resp.joinLink;
       this.activeRequests -= 1;
     }, (resp: ErrorMessageOutput) => {
-      // TODO handle error
-      console.error(resp);
       instructor.status = 'FAIL';
       instructor.message = resp.error.message;
       this.activeRequests -= 1;

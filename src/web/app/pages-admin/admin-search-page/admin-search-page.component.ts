@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
 
 interface CommonBundle {
@@ -50,7 +51,7 @@ export class AdminSearchPageComponent {
   instructors: InstructorBundle[] = [];
   students: StudentBundle[] = [];
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService) {}
 
   /**
    * Searches for students and instructors matching the search query.
@@ -70,8 +71,7 @@ export class AdminSearchPageComponent {
         student.showLinks = false;
       }
     }, (resp: ErrorMessageOutput) => {
-      // TODO handle error
-      console.error(resp);
+      this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 

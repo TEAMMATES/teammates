@@ -14,10 +14,16 @@ const routes: Routes = [
   {
     path: 'home',
     component: AdminHomePageComponent,
+    data: {
+      pageTitle: 'Add New Instructor',
+    },
   },
   {
     path: 'search',
     component: AdminSearchPageComponent,
+    data: {
+      pageTitle: 'Admin Search',
+    },
   },
   {
     path: 'sessions',

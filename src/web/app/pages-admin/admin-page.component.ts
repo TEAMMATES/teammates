@@ -10,12 +10,15 @@ import { AuthInfo } from '../auth-info';
  */
 @Component({
   selector: 'tm-admin-page',
-  template: '<tm-page [navItems]="navItems" [logoutUrl]="logoutUrl" [isValidUser]="isValidUser"></tm-page>',
+  templateUrl: './admin-page.component.html',
 })
 export class AdminPageComponent implements OnInit {
 
   logoutUrl: string = '';
-  isValidUser: boolean = false;
+  user: string = '';
+  isInstructor: boolean = false;
+  isStudent: boolean = false;
+  isAdmin: boolean = false;
   navItems: any[] = [
     {
       url: '/web/admin',
@@ -49,8 +52,11 @@ export class AdminPageComponent implements OnInit {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
       }
       if (res.user) {
-        this.isValidUser = res.user.isAdmin;
-        if (!this.isValidUser) {
+        this.user = res.user.id;
+        this.isInstructor = res.user.isInstructor;
+        this.isStudent = res.user.isStudent;
+        this.isAdmin = res.user.isAdmin;
+        if (!this.isAdmin) {
           // User is not a valid admin; redirect to home page.
           // This should not happen in production server as the /web/admin/* routing is protected,
           // and a 403 error page will be shown instead.
