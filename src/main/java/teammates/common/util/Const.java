@@ -960,6 +960,7 @@ public final class Const {
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
@@ -975,6 +976,7 @@ public final class Const {
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
+        public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
 
@@ -1098,7 +1100,6 @@ public final class Const {
 
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
-        public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
         public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
         public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
@@ -1250,7 +1251,6 @@ public final class Const {
 
         public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
-        public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";

@@ -28,7 +28,7 @@
         </li>
 
         <li <c:if test="${fn:contains(data.getClass(), 'AdminSessionsPage')}">class="active"</c:if>>
-          <a href="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
+          <a href="<%=Const.WebPageURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
         </li>
 
         <li <c:if test="${fn:contains(data.getClass(), 'AdminEmail')}">class="active"</c:if>>

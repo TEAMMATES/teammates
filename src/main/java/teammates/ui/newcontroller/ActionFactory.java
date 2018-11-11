@@ -33,6 +33,7 @@ public class ActionFactory {
         map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
         map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
+        map(ResourceURIs.SESSIONS_ADMIN, HttpGet.METHOD_NAME, GetOngoingSessionsAction.class);
         map(ResourceURIs.JOIN, HttpGet.METHOD_NAME, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, HttpPut.METHOD_NAME, JoinCourseAction.class);
     }

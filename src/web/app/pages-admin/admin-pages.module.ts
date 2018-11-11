@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { AdminEmailPageComponent } from './admin-email-page/admin-email-page.component';
@@ -28,6 +29,9 @@ const routes: Routes = [
   {
     path: 'sessions',
     component: AdminSessionsPageComponent,
+    data: {
+      pageTitle: 'Ongoing Sessions',
+    },
   },
   {
     path: 'email',
@@ -56,6 +60,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule,
     PageNotFoundModule,
     RouterModule.forChild(routes),
   ],
