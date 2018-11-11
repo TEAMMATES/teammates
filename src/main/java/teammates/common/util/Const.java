@@ -1123,6 +1123,7 @@ public final class Const {
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
+        public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";

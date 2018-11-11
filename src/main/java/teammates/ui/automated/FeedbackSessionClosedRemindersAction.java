@@ -16,11 +16,6 @@ public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionDescription() {
-        return "send closed reminders";
-    }
-
-    @Override
     protected String getActionMessage() {
         return "Generating reminders for closed feedback sessions.";
     }
