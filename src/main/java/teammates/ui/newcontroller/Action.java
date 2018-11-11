@@ -124,14 +124,6 @@ public abstract class Action {
     }
 
     /**
-     * Returns the log message in the special format used for generating the 'activity log' for the Admin.
-     */
-    public String getLogMessage() {
-        // TODO
-        return "Test log message";
-    }
-
-    /**
      * Gets the minimum access control level required to access the resource.
      */
     protected abstract AuthType getMinAuthLevel();

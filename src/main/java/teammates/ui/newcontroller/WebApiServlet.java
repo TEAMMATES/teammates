@@ -57,9 +57,6 @@ public class WebApiServlet extends HttpServlet {
     private void invokeServlet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
 
-        @SuppressWarnings("PMD.PrematureDeclaration") // used to measure response time
-        long startTime = System.currentTimeMillis();
-
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(req)
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req));
@@ -77,11 +74,6 @@ public class WebApiServlet extends HttpServlet {
 
             ActionResult result = action.execute();
             result.send(resp);
-            // TODO handle all sorts of Exceptions
-
-            long timeTaken = System.currentTimeMillis() - startTime;
-
-            log.info(action.getLogMessage() + "|||" + timeTaken);
         } catch (InvalidHttpParameterException ihpe) {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (UnauthorizedAccessException uae) {
