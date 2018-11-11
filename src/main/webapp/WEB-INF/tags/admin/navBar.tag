@@ -32,28 +32,12 @@
           <a href="<%=Const.WebPageURIs.ADMIN_SEARCH_PAGE%>">Search</a>
         </li>
 
-        <li <c:if test="${fn:contains(data.getClass(), 'AdminActivityLogPage')}">class="active"</c:if>>
-          <a href="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">Activity Log</a>
-        </li>
-
         <li <c:if test="${fn:contains(data.getClass(), 'AdminSessionsPage')}">class="active"</c:if>>
           <a href="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
         </li>
 
-        <li <c:if test="${fn:contains(data.getClass(), 'AdminEmail')}">class="active dropdown"</c:if>
-            <c:if test="${not fn:contains(data.getClass(), 'AdminEmail')}">class="dropdown"</c:if>>
-          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-            Email <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <li>
-              <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Email</a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a href="<%=Const.ActionURIs.ADMIN_EMAIL_LOG_PAGE%>">Email Log</a>
-            </li>
-          </ul>
+        <li <c:if test="${fn:contains(data.getClass(), 'AdminEmail')}">class="active"</c:if>>
+          <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Email</a>
         </li>
       </ul>
       <ul class="nav navbar-nav pull-right">

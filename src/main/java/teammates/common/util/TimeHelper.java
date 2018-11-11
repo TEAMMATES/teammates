@@ -368,20 +368,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats {@code instant} for the admin's activity log page.
-     * Example: 01/04/2018 12:00:01.481
-     *
-     * <p>Timestamp precision to millisecond. Used for dev/admin-facing pages only.</p>
-     *
-     * @param instant the instant to be formatted
-     * @param zoneId  the time zone to calculate local date and time
-     * @return the formatted timestamp string
-     */
-    public static String formatDateTimeForAdminLog(Instant instant, ZoneId zoneId) {
-        return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
-    }
-
-    /**
      * Formats {@code instant} using the ISO8601 format in UTC.
      * Example: 2011-12-03T10:15:30Z
      *
@@ -416,20 +402,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns Duration in format m:s:ms.
-     *
-     * <p>Example: 1200 milliseconds ---> 0:1:200.
-     */
-    public static String convertToStandardDuration(Long timeInMilliseconds) {
-        return timeInMilliseconds == null
-             ? ""
-             : String.format("%d:%d:%d",
-                timeInMilliseconds / 60000,
-                (timeInMilliseconds % 60000) / 1000,
-                timeInMilliseconds % 1000);
-    }
-
-    /**
      * Parses an {@code Instant} object from a datetime string in the {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.
      *
      * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
@@ -442,26 +414,6 @@ public final class TimeHelper {
             return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
         } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
-            return null;
-        }
-    }
-
-    /**
-     * Parses a {@code LocalDateTime} object from a datetime string and parsing pattern.
-     *
-     * @param dateTimeString the string containing the datetime
-     * @param pattern        the parsing pattern of the datetime string
-     * @return the parsed {@code LocalDateTime} object, or {@code null} if there are errors
-     */
-    public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
-        if (dateTimeString == null || pattern == null) {
-            return null;
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        try {
-            return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (DateTimeParseException e) {
             return null;
         }
     }

@@ -38,14 +38,6 @@ public class AdminAccountManagementPage extends AppPage {
         return changePageType(AdminAccountDetailsPage.class);
     }
 
-    public AdminActivityLogPage clickViewRecentActions(String instructorId) {
-        WebElement button = browser.driver.findElement(By.id(instructorId + "_recentActions"));
-        click(button);
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(AdminActivityLogPage.class);
-    }
-
     public AdminAccountManagementPage clickAndCancelDeleteAccountLink(String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndCancel(deleteAccountLink);

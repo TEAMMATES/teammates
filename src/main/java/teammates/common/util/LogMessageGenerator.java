@@ -15,6 +15,7 @@ import teammates.common.util.ActivityLogEntry.Builder;
 /**
  * Factory to generate log messages.
  */
+@Deprecated
 public class LogMessageGenerator {
     public static final Pattern PATTERN_ACTION_NAME = Pattern.compile("^/\\S+?/(?<actionName>[^\\s\\?]*)");
     public static final String PATTERN_ACTION_NAME_GROUP = "actionName";

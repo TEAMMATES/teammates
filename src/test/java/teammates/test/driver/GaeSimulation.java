@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
@@ -60,8 +59,6 @@ public class GaeSimulation {
 
     private LocalServiceTestHelper helper;
 
-    private LocalLogService localLogService;
-
     /**
      * Gets the GAE simulation instance.
      */
@@ -93,7 +90,6 @@ public class GaeSimulation {
             helper.setUp();
 
             sc = new ServletRunner().newClient();
-            localLogService = LocalLogServiceTestConfig.getLocalLogService();
         }
     }
 
@@ -181,31 +177,6 @@ public class GaeSimulation {
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Clears all logs in GAE.
-     */
-    public void clearLogs() {
-        localLogService.clear();
-    }
-
-    /**
-     * Adds a request info log to the simulated environment.
-     */
-    public void addLogRequestInfo(String appId, String versionId, String requestId, String ip, String nickname,
-                                  long startTimeUsec, long endTimeUsec, String method, String resource,
-                                  String httpVersion, String userAgent, boolean complete, Integer status,
-                                  String referrer) {
-        localLogService.addRequestInfo(appId, versionId, requestId, ip, nickname, startTimeUsec, endTimeUsec,
-                                       method, resource, httpVersion, userAgent, complete, status, referrer);
-    }
-
-    /**
-     * Adds an application log line to the simulated environment.
-     */
-    public void addAppLogLine(String requestId, long time, int level, String message) {
-        localLogService.addAppLogLine(requestId, time, level, message);
     }
 
     /**

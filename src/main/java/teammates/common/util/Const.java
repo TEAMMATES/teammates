@@ -53,7 +53,6 @@ public final class Const {
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
-    public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
 
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
@@ -1097,11 +1096,9 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
-        public static final String ADMIN_EMAIL_LOG_PAGE = "/admin/adminEmailLogPage";
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
-        public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
         public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
@@ -1256,12 +1253,8 @@ public final class Const {
         public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
         public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
         public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
-        public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
-        public static final String ADMIN_ACTIVITY_LOG_AJAX = "/jsp/adminActivityLogAjax.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
-        public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
-        public static final String ADMIN_EMAIL_LOG_AJAX = "/jsp/adminEmailLogAjax.jsp";
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
@@ -1684,24 +1677,8 @@ public final class Const {
 
         public static final String TESTING_DATA_EMAIL_POSTFIX = ".tmt";
 
-        public static final int TIME_TAKEN_EXPECTED = 10000;
-        public static final int TIME_TAKEN_MODERATE = 20000;
-
         public static final String MESSAGE_ERROR_ACTION_NAME = "Error when getting ActionName for requestUrl : %1$s";
         public static final String MESSAGE_ERROR_LOG_MESSAGE_FORMAT = "Log message format not as expected: %1$s";
-    }
-
-    /**
-     * These are constants that may be used in {@link EmailLogEntry}.
-     */
-    public static class EmailLog {
-        public static final String TEAMMATES_EMAIL_LOG = "TEAMMATESEMAILLOG";
-        public static final String FIELD_SEPARATOR = "|||";
-
-        public static final String TEST_DATA_POSTFIX = ".tmt";
-
-        public static final String ERROR_LOG_FORMAT = "Email log message is not in expected format."
-                + " Raw log message: %1$s";
     }
 
 }

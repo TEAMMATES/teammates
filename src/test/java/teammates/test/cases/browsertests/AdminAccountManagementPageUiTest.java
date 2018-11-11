@@ -11,7 +11,6 @@ import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.AdminAccountManagementPage;
-import teammates.test.pageobjects.AdminActivityLogPage;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_MANAGEMENT_PAGE}.
@@ -30,7 +29,6 @@ public class AdminAccountManagementPageUiTest extends BaseE2ETestCase {
         testContent();
         //no input validation to check
         testViewAccountDetailsLink();
-        testViewRecentActionsLink();
         testDeleteInstructorStatusAction();
         testDeleteInstructorAccountAction();
     }
@@ -57,16 +55,6 @@ public class AdminAccountManagementPageUiTest extends BaseE2ETestCase {
         AdminAccountDetailsPage detailsPage = accountsPage.clickViewInstructorDetails(instructorId);
         detailsPage.verifyIsCorrectPage(instructorId);
         detailsPage.closeCurrentWindowAndSwitchToParentWindow();
-    }
-
-    private void testViewRecentActionsLink() {
-
-        ______TS("link: view recent actions");
-
-        String instructorId = "AAMgtUiT.instr1";
-        AdminActivityLogPage logPage = accountsPage.clickViewRecentActions(instructorId);
-        logPage.verifyIsCorrectPage();
-        logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     private void testDeleteInstructorStatusAction() {

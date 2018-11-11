@@ -69,14 +69,6 @@
                   href="${row.adminDeleteAccountLink}" data-google-id="${row.account.googleId}">
                 <span class="glyphicon glyphicon-trash"></span> Delete Entire Account
               </a>
-
-              <form method="post" target="_blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                <button type="submit"  id="${row.account.googleId}_recentActions" class="btn btn-link btn-xs">
-                  <span class="glyphicon glyphicon-zoom-in"></span>
-                  View Recent Actions
-                </button>
-                <input type="hidden" name="filterQuery" value="person:${row.account.googleId}">
-              </form>
             </td>
           </tr>
         </c:forEach>

@@ -166,9 +166,6 @@
                 <li>
                   <a href="#adminSearchPage">Admin Search Page</a>
                 </li>
-                <li>
-                  <a href="#adminActivityLogPage">Admin Activity Log Page</a>
-                </li>
               </ul>
             </td>
             <td>
@@ -339,10 +336,6 @@
 
       <div class="pageinfo">Admin Search Page</div>
       <div id="adminSearchPage"></div>
-      <br><hr class="hr-bold"><br>
-
-      <div class="pageinfo">Admin Activity Log Page</div>
-      <div id="adminActivityLogPage"></div>
       <br></br>
       <br></br>
       <br></br>
@@ -462,7 +455,6 @@
         $('#studentFeedbackResultsPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
         $('#adminHomePage').load('<%=Const.WebPageURIs.ADMIN_HOME_PAGE%> #mainContent');
         $('#adminSearchPage').load('<%=Const.WebPageURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
-        $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #mainContent');
         $('#index').find('iframe').on('load', function() {
           calcHeight($('#index').find('iframe'));
         });
