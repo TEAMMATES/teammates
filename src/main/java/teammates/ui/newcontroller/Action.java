@@ -63,7 +63,7 @@ public abstract class Action {
     public void checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Not authorized to access this resource.");
         }
 
         if (authType == AuthType.ALL_ACCESS) {

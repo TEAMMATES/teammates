@@ -41,7 +41,7 @@ public class SearchAccountsAction extends Action {
     public void checkSpecificAccessControl() {
         // Only admins can get accounts directly
         if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 

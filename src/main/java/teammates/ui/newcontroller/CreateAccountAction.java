@@ -39,7 +39,7 @@ public class CreateAccountAction extends Action {
     public void checkSpecificAccessControl() {
         // Only admins can create new accounts
         if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 

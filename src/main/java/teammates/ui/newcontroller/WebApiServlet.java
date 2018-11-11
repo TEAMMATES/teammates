@@ -85,7 +85,7 @@ public class WebApiServlet extends HttpServlet {
         } catch (InvalidHttpParameterException ihpe) {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (UnauthorizedAccessException uae) {
-            throwError(resp, HttpStatus.SC_FORBIDDEN, "Not authorized to access this resource.");
+            throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it
