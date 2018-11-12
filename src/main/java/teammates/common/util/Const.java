@@ -1096,7 +1096,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
-        public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
         public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
@@ -1249,9 +1248,6 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
         public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
 
-        public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
-        public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
-        public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
         public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";

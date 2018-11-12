@@ -23,11 +23,6 @@
           <a href="<%=Const.WebPageURIs.ADMIN_HOME_PAGE%>">Create Instructor</a>
         </li>
 
-        <!-- The link to Account Management Page will be hidden until it's scalable.
-        <li <c:if test="${fn:contains(data.getClass(), 'AdminAccountManagementPage')}">class="active"</c:if>>
-          <a href="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">Account Management</a>
-        </li>-->
-
         <li <c:if test="${fn:contains(data.getClass(), 'AdminSearchPage')}">class="active"</c:if>>
           <a href="<%=Const.WebPageURIs.ADMIN_SEARCH_PAGE%>">Search</a>
         </li>

@@ -23,7 +23,7 @@ public class AdminAccountDeleteAction extends Action {
             logic.downgradeInstructorToStudentCascade(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
-            return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
+            return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE);
         }
 
         if (courseId == null && account != null) {
@@ -31,7 +31,7 @@ public class AdminAccountDeleteAction extends Action {
             logic.deleteAccount(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Account for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
-            return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
+            return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE);
         }
 
         String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
