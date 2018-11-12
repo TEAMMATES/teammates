@@ -1,5 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { default as index } from '../../../data/index.json';
 
 /**
  * Index page.
@@ -16,31 +16,33 @@ export class IndexPageComponent implements OnInit {
   private testimonials: any[] = [];
   private testimonialIndex: number = -1;
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-    const formatNumber: (n: number) => string = (n: number): string => {
-      let number: string = String(n);
-      const expression: any = /(\d+)(\d{3})/;
-      while (expression.test(number)) {
-        number = number.replace(expression, '$1,$2');
-      }
-      return number;
-    };
+    this.httpClient.get('./assets/data/index.json').subscribe((res: any) => {
+      const formatNumber: (n: number) => string = (n: number): string => {
+        let number: string = String(n);
+        const expression: any = /(\d+)(\d{3})/;
+        while (expression.test(number)) {
+          number = number.replace(expression, '$1,$2');
+        }
+        return number;
+      };
 
-    const timeElapsed: number = new Date().getTime() - new Date(index.submissionsBaseDate).getTime();
-    this.submissionsNumber = formatNumber(
-        index.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * index.submissionsRate);
+      const timeElapsed: number = new Date().getTime() - new Date(res.submissionsBaseDate).getTime();
+      this.submissionsNumber = formatNumber(
+          res.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * res.submissionsRate);
 
-    this.testimonials = index.testimonials;
+      this.testimonials = res.testimonials;
 
-    const cycleTestimonial: () => void = (): void => {
-      this.testimonialIndex = (this.testimonialIndex + 1) % this.testimonials.length;
-      this.testimonial = this.testimonials[this.testimonialIndex];
-    };
+      const cycleTestimonial: () => void = (): void => {
+        this.testimonialIndex = (this.testimonialIndex + 1) % this.testimonials.length;
+        this.testimonial = this.testimonials[this.testimonialIndex];
+      };
 
-    cycleTestimonial();
-    setInterval(cycleTestimonial, 5000);
+      cycleTestimonial();
+      setInterval(cycleTestimonial, 5000);
+    });
   }
 
 }

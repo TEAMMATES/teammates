@@ -15,7 +15,6 @@ import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -57,6 +56,9 @@ public class WebApiServlet extends HttpServlet {
     private void invokeServlet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
 
+        @SuppressWarnings("PMD.PrematureDeclaration") // used to measure response time
+        long startTime = System.currentTimeMillis();
+
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(req)
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req));
@@ -74,10 +76,15 @@ public class WebApiServlet extends HttpServlet {
 
             ActionResult result = action.execute();
             result.send(resp);
+            // TODO handle all sorts of Exceptions
+
+            long timeTaken = System.currentTimeMillis() - startTime;
+
+            log.info(action.getLogMessage() + "|||" + timeTaken);
         } catch (InvalidHttpParameterException ihpe) {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (UnauthorizedAccessException uae) {
-            throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
+            throwError(resp, HttpStatus.SC_FORBIDDEN, "Not authorized to access this resource.");
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it
@@ -96,7 +103,6 @@ public class WebApiServlet extends HttpServlet {
 
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
-        result.setRequestId(Config.getRequestId());
         result.send(resp);
     }
 

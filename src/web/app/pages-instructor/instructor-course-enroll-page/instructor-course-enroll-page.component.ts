@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 /**
  * Instructor course enroll page.
@@ -11,14 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
 
-  user: string = '';
-
-  constructor(private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-    });
   }
 
 }

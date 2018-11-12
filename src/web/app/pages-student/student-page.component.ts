@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../auth-info';
 
 /**
  * Base skeleton for student pages.
@@ -32,22 +30,20 @@ export class StudentPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
-        if (res.logoutUrl) {
-          this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
-        }
-        if (res.user) {
-          this.isValidUser = res.user.isStudent;
-        } else {
-          window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
-        }
-      }, () => {
-        // TODO
-      });
+    this.authService.getAuthUser().subscribe((res: any) => {
+      if (res.logoutUrl) {
+        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
+      }
+      if (res.user) {
+        this.isValidUser = res.user.isStudent;
+      } else {
+        window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
+      }
+    }, () => {
+      // TODO
     });
   }
 

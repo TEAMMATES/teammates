@@ -16,11 +16,6 @@ public enum AuthType {
     LOGGED_IN(1),
 
     /**
-     * Admin masquerading as another user.
-     */
-    MASQUERADE(1),
-
-    /**
      * All-access pass via secret key.
      */
     ALL_ACCESS(2);

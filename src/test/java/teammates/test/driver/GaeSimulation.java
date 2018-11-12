@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -227,16 +228,11 @@ public class GaeSimulation {
      *
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
-    public Action getNewActionObject(String uri, String method, String body, String... parameters) {
+    public Action getNewActionObject(String uri, String method, String... parameters) {
         try {
-            MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
-            for (int i = 0; i < parameters.length; i = i + 2) {
-                req.addParam(parameters[i], parameters[i + 1]);
-            }
-            if (body != null) {
-                req.setBody(body);
-            }
-            MockHttpServletResponse resp = new MockHttpServletResponse();
+            InvocationContext ic = invokeWebRequest(Const.ResourceURIs.URI_PREFIX + uri, parameters);
+            HttpServletRequest req = ic.getRequest();
+            HttpServletResponse resp = ic.getResponse();
             Action action = new ActionFactory().getAction(req, method, resp);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
@@ -253,12 +249,9 @@ public class GaeSimulation {
      */
     public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
         try {
-            // HTTP method is not used here
-            MockHttpServletRequest req = new MockHttpServletRequest(null, uri);
-            for (int i = 0; i < parameters.length; i = i + 2) {
-                req.addParam(parameters[i], parameters[i + 1]);
-            }
-            MockHttpServletResponse resp = new MockHttpServletResponse();
+            InvocationContext ic = invokeWebRequest(uri, parameters);
+            HttpServletRequest req = ic.getRequest();
+            HttpServletResponse resp = ic.getResponse();
             AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
@@ -318,7 +311,6 @@ public class GaeSimulation {
         try {
             attributes.put("com.google.appengine.runtime.default_version_hostname",
                     new URL(SIMULATION_BASE_URL).getAuthority());
-            attributes.put("com.google.appengine.runtime.request_log_id", "samplerequestid123");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

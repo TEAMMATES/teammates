@@ -30,11 +30,7 @@ rules:
       },
       "enums": true,
       "enum-members": true,
-      "interfaces": {
-        "visibilities": [
-          "exported"
-        ]
-      },
+      "interfaces": true,
       "methods": {
         "privacies": [
           "public",
@@ -70,7 +66,6 @@ rules:
     true,
     "rxjs/Rx"
   ]
-  import-name: false
   import-spacing: true
   interface-over-type-literal: true
   jsdoc-format: [

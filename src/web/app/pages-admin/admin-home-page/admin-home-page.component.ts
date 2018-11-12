@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { MessageOutput } from '../../message-output';
-
-interface JoinLink {
-  joinLink: string;
-}
 
 interface InstructorData {
   name: string;
@@ -86,11 +81,11 @@ export class AdminHomePageComponent {
       instructoremail: instructor.email,
       instructorinstitution: instructor.institution,
     };
-    this.httpRequestService.post('/accounts', paramMap).subscribe((resp: JoinLink) => {
+    this.httpRequestService.post('/accounts', paramMap).subscribe((resp: any) => {
       instructor.status = 'SUCCESS';
       instructor.joinLink = resp.joinLink;
       this.activeRequests -= 1;
-    }, (resp: MessageOutput) => {
+    }, (resp: any) => {
       // TODO handle error
       console.error(resp);
       instructor.status = 'FAIL';

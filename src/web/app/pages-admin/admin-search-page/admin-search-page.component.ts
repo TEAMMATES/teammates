@@ -1,40 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { MessageOutput } from '../../message-output';
-
-interface CommonBundle {
-  name: string;
-  email: string;
-  googleId: string;
-  courseId: string;
-  courseName: string;
-  institute: string;
-
-  courseJoinLink: string;
-  homePageLink: string;
-  manageAccountLink: string;
-
-  showLinks: boolean;
-}
-
-interface StudentBundle extends CommonBundle {
-  section: string;
-  team: string;
-  comments: string;
-  recordsPageLink: string;
-
-  openSessions: { [key: string]: string };
-  notOpenSessions: { [key: string]: string };
-  publishedSessions: { [key: string]: string };
-}
-
-// tslint:disable-next-line:no-empty-interface
-interface InstructorBundle extends CommonBundle {}
-
-interface AdminAccountSearchResult {
-  students: StudentBundle[];
-  instructors: InstructorBundle[];
-}
 
 /**
  * Admin search page.
@@ -47,8 +12,8 @@ interface AdminAccountSearchResult {
 export class AdminSearchPageComponent {
 
   searchQuery: string = '';
-  instructors: InstructorBundle[] = [];
-  students: StudentBundle[] = [];
+  instructors: any[] = [];
+  students: any[] = [];
 
   constructor(private httpRequestService: HttpRequestService) {}
 
@@ -59,7 +24,7 @@ export class AdminSearchPageComponent {
     const paramMap: { [key: string]: string } = {
       searchkey: this.searchQuery,
     };
-    this.httpRequestService.get('/accounts', paramMap).subscribe((resp: AdminAccountSearchResult) => {
+    this.httpRequestService.get('/accounts', paramMap).subscribe((resp: any) => {
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;
@@ -69,7 +34,7 @@ export class AdminSearchPageComponent {
       for (const student of this.students) {
         student.showLinks = false;
       }
-    }, (resp: MessageOutput) => {
+    }, (resp: any) => {
       // TODO handle error
       console.error(resp);
     });

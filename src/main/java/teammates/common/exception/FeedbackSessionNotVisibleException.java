@@ -5,6 +5,11 @@ public class FeedbackSessionNotVisibleException extends UnauthorizedAccessExcept
 
     private String startTimeString;
 
+    public FeedbackSessionNotVisibleException(String openingDateString) {
+        super();
+        this.startTimeString = openingDateString;
+    }
+
     public FeedbackSessionNotVisibleException(String message, String openingDateString) {
         super(message);
         this.startTimeString = openingDateString;

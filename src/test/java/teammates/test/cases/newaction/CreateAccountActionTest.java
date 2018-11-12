@@ -1,5 +1,7 @@
 package teammates.test.cases.newaction;
 
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
@@ -13,9 +15,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.StringHelperExtension;
 import teammates.ui.newcontroller.CreateAccountAction;
-import teammates.ui.newcontroller.CreateAccountAction.JoinLink;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -84,8 +84,8 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 .withInstructorInstitution(institute)
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
-        JoinLink output = (JoinLink) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
+        Map<String, String> output = (Map<String, String>) r.getOutput();
+        assertEquals(joinLink, output.get("joinLink"));
 
         verifyNumberOfEmailsSent(a, 1);
 
@@ -112,8 +112,8 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
-        MessageOutput msgOutput = (MessageOutput) r.getOutput();
-        assertEquals(expectedError, msgOutput.getMessage());
+        output = (Map<String, String>) r.getOutput();
+        assertEquals(expectedError, output.get("message"));
 
         verifyNoEmailsSent(a);
     }

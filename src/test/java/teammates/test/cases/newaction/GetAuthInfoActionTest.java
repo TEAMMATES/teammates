@@ -1,5 +1,7 @@
 package teammates.test.cases.newaction;
 
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
@@ -8,7 +10,6 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.newcontroller.GetAuthInfoAction;
-import teammates.ui.newcontroller.GetAuthInfoAction.AuthInfo;
 import teammates.ui.newcontroller.JsonResult;
 
 /**
@@ -41,13 +42,15 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        AuthInfo output = (AuthInfo) r.getOutput();
-        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
-        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
-        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
-        assertNull(output.getUser());
-        assertFalse(output.isMasquerade());
-        assertNull(output.getLogoutUrl());
+        Map<String, Object> output = (Map<String, Object>) r.getOutput();
+        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.STUDENT_HOME_PAGE),
+                output.get("studentLoginUrl"));
+        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                output.get("instructorLoginUrl"));
+        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE),
+                output.get("adminLoginUrl"));
+        assertNull(output.get("user"));
+        assertNull(output.get("logoutUrl"));
 
         ______TS("Normal case: With logged in user");
 
@@ -58,62 +61,14 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        output = (AuthInfo) r.getOutput();
-        assertNull(output.getStudentLoginUrl());
-        assertNull(output.getInstructorLoginUrl());
-        assertNull(output.getAdminLoginUrl());
-        assertFalse(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
+        output = (Map<String, Object>) r.getOutput();
+        assertNull(output.get("studentLoginUrl"));
+        assertNull(output.get("instructorLoginUrl"));
+        assertNull(output.get("adminLoginUrl"));
+        assertEquals(gateKeeper.getLogoutUrl("/web"),
+                output.get("logoutUrl"));
 
-        UserInfo user = output.getUser();
-        assertFalse(user.isAdmin);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isStudent);
-        assertEquals("idOfInstructor1OfCourse1", user.id);
-
-        ______TS("Normal case: Admin masquerading as user");
-
-        loginAsAdmin();
-
-        a = getAction(new String[] {
-                Const.ParamsNames.USER_ID, "idOfInstructor1OfCourse1",
-        });
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        output = (AuthInfo) r.getOutput();
-        assertNull(output.getStudentLoginUrl());
-        assertNull(output.getInstructorLoginUrl());
-        assertNull(output.getAdminLoginUrl());
-        assertTrue(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
-
-        user = output.getUser();
-        assertFalse(user.isAdmin);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isStudent);
-        assertEquals("idOfInstructor1OfCourse1", user.id);
-
-        ______TS("Failure case: Non-admin cannot masquerade");
-
-        loginAsInstructor("idOfInstructor1OfCourse1");
-
-        a = getAction(new String[] {
-                Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
-        });
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        output = (AuthInfo) r.getOutput();
-        assertNull(output.getStudentLoginUrl());
-        assertNull(output.getInstructorLoginUrl());
-        assertNull(output.getAdminLoginUrl());
-        assertFalse(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
-
-        user = output.getUser();
+        UserInfo user = (UserInfo) output.get("user");
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertFalse(user.isStudent);

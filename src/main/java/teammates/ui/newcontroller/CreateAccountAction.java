@@ -1,6 +1,8 @@
 package teammates.ui.newcontroller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
@@ -39,7 +41,7 @@ public class CreateAccountAction extends Action {
     public void checkSpecificAccessControl() {
         // Only admins can create new accounts
         if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+            throw new UnauthorizedAccessException();
         }
     }
 
@@ -77,7 +79,8 @@ public class CreateAccountAction extends Action {
             log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }
 
-        JoinLink output = new JoinLink(joinLink);
+        Map<String, String> output = new HashMap<>();
+        output.put("joinLink", joinLink);
         return new JsonResult(output);
     }
 
@@ -199,23 +202,6 @@ public class CreateAccountAction extends Action {
         int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
-    }
-
-    /**
-     * Output format for {@link CreateAccountAction}.
-     */
-    public static class JoinLink extends ActionResult.ActionOutput {
-
-        private final String joinLink;
-
-        public JoinLink(String joinLink) {
-            this.joinLink = joinLink;
-        }
-
-        public String getJoinLink() {
-            return joinLink;
-        }
-
     }
 
 }

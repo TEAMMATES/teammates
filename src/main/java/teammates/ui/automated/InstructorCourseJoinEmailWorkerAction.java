@@ -14,6 +14,11 @@ import teammates.common.util.EmailWrapper;
 public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
+    protected String getActionDescription() {
+        return null;
+    }
+
+    @Override
     protected String getActionMessage() {
         return null;
     }

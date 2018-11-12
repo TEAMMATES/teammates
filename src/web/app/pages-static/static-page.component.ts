@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../auth-info';
 
 /**
  * Base skeleton for static pages.
@@ -55,7 +54,7 @@ export class StaticPageComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getAuthUser().subscribe((res: AuthInfo) => {
+    this.authService.getAuthUser().subscribe((res: any) => {
       if (res.user) {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
         this.isInstructor = res.user.isInstructor;

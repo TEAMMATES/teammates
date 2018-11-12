@@ -1050,7 +1050,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
-        expectedRedirectUrl.withParam("errorfeedbackrequestedurl",
+        expectedRedirectUrl.withParam(Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED,
                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT);
 
         assertTrue(browser.driver.getCurrentUrl().contains(expectedRedirectUrl.toAbsoluteString()));

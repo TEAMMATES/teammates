@@ -72,7 +72,7 @@ public abstract class AutomatedAction {
      */
     protected String[] getNonNullRequestParamValues(String paramName) {
         String[] values = request.getParameterValues(paramName);
-        if (values == null || values.length == 0) {
+        if (values == null) {
             throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
         }
         return values;
@@ -82,6 +82,8 @@ public abstract class AutomatedAction {
         // Sets an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
         response.setStatus(HttpStatus.SC_CONTINUE);
     }
+
+    protected abstract String getActionDescription();
 
     protected abstract String getActionMessage();
 
