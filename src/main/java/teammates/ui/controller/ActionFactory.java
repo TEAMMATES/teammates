@@ -134,8 +134,6 @@ public class ActionFactory {
 
         map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
         map(IMAGE_UPLOAD, ImageUploadAction.class);
-
-        map(ERROR_FEEDBACK_SUBMIT, ErrorUserReportLogAction.class);
     }
 
     /**

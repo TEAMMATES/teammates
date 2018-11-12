@@ -10,13 +10,38 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 
 > If you encounter any problems during the setup process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-## Step 1: Install necessary tools and languages
+## Step 1: Obtain your own copy of the repository
 
 1. Install Git.
    1. (Optional but recommended) Install Sourcetree or other similar Git client.
+
+1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
+
+1. Add a remote name (e.g `upstream`) for your copy of the main repo. Fetch the remote-tracking branches from the main repo to keep it in sync with your copy.
+   ```sh
+   git remote add upstream https://github.com/TEAMMATES/teammates.git
+   git fetch upstream
+   ```
+   **Verification:** Use the command `git branch -r` and the following lines should be part of the output:
+   ```
+    upstream/master
+    upstream/release
+    ```
+
+1. Set your `master` branch to track the main repo's `master` branch.
+   ```sh
+   git checkout master
+   git branch -u upstream/master
+   ```
+
+More information can be found at [this documentation](https://help.github.com/articles/fork-a-repo/).
+
+## Step 2: Install necessary tools and languages
+
+These tools are necessary regardless of whether you are developing front-end or back-end:
+
 1. Install JDK 1.8.
 1. Install Python 2.7.
-1. Install Node.js (minimum version 8.9.4).
 1. Install Google Cloud SDK (minimum version 222.0.0). Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
@@ -45,42 +70,16 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
    ```
    **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
 
+If you want to develop front-end, you need to install the following:
+
+1. Install Node.js (minimum version 8.9.4).
 1. (Optional but highly recommended) Install Angular CLI version 6 globally.
    ```sh
    npm install -g @angular/cli@6
    ```
    **Verification:** Run `ng` and you should see a list of available Angular CLI commands.
 
-## Step 2: Obtain your own copy of the repository
-
-1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
-
-1. Add a remote name (e.g `upstream`) for your copy of the main repo. Fetch the remote-tracking branches from the main repo to keep it in sync with your copy.
-   ```sh
-   git remote add upstream https://github.com/TEAMMATES/teammates.git
-   git fetch upstream
-   ```
-   **Verification:** Use the command `git branch -r` and the following lines should be part of the output:
-   ```
-    upstream/master
-    upstream/release
-    ```
-
-1. Set your `master` branch to track the main repo's `master` branch.
-   ```sh
-   git checkout master
-   git branch -u upstream/master
-   ```
-
-More information can be found at [this documentation](https://help.github.com/articles/fork-a-repo/).
-
 ## Step 3: Set up project-specific settings and dependencies
-
-1. Run this command to download the necessary tools for JavaScript development:
-   ```sh
-   npm install
-   ```
-   **Verification:** A folder named `node_modules` should be added to the project root directory.
 
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
@@ -91,6 +90,12 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Modify the following config file:
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
+
+1. Run this command to download the necessary tools for front-end development (if you are going to be involved):
+   ```sh
+   npm install
+   ```
+   **Verification:** A folder named `node_modules` should be added to the project root directory.
 
 ## Step 4: Set up an IDE (Recommended)
 

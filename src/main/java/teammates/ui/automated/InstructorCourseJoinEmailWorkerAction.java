@@ -15,11 +15,6 @@ import teammates.logic.api.EmailGenerator;
 public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
-    protected String getActionDescription() {
-        return null;
-    }
-
-    @Override
     protected String getActionMessage() {
         return null;
     }

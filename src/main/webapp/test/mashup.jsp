@@ -450,7 +450,7 @@
           if (student != null) {
             String url = StringHelper.encrypt(student.key);
         %>
-            $('#studentCourseJoinConfirmationPage').load('<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?key=<%=student.key%> #mainContent');
+            $('#studentCourseJoinConfirmationPage').load('<%=Const.WebPageURIs.JOIN_PAGE%>?key=<%=student.key%>&entitytype=student #mainContent');
             $('#studentCourseJoinConfirmationPageNew').load('<%=student.getRegistrationUrl()%> #mainContent');
         <%
           }
@@ -460,8 +460,8 @@
         $('#studentFeedbackSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
 
         $('#studentFeedbackResultsPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
-        $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #mainContent');
-        $('#adminSearchPage').load('<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
+        $('#adminHomePage').load('<%=Const.WebPageURIs.ADMIN_HOME_PAGE%> #mainContent');
+        $('#adminSearchPage').load('<%=Const.WebPageURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
         $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #mainContent');
         $('#index').find('iframe').on('load', function() {
           calcHeight($('#index').find('iframe'));

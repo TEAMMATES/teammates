@@ -471,7 +471,7 @@ public final class BackDoor {
     private static String makePostRequest(Map<String, String> map) {
         try {
             String paramString = encodeParameters(map);
-            String urlString = TestProperties.TEAMMATES_URL + Const.ActionURIs.BACKDOOR;
+            String urlString = TestProperties.TEAMMATES_URL + "/backdoor";
             URLConnection conn = getConnectionToUrl(urlString);
             sendRequest(paramString, conn);
             return readResponse(conn);

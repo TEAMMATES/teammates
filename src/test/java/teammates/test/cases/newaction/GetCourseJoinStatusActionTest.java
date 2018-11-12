@@ -1,7 +1,5 @@
 package teammates.test.cases.newaction;
 
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
@@ -9,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.newcontroller.GetCourseJoinStatusAction;
+import teammates.ui.newcontroller.GetCourseJoinStatusAction.JoinStatus;
 import teammates.ui.newcontroller.JsonResult;
 
 /**
@@ -57,9 +56,9 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        Map<String, Object> output = (Map<String, Object>) r.getOutput();
-        assertTrue((boolean) output.get("hasJoined"));
-        assertNull(output.get("userId"));
+        JoinStatus output = (JoinStatus) r.getOutput();
+        assertTrue(output.isHasJoined());
+        assertNull(output.getUserId());
 
         ______TS("Normal case: student is not registered");
 
@@ -76,9 +75,9 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        output = (Map<String, Object>) r.getOutput();
-        assertFalse((boolean) output.get("hasJoined"));
-        assertEquals("unreg.user", output.get("userId"));
+        output = (JoinStatus) r.getOutput();
+        assertFalse(output.isHasJoined());
+        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Failure case: regkey is not valid for student");
 
@@ -107,9 +106,9 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        output = (Map<String, Object>) r.getOutput();
-        assertTrue((boolean) output.get("hasJoined"));
-        assertNull(output.get("userId"));
+        output = (JoinStatus) r.getOutput();
+        assertTrue(output.isHasJoined());
+        assertNull(output.getUserId());
 
         ______TS("Normal case: instructor is not registered");
 
@@ -126,9 +125,9 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        output = (Map<String, Object>) r.getOutput();
-        assertFalse((boolean) output.get("hasJoined"));
-        assertEquals("unreg.user", output.get("userId"));
+        output = (JoinStatus) r.getOutput();
+        assertFalse(output.isHasJoined());
+        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Failure case: regkey is not valid for instructor");
 
