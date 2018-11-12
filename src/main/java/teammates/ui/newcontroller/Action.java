@@ -30,7 +30,7 @@ public abstract class Action {
     protected HttpServletRequest req;
     protected HttpServletResponse resp;
     protected UserInfo userInfo;
-    private AuthType authType;
+    protected AuthType authType;
 
     /**
      * Initializes the action object based on the HTTP request.
@@ -63,7 +63,7 @@ public abstract class Action {
     public void checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Not authorized to access this resource.");
         }
 
         if (authType == AuthType.ALL_ACCESS) {
@@ -83,6 +83,12 @@ public abstract class Action {
 
         userInfo = gateKeeper.getCurrentUser();
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
+
+        String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
+        if (userInfo != null && userInfo.isAdmin && userParam != null) {
+            userInfo = gateKeeper.getMasqueradeUser(userParam);
+            authType = AuthType.MASQUERADE;
+        }
     }
 
     /**
@@ -115,14 +121,6 @@ public abstract class Action {
             throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
         }
         return values;
-    }
-
-    /**
-     * Returns the log message in the special format used for generating the 'activity log' for the Admin.
-     */
-    public String getLogMessage() {
-        // TODO
-        return "Test log message";
     }
 
     /**

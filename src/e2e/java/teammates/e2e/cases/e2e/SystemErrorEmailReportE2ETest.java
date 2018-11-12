@@ -22,6 +22,11 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         // no test data used in this test
     }
 
+    @Override
+    protected void prepareBrowser() {
+        // this test does not require any browser
+    }
+
     @Test
     public void testAll() {
         testAssertionError();

@@ -16,7 +16,8 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
    * [Buildship Gradle Integration](https://marketplace.eclipse.org/content/buildship-gradle-integration)
    * [Google Cloud Tools for Eclipse](http://marketplace.eclipse.org/content/google-cloud-tools-eclipse)
    * [TestNG for Eclipse](https://marketplace.eclipse.org/content/testng-eclipse)
-   * [Angular IDE](https://marketplace.eclipse.org/content/angular-ide)
+   * (Optional) [Angular IDE](https://marketplace.eclipse.org/content/angular-ide)
+     * Alternatively, you can use [the standalone version](https://www.genuitec.com/products/angular-ide/).
 
    ![eclipsesetupguide-1.png](images/eclipsesetupguide-1.png)
 

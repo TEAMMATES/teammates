@@ -98,7 +98,6 @@ public abstract class Action {
         authenticateUser();
     }
 
-    @SuppressWarnings("unchecked")
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);

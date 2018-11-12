@@ -48,6 +48,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     @BeforeClass
     public void baseClassSetup() throws Exception {
         prepareTestData();
+        prepareBrowser();
+    }
+
+    protected void prepareBrowser() {
         browser = BrowserPool.getBrowser();
     }
 
@@ -66,12 +70,15 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         }
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void baseClassTearDown() {
         releaseBrowser();
     }
 
     protected void releaseBrowser() {
+        if (browser == null) {
+            return;
+        }
         BrowserPool.release(browser);
     }
 

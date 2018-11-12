@@ -40,26 +40,26 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("Failure case: invalid action mapping");
 
         setupMocks(HttpGet.METHOD_NAME, "nonexistent");
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
 
         setupMocks(HttpPost.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_METHOD_NOT_ALLOWED, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_METHOD_NOT_ALLOWED, mockResponse.getStatus());
 
         ______TS("Failure case: NullHttpParameterException");
 
         setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
 
         ______TS("Failure case: InvalidHttpParameterException");
 
@@ -67,7 +67,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
 
         ______TS("Failure case: DeadlineExceededException");
 
@@ -75,7 +75,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
 
         ______TS("Failure case: DatastoreTimeoutException");
 
@@ -83,7 +83,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
 
         ______TS("Failure case: UnauthorizedAccessException");
 
@@ -91,7 +91,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         ______TS("Failure case: NullPointerException");
 
@@ -99,7 +99,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
         ______TS("Failure case: AssertionError");
 
@@ -107,7 +107,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
     }
 

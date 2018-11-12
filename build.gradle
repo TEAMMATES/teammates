@@ -52,7 +52,6 @@ dependencies {
     annotationProcessor objectify
 
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-                    "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.5",
                     "com.google.guava:guava:27.0.1-jre",
                     objectify,
@@ -62,7 +61,13 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.4",
                     "com.sun.jersey:jersey-core:1.19.4",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.4",
+                    "javax.servlet:javax.servlet-api:3.1.0",
                     "org.jsoup:jsoup:1.11.3"
+
+    compile("com.google.appengine.tools:appengine-gcs-client:0.7") {
+        // Use the newer servlet library instead
+        exclude group: "javax.servlet", module: "servlet-api"
+    }
 
     testAnnotationProcessor testng
 

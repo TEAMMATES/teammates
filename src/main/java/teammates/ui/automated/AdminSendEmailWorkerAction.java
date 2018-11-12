@@ -16,11 +16,6 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionDescription() {
-        return null;
-    }
-
-    @Override
     protected String getActionMessage() {
         return null;
     }

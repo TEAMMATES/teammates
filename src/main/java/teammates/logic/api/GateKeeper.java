@@ -58,6 +58,14 @@ public class GateKeeper {
         return userInfo;
     }
 
+    public UserInfo getMasqueradeUser(String googleId) {
+        UserInfo userInfo = new UserInfo(googleId);
+        userInfo.isAdmin = false;
+        userInfo.isInstructor = accountsLogic.isAccountAnInstructor(googleId);
+        userInfo.isStudent = studentsLogic.isStudentInAnyCourse(googleId);
+        return userInfo;
+    }
+
     public String getLoginUrl(String redirectPage) {
         User user = userService.getCurrentUser();
 

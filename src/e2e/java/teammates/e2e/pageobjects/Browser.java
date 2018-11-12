@@ -1,20 +1,35 @@
 package teammates.e2e.pageobjects;
 
+import java.io.IOException;
 import java.util.Stack;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.FileHelper;
 
 /**
  * A programmatic interface to the Browser used to test the app.
  */
 public class Browser {
+
+    private static final String PAGE_LOAD_SCRIPT;
+
+    static {
+        try {
+            PAGE_LOAD_SCRIPT = FileHelper.readFile("src/e2e/resources/scripts/waitForPageLoad.js");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * The {@link WebDriver} object that drives the Browser instance.
@@ -39,10 +54,10 @@ public class Browser {
     private final Stack<String> windowHandles = new Stack<>();
 
     public Browser() {
-        driver = createWebDriver();
-        driver.manage().window().maximize();
-        isInUse = false;
-        isAdminLoggedIn = false;
+        this.driver = createWebDriver();
+        this.driver.manage().window().maximize();
+        this.isInUse = false;
+        this.isAdminLoggedIn = false;
     }
 
     /**
@@ -57,6 +72,16 @@ public class Browser {
                 break;
             }
         }
+    }
+
+    /**
+     * Waits for the page to load. This includes all AJAX requests and Angular animations in the page.
+     */
+    public void waitForPageLoad() {
+        WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
+        ExpectedCondition<Boolean> expectation = driver ->
+                "complete".equals(((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT).toString());
+        wait.until(expectation);
     }
 
     /**
@@ -103,8 +128,7 @@ public class Browser {
             return new ChromeDriver(options);
         }
 
-        System.out.println("Using " + browser + " is not supported!");
-        return null;
+        throw new RuntimeException("Using " + browser + " is not supported!");
     }
 
 }

@@ -18,8 +18,11 @@ export class AuthService {
   /**
    * Gets the user authentication information.
    */
-  getAuthUser(): Observable<any> {
+  getAuthUser(user?: string): Observable<any> {
     const params: { [key: string]: string } = { frontendUrl: this.frontendUrl };
+    if (user) {
+      params.user = user;
+    }
     return this.httpRequestService.get('/auth', params);
   }
 

@@ -95,8 +95,6 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
-    public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
-
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
@@ -139,6 +137,7 @@ public final class Const {
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
+        @Deprecated
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
                         ActionURIs.ADMIN_ACCOUNT_DELETE,
@@ -199,13 +198,14 @@ public final class Const {
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
                         ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
 
+        @Deprecated
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
                 Arrays.asList(
                         ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-                        ActionURIs.ERROR_FEEDBACK_SUBMIT));
+                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE));
 
+        @Deprecated
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
                 Arrays.asList(
                         ActionURIs.STUDENT_HOME_PAGE));
@@ -217,6 +217,7 @@ public final class Const {
     /* Text displayed to the user when the mouse hover over certain elements in
      * the UI.
      */
+    @Deprecated
     public static class Tooltips {
 
         public static final String COURSE_ENROLL = "Enroll student into the course";
@@ -910,10 +911,8 @@ public final class Const {
         public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
 
-        public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
-        public static final String ERROR_FEEDBACK_EMAIL_CONTENT = "errorfeedbackemailcontent";
-        public static final String ERROR_FEEDBACK_URL_REQUESTED = "errorfeedbackrequestedurl";
+        public static final String ERROR_FEEDBACK_REQUEST_ID = "errorfeedbackrequestid";
         public static final String ENTITY_TYPE = "entitytype";
     }
 
@@ -968,6 +967,7 @@ public final class Const {
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
@@ -979,12 +979,15 @@ public final class Const {
         public static final String URI_PREFIX = "/webapi";
 
         public static final String EXCEPTION = "/exception";
+        public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
         public static final String JOIN = "/join";
+        public static final String TIMEZONE = "/timezone";
 
     }
 
+    @Deprecated
     public static class ActionURIs {
 
         /* _PAGE/Page in the Action URI name means 'show page' */
@@ -1127,17 +1130,13 @@ public final class Const {
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
+        public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = "/auto/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/auto/feedbackSessionPublishedReminders";
-
-        public static final String ERROR_FEEDBACK_SUBMIT = "/page/errorFeedbackSubmit";
-
-        public static final String BACKDOOR = "/backdoor";
-
     }
 
     /**
@@ -1196,10 +1195,7 @@ public final class Const {
 
     }
 
-    public static class PublicActionNames {
-        public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
-    }
-
+    @Deprecated
     public static class PageNames {
         public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "instructorCourseDetailsPage";
@@ -1209,6 +1205,7 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "instructorStudentListPage";
     }
 
+    @Deprecated
     public static class ViewURIs {
 
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
@@ -1272,10 +1269,8 @@ public final class Const {
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         public static final String ADMIN_EMAIL_LOG_AJAX = "/jsp/adminEmailLogAjax.jsp";
 
-        public static final String JS_UNIT_TEST = "/test/allJsUnitTests.jsp";
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
-        public static final String TIMEZONE = "/test/timezone.jsp";
     }
 
     /* These are status messages that may be shown to the user */
@@ -1636,9 +1631,6 @@ public final class Const {
         public static final String AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP =
                 "The %s, %s, falls within the overlap period when clocks fall back at the end of DST. "
                         + "It can refer to %s or %s. It was resolved to %s.";
-
-        public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your error report has been recorded. "
-                + "We will follow up with you in due course, usually, within 24 hours.";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -1661,6 +1653,7 @@ public final class Const {
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
     }
 
+    @Deprecated
     public static class PlaceholderText {
         public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
                 + "&quot;How well did the team member communicate?&quot;";

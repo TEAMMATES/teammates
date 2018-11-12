@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 /**
  * Represents the directory of a client-side external library.
  */
+@Deprecated
 public final class FrontEndLibrary {
 
     public static final String BLANKET;
