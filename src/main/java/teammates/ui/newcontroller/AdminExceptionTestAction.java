@@ -21,7 +21,7 @@ public class AdminExceptionTestAction extends Action {
     @Override
     public void checkSpecificAccessControl() {
         if (!Config.isDevServer()) {
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 

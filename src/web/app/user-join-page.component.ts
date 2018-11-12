@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpRequestService } from '../services/http-request.service';
+import { MessageOutput } from './message-output';
+
+interface JoinStatus {
+  hasJoined: boolean;
+  userId?: string;
+}
 
 /**
  * User join page component.
@@ -37,11 +43,11 @@ export class UserJoinPageComponent implements OnInit {
         key: this.key,
         entitytype: this.entityType,
       };
-      this.httpRequestService.get('/join', paramMap).subscribe((resp: any) => {
+      this.httpRequestService.get('/join', paramMap).subscribe((resp: JoinStatus) => {
         this.hasJoined = resp.hasJoined;
-        this.userId = resp.userId;
+        this.userId = resp.userId || '';
         this.isLoading = false;
-      }, (resp: any) => {
+      }, (resp: MessageOutput) => {
         this.errorMessage = resp.message;
         this.isLoading = false;
       });
@@ -59,7 +65,7 @@ export class UserJoinPageComponent implements OnInit {
     };
     this.httpRequestService.put('/join', paramMap).subscribe(() => {
       this.router.navigate([`/web/${this.entityType}`]);
-    }, (resp: any) => {
+    }, (resp: MessageOutput) => {
       this.errorMessage = resp.message;
     });
   }

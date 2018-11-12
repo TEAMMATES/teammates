@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { feature } from 'topojson';
+import { default as userMapData } from '../../../data/userMapData.json';
+import { default as worldTopo } from '../../../data/worldTopo.json';
 
 /**
  * Usermap page.
@@ -17,28 +18,24 @@ export class UsermapPageComponent implements OnInit {
   nInstitutions: number = 0;
   nCountries: number = 0;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.httpClient.get('./assets/data/userMapData.json').subscribe((res: any) => {
-      d3.json('./assets/data/worldTopo.json').then((world: any) => {
-        this.lastUpdated = res.lastUpdated;
-        this.nInstitutions = 0;
-        const countryNames: string[] = Object.keys(res.institutes);
-        for (const country of countryNames) {
-          this.nInstitutions += res.institutes[country].length;
-        }
-        this.nCountries = countryNames.length;
-        this.drawUsermap(res.institutes, world);
-        d3.select(window).on('resize', () => this.drawUsermap(res.institutes, world));
-      });
-    });
+    this.lastUpdated = userMapData.lastUpdated;
+    this.nInstitutions = 0;
+    const countryNames: string[] = Object.keys(userMapData.institutes);
+    for (const country of countryNames) {
+      this.nInstitutions += userMapData.institutes[country].length;
+    }
+    this.nCountries = countryNames.length;
+    this.drawUsermap();
+    d3.select(window).on('resize', () => this.drawUsermap());
   }
 
   /**
    * Draws the usermap.
    */
-  drawUsermap(institutes: any, world: any): void {
+  drawUsermap(): void {
     d3.select('#world-map').html('');
     const container: any = document.getElementById('world-map');
     const width: number = container.offsetWidth;
@@ -80,7 +77,8 @@ export class UsermapPageComponent implements OnInit {
 
     g = svg.append('g');
 
-    const countries: any = feature(world, world.objects.countries).features;
+    const countries: any = feature(worldTopo, worldTopo.objects.countries).features;
+    const { institutes }: any = userMapData;
     const countryNames: string[] = Object.keys(institutes);
     g.selectAll('.country').data(countries)
         .enter().insert('path')

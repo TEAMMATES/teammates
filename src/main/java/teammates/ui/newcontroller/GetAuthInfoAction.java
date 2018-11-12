@@ -1,8 +1,5 @@
 package teammates.ui.newcontroller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.Cookie;
 
 import teammates.common.datatransfer.UserInfo;
@@ -30,23 +27,21 @@ public class GetAuthInfoAction extends Action {
 
     @Override
     public ActionResult execute() {
-        UserInfo user = gateKeeper.getCurrentUser();
         String frontendUrl = getRequestParamValue("frontendUrl");
         if (frontendUrl == null) {
             frontendUrl = "";
         }
 
-        Map<String, Object> output = new HashMap<>();
-        if (user == null) {
-            output.put("studentLoginUrl",
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE));
-            output.put("instructorLoginUrl",
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE));
-            output.put("adminLoginUrl",
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE));
+        AuthInfo output;
+        if (userInfo == null) {
+            output = new AuthInfo(
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
+            );
         } else {
-            output.put("user", user);
-            output.put("logoutUrl", gateKeeper.getLogoutUrl(frontendUrl + "/web"));
+            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE,
+                    gateKeeper.getLogoutUrl(frontendUrl + "/web"));
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
@@ -59,6 +54,62 @@ public class GetAuthInfoAction extends Action {
         }
 
         return new JsonResult(output);
+    }
+
+    /**
+     * Output format for {@link GetAuthInfoAction}.
+     */
+    public static class AuthInfo extends ActionResult.ActionOutput {
+
+        private final String studentLoginUrl;
+        private final String instructorLoginUrl;
+        private final String adminLoginUrl;
+        private final UserInfo user;
+        private final boolean masquerade;
+        private final String logoutUrl;
+
+        public AuthInfo(String studentLoginUrl, String instructorLoginUrl, String adminLoginUrl) {
+            this.studentLoginUrl = studentLoginUrl;
+            this.instructorLoginUrl = instructorLoginUrl;
+            this.adminLoginUrl = adminLoginUrl;
+            this.user = null;
+            this.masquerade = false;
+            this.logoutUrl = null;
+        }
+
+        public AuthInfo(UserInfo user, boolean masquerade, String logoutUrl) {
+            this.studentLoginUrl = null;
+            this.instructorLoginUrl = null;
+            this.adminLoginUrl = null;
+            this.user = user;
+            this.masquerade = masquerade;
+            this.logoutUrl = logoutUrl;
+        }
+
+        public String getStudentLoginUrl() {
+            return studentLoginUrl;
+        }
+
+        public String getInstructorLoginUrl() {
+            return instructorLoginUrl;
+        }
+
+        public String getAdminLoginUrl() {
+            return adminLoginUrl;
+        }
+
+        public UserInfo getUser() {
+            return user;
+        }
+
+        public boolean isMasquerade() {
+            return masquerade;
+        }
+
+        public String getLogoutUrl() {
+            return logoutUrl;
+        }
+
     }
 
 }

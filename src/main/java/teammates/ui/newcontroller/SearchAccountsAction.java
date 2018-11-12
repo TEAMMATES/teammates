@@ -41,7 +41,7 @@ public class SearchAccountsAction extends Action {
     public void checkSpecificAccessControl() {
         // Only admins can get accounts directly
         if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 
@@ -60,9 +60,7 @@ public class SearchAccountsAction extends Action {
         List<StudentBundle> studentsBundle = getStudentsBundle(students);
         List<InstructorBundle> instructorsBundle = getInstructorsBundle(instructors);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("students", studentsBundle);
-        result.put("instructors", instructorsBundle);
+        AdminAccountSearchResult result = new AdminAccountSearchResult(studentsBundle, instructorsBundle);
         return new JsonResult(result);
     }
 
@@ -351,6 +349,29 @@ public class SearchAccountsAction extends Action {
         public String getManageAccountLink() {
             return manageAccountLink;
         }
+    }
+
+    /**
+     * Output format for {@link SearchAccountsAction}.
+     */
+    public static class AdminAccountSearchResult extends ActionResult.ActionOutput {
+
+        private final List<StudentBundle> students;
+        private final List<InstructorBundle> instructors;
+
+        public AdminAccountSearchResult(List<StudentBundle> students, List<InstructorBundle> instructors) {
+            this.students = students;
+            this.instructors = instructors;
+        }
+
+        public List<StudentBundle> getStudents() {
+            return students;
+        }
+
+        public List<InstructorBundle> getInstructors() {
+            return instructors;
+        }
+
     }
 
 }

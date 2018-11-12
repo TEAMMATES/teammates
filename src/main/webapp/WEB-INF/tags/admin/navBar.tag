@@ -20,7 +20,7 @@
 
       <ul class="nav navbar-nav">
         <li <c:if test="${fn:contains(data.getClass(), 'AdminHomePage')}">class="active"</c:if>>
-          <a href="<%=Const.ActionURIs.ADMIN_HOME_PAGE%>">Create Instructor</a>
+          <a href="<%=Const.WebPageURIs.ADMIN_HOME_PAGE%>">Create Instructor</a>
         </li>
 
         <!-- The link to Account Management Page will be hidden until it's scalable.
@@ -29,7 +29,7 @@
         </li>-->
 
         <li <c:if test="${fn:contains(data.getClass(), 'AdminSearchPage')}">class="active"</c:if>>
-          <a href="<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>">Search</a>
+          <a href="<%=Const.WebPageURIs.ADMIN_SEARCH_PAGE%>">Search</a>
         </li>
 
         <li <c:if test="${fn:contains(data.getClass(), 'AdminActivityLogPage')}">class="active"</c:if>>

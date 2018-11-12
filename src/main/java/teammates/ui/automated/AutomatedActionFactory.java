@@ -22,6 +22,8 @@ public class AutomatedActionFactory {
     private static final Map<String, Class<? extends AutomatedAction>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
+        map(ActionURIs.AUTOMATED_EXCEPTION_TEST, AutomatedActionExceptionTestAction.class);
+
         // Cron jobs
         map(ActionURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
         map(ActionURIs.AUTOMATED_DATASTORE_BACKUP, DatastoreBackupAction.class);

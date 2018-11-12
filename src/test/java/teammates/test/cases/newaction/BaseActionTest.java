@@ -29,9 +29,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     protected abstract String getRequestMethod();
 
-    @SuppressWarnings("unchecked")
     protected T getAction(String... params) {
-        return (T) gaeSimulation.getNewActionObject(getActionUri(), getRequestMethod(), params);
+        return getAction(null, params);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T getAction(String body, String... params) {
+        return (T) gaeSimulation.getNewActionObject(getActionUri(), getRequestMethod(), body, params);
     }
 
     @BeforeMethod
@@ -212,7 +216,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Verifies that the {@link Action} matching the {@code params} is accessible to the logged in user.
      */
     private void verifyCanAccess(String... params) {
-        Action c = gaeSimulation.getNewActionObject(getActionUri(), getRequestMethod(), params);
+        Action c = getAction(params);
         c.checkAccessControl();
     }
 
@@ -220,7 +224,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
     private void verifyCannotAccess(String... params) {
-        Action c = gaeSimulation.getNewActionObject(getActionUri(), getRequestMethod(), params);
+        Action c = getAction(params);
         assertThrows(UnauthorizedAccessException.class, () -> c.checkAccessControl());
     }
 
@@ -241,8 +245,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Verifies that the {@code parameters} violates an assumption of the
      * matching {@link Action}. e.g., missing a compulsory parameter.
      */
-    protected void verifyHttpParameterFailure(String... parameters) {
-        Action c = gaeSimulation.getNewActionObject(getActionUri(), getRequestMethod(), parameters);
+    protected void verifyHttpParameterFailure(String... params) {
+        Action c = getAction(params);
         assertThrows(InvalidHttpParameterException.class, () -> c.execute());
     }
 

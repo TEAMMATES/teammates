@@ -1,8 +1,5 @@
 package teammates.ui.newcontroller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -55,12 +52,31 @@ public class GetCourseJoinStatusAction extends Action {
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("hasJoined", hasJoined);
-        if (!hasJoined) {
-            result.put("userId", userInfo.id);
-        }
+        JoinStatus result = new JoinStatus(hasJoined, hasJoined ? null : userInfo.id);
         return new JsonResult(result);
+    }
+
+    /**
+     * Output format for {@link GetCourseJoinStatusAction}.
+     */
+    public static class JoinStatus extends ActionResult.ActionOutput {
+
+        private final boolean hasJoined;
+        private final String userId;
+
+        public JoinStatus(boolean hasJoined, String userId) {
+            this.hasJoined = hasJoined;
+            this.userId = userId;
+        }
+
+        public boolean isHasJoined() {
+            return hasJoined;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
     }
 
 }

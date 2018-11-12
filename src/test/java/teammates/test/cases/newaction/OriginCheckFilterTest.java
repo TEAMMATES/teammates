@@ -40,7 +40,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
         setupMocks(HttpGet.METHOD_NAME);
 
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("GET request with invalid referer header will be blocked");
 
@@ -48,7 +48,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         mockRequest.addHeader("referer", "thisisinvalidurl");
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         ______TS("GET request with non-matching referer header will be blocked");
 
@@ -56,7 +56,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         mockRequest.addHeader("referer", "http://localhost:9090");
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         ______TS("GET request with non-matching referer header with CSRF key will be passed");
 
@@ -65,14 +65,14 @@ public class OriginCheckFilterTest extends BaseTestCase {
         mockRequest.addHeader("referer", "http://localhost:9090");
         mockRequest.addHeader("CSRF-Key", Config.CSRF_KEY);
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("POST request with non-existent CSRF token will be blocked");
 
         setupMocks(HttpPost.METHOD_NAME);
 
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         ______TS("POST request with non-existent CSRF token with CSRF key will be passed");
 
@@ -80,7 +80,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         mockRequest.addHeader("CSRF-Key", Config.CSRF_KEY);
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("POST request with invalid CSRF token will be blocked");
 
@@ -88,13 +88,13 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         mockRequest.addHeader(Const.CsrfConfig.TOKEN_HEADER_NAME, StringHelper.encrypt("wrongtoken"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         setupMocks(HttpPost.METHOD_NAME);
 
         mockRequest.addHeader(Const.CsrfConfig.TOKEN_HEADER_NAME, "JZBCKJZXBKJBZJSDJNJKADSA");
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         ______TS("POST request with invalid CSRF token with CSRF key will be passed");
 
@@ -103,7 +103,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
         mockRequest.addHeader("CSRF-Key", Config.CSRF_KEY);
         mockRequest.addHeader(Const.CsrfConfig.TOKEN_HEADER_NAME, StringHelper.encrypt("wrongtoken"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("POST request with valid CSRF token will be passed");
 
@@ -111,7 +111,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         mockRequest.addHeader(Const.CsrfConfig.TOKEN_HEADER_NAME, StringHelper.encrypt("requestedsessionid"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         if (Config.isDevServer()) {
 
@@ -121,7 +121,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
             mockRequest.addHeader("referer", Config.APP_FRONTENDDEV_URL);
             FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
-            assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+            assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         }
 

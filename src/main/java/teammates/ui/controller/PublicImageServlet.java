@@ -34,7 +34,6 @@ public class PublicImageServlet extends HttpServlet {
         doPost(req, resp);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String url = HttpRequestHelper.getRequestedUrl(req);
@@ -66,8 +65,8 @@ public class PublicImageServlet extends HttpServlet {
             Map<String, String[]> params = req.getParameterMap();
             log.warning(new LogMessageGenerator().generateActionFailureLogMessage(url, params, ioe, userInfo));
         } catch (Exception e) {
-            log.severe("Exception occured while performing " + Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION
-                    + ": " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Exception occured while performing publicImageServeAction:"
+                    + TeammatesException.toStringWithStackTrace(e));
         }
     }
 
