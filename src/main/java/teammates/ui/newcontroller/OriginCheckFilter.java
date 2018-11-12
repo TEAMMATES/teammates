@@ -22,6 +22,8 @@ import org.apache.http.client.methods.HttpPut;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -29,6 +31,8 @@ import teammates.common.util.Url;
  * Checks and validates origin of HTTP requests.
  */
 public class OriginCheckFilter implements Filter {
+
+    private static final Logger log = Logger.getLogger();
 
     private static final String ALLOWED_HTTP_METHODS = String.join(", ", Arrays.asList(
             HttpGet.METHOD_NAME,
@@ -67,7 +71,7 @@ public class OriginCheckFilter implements Filter {
             // to accommodate users who choose to disable the HTTP referrer setting in their browser
             // for privacy reasons
         } else if (!isHttpReferrerValid(referrer, request.getRequestURL().toString())) {
-            denyAccess("Invalid HTTP referrer.", response);
+            denyAccess("Invalid HTTP referrer.", request, response);
             return;
         }
 
@@ -77,7 +81,7 @@ public class OriginCheckFilter implements Filter {
         case HttpDelete.METHOD_NAME:
             String message = getCsrfTokenErrorIfAny(request);
             if (message != null) {
-                denyAccess(message, response);
+                denyAccess(message, request, response);
                 return;
             }
             break;
@@ -152,8 +156,15 @@ public class OriginCheckFilter implements Filter {
         }
     }
 
-    private void denyAccess(String message, HttpServletResponse response) throws IOException {
+    private void denyAccess(String message, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Strict-Transport-Security", "max-age=31536000");
+
+        log.info("Request failed origin check: [" + request.getMethod() + "] " + request.getRequestURL().toString()
+                + ", Params: " + HttpRequestHelper.getRequestParametersAsString(request)
+                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(request));
+
         JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
+        result.setRequestId(Config.getRequestId());
         result.send(response);
     }
 

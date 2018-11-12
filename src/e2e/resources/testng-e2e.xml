@@ -10,7 +10,7 @@
         </packages>
         <classes>
             <class name="teammates.e2e.cases.e2e.SystemErrorEmailReportE2ETest" />
-            <class name="teammates.e2e.cases.e2e.StaticPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
         </classes>
     </test>
 </suite>

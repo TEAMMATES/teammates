@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +29,6 @@ public final class HttpRequestHelper {
     /**
      * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping string.
      */
-    @SuppressWarnings("unchecked")
     public static String getRequestParametersAsString(HttpServletRequest req) {
         return getDisplayedJsonInOneLine(req.getParameterMap());
     }
@@ -38,15 +36,14 @@ public final class HttpRequestHelper {
     /**
      * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping string.
      */
-    @SuppressWarnings("unchecked")
     public static String getRequestHeadersAsString(HttpServletRequest req) {
         Map<String, String[]> headers = new HashMap<>();
-        Collections.list((Enumeration<String>) req.getHeaderNames()).stream()
+        Collections.list(req.getHeaderNames()).stream()
                 // Do not include cookie header in production for privacy reasons
                 .filter(headerName -> Config.isDevServer() || !"cookie".equalsIgnoreCase(headerName))
                 .forEach(headerName -> {
                     headers.put(headerName,
-                            Collections.list((Enumeration<String>) req.getHeaders(headerName)).toArray(new String[0]));
+                            Collections.list(req.getHeaders(headerName)).toArray(new String[0]));
                 });
 
         return getDisplayedJsonInOneLine(headers);

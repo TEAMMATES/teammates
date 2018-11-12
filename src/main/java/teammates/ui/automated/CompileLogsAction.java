@@ -19,11 +19,6 @@ import teammates.common.util.EmailWrapper;
 public class CompileLogsAction extends AutomatedAction {
 
     @Override
-    protected String getActionDescription() {
-        return "send severe log notifications";
-    }
-
-    @Override
     protected String getActionMessage() {
         return "Compiling logs for email notification";
     }

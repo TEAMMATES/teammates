@@ -4,6 +4,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
+import com.google.apphosting.api.DeadlineExceededException;
+
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCaseWithObjectifyAccess;
 import teammates.test.driver.MockHttpServletRequest;
@@ -35,14 +39,61 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
         setupMocks(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
-        ______TS("Failure case: invalid action mapping");
+        ______TS("\"Successful\" case: invalid action mapping");
 
         setupMocks("/auto/mappingDoesNotExist");
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
+        ______TS("\"Successful\" case: NullHttpParameterException");
+
+        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
+        ______TS("\"Successful\" case: InvalidHttpParameterException");
+
+        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
+        ______TS("Failure case: DeadlineExceededException");
+
+        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+
+        ______TS("Failure case: DatastoreTimeoutException");
+
+        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+
+        ______TS("Failure case: NullPointerException");
+
+        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
+
+        ______TS("Failure case: AssertionError");
+
+        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
     }
 
