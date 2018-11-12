@@ -31,7 +31,6 @@ build_script:
   - 7z x google-cloud-sdk.zip
   - google-cloud-sdk/install.bat --usage-reporting false --path-update false --command-completion false
   - cd %APPVEYOR_BUILD_FOLDER%
-  - gcloud -q components update --version 219.0.1
   - gcloud -q components install app-engine-java
 
   - gradlew.bat createConfigs testClasses

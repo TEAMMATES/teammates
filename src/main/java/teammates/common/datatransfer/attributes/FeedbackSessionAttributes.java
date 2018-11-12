@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -17,7 +18,38 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
-public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> implements SessionAttributes {
+public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
+
+    /**
+     * Comparator to sort SessionAttributes on DESCENDING order based on
+     * end time, followed by start time and session name.
+     */
+    public static final Comparator<FeedbackSessionAttributes> DESCENDING_ORDER = (session1, session2) -> {
+
+        Assumption.assertNotNull(session1.getFeedbackSessionName());
+        Assumption.assertNotNull(session1.getStartTime());
+        Assumption.assertNotNull(session1.getEndTime());
+        Assumption.assertNotNull(session2.getFeedbackSessionName());
+        Assumption.assertNotNull(session2.getStartTime());
+        Assumption.assertNotNull(session2.getEndTime());
+
+        // Compares end times
+        int result = session1.getEndTime().isAfter(session2.getEndTime()) ? -1
+                : session1.getEndTime().isBefore(session2.getEndTime()) ? 1 : 0;
+
+        // If the end time is same, compares start times
+        if (result == 0) {
+            result = session1.getStartTime().isAfter(session2.getStartTime()) ? -1
+                    : session1.getStartTime().isBefore(session2.getStartTime()) ? 1 : 0;
+        }
+
+        // If both end and start time is same, compares session name
+        if (result == 0) {
+            result = session1.getFeedbackSessionName().compareTo(session2.getFeedbackSessionName());
+        }
+        return result;
+    };
+
     // Required fields
     private String feedbackSessionName;
     private String courseId;
@@ -386,21 +418,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 .thenComparing(session -> session.startTime, Comparator.reverseOrder())
                 .thenComparing(session -> session.courseId)
                 .thenComparing(session -> session.feedbackSessionName));
-    }
-
-    @Override
-    public Instant getSessionStartTime() {
-        return this.startTime;
-    }
-
-    @Override
-    public Instant getSessionEndTime() {
-        return this.endTime;
-    }
-
-    @Override
-    public String getSessionName() {
-        return this.feedbackSessionName;
     }
 
     public void setFeedbackSessionName(String feedbackSessionName) {

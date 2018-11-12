@@ -318,6 +318,11 @@
       "name": "Chua Peng Chin Benson"
     },
     {
+      "multiple": true,
+      "name": "Connor Bottum",
+      "username": "cbb692"
+    },
+    {
       "name": "Connor Kendrick",
       "username": "connorkendrick"
     },
@@ -725,6 +730,10 @@
       "image": "images/teammembers/lakmal.png"
     },
     {
+      "name": "Le Minh Duc",
+      "username": "darrenlmd"
+    },
+    {
       "multiple": true,
       "name": "Le Minh Khue",
       "username": "lmk19922000"
@@ -1021,6 +1030,10 @@
     {
       "name": "Prasanna Rodrigo",
       "username": "ARSPRodrigo"
+    },
+    {
+      "name": "Pratika Dola",
+      "username": "pratikadola"
     },
     {
       "multiple": true,

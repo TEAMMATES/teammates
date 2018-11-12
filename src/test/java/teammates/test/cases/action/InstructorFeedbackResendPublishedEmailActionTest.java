@@ -31,7 +31,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
 
         ______TS("Unsuccessful case: Not enough parameters");
         String[] paramsNoCourseId = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
         verifyAssumptionFailure(paramsNoCourseId);
         String[] paramsNoFeedback = new String[] {
@@ -43,7 +43,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
 
         String[] paramsNoUserToEmail = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
         InstructorFeedbackResendPublishedEmailAction action = getAction(paramsNoUserToEmail);
@@ -57,7 +57,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
         fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsFeedbackSessionNotPublshed = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail()
         };
 
@@ -72,7 +72,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
         fs = typicalBundle.feedbackSessions.get("closedSession");
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail()
         };
 
