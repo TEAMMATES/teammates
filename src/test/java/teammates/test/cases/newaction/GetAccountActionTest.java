@@ -4,16 +4,16 @@ import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.newcontroller.SearchAccountsAction;
+import teammates.ui.newcontroller.GetAccountAction;
 
 /**
- * SUT: {@link SearchAccountsAction}.
+ * SUT: {@link GetAccountAction}.
  */
-public class SearchAccountsActionTest extends BaseActionTest<SearchAccountsAction> {
+public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS_SEARCH;
+        return Const.ResourceURIs.ACCOUNTS;
     }
 
     @Override

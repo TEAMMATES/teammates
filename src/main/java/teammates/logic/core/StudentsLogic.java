@@ -234,7 +234,7 @@ public final class StudentsLogic {
         }
     }
 
-    public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
+    public void resetStudentGoogleId(String originalEmail, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
@@ -243,14 +243,10 @@ public final class StudentsLogic {
 
         studentsDb.verifyStudentExists(courseId, originalEmail);
         StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
-        originalStudent.googleId = null;
 
-        if (!originalStudent.isValid()) {
-            throw new InvalidParametersException(originalStudent.getInvalidityInfo());
-        }
         studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name,
                                  originalStudent.team, originalStudent.section, originalStudent.email,
-                                 originalStudent.googleId, originalStudent.comments, hasDocument, false);
+                                 null, originalStudent.comments, true, false);
     }
 
     public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)

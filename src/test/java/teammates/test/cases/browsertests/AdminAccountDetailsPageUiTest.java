@@ -34,7 +34,7 @@ public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {
 
         ______TS("content: typical page");
 
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withInstructorId("AAMgtUiT.instr2")
                 .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
         detailsPage = loginAdminToPage(detailsPageUrl, AdminAccountDetailsPage.class);

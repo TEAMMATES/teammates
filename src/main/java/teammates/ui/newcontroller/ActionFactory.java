@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -31,8 +32,14 @@ public class ActionFactory {
         map(ResourceURIs.ERROR_REPORT, HttpPost.METHOD_NAME, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, HttpGet.METHOD_NAME, GetTimeZonesAction.class);
         map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
-        map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
+        map(ResourceURIs.ACCOUNTS_SEARCH, HttpGet.METHOD_NAME, SearchAccountsAction.class);
+        map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, GetAccountAction.class);
         map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
+        map(ResourceURIs.ACCOUNTS, HttpDelete.METHOD_NAME, DeleteAccountAction.class);
+        map(ResourceURIs.ACCOUNTS_DOWNGRADE, HttpPut.METHOD_NAME, DowngradeAccountAction.class);
+        map(ResourceURIs.ACCOUNTS_RESET, HttpPut.METHOD_NAME, ResetAccountAction.class);
+        map(ResourceURIs.INSTRUCTORS, HttpDelete.METHOD_NAME, DeleteInstructorAction.class);
+        map(ResourceURIs.STUDENTS, HttpDelete.METHOD_NAME, DeleteStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, HttpGet.METHOD_NAME, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSIONS_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.JOIN, HttpGet.METHOD_NAME, GetCourseJoinStatusAction.class);

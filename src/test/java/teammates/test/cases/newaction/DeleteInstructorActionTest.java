@@ -1,24 +1,24 @@
 package teammates.test.cases.newaction;
 
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpDelete;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.newcontroller.SearchAccountsAction;
+import teammates.ui.newcontroller.DeleteInstructorAction;
 
 /**
- * SUT: {@link SearchAccountsAction}.
+ * SUT: {@link DeleteInstructorAction}.
  */
-public class SearchAccountsActionTest extends BaseActionTest<SearchAccountsAction> {
+public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS_SEARCH;
+        return Const.ResourceURIs.INSTRUCTORS;
     }
 
     @Override
     protected String getRequestMethod() {
-        return HttpGet.METHOD_NAME;
+        return HttpDelete.METHOD_NAME;
     }
 
     @Override

@@ -517,7 +517,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
+    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) {
         Assumption.assertNotNull(googleId);
         return coursesLogic.getCoursesForStudentAccount(googleId);
     }
@@ -868,11 +868,18 @@ public class Logic {
         return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
 
-    public void resetStudentGoogleId(String originalEmail, String courseId) throws InvalidParametersException,
-                                                                                   EntityDoesNotExistException {
+    public void resetStudentGoogleId(String originalEmail, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
-        studentsLogic.resetStudentGoogleId(originalEmail, courseId, true);
+        studentsLogic.resetStudentGoogleId(originalEmail, courseId);
+    }
+
+    public void resetInstructorGoogleId(String originalEmail, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(originalEmail);
+        Assumption.assertNotNull(courseId);
+        instructorsLogic.resetInstructorGoogleId(originalEmail, courseId);
     }
 
     /**

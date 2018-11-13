@@ -42,7 +42,11 @@
             <td>{{ instructor.institute }}</td>
             <td>
               <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink">
-                <span class="glyphicon glyphicon-edit"></span>Manage this account
+                <i class="fas fa-info-circle"></i> Manage this account
+              </a>
+              <br>
+              <a href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
+                <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
           </tr>
@@ -92,12 +96,16 @@
           <tr (click)="student.showLinks = !student.showLinks">
             <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
             <td>{{ student.name }}</td>
-            <td><a href="{{ student.homePageLink }}">{{ student.googleId }}</a></td>
+            <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId">{{ student.googleId }}</a></td>
             <td>{{ student.institute }}</td>
             <td>{{ student.comments }}</td>
             <td>
-              <a href="{{ student.manageAccountLink }}" *ngIf="student.manageAccountLink">
-                <span class="glyphicon glyphicon-edit"></span>Manage this account
+              <a href="{{ student.manageAccountLink }}" *ngIf="student.googleId && student.manageAccountLink">
+                <i class="fas fa-info-circle"></i> Manage this account
+              </a>
+              <br>
+              <a href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
+                <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
           </tr>

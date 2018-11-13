@@ -1,24 +1,24 @@
 package teammates.test.cases.newaction;
 
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.newcontroller.SearchAccountsAction;
+import teammates.ui.newcontroller.ResetAccountAction;
 
 /**
- * SUT: {@link SearchAccountsAction}.
+ * SUT: {@link ResetAccountAction}.
  */
-public class SearchAccountsActionTest extends BaseActionTest<SearchAccountsAction> {
+public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS_SEARCH;
+        return Const.ResourceURIs.ACCOUNTS_DOWNGRADE;
     }
 
     @Override
     protected String getRequestMethod() {
-        return HttpGet.METHOD_NAME;
+        return HttpPut.METHOD_NAME;
     }
 
     @Override

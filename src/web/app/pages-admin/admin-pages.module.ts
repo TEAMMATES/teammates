@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
+import { AdminAccountsPageComponent } from './admin-accounts-page/admin-accounts-page.component';
 import { AdminEmailPageComponent } from './admin-email-page/admin-email-page.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { AdminSearchPageComponent } from './admin-search-page/admin-search-page.component';
@@ -17,6 +18,13 @@ const routes: Routes = [
     component: AdminHomePageComponent,
     data: {
       pageTitle: 'Add New Instructor',
+    },
+  },
+  {
+    path: 'accounts',
+    component: AdminAccountsPageComponent,
+    data: {
+      pageTitle: 'Account Details',
     },
   },
   {
@@ -65,6 +73,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [
+    AdminAccountsPageComponent,
     AdminHomePageComponent,
     AdminSearchPageComponent,
     AdminSessionsPageComponent,

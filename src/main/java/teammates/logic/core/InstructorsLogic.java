@@ -288,4 +288,12 @@ public final class InstructorsLogic {
         return instructorsWithCoOwnerPrivileges;
     }
 
+    public void resetInstructorGoogleId(String originalEmail, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        InstructorAttributes originalInstructor = getInstructorForEmail(courseId, originalEmail);
+        originalInstructor.googleId = null;
+
+        instructorsDb.updateInstructorByEmail(originalInstructor);
+    }
+
 }

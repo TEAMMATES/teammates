@@ -490,9 +490,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("non-existent student");
 
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> coursesLogic.getCoursesForStudentAccount("non-existent-student"));
-        AssertHelper.assertContains("does not exist", ednee.getMessage());
+        courseList = coursesLogic.getCoursesForStudentAccount("non-existent-student");
+        assertEquals(0, courseList.size());
 
         ______TS("null parameter");
 

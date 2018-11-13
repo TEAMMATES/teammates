@@ -23,9 +23,6 @@ public class ActionFactory {
     private static Map<String, Class<? extends Action>> actionMappings = new HashMap<>();
 
     static {
-        map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
-        map(ADMIN_ACCOUNT_DETAILS_PAGE, AdminAccountDetailsPageAction.class);
-        map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
         map(ADMIN_EMAIL_COMPOSE_PAGE, AdminEmailComposePageAction.class);
         map(ADMIN_EMAIL_COMPOSE_SAVE, AdminEmailComposeSaveAction.class);
         map(ADMIN_EMAIL_COMPOSE_SEND, AdminEmailComposeSendAction.class);

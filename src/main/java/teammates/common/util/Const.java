@@ -138,7 +138,6 @@ public final class Const {
 
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.ADMIN_ACCOUNT_DELETE,
                         ActionURIs.ADMIN_EMAIL_COMPOSE_SAVE,
                         ActionURIs.ADMIN_EMAIL_COMPOSE_SEND,
                         ActionURIs.ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL,
@@ -148,7 +147,6 @@ public final class Const {
                         ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
                         ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
                         ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
-                        ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
@@ -629,6 +627,7 @@ public final class Const {
 
         public static final String IS_USING_AJAX = "isusingAjax";
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
+        public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
 
         public static final String BLOB_KEY = "blob-key";
         public static final String SESSION_TOKEN = "token";
@@ -959,6 +958,7 @@ public final class Const {
         private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
+        public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
@@ -976,6 +976,11 @@ public final class Const {
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
+        public static final String ACCOUNTS_SEARCH = "/accounts/search";
+        public static final String ACCOUNTS_RESET = "/accounts/reset";
+        public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String INSTRUCTORS = "/instructors";
+        public static final String STUDENTS = "/students";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String JOIN = "/join";
@@ -1098,8 +1103,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
-        public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
-        public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
         public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
         public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
@@ -1118,7 +1121,6 @@ public final class Const {
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
-        public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
         public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
@@ -1250,7 +1252,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
 
         public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
-        public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";

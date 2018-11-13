@@ -358,6 +358,25 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, instructor1.email, subject, "/instructorCourseJoinEmailTestingSanitization.html");
+
+        ______TS("instructor course join email after Google ID reset");
+
+        email = new EmailGenerator().generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, null);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, instructor1.email, subject,
+                "/instructorCourseRejoinAfterGoogleIdResetEmail.html");
+
+        ______TS("instructor course join email after Google ID reset (with institute name set)");
+
+        email = new EmailGenerator()
+                .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, "Test Institute");
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, instructor1.email, subject,
+                "/instructorCourseRejoinAfterGoogleIdResetEmailWithInstitute.html");
     }
 
     @Test
