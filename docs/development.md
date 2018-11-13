@@ -152,6 +152,24 @@ The steps for adding a student is almost identical to the steps for adding instr
 
 **Alternative**: Run the test cases, they create several student and instructor accounts in the datastore. Use one of them to log in.
 
+### Logging in without UI
+
+In dev server, it is also possible to "log in" without UI (e.g. when only testing API endpoints). In order to do that, you need to submit the following API call:
+
+```sh
+POST http://localhost:8080/_ah/login?action=Log+In&email=test@example.com&isAdmin=on
+```
+
+where `email=test@example.com` and `isAdmin=on` can be replaced as appropriate.
+
+The back-end server will return cookies which will subsequently be used to authenticate your requests.
+
+To "log out", submit the following API call:
+
+```sh
+POST http://localhost:8080/_ah/login?action=Log+Out
+```
+
 ## Testing
 
 There are two big categories of testing in TEAMMATES:
