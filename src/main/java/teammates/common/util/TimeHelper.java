@@ -423,22 +423,4 @@ public final class TimeHelper {
         return parseDateTimeFromSessionsForm(inputDate, inputTimeHours, "0");
     }
 
-    /**
-     * Parses a {@code ZoneId} object from a string.
-     * Example: "Asia/Singapore" or "UTC+04:00".
-     *
-     * @param timeZone a string containing the zone ID
-     * @return {@code ZoneId.of(timeZone)}, or {@code null} if {@code timeZone} is invalid.
-     */
-    public static ZoneId parseZoneId(String timeZone) {
-        if (timeZone == null) {
-            return null;
-        }
-
-        try {
-            return ZoneId.of(timeZone);
-        } catch (DateTimeException dte) {
-            return null;
-        }
-    }
 }

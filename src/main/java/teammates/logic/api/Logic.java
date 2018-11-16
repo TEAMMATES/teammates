@@ -354,9 +354,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
+    public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+        return feedbackSessionsLogic.getAllOngoingSessions(rangeStart, rangeEnd);
     }
 
     /**

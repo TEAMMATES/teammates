@@ -102,8 +102,8 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
-        return fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+    public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getAllOngoingSessions(rangeStart, rangeEnd);
     }
 
     /**
