@@ -59,7 +59,8 @@ public class WebApiServlet extends HttpServlet {
 
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(req)
-                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req));
+                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
+                + ", Request ID: " + Config.getRequestId());
 
         Action action;
         try {
@@ -96,7 +97,6 @@ public class WebApiServlet extends HttpServlet {
 
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
-        result.setRequestId(Config.getRequestId());
         result.send(resp);
     }
 

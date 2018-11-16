@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { MessageOutput } from '../../message-output';
+import { ErrorMessageOutput } from '../../message-output';
 
 interface CommonBundle {
   name: string;
@@ -69,7 +69,7 @@ export class AdminSearchPageComponent {
       for (const student of this.students) {
         student.showLinks = false;
       }
-    }, (resp: MessageOutput) => {
+    }, (resp: ErrorMessageOutput) => {
       // TODO handle error
       console.error(resp);
     });

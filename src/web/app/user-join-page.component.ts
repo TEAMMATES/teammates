@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpRequestService } from '../services/http-request.service';
-import { MessageOutput } from './message-output';
+import { ErrorMessageOutput } from './message-output';
 
 interface JoinStatus {
   hasJoined: boolean;
@@ -47,8 +47,8 @@ export class UserJoinPageComponent implements OnInit {
         this.hasJoined = resp.hasJoined;
         this.userId = resp.userId || '';
         this.isLoading = false;
-      }, (resp: MessageOutput) => {
-        this.errorMessage = resp.message;
+      }, (resp: ErrorMessageOutput) => {
+        this.errorMessage = resp.error.message;
         this.isLoading = false;
       });
     });
@@ -65,8 +65,8 @@ export class UserJoinPageComponent implements OnInit {
     };
     this.httpRequestService.put('/join', paramMap).subscribe(() => {
       this.router.navigate([`/web/${this.entityType}`]);
-    }, (resp: MessageOutput) => {
-      this.errorMessage = resp.message;
+    }, (resp: ErrorMessageOutput) => {
+      this.errorMessage = resp.error.message;
     });
   }
 
