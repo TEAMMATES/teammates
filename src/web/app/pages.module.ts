@@ -15,6 +15,7 @@ import { SessionSubmissionPageModule } from './pages-session/session-submission-
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
+import { StatusMessageModule } from './status-message/status-message.module';
 import { UserJoinPageComponent } from './user-join-page.component';
 
 const routes: Routes = [
@@ -77,6 +78,7 @@ const routes: Routes = [
     CommonModule,
     NgbModule,
     PageNotFoundModule,
+    StatusMessageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),

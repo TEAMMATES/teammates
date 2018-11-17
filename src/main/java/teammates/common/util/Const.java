@@ -1268,6 +1268,7 @@ public final class Const {
     }
 
     /* These are status messages that may be shown to the user */
+    @Deprecated
     public static class StatusMessages {
 
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";

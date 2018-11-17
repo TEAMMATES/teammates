@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { NavigationService } from '../../services/navigation.service';
 import { AuthInfo } from '../auth-info';
 
 /**
@@ -39,7 +41,7 @@ export class AdminPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
@@ -52,7 +54,8 @@ export class AdminPageComponent implements OnInit {
           // User is not a valid admin; redirect to home page.
           // This should not happen in production server as the /web/admin/* routing is protected,
           // and a 403 error page will be shown instead.
-          window.location.href = '/web';
+          this.navigationService.navigateWithErrorMessage(this.router, '/web',
+              'You are not authorized to view the page.');
         }
       } else {
         window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;

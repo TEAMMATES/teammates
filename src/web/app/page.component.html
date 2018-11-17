@@ -48,6 +48,8 @@
   <div *ngIf="!isValidUser">
     Invalid user!
   </div>
+  <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
+  <tm-status-message [messages]="messageList"></tm-status-message>
   <router-outlet *ngIf="isValidUser"></router-outlet>
   <footer>
     <div class="container text-nowrap">
