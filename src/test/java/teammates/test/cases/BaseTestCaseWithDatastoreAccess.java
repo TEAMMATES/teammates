@@ -46,6 +46,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
 
+        } else if (expected instanceof StudentProfileAttributes) {
+            return getStudentProfile((StudentProfileAttributes) expected);
+
         } else if (expected instanceof CourseAttributes) {
             return getCourse((CourseAttributes) expected);
 
@@ -101,6 +104,12 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             equalizeIrrelevantData(expectedAccount, actualAccount);
             assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
 
+        } else if (expected instanceof StudentProfileAttributes) {
+            StudentProfileAttributes expectedProfile = ((StudentProfileAttributes) expected).getCopy();
+            StudentProfileAttributes actualProfile = (StudentProfileAttributes) actual;
+            equalizeIrrelevantData(expectedProfile, actualProfile);
+            assertEquals(JsonUtils.toJson(expectedProfile), JsonUtils.toJson(actualProfile));
+
         } else if (expected instanceof CourseAttributes) {
             CourseAttributes expectedCourse = (CourseAttributes) expected;
             CourseAttributes actualCourse = (CourseAttributes) actual;
@@ -155,15 +164,12 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
+    }
 
-        if (actual.studentProfile == null) {
-            expected.studentProfile = null;
-        } else {
-            if (expected.studentProfile == null) {
-                expected.studentProfile = StudentProfileAttributes.builder(actual.googleId).build();
-            }
-            expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
-        }
+    protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
+
+    private void equalizeIrrelevantData(StudentProfileAttributes expected, StudentProfileAttributes actual) {
+        expected.modifiedDate = actual.modifiedDate;
     }
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);

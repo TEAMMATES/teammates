@@ -13,11 +13,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidOriginException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.CryptoHelper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.SanitizationHelper;
@@ -108,7 +108,7 @@ public abstract class Action {
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
-        sessionToken = CryptoHelper.computeSessionToken(session.getId());
+        sessionToken = StringHelper.encrypt(session.getId());
         parseAndInitializeRegkeyFromRequest();
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
@@ -227,9 +227,11 @@ public abstract class Action {
             sessionId = session.getId();
         }
 
-        String expectedToken = CryptoHelper.computeSessionToken(sessionId);
-
-        return actualToken.equals(expectedToken);
+        try {
+            return sessionId.startsWith(StringHelper.decrypt(actualToken));
+        } catch (InvalidParametersException e) {
+            return false;
+        }
     }
 
     // These methods are used for user authentication

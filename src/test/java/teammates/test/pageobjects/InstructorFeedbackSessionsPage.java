@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -569,6 +569,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     private int getFeedbackSessionsCount() {
+        // wait for the async fetch before counting the number of feedback session
+        waitForElementPresence(By.id("table-sessions"));
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
 

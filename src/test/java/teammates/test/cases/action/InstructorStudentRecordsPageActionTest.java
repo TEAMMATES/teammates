@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -14,6 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.api.Logic;
+import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
@@ -85,21 +87,18 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorStudentRecordsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
+        InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
         assertEquals(
                 getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfInstructor3"),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
-
-        InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
-        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student.googleId).build();
-        expectedProfile.modifiedDate = actualData.spa.modifiedDate;
-        expectedProfile.pictureKey = actualData.spa.pictureKey;
+        assertEquals("Normally, we would show the student’s profile here. However, "
+                + "this student has not created a profile yet", r.getStatusMessage());
+        assertNull("Student profile not found", actualData.spa);
 
         assertEquals(instructorId, actualData.account.googleId);
         assertEquals(instructor.courseId, actualData.getCourseId());
         assertEquals(6, actualData.getSessionNames().size());
-        assertEquals(student.googleId, actualData.spa.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
                                   + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
@@ -107,7 +106,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                                   + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
                                   + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
                                   + "Number of sessions: 6<br>"
-                                  + "Student Profile: " + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
+                                  + "Student Profile: No Profile"
                                   + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
@@ -151,15 +150,21 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         ShowPageResult rWithNoSession = getShowPageResult(aWithNoSession);
         List<String> expectedMessages = new ArrayList<>();
         expectedMessages.add("No records were found for this student");
-        expectedMessages.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+        expectedMessages.add(Const.StatusMessages.STUDENT_PROFILE_NOT_CREATED);
         AssertHelper.assertContains(expectedMessages, rWithNoSession.getStatusMessage());
 
         ______TS("Typical case: student has profile but no records");
 
         testStudent.googleId = "valid.no.sessions";
         StudentsLogic.inst().updateStudentCascadeWithoutDocument(testStudent.email, testStudent);
-        logic.createAccount(testStudent.googleId, testStudent.name, false, testStudent.email,
-                            "valid institute");
+        AccountsLogic.inst().createAccount(
+                AccountAttributes.builder()
+                        .withGoogleId(testStudent.googleId)
+                        .withName(testStudent.name)
+                        .withIsInstructor(false)
+                        .withEmail(testStudent.email)
+                        .withInstitute("valid institue")
+                        .build());
 
         a = getAction(submissionParamsWithNoSession);
         r = getShowPageResult(a);
@@ -172,7 +177,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         instructorId = instructor.googleId;
         String studentId = "student1InTestingSanitizationCourse";
         student = typicalBundle.students.get(studentId);
-        expectedProfile = typicalBundle.accounts.get(studentId).studentProfile;
+        StudentProfileAttributes expectedProfile = typicalBundle.profiles.get(studentId);
 
         gaeSimulation.loginAsInstructor(instructorId);
 

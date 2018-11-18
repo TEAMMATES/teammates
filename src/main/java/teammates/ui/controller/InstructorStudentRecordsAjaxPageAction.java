@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -45,20 +44,16 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         filterFeedbackSessions(courseId, feedbacks, instructor, student);
 
-        List<SessionAttributes> sessions = new ArrayList<>();
+        List<FeedbackSessionAttributes> sessions = new ArrayList<>();
         sessions.addAll(feedbacks);
-        sessions.sort(SessionAttributes.DESCENDING_ORDER);
+        sessions.sort(FeedbackSessionAttributes.DESCENDING_ORDER);
 
         List<FeedbackSessionResultsBundle> results = new ArrayList<>();
-        for (SessionAttributes session : sessions) {
-            if (session instanceof FeedbackSessionAttributes) {
-                if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {
-                    FeedbackSessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
-                                                    session.getSessionName(), courseId, instructor.email);
-                    results.add(result);
-                }
-            } else {
-                Assumption.fail("Unknown session type");
+        for (FeedbackSessionAttributes session : sessions) {
+            if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getFeedbackSessionName())) {
+                FeedbackSessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
+                        session.getFeedbackSessionName(), courseId, instructor.email);
+                results.add(result);
             }
         }
         statusToAdmin = "instructorStudentRecords Ajax Page Load<br>"
@@ -75,7 +70,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
     private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
                                         InstructorAttributes currentInstructor, StudentAttributes student) {
         feedbacks.removeIf(tempFs -> !tempFs.getCourseId().equals(courseId)
-                    || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                    || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getFeedbackSessionName(),
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
 
     }

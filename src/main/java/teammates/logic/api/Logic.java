@@ -70,60 +70,13 @@ public class Logic {
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     /**
-     * Creates a new Account based on given values. If a profile is not given,
-     * a default empty profile is created for the user<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     */
-    public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute,
-                              StudentProfileAttributes studentProfileParam) throws InvalidParametersException {
-
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(name);
-        Assumption.assertNotNull(isInstructor);
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(institute);
-
-        StudentProfileAttributes studentProfile = studentProfileParam;
-        if (studentProfile == null) {
-            studentProfile = StudentProfileAttributes.builder(googleId).build();
-        }
-        AccountAttributes accountToAdd = AccountAttributes.builder()
-                .withGoogleId(googleId)
-                .withName(name)
-                .withEmail(email)
-                .withInstitute(institute)
-                .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(studentProfile)
-                .build();
-
-        accountsLogic.createAccount(accountToAdd);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * This is just for legacy code that creates an Account without the profile parameter
-     */
-    public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute)
-            throws InvalidParametersException {
-
-        createAccount(googleId, name, isInstructor, email, institute, null);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
     public AccountAttributes getAccount(String googleId) {
-        return accountsLogic.getAccount(googleId, false);
-    }
-
-    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         Assumption.assertNotNull(googleId);
 
-        return accountsLogic.getAccount(googleId, retrieveStudentProfile);
+        return accountsLogic.getAccount(googleId);
     }
 
     /**
@@ -153,25 +106,30 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.<br>
-     * * {@code newAccountAttributes} represents an existing account.
+     * Updates/Creates student profile based on the given new profile attributes.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws InvalidParametersException if attributes in {@code newStudentProfileAttributes} are not valid
      */
-    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateOrCreateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(newStudentProfileAttributes);
 
-        profilesLogic.updateStudentProfile(newStudentProfileAttributes);
+        profilesLogic.updateOrCreateStudentProfile(newStudentProfileAttributes);
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.<br>
-     * * {@code newAccountAttributes} represents an existing account.
+     * Updates {@code pictureKey} for the student profile associated with {@code googleId}.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * <p>If the associated profile doesn't exist, create a new one.</p>
      */
-    public void updateStudentProfilePicture(String googleId, String newPictureKey)
-            throws EntityDoesNotExistException {
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) {
 
         Assumption.assertNotNull(googleId);
         Assumption.assertNotNull(newPictureKey);
@@ -180,11 +138,14 @@ public class Logic {
     }
 
     /**
-     * Deletes both instructor and student privileges.
-     * Does not delete courses. Can result in orphan courses
-     * (to be rectified in future).
-     * Fails silently if no such account. <br>
-     * Preconditions: <br>
+     * Deletes both instructor and student privileges, as long as the account and associated student profile.
+     *
+     * <ul>
+     * <li>Does not delete courses, which can result in orphan courses.</li>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
     public void deleteAccount(String googleId) {
@@ -194,13 +155,14 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
 
-    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(googleId);
-
-        profilesLogic.deleteStudentProfilePicture(googleId);
-    }
-
+    /**
+     * Delete the picture associated with the {@code key} in Cloud Storage.
+     *
+     * <br/> Preconditions: <br/>
+     * All parameters are non-null.
+     *
+     * <p>Fails silently if the {@code key} doesn't exist.</p>
+     */
     public void deletePicture(BlobKey key) {
         Assumption.assertNotNull(key);
 
@@ -234,7 +196,6 @@ public class Logic {
                     .withEmail(email)
                     .withInstitute(institute)
                     .withIsInstructor(true)
-                    .withDefaultStudentProfileAttributes(googleId)
                     .build();
             accountsLogic.createAccount(account);
         }
@@ -410,14 +371,6 @@ public class Logic {
     public boolean isInstructorOfCourse(String googleId, String courseId) {
 
         return instructorsLogic.isGoogleIdOfInstructorOfCourse(googleId, courseId);
-    }
-
-    /**
-     * Returns true if this email belongs to an instructor of the course.
-     */
-    public boolean isInstructorEmailOfCourse(String email, String courseId) {
-
-        return instructorsLogic.isEmailOfInstructorOfCourse(email, courseId);
     }
 
     /**
@@ -601,18 +554,6 @@ public class Logic {
 
         Assumption.assertNotNull(googleId);
         return coursesLogic.getCourseSummariesForInstructor(googleId, false);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return A less detailed version of courses for the specified instructor attributes.
-     *         Returns an empty list if none found.
-     */
-    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) {
-
-        Assumption.assertNotNull(instructorList);
-        return coursesLogic.getCourseSummariesForInstructor(instructorList);
     }
 
     /**
@@ -845,10 +786,12 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Gets student profile associated with the {@code googleId}.
+     *
+     * <br/> Preconditions: <br/>
      * * All parameters are non-null.
      *
-     * @return Null if no match found.
+     * @return null if no match found.
      */
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
@@ -877,28 +820,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<StudentAttributes> getStudentsForSection(String section, String courseId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(section);
-        return studentsLogic.getStudentsForSection(section, courseId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<StudentAttributes> getStudentsForTeam(String team, String courseId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(team);
-        return studentsLogic.getStudentsForTeam(team, courseId);
-    }
-
-    /**
      * Returns a list of section names for the course with ID courseId.
      *
      * <p>Preconditions: <br>
@@ -909,19 +830,6 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
-    }
-
-    /**
-     * Returns a list of section names for the specified course.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see CoursesLogic#getSectionsNameForCourse(CourseAttributes)
-     */
-    public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(course);
-        return coursesLogic.getSectionsNameForCourse(course);
     }
 
     /**
@@ -1085,14 +993,6 @@ public class Logic {
         studentsLogic.deleteAllStudentsInCourse(courseId);
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(studentEmail);
-
-        studentsLogic.deleteStudentCascadeWithoutDocument(courseId, studentEmail);
-    }
-
     /**
      *  Checks if a course has sections for each team
      *  Preconditions: <br>
@@ -1240,21 +1140,6 @@ public class Logic {
     }
 
     /**
-     * Returns a {@code List} of all feedback sessions bundled with their
-     * response statistics for a instructor given by his googleId.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see FeedbackSessionsLogic#getFeedbackSessionDetailsForInstructor(String)
-     */
-    public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
-            String googleId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(googleId);
-        return feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(googleId);
-    }
-
-    /**
      * Returns a {@code List} of all feedback sessions WITHOUT their response
      * statistics for a instructor given by his googleId.
      *
@@ -1334,18 +1219,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
@@ -1776,25 +1649,6 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName,
                                                                                                courseId, userEmail,
                                                                                                range, viewType);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session in a section within the given range
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-        Assumption.assertNotNull(viewType);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-                                        feedbackSessionName, courseId, userEmail, section, range, viewType);
     }
 
     /**
@@ -2242,14 +2096,5 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(teamName);
         return studentsLogic.getSectionForTeam(courseId, teamName);
-    }
-
-    /**
-     * Returns a list of feedback comments associated with feedbackResponseId.
-     *
-     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
     }
 }

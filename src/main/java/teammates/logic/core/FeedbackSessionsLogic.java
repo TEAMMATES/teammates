@@ -30,11 +30,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -76,8 +74,6 @@ public final class FeedbackSessionsLogic {
                                                            + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
                                                              + "Session has already been unpublished.";
-
-    private static final Logger log = Logger.getLogger();
 
     private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
@@ -460,45 +456,6 @@ public final class FeedbackSessionsLogic {
                     frcLogic.getFeedbackResponseCommentForResponse(response.getId());
             commentsForResponses.put(response.getId(), comments);
         }
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
-            String feedbackSessionName, String courseId, String feedbackQuestionId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
-
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
-        }
-
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
-        if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
-        }
-
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
-        Map<String, Map<String, String>> recipientList = new HashMap<>();
-
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
-
-        Set<String> hiddenInstructorEmails = null;
-
-        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
-            hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
-        }
-
-        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
-                new HashMap<>();
-        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
-
-        updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                bundle, recipientList, question, hiddenInstructorEmails);
-        updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
-
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
     }
 
     private void updateBundleAndRecipientListWithResponsesForStudent(
@@ -1453,18 +1410,12 @@ public final class FeedbackSessionsLogic {
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
-        try {
-            fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } catch (EntityDoesNotExistException e) {
-            // Silently fail if session does not exist
-            log.warning(TeammatesException.toStringWithStackTrace(e));
-        }
+        fqLogic.deleteFeedbackQuestionsCascadeForSession(feedbackSessionName, courseId);
 
         FeedbackSessionAttributes sessionToDelete = FeedbackSessionAttributes
                 .builder(feedbackSessionName, courseId, "").build();
 
         fsDb.deleteEntity(sessionToDelete);
-
     }
 
     /**
@@ -1477,7 +1428,7 @@ public final class FeedbackSessionsLogic {
                 getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
 
         for (FeedbackSessionAttributes session : feedbackSessionsList) {
-            deleteFeedbackSessionCascade(session.getSessionName(), session.getCourseId());
+            deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
         }
     }
 

@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -31,6 +30,7 @@ public final class AccountsLogic {
 
     private static final AccountsDb accountsDb = new AccountsDb();
 
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -57,11 +57,7 @@ public final class AccountsLogic {
     }
 
     public AccountAttributes getAccount(String googleId) {
-        return getAccount(googleId, false);
-    }
-
-    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
-        return accountsDb.getAccount(googleId, retrieveStudentProfile);
+        return accountsDb.getAccount(googleId);
     }
 
     public boolean isAccountPresent(String googleId) {
@@ -102,12 +98,7 @@ public final class AccountsLogic {
 
     public void updateAccount(AccountAttributes account)
             throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateAccount(account, false);
-    }
-
-    public void updateAccount(AccountAttributes account, boolean updateStudentProfile)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateAccount(account, updateStudentProfile);
+        accountsDb.updateAccount(account);
     }
 
     public void joinCourseForStudent(String registrationKey, String googleId)
@@ -170,7 +161,6 @@ public final class AccountsLogic {
                     .withEmail(instructor.email)
                     .withInstitute(instituteToSave)
                     .withIsInstructor(true)
-                    .withDefaultStudentProfileAttributes(googleId)
                     .build());
         } else {
             makeAccountInstructor(googleId);
@@ -294,7 +284,7 @@ public final class AccountsLogic {
     }
 
     public void makeAccountNonInstructor(String googleId) {
-        AccountAttributes account = accountsDb.getAccount(googleId, true);
+        AccountAttributes account = accountsDb.getAccount(googleId);
         if (account == null) {
             log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId);
         } else {
@@ -310,7 +300,7 @@ public final class AccountsLogic {
 
     public void makeAccountInstructor(String googleId) {
 
-        AccountAttributes account = accountsDb.getAccount(googleId, true);
+        AccountAttributes account = accountsDb.getAccount(googleId);
 
         if (account == null) {
             log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId);
@@ -325,7 +315,16 @@ public final class AccountsLogic {
         }
     }
 
+    /**
+     * Deletes both instructor and student privileges, as long as the account and associated student profile.
+     *
+     * <ul>
+     * <li>Does not delete courses, which can result in orphan courses.</li>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     */
     public void deleteAccountCascade(String googleId) {
+        profilesLogic.deleteStudentProfile(googleId);
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         studentsLogic.deleteStudentsForGoogleIdAndCascade(googleId);
         accountsDb.deleteAccount(googleId);
@@ -341,9 +340,6 @@ public final class AccountsLogic {
                 .withName(student.name)
                 .withIsInstructor(false)
                 .withInstitute(getCourseInstitute(student.course))
-                .withStudentProfileAttributes(StudentProfileAttributes.builder(student.googleId)
-                        .withInstitute(getCourseInstitute(student.course))
-                        .build())
                 .build();
 
         accountsDb.createAccount(account);
