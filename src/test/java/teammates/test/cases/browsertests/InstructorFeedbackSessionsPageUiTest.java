@@ -619,7 +619,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_RESTORED));
-        assertNotNull(BackDoor.getFeedbackSession(session1OfCS2105.getCourseId(), session1OfCS2105.getSessionName()));
+        assertNotNull(BackDoor.getFeedbackSession(session1OfCS2105.getCourseId(),
+                session1OfCS2105.getFeedbackSessionName()));
         assertFalse(session1OfCS2105.isSessionDeleted());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackRestoreSuccessful.html");
 

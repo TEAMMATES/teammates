@@ -55,7 +55,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAut
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
             assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
-                    publishedSession.getSessionName()), paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
+                    publishedSession.getFeedbackSessionName()), paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
             assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
         }

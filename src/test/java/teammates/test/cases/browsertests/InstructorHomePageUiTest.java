@@ -227,14 +227,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         // Test that download result button exist in homePage
         homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
-                feedbackSessionClosed.getSessionName());
+                feedbackSessionClosed.getFeedbackSessionName());
 
         ______TS("Typical case: download report");
 
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                 .withUserId("CHomeUiT.instructor.tmms")
                 .withCourseId(feedbackSessionClosed.getCourseId())
-                .withSessionName(feedbackSessionClosed.getSessionName());
+                .withSessionName(feedbackSessionClosed.getFeedbackSessionName());
 
         homePage.verifyDownloadLink(reportUrl);
 

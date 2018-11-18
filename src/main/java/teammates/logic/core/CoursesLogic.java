@@ -201,14 +201,6 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of section names for the specified course.
-     */
-    public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
-        Assumption.assertNotNull("Course is null", course);
-        return getSectionsNameForCourse(course.getId(), true);
-    }
-
-    /**
      * Returns a list of section names for a course with or without a need to
      * check if the course is existent.
      *
