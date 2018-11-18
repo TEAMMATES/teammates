@@ -11,18 +11,18 @@ import teammates.storage.entity.CourseStudent;
 /**
  * Script to desanitize content of {@link CourseStudent} if it is sanitized.
  */
-public class NewDataMigrationForSanitizedDataInStudentAttributes
-        extends DataMigrationWithCheckpointForEntities<CourseStudent> {
+public class DataMigrationForSanitizedDataInStudentAttributes
+        extends DataMigrationEntitiesBaseScript<CourseStudent> {
 
-    public NewDataMigrationForSanitizedDataInStudentAttributes() {
+    public DataMigrationForSanitizedDataInStudentAttributes() {
         numberOfScannedKey.set(0L);
         numberOfAffectedEntities.set(0L);
         numberOfUpdatedEntities.set(0L);
     }
 
     public static void main(String[] args) throws IOException {
-        NewDataMigrationForSanitizedDataInStudentAttributes migrator =
-                new NewDataMigrationForSanitizedDataInStudentAttributes();
+        DataMigrationForSanitizedDataInStudentAttributes migrator =
+                new DataMigrationForSanitizedDataInStudentAttributes();
         migrator.doOperationRemotely();
     }
 

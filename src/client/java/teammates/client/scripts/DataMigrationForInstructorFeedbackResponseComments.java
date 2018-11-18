@@ -16,7 +16,7 @@ import teammates.storage.entity.FeedbackResponseComment;
  */
 
 public class DataMigrationForInstructorFeedbackResponseComments extends
-        DataMigrationWithCheckpointForEntities<FeedbackResponseComment> {
+        DataMigrationEntitiesBaseScript<FeedbackResponseComment> {
 
     public static void main(String[] args) throws IOException {
         new DataMigrationForInstructorFeedbackResponseComments().doOperationRemotely();
