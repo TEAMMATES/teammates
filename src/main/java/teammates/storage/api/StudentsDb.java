@@ -492,14 +492,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 .list();
     }
 
-    @Deprecated
-    /**
-     * Retrieves all course student entities. This function is not scalable.
-     */
-    public List<CourseStudent> getCourseStudentEntities() {
-        return load().list();
-    }
-
     @Override
     protected LoadType<CourseStudent> load() {
         return ofy().load().type(CourseStudent.class);
