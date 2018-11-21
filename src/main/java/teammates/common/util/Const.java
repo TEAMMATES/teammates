@@ -389,7 +389,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_GIVER = "Who will give feedback";
 
         public static final String FEEDBACK_SESSION_EDIT_SAVE =
-                "You can save your responses at any time and come back later to continue.";
+                "You can edit your responses after submission at any time before the deadline";
 
         public static final String FEEDBACK_SESSION_MODERATE_FEEDBACK = "Edit the responses given by this student";
 
