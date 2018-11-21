@@ -33,10 +33,6 @@ export class AdminPageComponent implements OnInit {
       display: 'Sessions',
     },
     {
-      url: '/web/admin/email',
-      display: 'Email',
-    },
-    {
       url: '/web/admin/timezone',
       display: 'Timezone Listing',
     },

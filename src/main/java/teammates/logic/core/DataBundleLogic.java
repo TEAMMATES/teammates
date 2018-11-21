@@ -14,7 +14,6 @@ import com.google.common.collect.SetMultimap;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -28,7 +27,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.api.AdminEmailsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -55,7 +53,6 @@ public final class DataBundleLogic {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
-    private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
@@ -71,7 +68,7 @@ public final class DataBundleLogic {
 
     /**
      * Persists data in the given {@link DataBundle} to the Datastore, including
-     * accounts, courses, instructors, students, sessions, questions, responses, comments and admin emails.
+     * accounts, courses, instructors, students, sessions, questions, responses, and comments.
      *
      * <p>Accounts are generated for students and instructors with Google IDs
      * if the corresponding accounts are not found in the data bundle.
@@ -96,7 +93,6 @@ public final class DataBundleLogic {
         Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
-        Collection<AdminEmailAttributes> adminEmails = dataBundle.adminEmails.values();
 
         // For ensuring only one account per Google ID is created
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
@@ -127,8 +123,6 @@ public final class DataBundleLogic {
 
         frDb.createEntitiesDeferred(responses);
         fcDb.createEntitiesDeferred(responseComments);
-
-        adminEmailsDb.createEntitiesDeferred(adminEmails);
 
         EntitiesDb.flush();
     }
@@ -438,16 +432,6 @@ public final class DataBundleLogic {
         // TODO: Remove the following line after tests have been run against LIVE server
         dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
         profilesDb.deleteEntities(dataBundle.profiles.values());
-
-        for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
-            // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.
-            AdminEmailAttributes emailInDb = adminEmailsDb.getAdminEmailBySubject(email.subject);
-            // It is expected that email may not be in datastore yet, should fail silently.
-            if (emailInDb == null) {
-                continue;
-            }
-            adminEmailsDb.deleteEntity(emailInDb);
-        }
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {

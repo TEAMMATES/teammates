@@ -494,22 +494,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
     }
 
-    @Test
-    public void testGenerateAdminEmail() {
-        String recipient = "recipient@email.com";
-        String content = "Generic content";
-        String subject = "Generic subject";
-        EmailWrapper email = new EmailGenerator().generateAdminEmail(content, subject, recipient);
-
-        // Do not use verify email since the content is not based on any template
-        assertEquals(recipient, email.getRecipient());
-        assertEquals(subject, email.getSubject());
-        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
-        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
-        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        assertEquals(content, email.getContent());
-    }
-
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
         LocalDateTime localStart = session.getStartTimeLocal();
         LocalDateTime localEnd = session.getEndTimeLocal();

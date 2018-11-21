@@ -138,15 +138,6 @@ public final class Const {
 
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.ADMIN_EMAIL_COMPOSE_SAVE,
-                        ActionURIs.ADMIN_EMAIL_COMPOSE_SEND,
-                        ActionURIs.ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL,
-                        ActionURIs.ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL,
-                        ActionURIs.ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD,
-                        ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD,
-                        ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
-                        ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
-                        ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
@@ -676,22 +667,6 @@ public final class Const {
         public static final String IMAGE_TO_UPLOAD = "imagetoupload";
 
         public static final String ADMIN_SEARCH_KEY = "searchkey";
-        public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
-
-        public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
-        public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
-        public static final String ADMIN_EMAIL_RECEIVER = "emailreceiver";
-        public static final String ADMIN_EMAIL_ADDRESS_RECEIVERS = "adminemailaddressreceivers";
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
-        public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
-
-        public static final String ADMIN_EMAIL_ID = "emailid";
-        public static final String ADMIN_EMAIL_EMPTY_TRASH_BIN = "emptytrashbin";
-        public static final String ADMIN_EMAIL_TRASH_ACTION_REDIRECT = "redirect";
-
-        public static final String ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX = "emaillistindex";
-        public static final String ADMIN_GROUP_RECEIVER_EMAIL_INDEX = "emailindex";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
@@ -1103,24 +1078,7 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
-        public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
-        public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
-        public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
-        public static final String ADMIN_EMAIL_SENT_PAGE = "/admin/adminEmailSentPage";
-        public static final String ADMIN_EMAIL_TRASH_PAGE = "/admin/adminEmailTrashPage";
-        public static final String ADMIN_EMAIL_TRASH_DELETE = "/admin/adminEmailTrashDelete";
-        public static final String ADMIN_EMAIL_DRAFT_PAGE = "/admin/adminEmailDraftPage";
-        public static final String ADMIN_EMAIL_MOVE_TO_TRASH = "/admin/adminEmailMoveToTrash";
-        public static final String ADMIN_EMAIL_MOVE_OUT_TRASH = "/admin/adminEmailMoveOutTrash";
-        public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
-        public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
-
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
-        public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL =
-                "/admin/adminEmailCreateGroupReceiverListUploadUrl";
-
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
-        public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
 
         public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
@@ -1134,15 +1092,6 @@ public final class Const {
      * Configurations for task queue.
      */
     public static class TaskQueue {
-
-        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME = "admin-prepare-email-address-mode-queue";
-        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL = "/worker/adminPrepareEmailAddressMode";
-
-        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME = "admin-prepare-email-group-mode-queue";
-        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL = "/worker/adminPrepareEmailGroupMode";
-
-        public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
-        public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
 
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
@@ -1251,8 +1200,6 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
         public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
 
-        public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
-
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
     }
@@ -1264,13 +1211,7 @@ public final class Const {
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
-        public static final String EMAIL_NOT_FOUND = "The requested email was not found";
         public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
-        public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
-
-        public static final String NOT_A_RECEIVER_LIST_FILE =
-                "The file that you have uploaded is not a receiver list file. ";
-        public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
 
         public static final String STUDENT_FIRST_TIME =
                 "<div class=\"align-left\">"

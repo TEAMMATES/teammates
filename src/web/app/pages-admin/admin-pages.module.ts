@@ -6,7 +6,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { AdminAccountsPageComponent } from './admin-accounts-page/admin-accounts-page.component';
-import { AdminEmailPageComponent } from './admin-email-page/admin-email-page.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { AdminSearchPageComponent } from './admin-search-page/admin-search-page.component';
 import { AdminSessionsPageComponent } from './admin-sessions-page/admin-sessions-page.component';
@@ -42,10 +41,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'email',
-    component: AdminEmailPageComponent,
-  },
-  {
     path: 'timezone',
     component: AdminTimezonePageComponent,
   },
@@ -77,7 +72,6 @@ const routes: Routes = [
     AdminHomePageComponent,
     AdminSearchPageComponent,
     AdminSessionsPageComponent,
-    AdminEmailPageComponent,
     AdminTimezonePageComponent,
   ],
 })

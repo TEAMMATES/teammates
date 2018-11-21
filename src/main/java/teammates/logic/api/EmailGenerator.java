@@ -688,16 +688,6 @@ public class EmailGenerator {
                 "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
     }
 
-    /**
-     * Generates a generic email with the specified {@code content}, {@code subject}, and {@code recipient}.
-     */
-    public EmailWrapper generateAdminEmail(String content, String subject, String recipient) {
-        EmailWrapper email = getEmptyEmailAddressedToEmail(recipient);
-        email.setSubject(subject);
-        email.setContent(content);
-        return email;
-    }
-
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
         EmailWrapper email = new EmailWrapper();
         email.setRecipient(recipient);
