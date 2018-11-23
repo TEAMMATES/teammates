@@ -221,6 +221,8 @@ public final class Const {
 
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
 
+        public static final String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
+
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
