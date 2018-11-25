@@ -20,11 +20,6 @@ import teammates.logic.api.EmailGenerator;
 public class CompileLogsAction extends AutomatedAction {
 
     @Override
-    protected String getActionMessage() {
-        return "Compiling logs for email notification";
-    }
-
-    @Override
     public void execute() {
         List<AppLogLine> errorLogs = getErrorLogs();
         sendEmail(errorLogs);

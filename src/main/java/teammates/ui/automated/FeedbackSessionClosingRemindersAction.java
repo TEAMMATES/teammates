@@ -16,11 +16,6 @@ public class FeedbackSessionClosingRemindersAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionMessage() {
-        return "Generating reminders for closing feedback sessions.";
-    }
-
-    @Override
     public void execute() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosingWithinTimeLimit();
 

@@ -15,16 +15,10 @@ import teammates.logic.api.EmailGenerator;
 public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String instructorEmail = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        String isRejoinString = getNonNullRequestParamValue(ParamsNames.IS_INSTRUCTOR_REJOINING);
-        boolean isRejoin = Boolean.parseBoolean(isRejoinString);
+        boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_INSTRUCTOR_REJOINING);
 
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
