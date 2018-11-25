@@ -1,6 +1,5 @@
 package teammates.test.cases.newaction;
 
-import org.apache.http.client.methods.HttpDelete;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -18,7 +17,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
 
     @Override
     protected String getRequestMethod() {
-        return HttpDelete.METHOD_NAME;
+        return DELETE;
     }
 
     @Override

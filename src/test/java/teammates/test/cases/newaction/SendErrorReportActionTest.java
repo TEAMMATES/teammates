@@ -1,7 +1,6 @@
 package teammates.test.cases.newaction;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -20,7 +19,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
 
     @Override
     protected String getRequestMethod() {
-        return HttpPost.METHOD_NAME;
+        return POST;
     }
 
     @Override

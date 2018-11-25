@@ -3,6 +3,10 @@ package teammates.test.cases.newaction;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.testng.annotations.BeforeMethod;
 
 import teammates.common.datatransfer.DataBundle;
@@ -22,6 +26,11 @@ import teammates.ui.newcontroller.JsonResult;
  * @param <T> The action class being tested.
  */
 public abstract class BaseActionTest<T extends Action> extends BaseComponentTestCase {
+
+    protected static final String GET = HttpGet.METHOD_NAME;
+    protected static final String POST = HttpPost.METHOD_NAME;
+    protected static final String PUT = HttpPut.METHOD_NAME;
+    protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     protected DataBundle typicalBundle = getTypicalDataBundle();
 

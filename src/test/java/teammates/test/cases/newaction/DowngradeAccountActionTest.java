@@ -1,6 +1,5 @@
 package teammates.test.cases.newaction;
 
-import org.apache.http.client.methods.HttpPut;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -18,7 +17,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
 
     @Override
     protected String getRequestMethod() {
-        return HttpPut.METHOD_NAME;
+        return PUT;
     }
 
     @Override

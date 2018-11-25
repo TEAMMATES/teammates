@@ -1,6 +1,5 @@
 package teammates.e2e.cases.e2e;
 
-import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -40,7 +39,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeRequest(HttpGet.METHOD_NAME, url);
+        NewBackDoor.executeGetRequest(url);
 
         print("AssertionError triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -54,7 +53,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeRequest(HttpGet.METHOD_NAME, url);
+        NewBackDoor.executeGetRequest(url);
 
         print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -68,7 +67,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeRequest(HttpGet.METHOD_NAME, url);
+        NewBackDoor.executeGetRequest(url);
 
         print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -82,7 +81,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeRequest(HttpGet.METHOD_NAME, url);
+        NewBackDoor.executeGetRequest(url);
 
         print("DatastoreTimeoutException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -96,7 +95,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeRequest(HttpGet.METHOD_NAME, url);
+        NewBackDoor.executeGetRequest(url);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 
@@ -110,7 +109,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeRequest(HttpGet.METHOD_NAME, url);
+        NewBackDoor.executeGetRequest(url);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 
