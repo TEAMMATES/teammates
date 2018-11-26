@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.exception.ActionMappingException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -79,6 +80,8 @@ public class WebApiServlet extends HttpServlet {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (UnauthorizedAccessException uae) {
             throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
+        } catch (EntityNotFoundException enfe) {
+            throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it

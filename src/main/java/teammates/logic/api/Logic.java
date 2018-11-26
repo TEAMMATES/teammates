@@ -865,15 +865,13 @@ public class Logic {
         return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
 
-    public void resetStudentGoogleId(String originalEmail, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void resetStudentGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
-    public void resetInstructorGoogleId(String originalEmail, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
         instructorsLogic.resetInstructorGoogleId(originalEmail, courseId);

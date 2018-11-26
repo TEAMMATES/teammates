@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
@@ -29,6 +30,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         testDatastoreTimeoutException();
         testUnauthorizedAccessException();
         testInvalidHttpParameterException();
+        testEntityNotFoundException();
     }
 
     private void testAssertionError() {
@@ -103,10 +105,24 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testInvalidHttpParameterException() {
 
-        ______TS("NullHttpParamException testing");
+        ______TS("InvalidHttpParamException testing");
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName())
+                .toString();
+
+        NewBackDoor.executeGetRequest(url);
+
+        print("This exception is handled by system, make sure you don't receive any emails");
+
+    }
+
+    private void testEntityNotFoundException() {
+
+        ______TS("EntityNotFoundException testing");
+
+        String url = createUrl(Const.ResourceURIs.EXCEPTION)
+                .withParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName())
                 .toString();
 
         NewBackDoor.executeGetRequest(url);

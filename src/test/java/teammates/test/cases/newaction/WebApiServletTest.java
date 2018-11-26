@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -92,6 +93,14 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
+
+        ______TS("Failure case: EntityNotFoundException");
+
+        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
 
         ______TS("Failure case: NullPointerException");
 

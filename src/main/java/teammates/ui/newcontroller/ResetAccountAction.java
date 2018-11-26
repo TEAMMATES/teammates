@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -47,8 +47,8 @@ public class ResetAccountAction extends Action {
             try {
                 logic.resetStudentGoogleId(studentEmail, courseId);
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-            } catch (EntityDoesNotExistException | InvalidParametersException e) {
-                // TODO
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
         } else if (instructorEmail != null) {
             InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
@@ -59,8 +59,8 @@ public class ResetAccountAction extends Action {
             try {
                 logic.resetInstructorGoogleId(instructorEmail, courseId);
                 taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, institute, true);
-            } catch (EntityDoesNotExistException | InvalidParametersException e) {
-                // TODO
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
         }
 
