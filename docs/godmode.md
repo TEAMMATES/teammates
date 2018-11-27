@@ -4,7 +4,7 @@
 
 Typically browser tests involve comparing the source of the webpage to an existing *expected* source. This serves to verify the DOM structure (HTML) of the page. However, creating new browser tests and updating outdated ones require considerable effort on the developer's part. In addition, ensuring that the generated *expected* source code works across computers, browsers, user accounts, and execution times is harder still. To overcome this problem, GodMode provides a simple way to create and update *expected* source files for browser tests and ensure the necessary cross-compatibility.
 
-GodMode has been extended and now is also able to create and update *expected* source files for email content tests. It works with the same underlying principle as the one for browser tests.
+With the same underlying principle, GodMode is also able to create and update *expected* source files for email content tests as well as CSV file content tests.
 
 ## How does GodMode work?
 
@@ -18,8 +18,8 @@ GodMode can be activated by setting the value of `test.godmode.enabled` to `true
 
 GodMode is typically used in the following two situations:
 
-1. To create a new source file for a (new) browser test or email content test.
-2. To update existing source files to reflect intended changes to the UI of the web pages or the email content.
+1. To create a new source file for a (new) browser test, email content test, or CSV file content test.
+2. To update existing source files to reflect intended changes to the UI of the web pages, the email content, or the CSV file content.
 
 The following example describes the behaviour of GodMode and how it can be used in practice.
 Let us consider the case where the following line of test code is executed with GodMode enabled:
@@ -38,6 +38,11 @@ Here are three possible situations and the corresponding behaviours of GodMode w
 The same idea applies to email content test:
 ```java
 EmailChecker.verifyEmailContent(email, recipient, subject, "/studentCourseJoinEmail.html");
+```
+
+And also to CSV content test:
+```java
+CsvChecker.verifyCsvContent(csvContent, "/feedbackSessionResults.csv");
 ```
 
 ## Best Practices
