@@ -23,7 +23,11 @@ Here are some documents important for TEAMMATES developers.
   [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub),
   [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
 
-* [**Archived Documentation**](archived): documentations written in the past and are no longer maintained.
+* **Best practices** for:
+  * [UI design](best-practices/ui-design.md)
+  * [Coding](best-practices/coding.md)
+  * [Testing](best-practices/testing.md)
+  * [Data migration](best-practices/data-migration.md)
 
 ## How-to documents
 
