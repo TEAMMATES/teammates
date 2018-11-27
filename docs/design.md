@@ -188,7 +188,7 @@ Represented by the `*Db` classes. These classes act as the bridge to the GAE Dat
 Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
 Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
 
-Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Please see [TEAMMATES Decision Analysis](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true) document for more information.
+Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Note that this decision was taken before 2014 and if the circumstances leading to that decision have changed, it may be reconsidered.
 
 General:
 + If `Null` is passed as a parameter, the corresponding value is **NOT** modified, as per the KeepExistingPolicy that was previously mentioned.
