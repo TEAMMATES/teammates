@@ -19,7 +19,7 @@ TEAMMATES is a Web application that runs on Google App Engine (GAE). Given above
 - **Logic**: The main logic of the application is in POJOs (Plain Old Java Objects).
 - **Storage**: The storage layer of the application uses the persistence framework provided by **GAE Datastore**, a NoSQL database.
 - **Test Driver**: TEAMMATES makes heavy use of automated regression testing. Test data is transmitted using JSON format.
-  - `TestNG` is used for Java testing (all levels) and `Karma`/`Jasmine` for JavaScript unit-testing.
+  - `TestNG` is used for Java testing (all levels) and `Jest` for JavaScript unit-testing.
   - `HttpUnit` is used to set up a simulated web server in servlet-level tests, where an actual web server is not required.
 - **E2E**: The E2E (end-to-end) component is used to interact with the application as a whole with Web browsers. Its primary function is for E2E tests.
   - `Selenium (Java)` is used to automate E2E testing with actual Web browsers.
@@ -252,7 +252,7 @@ Package overview:
 
 Notes:
 - Component tests: Some of these are pure unit tests (i.e. testing one component in isolation) while others are integration tests that test units as well as integration of units with each other.
-- Front-end files (particularly TypeScript) are tested separately with `Karma`/`Jasmine`. The test cases are found in `*.spec.ts` files.
+- Front-end files (particularly TypeScript) are tested separately with `Jest`. The test cases are found in `*.spec.ts` files.
 
 This is how TEAMMATES testing maps to standard types of testing.
 
