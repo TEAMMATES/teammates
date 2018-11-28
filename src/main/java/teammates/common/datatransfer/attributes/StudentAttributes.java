@@ -40,7 +40,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     private transient Instant createdAt;
     private transient Instant updatedAt;
-    private final String studentLogBackupMessage = "Recently modified student::";
+    private static final String studentLogBackupMessage = "Recently modified student::";
 
     StudentAttributes() {
         googleId = "";

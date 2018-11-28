@@ -39,7 +39,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public Boolean isArchived;
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
-    private final String instructorBackupLogMessage = "Recently modified Instructor";
+    private static final String instructorBackupLogMessage = "Recently modified Instructor";
 
     /**
      * Return new builder instance with default values for optional fields.

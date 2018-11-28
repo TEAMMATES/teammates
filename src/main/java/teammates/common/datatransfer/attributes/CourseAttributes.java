@@ -26,7 +26,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private String id;
     private String name;
     private ZoneId timeZone;
-    private final String courseBackupLogMsg = "Recently modified course::";
+    private static final String courseBackupLogMsg = "Recently modified course::";
 
 
     CourseAttributes(String courseId, String name, ZoneId timeZone) {

@@ -49,7 +49,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public FeedbackParticipantType commentGiverType;
     // true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
-    private final String feedbackResponseCommentBackupLogMessage =
+    private static final String feedbackResponseCommentBackupLogMessage =
             "Recently modified Feedback Response Comment for course::";
 
     FeedbackResponseCommentAttributes() {

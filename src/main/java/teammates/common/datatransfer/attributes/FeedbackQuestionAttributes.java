@@ -42,7 +42,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
     private String feedbackQuestionId;
-    private final String feedbackQuestionBackupLogMessage =
+    private static final String feedbackQuestionBackupLogMessage =
             "Recently modified Feedback Question for course::";
 
     protected FeedbackQuestionAttributes() {

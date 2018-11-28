@@ -31,7 +31,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String moreInfo;
     public String pictureKey;
     public Instant modifiedDate;
-    private final String studentProfileBackupLogMessage =
+    private static final String studentProfileBackupLogMessage =
             "Recently modified Student Profile::";
 
     StudentProfileAttributes(String googleId) {

@@ -54,7 +54,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;
-    private final String feedbackSessionBackupLogMessage =
+    private static final String feedbackSessionBackupLogMessage =
             "Recently modified Feedback Session for course::";
 
     // Optional fields
