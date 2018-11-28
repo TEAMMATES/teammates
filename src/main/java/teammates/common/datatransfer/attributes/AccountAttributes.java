@@ -24,6 +24,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String email;
     public String institute;
     public Instant createdAt;
+    private static final String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
+
 
     AccountAttributes() {
         // Empty constructor for builder to construct object
@@ -172,7 +174,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG + this.googleId;
+        return ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG + this.googleId;
     }
 
     @Override
