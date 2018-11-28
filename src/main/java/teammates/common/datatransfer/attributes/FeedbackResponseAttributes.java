@@ -1,10 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -12,6 +7,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
     public String feedbackSessionName;
@@ -42,7 +42,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
     private String feedbackResponseId;
-    private final String FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE =
+    private final String feedbackResponseBackupLogMessage =
             "Recently modified Feedback Response for course::";
 
     public FeedbackResponseAttributes() {
@@ -147,7 +147,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     @Override
     public String getBackupIdentifier() {
-        return FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE + courseId;
+        return feedbackResponseBackupLogMessage + courseId;
     }
 
     @Override

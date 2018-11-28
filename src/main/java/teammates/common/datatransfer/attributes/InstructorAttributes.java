@@ -1,15 +1,15 @@
 package teammates.common.datatransfer.attributes;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Instructor;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * The data transfer class for Instructor entities.
@@ -39,7 +39,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public Boolean isArchived;
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
-    private final String INSTRUCTOR_BACKUP_LOG_MESSAGE = "Recently modified Instructor";
+    private final String instructorBackupLogMessage = "Recently modified Instructor";
 
     /**
      * Return new builder instance with default values for optional fields.
@@ -148,7 +148,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String getBackupIdentifier() {
-        return INSTRUCTOR_BACKUP_LOG_MESSAGE + courseId;
+        return instructorBackupLogMessage + courseId;
     }
 
     @Override

@@ -1,12 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -16,6 +11,10 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
@@ -42,7 +41,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
     private String feedbackQuestionId;
-    private final String FEEDBACK_QUESTION_BACKUP_LOG_MESSAGE =
+    private final String feedbackQuestionBackupLogMessage =
             "Recently modified Feedback Question for course::";
 
     protected FeedbackQuestionAttributes() {
@@ -262,7 +261,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getBackupIdentifier() {
-        return FEEDBACK_QUESTION_BACKUP_LOG_MESSAGE + courseId;
+        return feedbackQuestionBackupLogMessage + courseId;
     }
 
     @Override

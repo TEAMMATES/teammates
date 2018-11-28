@@ -1,19 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
+import teammates.common.util.*;
+import teammates.storage.entity.Course;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
-import teammates.storage.entity.Course;
 
 /**
  * The data transfer object for Course entities.
@@ -26,7 +21,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private String id;
     private String name;
     private ZoneId timeZone;
-    private final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+    private final String courseBackupLogMsg = "Recently modified course::";
 
 
     CourseAttributes(String courseId, String name, ZoneId timeZone) {
@@ -161,7 +156,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public String getBackupIdentifier() {
-        return COURSE_BACKUP_LOG_MSG + getId();
+        return courseBackupLogMsg + getId();
     }
 
     @Override

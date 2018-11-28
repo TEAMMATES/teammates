@@ -1,21 +1,20 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
@@ -49,7 +48,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public FeedbackParticipantType commentGiverType;
     // true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
-    private final String FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MESSAGE =
+    private final String feedbackResponseCommentBackupLogMessage =
             "Recently modified Feedback Response Comment for course::";
 
     FeedbackResponseCommentAttributes() {
@@ -189,7 +188,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public String getBackupIdentifier() {
-        return FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MESSAGE + courseId;
+        return feedbackResponseCommentBackupLogMessage + courseId;
     }
 
     @Override

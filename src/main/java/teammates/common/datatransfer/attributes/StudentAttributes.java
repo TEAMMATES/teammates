@@ -1,21 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
+import com.google.common.base.Strings;
+import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.util.*;
+import teammates.storage.entity.CourseStudent;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import com.google.common.base.Strings;
-
-import teammates.common.datatransfer.StudentUpdateStatus;
-import teammates.common.util.Assumption;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
-import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
     // Required fields
@@ -40,7 +33,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     private transient Instant createdAt;
     private transient Instant updatedAt;
-    private final String STUDENT_LOG_BACKUP_MESSAGE = "Recently modified student::";
+    private final String studentLogBackupMessage = "Recently modified student::";
 
     StudentAttributes() {
         googleId = "";
@@ -263,7 +256,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String getBackupIdentifier() {
-        return STUDENT_LOG_BACKUP_MESSAGE + this.email;
+        return studentLogBackupMessage + this.email;
     }
 
     @Override

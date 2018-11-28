@@ -1,18 +1,12 @@
 package teammates.common.datatransfer.attributes;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import teammates.common.util.*;
+import teammates.storage.entity.StudentProfile;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.appengine.api.blobstore.BlobKey;
-
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
-import teammates.storage.entity.StudentProfile;
 
 /**
  * The data transfer object for StudentProfile entities.
@@ -31,7 +25,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String moreInfo;
     public String pictureKey;
     public Instant modifiedDate;
-    private final String STUDENT_PROFILE_BACKUP_LOG_MESSAGE =
+    private final String studentProfileBackupLogMessage =
             "Recently modified Student Profile::";
 
     StudentProfileAttributes(String googleId) {
@@ -156,7 +150,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public String getEntityTypeAsString() {
-        return STUDENT_PROFILE_BACKUP_LOG_MESSAGE + this.googleId;
+        return studentProfileBackupLogMessage + this.googleId;
     }
 
     @Override

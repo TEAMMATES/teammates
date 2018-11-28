@@ -1,15 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A data transfer object for Account entities.
@@ -24,7 +23,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String email;
     public String institute;
     public Instant createdAt;
-    private final String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
+    private final String accountAttributesBackupLogMsg = "Recently modified account::";
 
 
     AccountAttributes() {
@@ -174,7 +173,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public String getBackupIdentifier() {
-        return ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG + this.googleId;
+        return accountAttributesBackupLogMsg + this.googleId;
     }
 
     @Override

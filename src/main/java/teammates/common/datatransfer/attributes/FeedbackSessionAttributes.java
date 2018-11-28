@@ -1,22 +1,13 @@
 package teammates.common.datatransfer.attributes;
 
+import teammates.common.util.*;
+import teammates.storage.entity.FeedbackSession;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
-import teammates.storage.entity.FeedbackSession;
+import java.util.*;
 
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
 
@@ -54,7 +45,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;
-    private final String FEEDBACK_SESSION_BACKUP_LOG_MESSAGE =
+    private final String feedbackSessionBackupLogMessage =
             "Recently modified Feedback Session for course::";
 
     // Optional fields
@@ -187,7 +178,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public String getBackupIdentifier() {
-        return FEEDBACK_SESSION_BACKUP_LOG_MESSAGE + courseId;
+        return feedbackSessionBackupLogMessage + courseId;
     }
 
     @Override
