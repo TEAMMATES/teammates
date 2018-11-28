@@ -22,6 +22,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
+
+    private static final String FEEDBACK_QUESTION_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Question for course::";
     /**
      * Contains the JSON formatted string that holds the information of the question details.
      *
@@ -259,7 +262,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return FEEDBACK_QUESTION_BACKUP_LOG_MESSAGE + courseId;
     }
 
     @Override
