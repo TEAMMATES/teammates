@@ -23,6 +23,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String course;
     public String name;
 
+    private static final String STUDENT_LOG_BACKUP_MESSAGE = "Recently modified student::";
+
     // Optional values
     public String googleId;
     public String lastName;
@@ -261,7 +263,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + course;
+        return STUDENT_LOG_BACKUP_MESSAGE + this.email;
     }
 
     @Override
