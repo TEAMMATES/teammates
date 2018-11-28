@@ -13,10 +13,7 @@
   </h3>
   <br>
   <div class="form-group row">
-    <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer"
-        title="<%= Const.Tooltips.STUDENT_PROFILE_PICTURE %>"
-        data-toggle="tooltip"
-        data-placement="top">
+    <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer">
       <img id="profilePic"
           src="${profile.pictureUrl}"
           class="profile-pic"
@@ -24,7 +21,10 @@
           data-target="#studentPhotoUploader"
           data-edit="${profile.editingPhoto}">
     </div>
-    <div class="">
+    <div class="col-xs-6 col-sm-5 col-md-3"
+         title="<%= Const.Tooltips.STUDENT_PROFILE_PICTURE %>"
+         data-toggle="tooltip"
+         data-placement="top">
       <button id="uploadEditPhoto"
           class="btn btn-primary"
           type="button"
