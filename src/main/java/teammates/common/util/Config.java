@@ -60,6 +60,9 @@ public final class Config {
     /** The value of the "app.mailjet.secretkey" in build.properties file. */
     public static final String MAILJET_SECRETKEY;
 
+    /** The value of the "app.enable.datastore.backup" in build.properties file. */
+    public static final boolean ENABLE_DATASTORE_BACKUP;
+
     static {
         APP_URL = readAppUrl();
         Properties properties = new Properties();
@@ -82,6 +85,7 @@ public final class Config {
         MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
+        ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
     }
 
     private Config() {
@@ -117,7 +121,7 @@ public final class Config {
         return (isDevServer() ? "http://" : "https://") + hostname;
     }
 
-    private static boolean isDevServer() {
+    public static boolean isDevServer() {
         return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
     }
 

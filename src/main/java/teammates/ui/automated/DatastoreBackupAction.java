@@ -45,6 +45,14 @@ public class DatastoreBackupAction extends AutomatedAction {
 
     @Override
     public void execute() {
+        if (Config.isDevServer()) {
+            log.info("Skipping backup in dev server.");
+            return;
+        }
+        if (!Config.ENABLE_DATASTORE_BACKUP) {
+            log.info("Skipping backup by system admin's choice.");
+            return;
+        }
         List<String> scopes = new ArrayList<>();
         scopes.add("https://www.googleapis.com/auth/datastore");
         String accessToken = AppIdentityServiceFactory.getAppIdentityService().getAccessToken(scopes).getAccessToken();
