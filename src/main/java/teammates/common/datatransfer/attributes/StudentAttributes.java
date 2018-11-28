@@ -18,6 +18,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
+    private static final String STUDENT_LOG_BACKUP_MESSAGE = "Recently modified student::";
     // Required fields
     public String email;
     public String course;
@@ -40,7 +41,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     private transient Instant createdAt;
     private transient Instant updatedAt;
-    private static final String studentLogBackupMessage = "Recently modified student::";
 
     StudentAttributes() {
         googleId = "";
@@ -263,7 +263,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String getBackupIdentifier() {
-        return studentLogBackupMessage + this.email;
+        return STUDENT_LOG_BACKUP_MESSAGE + this.email;
     }
 
     @Override

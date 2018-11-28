@@ -14,6 +14,8 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
+    private static final String FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Response for course::";
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
@@ -42,8 +44,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
     private String feedbackResponseId;
-    private static final String feedbackResponseBackupLogMessage =
-            "Recently modified Feedback Response for course::";
 
     public FeedbackResponseAttributes() {
         // attributes to be set after construction
@@ -147,7 +147,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     @Override
     public String getBackupIdentifier() {
-        return feedbackResponseBackupLogMessage + courseId;
+        return FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE + courseId;
     }
 
     @Override

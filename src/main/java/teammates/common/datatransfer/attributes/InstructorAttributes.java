@@ -17,6 +17,7 @@ import teammates.storage.entity.Instructor;
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
+    private static final String INSTRUCTOR_BACKUP_LOG_MESSAGE = "Recently modified Instructor";
 
     /**
      * Sorts the Instructors list alphabetically by name.
@@ -39,7 +40,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public Boolean isArchived;
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
-    private static final String instructorBackupLogMessage = "Recently modified Instructor";
 
     /**
      * Return new builder instance with default values for optional fields.
@@ -148,7 +148,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String getBackupIdentifier() {
-        return instructorBackupLogMessage + courseId;
+        return INSTRUCTOR_BACKUP_LOG_MESSAGE + courseId;
     }
 
     @Override

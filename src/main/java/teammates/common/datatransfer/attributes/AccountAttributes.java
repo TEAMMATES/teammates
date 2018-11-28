@@ -18,13 +18,13 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 
+    private static final String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
     public String googleId;
     public String name;
     public boolean isInstructor;
     public String email;
     public String institute;
     public Instant createdAt;
-    private static final String accountAttributesBackupLogMsg = "Recently modified account::";
 
 
     AccountAttributes() {
@@ -174,7 +174,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public String getBackupIdentifier() {
-        return accountAttributesBackupLogMsg + this.googleId;
+        return ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG + this.googleId;
     }
 
     @Override

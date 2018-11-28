@@ -21,12 +21,12 @@ import teammates.storage.entity.Course;
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
+    private static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
     public Instant createdAt;
     public Instant deletedAt;
     private String id;
     private String name;
     private ZoneId timeZone;
-    private static final String courseBackupLogMsg = "Recently modified course::";
 
 
     CourseAttributes(String courseId, String name, ZoneId timeZone) {
@@ -161,7 +161,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public String getBackupIdentifier() {
-        return courseBackupLogMsg + getId();
+        return COURSE_BACKUP_LOG_MSG + getId();
     }
 
     @Override
