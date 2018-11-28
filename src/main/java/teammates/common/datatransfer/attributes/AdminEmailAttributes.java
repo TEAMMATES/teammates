@@ -4,7 +4,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.util.*;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {

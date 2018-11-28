@@ -4,9 +4,18 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import teammates.common.util.*;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
