@@ -6,9 +6,9 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Instant;
 
 /**
  * A data transfer object for Account entities.
