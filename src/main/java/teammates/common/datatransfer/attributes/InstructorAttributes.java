@@ -17,7 +17,6 @@ import teammates.storage.entity.Instructor;
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
-    private static final String INSTRUCTOR_BACKUP_LOG_MESSAGE = "Recently modified Instructor";
 
     /**
      * Sorts the Instructors list alphabetically by name.
@@ -25,6 +24,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
             Comparator.comparing(instructor -> instructor.name.toLowerCase());
 
+    private static final String INSTRUCTOR_BACKUP_LOG_MESSAGE = "Recently modified Instructor";
     // Note: be careful when changing these variables as their names are used in *.json files.
 
     /** Required fields. */

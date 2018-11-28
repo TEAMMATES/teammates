@@ -20,8 +20,6 @@ import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
 
-    private static final String FEEDBACK_SESSION_BACKUP_LOG_MESSAGE =
-            "Recently modified Feedback Session for course::";
     /**
      * Comparator to sort SessionAttributes on DESCENDING order based on
      * end time, followed by start time and session name.
@@ -51,6 +49,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
         return result;
     };
+    private static final String FEEDBACK_SESSION_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Session for course::";
 
     // Required fields
     private String feedbackSessionName;
