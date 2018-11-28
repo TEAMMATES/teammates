@@ -24,7 +24,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String email;
     public String institute;
     public Instant createdAt;
-    private static final String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
+    private qqfinal String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
 
 
     AccountAttributes() {

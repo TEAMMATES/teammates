@@ -26,7 +26,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public String courseId;
     public String feedbackSessionName;
 
-    private static final String FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MESSAGE =
+    private final String FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MESSAGE =
             "Recently modified Feedback Response Comment for course::";
     /**
      * Contains the email of student/instructor if comment giver is student/instructor
