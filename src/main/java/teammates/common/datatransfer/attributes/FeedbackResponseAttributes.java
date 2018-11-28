@@ -18,6 +18,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String courseId;
     public String feedbackQuestionId;
     public FeedbackQuestionType feedbackQuestionType;
+
+    private static final String FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Response for course::";
     /**
     * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
     * "anonymous", etc.
@@ -144,7 +147,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE + courseId;
     }
 
     @Override
