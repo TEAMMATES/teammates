@@ -1,15 +1,15 @@
 package teammates.common.datatransfer.attributes;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Instructor;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * The data transfer class for Instructor entities.

@@ -1,14 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
-import teammates.common.util.*;
-import teammates.storage.entity.Course;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import teammates.common.util.*;
+import teammates.storage.entity.Course;
 
 /**
  * The data transfer object for Course entities.

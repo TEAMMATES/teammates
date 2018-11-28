@@ -1,12 +1,12 @@
 package teammates.common.datatransfer.attributes;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import teammates.common.util.*;
-import teammates.storage.entity.StudentProfile;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import teammates.common.util.*;
+import teammates.storage.entity.StudentProfile;
 
 /**
  * The data transfer object for StudentProfile entities.

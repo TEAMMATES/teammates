@@ -1,14 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
-import com.google.common.base.Strings;
-import teammates.common.datatransfer.StudentUpdateStatus;
-import teammates.common.util.*;
-import teammates.storage.entity.CourseStudent;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import com.google.common.base.Strings;
+import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.util.*;
+import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
     // Required fields

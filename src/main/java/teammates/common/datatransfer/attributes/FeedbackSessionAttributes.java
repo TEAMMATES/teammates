@@ -1,13 +1,13 @@
 package teammates.common.datatransfer.attributes;
 
-import teammates.common.util.*;
-import teammates.storage.entity.FeedbackSession;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+
+import teammates.common.util.*;
+import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
 

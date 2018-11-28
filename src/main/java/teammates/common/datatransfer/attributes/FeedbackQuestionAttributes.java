@@ -1,5 +1,9 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -11,10 +15,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {

@@ -1,11 +1,11 @@
 package teammates.common.datatransfer.attributes;
 
-import teammates.common.util.*;
-import teammates.storage.entity.AdminEmail;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import teammates.common.util.*;
+import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     // Required fields
