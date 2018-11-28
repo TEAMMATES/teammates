@@ -28,7 +28,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private String name;
     private ZoneId timeZone;
 
-
     CourseAttributes(String courseId, String name, ZoneId timeZone) {
         this.id = SanitizationHelper.sanitizeTitle(courseId);
         this.name = SanitizationHelper.sanitizeTitle(name);

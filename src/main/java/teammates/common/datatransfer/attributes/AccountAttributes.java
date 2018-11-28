@@ -15,7 +15,6 @@ import teammates.storage.entity.Account;
  * A data transfer object for Account entities.
  */
 public class AccountAttributes extends EntityAttributes<Account> {
-
     // Note: be careful when changing these variables as their names are used in *.json files.
 
     private static final String ACCOUNT_ATTRIBUTES_BACKUP_LOG_MSG = "Recently modified account::";
@@ -25,7 +24,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String email;
     public String institute;
     public Instant createdAt;
-
 
     AccountAttributes() {
         // Empty constructor for builder to construct object

@@ -24,7 +24,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String course;
     public String name;
 
-
     // Optional values
     public String googleId;
     public String lastName;
