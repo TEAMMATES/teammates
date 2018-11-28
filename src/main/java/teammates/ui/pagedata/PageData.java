@@ -290,7 +290,7 @@ public class PageData {
     }
 
     public String getInstructorFeedbackStatsLink(String courseId, String feedbackSessionName) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+        String link = Const.ResourceURIs.SESSIONS_STATS;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);

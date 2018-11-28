@@ -977,6 +977,7 @@ public final class Const {
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
+        public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
 
@@ -1073,7 +1074,6 @@ public final class Const {
                 "/page/instructorFeedbackResponseCommentDelete";
 
         public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
-        public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";

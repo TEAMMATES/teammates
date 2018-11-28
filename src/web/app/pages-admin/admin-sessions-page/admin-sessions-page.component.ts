@@ -13,6 +13,7 @@ interface OngoingSession {
   creatorEmail: string;
   courseId: string;
   feedbackSessionName: string;
+  responseRate?: string;
 }
 
 interface OngoingSessionsData {
@@ -22,6 +23,11 @@ interface OngoingSessionsData {
   totalAwaitingSessions: number;
   totalInstitutes: number;
   sessions: { [key: string]: OngoingSession[] };
+}
+
+interface FeedbackSessionStats {
+  submittedTotal: number;
+  expectedTotal: number;
 }
 
 /**
@@ -151,6 +157,30 @@ export class AdminSessionsPageComponent implements OnInit {
       this.institutionPanelsStatus = {};
       for (const institution of Object.keys(resp.sessions)) {
         this.institutionPanelsStatus[institution] = true;
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Gets the response rate of a feedback session.
+   */
+  getResponseRate(institute: string, courseId: string, feedbackSessionName: string, event: any): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+    this.httpRequestService.get('/sessions/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
+      const sessions: OngoingSession[] = this.sessions[institute].filter((session: OngoingSession) =>
+          session.courseId === courseId && session.feedbackSessionName === feedbackSessionName,
+      );
+      if (sessions.length) {
+        sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);

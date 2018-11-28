@@ -174,7 +174,6 @@ public class LogMessageGenerator {
 
     private boolean isInstructorPage(String actionName) {
         return actionName.toLowerCase().startsWith(Const.ActivityLog.PREFIX_INSTRUCTOR_PAGE)
-                || Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(actionName)
                 || Const.ActionURIs.INSTRUCTOR_COURSE_STATS_PAGE.contains(actionName);
     }
 

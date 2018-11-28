@@ -1128,9 +1128,7 @@ public class Logic {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
-        FeedbackSessionAttributes fsa = feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
-
-        return feedbackSessionsLogic.getFeedbackSessionDetails(fsa);
+        return feedbackSessionsLogic.getFeedbackSessionDetails(feedbackSessionName, courseId);
     }
 
     /**
