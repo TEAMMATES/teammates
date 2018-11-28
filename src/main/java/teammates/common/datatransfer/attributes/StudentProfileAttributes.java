@@ -21,6 +21,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     // Required
     public String googleId;
+    private final String STUDENT_PROFILE_BACKUP_LOG_MESSAGE =
+            "Recently modified Student Profile::";
 
     // Optional
     public String shortName;
@@ -154,7 +156,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "StudentProfile";
+        return STUDENT_PROFILE_BACKUP_LOG_MESSAGE + this.googleId;
     }
 
     @Override
