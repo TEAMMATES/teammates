@@ -55,6 +55,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private String courseId;
     private String creatorEmail;
 
+    private static final String FEEDBACK_SESSION_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Session for course::";
+
     // Optional fields
     private String instructions;
     private Instant createdTime;
@@ -185,7 +188,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return FEEDBACK_SESSION_BACKUP_LOG_MESSAGE + courseId;
     }
 
     @Override
