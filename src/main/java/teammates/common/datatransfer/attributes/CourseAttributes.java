@@ -26,6 +26,8 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private String id;
     private String name;
     private ZoneId timeZone;
+    private static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+
 
     CourseAttributes(String courseId, String name, ZoneId timeZone) {
         this.id = SanitizationHelper.sanitizeTitle(courseId);
@@ -159,7 +161,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + getId();
+        return COURSE_BACKUP_LOG_MSG + getId();
     }
 
     @Override
