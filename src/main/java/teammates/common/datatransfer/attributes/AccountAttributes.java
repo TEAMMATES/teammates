@@ -10,7 +10,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 
-
 /**
  * A data transfer object for Account entities.
  */
