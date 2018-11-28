@@ -23,8 +23,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public String courseId;
     public String creatorEmail;
 
-    private final String FEEDBACK_QUESTION_BACKUP_LOG_MESSAGE =
-            "Recently modified Feedback Question for course::";
     /**
      * Contains the JSON formatted string that holds the information of the question details.
      *
@@ -44,6 +42,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
     private String feedbackQuestionId;
+    private final String FEEDBACK_QUESTION_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Question for course::";
 
     protected FeedbackQuestionAttributes() {
         //attributes to be built by Builder

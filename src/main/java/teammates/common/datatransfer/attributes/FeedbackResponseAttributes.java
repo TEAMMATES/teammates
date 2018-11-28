@@ -19,8 +19,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String feedbackQuestionId;
     public FeedbackQuestionType feedbackQuestionType;
 
-    private final String FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE =
-            "Recently modified Feedback Response for course::";
     /**
     * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
     * "anonymous", etc.
@@ -44,6 +42,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
     private String feedbackResponseId;
+    private final String FEEDBACK_RESPONSE_BACKUP_LOG_MESSAGE =
+            "Recently modified Feedback Response for course::";
 
     public FeedbackResponseAttributes() {
         // attributes to be set after construction

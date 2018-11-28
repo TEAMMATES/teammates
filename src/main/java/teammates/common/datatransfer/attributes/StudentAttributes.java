@@ -23,7 +23,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String course;
     public String name;
 
-    private final String STUDENT_LOG_BACKUP_MESSAGE = "Recently modified student::";
 
     // Optional values
     public String googleId;
@@ -41,6 +40,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     private transient Instant createdAt;
     private transient Instant updatedAt;
+    private final String STUDENT_LOG_BACKUP_MESSAGE = "Recently modified student::";
 
     StudentAttributes() {
         googleId = "";

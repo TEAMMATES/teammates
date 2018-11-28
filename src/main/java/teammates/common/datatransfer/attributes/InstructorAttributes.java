@@ -17,7 +17,6 @@ import teammates.storage.entity.Instructor;
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
-    private final String INSTRUCTOR_BACKUP_LOG_MESSAGE = "Recently modified Instructor";
 
     /**
      * Sorts the Instructors list alphabetically by name.
@@ -40,6 +39,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public Boolean isArchived;
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
+    private final String INSTRUCTOR_BACKUP_LOG_MESSAGE = "Recently modified Instructor";
 
     /**
      * Return new builder instance with default values for optional fields.
