@@ -4,6 +4,7 @@
     "start": "ng serve",
     "compile": "ng build --prod",
     "build": "npm-run-all \"compile -- {@}\" assets --",
+    "analyze": "webpack-bundle-analyzer src/main/webapp/dist/stats.json",
     "assets": "rimraf src/main/webapp/assets && move-cli src/main/webapp/dist/assets src/main/webapp/assets",
     "test": "ng test",
     "coverage": "ng test --watch=false --code-coverage --browsers ChromeHeadless",
@@ -61,6 +62,7 @@
     "ts-node": "~7.0.1",
     "tslint": "~5.11.0",
     "tslint-config-airbnb": "~5.11.0",
-    "typescript": "~2.9.2"
+    "typescript": "~2.9.2",
+    "webpack-bundle-analyzer": "^3.0.3"
   }
 }
