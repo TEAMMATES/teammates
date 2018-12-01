@@ -22,13 +22,13 @@ import teammates.storage.entity.BaseEntity;
  *
  * @param <T> The entity type to be migrated by the script.
  */
-public abstract class DataMigrationWithCheckpointForEntities<T extends BaseEntity> extends RemoteApiClient {
+public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends RemoteApiClient {
 
     protected AtomicLong numberOfScannedKey;
     protected AtomicLong numberOfAffectedEntities;
     protected AtomicLong numberOfUpdatedEntities;
 
-    public DataMigrationWithCheckpointForEntities() {
+    public DataMigrationEntitiesBaseScript() {
         numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
