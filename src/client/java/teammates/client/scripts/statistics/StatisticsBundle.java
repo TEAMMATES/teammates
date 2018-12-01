@@ -49,7 +49,7 @@ public class StatisticsBundle {
 
         public InstitutesStatsMetadata() {
             // time when TEAMMATES project begins
-            statsSince = Instant.parse("2011-10-01T00:00:00.00Z");
+            statsSince = Instant.parse("2010-01-01T00:00:00.000Z");
         }
     }
 
