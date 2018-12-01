@@ -6,15 +6,6 @@
     <!-- GAE instance class that determines compute resources available to the application -->
     <instance-class>F1</instance-class>
 
-    <!-- Application ID of the app -->
-    <!-- For dev server testing, this could be anything -->
-    <!-- For staging server testing, this should match the ID of the app your created on GAE -->
-    <application>teammates-john</application>
-
-    <!-- Version number of the app -->
-    <!-- Use dashes instead of dots because GAE does not allow dots in version number -->
-    <version>6-0-0</version>
-
     <!-- Specify which file contains logging configuration to be used by java.util.logging -->
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>

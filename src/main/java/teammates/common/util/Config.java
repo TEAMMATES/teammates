@@ -18,6 +18,12 @@ public final class Config {
     /** The value of the application URL, or null if no server instance is running. */
     public static final String APP_URL;
 
+    /** The value of the "app.id" in build.properties file. */
+    public static final String APP_ID;
+
+    /** The value of the "app.version" in build.properties file. */
+    public static final String APP_VERSION;
+
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
 
@@ -80,6 +86,8 @@ public final class Config {
         } catch (IOException e) {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
+        APP_ID = properties.getProperty("app.id");
+        APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
         CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
@@ -102,22 +110,6 @@ public final class Config {
 
     private Config() {
         // access static fields directly
-    }
-
-    /**
-     * This method is not to be used by classes not compiled by GAE (e.g non-production codes).
-     * @return The app ID specified in appengine-web.xml, e.g. "teammatesv4"
-     */
-    public static String getAppId() {
-        return SystemProperty.applicationId.get();
-    }
-
-    /**
-     * Returns The app version specifed in appengine-web.xml but with '.' instead of '-' e.g., "6.0.0".
-     */
-    public static String getAppVersion() {
-        String appVersion = SystemProperty.applicationVersion.get();
-        return appVersion == null ? null : appVersion.split("\\.")[0].replace("-", ".");
     }
 
     private static String readAppUrl() {

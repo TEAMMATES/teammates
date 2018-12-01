@@ -55,7 +55,7 @@ public class EmailSender {
         JavamailService javamailService = new JavamailService();
 
         // GAE Javamail requires the sender email address to be of this format
-        message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
+        message.setSenderEmail("admin@" + Config.APP_ID + ".appspotmail.com");
 
         message.setSubject("[Javamail Copy] " + message.getSubject());
 
