@@ -335,10 +335,16 @@ appengine {
                 "-Dblobstore.backing_store=../../appengine-generated"]
     }
     deploy {
-        String appengineWebXmlPath = "${projectDir}/src/main/webapp/WEB-INF/appengine-web.xml"
-        Node appengineWebXml = new File(appengineWebXmlPath).exists() ? new XmlParser().parse(appengineWebXmlPath) : null
-        project = appengineWebXml == null ? null : appengineWebXml.application.text()
-        version = appengineWebXml == null ? null : appengineWebXml.version.text()
+        String buildPropertiesPath = "${projectDir}/src/main/resources/build.properties"
+        boolean propsExists = new File(buildPropertiesPath).exists()
+        Properties props = new Properties()
+        if (propsExists) {
+            file(buildPropertiesPath).withReader {
+                props.load(it)
+            }
+        }
+        project = propsExists ? props['app.id'] : null
+        version = propsExists ? props['app.version'] : null
         stopPreviousVersion = false
         promote = false
     }

@@ -51,19 +51,19 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         Document pageSource = Jsoup.parse(browser.driver.getPageSource());
         String javaOffsets = processOffsets(pageSource.getElementById("tz-java").text());
         String momentOffsets = processOffsets(pageSource.getElementById("tz-moment").text());
+        assertEquals(pageSource.getElementById("tzversion-java").text(),
+                pageSource.getElementById("tzversion-moment").text());
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
             assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
                     "<actual>" + System.lineSeparator() + momentOffsets + "</actual>");
         }
-        assertEquals(pageSource.getElementById("tzversion-java").text(),
-                pageSource.getElementById("tzversion-moment").text());
     }
 
     @Test
     public void testTimezoneDatabasesAreUpToDate() {
         // ensure the timezone databases are up-to-date
-        String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("tzversion-java").text();
+        String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("tzversion-moment").text();
         browser.driver.get(IANA_TIMEZONE_DATABASE_URL);
         Document tzReleasePage = Jsoup.parse(browser.driver.getPageSource());
         String latestTzVersion = tzReleasePage.getElementById("version").text();
