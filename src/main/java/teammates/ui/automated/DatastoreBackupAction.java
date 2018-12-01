@@ -64,8 +64,9 @@ public class DatastoreBackupAction extends AutomatedAction {
         post.setHeader("Authorization", "Bearer " + accessToken);
 
         Map<String, Object> body = new HashMap<>();
+        String timestamp = Instant.now().toString();
         // Documentation is wrong; the param name is output_url_prefix instead of outputUrlPrefix
-        body.put("output_url_prefix", "gs://" + Config.GCS_BUCKETNAME + "/datastore-backups/" + Instant.now().toString());
+        body.put("output_url_prefix", "gs://" + Config.BACKUP_GCS_BUCKETNAME + "/datastore-backups/" + timestamp);
 
         StringEntity entity = new StringEntity(JsonUtils.toJson(body), Charset.forName("UTF-8"));
         post.setEntity(entity);
