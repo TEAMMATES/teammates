@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -73,7 +74,11 @@ public class DatastoreBackupAction extends AutomatedAction {
                 CloseableHttpResponse resp = client.execute(post);
                 BufferedReader br = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()))) {
             String output = br.lines().collect(Collectors.joining(System.lineSeparator()));
-            log.info("Backup request successful:" + System.lineSeparator() + output);
+            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                log.info("Backup request successful:" + System.lineSeparator() + output);
+            } else {
+                log.severe("Backup request failure:" + System.lineSeparator() + output);
+            }
         } catch (IOException e) {
             log.severe("Backup request failure: " + e.getMessage());
         }
