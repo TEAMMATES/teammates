@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import teammates.common.util.Config;
 import teammates.common.util.Url;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.StringHelperExtension;
 
 /**
@@ -111,11 +112,7 @@ public final class TestProperties {
 
             TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
 
-            Properties buildProperties = new Properties();
-            try (InputStream buildPropStream = Files.newInputStream(Paths.get("src/main/resources/build.properties"))) {
-                buildProperties.load(buildPropStream);
-            }
-            TEAMMATES_VERSION = buildProperties.getProperty("app.version");
+            TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
             IS_GODMODE_ENABLED = Boolean.parseBoolean(prop.getProperty("test.godmode.enabled", "false"));
 
@@ -192,6 +189,15 @@ public final class TestProperties {
 
     public static boolean isDevServer() {
         return TEAMMATES_URL.contains("localhost");
+    }
+
+    private static String extractVersionNumber(String inputString) {
+        String startTag = "<version>";
+        String endTag = "</version>";
+        int startPos = inputString.indexOf(startTag) + startTag.length();
+        int endPos = inputString.indexOf(endTag);
+
+        return inputString.substring(startPos, endPos).replace("-", ".").trim();
     }
 
     /**

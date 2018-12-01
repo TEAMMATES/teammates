@@ -469,7 +469,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(
                 Arrays.asList(typicalLogLine, logLineWithLineBreak));
 
-        String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION);
+        String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(),
+                                       Config.getAppVersion());
 
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
     }
