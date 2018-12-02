@@ -22,6 +22,7 @@ import teammates.common.util.NationalityHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -85,6 +86,21 @@ public class PageData {
 
     public String addSessionTokenToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.SESSION_TOKEN, sessionToken);
+    }
+
+    /**
+     * Returns the timezone options as HTML code.
+     * None is selected, since the selection should only be done in client side.
+     */
+    protected List<String> getTimeZoneOptionsAsHtml(ZoneId existingTimeZone) {
+        List<ZoneId> options = TimeHelper.getTimeZoneValues();
+        ArrayList<String> result = new ArrayList<>();
+        for (ZoneId timeZoneOption : options) {
+            result.add("<option value=\"" + timeZoneOption.getId() + "\""
+                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.getId()
+                    + ") " + TimeHelper.getCitiesForTimeZone(timeZoneOption) + "</option>");
+        }
+        return result;
     }
 
     /**
@@ -290,7 +306,7 @@ public class PageData {
     }
 
     public String getInstructorFeedbackStatsLink(String courseId, String feedbackSessionName) {
-        String link = Const.ResourceURIs.SESSIONS_STATS;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);

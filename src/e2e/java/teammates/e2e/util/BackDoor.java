@@ -45,6 +45,7 @@ public final class BackDoor {
      * <p>If given entities already exist in the data store, they will be overwritten.
      */
     public static String restoreDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap("PLACEHOLDER");
         params.put("PLACEHOLDER", dataBundleJson);
@@ -57,6 +58,7 @@ public final class BackDoor {
      * <p>If given entities have already been deleted, it fails silently.
      */
     public static String removeDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap("PLACEHOLDER");
         params.put("PLACEHOLDER", dataBundleJson);
@@ -89,6 +91,7 @@ public final class BackDoor {
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap("PLACEHOLDER");
         params.put("PLACEHOLDER", dataBundleJson);
@@ -509,6 +512,15 @@ public final class BackDoor {
         StringBuilder dataStringBuilder = new StringBuilder();
         map.forEach((key, value) -> dataStringBuilder.append(key + "=" + SanitizationHelper.sanitizeForUri(value) + "&"));
         return dataStringBuilder.toString();
+    }
+
+    /**
+     * Replaces {@link DataBundle#adminEmails} from {@code dataBundle} with an empty map.
+     * Using {@link BackDoor} to remove and persist admin emails
+     * may affect normal functioning of Admin Emails and remove non-testing data.
+     */
+    private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {
+        dataBundle.adminEmails = new HashMap<>();
     }
 
     /**

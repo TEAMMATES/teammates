@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { NavigationService } from '../../services/navigation.service';
 import { AuthInfo } from '../auth-info';
 
 /**
@@ -10,15 +8,12 @@ import { AuthInfo } from '../auth-info';
  */
 @Component({
   selector: 'tm-admin-page',
-  templateUrl: './admin-page.component.html',
+  template: '<tm-page [navItems]="navItems" [logoutUrl]="logoutUrl" [isValidUser]="isValidUser"></tm-page>',
 })
 export class AdminPageComponent implements OnInit {
 
   logoutUrl: string = '';
-  user: string = '';
-  isInstructor: boolean = false;
-  isStudent: boolean = false;
-  isAdmin: boolean = false;
+  isValidUser: boolean = false;
   navItems: any[] = [
     {
       url: '/web/admin',
@@ -33,6 +28,10 @@ export class AdminPageComponent implements OnInit {
       display: 'Sessions',
     },
     {
+      url: '/web/admin/email',
+      display: 'Email',
+    },
+    {
       url: '/web/admin/timezone',
       display: 'Timezone Listing',
     },
@@ -40,7 +39,7 @@ export class AdminPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private router: Router, private authService: AuthService, private navigationService: NavigationService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
@@ -48,16 +47,12 @@ export class AdminPageComponent implements OnInit {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
       }
       if (res.user) {
-        this.user = res.user.id;
-        this.isInstructor = res.user.isInstructor;
-        this.isStudent = res.user.isStudent;
-        this.isAdmin = res.user.isAdmin;
-        if (!this.isAdmin) {
+        this.isValidUser = res.user.isAdmin;
+        if (!this.isValidUser) {
           // User is not a valid admin; redirect to home page.
           // This should not happen in production server as the /web/admin/* routing is protected,
           // and a 403 error page will be shown instead.
-          this.navigationService.navigateWithErrorMessage(this.router, '/web',
-              'You are not authorized to view the page.');
+          window.location.href = '/web';
         }
       } else {
         window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;

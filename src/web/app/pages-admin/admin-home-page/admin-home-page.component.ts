@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { MessageOutput } from '../../message-output';
 
 interface JoinLink {
   joinLink: string;
@@ -90,9 +90,13 @@ export class AdminHomePageComponent {
       instructor.status = 'SUCCESS';
       instructor.joinLink = resp.joinLink;
       this.activeRequests -= 1;
-    }, (resp: ErrorMessageOutput) => {
+    }, (resp: MessageOutput) => {
+      // TODO handle error
+      console.error(resp);
       instructor.status = 'FAIL';
-      instructor.message = resp.error.message;
+      if (resp && resp.message) {
+        instructor.message = resp.message;
+      }
       this.activeRequests -= 1;
     });
   }

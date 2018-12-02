@@ -12,7 +12,6 @@ import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -60,8 +59,7 @@ public class WebApiServlet extends HttpServlet {
 
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(req)
-                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
-                + ", Request ID: " + Config.getRequestId());
+                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req));
 
         Action action;
         try {
@@ -80,8 +78,6 @@ public class WebApiServlet extends HttpServlet {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (UnauthorizedAccessException uae) {
             throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
-        } catch (EntityNotFoundException enfe) {
-            throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it
@@ -100,6 +96,7 @@ public class WebApiServlet extends HttpServlet {
 
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
+        result.setRequestId(Config.getRequestId());
         result.send(resp);
     }
 

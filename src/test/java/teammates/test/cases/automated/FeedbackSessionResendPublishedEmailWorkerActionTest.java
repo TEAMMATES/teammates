@@ -62,4 +62,10 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
         }
     }
 
+    @Override
+    protected FeedbackSessionResendPublishedEmailWorkerAction getAction(String... params) {
+        return (FeedbackSessionResendPublishedEmailWorkerAction)
+                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
+    }
+
 }

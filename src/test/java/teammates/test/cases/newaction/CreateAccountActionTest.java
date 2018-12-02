@@ -1,6 +1,7 @@
 package teammates.test.cases.newaction;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -28,7 +29,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     protected String getRequestMethod() {
-        return POST;
+        return HttpPost.METHOD_NAME;
     }
 
     @Override

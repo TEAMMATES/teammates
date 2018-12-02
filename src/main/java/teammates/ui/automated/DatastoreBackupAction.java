@@ -35,6 +35,11 @@ public class DatastoreBackupAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
+    protected String getActionMessage() {
+        return null;
+    }
+
+    @Override
     public void execute() {
         if (Config.isDevServer()) {
             log.info("Skipping backup in dev server.");

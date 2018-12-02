@@ -3,8 +3,6 @@ package teammates.ui.newcontroller;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
@@ -48,9 +46,6 @@ public class AdminExceptionTestAction extends Action {
         }
         if (error.equals(UnauthorizedAccessException.class.getSimpleName())) {
             throw new UnauthorizedAccessException("UnauthorizedAccessException testing");
-        }
-        if (error.equals(EntityNotFoundException.class.getSimpleName())) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("EntityNotFoundException testing"));
         }
         return new JsonResult("Test output");
     }

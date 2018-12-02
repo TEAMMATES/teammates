@@ -14,10 +14,18 @@ import teammates.common.util.EmailWrapper;
 public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
+    protected String getActionMessage() {
+        return null;
+    }
+
+    @Override
     public void execute() {
+        String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String instructorEmail = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_INSTRUCTOR_REJOINING);
+
+        AccountAttributes inviter = logic.getAccount(inviterId);
+        Assumption.assertNotNull(inviter);
 
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
@@ -30,19 +38,8 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);
         Assumption.assertNotNull(instructor);
 
-        EmailWrapper email;
-        if (isRejoin) {
-            String institute = getRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTION);
-            email = emailGenerator
-                    .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course, institute);
-        } else {
-            String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
-            AccountAttributes inviter = logic.getAccount(inviterId);
-            Assumption.assertNotNull(inviter);
-
-            email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);
-        }
-
+        EmailWrapper email = emailGenerator
+                .generateInstructorCourseJoinEmail(inviter, instructor, course);
         try {
             emailSender.sendEmail(email);
         } catch (Exception e) {

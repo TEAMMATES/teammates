@@ -151,11 +151,6 @@ public final class CoursesLogic {
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
                 throws EntityDoesNotExistException {
 
-        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
-        if (studentDataList.isEmpty()) {
-            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
-        }
-
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
         CourseAttributes.sortById(courseList);
         List<CourseDetailsBundle> courseDetailsList = new ArrayList<>();
@@ -465,8 +460,12 @@ public final class CoursesLogic {
      *
      * @param googleId The Google ID of the student
      */
-    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) {
+    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
+
+        if (studentDataList.isEmpty()) {
+            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
+        }
 
         List<String> courseIds = studentDataList.stream()
                 .filter(student -> !getCourse(student.course).isCourseDeleted())

@@ -21,12 +21,10 @@ export class HttpRequestService {
   /**
    * Builds an HttpParams object from a standard key-value mapping.
    */
-  buildParams(paramsMap: { [key: string]: string }): HttpParams {
+  buildParams(paramsMap: any): HttpParams {
     let params: HttpParams = new HttpParams();
     for (const key of Object.keys(paramsMap)) {
-      if (paramsMap[key]) {
-        params = params.append(key, paramsMap[key]);
-      }
+      params = params.append(key, paramsMap[key]);
     }
     return params;
   }

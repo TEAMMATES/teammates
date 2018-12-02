@@ -1,6 +1,7 @@
 package teammates.test.cases.newaction;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPut;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -22,7 +23,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
 
     @Override
     protected String getRequestMethod() {
-        return PUT;
+        return HttpPut.METHOD_NAME;
     }
 
     @Override

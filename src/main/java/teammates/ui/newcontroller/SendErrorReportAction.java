@@ -1,6 +1,7 @@
 package teammates.ui.newcontroller;
 
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 
 /**
@@ -26,7 +27,7 @@ public class SendErrorReportAction extends Action {
 
     @Override
     public JsonResult execute() {
-        content = getRequestBody();
+        content = HttpRequestHelper.getRequestBody(req);
         subject = getNonNullRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
         requestId = getNonNullRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_REQUEST_ID);
 

@@ -5,6 +5,7 @@ import java.util.List;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
+import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.logic.core.EmailSenderService;
@@ -40,8 +41,8 @@ public class EmailSender {
     public void sendEmail(EmailWrapper message) throws EmailSendingException {
         service.sendEmail(message);
 
-        String emailLogInfo = String.join("|||", "TEAMMATESEMAILLOG",
-                message.getRecipient(), message.getSubject(), message.getContent());
+        EmailLogEntry newEntry = new EmailLogEntry(message);
+        String emailLogInfo = newEntry.generateLogMessage();
         log.info(emailLogInfo);
     }
 

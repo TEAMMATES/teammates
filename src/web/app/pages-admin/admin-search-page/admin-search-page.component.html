@@ -1,24 +1,30 @@
-<div class="card bg-light top-padded">
-  <div class="card-body padded">
-    <p class="text-muted">
-      Tips: Surround key word to search a whole string or string contains punctuation like "-" "."
-    </p>
+<div class="well well-plain">
+  <div class="panel-heading" id="filterForm">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="help-block">
+            Tips: Surround key word to search a whole string or string contains punctuation like "-" "."
+          </span>
 
-    <div class="input-group">
-      <input type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
-        <div class="input-group-append">
-          <button class="btn btn-secondary" (click)="search()">Search</button>
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+            <span class="input-group-btn">
+              <button class="btn btn-default" (click)="search()">Search</button>
+            </span>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="card bg-light top-padded" *ngIf="instructors.length">
-  <div class="card-header bg-primary text-white">
+<div class="panel panel-primary" *ngIf="instructors.length">
+  <div class="panel-heading">
     <strong>Instructors Found</strong>
-    <span class="float-sm-right">
-      <button class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
+    <span class="pull-right">
+      <button class="btn btn-primary btn-xs" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
+      <button class="btn btn-primary btn-xs" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
     </span>
   </div>
 
@@ -42,11 +48,7 @@
             <td>{{ instructor.institute }}</td>
             <td>
               <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink">
-                <i class="fas fa-info-circle"></i> Manage this account
-              </a>
-              <br>
-              <a href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
-                <i class="fas fa-sync"></i> Reset Google ID
+                <span class="glyphicon glyphicon-edit"></span>Manage this account
               </a>
             </td>
           </tr>
@@ -70,22 +72,22 @@
   </div>
 </div>
 
-<div class="card bg-light top-padded" *ngIf="students.length">
-  <div class="card-header bg-primary text-white">
+<div class="panel panel-primary" *ngIf="students.length">
+  <div class="panel-heading">
     <strong>Students Found</strong>
-    <span class="float-sm-right">
-      <button class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
+    <span class="pull-right">
+      <button class="btn btn-primary btn-xs" type="button" (click)="showAllStudentsLinks()">Expand All</button>
+      <button class="btn btn-primary btn-xs" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
     </span>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped data-table">
+    <table class="table table-striped data-table" id="search_table">
       <thead>
         <tr>
           <th>Course [Section] (Team)</th>
           <th>Name</th>
-          <th>Google ID</th>
+          <th>Google ID [Details]</th>
           <th>Institute</th>
           <th>Comments</th>
           <th>Options</th>
@@ -96,21 +98,17 @@
           <tr (click)="student.showLinks = !student.showLinks">
             <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
             <td>{{ student.name }}</td>
-            <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId">{{ student.googleId }}</a></td>
+            <td><a href="{{ student.homePageLink }}">{{ student.googleId }}</a></td>
             <td>{{ student.institute }}</td>
             <td>{{ student.comments }}</td>
             <td>
-              <a href="{{ student.manageAccountLink }}" *ngIf="student.googleId && student.manageAccountLink">
-                <i class="fas fa-info-circle"></i> Manage this account
-              </a>
-              <br>
-              <a href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
-                <i class="fas fa-sync"></i> Reset Google ID
+              <a href="{{ student.manageAccountLink }}" *ngIf="student.manageAccountLink">
+                <span class="glyphicon glyphicon-edit"></span>Manage this account
               </a>
             </td>
           </tr>
           <tr *ngIf="student.showLinks">
-            <td colspan="6">
+            <td colspan="5">
               <ul class="list-group">
                 <li class="list-group-item list-group-item-success has-success">
                   <strong>Email</strong>

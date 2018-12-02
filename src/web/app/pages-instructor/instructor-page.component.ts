@@ -9,15 +9,12 @@ import { AuthInfo } from '../auth-info';
  */
 @Component({
   selector: 'tm-instructor-page',
-  templateUrl: './instructor-page.component.html',
+  template: '<tm-page [navItems]="navItems" [logoutUrl]="logoutUrl" [isValidUser]="isValidUser"></tm-page>',
 })
 export class InstructorPageComponent implements OnInit {
 
   logoutUrl: string = '';
-  user: string = '';
-  isInstructor: boolean = false;
-  isStudent: boolean = false;
-  isAdmin: boolean = false;
+  isValidUser: boolean = false;
   navItems: any[] = [
     {
       url: '/web/instructor',
@@ -56,10 +53,7 @@ export class InstructorPageComponent implements OnInit {
           this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
         }
         if (res.user) {
-          this.user = res.user.id + (res.masquerade ? ' (M)' : '');
-          this.isInstructor = res.user.isInstructor;
-          this.isStudent = res.user.isStudent;
-          this.isAdmin = res.user.isAdmin;
+          this.isValidUser = res.user.isInstructor;
         } else {
           window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
         }

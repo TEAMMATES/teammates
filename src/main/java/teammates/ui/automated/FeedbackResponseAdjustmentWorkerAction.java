@@ -23,6 +23,11 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
+    protected String getActionMessage() {
+        return null;
+    }
+
+    @Override
     public void execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String sessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);

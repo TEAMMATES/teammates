@@ -76,7 +76,7 @@ public class InstructorCourseRemindAction extends Action {
                     : Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
-                    instructorEmail, courseId, null, false);
+                    instructorEmail, courseId);
 
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
