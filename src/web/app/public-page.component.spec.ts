@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageComponent } from './page.component';
 import { PublicPageComponent } from './public-page.component';
+import { StatusMessageModule } from './status-message/status-message.module';
 
 describe('PublicPageComponent', () => {
   let component: PublicPageComponent;
@@ -17,6 +18,7 @@ describe('PublicPageComponent', () => {
       imports: [
         NgbModule,
         RouterTestingModule,
+        StatusMessageModule,
       ],
     })
     .compileComponents();

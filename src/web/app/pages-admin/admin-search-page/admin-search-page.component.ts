@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { MessageOutput } from '../../message-output';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { ErrorMessageOutput } from '../../message-output';
 
 interface CommonBundle {
   name: string;
@@ -50,7 +51,7 @@ export class AdminSearchPageComponent {
   instructors: InstructorBundle[] = [];
   students: StudentBundle[] = [];
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService) {}
 
   /**
    * Searches for students and instructors matching the search query.
@@ -59,7 +60,7 @@ export class AdminSearchPageComponent {
     const paramMap: { [key: string]: string } = {
       searchkey: this.searchQuery,
     };
-    this.httpRequestService.get('/accounts', paramMap).subscribe((resp: AdminAccountSearchResult) => {
+    this.httpRequestService.get('/accounts/search', paramMap).subscribe((resp: AdminAccountSearchResult) => {
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;
@@ -69,9 +70,8 @@ export class AdminSearchPageComponent {
       for (const student of this.students) {
         student.showLinks = false;
       }
-    }, (resp: MessageOutput) => {
-      // TODO handle error
-      console.error(resp);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
@@ -109,6 +109,48 @@ export class AdminSearchPageComponent {
     for (const student of this.students) {
       student.showLinks = false;
     }
+  }
+
+  /**
+   * Resets the instructor's Google ID.
+   */
+  resetInstructorGoogleId(instructor: InstructorBundle, event: any): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const paramMap: { [key: string]: string } = {
+      courseid: instructor.courseId,
+      instructoremail: instructor.email,
+    };
+    this.httpRequestService.put('/accounts/reset', paramMap).subscribe(() => {
+      this.search();
+      this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Resets the student's Google ID.
+   */
+  resetStudentGoogleId(student: StudentBundle, event: any): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const paramMap: { [key: string]: string } = {
+      courseid: student.courseId,
+      studentemail: student.email,
+    };
+    this.httpRequestService.put('/accounts/reset', paramMap).subscribe(() => {
+      student.googleId = '';
+      this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
 }

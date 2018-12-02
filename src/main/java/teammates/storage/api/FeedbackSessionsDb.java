@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -33,17 +34,22 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
     /**
-     * Gets a list of feedback sessions that have start/end time laid between {@code rangeStart} and {@code rangeEnd}.
+     * Gets a list of feedback sessions that is ongoing, i.e. starting before {@code rangeEnd}
+     * and ending after {@code rangeStart}.
+     *
+     * <p>The time window of searching is limited to (range + 30) days (e.g. only sessions starting
+     * before {@code rangeEnd} but not before [{@code rangeStart} - 30 days] will be considered)
+     * to not return excessive amount of results.
      */
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
+    public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSession> endEntities = load()
                 .filter("endTime >", rangeStart)
-                .filter("endTime <=", rangeEnd)
+                .filter("endTime <", Instant.ofEpochMilli(rangeEnd.toEpochMilli()).plus(Duration.ofDays(30)))
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", rangeStart)
                 .filter("startTime <", rangeEnd)
+                .filter("startTime >", Instant.ofEpochMilli(rangeStart.toEpochMilli()).minus(Duration.ofDays(30)))
                 .list();
 
         // remove duplications

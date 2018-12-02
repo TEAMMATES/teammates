@@ -1,7 +1,6 @@
 package teammates.test.cases.newaction;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
@@ -25,7 +24,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
     @Override
     protected String getRequestMethod() {
-        return HttpGet.METHOD_NAME;
+        return GET;
     }
 
     @Override

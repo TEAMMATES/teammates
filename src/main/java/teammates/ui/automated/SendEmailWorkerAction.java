@@ -13,11 +13,6 @@ public class SendEmailWorkerAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         String emailSubject = getNonNullRequestParamValue(ParamsNames.EMAIL_SUBJECT);
         String emailContent = getNonNullRequestParamValue(ParamsNames.EMAIL_CONTENT);

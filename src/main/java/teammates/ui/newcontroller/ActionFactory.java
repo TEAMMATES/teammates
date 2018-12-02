@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -21,17 +22,30 @@ import teammates.common.util.Const.ResourceURIs;
  */
 public class ActionFactory {
 
+    private static final String GET = HttpGet.METHOD_NAME;
+    private static final String POST = HttpPost.METHOD_NAME;
+    private static final String PUT = HttpPut.METHOD_NAME;
+    private static final String DELETE = HttpDelete.METHOD_NAME;
+
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map(ResourceURIs.EXCEPTION, HttpGet.METHOD_NAME, AdminExceptionTestAction.class);
-        map(ResourceURIs.ERROR_REPORT, HttpPost.METHOD_NAME, SendErrorReportAction.class);
-        map(ResourceURIs.TIMEZONE, HttpGet.METHOD_NAME, GetTimeZonesAction.class);
-        map(ResourceURIs.AUTH, HttpGet.METHOD_NAME, GetAuthInfoAction.class);
-        map(ResourceURIs.ACCOUNTS, HttpGet.METHOD_NAME, SearchAccountsAction.class);
-        map(ResourceURIs.ACCOUNTS, HttpPost.METHOD_NAME, CreateAccountAction.class);
-        map(ResourceURIs.JOIN, HttpGet.METHOD_NAME, GetCourseJoinStatusAction.class);
-        map(ResourceURIs.JOIN, HttpPut.METHOD_NAME, JoinCourseAction.class);
+        map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
+        map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
+        map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
+        map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
+        map(ResourceURIs.ACCOUNTS, GET, GetAccountAction.class);
+        map(ResourceURIs.ACCOUNTS, POST, CreateAccountAction.class);
+        map(ResourceURIs.ACCOUNTS, DELETE, DeleteAccountAction.class);
+        map(ResourceURIs.ACCOUNTS_DOWNGRADE, PUT, DowngradeAccountAction.class);
+        map(ResourceURIs.ACCOUNTS_RESET, PUT, ResetAccountAction.class);
+        map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
+        map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
+        map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
+        map(ResourceURIs.SESSIONS_STATS, GET, GetSessionResponseStatsAction.class);
+        map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
+        map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

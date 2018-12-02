@@ -20,6 +20,7 @@ public class WebPageServlet extends HttpServlet {
             "style-src 'self' 'unsafe-inline'",
             "frame-src 'self' docs.google.com",
             "img-src 'self' data:",
+            "font-src 'self'",
             "connect-src 'self'",
             "form-action 'none'",
             "frame-ancestors 'self'",

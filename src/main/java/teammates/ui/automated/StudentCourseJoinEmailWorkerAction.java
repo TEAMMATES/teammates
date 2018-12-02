@@ -13,16 +13,10 @@ import teammates.common.util.EmailWrapper;
 public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
 
     @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(ParamsNames.STUDENT_EMAIL);
-        String isRejoinString = getNonNullRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
-        boolean isRejoin = Boolean.parseBoolean(isRejoinString);
+        boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
 
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);

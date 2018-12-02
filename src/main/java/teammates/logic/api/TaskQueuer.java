@@ -67,75 +67,6 @@ public class TaskQueuer {
     // The following methods are the actual API methods to be used by the client classes
 
     /**
-     * Schedules an admin email preparation in address mode, i.e. using the address list given directly.
-     *
-     * @param emailId the ID of admin email to be retrieved from the database
-     * @param addressReceiverListString the list of email receivers given as String
-     */
-    public void scheduleAdminEmailPreparationInAddressMode(String emailId, String addressReceiverListString) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
-
-        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME,
-                TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL, paramMap);
-    }
-
-    /**
-     * Schedules an admin email preparation in group mode, i.e. using the group receiver list
-     * retrieved from the Google Cloud Storage (GCS).
-     * <p>
-     * This group receiver list is in the form of {@code List<List<String>>} accessed by two indices,
-     * namely "email list index" for accessing the {@code List<String>} inside the {@code List<List<String>>}
-     * and "email index" for accessing the email {@code String} inside the {@code List<String>}.
-     * </p>
-     *
-     * @param emailId the ID of admin email to be retrieved from the database
-     * @param groupReceiverListFileKey the file key for the group receiver list in GCS
-     * @param emailListIndex see method description
-     * @param emailIndex see method description
-     */
-    public void scheduleAdminEmailPreparationInGroupMode(String emailId, String groupReceiverListFileKey,
-                                                         int emailListIndex, int emailIndex) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(emailListIndex));
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, Integer.toString(emailIndex));
-
-        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME,
-                TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL, paramMap);
-    }
-
-    /**
-     * Schedules an admin email to be sent.
-     *
-     * @param emailId the ID of admin email to be retrieved from the database (if needed)
-     * @param emailReceiver the email address of the email receiver
-     * @param emailSubject the subject of the email
-     * @param emailContent the content of the email
-     */
-    public void scheduleAdminEmailForSending(String emailId, String emailReceiver, String emailSubject,
-                                             String emailContent) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, emailReceiver);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, emailSubject);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, emailContent);
-
-        try {
-            addTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-        } catch (IllegalArgumentException e) {
-            if (e.getMessage().toLowerCase().contains("task size too large")) {
-                log.info("Email task size exceeds max limit. Switching to large email task mode.");
-                paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
-                paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
-                paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-                addTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-            }
-        }
-    }
-
-    /**
      * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
      * for the specified feedback session.
      *
@@ -231,13 +162,17 @@ public class TaskQueuer {
      * @param instructorEmail the email address of the invited instructor
      */
     public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
-            String instructorEmail, String courseId) {
-
+            String instructorEmail, String courseId, String institute, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<>();
-
-        paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
+        if (inviterGoogleId != null) {
+            paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
+        }
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
+        if (institute != null) {
+            paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        }
+        paramMap.put(ParamsNames.IS_INSTRUCTOR_REJOINING, String.valueOf(isRejoining));
 
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
                 TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);

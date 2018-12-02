@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top">
-  <a class="navbar-brand" routerLink="/web">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <a routerLink="/web">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
   </a>
   <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
@@ -7,26 +7,37 @@
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
     <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
-      <li *ngFor="let navItem of navItems" class="nav-item">
-        <a class="nav-link" [routerLink]="navItem.url">{{ navItem.display }}</a>
-      </li>
+      <ng-template ngFor let-navItem [ngForOf]="navItems">
+        <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url">{{ childItem.display}}</a>
+          </div>
+        </li>
+        <li *ngIf="!navItem.children" class="nav-item">
+          <a class="nav-link" [routerLink]="navItem.url">{{ navItem.display }}</a>
+        </li>
+      </ng-template>
     </ul>
     <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="studentLoginUrl && instructorLoginUrl">
-      <li class="nav-item"><a class="nav-link" [href]="studentLoginUrl">Student Login</a></li>
-      <li class="nav-item"><a class="nav-link" [href]="instructorLoginUrl">Instructor Login</a></li>
-    </ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="logoutUrl">
-      <li class="nav-item" *ngIf="isStudent">
-        <a class="nav-link" routerLink="/web/student">Back to student page</a>
+    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo">
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" [href]="studentLoginUrl">Student Login</a>
+          <a class="dropdown-item" [href]="instructorLoginUrl">Instructor Login</a>
+        </div>
       </li>
-      <li class="nav-item" *ngIf="isInstructor">
-        <a class="nav-link" routerLink="/web/instructor">Back to instructor page</a>
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent">To student pages</a>
+          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
+          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
+          <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
+          <a class="dropdown-item" [href]="logoutUrl">Log Out</a>
+        </div>
       </li>
-      <li class="nav-item" *ngIf="isAdmin">
-        <a class="nav-link" routerLink="/web/admin">Back to admin page</a>
-      </li>
-      <li class="nav-item"><a class="nav-link" [href]="logoutUrl">Log Out</a></li>
     </ul>
   </div>
 </nav>
@@ -48,11 +59,15 @@
   <div *ngIf="!isValidUser">
     Invalid user!
   </div>
+  <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
+  <tm-status-message [messages]="messageList"></tm-status-message>
   <router-outlet *ngIf="isValidUser"></router-outlet>
+</div>
+<div>
   <footer>
-    <div class="container text-nowrap">
+    <div class="container footer text-nowrap">
       <div class="row">
-        <div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
+        <div class="col-xs-12 col-sm-4 offset-sm-8 col-md-3 offset-md-9">
           Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
         </div>
       </div>

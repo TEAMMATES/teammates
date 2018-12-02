@@ -9,13 +9,13 @@ import { AuthInfo } from '../auth-info';
 @Component({
   selector: 'tm-static-page',
   templateUrl: './static-page.component.html',
-  styleUrls: ['./static-page.component.scss'],
 })
 export class StaticPageComponent implements OnInit {
 
   studentLoginUrl: string = '';
   instructorLoginUrl: string = '';
   logoutUrl: string = '';
+  user: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -41,12 +41,17 @@ export class StaticPageComponent implements OnInit {
       display: 'Terms',
     },
     {
-      url: '/web/front/help/student',
-      display: 'Student Help',
-    },
-    {
-      url: '/web/front/help/instructor',
-      display: 'Instructor Help',
+      display: 'Help',
+      children: [
+        {
+          url: '/web/front/help/student',
+          display: 'Student Help',
+        },
+        {
+          url: '/web/front/help/instructor',
+          display: 'Instructor Help',
+        },
+      ],
     },
   ];
 
@@ -58,6 +63,7 @@ export class StaticPageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
         this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
+        this.user = res.user.id;
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
         this.isAdmin = res.user.isAdmin;

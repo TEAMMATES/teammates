@@ -1,6 +1,5 @@
 package teammates.test.cases.newaction;
 
-import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -13,12 +12,12 @@ public class SearchAccountsActionTest extends BaseActionTest<SearchAccountsActio
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS;
+        return Const.ResourceURIs.ACCOUNTS_SEARCH;
     }
 
     @Override
     protected String getRequestMethod() {
-        return HttpGet.METHOD_NAME;
+        return GET;
     }
 
     @Override

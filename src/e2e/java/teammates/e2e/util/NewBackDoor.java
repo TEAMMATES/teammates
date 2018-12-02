@@ -29,11 +29,20 @@ public final class NewBackDoor {
     }
 
     /**
+     * Executes GET request with the given {@code relativeUrl}.
+     *
+     * @return The content of the HTTP response
+     */
+    public static String executeGetRequest(String relativeUrl) {
+        return executeRequest(HttpGet.METHOD_NAME, relativeUrl);
+    }
+
+    /**
      * Executes HTTP request with the given {@code method} and {@code relativeUrl}.
      *
      * @return The content of the HTTP response
      */
-    public static String executeRequest(String method, String relativeUrl) {
+    private static String executeRequest(String method, String relativeUrl) {
         String url = TestProperties.TEAMMATES_URL + Const.ResourceURIs.URI_PREFIX + relativeUrl;
 
         HttpRequestBase request;
