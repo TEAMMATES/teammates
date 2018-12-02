@@ -53,7 +53,6 @@ public final class Const {
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
-    public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
 
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
@@ -140,17 +139,6 @@ public final class Const {
         @Deprecated
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.ADMIN_ACCOUNT_DELETE,
-                        ActionURIs.ADMIN_EMAIL_COMPOSE_SAVE,
-                        ActionURIs.ADMIN_EMAIL_COMPOSE_SEND,
-                        ActionURIs.ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL,
-                        ActionURIs.ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL,
-                        ActionURIs.ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD,
-                        ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD,
-                        ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
-                        ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
-                        ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
-                        ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
@@ -634,6 +622,7 @@ public final class Const {
 
         public static final String IS_USING_AJAX = "isusingAjax";
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
+        public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
 
         public static final String BLOB_KEY = "blob-key";
         public static final String SESSION_TOKEN = "token";
@@ -682,22 +671,6 @@ public final class Const {
         public static final String IMAGE_TO_UPLOAD = "imagetoupload";
 
         public static final String ADMIN_SEARCH_KEY = "searchkey";
-        public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
-
-        public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
-        public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
-        public static final String ADMIN_EMAIL_RECEIVER = "emailreceiver";
-        public static final String ADMIN_EMAIL_ADDRESS_RECEIVERS = "adminemailaddressreceivers";
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
-        public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
-
-        public static final String ADMIN_EMAIL_ID = "emailid";
-        public static final String ADMIN_EMAIL_EMPTY_TRASH_BIN = "emptytrashbin";
-        public static final String ADMIN_EMAIL_TRASH_ACTION_REDIRECT = "redirect";
-
-        public static final String ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX = "emaillistindex";
-        public static final String ADMIN_GROUP_RECEIVER_EMAIL_INDEX = "emailindex";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
@@ -964,7 +937,9 @@ public final class Const {
         private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
+        public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
@@ -980,6 +955,13 @@ public final class Const {
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
         public static final String ACCOUNTS = "/accounts";
+        public static final String ACCOUNTS_SEARCH = "/accounts/search";
+        public static final String ACCOUNTS_RESET = "/accounts/reset";
+        public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String INSTRUCTORS = "/instructors";
+        public static final String STUDENTS = "/students";
+        public static final String SESSIONS_ADMIN = "/sessions/admin";
+        public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
 
@@ -1077,7 +1059,6 @@ public final class Const {
                 "/page/instructorFeedbackResponseCommentDelete";
 
         public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
-        public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
@@ -1102,31 +1083,7 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
-        public static final String ADMIN_EMAIL_LOG_PAGE = "/admin/adminEmailLogPage";
-        public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
-        public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
-        public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
-        public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
-        public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
-        public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
-        public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
-        public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
-        public static final String ADMIN_EMAIL_SENT_PAGE = "/admin/adminEmailSentPage";
-        public static final String ADMIN_EMAIL_TRASH_PAGE = "/admin/adminEmailTrashPage";
-        public static final String ADMIN_EMAIL_TRASH_DELETE = "/admin/adminEmailTrashDelete";
-        public static final String ADMIN_EMAIL_DRAFT_PAGE = "/admin/adminEmailDraftPage";
-        public static final String ADMIN_EMAIL_MOVE_TO_TRASH = "/admin/adminEmailMoveToTrash";
-        public static final String ADMIN_EMAIL_MOVE_OUT_TRASH = "/admin/adminEmailMoveOutTrash";
-        public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
-        public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
-
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
-        public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL =
-                "/admin/adminEmailCreateGroupReceiverListUploadUrl";
-
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
-        public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
-        public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
         public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
@@ -1141,15 +1098,6 @@ public final class Const {
      * Configurations for task queue.
      */
     public static class TaskQueue {
-
-        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME = "admin-prepare-email-address-mode-queue";
-        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL = "/worker/adminPrepareEmailAddressMode";
-
-        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME = "admin-prepare-email-group-mode-queue";
-        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL = "/worker/adminPrepareEmailGroupMode";
-
-        public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
-        public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
 
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
@@ -1256,34 +1204,18 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
         public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
 
-        public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
-        public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
-        public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
-        public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
-        public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
-        public static final String ADMIN_ACTIVITY_LOG_AJAX = "/jsp/adminActivityLogAjax.jsp";
-        public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
-        public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
-        public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
-        public static final String ADMIN_EMAIL_LOG_AJAX = "/jsp/adminEmailLogAjax.jsp";
-
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
     }
 
     /* These are status messages that may be shown to the user */
+    @Deprecated
     public static class StatusMessages {
 
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
-        public static final String EMAIL_NOT_FOUND = "The requested email was not found";
         public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
-        public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
-
-        public static final String NOT_A_RECEIVER_LIST_FILE =
-                "The file that you have uploaded is not a receiver list file. ";
-        public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
 
         public static final String STUDENT_FIRST_TIME =
                 "<div class=\"align-left\">"
@@ -1688,24 +1620,8 @@ public final class Const {
 
         public static final String TESTING_DATA_EMAIL_POSTFIX = ".tmt";
 
-        public static final int TIME_TAKEN_EXPECTED = 10000;
-        public static final int TIME_TAKEN_MODERATE = 20000;
-
         public static final String MESSAGE_ERROR_ACTION_NAME = "Error when getting ActionName for requestUrl : %1$s";
         public static final String MESSAGE_ERROR_LOG_MESSAGE_FORMAT = "Log message format not as expected: %1$s";
-    }
-
-    /**
-     * These are constants that may be used in {@link EmailLogEntry}.
-     */
-    public static class EmailLog {
-        public static final String TEAMMATES_EMAIL_LOG = "TEAMMATESEMAILLOG";
-        public static final String FIELD_SEPARATOR = "|||";
-
-        public static final String TEST_DATA_POSTFIX = ".tmt";
-
-        public static final String ERROR_LOG_FORMAT = "Email log message is not in expected format."
-                + " Raw log message: %1$s";
     }
 
 }

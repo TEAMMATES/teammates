@@ -27,11 +27,6 @@ public final class DataBundleRegenerator {
             "package.json"
     );
 
-    private static final List<String> LOGS_JSON = Arrays.asList(
-            "typicalEmailLogMessage.json",
-            "typicalLogMessage.json"
-    );
-
     private DataBundleRegenerator() {
         // script-like, not meant to be instantiated
     }
@@ -40,10 +35,6 @@ public final class DataBundleRegenerator {
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json") || NON_DATA_BUNDLE_JSON.contains(file.getName())) {
-                continue;
-            }
-            if (LOGS_JSON.contains(file.getName())) {
-                regenerateGenericJson(file);
                 continue;
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());

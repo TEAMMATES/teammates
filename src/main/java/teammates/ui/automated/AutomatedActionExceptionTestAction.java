@@ -12,11 +12,6 @@ import teammates.common.util.Const;
 public class AutomatedActionExceptionTestAction extends AutomatedAction {
 
     @Override
-    protected String getActionMessage() {
-        return "Testing exception handling";
-    }
-
-    @Override
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
     public void execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);

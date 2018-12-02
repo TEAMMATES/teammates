@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpRequestService } from '../../services/http-request.service';
-import { MessageOutput } from '../message-output';
+import { ErrorMessageOutput } from '../message-output';
 
 /**
  * Error report component.
@@ -35,7 +35,7 @@ export class ErrorReportComponent implements OnInit {
     this.sendButtonEnabled = false;
     this.httpRequestService.post('/errorreport', paramMap, this.content).subscribe(() => {
       this.errorReportSubmitted = true;
-    }, (res: MessageOutput) => {
+    }, (res: ErrorMessageOutput) => {
       this.sendButtonEnabled = true;
       console.error(res);
     });

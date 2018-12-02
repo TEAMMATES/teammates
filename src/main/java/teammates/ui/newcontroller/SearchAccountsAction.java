@@ -152,7 +152,7 @@ public class SearchAccountsAction extends Action {
             sb.email = student.email;
             if (student.googleId != null) {
                 sb.googleId = student.googleId;
-                sb.manageAccountLink = Config.getFrontEndAppUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
+                sb.manageAccountLink = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                         .withInstructorId(student.googleId)
                         .toString();
             }
@@ -234,7 +234,7 @@ public class SearchAccountsAction extends Action {
             ib.email = instructor.email;
             if (instructor.googleId != null) {
                 ib.googleId = instructor.googleId;
-                ib.manageAccountLink = Config.getFrontEndAppUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
+                ib.manageAccountLink = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                         .withInstructorId(instructor.googleId)
                         .toString();
             }

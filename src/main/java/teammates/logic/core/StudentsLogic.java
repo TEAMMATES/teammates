@@ -16,6 +16,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -234,8 +235,7 @@ public final class StudentsLogic {
         }
     }
 
-    public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    public void resetStudentGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithExistingRecordWithGoogleIdReset method called,
@@ -243,14 +243,14 @@ public final class StudentsLogic {
 
         studentsDb.verifyStudentExists(courseId, originalEmail);
         StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
-        originalStudent.googleId = null;
 
-        if (!originalStudent.isValid()) {
-            throw new InvalidParametersException(originalStudent.getInvalidityInfo());
+        try {
+            studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name,
+                    originalStudent.team, originalStudent.section, originalStudent.email,
+                    null, originalStudent.comments, true, false);
+        } catch (InvalidParametersException e) {
+            Assumption.fail("Unexpected invalid parameter.");
         }
-        studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name,
-                                 originalStudent.team, originalStudent.section, originalStudent.email,
-                                 originalStudent.googleId, originalStudent.comments, hasDocument, false);
     }
 
     public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)

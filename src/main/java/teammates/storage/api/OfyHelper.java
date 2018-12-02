@@ -6,7 +6,6 @@ import javax.servlet.ServletContextListener;
 import com.googlecode.objectify.ObjectifyService;
 
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AdminEmail;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
@@ -27,7 +26,6 @@ public class OfyHelper implements ServletContextListener {
      */
     public static void registerEntityClasses() {
         ObjectifyService.register(Account.class);
-        ObjectifyService.register(AdminEmail.class);
         ObjectifyService.register(Course.class);
         ObjectifyService.register(CourseStudent.class);
         ObjectifyService.register(FeedbackQuestion.class);

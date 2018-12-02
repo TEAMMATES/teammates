@@ -1,7 +1,6 @@
 package teammates.test.cases.newaction;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -22,7 +21,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
     @Override
     protected String getRequestMethod() {
-        return HttpGet.METHOD_NAME;
+        return GET;
     }
 
     @Override

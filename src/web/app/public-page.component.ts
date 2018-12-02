@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'tm-public-page',
-  template: '<tm-page [isValidUser]="true"></tm-page>',
+  template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
 })
 export class PublicPageComponent {
 

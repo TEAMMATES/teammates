@@ -178,14 +178,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
-        url = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
-        logMessage = "TEAMMATESLOG|||adminActivityLogPage|||adminActivityLogPage|||true|||Admin|||david"
-                     + "|||googleId|||david@email.com|||View Result|||/admin/adminActivityLogPage";
-
-        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userInfo, acc, null,
-                "View Result");
-        AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
-
         ______TS("Google login (Admin Masquerade Mode)");
 
         url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;

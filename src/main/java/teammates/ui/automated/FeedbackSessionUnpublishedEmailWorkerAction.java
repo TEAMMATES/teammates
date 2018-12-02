@@ -16,11 +16,6 @@ public class FeedbackSessionUnpublishedEmailWorkerAction extends AutomatedAction
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.EMAIL_FEEDBACK);
         String courseId = getNonNullRequestParamValue(ParamsNames.EMAIL_COURSE);
