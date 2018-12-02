@@ -71,7 +71,7 @@ public class GateKeeper {
         return userService.createLogoutURL(redirectPage);
     }
 
-    /**
+    /*
      * These methods ensures the logged in user is of a particular type.
      */
 
