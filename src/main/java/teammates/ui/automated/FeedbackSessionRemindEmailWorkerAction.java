@@ -19,11 +19,6 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
         String courseId = getNonNullRequestParamValue(ParamsNames.SUBMISSION_COURSE);

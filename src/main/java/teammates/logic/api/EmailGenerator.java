@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -582,6 +583,25 @@ public class EmailGenerator {
     }
 
     /**
+     * Generates the course re-join email for the given {@code instructor} in {@code course}.
+     */
+    public EmailWrapper generateInstructorCourseRejoinEmailAfterGoogleIdReset(
+            InstructorAttributes instructor, CourseAttributes course, String institute) {
+
+        String emailBody = Templates.populateTemplate(
+                fillUpInstructorRejoinAfterGoogleIdResetFragment(instructor, EmailTemplates.USER_COURSE_JOIN, institute),
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
+        email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                course.getName(), course.getId()));
+        email.setContent(emailBody);
+        return email;
+    }
+
+    /**
      * Generates the course registered email for the user with the given details in {@code course}.
      */
     public EmailWrapper generateUserCourseRegisteredEmail(
@@ -629,6 +649,22 @@ public class EmailGenerator {
                 "${joinUrl}", joinUrl);
     }
 
+    private String fillUpInstructorRejoinAfterGoogleIdResetFragment(
+            InstructorAttributes instructor, String emailBody, String institute) {
+        AppUrl url = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
+        if (institute != null) {
+            url = url.withParam(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        }
+        String joinUrl = url.toAbsoluteString();
+
+        return Templates.populateTemplate(emailBody,
+                "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
+                "${joinUrl}", joinUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+    }
+
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
@@ -650,16 +686,6 @@ public class EmailGenerator {
                 "${index}", String.valueOf(index),
                 "${errorType}", logLine.getLogLevel().toString(),
                 "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
-    }
-
-    /**
-     * Generates a generic email with the specified {@code content}, {@code subject}, and {@code recipient}.
-     */
-    public EmailWrapper generateAdminEmail(String content, String subject, String recipient) {
-        EmailWrapper email = getEmptyEmailAddressedToEmail(recipient);
-        email.setSubject(subject);
-        email.setContent(content);
-        return email;
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {

@@ -14,20 +14,12 @@ public class FeedbackSessionUpdateRespondentWorkerAction extends AutomatedAction
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String email = getNonNullRequestParamValue(ParamsNames.RESPONDENT_EMAIL);
-        String isInstructorString = getNonNullRequestParamValue(ParamsNames.RESPONDENT_IS_INSTRUCTOR);
-        String isToBeRemovedString = getNonNullRequestParamValue(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED);
-
-        boolean isInstructor = Boolean.parseBoolean(isInstructorString);
-        boolean isToBeRemoved = Boolean.parseBoolean(isToBeRemovedString);
+        boolean isInstructor = getBooleanRequestParamValue(ParamsNames.RESPONDENT_IS_INSTRUCTOR);
+        boolean isToBeRemoved = getBooleanRequestParamValue(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED);
 
         try {
             if (isInstructor) {

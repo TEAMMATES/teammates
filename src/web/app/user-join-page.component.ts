@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../services/http-request.service';
-import { MessageOutput } from './message-output';
+import { ErrorReportComponent } from './error-report/error-report.component';
+import { ErrorMessageOutput } from './message-output';
 
 interface JoinStatus {
   hasJoined: boolean;
@@ -20,24 +22,19 @@ export class UserJoinPageComponent implements OnInit {
 
   isLoading: boolean = true;
   hasJoined: boolean = false;
-  errorMessage: string = '';
   entityType: string = '';
   key: string = '';
   institute: string = '';
   userId: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
+      private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
       this.institute = queryParams.instructorinstitution;
-      if (!this.entityType || !this.key) {
-        this.errorMessage = 'Error: some required parameters are missing.';
-        this.isLoading = false;
-        return;
-      }
 
       const paramMap: { [key: string]: string } = {
         key: this.key,
@@ -47,9 +44,14 @@ export class UserJoinPageComponent implements OnInit {
         this.hasJoined = resp.hasJoined;
         this.userId = resp.userId || '';
         this.isLoading = false;
-      }, (resp: MessageOutput) => {
-        this.errorMessage = resp.message;
-        this.isLoading = false;
+      }, (resp: ErrorMessageOutput) => {
+        if (resp.status === 403) {
+          this.isLoading = false;
+        } else {
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = resp.error.message;
+        }
       });
     });
   }
@@ -65,8 +67,10 @@ export class UserJoinPageComponent implements OnInit {
     };
     this.httpRequestService.put('/join', paramMap).subscribe(() => {
       this.router.navigate([`/web/${this.entityType}`]);
-    }, (resp: MessageOutput) => {
-      this.errorMessage = resp.message;
+    }, (resp: ErrorMessageOutput) => {
+      const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+      modalRef.componentInstance.requestId = resp.error.requestId;
+      modalRef.componentInstance.errorMessage = resp.error.message;
     });
   }
 

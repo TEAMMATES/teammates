@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 
 /**
@@ -32,16 +33,13 @@ public class JsonResult extends ActionResult {
         this.output = new MessageOutput(message);
     }
 
-    public Object getOutput() {
+    public ActionOutput getOutput() {
         return output;
-    }
-
-    void setRequestId(String requestId) {
-        this.output.setRequestId(requestId);
     }
 
     @Override
     public void send(HttpServletResponse resp) throws IOException {
+        output.setRequestId(Config.getRequestId());
         resp.setStatus(getStatusCode());
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();

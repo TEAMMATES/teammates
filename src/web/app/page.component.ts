@@ -1,5 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import uaParser from 'ua-parser-js';
+import { StatusMessageService } from '../services/status-message.service';
+import { StatusMessage } from './status-message/status-message';
+
+const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
 /**
  * Base skeleton for all pages.
@@ -9,21 +15,25 @@ import uaParser from 'ua-parser-js';
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
 })
-export class PageComponent {
+export class PageComponent implements OnInit {
 
   @Input() studentLoginUrl: string = '';
   @Input() instructorLoginUrl: string = '';
+  @Input() user: string = '';
   @Input() isStudent: boolean = false;
   @Input() isInstructor: boolean = false;
   @Input() isAdmin: boolean = false;
   @Input() isValidUser: boolean = false;
   @Input() logoutUrl: string = '';
+  @Input() pageTitle: string = '';
+  @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
+  messageList: StatusMessage[] = [];
 
   /**
    * Minimum versions of browsers supported.
@@ -40,8 +50,23 @@ export class PageComponent {
     // Opera: ??
   };
 
-  constructor() {
+  constructor(private router: Router, private route: ActivatedRoute, private title: Title,
+      private statusMessageService: StatusMessageService) {
     this.checkBrowserVersion();
+    this.router.events.subscribe((val: any) => {
+      if (val instanceof NavigationEnd) {
+        window.scrollTo(0, 0); // reset viewport
+        this.messageList = [];
+        let r: ActivatedRoute = this.route;
+        while (r.firstChild) {
+          r = r.firstChild;
+        }
+        r.data.subscribe((resp: any) => {
+          this.pageTitle = resp.pageTitle;
+          this.title.setTitle(resp.htmlTitle || DEFAULT_TITLE);
+        });
+      }
+    });
   }
 
   private checkBrowserVersion(): void {
@@ -50,6 +75,12 @@ export class PageComponent {
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
+  }
+
+  ngOnInit(): void {
+    this.statusMessageService.getAlertEvent().subscribe((result: StatusMessage) => {
+      this.messageList.push(result);
+    });
   }
 
 }

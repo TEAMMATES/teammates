@@ -1,33 +1,35 @@
 <main>
-  <h1 class="h2 color-orange text-center">
+  <p class="h2 color-orange text-center">
     Student peer evaluations/feedback, shareable instructor comments, and more...
-  </h1>
-  <div class="row">
-    <img class="center-block img-responsive" alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="assets/images/overview.png">
+  </p>
+  <div class="text-center">
+    <img class="mx-auto" alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="assets/images/overview.png">
   </div>
-  <h2 class="color-orange row h4 text-center color-blue">
+  <p class="h4 color-blue text-center">
     <span class="color-orange">{{ submissionsNumber }}</span> feedback entries submitted so far ...
-  </h2>
+  </p>
   <div class="row">
-    <div class="margin-bottom-10px col-xs-10 col-sm-5 col-xs-offset-1 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
-      <a class="btn btn-default btn-block" href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1" target="_blank" rel="noopener noreferrer">
-        <span class="glyphicon glyphicon-film" aria-hidden="true"></span> Video Tour
+    <div class="margin-bottom-10px col-xs-10 col-sm-5 offset-xs-1 col-md-4 offset-md-2 col-lg-3 offset-lg-3">
+      <a class="btn btn-secondary btn-block" href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-film"></i> Video Tour
       </a>
     </div>
-    <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
+    <div class="margin-bottom-10px col-xs-10 offset-xs-1 col-sm-5 offset-sm-0 col-md-4 col-lg-3">
       <a class="btn btn-success btn-block" routerLink="/web/front/request">Request a Free Instructor Account</a>
     </div>
   </div>
 </main>
 
-<img class="center-block img-responsive" id="raisedEdge" src="assets/images/raised-edge.png">
+<div class="text-center">
+  <img id="raisedEdge" src="assets/images/raised-edge.png">
+</div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Praised by Users" src="assets/images/overview_praise.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Praised by Users" src="assets/images/overview_praise.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Praised by Users:</h2>
+    <h2>Praised by Users:</h2>
     <span *ngIf="testimonial">
       {{ testimonial.content }}<br>
       - {{ testimonial.author }}
@@ -36,11 +38,11 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Award winning, mature, field-tested and improving all the time" src="assets/images/overview_award_winning.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Award winning, mature, field-tested and improving all the time" src="assets/images/overview_award_winning.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Award Winning, Mature, Field-tested:</h2>
+    <h2>Award Winning, Mature, Field-tested:</h2>
     <p>
       TEAMMATES has been in operation since 2010. It has benefitted from the work of <a routerLink="/web/front/about">hundreds of developers</a>.<br>
       TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014-2018) and Facebook Open Academy Program (2016).
@@ -49,11 +51,11 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Designed for simplicity, flexibility, power" src="assets/images/overview_peerfeedback.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Designed for simplicity, flexibility, power" src="assets/images/overview_peerfeedback.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Designed for Simplicity, Flexibility, and Power:</h2>
+    <h2>Designed for Simplicity, Flexibility, and Power:</h2>
     <p>
       TEAMMATES was designed by a team of teachers and students, for teachers and students.
       It aims to provide a powerful peer feedback and peer evaluations mechanism with a very high degree of flexibility.
@@ -63,11 +65,11 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Powered by Google Infrastructure" src="assets/images/overview_google.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Powered by Google Infrastructure" src="assets/images/overview_google.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Powered by Google Infrastructure:</h2>
+    <h2>Powered by Google Infrastructure:</h2>
     <p>
       TEAMMATES runs on the <a href="https://cloud.google.com/products/" target="_blank" rel="noopener noreferrer">Google App Engine</a>,
       using cutting edge cloud technologies and benefitting from the same systems and infrastructure that power Google's applications.
@@ -76,11 +78,11 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Growing global community" src="assets/images/overview_countries.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Growing global community" src="assets/images/overview_countries.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Growing Global Community:</h2>
+    <h2>Growing Global Community:</h2>
     <p>
       TEAMMATES community is growing fast, spanning over 200,000 users from over 1,600 universities from many countries across the globe.
     </p>
@@ -91,11 +93,11 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Not for Profit" src="assets/images/overview_funding.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Not for Profit" src="assets/images/overview_funding.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Not for Profit:</h2>
+    <h2>Not for Profit:</h2>
     <p>
       TEAMMATES does not have commercial ambitions. It is funded mainly by education grants from the National University of Singapore.
       TEAMMATES also received funding support under the <a href="https://summerofcode.withgoogle.com/" target="_blank" rel="noopener noreferrer">Google Summer of Code</a> program in 2014-2018.
@@ -104,11 +106,11 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <img class="center-block img-responsive" alt="TEAMMATES - Well received by Academic community" src="assets/images/overview_conference.png">
+  <div class="col-xs-12 col-sm-3 text-center">
+    <img alt="TEAMMATES - Well received by Academic community" src="assets/images/overview_conference.png">
   </div>
   <div class="col-xs-12 col-sm-8">
-    <h2 class="media-heading">Well Received by the Academic Community:</h2>
+    <h2>Well Received by the Academic Community:</h2>
     <p>
       TEAMMATES has been presented, and well-received, in education-related conferences such as the
       <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="_blank" rel="noopener noreferrer">International Conference on Software Engineering Education and Training (CSEET)</a>,
