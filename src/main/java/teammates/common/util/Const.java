@@ -1093,6 +1093,7 @@ public final class Const {
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
+        public static final String AUTOMATED_DATASTORE_BACKUP = "/auto/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";

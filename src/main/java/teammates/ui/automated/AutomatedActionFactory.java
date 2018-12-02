@@ -22,6 +22,7 @@ public class AutomatedActionFactory {
     static {
         // Cron jobs
         map(ActionURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
+        map(ActionURIs.AUTOMATED_DATASTORE_BACKUP, DatastoreBackupAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, FeedbackSessionOpeningRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
