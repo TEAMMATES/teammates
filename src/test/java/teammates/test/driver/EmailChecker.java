@@ -32,7 +32,10 @@ public final class EmailChecker {
         try {
             String expected = FileHelper.readFile(filePath);
             expected = injectTestProperties(expected);
-            assertEquals(expected, actual);
+            if (!expected.equals(actual)) {
+                assertEquals("<expected>" + System.lineSeparator() + expected + "</expected>",
+                        "<actual>" + System.lineSeparator() + actual + "</actual>");
+            }
         } catch (IOException | AssertionError e) {
             if (!testAndRunGodMode(filePath, actual)) {
                 throw e;
