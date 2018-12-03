@@ -1,3 +1,2 @@
-<p>
-  instructor-session-edit-page works!
-</p>
+<tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
+                      (deleteExistingSessionEvent)="deleteExistingSessionHandler()"></tm-session-edit-form>

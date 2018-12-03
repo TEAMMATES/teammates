@@ -28,7 +28,9 @@ import { InstructorSearchPageComponent } from './instructor-search-page/instruct
 import {
   InstructorSessionEditPageComponent,
 } from './instructor-session-edit-page/instructor-session-edit-page.component';
+import { InstructorSessionEditPageModule } from './instructor-session-edit-page/instructor-session-edit-page.module';
 import { InstructorSessionsPageComponent } from './instructor-sessions-page/instructor-sessions-page.component';
+import { InstructorSessionsPageModule } from './instructor-sessions-page/instructor-sessions-page.module';
 import {
   InstructorSessionsResultPageComponent,
 } from './instructor-sessions-result-page/instructor-sessions-result-page.component';
@@ -88,6 +90,9 @@ const routes: Routes = [
       {
         path: 'edit',
         component: InstructorSessionEditPageComponent,
+        data: {
+          pageTitle: 'Edit Feedback Session',
+        },
       },
       {
         path: 'submission',
@@ -139,6 +144,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PageNotFoundModule,
+    InstructorSessionEditPageModule,
+    InstructorSessionsPageModule,
     InstructorHelpPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
@@ -146,8 +153,6 @@ const routes: Routes = [
   declarations: [
     InstructorHomePageComponent,
     InstructorSearchPageComponent,
-    InstructorSessionsPageComponent,
-    InstructorSessionEditPageComponent,
     InstructorSessionsResultPageComponent,
     InstructorStudentListPageComponent,
     InstructorStudentRecordsPageComponent,
