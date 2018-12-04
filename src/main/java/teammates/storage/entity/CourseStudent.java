@@ -112,7 +112,10 @@ public class CourseStudent extends BaseEntity {
         return updatedAt;
     }
 
-    
+    public void setLastUpdate(Instant updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+    }
 
     public String getUniqueId() {
         return this.id;
