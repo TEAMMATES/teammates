@@ -695,6 +695,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
         public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
+        @Deprecated
         public static final String FEEDBACK_SESSION_ENABLE_EDIT = "editsessiondetails";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
@@ -962,6 +963,7 @@ public final class Const {
         public static final String STUDENTS = "/students";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
+        public static final String SESSION = "/session";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
 

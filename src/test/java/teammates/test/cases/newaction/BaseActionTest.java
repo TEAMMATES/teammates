@@ -1,5 +1,7 @@
 package teammates.test.cases.newaction;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.newcontroller.Action;
@@ -218,13 +221,72 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+    }
+
+    protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
+
+        ______TS("other course instructor cannot access");
+
+        InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
+
+        loginAsInstructor(otherInstructor.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
+    protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
+
+        ______TS("course instructor can access");
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
+
+        loginAsInstructor(instructor1OfCourse1.googleId);
+        verifyCanAccess(submissionParams);
+
+        loginAsAdmin();
+        verifyCannotAccess(addUserIdToParams(student1InCourse1.googleId, submissionParams));
+        verifyCannotAccess(addUserIdToParams(otherInstructor.googleId, submissionParams));
+
+    }
+
+    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
+
+        ______TS("admin can access");
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        loginAsAdmin();
+        // not checking for non-masquerade mode because admin may not be an instructor
+        verifyCanAccess(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
+    }
+
+    /**
+     * Returns The {@code params} array with the {@code userId}
+     * (together with the parameter name) inserted at the beginning.
+     */
+    protected String[] addUserIdToParams(String userId, String[] params) {
+        List<String> list = new ArrayList<>();
+        list.add(Const.ParamsNames.USER_ID);
+        list.add(userId);
+        Collections.addAll(list, params);
+        return list.toArray(new String[0]);
+    }
+
     // 'Low-level' access control tests: here it tests an action once with the given parameters.
     // These methods are not aware of the user type.
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is accessible to the logged in user.
      */
-    private void verifyCanAccess(String... params) {
+    protected void verifyCanAccess(String... params) {
         Action c = getAction(params);
         c.checkAccessControl();
     }
@@ -232,7 +294,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
-    private void verifyCannotAccess(String... params) {
+    protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
         assertThrows(UnauthorizedAccessException.class, () -> c.checkAccessControl());
     }

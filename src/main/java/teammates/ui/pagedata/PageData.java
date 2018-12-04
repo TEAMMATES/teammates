@@ -682,6 +682,7 @@ public class PageData {
         return link;
     }
 
+    @Deprecated
     public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isOpened()) {
             return "Open";
@@ -692,6 +693,7 @@ public class PageData {
         }
     }
 
+    @Deprecated
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPublished()) {
             return "Published";

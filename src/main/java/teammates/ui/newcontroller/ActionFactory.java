@@ -44,6 +44,7 @@ public class ActionFactory {
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSIONS_STATS, GET, GetSessionResponseStatsAction.class);
+        map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
     }
