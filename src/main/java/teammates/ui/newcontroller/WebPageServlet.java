@@ -22,6 +22,7 @@ public class WebPageServlet extends HttpServlet {
             "img-src 'self' data:",
             "font-src 'self'",
             "connect-src 'self'",
+            "manifest-src 'self'",
             "form-action 'none'",
             "frame-ancestors 'self'",
             "base-uri 'self'"

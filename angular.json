@@ -48,7 +48,8 @@
                 "src/web/google8c7ef1e995031e09.html",
                 "src/web/pulse.html",
                 "src/web/robots.txt",
-                "src/web/sitemap.xml"
+                "src/web/sitemap.xml",
+                "src/web/manifest.json"
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -59,7 +60,8 @@
               "extractLicenses": false,
               "vendorChunk": true,
               "subresourceIntegrity": true,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "serviceWorker": true
             }
           }
         },
