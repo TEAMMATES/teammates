@@ -1,4 +1,4 @@
-package teammates.test.driver;
+package teammates.e2e.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

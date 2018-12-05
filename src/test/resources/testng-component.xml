@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="component-tests">
-    <listeners>
-        <listener class-name="teammates.test.driver.PriorityInterceptor" />
-    </listeners>
     <test name="component-tests">
         <packages>
             <package name="teammates.test.cases.storage" />
