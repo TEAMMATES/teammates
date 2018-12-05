@@ -46,4 +46,5 @@ chromedriver*
 src/main/webapp/js
 src/main/webapp/test/*.js
 src/client/java/teammates/client/scripts/scalabilitytests/data/
+src/client/java/teammates/client/scripts/statistics/data/
 src/test/resources/gmail-api/

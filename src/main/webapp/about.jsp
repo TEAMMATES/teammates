@@ -33,8 +33,12 @@
           <b>Jet Brains</b>, for the <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener noreferrer">Intellij IDEA</a> licences.
         </li>
         <li>
-          <b>YourKit LLC</b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>
-          <img src="https://www.yourkit.com/images/yklogo.png" width='70'>.
+          <img src="images/yklogo.png" width="100">
+          <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">YourKit LLC</a></b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>.
+        </li>
+        <li>
+          <img src="images/saucelabs.png" width="100">
+          <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">SauceLabs</a></b>, for providing us with a free <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for cross-browser testing.
         </li>
       </ul>
       <p>

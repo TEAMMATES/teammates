@@ -18,8 +18,11 @@ public final class Config {
     /** The value of the application URL, or null if no server instance is running. */
     public static final String APP_URL;
 
-    /** The value of the "app.gcs.bucketname" in build.properties file. */
-    public static final String GCS_BUCKETNAME;
+    /** The value of the "app.production.gcs.bucketname" in build.properties file. */
+    public static final String PRODUCTION_GCS_BUCKETNAME;
+
+    /** The value of the "app.backup.gcs.bucketname" in build.properties file. */
+    public static final String BACKUP_GCS_BUCKETNAME;
 
     /** The value of the "app.backdoor.key" in build.properties file. */
     public static final String BACKDOOR_KEY;
@@ -60,6 +63,9 @@ public final class Config {
     /** The value of the "app.mailjet.secretkey" in build.properties file. */
     public static final String MAILJET_SECRETKEY;
 
+    /** The value of the "app.enable.datastore.backup" in build.properties file. */
+    public static final boolean ENABLE_DATASTORE_BACKUP;
+
     static {
         APP_URL = readAppUrl();
         Properties properties = new Properties();
@@ -69,7 +75,8 @@ public final class Config {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
-        GCS_BUCKETNAME = properties.getProperty("app.gcs.bucketname");
+        PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
+        BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         STUDENT_MOTD_URL = properties.getProperty("app.student.motd.url");
@@ -82,6 +89,7 @@ public final class Config {
         MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
+        ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
     }
 
     private Config() {
@@ -117,7 +125,7 @@ public final class Config {
         return (isDevServer() ? "http://" : "https://") + hostname;
     }
 
-    private static boolean isDevServer() {
+    public static boolean isDevServer() {
         return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
     }
 
