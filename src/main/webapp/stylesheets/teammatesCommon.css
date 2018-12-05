@@ -1604,3 +1604,11 @@ Prevent Long URL From Breaking Out of Container
 .icon-info::before {
     content: '\e086';
 }
+
+.table {
+
+    display: block;
+    overflow-x: auto;
+
+}
+
