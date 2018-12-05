@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "src/main/webapp/dist",
+            "outputPath": "src/main/webapp",
             "index": "src/web/index.html",
             "main": "src/web/main.ts",
             "polyfills": "src/web/polyfills.ts",
@@ -50,7 +50,6 @@
                 "src/web/robots.txt",
                 "src/web/sitemap.xml"
               ],
-              "deployUrl": "dist/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

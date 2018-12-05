@@ -34,7 +34,7 @@ public class WebPageServlet extends HttpServlet {
         resp.setHeader("X-Frame-Options", "SAMEORIGIN");
         resp.setHeader("X-XSS-Protection", "1; mode=block");
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
-        req.getRequestDispatcher("/dist/index.html").forward(req, resp);
+        req.getRequestDispatcher("/index.html").forward(req, resp);
     }
 
 }
