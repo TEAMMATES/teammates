@@ -23,7 +23,7 @@
             "polyfills": "src/web/polyfills.ts",
             "tsConfig": "src/web/tsconfig.app.json",
             "assets": [
-              { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
+              "src/web/assets/"
             ],
             "styles": [
               "src/web/styles.scss"
@@ -43,7 +43,12 @@
                 }
               ],
               "assets": [
-                { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
+                "src/web/assets/",
+                "src/web/BingSiteAuth.xml",
+                "src/web/google8c7ef1e995031e09.html",
+                "src/web/pulse.html",
+                "src/web/robots.txt",
+                "src/web/sitemap.xml"
               ],
               "deployUrl": "dist/",
               "optimization": true,
@@ -89,7 +94,7 @@
             ],
             "scripts": [],
             "assets": [
-              { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
+              "src/web/assets/"
             ]
           }
         },
