@@ -370,28 +370,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
-        updateFeedbackResponse(newAttributes, false);
-    }
-
-    /**
-     * Updates the feedback response identified by {@code newAttributes.getId()}
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}
-     *   and depends on the value of {@code keepUpdateTimestamp}
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
-     */
-    public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes, boolean keepUpdateTimestamp)
-            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
 
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        updateFeedbackResponseOptimized(newAttributes, getEntity(newAttributes), keepUpdateTimestamp);
+        updateFeedbackResponseOptimized(newAttributes, getEntity(newAttributes));
     }
+
+
 
     /**
      * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
@@ -403,8 +391,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
-    private void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr,
-            boolean keepUpdateTimestamp) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
 
         //TODO: Sanitize values and update tests accordingly
@@ -417,7 +404,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
 
-        fr.keepUpdateTimestamp = keepUpdateTimestamp;
+
         fr.setAnswer(newAttributes.responseMetaData);
         fr.setRecipientEmail(newAttributes.recipient);
         fr.setGiverSection(newAttributes.giverSection);
@@ -426,10 +413,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         saveEntity(fr, newAttributes);
     }
 
-    public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        updateFeedbackResponseOptimized(newAttributes, fr, false);
-    }
+
 
     public void deleteFeedbackResponsesForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
