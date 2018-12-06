@@ -21,13 +21,6 @@ import teammates.common.util.Const;
 @Index
 public class FeedbackResponse extends BaseEntity {
 
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp. Set
-     * to true when using scripts to update entities when you want to preserve
-     * the lastUpdate time stamp.
-     **/
-    @Ignore
-    public boolean keepUpdateTimestamp;
 
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
@@ -178,9 +171,7 @@ public class FeedbackResponse extends BaseEntity {
     }
 
     public void setLastUpdate(Instant newDate) {
-        if (!keepUpdateTimestamp) {
-            this.updatedAt = newDate;
-        }
+        this.updatedAt = newDate;
     }
 
     @OnSave
