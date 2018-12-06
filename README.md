@@ -9,7 +9,8 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 
 
 ## Why this project?
-I had a lot of dubts about which project to follow, but on the 3rd of December 2018 I found this project really challenging and very closed to my interets: [https://github.com/TEAMMATES/teammates/issues/8646]
+I had a lot of dubts about which project to follow, but on the 3rd of December 2018 I found this project really challenging and very closed to my interets: https://github.com/TEAMMATES/teammates/issues/8646.
+It consist on the 
 
 
 
