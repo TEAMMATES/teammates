@@ -32,8 +32,6 @@ public class FeedbackQuestion extends BaseEntity {
      * to true when using scripts to update entities when you want to preserve
      * the lastUpdate time stamp.
      **/
-    @Ignore
-    public boolean keepUpdateTimestamp;
 
     @Id
     private Long feedbackQuestionId;
@@ -127,9 +125,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public void setLastUpdate(Instant newDate) {
-        if (!keepUpdateTimestamp) {
-            this.updatedAt = newDate;
-        }
+        this.updatedAt = newDate;
     }
 
     public String getId() {
