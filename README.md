@@ -8,7 +8,9 @@ It is provided as a cloud-based service for educators/students and is currently 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
 
-## Interested to join TEAMMATES developer team?
+## Why this project?
+I had a lot of dubts about which project to follow, but on the 3rd of December 2018 I found this project really challenging and very closed to my interets: [https://github.com/TEAMMATES/teammates/issues/8646]
+
 
 
 
