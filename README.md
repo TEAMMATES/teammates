@@ -1,10 +1,5 @@
 # TEAMMATES Developer Web Site
 
-[![Travis Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=teammatesv7)](https://travis-ci.org/TEAMMATES/teammates)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw/branch/teammatesv7?svg=true)](https://ci.appveyor.com/project/damithc/teammates/branch/teammatesv7)
-[![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/teammatesv7/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates/branch/teammatesv7)
-[![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
-
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
 
