@@ -45,9 +45,6 @@ public final class Config {
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
 
-    /** The value of the "app.student.motd.url" in build.properties file. */
-    public static final String STUDENT_MOTD_URL;
-
     /** The value of the "app.email.senderemail" in build.properties file. */
     public static final String EMAIL_SENDEREMAIL;
 
@@ -95,7 +92,6 @@ public final class Config {
         BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
-        STUDENT_MOTD_URL = properties.getProperty("app.student.motd.url");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
         EMAIL_REPLYTO = properties.getProperty("app.email.replyto");

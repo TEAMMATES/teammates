@@ -55,9 +55,6 @@
   </c:when>
   <c:otherwise>
     <ts:studentPage title="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
-      <c:if test="${not data.headerHidden}">
-        <ts:studentMessageOfTheDay />
-      </c:if>
       <c:if test="${empty data.account.googleId}">
         <div id="registerMessage" class="alert alert-info">
           ${data.registerMessage}
