@@ -323,7 +323,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         }
 
         // Set true to prevent changes to last update timestamp
-        courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
         saveEntity(courseStudent, attributes);
     }
 

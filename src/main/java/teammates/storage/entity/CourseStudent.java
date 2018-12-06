@@ -24,14 +24,6 @@ import teammates.common.util.StringHelper;
 public class CourseStudent extends BaseEntity {
 
     /**
-     * Setting this to true prevents changes to the lastUpdate time stamp.
-     * Set to true when using scripts to update entities when you want to
-     * preserve the lastUpdate time stamp.
-     **/
-    @Ignore
-    public transient boolean keepUpdateTimestamp;
-
-    /**
      * ID of the student.
      *
      * @see #makeId()
@@ -119,9 +111,7 @@ public class CourseStudent extends BaseEntity {
     }
 
     public void setLastUpdate(Instant updatedAt) {
-        if (!keepUpdateTimestamp) {
             this.updatedAt = updatedAt;
-        }
     }
 
     public String getUniqueId() {
