@@ -27,14 +27,6 @@ public class FeedbackQuestion extends BaseEntity {
 
     // TODO: where applicable, we should specify fields as @Unindex to prevent GAE from building unnecessary indexes.
 
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp. Set
-     * to true when using scripts to update entities when you want to preserve
-     * the lastUpdate time stamp.
-     **/
-    @Ignore
-    public boolean keepUpdateTimestamp;
-
     @Id
     private Long feedbackQuestionId;
 
@@ -127,9 +119,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public void setLastUpdate(Instant newDate) {
-        if (!keepUpdateTimestamp) {
             this.updatedAt = newDate;
-        }
     }
 
     public String getId() {
