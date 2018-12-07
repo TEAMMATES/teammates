@@ -56,7 +56,7 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends B
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
             assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                       session1.getSessionName()),
+                                       session1.getFeedbackSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
             assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));

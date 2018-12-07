@@ -25,7 +25,9 @@ if (!String.prototype.includes) {
  * Polyfills the Number.EPSILON property finalized in ES6 for browsers that do not yet support the property.
  */
 if (!Number.EPSILON) {
-    Number.EPSILON = 2 ** -52;
+    // Exponentiation operator (a ** b) is not supported in ES6
+    // eslint-disable-next-line no-restricted-properties
+    Number.EPSILON = Math.pow(2, -52);
 }
 /* eslint-enable no-extend-native */
 

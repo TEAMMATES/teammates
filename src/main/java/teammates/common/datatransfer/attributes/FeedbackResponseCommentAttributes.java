@@ -176,7 +176,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public String getIdentificationString() {
-        return toString();
+        return feedbackResponseId + "/" + createdAt + ":" + commentGiver;
     }
 
     @Override

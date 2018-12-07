@@ -28,7 +28,7 @@ import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
 import teammates.common.util.Const;
-import teammates.common.util.CryptoHelper;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
@@ -213,7 +213,7 @@ public class GaeSimulation {
             request.setHeaderField("referer", "http://localhost");
 
             String sessionId = sc.getSession(true).getId();
-            String token = CryptoHelper.computeSessionToken(sessionId);
+            String token = StringHelper.encrypt(sessionId);
             request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
         }
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -28,6 +27,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.CsvChecker;
 
 /**
  * SUT: {@link CoursesLogic}.
@@ -610,23 +610,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         String courseId = instructor1OfCourse1.courseId;
 
         String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        String[] expectedCsvString = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID,\"idOfTypicalCourse1\"",
-                "Course Name,\"Typical Course 1 with 2 Evals\"",
-                "",
-                "",
-                "Section,Team,Full Name,Last Name,Status,Email",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
+        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithSection.csv");
 
         ______TS("Typical case: course without sections");
 
@@ -636,20 +620,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         courseId = instructor1OfCourse2.courseId;
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        expectedCsvString = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID,\"idOfTypicalCourse2\"",
-                "Course Name,\"Typical Course 2 with 1 Evals\"",
-                "",
-                "",
-                "Team,Full Name,Last Name,Status,Email",
-                "\"Team 2.1\",\"student1 In Course2\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.tmt\"",
-                "\"Team 2.1\",\"student2 In Course2\",\"Course2\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
+        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithoutSections.csv");
 
         ______TS("Typical case: course with unregistered student");
 
@@ -659,20 +630,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         courseId = instructor5.courseId;
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        expectedCsvString = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID,\"idOfUnregisteredCourse\"",
-                "Course Name,\"Unregistered Course\"",
-                "",
-                "",
-                "Section,Team,Full Name,Last Name,Status,Email",
-                "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.tmt\"",
-                "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
+        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithUnregisteredStudent.csv");
 
         String finalCourseId = courseId;
         String finalInstructorId = instructorId;
