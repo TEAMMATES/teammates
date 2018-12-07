@@ -8,7 +8,6 @@ import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
@@ -119,7 +118,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public void setLastUpdate(Instant newDate) {
-            this.updatedAt = newDate;
+        this.updatedAt = newDate;
     }
 
     public String getId() {
