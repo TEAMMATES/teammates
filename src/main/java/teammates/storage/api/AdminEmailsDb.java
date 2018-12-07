@@ -19,7 +19,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
 /**
@@ -125,15 +124,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     }
 
     /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     */
-    @Deprecated
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return makeAttributes(getAdminEmailEntities());
-    }
-
-    /**
      * Gets an admin email by email id.
      * @return null if no matched email found
      */
@@ -190,10 +180,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
                 load().filter("isInTrashBin =", true).list());
     }
 
-    private List<AdminEmail> getAdminEmailEntities() {
-        return load().list();
-    }
-
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
 
@@ -208,7 +194,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     private AdminEmail getAdminEmailEntity(String subject, Instant createDate) {
         return load()
                 .filter("subject =", subject)
-                .filter("createDate =", TimeHelper.convertInstantToDate(createDate))
+                .filter("createDate =", createDate)
                 .first().now();
     }
 
@@ -238,7 +224,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
         if (key == null) {
             query = load()
                     .filter("subject =", attributes.subject)
-                    .filter("createDate =", TimeHelper.convertInstantToDate(attributes.createDate));
+                    .filter("createDate =", attributes.createDate);
         } else {
             query = load().filterKey(key);
         }

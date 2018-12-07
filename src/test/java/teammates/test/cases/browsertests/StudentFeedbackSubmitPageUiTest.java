@@ -380,7 +380,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 22, 23, 24, 25, 26, 27.");
         assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
-                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
+                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData);
 
         assertEquals("UI", BackDoor.getFeedbackResponse(fqMcq.getId(),
                                                         aliceTeam,

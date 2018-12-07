@@ -1730,7 +1730,7 @@ public class FeedbackSessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             String recipientIdentifier = response.recipient;
             // getSectionFromRoster will return NO_SPECIFIC_SECTION for recipient who is Instructor or Nobody specific.
-            if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_SECTION) {
+            if (Const.NO_SPECIFIC_SECTION.equals(getSectionFromRoster(recipientIdentifier))) {
                 return true;
             }
         }

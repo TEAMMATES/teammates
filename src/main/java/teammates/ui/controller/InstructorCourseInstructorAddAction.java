@@ -20,28 +20,23 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
-        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        InstructorAttributes instructorToAdd = extractCompleteInstructor(
-                courseId, instructorName, instructorEmail);
+        InstructorAttributes instructorToAdd = extractCompleteInstructor(courseId);
 
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
             logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                    loggedInUser.googleId, instructorEmail, courseId);
+                    loggedInUser.googleId, instructorToAdd.email, instructorToAdd.courseId);
 
-            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                                                             instructorName, instructorEmail),
-                                               StatusMessageColor.SUCCESS));
-            statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
+            statusToUser.add(new StatusMessage(
+                    String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, instructorToAdd.name, instructorToAdd.email),
+                    StatusMessageColor.SUCCESS));
+            statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorToAdd.email + "</span>)"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
@@ -56,16 +51,20 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
 
     /**
      * Creates a new instructor with all information filled in, using request parameters.
-     * This includes basic information as well as custom privileges (if applicable).
      *
-     * @param courseId        Id of the course the instructor is being added to.
-     * @param instructorName  Name of the instructor.
-     * @param instructorEmail Email of the instructor.
+     * <p>This includes basic information as well as custom privileges (if applicable).
+     *
+     * @param courseId Id of the course the instructor is being added to.
      * @return An instructor with all relevant info filled in.
      */
-    private InstructorAttributes extractCompleteInstructor(String courseId, String instructorName, String instructorEmail) {
+    private InstructorAttributes extractCompleteInstructor(String courseId) {
+        String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
+        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_ROLE_NAME, instructorRole);
+
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
         if (displayedName == null || displayedName.isEmpty()) {

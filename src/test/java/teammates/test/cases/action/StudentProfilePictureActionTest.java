@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -23,6 +24,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
     private AccountAttributes account;
     private StudentAttributes student;
+    private StudentProfileAttributes studentProfileAttributes;
 
     @Override
     protected String getActionUri() {
@@ -32,6 +34,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     @BeforeClass
     public void classSetup() {
         account = typicalBundle.accounts.get("student1InCourse1");
+        studentProfileAttributes = typicalBundle.profiles.get("student1InCourse1");
         student = typicalBundle.students.get("student1InCourse1");
     }
 
@@ -75,14 +78,14 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         gaeSimulation.loginAsStudent(account.googleId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
+                Const.ParamsNames.BLOB_KEY, studentProfileAttributes.pictureKey
         };
         StudentProfilePictureAction action = getAction(submissionParams);
         ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(account.studentProfile.pictureKey, result.blobKey);
+        assertEquals(studentProfileAttributes.pictureKey, result.blobKey);
         verifyLogMessageForActionWithBlobKey(false, action.getLogMessage());
     }
 
@@ -92,7 +95,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, account.googleId,
-                Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
+                Const.ParamsNames.BLOB_KEY, studentProfileAttributes.pictureKey
         };
         StudentProfilePictureAction action = getAction(addUserIdToParams(account.googleId, submissionParams));
         ImageResult result = getImageResult(action);
@@ -170,7 +173,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 .withEmail("unregIns@unregcourse.com")
                 .withInstitute("unregInstitute")
                 .withIsInstructor(true)
-                .withDefaultStudentProfileAttributes("unregInsId")
                 .build());
         InstructorAttributes instructor = InstructorAttributes
                 .builder("unregInsId", course, "unregName", "unregIns@unregcourse.com")

@@ -1,9 +1,9 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.fail;
-
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import teammates.common.util.Config;
@@ -19,6 +19,9 @@ public final class TestProperties {
 
     /** The directory where HTML files for testing email contents are stored. */
     public static final String TEST_EMAILS_FOLDER = "src/test/resources/emails";
+
+    /** The directory where CSV files for testing CSV contents are stored. */
+    public static final String TEST_CSV_FOLDER = "src/test/resources/csv";
 
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
@@ -98,7 +101,7 @@ public final class TestProperties {
             } else {
                 propertiesFilename = "test.properties";
             }
-            try (FileInputStream testPropStream = new FileInputStream("src/test/resources/" + propertiesFilename)) {
+            try (InputStream testPropStream = Files.newInputStream(Paths.get("src/test/resources/" + propertiesFilename))) {
                 prop.load(testPropStream);
             }
 
@@ -197,10 +200,10 @@ public final class TestProperties {
      */
     public static void verifyReadyForGodMode() {
         if (!isDevServer()) {
-            fail("GodMode regeneration works only in dev server.");
+            throw new RuntimeException("GodMode regeneration works only in dev server.");
         }
         if (isStudentMotdUrlEmpty()) {
-            fail("Student MOTD URL defined in app.student.motd.url in build.properties "
+            throw new RuntimeException("Student MOTD URL defined in app.student.motd.url in build.properties "
                     + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
     }

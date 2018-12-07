@@ -294,6 +294,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -321,6 +322,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -392,6 +394,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                              + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
@@ -502,6 +505,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Another feedback session] is not accessible to instructor ["
                              + instructorHelper3.email + "] for privilege ["
@@ -739,7 +743,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 result.getDestinationWithParams());
 
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("New comment", frc.commentText);
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -775,7 +779,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                         "First+feedback+session"),
                 result.getDestinationWithParams());
         frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals("Edited comment", frc.commentText);
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -831,7 +835,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 result.getDestinationWithParams());
 
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("New comment", frc.commentText);
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -873,7 +877,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                         "Closed+feedback+session"),
                 result.getDestinationWithParams());
         frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals("Edited comment", frc.commentText);
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);

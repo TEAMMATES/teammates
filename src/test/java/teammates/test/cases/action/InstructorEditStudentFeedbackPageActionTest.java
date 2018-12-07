@@ -153,7 +153,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         try {
             editPageAction = getAction(submissionParams);
-            showPageResult = getShowPageResult(editPageAction);
+            getShowPageResult(editPageAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals(
                     "Feedback session [First feedback session] is not accessible to instructor ["
@@ -177,7 +178,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         try {
             editPageAction = getAction(submissionParams);
-            showPageResult = getShowPageResult(editPageAction);
+            getShowPageResult(editPageAction);
             signalFailureToDetectException();
         } catch (EntityNotFoundException enfe) {
             assertEquals("An entity with the identifier "

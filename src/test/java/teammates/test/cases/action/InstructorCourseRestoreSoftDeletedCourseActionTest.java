@@ -73,6 +73,7 @@ public class InstructorCourseRestoreSoftDeletedCourseActionTest extends BaseActi
         try {
             restoreAction = getAction(submissionParams);
             getRedirectResult(restoreAction);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Course [idOfTypicalCourse3] is not accessible to instructor [instructor2@course3.tmt] "
                     + "for privilege [canmodifycourse]", e.getMessage());

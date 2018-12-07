@@ -3,8 +3,6 @@ package teammates.ui.controller;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -55,7 +53,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .builder(courseId, feedbackSessionName, instructor.email, commentText)
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
@@ -101,7 +99,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.commentGiver + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "comment text: " + feedbackResponseComment.commentText;
 
             String commentGiverName = logic.getInstructorForEmail(courseId, frc.commentGiver).name;
             String commentEditorName = instructor.name;

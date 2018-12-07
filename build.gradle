@@ -9,22 +9,26 @@ project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.App
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-apply plugin: "findbugs"
+apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 
 def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.10.1"
-def pmdVersion = "6.5.0"
-def findbugsVersion = "3.0.1"
+def pmdVersion = "6.6.0"
+def spotbugsVersion = "3.1.7"
 def jacocoVersion = "0.8.1"
 def guavaVersion = "22.0"
 
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.3"
     }
 }
 
@@ -60,7 +64,7 @@ def testng = "org.testng:testng:6.9.4"
 dependencies {
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
-                    "com.google.code.findbugs:findbugs:${findbugsVersion}",
+                    "com.github.spotbugs:spotbugs:${spotbugsVersion}",
                     "de.andrena.tools.macker:macker:1.0.1",
                     "org.jacoco:org.jacoco.build:${jacocoVersion}"
 
@@ -77,7 +81,6 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.4",
                     "com.sun.jersey:jersey-core:1.19.4",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.4",
-                    "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.11.3"
 
     testAnnotationProcessor testng
@@ -374,17 +377,43 @@ pmd {
     ruleSets = []
 }
 
-findbugs {
-    toolVersion = findbugsVersion
-    visitors = [
-        "FindDeadLocalStores"
-    ]
+spotbugs {
+    reportLevel = "low"
+    toolVersion = spotbugsVersion
+    includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
 }
 
-tasks.withType(FindBugs) {
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
     reports {
         xml.enabled = false
-        html.enabled = true
+        html.enabled = false
+        emacs.enabled = true
+    }
+}
+
+spotbugsMain {
+    finalizedBy "printSpotbugsMainViolations"
+}
+
+task printSpotbugsMainViolations {
+    onlyIf {
+        file("${buildDir}/reports/spotbugs/main.emacs").exists()
+    }
+    doFirst {
+        print new File("${buildDir}/reports/spotbugs/main.emacs").getText("UTF-8")
+    }
+}
+
+spotbugsTest {
+    finalizedBy "printSpotbugsTestViolations"
+}
+
+task printSpotbugsTestViolations {
+    onlyIf {
+        file("${buildDir}/reports/spotbugs/test.emacs").exists()
+    }
+    doFirst {
+        print new File("${buildDir}/reports/spotbugs/test.emacs").getText("UTF-8")
     }
 }
 
@@ -397,11 +426,11 @@ task downloadStaticAnalysisTools {
 }
 
 task lintMain {
-    dependsOn checkstyleMain, pmdMain, findbugsMain
+    dependsOn checkstyleMain, pmdMain, spotbugsMain
 }
 
 task lintTest {
-    dependsOn checkstyleTest, pmdTest, findbugsTest
+    dependsOn checkstyleTest, pmdTest, spotbugsTest
 }
 
 task macker {
@@ -431,8 +460,6 @@ task lint {
 def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
 def isAppVeyor = System.getenv("APPVEYOR") != null
-def failedXmlPath = "test-output/testng-failed.xml"
-def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
 // Displays full exception; to be run after the test fails after the last retry
 // For HTML tests, the exception is displayed in diff form instead of the extremely verbose full exception message
@@ -441,12 +468,12 @@ def afterTestClosure = { descriptor, result ->
         println ""
 
         def msg = result.exception.getMessage()
-        def shouldDisplayAsDiff = msg.indexOf("<<expected>") != -1
+        def shouldDisplayAsDiff = msg.indexOf("<<[expected>") != -1
         if (shouldDisplayAsDiff) {
             def expectedFileName = "expected-${descriptor.getClassName()}"
             def actualFileName = "actual-${descriptor.getClassName()}"
-            file("${expectedFileName}").text = msg[(msg.indexOf("<<expected>") + 11)..(msg.indexOf("</expected>>") - 1)]
-            file("${actualFileName}").text = msg[(msg.indexOf("<<actual>") + 9)..(msg.indexOf("</actual>>") - 1)]
+            file("${expectedFileName}").text = msg[(msg.indexOf("<<[expected>") + 12)..(msg.indexOf("</expected]>>") - 1)]
+            file("${actualFileName}").text = msg[(msg.indexOf("<<[actual>") + 10)..(msg.indexOf("</actual]>>") - 1)]
             def diffCommand = isWindows ? "FC" : "diff"
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
@@ -593,50 +620,6 @@ task ciTests {
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
-}
-
-task generateFailedCmd(type: Exec) {
-    def os = new ByteArrayOutputStream()
-    doFirst {
-        commandLine "gist", "-p", "build/reports/test-try-${numOfTestRetries + 1}/testng-failed.xml"
-        standardOutput = os
-    }
-    doLast {
-        def gistUrl = os.toString()
-        def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1).replaceAll("\\s", "")
-        println "Run failed tests locally by downloading the XML file containing the failed tests using the command:"
-        println "Windows: gradlew.bat -Pgist=${gistHash} downloadFailedXml"
-        println "Linux/OS X: ./gradlew -Pgist=${gistHash} downloadFailedXml"
-        println "followed by running \"Failed tests\" in Eclipse/IntelliJ or using the following command:"
-        println "Windows: gradlew.bat failedTests"
-        println "Linux/OS X: ./gradlew failedTests"
-    }
-}
-
-task cleanTestOutputDir {
-    doLast {
-        def testOutputDir = new File("test-output")
-        testOutputDir.deleteDir()
-    }
-}
-
-task downloadFailedXml {
-    description "Downloads testng-failed.xml from a failed run in Travis/AppVeyor."
-    group "Test"
-    onlyIf {
-        project.hasProperty("gist")
-    }
-    doFirst {
-        def failedXml = new File(failedXmlPath)
-        failedXml.getParentFile().mkdirs()
-        def downloadUrl = failedXmlUrl.replace(/gist_id/, project.getProperty("gist"))
-        new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}
-    }
-    doLast {
-        println "The XML file containing the failed tests has been downloaded successfully."
-        println "You can now run the failed tests locally."
-    }
-    dependsOn cleanTestOutputDir
 }
 
 // COVERAGE TASKS
