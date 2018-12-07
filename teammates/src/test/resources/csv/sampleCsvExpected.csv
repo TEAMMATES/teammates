@@ -1,3 +1,0 @@
-Header 1,Header 2,Header 3
-Content 1,Content 2,Content 3
-Anonymous student ${participant.hash},Anonymous instructor ${participant.hash},Anonymous team ${participant.hash}
