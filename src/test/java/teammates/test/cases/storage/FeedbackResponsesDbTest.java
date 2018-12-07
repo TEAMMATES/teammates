@@ -103,7 +103,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         String newRecipientEmailTwo = "new-email-two@tmt.com";
         feedbackResponse.recipient = newRecipientEmailTwo;
-        frDb.updateFeedbackResponse(feedbackResponse, true);
+        frDb.updateFeedbackResponse(feedbackResponse);
 
         FeedbackResponseAttributes updatedFrTwo =
                 frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
