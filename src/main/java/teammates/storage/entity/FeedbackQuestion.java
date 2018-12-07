@@ -73,7 +73,7 @@ public class FeedbackQuestion extends BaseEntity {
 
     @SuppressWarnings("unused")
     private FeedbackQuestion() {
-        // required by Objectify 
+        // required by Objectify
     }
 
     public FeedbackQuestion(
