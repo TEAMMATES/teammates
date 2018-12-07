@@ -19,7 +19,6 @@ import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.Priority;
 
 /**
  * SUT: {@link AccountsLogic}.
@@ -88,7 +87,6 @@ public class AccountsLogicTest extends BaseLogicTest {
 
     }
 
-    @Priority(-1)
     @Test
     public void testAccountFunctions() throws Exception {
 

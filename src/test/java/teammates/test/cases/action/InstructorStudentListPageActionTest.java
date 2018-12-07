@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.Priority;
 import teammates.ui.controller.InstructorStudentListPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorStudentListPageData;
@@ -13,9 +12,6 @@ import teammates.ui.pagedata.InstructorStudentListPageData;
 /**
  * SUT: {@link InstructorStudentListPageAction}.
  */
-// Priority added due to conflict between InstructorStudentListPageActionTest,
-// and StudentHomePageActionTest.
-@Priority(-3)
 public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     @Override

@@ -42,6 +42,6 @@ build_script:
 
 test_script:
   - gradlew.bat componentTests
-  - npm run coverage -- --progress=false
+  - npm run coverage
   - gradlew.bat appengineStart
   - gradlew.bat e2eTests

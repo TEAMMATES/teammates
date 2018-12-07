@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.Config;
 import teammates.common.util.Url;
 import teammates.test.driver.StringHelperExtension;
 
@@ -204,14 +203,6 @@ public final class TestProperties {
         if (!isDevServer()) {
             throw new RuntimeException("GodMode regeneration works only in dev server.");
         }
-        if (isStudentMotdUrlEmpty()) {
-            throw new RuntimeException("Student MOTD URL defined in app.student.motd.url in build.properties "
-                    + "must not be empty. It is advised to use test-student-motd.html to test it.");
-        }
-    }
-
-    private static boolean isStudentMotdUrlEmpty() {
-        return Config.STUDENT_MOTD_URL.isEmpty();
     }
 
 }
