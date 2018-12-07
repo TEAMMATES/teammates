@@ -6,7 +6,6 @@ branches:
   only:
     - master
     - release
-    - teammatesv7
 
 notifications:
   email: false
