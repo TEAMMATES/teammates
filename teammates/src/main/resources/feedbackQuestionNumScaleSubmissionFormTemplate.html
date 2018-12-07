@@ -1,0 +1,11 @@
+<div class="col-sm-3 mobile-no-padding">
+  <input type="number" class="numScaleAnswerBox form-control col-sm-2" ${disabled} onChange="validateNumScaleAnswer(${questionIndex}, ${responseIndex})"
+      min="${minScale}" max="${maxScale}" step="${step}" value="${existingAnswer}"
+      name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}">
+  <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}-${questionIndex}-${responseIndex}" value="${minScale}">
+  <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}-${questionIndex}-${responseIndex}" value="${maxScale}">
+  <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}-${questionIndex}-${responseIndex}" value="${step}">
+</div>
+<div class="text-muted form-control-static">
+  ${possibleValuesString}
+</div>

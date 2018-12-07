@@ -1,0 +1,86 @@
+<p>Hello Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;,</p>
+
+<p>The email below has been sent to students of course: [idOfTestingSanitizationCourse] Testing&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;.<br>
+<br>
+=== Email message as seen by the students ===</p>
+
+
+<p>
+  The following feedback session is now open.
+  <div>
+    <table style="max-width:600px;border:1px solid black;">
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Course:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          [idOfTestingSanitizationCourse] Testing&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Feedback Session Name:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          Normal feedback session name
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Deadline:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          Fri, 30 Apr 2027, 11:59 PM SAST
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;vertical-align:top">
+          <strong>
+            Session Instructions:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          unclosed tags  Attempted script injection &#39;&#34;
+        </td>
+      </tr>
+    </table>
+  </div>
+  <ul>
+    <li>
+      <strong>To submit, edit or view your feedback for the above session, please go to this Web address: </strong>
+      <a href="{in the actual email sent to the students, this will be the unique link}">{in the actual email sent to the students, this will be the unique link}</a>
+    </li>
+    <li>
+      The above link is unique to you. Please do not share it with others.
+    </li>
+  </ul>
+</p>
+
+<p>
+  <ul>
+    <li>
+      <strong>Requests for deadline extensions, problems regarding team/student data</strong> (e.g. wrong team, misspelled name),
+      and <strong>other non-technical queries</strong> about the feedback session:
+      <br>
+      Contact the instructors of the course: Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt; (instructor1@sanitization.tmt)
+    </li>
+    <li>
+      <strong>Technical help regarding TEAMMATES</strong> (e.g. submission link is not working):
+      Email TEAMMATES support team at ${support.email}.
+    </li>
+  </ul>
+</p>
+
+<p>
+  Regards,
+  <br>TEAMMATES Team.
+</p>

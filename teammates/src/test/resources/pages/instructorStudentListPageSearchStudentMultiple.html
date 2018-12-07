@@ -1,0 +1,246 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Search
+  </h1>
+  <br>
+  <div>
+    <form action="/page/instructorSearchPage?user=instructorWith2Courses" method="get" name="search_form">
+      <div class="well well-plain">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="alice">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                Search
+              </button>
+            </span>
+          </div>
+          <input name="user" type="hidden" value="instructorWith2Courses">
+        </div>
+        <div class="form-group">
+          <ul class="list-inline">
+            <li>
+              <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
+              </span>
+            </li>
+            <li>
+              <input checked="" id="students-check" name="searchstudents" type="checkbox" value="true">
+              <label for="students-check">
+                Students
+              </label>
+            </li>
+            <li>
+              <input id="search-feedback-sessions-data-check" name="searchfeedbacksessiondata" type="checkbox" value="true">
+              <label for="search-feedback-sessions-data-check">
+                Questions, responses, comments on responses
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <strong>
+        Students
+      </strong>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <strong>
+            [course2]
+          </strong>
+        </div>
+        <div class="panel-body padding-0">
+          <table class="table table-bordered table-striped table-responsive margin-0">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr id="resultsHeader-0">
+                <th>
+                  Photo
+                </th>
+                <th class="toggle-sort button-sort-none" id="button_sortsection-0">
+                  Section
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortteam-0">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
+                  Student Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+                  Status
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortemail-0">
+                  Email
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th>
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="student_row" id="student-c0.0">
+                <td id="studentphoto-c0.0">
+                  <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
+                    <a class="student-profile-pic-view-link btn-link">
+                      View Photo
+                    </a>
+                    <img alt="No Image Given" class="hidden" src="">
+                  </div>
+                </td>
+                <td id="studentsection-c0.0">
+                  Section A&lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+                </td>
+                <td id="studentteam-c0.0.0">
+                  Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+                </td>
+                <td id="studentname-c0.0">
+                  <span class="highlight">
+                    Alice
+                  </span>
+                  &lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+                </td>
+                <td class="align-center">
+                  Joined
+                </td>
+                <td id="studentemail-c0.0">
+                  CCSDetailsUiT.
+                  <span class="highlight">
+                    alice
+                  </span>
+                  .tmms@gmail.tmt
+                </td>
+                <td class="no-print align-center">
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    View
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    Edit
+                  </a>
+                  <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course2" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Alice</option></td>tags and char here</div>&\'\&quot;" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" title="">
+                    Delete
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    All Records
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <strong>
+            [course3]
+          </strong>
+        </div>
+        <div class="panel-body padding-0">
+          <table class="table table-bordered table-striped table-responsive margin-0">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr id="resultsHeader-1">
+                <th>
+                  Photo
+                </th>
+                <th class="toggle-sort button-sort-none hidden" id="button_sortsection-1">
+                  Section
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortteam-1">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentname-1">
+                  Student Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+                  Status
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortemail-1">
+                  Email
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th>
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="student_row" id="student-c1.0">
+                <td id="studentphoto-c1.0">
+                  <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
+                    <a class="student-profile-pic-view-link btn-link">
+                      View Photo
+                    </a>
+                    <img alt="No Image Given" class="hidden" src="">
+                  </div>
+                </td>
+                <td class="hidden" id="studentsection-c1.0">
+                  None
+                </td>
+                <td id="studentteam-c1.0.0">
+                  Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+                </td>
+                <td id="studentname-c1.0">
+                  <span class="highlight">
+                    Alice
+                  </span>
+                  &lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+                </td>
+                <td class="align-center">
+                  Joined
+                </td>
+                <td id="studentemail-c1.0">
+                  CCSDetailsUiT.
+                  <span class="highlight">
+                    alice
+                  </span>
+                  .tmms@gmail.tmt
+                </td>
+                <td class="no-print align-center">
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    View
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    Edit
+                  </a>
+                  <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Alice</option></td>tags and char here</div>&\'\&quot;" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" title="">
+                    Delete
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    All Records
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

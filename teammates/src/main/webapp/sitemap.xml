@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>http://teammatesv4.appspot.com</loc>
+    <changefreq>yearly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/overview.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Home]</image:title>
+       <image:caption>Manage team projects, Provide anonymous peer feedback and confidential peer evaluations </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/features.jsp</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature1.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>Teammates is free and no installation required</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature2.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>Easy enrollment of students and teams in Teammates</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature3.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>Create peer evaluations and feedback for students in Teammates</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature4.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>Teammates sends notifications and reminders to students about their peer evaluation and feedback for their projects</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature5.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>Teammates allows anonymous and confidential peer evaluations and feedback</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature6.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>View reports of student projects and moderate their evaluations in Teammates</image:caption>
+    </image:image>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/feature7.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects[Features]</image:title>
+       <image:caption>Allow students to view their peer evaluations and feedback in Teammates</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/about.jsp</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/contact.jsp</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/terms.jsp</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/request.jsp</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/usermap.jsp</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo-black.png</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+</urlset>
+<!-- Sitemap protocol: http://www.sitemaps.org/protocol.html -->

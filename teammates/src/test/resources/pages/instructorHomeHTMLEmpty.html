@@ -1,0 +1,177 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Home
+  </h1>
+  <br>
+  <div class="well well-plain">
+    <div class="row">
+      <div class="col-md-12">
+        <form action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" method="get" name="search_form">
+          <div class="input-group">
+            <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text">
+            <span class="input-group-btn">
+              <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
+                Search
+              </button>
+            </span>
+          </div>
+          <input name="searchstudents" type="hidden" value="true">
+          <input name="searchfeedbacksessiondata" type="hidden" value="false">
+          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-info icon-info statusMessage">
+      New to TEAMMATES? You may wish to have a look at our
+      <a href="/gettingStarted.jsp" target="_blank">
+        Getting Started Guide
+      </a>
+      .
+      <br>
+      A video tour is also available in our
+      <a href="/" target="_blank">
+        home page
+      </a>
+      .
+    </div>
+  </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-2">
+      <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
+        Add New Course
+      </a>
+    </div>
+    <div class="col-xs-10">
+      <div class="pull-right">
+        <h5 class="inline-block">
+          <strong>
+            Sort By:
+          </strong>
+        </h5>
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default" data="id" disabled="" id="sortById" name="sortby">
+            <input type="radio">
+            Course ID
+          </label>
+          <label class="btn btn-default" data="name" disabled="" id="sortByName" name="sortby">
+            <input name="sortby" type="radio" value="name">
+            Course Name
+          </label>
+          <label class="btn btn-default active" data="createdAt" disabled="" id="sortByDate" name="sortby">
+            <input type="radio">
+            Creation Date
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Copy this feedback session to other courses
+              <br>
+              <small>
+                (Select the course(s) you want to copy this feedback session to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="courseList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

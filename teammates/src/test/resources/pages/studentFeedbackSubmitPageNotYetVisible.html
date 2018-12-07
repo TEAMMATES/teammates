@@ -1,0 +1,79 @@
+<div class="container" id="mainContent">
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="alert alert-warning col-md-4 col-md-offset-4">
+      <img src="/images/angry.png" style="float: left; height: 90px; margin: 0 10px 10px 0;">
+      <p>
+        Sorry, this session is currently not open for submission. It will be open from Mon, 02 Apr 2035, 11:59 PM SGT
+        <br>
+        <br>
+      </p>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 align-center">
+      <h2>
+        Uh oh! Something went wrong.
+      </h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+        We are sorry this happened. You can safely ignore this error page in the following cases:
+      </p>
+      <ul>
+        <li>
+          Retrying the same action a few minutes later succeeds (i.e. no more error page).
+        </li>
+        <li>
+          You loaded an outdated page unintentionally. e.g. some browsers auto-load the pages that were loaded in the previous browsing session.
+        </li>
+      </ul>
+      <p>
+        However, if you keep seeing this page on multiple failed attempts when trying to perform some action in TEAMMATES, please help us troubleshoot the problem by providing us some additional details using the form below.
+      </p>
+    </div>
+  </div>
+  <form action="/page/errorFeedbackSubmit" id="error-feedback-form" method="post">
+    <div class="form-group">
+      <label for="error-feedback-email-composer-recipient-email">
+        To:
+      </label>
+      <br>
+      <em>
+        Note: This is the TEAMMATES support email. It has been pre-filled for your convenience and is not editable.
+      </em>
+      <input class="form-control" id="error-feedback-email-composer-recipient-email" name="errorfeedbackemailreceiveraddress" readonly="" type="email" value="${support.email}">
+    </div>
+    <div class="form-group">
+      <label for="error-feedback-email-composer-subject">
+        Subject:
+      </label>
+      <br>
+      <em>
+        Note: This field has also been pre-filled for convenience. Feel free to change it to suit your needs.
+      </em>
+      <input class="form-control" id="error-feedback-email-composer-subject" name="errorfeedbackemailsubject" type="text" value="User-submitted Error Report">
+    </div>
+    <div class="form-group">
+      <label for="error-feedback-email-composer-content">
+        Content:
+      </label>
+      <textarea class="form-control" id="error-feedback-email-composer-content" name="errorfeedbackemailcontent" placeholder="Tell us the steps you took that led you to this error page">
+      </textarea>
+    </div>
+    <button class="btn btn-success" type="submit">
+      Send feedback
+    </button>
+    <input name="key" type="hidden" value="">
+    <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
+    <input name="studentemail" type="hidden" value="">
+    <input name="errorfeedbackrequestedurl" type="hidden" value="/page/studentFeedbackSubmissionEditPage?user=SFSubmitUiT.alice.b&courseid=SFSubmitUiT.CS2104&fsname=Fifth+Session">
+  </form>
+</div>

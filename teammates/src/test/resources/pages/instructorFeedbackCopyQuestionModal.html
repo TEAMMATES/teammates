@@ -1,0 +1,88 @@
+<div aria-hidden="false" aria-labelledby="copyModalTitle" class="modal fade in" id="copyModal" role="dialog" style="display: block;" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">
+            ×
+          </span>
+          <span class="sr-only">
+            Close
+          </span>
+        </button>
+        <h4 class="modal-title" id="copyModalTitle">
+          Copy Questions
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
+          <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
+            <thead class="fill-primary">
+              <tr>
+                <th style="width:30px;">
+                   
+                </th>
+                <th class="button-sort-ascending toggle-sort" id="button_sortid" style="width:100px">
+                  Course ID
+                  <span class="icon-sort sorted-ascending">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortfsname" style="width:17%;">
+                  Session Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortfqtype">
+                  Question Type
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortfqtext">
+                  Question Text
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="cursor:pointer;">
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>
+                  CFeedbackEditUiT.CS2104
+                </td>
+                <td>
+                  First Session
+                </td>
+                <td>
+                  Essay question
+                </td>
+                <td>
+                  filled qn
+                </td>
+                <input type="hidden" value="${question.id}">
+                <input class="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+                <input class="fsname" type="hidden" value="First Session">
+              </tr>
+            </tbody>
+          </table>
+          <input name="fsname" type="hidden" value="First Session">
+          <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
+          <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+          <input name="token" type="hidden" value="${sessionToken}">
+        </form>
+        <div id="question-copy-modal-status">
+        </div>
+      </div>
+      <div class="modal-footer margin-0">
+        <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
+          Copy
+        </button>
+        <button class="btn btn-default" data-dismiss="modal" type="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

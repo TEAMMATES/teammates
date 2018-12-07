@@ -1,0 +1,139 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Student List
+  </h1>
+  <br>
+  <div class="well well-plain">
+    <div class="row">
+      <div class="col-md-12">
+        <form action="/page/instructorSearchPage?user=instructorWithoutCourses" method="get" name="search_form">
+          <div class="row">
+            <div class="col-md-10">
+              <div class="form-group">
+                <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz" title="" type="text" value="">
+              </div>
+            </div>
+            <div class="col-md-2 nav">
+              <div class="form-group">
+                <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                  <span class="glyphicon glyphicon-search">
+                  </span>
+                  Find students
+                </button>
+              </div>
+            </div>
+          </div>
+          <input name="searchstudents" type="hidden" value="true">
+          <input name="searchfeedbacksessiondata" type="hidden" value="false">
+          <input name="user" type="hidden" value="instructorWithoutCourses">
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <h2>
+    Filter Students
+  </h2>
+  <div class="well well-plain" id="moreOptionsDiv" style="display:none;">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="checkbox">
+          <input id="displayArchivedCourses_check" type="checkbox">
+          <label for="displayArchivedCourses_check">
+            Display Archived Courses
+          </label>
+        </div>
+      </div>
+    </div>
+    <form class="form-horizontal" role="form">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Courses
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox">
+            <input id="course_all" type="checkbox" value="">
+            <label for="course_all">
+              <strong>
+                Select all
+              </strong>
+            </label>
+          </div>
+          <br>
+        </div>
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Sections
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox" style="display:none;">
+            <input id="section_all" type="checkbox" value="">
+            <label for="section_all">
+              <strong>
+                Select all
+              </strong>
+            </label>
+          </div>
+          <br>
+          <div id="sectionChoices">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Teams
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox" style="display:none;">
+            <input id="team_all" type="checkbox">
+            <label for="team_all">
+              <strong>
+                Select All
+              </strong>
+            </label>
+          </div>
+          <br>
+          <div id="teamChoices">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Emails
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox" style="display:none;">
+            <input checked="" id="show_email" type="checkbox">
+            <label for="show_email">
+              <strong>
+                Show Emails
+              </strong>
+            </label>
+            <button class="btn btn-default btn-xs" id="copy-email-button">
+              Copy Emails
+            </button>
+          </div>
+          <br>
+          <div id="emails">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-warning icon-warning statusMessage">
+      There are no course or students information to be displayed
+    </div>
+  </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
+</div>

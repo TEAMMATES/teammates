@@ -1,0 +1,572 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Student List
+  </h1>
+  <br>
+  <div class="well well-plain">
+    <div class="row">
+      <div class="col-md-12">
+        <form action="/page/instructorSearchPage?user=instructorOfCourse4" method="get" name="search_form">
+          <div class="row">
+            <div class="col-md-10">
+              <div class="form-group">
+                <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz" title="" type="text" value="">
+              </div>
+            </div>
+            <div class="col-md-2 nav">
+              <div class="form-group">
+                <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                  <span class="glyphicon glyphicon-search">
+                  </span>
+                  Find students
+                </button>
+              </div>
+            </div>
+          </div>
+          <input name="searchstudents" type="hidden" value="true">
+          <input name="searchfeedbacksessiondata" type="hidden" value="false">
+          <input name="user" type="hidden" value="instructorOfCourse4">
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <h2>
+    Filter Students
+  </h2>
+  <div class="well well-plain" id="moreOptionsDiv">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="checkbox">
+          <input checked="" id="displayArchivedCourses_check" type="checkbox">
+          <label for="displayArchivedCourses_check">
+            Display Archived Courses
+          </label>
+        </div>
+      </div>
+    </div>
+    <form class="form-horizontal" role="form">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Courses
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox">
+            <input id="course_all" type="checkbox" value="">
+            <label for="course_all">
+              <strong>
+                Select all
+              </strong>
+            </label>
+          </div>
+          <br>
+          <div class="checkbox">
+            <input id="course_check-0" type="checkbox">
+            <label for="course_check-0">
+              [course1] : Name of Course 1
+            </label>
+          </div>
+          <div class="checkbox">
+            <input id="course_check-1" type="checkbox">
+            <label for="course_check-1">
+              [course3] : Name of Course 3
+            </label>
+          </div>
+          <div class="checkbox">
+            <input id="course_check-2" type="checkbox">
+            <label for="course_check-2">
+              [course4] : Name of Course 4
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Sections
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox" style="">
+            <input id="section_all" type="checkbox" value="">
+            <label for="section_all">
+              <strong>
+                Select all
+              </strong>
+            </label>
+          </div>
+          <br>
+          <div id="sectionChoices">
+            <div class="checkbox">
+              <input checked="" class="section_check" id="section_check-1-0" type="checkbox">
+              <label for="section_check-1-0">
+                [course3] : None
+              </label>
+            </div>
+            <div class="checkbox">
+              <input checked="" class="section_check" id="section_check-2-0" type="checkbox">
+              <label for="section_check-2-0">
+                [course4] : None
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Teams
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox" style="">
+            <input id="team_all" type="checkbox">
+            <label for="team_all">
+              <strong>
+                Select All
+              </strong>
+            </label>
+          </div>
+          <br>
+          <div id="teamChoices">
+            <div class="checkbox">
+              <input checked="" class="team_check" id="team_check-1-0-0" type="checkbox">
+              <label for="team_check-1-0-0">
+                [course3] : Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+              </label>
+            </div>
+            <div class="checkbox">
+              <input checked="" class="team_check" id="team_check-1-0-1" type="checkbox">
+              <label for="team_check-1-0-1">
+                [course3] : Team 2
+              </label>
+            </div>
+            <div class="checkbox">
+              <input checked="" class="team_check" id="team_check-2-0-0" type="checkbox">
+              <label for="team_check-2-0-0">
+                [course4] : Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="text-color-primary">
+            <strong>
+              Emails
+            </strong>
+          </div>
+          <br>
+          <div class="checkbox" style="">
+            <input checked="" id="show_email" type="checkbox">
+            <label for="show_email">
+              <strong>
+                Show Emails
+              </strong>
+            </label>
+            <button class="btn btn-default btn-xs" id="copy-email-button">
+              Copy Emails
+            </button>
+          </div>
+          <br>
+          <div id="emails">
+            <div id="student_email-c1.0">
+              CCSDetailsUiT.alice.tmms@gmail.tmt
+            </div>
+            <div id="student_email-c1.1">
+              benny.c.tmms@gmail.tmt
+            </div>
+            <div id="student_email-c1.2">
+              CCSDetailsUiT.charlie.tmms@gmail.tmt
+            </div>
+            <div id="student_email-c1.3">
+              denny.c.tmms@gmail.tmt
+            </div>
+            <div id="student_email-c2.0">
+              ann.tmms@gmail.tmt
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
+      <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="course1">
+        <input name="user" type="hidden" value="instructorOfCourse4">
+        <input id="numStudents-0" type="hidden" value="0">
+      </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
+      <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course1&user=instructorOfCourse4" id="enroll-0" title="">
+        <span class="glyphicon glyphicon-list">
+        </span>
+        Enroll
+      </a>
+      <div class="display-icon pull-right">
+      </div>
+      <strong>
+        [course1] :
+      </strong>
+      Name of Course 1
+    </div>
+    <div class="panel-collapse checked collapse in" id="panelBodyCollapse-0" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table table-bordered table-striped table-responsive margin-0">
+          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            <tr>
+              <th class="align-center color_white bold">
+                There are no students in this course
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+      <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
+        <input name="courseid" type="hidden" value="course3">
+        <input name="user" type="hidden" value="instructorOfCourse4">
+        <input id="numStudents-1" type="hidden" value="4">
+      </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
+      <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course3&user=instructorOfCourse4" id="enroll-1" title="">
+        <span class="glyphicon glyphicon-list">
+        </span>
+        Enroll
+      </a>
+      <div class="display-icon pull-right">
+      </div>
+      <strong>
+        [course3] :
+      </strong>
+      Name of Course 3
+    </div>
+    <div class="panel-collapse checked collapse in" id="panelBodyCollapse-1" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table table-bordered table-striped table-responsive margin-0">
+          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            <tr id="resultsHeader-1">
+              <th>
+                Photo
+              </th>
+              <th class="toggle-sort button-sort-none hidden" id="button_sortsection-1">
+                Section
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortteam-1">
+                Team
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortstudentname-1">
+                Student Name
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+                Status
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortemail-1">
+                Email
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th>
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="student_row" id="student-c1.0">
+              <td id="studentphoto-c1.0">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorOfCourse4">
+                  <a class="student-profile-pic-view-link btn-link">
+                    View Photo
+                  </a>
+                  <img alt="No Image Given" class="hidden" src="">
+                </div>
+              </td>
+              <td class="hidden" id="studentsection-c1.0" style="display: table-cell;">
+                None
+              </td>
+              <td id="studentteam-c1.0.0">
+                Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+              </td>
+              <td id="studentname-c1.0">
+                Alice&lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+              </td>
+              <td class="align-center">
+                Joined
+              </td>
+              <td id="studentemail-c1.0">
+                CCSDetailsUiT.alice.tmms@gmail.tmt
+              </td>
+              <td class="no-print align-center">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  View
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  Edit
+                </a>
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Alice</option></td>tags and char here</div>&\'\&quot;" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Delete
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  All Records
+                </a>
+              </td>
+            </tr>
+            <tr class="student_row" id="student-c1.1">
+              <td id="studentphoto-c1.1">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorOfCourse4">
+                  <a class="student-profile-pic-view-link btn-link">
+                    View Photo
+                  </a>
+                  <img alt="No Image Given" class="hidden" src="">
+                </div>
+              </td>
+              <td class="hidden" id="studentsection-c1.0" style="display: table-cell;">
+                None
+              </td>
+              <td id="studentteam-c1.0.0">
+                Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+              </td>
+              <td id="studentname-c1.1">
+                Benny Charles
+              </td>
+              <td class="align-center">
+                Yet to join
+              </td>
+              <td id="studentemail-c1.1">
+                benny.c.tmms@gmail.tmt
+              </td>
+              <td class="no-print align-center">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  View
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  Edit
+                </a>
+                <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px" data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?pagenameremindstudentisfrom=instructorStudentListPage&courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Send Invite
+                </a>
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Delete
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  All Records
+                </a>
+              </td>
+            </tr>
+            <tr class="student_row" id="student-c1.2">
+              <td id="studentphoto-c1.2">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorOfCourse4">
+                  <a class="student-profile-pic-view-link btn-link">
+                    View Photo
+                  </a>
+                  <img alt="No Image Given" class="hidden" src="">
+                </div>
+              </td>
+              <td class="hidden" id="studentsection-c1.0" style="display: table-cell;">
+                None
+              </td>
+              <td id="studentteam-c1.0.1">
+                Team 2
+              </td>
+              <td id="studentname-c1.2">
+                Charlie D
+              </td>
+              <td class="align-center">
+                Joined
+              </td>
+              <td id="studentemail-c1.2">
+                CCSDetailsUiT.charlie.tmms@gmail.tmt
+              </td>
+              <td class="no-print align-center">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  View
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  Edit
+                </a>
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Charlie D" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Delete
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  All Records
+                </a>
+              </td>
+            </tr>
+            <tr class="student_row" id="student-c1.3">
+              <td id="studentphoto-c1.3">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorOfCourse4">
+                  <a class="student-profile-pic-view-link btn-link">
+                    View Photo
+                  </a>
+                  <img alt="No Image Given" class="hidden" src="">
+                </div>
+              </td>
+              <td class="hidden" id="studentsection-c1.0" style="display: table-cell;">
+                None
+              </td>
+              <td id="studentteam-c1.0.1">
+                Team 2
+              </td>
+              <td id="studentname-c1.3">
+                Denny Charlés
+              </td>
+              <td class="align-center">
+                Yet to join
+              </td>
+              <td id="studentemail-c1.3">
+                denny.c.tmms@gmail.tmt
+              </td>
+              <td class="no-print align-center">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  View
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  Edit
+                </a>
+                <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px" data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?pagenameremindstudentisfrom=instructorStudentListPage&courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Send Invite
+                </a>
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Denny Charlés" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Delete
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  All Records
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+      <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
+        <input name="courseid" type="hidden" value="course4">
+        <input name="user" type="hidden" value="instructorOfCourse4">
+        <input id="numStudents-2" type="hidden" value="1">
+      </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
+      <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course4&user=instructorOfCourse4" id="enroll-2" title="">
+        <span class="glyphicon glyphicon-list">
+        </span>
+        Enroll
+      </a>
+      <div class="display-icon pull-right">
+      </div>
+      <strong>
+        [course4] :
+      </strong>
+      Name of Course 4
+    </div>
+    <div class="panel-collapse checked collapse in" id="panelBodyCollapse-2" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table table-bordered table-striped table-responsive margin-0">
+          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            <tr id="resultsHeader-2">
+              <th>
+                Photo
+              </th>
+              <th class="toggle-sort button-sort-none hidden" id="button_sortsection-2">
+                Section
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortteam-2">
+                Team
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortstudentname-2">
+                Student Name
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+                Status
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button-sort-none toggle-sort" id="button_sortemail-2">
+                Email
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th>
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="student_row" id="student-c2.0">
+              <td id="studentphoto-c2.0">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorOfCourse4">
+                  <a class="student-profile-pic-view-link btn-link">
+                    View Photo
+                  </a>
+                  <img alt="No Image Given" class="hidden" src="">
+                </div>
+              </td>
+              <td class="hidden" id="studentsection-c2.0" style="display: table-cell;">
+                None
+              </td>
+              <td id="studentteam-c2.0.0">
+                Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
+              </td>
+              <td id="studentname-c2.0">
+                Ann
+              </td>
+              <td class="align-center">
+                Yet to join
+              </td>
+              <td id="studentemail-c2.0">
+                ann.tmms@gmail.tmt
+              </td>
+              <td class="no-print align-center">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  View
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  Edit
+                </a>
+                <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px" data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?pagenameremindstudentisfrom=instructorStudentListPage&courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Send Invite
+                </a>
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course4" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Ann" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
+                  Delete
+                </a>
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                  All Records
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

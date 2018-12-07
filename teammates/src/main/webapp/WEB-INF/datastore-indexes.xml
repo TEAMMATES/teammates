@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - When adding a new index definition to support a new query, follow these steps:
+  - 1. Set autoGenerate to true.
+  - 2. Restart the dev server and run the new query.
+  -    The required index definition will be generated and saved in the file
+  -    "appengine-generated/datastore-indexes-auto.xml".
+  - 3. Copy the index definition from that file into this one.
+  - 4. Set autoGenerate back to false.
+  - 5. Restart the dev server and rerun the query to ensure that it works.
+  -->
+<datastore-indexes autoGenerate="false">
+    <datastore-index kind="Instructor" ancestor="false" source="auto">
+        <property name="googleId" direction="asc"/>
+        <property name="isArchived" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="AdminEmail" ancestor="false" source="auto">
+        <property name="isInTrashBin" direction="asc"/>
+        <property name="sendDate" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="isClosingEmailEnabled" direction="asc"/>
+        <property name="sentClosedEmail" direction="asc"/>
+        <property name="endTime" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="isClosingEmailEnabled" direction="asc"/>
+        <property name="sentClosingEmail" direction="asc"/>
+        <property name="endTime" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="sentOpenEmail" direction="asc"/>
+        <property name="startTime" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="isPublishedEmailEnabled" direction="asc"/>
+        <property name="sentPublishedEmail" direction="asc"/>
+    </datastore-index>
+</datastore-indexes>

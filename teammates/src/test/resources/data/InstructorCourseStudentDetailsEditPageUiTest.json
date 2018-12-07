@@ -1,0 +1,66 @@
+{
+  "accounts": {
+    "CCSDEditUiT.instr": {
+      "googleId": "CCSDEditUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "CCSDEditUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "CCSDEditUiT.CS2104": {
+      "id": "CCSDEditUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "CCSDEditUiT.instr": {
+      "googleId": "CCSDEditUiT.instr",
+      "courseId": "CCSDEditUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "CCSDEditUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "registeredStudent": {
+      "googleId": "CCSDEditUiT.jose.tmms",
+      "email": "CCSDEditUiT.jose.tmms@gmail.tmt",
+      "course": "CCSDEditUiT.CS2104",
+      "name": "José Gómez</option></td></div>'\"",
+      "comments": "This student's name is José Gómez</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "unregisteredStudent": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "CCSDEditUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

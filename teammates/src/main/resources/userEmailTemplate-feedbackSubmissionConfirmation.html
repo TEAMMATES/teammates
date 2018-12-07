@@ -1,0 +1,55 @@
+<p>Hello ${userName},</p>
+
+<p>
+  The feedback responses for the following feedback session has been successfully submitted by you on ${timeStamp}.
+  <div>
+    <table style="max-width:600px;border:1px solid black;">
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Course:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          [${courseId}] ${courseName}
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Feedback Session Name:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          ${feedbackSessionName}
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Deadline:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          ${deadline}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <ul>
+    <li>
+      <strong>To view or edit your submitted responses for this session, please go to this Web address: </strong>
+      <a href="${submitUrl}">${submitUrl}</a>
+    </li>
+    <li>The above link is unique to you. Please do not share it with others.</li>
+  </ul>
+</p>
+
+${additionalContactInformation}
+
+<p>
+  Regards,
+  <br>TEAMMATES Team.
+</p>

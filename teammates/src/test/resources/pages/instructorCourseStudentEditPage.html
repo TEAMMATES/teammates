@@ -1,0 +1,189 @@
+<html>
+<head>
+<title>
+  Edit Student Details [Instructor]
+</title>
+<link href="/favicon.png" rel="shortcut icon">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+        <span class="sr-only">
+          Toggle navigation
+        </span>
+        <span class="icon-bar">
+        </span>
+        <span class="icon-bar">
+        </span>
+        <span class="icon-bar">
+        </span>
+      </button>
+      <a class="navbar-brand" href="/">
+        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="contentLinks">
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=CCSDEditUiT.instr">
+            Home
+          </a>
+        </li>
+        <li>
+          <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=CCSDEditUiT.instr">
+            Courses
+          </a>
+        </li>
+        <li>
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=CCSDEditUiT.instr">
+            Sessions
+          </a>
+        </li>
+        <li class="active">
+          <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCSDEditUiT.instr">
+            Students
+          </a>
+        </li>
+        <li>
+          <a class="nav search" data-link="instructorSearch" href="/page/instructorSearchPage?user=CCSDEditUiT.instr">
+            Search
+          </a>
+        </li>
+        <li>
+          <a class="nav help" href="/instructorHelp.jsp" rel="noopener noreferrer" target="_blank">
+            Help
+          </a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li>
+          <a class="nav logout" href="/logout" id="btnLogout">
+            Logout (
+            <span class="text-info tool-tip-decorate" data-original-title="CCSDEditUiT.instr" data-placement="bottom" data-toggle="tooltip" title="">
+              CCSDEditUiT.instr
+            </span>
+            )
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Edit Student Details
+  </h1>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+      <form action="/page/instructorCourseStudentDetailsEditSave" class="form form-horizontal" id="instructor-student-edit-form" method="post">
+        <input name="courseid" type="hidden" value="CCSDEditUiT.CS2104">
+        <input name="sessionsummarysendemail" type="hidden" value="false">
+        <input id="openorpublishedemailsent" name="openorpublishedemailsent" type="hidden" value="false">
+        <input name="token" type="hidden" value="${sessionToken}">
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            Student Name:
+          </label>
+          <div class="col-sm-11">
+            <input class="form-control" id="studentname" name="studentname" value="José Gómez</option></td></div>'&quot;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            Team Name:
+          </label>
+          <div class="col-sm-11">
+            <input class="form-control" id="teamname" name="teamname" value="Team 1</td></div>'&quot;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            E-mail Address:
+            <input id="studentemail" name="studentemail" type="hidden" value="CCSDEditUiT.jose.tmms@gmail.tmt">
+          </label>
+          <div class="col-sm-11">
+            <input class="form-control" id="newstudentemail" name="newstudentemail" value="CCSDEditUiT.jose.tmms@gmail.tmt">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            Comments:
+          </label>
+          <div class="col-sm-11">
+            <textarea class="form-control" id="comments" name="comments" rows="6">
+              This student's name is José Gómez&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+            </textarea>
+          </div>
+        </div>
+        <div id="statusMessagesToUser" style="display: none;">
+        </div>
+        <br>
+        <div class="align-center">
+          <input class="btn btn-primary" id="button_submit" type="submit" value="Save Changes">
+        </div>
+        <br>
+        <br>
+        <input name="user" type="hidden" value="CCSDEditUiT.instr">
+      </form>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>
+<div class="container-fluid" id="footerComponent">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <span>
+          [
+          <a href="/">
+            TEAMMATES
+          </a>
+          V${version}]
+        </span>
+      </div>
+      <div class="col-md-8">
+        [for
+        <span class="highlight-white">
+          TEAMMATES Test Institute 1
+        </span>
+        ]
+      </div>
+      <div class="col-md-2">
+        <span>
+          [Send
+          <a class="link" href="/contact.jsp" rel="noopener noreferrer" target="_blank">
+            Feedback
+          </a>
+          ]
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script src="/js/googleAnalytics.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/instructorCourseStudentEdit.js" type="text/javascript">
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<p>Hello ${userName},</p>
+
+${instructorFragment}
+
+<p>
+  The following feedback session ${status}.
+  <div>
+    <table style="max-width:600px;border:1px solid black;">
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Course:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          [${courseId}] ${courseName}
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Feedback Session Name:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          ${feedbackSessionName}
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Deadline:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          ${deadline}
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;vertical-align:top">
+          <strong>
+            Session Instructions:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          ${sessionInstructions}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <ul>
+    <li>
+      <strong>To ${feedbackAction} your feedback for the above session, please go to this Web address: </strong>
+      <a href="${submitUrl}">${submitUrl}</a>
+    </li>
+    <li>
+      The above link is unique to you. Please do not share it with others.
+    </li>
+  </ul>
+</p>
+
+${additionalContactInformation}
+
+<p>
+  Regards,
+  <br>TEAMMATES Team.
+</p>

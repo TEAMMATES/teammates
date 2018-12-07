@@ -1,0 +1,160 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Course Details
+  </h1>
+  <br>
+  <div class="well well-plain" id="courseInformationHeader">
+    <div class="form form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Course ID:
+        </label>
+        <div class="col-sm-6" id="courseid">
+          <p class="form-control-static">
+            CCDetailsUiT.idOfTSCourse
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Course name:
+        </label>
+        <div class="col-sm-6" id="coursename">
+          <p class="form-control-static">
+            Testing&lt;script&gt; alert('hi!'); &lt;/script&gt;
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Sections:
+        </label>
+        <div class="col-sm-6" id="total_sections">
+          <p class="form-control-static">
+            1
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Teams:
+        </label>
+        <div class="col-sm-6" id="total_teams">
+          <p class="form-control-static">
+            1
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Total students:
+        </label>
+        <div class="col-sm-6" id="total_students">
+          <p class="form-control-static">
+            1
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Instructors:
+        </label>
+        <div class="col-sm-6" id="instructors">
+          <div class="form-control-static">
+            Co-owner: Instructor&lt;script&gt; alert('hi!'); &lt;/script&gt; (CCDetailsUiT.instructor1@sanitization.tmt)
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <input id="show-comment-box" type="hidden" value="false">
+  <br>
+  <table class="table table-bordered table-striped">
+    <thead class="fill-primary">
+      <tr id="resultsHeader-0">
+        <th>
+          Photo
+        </th>
+        <th class="toggle-sort button-sort-none" id="button_sortsection-0">
+          Section
+          <span class="icon-sort unsorted">
+          </span>
+        </th>
+        <th class="button-sort-none toggle-sort" id="button_sortteam-0">
+          Team
+          <span class="icon-sort unsorted">
+          </span>
+        </th>
+        <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
+          Student Name
+          <span class="icon-sort unsorted">
+          </span>
+        </th>
+        <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+          Status
+          <span class="icon-sort unsorted">
+          </span>
+        </th>
+        <th class="button-sort-none toggle-sort" id="button_sortemail-0">
+          Email
+          <span class="icon-sort unsorted">
+          </span>
+        </th>
+        <th>
+          Action(s)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="student_row" id="student-c0.0">
+        <td id="studentphoto-c0.0">
+          <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CCDetailsUiT.idOfInstructor1OfTSCourse">
+            <a class="student-profile-pic-view-link btn-link">
+              View Photo
+            </a>
+            <img alt="No Image Given" class="hidden" src="">
+          </div>
+        </td>
+        <td id="studentsection-c0.0">
+          Section'&lt;/td&gt;
+        </td>
+        <td id="studentteam-c0.0.0">
+          Team tags&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"&"&lt;/td&gt;
+        </td>
+        <td id="studentname-c0.0">
+          Stud1&lt;script&gt; alert('hi!'); &lt;/script&gt;
+        </td>
+        <td class="align-center">
+          Joined
+        </td>
+        <td id="studentemail-c0.0">
+          CCDetailsUiT.normal@sanitization.tmt
+        </td>
+        <td class="no-print align-center">
+          <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.idOfTSCourse&studentemail=CCDetailsUiT.normal%40sanitization.tmt&user=CCDetailsUiT.idOfInstructor1OfTSCourse&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+            View
+          </a>
+          <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.idOfTSCourse&studentemail=CCDetailsUiT.normal%40sanitization.tmt&user=CCDetailsUiT.idOfInstructor1OfTSCourse&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+            Edit
+          </a>
+          <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="CCDetailsUiT.idOfTSCourse" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Stud1<script> alert(\'hi!\'); </script>" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.idOfTSCourse&studentemail=CCDetailsUiT.normal%40sanitization.tmt&user=CCDetailsUiT.idOfInstructor1OfTSCourse&token=${sessionToken}" title="">
+            Delete
+          </a>
+          <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.idOfTSCourse&studentemail=CCDetailsUiT.normal%40sanitization.tmt&user=CCDetailsUiT.idOfInstructor1OfTSCourse&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+            All Records
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <br>
+</div>

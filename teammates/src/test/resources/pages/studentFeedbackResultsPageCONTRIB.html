@@ -1,0 +1,220 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Feedback Results
+  </h1>
+  <br>
+  <div class="well well-plain">
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <div class="panel-heading">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Course ID:
+            </label>
+            <div class="col-sm-10">
+              <p class="form-control-static">
+                SFResultsUiT.CS2104
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Session:
+            </label>
+            <div class="col-sm-10">
+              <p class="form-control-static">
+                CONTRIB Session
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Opening time:
+            </label>
+            <div class="col-sm-10">
+              <p class="form-control-static">
+                Sun, 01 Apr 2012, 11:59 PM SGT
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Closing time:
+            </label>
+            <div class="col-sm-10">
+              <p class="form-control-static">
+                Thu, 30 Apr 2026, 11:59 PM SGT
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-warning icon-warning statusMessage">
+      You have not received any new feedback but you may review your own submissions below.
+    </div>
+  </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        Question 1:
+        <span class="text-preserve-space">
+          Rate the contribution by yourself and your team members. 
+          <span style=" white-space: normal;">
+            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-" onclick="toggleAdditionalQuestionInfo('1-')">
+              [more]
+            </a>
+            <br>
+            <span id="questionAdditionalInfo-1-" style="display:none;">
+              Team contribution question
+            </span>
+          </span>
+        </span>
+      </h4>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Comparison of work distribution
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <span class="color-inherit tool-tip-decorate" data-original-title="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception" data-placement="top" data-toggle="tooltip" title="">
+                  <strong>
+                    My view:
+                  </strong>
+                </span>
+              </td>
+              <td>
+                <span class="text-muted">
+                  <strong>
+                    of me:
+                  </strong>
+                </span>
+                <span class="color-positive">
+                  E +10%
+                </span>
+              </td>
+              <td>
+                <span class="text-muted">
+                  <strong>
+                    of others:
+                  </strong>
+                </span>
+                <span class="color-neutral">
+                  E
+                </span>
+                 
+                <a data-target="#more-info-contrib-calculation-modal" data-toggle="modal" href="javascript:;" id="more-info-contrib-calculation-modal-link">
+                  <span class="glyphicon glyphicon-info-sign glyphicon-flipped">
+                  </span>
+                </a>
+                <div class="modal fade" id="more-info-contrib-calculation-modal" role="dialog">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">
+                          ×
+                        </button>
+                        <h4 class="modal-title">
+                          More info about contribution questions
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        <h4 id="interpret">
+                          How do I interpret these results?
+                        </h4>
+                        <ul>
+                          <li>
+                            Compare the values given in 'My view' with those under 'Team's view'. This tells you whether your perception matches what the team thinks, particularly regarding your own contribution. You may ignore minor differences.
+                          </li>
+                          <li>
+                            From the estimates you submit, we try to deduce the answer to this question: In your opinion, if your teammates are doing the project by themselves without you, how do they compare against each other in terms of contribution? We want to deduce your unbiased opinion about your team members’ contributions.
+                          </li>
+                        </ul>
+                        <h4 id="grading">
+                          How are contribution question results used in grading?
+                        </h4>
+                        <ul>
+                          <li>
+                            TEAMMATES does not calculate grades. Instructors are free to choose how they use contribution question results.
+                          </li>
+                          <li>
+                            TEAMMATES recommends that contribution question results be used only as flags to identify teams with contribution imbalances. Once identified, the instructor is recommended to investigate further before taking action.
+                          </li>
+                        </ul>
+                        <h4 id="calculation">
+                          How are the scores for contribution questions calculated?
+                        </h4>
+                        Here are the important things to note about
+                        <a href="/technicalInformation.jsp#calculatePointsContribution">
+                          how contribution scores are calculated
+                        </a>
+                        :
+                        <ul>
+                          <li>
+                            The contribution value you attribute to yourself is not used to calculate the team's view of your contribution. That means you cannot boost your perceived contribution by claiming a high contribution for yourself or attributing a low contribution to team members.
+                          </li>
+                          <li>
+                            We adjust the estimates you submitted to remove artificial inflation/deflation. For example, giving everyone
+                            <code>
+                              [Equal share + 20%]
+                            </code>
+                            is as same as giving everyone
+                            <code>
+                              [Equal share]
+                            </code>
+                            because in both cases all members have done a similar share of work.
+                          </li>
+                          <li>
+                            The sum of values in the team's view has been scaled to equal the sum of values in your view. That way, you can make a direct comparison between your view and the team’s view. As this scaling is specific to you, the values you see in team’s view may not match the values your team members see in their results.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>
+                  Team's view:
+                </strong>
+              </td>
+              <td>
+                <span class="text-muted tool-tip-decorate" data-original-title="The average contribution the other members of your team attributed to you" data-placement="top" data-toggle="tooltip" title="">
+                  <strong>
+                    of me:
+                  </strong>
+                </span>
+                <span class="color-neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                  N/A
+                </span>
+              </td>
+              <td>
+                <span class="text-muted">
+                  <strong>
+                    of others:
+                  </strong>
+                </span>
+                <span class="color-neutral">
+                  E
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

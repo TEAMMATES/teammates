@@ -1,0 +1,147 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Search
+  </h1>
+  <br>
+  <div>
+    <form action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfCourse1" method="get" name="search_form">
+      <div class="well well-plain">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="&quot;student2 2 In Course1&quot;">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                Search
+              </button>
+            </span>
+          </div>
+          <input name="user" type="hidden" value="searchUI.idOfInstructor1OfCourse1">
+        </div>
+        <div class="form-group">
+          <ul class="list-inline">
+            <li>
+              <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
+              </span>
+            </li>
+            <li>
+              <input checked="" id="students-check" name="searchstudents" type="checkbox" value="true">
+              <label for="students-check">
+                Students
+              </label>
+            </li>
+            <li>
+              <input id="search-feedback-sessions-data-check" name="searchfeedbacksessiondata" type="checkbox" value="true">
+              <label for="search-feedback-sessions-data-check">
+                Questions, responses, comments on responses
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <strong>
+        Students
+      </strong>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <strong>
+            [searchUI.idOfTypicalCourse1]
+          </strong>
+        </div>
+        <div class="panel-body padding-0">
+          <table class="table table-bordered table-striped table-responsive margin-0">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr id="resultsHeader-0">
+                <th>
+                  Photo
+                </th>
+                <th class="toggle-sort button-sort-none" id="button_sortsection-0">
+                  Section
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortteam-0">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
+                  Student Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+                  Status
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortemail-0">
+                  Email
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th>
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="student_row" id="student-c0.0">
+                <td id="studentphoto-c0.0">
+                  <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=searchUI.idOfInstructor1OfCourse1">
+                    <a class="student-profile-pic-view-link btn-link">
+                      View Photo
+                    </a>
+                    <img alt="No Image Given" class="hidden" src="">
+                  </div>
+                </td>
+                <td id="studentsection-c0.0">
+                  Section 1
+                </td>
+                <td id="studentteam-c0.0.0">
+                  Team 1.1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td id="studentname-c0.0">
+                  <span class="highlight">
+                    student2 2 In Course1
+                  </span>
+                </td>
+                <td class="align-center">
+                  Joined
+                </td>
+                <td id="studentemail-c0.0">
+                  searchUI.student2.2InCourse1@gmail.tmt
+                </td>
+                <td class="no-print align-center">
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=searchUI.idOfTypicalCourse1&studentemail=searchUI.student2.2InCourse1%40gmail.tmt&user=searchUI.idOfInstructor1OfCourse1&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    View
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=searchUI.idOfTypicalCourse1&studentemail=searchUI.student2.2InCourse1%40gmail.tmt&user=searchUI.idOfInstructor1OfCourse1&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    Edit
+                  </a>
+                  <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="searchUI.idOfTypicalCourse1" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="student2 2 In Course1" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=searchUI.idOfTypicalCourse1&studentemail=searchUI.student2.2InCourse1%40gmail.tmt&user=searchUI.idOfInstructor1OfCourse1&token=${sessionToken}" title="">
+                    Delete
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=searchUI.idOfTypicalCourse1&studentemail=searchUI.student2.2InCourse1%40gmail.tmt&user=searchUI.idOfInstructor1OfCourse1&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    All Records
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

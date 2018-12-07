@@ -1,0 +1,40 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+       Comparison of work distribution
+  </div>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>
+         <span class="color-inherit" data-toggle="tooltip" data-placement="top"
+                 title="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception">
+          <strong>My view:</strong></span>
+        </td>
+        <td>
+          <span class="text-muted"><strong>of me:</strong></span>
+          ${myViewOfMe}
+        </td>
+        <td>
+          <span class="text-muted"><strong>of others:</strong></span>
+          ${myViewOfOthers}
+          ${contribAdditionalInfo}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>Team's view:</strong>
+        </td>
+        <td>
+          <span class="text-muted" data-toggle="tooltip" data-placement="top"
+                title="The average contribution the other members of your team attributed to you">
+            <strong>of me:</strong></span>
+          ${teamViewOfMe}
+        </td>
+        <td>
+          <span class="text-muted"><strong>of others:</strong></span>
+          ${teamViewOfOthers}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

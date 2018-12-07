@@ -1,0 +1,99 @@
+{
+  "accounts": {
+    "ICJConfirmationUiT.instr": {
+      "googleId": "ICJConfirmationUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICJConfirmationUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICJConfirmationUiT.CS2104": {
+      "id": "ICJConfirmationUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "ICJConfirmationUiT.CS1101": {
+      "id": "ICJConfirmationUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICJConfirmationUiT.instr.CS2104": {
+      "googleId": "${value.injected.in.testfile}",
+      "courseId": "ICJConfirmationUiT.CS2104",
+      "name": "Teammates Test 2",
+      "email": "${value.injected.in.testfile}",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICJConfirmationUiT.instr.CS1101": {
+      "courseId": "ICJConfirmationUiT.CS1101",
+      "name": "Teammates Test 2",
+      "email": "${value.injected.in.testfile}",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICJConfirmationUiT.instr2.CS1101": {
+      "googleId": "ICJConfirmationUiT.instr",
+      "courseId": "ICJConfirmationUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "ICJConfirmationUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

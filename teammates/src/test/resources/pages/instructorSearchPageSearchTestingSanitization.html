@@ -1,0 +1,249 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Search
+  </h1>
+  <br>
+  <div>
+    <form action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfTestingSanitizationCourse" method="get" name="search_form">
+      <div class="well well-plain">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="Normal feedback session name">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                Search
+              </button>
+            </span>
+          </div>
+          <input name="user" type="hidden" value="searchUI.idOfInstructor1OfTestingSanitizationCourse">
+        </div>
+        <div class="form-group">
+          <ul class="list-inline">
+            <li>
+              <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
+              </span>
+            </li>
+            <li>
+              <input checked="" id="students-check" name="searchstudents" type="checkbox" value="true">
+              <label for="students-check">
+                Students
+              </label>
+            </li>
+            <li>
+              <input checked="" id="search-feedback-sessions-data-check" name="searchfeedbacksessiondata" type="checkbox" value="true">
+              <label for="search-feedback-sessions-data-check">
+                Questions, responses, comments on responses
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <strong>
+        Questions, responses, comments on responses
+      </strong>
+    </div>
+    <div class="panel-body">
+      <div class="row ">
+        <div class="col-md-2">
+          <strong>
+            <span class="highlight">
+              Session
+            </span>
+            :
+            <span class="highlight">
+              Normal
+            </span>
+            <span class="highlight">
+              feedback
+            </span>
+            <span class="highlight">
+              session
+            </span>
+            <span class="highlight">
+              name
+            </span>
+            (searchUI.idOfTestingSanitizationCourse)
+          </strong>
+        </div>
+        <div class="col-md-10">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <b>
+                Question 1
+              </b>
+              : Testing quotation marks '" Testing unclosed tags &lt;/td&gt;&lt;/div&gt; Testing script injection &lt;script&gt; alert('hello'); &lt;/script&gt;
+            </div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    <b>
+                      From:
+                    </b>
+                    Stud1&lt;script&gt; alert(\"hi!\"); &lt;/script&gt; (Team tags&\"&lt;/td&gt;)
+                    <b>
+                      To:
+                    </b>
+                    Stud1&lt;script&gt; alert(\"hi!\"); &lt;/script&gt; (Team tags&\"&lt;/td&gt;)
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>
+                      Response:
+                    </strong>
+                    <span class="highlight">
+                      Feedback
+                    </span>
+                    reponse. Testing quotation marks '" Testing unclosed tags  Testing script injection
+                  </td>
+                </tr>
+                <tr class="active">
+                  <td>
+                    Comment(s):
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <ul class="list-group comments" id="responseCommentTable-1-1-1">
+                      <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-1-1">
+                        <div class="row" id="commentBar-1-1-1-1">
+                          <div class="col-xs-10">
+                            <span class="text-muted">
+                              From: inst'\"/&gt;&lt;script&gt;alert('hi!');&lt;/script&gt; Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt; [Mon, 02 Mar 2026, 01:59 AM SAST] (last edited by inst'\"/&gt;&lt;script&gt;alert('hi!');&lt;/script&gt; Instructor&lt;script&gt; alert('hi!'); &lt;/script&gt; at Wed, 04 Mar 2026, 01:59 AM SAST)
+                            </span>
+                            <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to nobody" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                            </span>
+                          </div>
+                          <div class="col-xs-2">
+                          </div>
+                        </div>
+                        <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">
+                          Comment value. Testing quotation marks '" Testing unclosed tags  Testing script injection
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <strong>
+        Students
+      </strong>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <strong>
+            [searchUI.idOfTestingSanitizationCourse]
+          </strong>
+        </div>
+        <div class="panel-body padding-0">
+          <table class="table table-bordered table-striped table-responsive margin-0">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr id="resultsHeader-0">
+                <th>
+                  Photo
+                </th>
+                <th class="toggle-sort button-sort-none" id="button_sortsection-0">
+                  Section
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortteam-0">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
+                  Student
+                  <span class="highlight">
+                    Name
+                  </span>
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
+                  Status
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortemail-0">
+                  Email
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th>
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="student_row" id="student-c0.0">
+                <td id="studentphoto-c0.0">
+                  <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=searchUI.idOfInstructor1OfTestingSanitizationCourse">
+                    <a class="student-profile-pic-view-link btn-link">
+                      View Photo
+                    </a>
+                    <img alt="No Image Given" class="hidden" src="">
+                  </div>
+                </td>
+                <td id="studentsection-c0.0">
+                  Section'"/&gt;&lt;/td&gt;
+                </td>
+                <td id="studentteam-c0.0.0">
+                  Team tags&"&lt;/td&gt;
+                </td>
+                <td id="studentname-c0.0">
+                  Stud1&lt;script&gt; alert("hi!"); &lt;/script&gt;
+                </td>
+                <td class="align-center">
+                  Joined
+                </td>
+                <td id="studentemail-c0.0">
+                  searchUI.
+                  <span class="highlight">
+                    normal
+                  </span>
+                  @sanitization.tmt
+                </td>
+                <td class="no-print align-center">
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=searchUI.idOfTestingSanitizationCourse&studentemail=searchUI.normal%40sanitization.tmt&user=searchUI.idOfInstructor1OfTestingSanitizationCourse&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    View
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=searchUI.idOfTestingSanitizationCourse&studentemail=searchUI.normal%40sanitization.tmt&user=searchUI.idOfInstructor1OfTestingSanitizationCourse&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    Edit
+                  </a>
+                  <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="searchUI.idOfTestingSanitizationCourse" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Stud1<script> alert(\&quot;hi!\&quot;); </script>" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=searchUI.idOfTestingSanitizationCourse&studentemail=searchUI.normal%40sanitization.tmt&user=searchUI.idOfInstructor1OfTestingSanitizationCourse&token=${sessionToken}" title="">
+                    Delete
+                  </a>
+                  <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=searchUI.idOfTestingSanitizationCourse&studentemail=searchUI.normal%40sanitization.tmt&user=searchUI.idOfInstructor1OfTestingSanitizationCourse&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+                    All Records
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

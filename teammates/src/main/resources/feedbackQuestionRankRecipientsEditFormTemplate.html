@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will allow response givers to give the same rank to multiple recipients">
+      <label class="bold-label">
+        <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionNumber}"
+            ${areDuplicatesAllowedChecked}>
+        Allow response giver to give the same rank to multiple options
+      </label>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12">
+        <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at least the mentioned number of options.">
+          <label class="bold-label">
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}"
+                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}-${questionNumber}"
+                   data-linked-input-id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}-${questionNumber}" ${isMinRecipientsToBeRankedEnabled}>
+            Minimum number of options a respondent must rank
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xs-12">
+        <div class="pull-left">
+          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}"
+              id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}-${questionNumber}" min="1" step="any" placeholder="e.g. 1" value="${minRecipientsToBeRanked}" required>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12">
+        <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
+          <label class="bold-label">
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}"
+                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}-${questionNumber}"
+                   data-linked-input-id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}-${questionNumber}" ${isMaxRecipientsToBeRankedEnabled}>
+            Maximum number of options a respondent can rank
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xs-12">
+        <div class="pull-left">
+          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}"
+              id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}-${questionNumber}" min="1" step="any" placeholder="e.g. 1" value="${maxRecipientsToBeRanked}" required>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

@@ -1,0 +1,43 @@
+<div class="panel-body">
+  <div class="row">
+    <div class="col-sm-4 text-color-gray">
+      <strong>
+        Response Summary
+      </strong>
+    </div>
+    <div class="col-sm-3 pull-right">
+      [<a href="/instructorHelp.jsp#question-contrib" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-bordered table-responsive margin-0">
+        <thead>
+          <tr>
+            <td class="button-sort-ascending toggle-sort" id="button_sortteamname">
+              Team <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortname">
+              Student <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortclaimed" data-toggle-sort-comparator="sortByPoint" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.CLAIMED}'>
+              CC <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortperceived" data-toggle-sort-comparator="sortByPoint" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.PERCEIVED}'>
+              PC <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortdiff" data-toggle-sort-comparator="sortByDiff"
+                data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}'>
+              Diff <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body"
+                title='${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}'>
+              Ratings Received
+            </td>
+          </tr>
+        </thead>
+        ${contribFragments}
+      </table>
+    </div>
+  </div>
+</div>

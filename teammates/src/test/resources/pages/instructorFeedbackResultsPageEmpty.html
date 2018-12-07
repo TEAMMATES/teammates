@@ -1,0 +1,233 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Session Results
+  </h1>
+  <br>
+  <div class="well well-plain padding-0">
+    <div class="form-horizontal">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-5 col-lg-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Course ID:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  CFResultsUiT.CS2104
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Session:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Third Session
+                  <a data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=Third+Session&editsessiondetails=true&user=CFResultsUiT.instr" id="edit_icon_button">
+                    <span class="glyphicon glyphicon-edit">
+                    </span>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Session duration:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Mon, 02 Apr 2012, 11:59 PM SGT   
+                  <b>
+                    to
+                  </b>
+                     Thu, 30 Apr 2026, 11:59 PM SGT
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Results visible from:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Tue, 01 May 2012, 11:59 PM SGT
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-2">
+            <div class="form-group">
+              <div class="col-md-12">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
+                  <div id="feedbackDataButtons">
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
+                  </div>
+                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                  <input name="fsname" type="hidden" value="Third Session">
+                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                  <input name="sectionname" type="hidden" value="All">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
+                  <input name="frindicatemissingresponses" type="hidden" value="true">
+                </form>
+                <br>
+                <div>
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="Third Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=Third+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
+                    Unpublish Results
+                  </a>
+                </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="help-block align-center">
+            Non-English characters not displayed properly in the downloaded file?
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="csvToHtmlForm">
+    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+    <input name="fsname" type="hidden" value="Third Session">
+    <input name="user" type="hidden" value="CFResultsUiT.instr">
+    <input name="frgroupbysection" type="hidden" value="All">
+    <input name="csvtohtmltable" type="hidden" value="true">
+  </form>
+  <div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+          </button>
+          <span class="help-block">
+            Tips:
+            <span class="btn-link" id="btn-select-element-contents">
+              Click here
+            </span>
+            to select the table, then
+            <kbd>
+              Ctrl + C
+            </kbd>
+            or
+            <kbd>
+              ⌘ + C
+            </kbd>
+            to COPY and
+            <kbd>
+              Ctrl + V
+            </kbd>
+            or
+            <kbd>
+              ⌘ + V
+            </kbd>
+            to PASTE to your Excel Workbook.
+          </span>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <div id="fsModalTable">
+            </div>
+            <br>
+            <div id="ajaxStatus">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <div class="bold color_red align-center">
+    There are no responses for this feedback session yet or you do not have access to the responses collected so far.
+  </div>
+  <br>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DThird%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+      <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="Third Session">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="questionid" type="hidden" value="-1">
+      </form>
+      <div class="display-icon pull-right">
+        <div class="remind-no-response">
+          <span class="tool-tip-decorate" data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions remind-btn-no-response" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?user=CFResultsUiT.instr&courseid=CFResultsUiT.CS2104&fsname=Third+Session&token=${sessionToken}" data-target="#remindModal" data-toggle="modal" href="javascript:;">
+              Remind All
+            </a>
+          </span>
+        </div>
+        <span class="glyphicon pull-right glyphicon-chevron-up">
+        </span>
+      </div>
+      Participants who have not responded to any question
+    </div>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
+      <div class="panel-body">
+        All students have responded to some questions in this session.
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+.btn,
+.glyphicon,
+.help-block,
+.action-button-item,
+.action-header,
+.btn-link,
+.hide-for-print,
+a {
+    display: none;
+}
+
+table {
+    table-layout: auto;
+}

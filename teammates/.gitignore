@@ -1,0 +1,50 @@
+.DS_Store
+*.orig
+*.class
+*.jar
+*.ext
+*.bin
+*.bak
+*.db
+*.exe
+
+# Node.js
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Gradle
+.gradle
+build/
+bin/
+!gradle-wrapper.jar
+
+# Eclipse
+.classpath
+.project
+.settings
+.launches
+test-output/*
+build-eclipse/
+.checkstyle
+.eclipse-pmd
+.tern-project
+
+# IntelliJ
+/.idea/
+*.iml
+/out/
+/.stylelintrc.yml
+
+# TEAMMATES
+gradle.properties
+build.properties
+test.properties
+appengine-web.xml
+appengine-generated
+chromedriver*
+src/main/webapp/js
+src/main/webapp/test/*.js
+src/client/java/teammates/client/scripts/scalabilitytests/data/
+src/client/java/teammates/client/scripts/statistics/data/
+src/test/resources/gmail-api/

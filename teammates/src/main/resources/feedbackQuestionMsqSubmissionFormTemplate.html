@@ -1,0 +1,15 @@
+<p class="text-muted" ${displayMinSelectableChoicesHint}>
+  You need to choose at least ${msqMinSelectableChoices} options.
+</p>
+<p class="text-muted" ${displayMaxSelectableChoicesHint}>
+  You cannot choose more than ${msqMaxSelectableChoices} options.
+</p>
+<table>
+  ${msqSubmissionFormOptionFragments}
+</table>
+<input type="hidden" ${isMaxSelectableChoicesEnabled}
+    name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}-${questionIndex}"
+    value="${msqMaxSelectableChoices}">
+<input type="hidden" ${isMinSelectableChoicesEnabled}
+    name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}-${questionIndex}"
+    value="${msqMinSelectableChoices}">

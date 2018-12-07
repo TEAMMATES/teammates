@@ -1,0 +1,23 @@
+<div class="col-sm-3 col-no-padding">
+  <select class="form-control" name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}" ${disabled}>
+    ${contribSelectFragmentsHtml}
+  </select>
+</div>
+<div class="col-sm-6 mobile-no-padding">
+  <a href="javascript:;" id="more-info-equal-share-modal-link" data-toggle="modal" data-target="#more-info-equal-share-modal">${equalShareHelp}</a>
+</div>
+<div id="more-info-equal-share-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">More info about the <code>Equal Share</code> scale</h4>
+      </div>
+      <div class="modal-body">
+        <p><code>Equal share</code> is a relative measure of individual contribution to a team task.</p>
+        <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
+        <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share, <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>
+      </div>
+    </div>
+  </div>
+</div>

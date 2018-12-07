@@ -1,0 +1,112 @@
+{
+  "accounts": {
+    "SCJConfirmationUiT.instr": {
+      "googleId": "SCJConfirmationUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SCJConfirmationUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "alice.tmms": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Alice B",
+      "isInstructor": false,
+      "email": "${value.injected.in.testfile}",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "SCJConfirmationUiT.CS2104": {
+      "id": "SCJConfirmationUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "SCJConfirmationUiT.CS2103": {
+      "id": "SCJConfirmationUiT.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "UTC"
+    },
+    "SCJConfirmationUiT.CS1101": {
+      "id": "SCJConfirmationUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SCJConfirmationUiT.instr.CS2104": {
+      "googleId": "SCJConfirmationUiT.instr",
+      "courseId": "SCJConfirmationUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SCJConfirmationUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SCJConfirmationUiT.instr.CS1101": {
+      "googleId": "SCJConfirmationUiT.instr",
+      "courseId": "SCJConfirmationUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "SCJConfirmationUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@SCJConfirmationUiT.CS2104": {
+      "email": "${value.injected.in.testfile}",
+      "course": "SCJConfirmationUiT.CS2104",
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "alice.tmms@SCJConfirmationUiT.CS2103": {
+      "email": "${value.injected.in.testfile}",
+      "course": "SCJConfirmationUiT.CS2103",
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "alice.tmms@SCJConfirmationUiT.CS1101": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SCJConfirmationUiT.CS1101",
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

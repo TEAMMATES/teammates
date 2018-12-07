@@ -1,0 +1,58 @@
+language: java
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+    - release
+
+notifications:
+  email: false
+
+sudo: required
+dist: trusty
+
+addons:
+  firefox: "46.0"
+
+before_install:
+  - |
+      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md)|(\.txt)|(\.png)|(\.jpg)|(\.gif)|^(LICENSE)|^(docs)|^(\.templates)'
+      status_codes=( ${PIPESTATUS[*]} ); git_diff_status=${status_codes[0]}; grep_status=${status_codes[1]}
+      if [[ $git_diff_status == 0 && $grep_status == 1 && $TRAVIS_PULL_REQUEST != "false" ]]
+      then
+        echo "Only doc files or IDE configurations were updated in PR, not running the CI."
+        exit
+      fi
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
+    --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
+  - nvm install node
+
+before_script:
+  - export DISPLAY=:99.0
+  - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - export PATH=$TRAVIS_BUILD_DIR/firefox:./node_modules/.bin:$HOME/google-cloud-sdk/bin:$PATH
+
+  - curl -fsS -o $HOME/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+  - cd $HOME
+  - tar -xzf google-cloud-sdk.tar.gz
+  - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
+  - cd $TRAVIS_BUILD_DIR
+  - gcloud -q components install app-engine-java
+
+  - ./gradlew createConfigs testClasses
+  - ./gradlew downloadStaticAnalysisTools
+  - ./gradlew lint --continue
+  - npm install
+  - npm run lint
+
+install: true
+script:
+  - npm run build
+  - ./gradlew appengineStart
+  - ./gradlew ciTests
+
+after_success:
+  - ./gradlew jacocoReport
+  - bash <(curl -s https://codecov.io/bash)

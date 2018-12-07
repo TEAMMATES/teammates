@@ -1,0 +1,225 @@
+<html>
+<head>
+<title>
+  Course Details [Instructor]
+</title>
+<link href="/favicon.png" rel="shortcut icon">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+        <span class="sr-only">
+          Toggle navigation
+        </span>
+        <span class="icon-bar">
+        </span>
+        <span class="icon-bar">
+        </span>
+        <span class="icon-bar">
+        </span>
+      </button>
+      <a class="navbar-brand" href="/">
+        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="contentLinks">
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=CCDetailsUiT.instr">
+            Home
+          </a>
+        </li>
+        <li class="active">
+          <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=CCDetailsUiT.instr">
+            Courses
+          </a>
+        </li>
+        <li>
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=CCDetailsUiT.instr">
+            Sessions
+          </a>
+        </li>
+        <li>
+          <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCDetailsUiT.instr">
+            Students
+          </a>
+        </li>
+        <li>
+          <a class="nav search" data-link="instructorSearch" href="/page/instructorSearchPage?user=CCDetailsUiT.instr">
+            Search
+          </a>
+        </li>
+        <li>
+          <a class="nav help" href="/instructorHelp.jsp" rel="noopener noreferrer" target="_blank">
+            Help
+          </a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li>
+          <a class="nav logout" href="/logout" id="btnLogout">
+            Logout (
+            <span class="text-info tool-tip-decorate" data-original-title="CCDetailsUiT.instr" data-placement="bottom" data-toggle="tooltip" title="">
+              CCDetailsUiT.instr
+            </span>
+            )
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Course Details
+  </h1>
+  <br>
+  <div class="well well-plain" id="courseInformationHeader">
+    <div class="form form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Course ID:
+        </label>
+        <div class="col-sm-6" id="courseid">
+          <p class="form-control-static">
+            CCDetailsUiT.CourseWithoutStudents
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Course name:
+        </label>
+        <div class="col-sm-6" id="coursename">
+          <p class="form-control-static">
+            A course with no students
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Sections:
+        </label>
+        <div class="col-sm-6" id="total_sections">
+          <p class="form-control-static">
+            0
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Teams:
+        </label>
+        <div class="col-sm-6" id="total_teams">
+          <p class="form-control-static">
+            0
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Total students:
+        </label>
+        <div class="col-sm-6" id="total_students">
+          <p class="form-control-static">
+            0
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Instructors:
+        </label>
+        <div class="col-sm-6" id="instructors">
+          <div class="form-control-static">
+            Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.tmt)
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-warning icon-warning statusMessage">
+      There are no students in this course. Click
+      <a href="/page/instructorCourseEnrollPage?courseid=CCDetailsUiT.CourseWithoutStudents&user=CCDetailsUiT.instr">
+        here
+      </a>
+      to enroll students.
+    </div>
+  </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
+  <input id="show-comment-box" type="hidden" value="false">
+  <br>
+  <table class="table table-bordered table-striped">
+    <thead class="fill-primary">
+      <tr>
+        <th class="align-center color_white bold">
+          There are no students in this course
+        </th>
+      </tr>
+    </thead>
+  </table>
+  <br>
+  <br>
+  <br>
+</div>
+<div class="container-fluid" id="footerComponent">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <span>
+          [
+          <a href="/">
+            TEAMMATES
+          </a>
+          V${version}]
+        </span>
+      </div>
+      <div class="col-md-8">
+        [for
+        <span class="highlight-white">
+          TEAMMATES Test Institute 1
+        </span>
+        ]
+      </div>
+      <div class="col-md-2">
+        <span>
+          [Send
+          <a class="link" href="/contact.jsp" rel="noopener noreferrer" target="_blank">
+            Feedback
+          </a>
+          ]
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script src="/js/googleAnalytics.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/instructorCourseDetails.js" type="text/javascript">
+</script>
+</body>
+</html>

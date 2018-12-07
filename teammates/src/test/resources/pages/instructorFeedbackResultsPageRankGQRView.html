@@ -1,0 +1,510 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Session Results
+  </h1>
+  <br>
+  <div class="well well-plain padding-0">
+    <div class="form-horizontal">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-5 col-lg-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Course ID:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  FRankUiT.CS4221
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Session:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Instructor Session
+                  <a data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=FRankUiT.CS4221&fsname=Instructor+Session&editsessiondetails=true&user=FRankUiT.instructor" id="edit_icon_button">
+                    <span class="glyphicon glyphicon-edit">
+                    </span>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Session duration:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Sun, 01 Apr 2012, 11:59 PM SAST   
+                  <b>
+                    to
+                  </b>
+                     Thu, 30 Apr 2026, 11:59 PM SAST
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Results visible from:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Tue, 01 May 2012, 11:59 PM SAST
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-2">
+            <div class="form-group">
+              <div class="col-md-12">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
+                  <div id="feedbackDataButtons">
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
+                  </div>
+                  <input name="user" type="hidden" value="FRankUiT.instructor">
+                  <input name="fsname" type="hidden" value="Instructor Session">
+                  <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                  <input name="sectionname" type="hidden" value="All">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
+                  <input name="frindicatemissingresponses" type="hidden" value="false">
+                </form>
+                <br>
+                <div>
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="Instructor Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=FRankUiT.instructor&token=${sessionToken}" title="">
+                    Unpublish Results
+                  </a>
+                </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="help-block align-center">
+            Non-English characters not displayed properly in the downloaded file?
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="csvToHtmlForm">
+    <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+    <input name="fsname" type="hidden" value="Instructor Session">
+    <input name="user" type="hidden" value="FRankUiT.instructor">
+    <input name="frgroupbysection" type="hidden" value="All">
+    <input name="csvtohtmltable" type="hidden" value="true">
+  </form>
+  <div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+          </button>
+          <span class="help-block">
+            Tips:
+            <span class="btn-link" id="btn-select-element-contents">
+              Click here
+            </span>
+            to select the table, then
+            <kbd>
+              Ctrl + C
+            </kbd>
+            or
+            <kbd>
+              ⌘ + C
+            </kbd>
+            to COPY and
+            <kbd>
+              Ctrl + V
+            </kbd>
+            or
+            <kbd>
+              ⌘ + V
+            </kbd>
+            to PASTE to your Excel Workbook.
+          </span>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <div id="fsModalTable">
+            </div>
+            <br>
+            <div id="ajaxStatus">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom: 10px">
+    <div class="well well-plain">
+      <div class="row">
+        <div class="col-md-5">
+          <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+            <div class="row">
+              <label class="col-md-offset-1 col-md-3">
+                View:
+              </label>
+              <div class="col-md-8">
+                Group by - Giver &gt; Question &gt; Recipient
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+              <label class="col-md-offset-1 col-md-3">
+                Section:
+              </label>
+              <div class="col-md-8">
+                All
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
+          <label>
+            Additional settings:
+          </label>
+          <ul>
+            <li>
+              <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Group by Teams
+                </div>
+              </div>
+            </li>
+            <li>
+              <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Show Statistics
+                </div>
+              </div>
+            </li>
+            <li>
+              <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Indicate Missing Responses
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+          <button class="btn btn-primary btn-block" data-target="#editModal" data-toggle="modal" id="editBtn" type="button">
+            Edit View
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editModal" role="dialog">
+      <div class="modal-dialog">
+        <form action="/page/instructorFeedbackResultsPage?courseid=FRankUiT.CS4221&fsname=Instructor+Session&user=FRankUiT.instructor" method="post">
+          <div class="modal-content">
+            <div class="modal-header alert-info">
+              <button class="close" data-dismiss="modal" type="button">
+                ×
+              </button>
+              <h4 class="modal-title">
+                Edit View
+              </h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <label class="control-label" for="viewSelect">
+                      View:
+                    </label>
+                    <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+                      <select class="form-control" id="viewSelect" name="frsorttype">
+                        <option value="question">
+                          Group by - Question
+                        </option>
+                        <option value="giver-recipient-question">
+                          Group by - Giver &gt; Recipient &gt; Question
+                        </option>
+                        <option value="recipient-giver-question">
+                          Group by - Recipient &gt; Giver &gt; Question
+                        </option>
+                        <option selected="" value="giver-question-recipient">
+                          Group by - Giver &gt; Question &gt; Recipient
+                        </option>
+                        <option value="recipient-question-giver">
+                          Group by - Recipient &gt; Question &gt; Giver
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+                    <div class="form-group">
+                      <label class="control-label" for="sectionSelect">
+                        Section:
+                      </label>
+                      <select class="form-control" id="sectionSelect" name="frgroupbysection">
+                        <option selected="" value="All">
+                          All
+                        </option>
+                        <option value="Section 1">
+                          Section 1
+                        </option>
+                        <option value="Section 2">
+                          Section 2
+                        </option>
+                        <option value="None">
+                          No specific section
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <label class="control-label">
+                    Additional settings:
+                  </label>
+                  <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <label>
+                        <input class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                        Group by Teams
+                      </label>
+                    </div>
+                  </div>
+                  <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <label>
+                        <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                        Show Statistics
+                      </label>
+                    </div>
+                  </div>
+                  <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
+                      Indicate Missing Responses
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input name="fsname" type="hidden" value="Instructor Session">
+              <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+              <input name="user" type="hidden" value="FRankUiT.instructor">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal" type="button">
+                Cancel
+              </button>
+              <button class="btn btn-primary" id="submitBtn" type="submit">
+                Change View
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <div>
+    <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
+      Expand All Sections
+    </a>
+  </div>
+  <br>
+  <br>
+  <div class="panel panel-success">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            No specific section
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="fsname" type="hidden" value="Instructor Session">
+        <input name="frgroupbysection" type="hidden" value="None">
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="giver-question-recipient">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-0-1">
+      <div class="panel-body" id="sectionBody-0">
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-success">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-1-2" id="panelHeading-section-1-2" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            Section 1
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" style="display: inline;" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="fsname" type="hidden" value="Instructor Session">
+        <input name="frgroupbysection" type="hidden" value="Section 1">
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="giver-question-recipient">
+        <input id="showStats-1" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-1" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-1-2" style="height: auto;">
+      <div class="panel-body" id="sectionBody-1">
+        There are no responses for this section yet or you do not have access to the responses collected so far.
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-success">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            Section 2
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="fsname" type="hidden" value="Instructor Session">
+        <input name="frgroupbysection" type="hidden" value="Section 2">
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="giver-question-recipient">
+        <input id="showStats-2" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-2" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
+      <div class="panel-body" id="sectionBody-2">
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DFRankUiT.instructor%26courseid%3DFRankUiT.CS4221%26fsname%3DInstructor%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="FRankUiT.instructor">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+      <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="fsname" type="hidden" value="Instructor Session">
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="questionid" type="hidden" value="-1">
+      </form>
+      <div class="display-icon pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
+        </span>
+      </div>
+      Participants who have not responded to any question
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-4">
+    </div>
+  </div>
+</div>

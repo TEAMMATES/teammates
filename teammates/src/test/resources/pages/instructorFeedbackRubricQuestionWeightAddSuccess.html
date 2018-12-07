@@ -1,0 +1,3419 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Edit Feedback Session
+  </h1>
+  <br>
+  <div class="well well-plain">
+    <form action="/page/instructorFeedbackEditSave" class="form-group" data-editsessiondetails="false" id="form_feedbacksession" method="post">
+      <div class="row">
+        <div class="col-sm-12">
+          <span class="pull-right">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" title="">
+              <span class="glyphicon glyphicon-pencil">
+              </span>
+              Edit
+            </a>
+            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
+              <span class="glyphicon glyphicon-ok">
+              </span>
+              Save
+            </button>
+            <a class="btn btn-primary btn-sm" data-course-id="FRubricQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FRubricQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=FRubricQnUiT.instructor&token=${sessionToken}" id="button_fsdelete" title="">
+              <span class="glyphicon glyphicon-trash">
+              </span>
+              Delete
+            </a>
+            <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
+              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=FRubricQnUiT.instructor" data-courseid="FRubricQnUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy">
+                <span class="glyphicon glyphicon-file">
+                </span>
+                Copy
+              </a>
+            </span>
+          </span>
+        </div>
+      </div>
+      <br>
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="courseid">
+                    Course ID
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5 class="form-control-static font-weight-normal">
+                    FRubricQnUiT.CS2104
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="To change this, edit the course settings. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="timezone">
+                    Time Zone
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5 class="form-control-static font-weight-normal" data-time-zone="Africa/Johannesburg" id="timezone">
+                    Africa/Johannesburg
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="coursename">
+                    Course name
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5 class="form-control-static font-weight-normal" id="coursename">
+                    Programming Language Concepts
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row">
+            <div class="col-sm-12 col-md-6" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="fsname">
+                    Session name
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5 class="form-control-static font-weight-normal">
+                    First Session
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row" id="instructionsRow">
+            <div class="col-sm-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 margin-top-0">
+                  <label class="control-label" for="instructions">
+                    Instructions
+                  </label>
+                </h5>
+                <div class="col-sm-10">
+                  <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
+                    <p>
+                      Instructions for first session
+                    </p>
+                  </div>
+                  <input name="instructions" type="hidden">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label">
+                    Submission Status
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5>
+                    Open
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label">
+                    Published Status
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <h5>
+                    Not Published
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+        </div>
+      </div>
+      <div class="panel panel-primary" id="timeFramePanel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-5" data-original-title="Please select the date and time for which users can start submitting responses for the feedback session." data-placement="top" data-toggle="tooltip" title="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="label-control" for="startdate">
+                    Submission opening time
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="startdate" name="startdate" placeholder="Date" type="text" value="Sun, 01 Apr, 2012">
+                </div>
+                <div class="col-xs-6">
+                  <select class="form-control" disabled="" id="starttime" name="starttime">
+                    <option value="1">
+                      0100H
+                    </option>
+                    <option value="2">
+                      0200H
+                    </option>
+                    <option value="3">
+                      0300H
+                    </option>
+                    <option value="4">
+                      0400H
+                    </option>
+                    <option value="5">
+                      0500H
+                    </option>
+                    <option value="6">
+                      0600H
+                    </option>
+                    <option value="7">
+                      0700H
+                    </option>
+                    <option value="8">
+                      0800H
+                    </option>
+                    <option value="9">
+                      0900H
+                    </option>
+                    <option value="10">
+                      1000H
+                    </option>
+                    <option value="11">
+                      1100H
+                    </option>
+                    <option value="12">
+                      1200H
+                    </option>
+                    <option value="13">
+                      1300H
+                    </option>
+                    <option value="14">
+                      1400H
+                    </option>
+                    <option value="15">
+                      1500H
+                    </option>
+                    <option value="16">
+                      1600H
+                    </option>
+                    <option value="17">
+                      1700H
+                    </option>
+                    <option value="18">
+                      1800H
+                    </option>
+                    <option value="19">
+                      1900H
+                    </option>
+                    <option value="20">
+                      2000H
+                    </option>
+                    <option value="21">
+                      2100H
+                    </option>
+                    <option value="22">
+                      2200H
+                    </option>
+                    <option value="23">
+                      2300H
+                    </option>
+                    <option selected="" value="24">
+                      2359H
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 border-left-gray" data-original-title="Please select the date and time after which the feedback session will no longer accept submissions from users." data-placement="top" data-toggle="tooltip" title="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="label-control" for="enddate">
+                    Submission closing time
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="Thu, 30 Apr, 2026">
+                </div>
+                <div class="col-xs-6">
+                  <select class="form-control" disabled="" id="endtime" name="endtime">
+                    <option value="1">
+                      0100H
+                    </option>
+                    <option value="2">
+                      0200H
+                    </option>
+                    <option value="3">
+                      0300H
+                    </option>
+                    <option value="4">
+                      0400H
+                    </option>
+                    <option value="5">
+                      0500H
+                    </option>
+                    <option value="6">
+                      0600H
+                    </option>
+                    <option value="7">
+                      0700H
+                    </option>
+                    <option value="8">
+                      0800H
+                    </option>
+                    <option value="9">
+                      0900H
+                    </option>
+                    <option value="10">
+                      1000H
+                    </option>
+                    <option value="11">
+                      1100H
+                    </option>
+                    <option value="12">
+                      1200H
+                    </option>
+                    <option value="13">
+                      1300H
+                    </option>
+                    <option value="14">
+                      1400H
+                    </option>
+                    <option value="15">
+                      1500H
+                    </option>
+                    <option value="16">
+                      1600H
+                    </option>
+                    <option value="17">
+                      1700H
+                    </option>
+                    <option value="18">
+                      1800H
+                    </option>
+                    <option value="19">
+                      1900H
+                    </option>
+                    <option value="20">
+                      2000H
+                    </option>
+                    <option value="21">
+                      2100H
+                    </option>
+                    <option value="22">
+                      2200H
+                    </option>
+                    <option value="23">
+                      2300H
+                    </option>
+                    <option selected="" value="24">
+                      2359H
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting <br>submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="control-label" for="graceperiod">
+                    Grace period
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <select class="form-control" disabled="" id="graceperiod" name="graceperiod">
+                    <option value="0">
+                      0 mins
+                    </option>
+                    <option value="5">
+                      5 mins
+                    </option>
+                    <option selected="" value="10">
+                      10 mins
+                    </option>
+                    <option value="15">
+                      15 mins
+                    </option>
+                    <option value="20">
+                      20 mins
+                    </option>
+                    <option value="25">
+                      25 mins
+                    </option>
+                    <option value="30">
+                      30 mins
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="uncommonSettingsSection">
+        <div class="panel panel-primary" id="sendEmailsForPanel" style="display:none;">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label">
+                  Send emails for
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label>
+                    Session opening reminder
+                  </label>
+                  <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
+                </div>
+              </div>
+              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label for="sendreminderemail_closing">
+                    Session closing reminder
+                  </label>
+                  <input checked="" disabled="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
+                </div>
+              </div>
+              <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label for="sendreminderemail_published">
+                    Results published announcement
+                  </label>
+                  <input checked="" disabled="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="margin-bottom-15px text-muted" id="uncommonSettingsSessionResponsesVisible" style="display: none;">
+          <span id="uncommonSettingsSessionResponsesVisibleInfoText">
+            Session is visible at submission opening time, responses are only visible when you publish the results.
+          </span>
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+            [Change]
+          </a>
+        </div>
+        <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <div class="row">
+                  <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
+                    <label class="label-control">
+                      Make session visible
+                    </label>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <h5 class="col-xs-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br>Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_custom">
+                      At
+                    </label>
+                    <input checked="" disabled="" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
+                  </h5>
+                  <div class="col-xs-5">
+                    <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="Sun, 01 Apr, 2012">
+                  </div>
+                  <div class="col-xs-5">
+                    <select class="form-control" disabled="" id="visibletime" name="visibletime">
+                      <option value="1">
+                        0100H
+                      </option>
+                      <option value="2">
+                        0200H
+                      </option>
+                      <option value="3">
+                        0300H
+                      </option>
+                      <option value="4">
+                        0400H
+                      </option>
+                      <option value="5">
+                        0500H
+                      </option>
+                      <option value="6">
+                        0600H
+                      </option>
+                      <option value="7">
+                        0700H
+                      </option>
+                      <option value="8">
+                        0800H
+                      </option>
+                      <option value="9">
+                        0900H
+                      </option>
+                      <option value="10">
+                        1000H
+                      </option>
+                      <option value="11">
+                        1100H
+                      </option>
+                      <option value="12">
+                        1200H
+                      </option>
+                      <option value="13">
+                        1300H
+                      </option>
+                      <option value="14">
+                        1400H
+                      </option>
+                      <option value="15">
+                        1500H
+                      </option>
+                      <option value="16">
+                        1600H
+                      </option>
+                      <option value="17">
+                        1700H
+                      </option>
+                      <option value="18">
+                        1800H
+                      </option>
+                      <option value="19">
+                        1900H
+                      </option>
+                      <option value="20">
+                        2000H
+                      </option>
+                      <option value="21">
+                        2100H
+                      </option>
+                      <option value="22">
+                        2200H
+                      </option>
+                      <option value="23">
+                        2300H
+                      </option>
+                      <option selected="" value="24">
+                        2359H
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_atopen">
+                      Submission opening time
+                    </label>
+                    <input disabled="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
+                <div class="row">
+                  <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                    <label class="label-control">
+                      Make responses visible
+                    </label>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <h5 class="col-xs-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br>will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_custom">
+                      At
+                    </label>
+                    <input checked="" disabled="" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
+                  </h5>
+                  <div class="col-xs-5">
+                    <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="Fri, 01 May, 2026">
+                  </div>
+                  <div class="col-xs-5">
+                    <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
+                      <option value="1">
+                        0100H
+                      </option>
+                      <option value="2">
+                        0200H
+                      </option>
+                      <option value="3">
+                        0300H
+                      </option>
+                      <option value="4">
+                        0400H
+                      </option>
+                      <option value="5">
+                        0500H
+                      </option>
+                      <option value="6">
+                        0600H
+                      </option>
+                      <option value="7">
+                        0700H
+                      </option>
+                      <option value="8">
+                        0800H
+                      </option>
+                      <option value="9">
+                        0900H
+                      </option>
+                      <option value="10">
+                        1000H
+                      </option>
+                      <option value="11">
+                        1100H
+                      </option>
+                      <option value="12">
+                        1200H
+                      </option>
+                      <option value="13">
+                        1300H
+                      </option>
+                      <option value="14">
+                        1400H
+                      </option>
+                      <option value="15">
+                        1500H
+                      </option>
+                      <option value="16">
+                        1600H
+                      </option>
+                      <option value="17">
+                        1700H
+                      </option>
+                      <option value="18">
+                        1800H
+                      </option>
+                      <option value="19">
+                        1900H
+                      </option>
+                      <option value="20">
+                        2000H
+                      </option>
+                      <option value="21">
+                        2100H
+                      </option>
+                      <option value="22">
+                        2200H
+                      </option>
+                      <option value="23">
+                        2300H
+                      </option>
+                      <option selected="" value="24">
+                        2359H
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_atvisible">
+                      Immediately
+                    </label>
+                    <input disabled="" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_later">
+                      Not now (publish manually)
+                    </label>
+                    <input disabled="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="margin-bottom-15px text-muted" id="uncommonSettingsSendEmails">
+          <span id="uncommonSettingsSendEmailsInfoText">
+            Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
+          </span>
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+            [Change]
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-offset-5 col-md-3">
+            <button class="btn btn-primary" disabled="" id="button_submit" style="display:none;" type="submit">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+      <input disabled="" name="fsname" type="hidden" value="First Session">
+      <input disabled="" name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+      <input disabled="" name="user" type="hidden" value="FRubricQnUiT.instructor">
+      <input disabled="" name="token" type="hidden" value="${sessionToken}">
+    </form>
+  </div>
+  <br>
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-success icon-success statusMessage">
+      The question has been added to this feedback session.
+    </div>
+  </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
+  <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Copy this feedback session to other courses
+              <br>
+              <small>
+                (Select the course(s) you want to copy this feedback session to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="courseList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
+            <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <input id="num-questions" type="hidden" value="1">
+  <input id="num-students" type="hidden" value="3">
+  <input id="num-teams" type="hidden" value="2">
+  <input id="num-instructors" type="hidden" value="1">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
+    <div class="panel panel-primary questionTable" id="questionTable-1">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-7">
+            <span>
+              <strong>
+                Question
+                <span id="questionnum-static-1">
+                  1:
+                </span>
+              </strong>
+              <select class="questionNumber nonDestructive text-primary" disabled="" id="questionnum-1" name="questionnum" style="display: none;">
+                <option value="1">
+                  1
+                </option>
+              </select>
+               Rubric question
+            </span>
+          </div>
+          <div class="col-sm-5 mobile-margin-top-10px">
+            <span class="mobile-no-pull pull-right">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questionedittext-1" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
+                Edit
+              </a>
+              <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
+              </a>
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questiondiscardchanges-1" style="display:none" title="">
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
+              </a>
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="1" data-toggle="tooltip" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
+                Delete
+              </a>
+              <a class="btn btn-primary btn-xs btn-duplicate-qn" data-original-title="Make a copy of the existing question and add to the current feedback session." data-placement="top" data-qnnumber="1" data-toggle="tooltip" title="">
+                <span class="glyphicon glyphicon-file">
+                </span>
+                <span class="glyphicon glyphicon-file">
+                </span>
+                Duplicate
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="visibility-checkbox-delegate panel-body">
+        <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+          <div class="form-group" style="padding: 15px;">
+            <h5 class="col-sm-2">
+              <label class="control-label" for="questiontext-1">
+                Question
+              </label>
+            </h5>
+            <div class="col-sm-10">
+              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext-1" name="questiontext" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" rows="2" tabindex="9" title="">
+                Rubric weight feature
+              </textarea>
+            </div>
+          </div>
+          <div class="form-group" style="padding: 0 15px;">
+            <h5 class="col-sm-2">
+              <label class="align-left" for="questiondescription-1">
+                [Optional]
+                <br>
+                Description
+              </label>
+            </h5>
+            <div class="col-sm-10">
+              <div class="well panel panel-default panel-body question-description mce-content-body content-editor" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-1" spellcheck="false" tabindex="9" title="">
+                <p>
+                  More details
+                </p>
+              </div>
+              <input name="questiondescription-1" type="hidden">
+              <input disabled="" name="questiondescription" type="hidden">
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <input checked="" class="nonDestructive" disabled="" id="rubricAssignWeights-1" name="rubricAssignWeights" type="checkbox">
+                <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
+                  Choices are weighted
+                </span>
+              </div>
+              <br>
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered margin-0" id="rubricEditTable-1">
+                  <thead>
+                    <tr>
+                      <th style="text-align:center; vertical-align:middle;">
+                        Choices
+                        <span class="glyphicon glyphicon-arrow-right">
+                        </span>
+                      </th>
+                      <th class="rubricCol-1-0">
+                        <input class="form-control" disabled="" id="rubricChoice-1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
+                      </th>
+                      <th class="rubricCol-1-1">
+                        <input class="form-control" disabled="" id="rubricChoice-1-1" name="rubricChoice-1" type="text" value="Disagree">
+                      </th>
+                      <th class="rubricCol-1-2">
+                        <input class="form-control" disabled="" id="rubricChoice-1-2" name="rubricChoice-2" type="text" value="Agree">
+                      </th>
+                      <th class="rubricCol-1-3">
+                        <input class="form-control" disabled="" id="rubricChoice-1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr id="rubricRow-1-0">
+                      <td>
+                        <div class="col-sm-12 input-group">
+                          <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-0" onclick="removeRubricRow(0,1)" onmouseout="highlightRubricRow(0, 1, false)" onmouseover="highlightRubricRow(0, 1, true)" style="display: none;">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </span>
+                          <textarea class="form-control" disabled="" id="rubricSubQn-1-0" name="rubricSubQn-0" required="" rows="3">
+                            This student participates well in online discussions.
+                          </textarea>
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-0">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-0" name="rubricDesc-0-0" rows="3">
+                          Rarely or never responds.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-0-0" name="rubricWeight-0-0" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-1">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-1" name="rubricDesc-0-1" rows="3">
+                          Occasionally responds, but never initiates discussions.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-0-1" name="rubricWeight-0-1" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-2">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-2" name="rubricDesc-0-2" rows="3">
+                          Takes part in discussions and sometimes initiates discussions.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-0-2" name="rubricWeight-0-2" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-3">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-3" name="rubricDesc-0-3" rows="3">
+                          Initiates discussions frequently, and engages the team.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-0-3" name="rubricWeight-0-3" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr id="rubricRow-1-1">
+                      <td>
+                        <div class="col-sm-12 input-group">
+                          <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-1" onclick="removeRubricRow(1,1)" onmouseout="highlightRubricRow(1, 1, false)" onmouseover="highlightRubricRow(1, 1, true)" style="display: none;">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </span>
+                          <textarea class="form-control" disabled="" id="rubricSubQn-1-1" name="rubricSubQn-1" required="" rows="3">
+                            This student completes assigned tasks on time.
+                          </textarea>
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-0">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-0" name="rubricDesc-1-0" rows="3">
+                          Rarely or never completes tasks.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-1-0" name="rubricWeight-1-0" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-1">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-1" name="rubricDesc-1-1" rows="3">
+                          Often misses deadlines.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-1-1" name="rubricWeight-1-1" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-2">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-2" name="rubricDesc-1-2" rows="3">
+                          Occasionally misses deadlines.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-1-2" name="rubricWeight-1-2" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-3">
+                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-3" name="rubricDesc-1-3" rows="3">
+                          Tasks are always completed before the deadline.
+                        </textarea>
+                        <div class="rubricWeights-1">
+                          <input class="form-control nonDestructive margin-top-10px" disabled="" id="rubricWeight-1-1-3" name="rubricWeight-1-3" required="" step="0.01" type="number" value="0">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="rubricRemoveChoiceLink-1" id="rubric-options-row-1" style="display: none;">
+                      <td>
+                      </td>
+                      <td class="align-center rubricCol-1-0" data-col="0">
+                        <div class="btn-group">
+                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-0" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-left">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-0" onclick="removeRubricCol(0, 1)" onmouseout="highlightRubricCol(0, 1, false)" onmouseover="highlightRubricCol(0, 1, true)" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-0" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-1" data-col="1">
+                        <div class="btn-group">
+                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-1" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-left">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-1" onclick="removeRubricCol(1, 1)" onmouseout="highlightRubricCol(1, 1, false)" onmouseover="highlightRubricCol(1, 1, true)" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-1" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-2" data-col="2">
+                        <div class="btn-group">
+                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-2" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-left">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-2" onclick="removeRubricCol(2, 1)" onmouseout="highlightRubricCol(2, 1, false)" onmouseover="highlightRubricCol(2, 1, true)" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-2" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="align-center rubricCol-1-3" data-col="3">
+                        <div class="btn-group">
+                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-3" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-left">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-3" onclick="removeRubricCol(3, 1)" onmouseout="highlightRubricCol(3, 1, false)" onmouseover="highlightRubricCol(3, 1, true)" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-3" title="" type="button">
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <input disabled="" id="rubricNumRows-1" name="rubricNumRows" type="hidden" value="2">
+              <input disabled="" id="rubricNumCols-1" name="rubricNumCols" type="hidden" value="4">
+            </div>
+            <div class="row">
+              <div class="col-sm-6 align-left">
+                <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-1" onclick="addRubricRow(1)" style="display: none;">
+                  <span class="glyphicon glyphicon-arrow-down">
+                  </span>
+                  add row
+                </a>
+              </div>
+              <div class="col-sm-6 align-right">
+                <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-1" onclick="addRubricCol(1)" style="display: none;">
+                  add column
+                  <span class="glyphicon glyphicon-arrow-right">
+                  </span>
+                </a>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+          <div class="margin-bottom-7px">
+            <b class="feedback-path-title">
+              Feedback Path
+            </b>
+            (Who is giving feedback about whom?)
+          </div>
+          <div class="feedback-path-dropdown btn-group">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Feedback session creator (i.e., me) will give feedback on
+              <span class="glyphicon glyphicon-arrow-right">
+              </span>
+              Giver (Self feedback)
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common feedback path combinations
+              </li>
+              <li class="dropdown-submenu">
+                <a>
+                  Feedback session creator (i.e., me) will give feedback on...
+                </a>
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
+                  <li>
+                    <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
+                      Nobody specific (For general class feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)" data-recipient-type="SELF" href="javascript:;">
+                      Giver (Self feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
+                      Instructors in the course
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>
+                  Students in this course will give feedback on...
+                </a>
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
+                  <li>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
+                      Nobody specific (For general class feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)" data-recipient-type="SELF" href="javascript:;">
+                      Giver (Self feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
+                      Instructors in the course
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
+                      Giver's team members
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members and Giver" data-recipient-type="OWN_TEAM_MEMBERS_INCLUDING_SELF" href="javascript:;">
+                      Giver's team members and Giver
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>
+                  Instructors in this course will give feedback on...
+                </a>
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
+                  <li>
+                    <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
+                      Nobody specific (For general class feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)" data-recipient-type="SELF" href="javascript:;">
+                      Giver (Self feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
+                      Instructors in the course
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" data-path-description="Predefined combinations:" href="javascript:;">
+                  Other predefined combinations...
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="feedback-path-others margin-top-7px" style="display:none;">
+            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
+              <label class="col-sm-4 col-lg-5 control-label">
+                Who will give the feedback:
+              </label>
+              <div class="col-sm-8 col-lg-7">
+                <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype">
+                  <option selected="" value="SELF">
+                    Feedback session creator (i.e., me)
+                  </option>
+                  <option value="STUDENTS">
+                    Students in this course
+                  </option>
+                  <option value="INSTRUCTORS">
+                    Instructors in this course
+                  </option>
+                  <option value="TEAMS">
+                    Teams in this course
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
+              <label class="col-sm-4 col-lg-5 control-label">
+                Who the feedback is about:
+              </label>
+              <div class="col-sm-8 col-lg-7">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype">
+                  <option selected="" value="SELF">
+                    Giver (Self feedback)
+                  </option>
+                  <option value="STUDENTS">
+                    Other students in the course
+                  </option>
+                  <option value="INSTRUCTORS">
+                    Instructors in the course
+                  </option>
+                  <option value="TEAMS">
+                    Other teams in the course
+                  </option>
+                  <option value="OWN_TEAM">
+                    Giver's team
+                  </option>
+                  <option style="display: none;" value="OWN_TEAM_MEMBERS">
+                    Giver's team members
+                  </option>
+                  <option style="display: none;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+                    Giver's team members and Giver
+                  </option>
+                  <option value="NONE">
+                    Nobody specific (For general class feedback)
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
+              <label class="control-label col-sm-4 small">
+                The maximum number of
+                <span class="number-of-entities-inner-text">
+                </span>
+                each respondent should give feedback to:
+              </label>
+              <div class="col-sm-8 form-control-static">
+                <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
+                  <input class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="custom">
+                  <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="" max="250" min="1" name="numofrecipients" type="number" value="1">
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
+                  <input checked="" class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="max">
+                  <span class="">
+                    Unlimited
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+          <div class="margin-bottom-7px">
+            <b class="visibility-title">
+              Visibility
+            </b>
+            (Who can see the responses?)
+          </div>
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Visible to recipient and instructors
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and team members, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-1" style="display:none;">
+            <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
+              <tbody>
+                <tr>
+                  <th class="text-center">
+                    User/Group
+                  </th>
+                  <th class="text-center">
+                    Can see answer
+                  </th>
+                  <th class="text-center">
+                    Can see giver's name
+                  </th>
+                  <th class="text-center">
+                    Can see recipient's name
+                  </th>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what feedback recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                      Recipient(s)
+                    </div>
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox answerCheckbox centered" disabled="" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="RECEIVER">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
+                      Giver's Team Members
+                    </div>
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                      Recipient's Team Members
+                    </div>
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what other students can view" data-placement="top" data-toggle="tooltip" title="">
+                      Other students
+                    </div>
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="STUDENTS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="STUDENTS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="STUDENTS">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                      Instructors
+                    </div>
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="INSTRUCTORS">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="INSTRUCTORS">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="INSTRUCTORS">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="visibility-message overflow-hidden" id="visibilityMessage-1">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+              <li>
+                You can see your own feedback in the results page later on.
+              </li>
+              <li>
+                Instructors in this course can see your response, the name of the recipient, and your name.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <span class="pull-right">
+            <input class="btn btn-primary" disabled="" id="button_question_submit-1" style="display:none" tabindex="0" type="submit" value="Save Changes">
+          </span>
+        </div>
+      </div>
+    </div>
+    <input name="fsname" type="hidden" value="First Session">
+    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+    <input name="questionid" type="hidden" value="${question.id}">
+    <input name="questionnum" type="hidden" value="1">
+    <input name="questiontype" type="hidden" value="RUBRIC">
+    <input id="questionedittype-1" name="questionedittype" type="hidden" value="edit">
+    <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
+  </form>
+  <br>
+  <br>
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
+    <div class="well well-plain" id="addNewQuestionTable">
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-9">
+          <div class="btn-group">
+            <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
+              Add New Question
+              <span class="caret">
+              </span>
+            </button>
+            <ul class="dropdown-menu" id="add-new-question-dropdown">
+              <li data-questiontype="TEMPLATE" id="button_add_template_modal">
+                <a data-courseid="FRubricQnUiT.CS2104" data-fsname="First Session" data-target="#addTemplateQuestionModal" data-toggle="modal" href="javascript:;">
+                  Choose from template questions
+                </a>
+              </li>
+              <li data-questiontype="TEXT">
+                <a href="javascript:;">
+                  Essay question
+                </a>
+              </li>
+              <li data-questiontype="MCQ">
+                <a href="javascript:;">
+                  Multiple-choice (single answer) question
+                </a>
+              </li>
+              <li data-questiontype="MSQ">
+                <a href="javascript:;">
+                  Multiple-choice (multiple answers) question
+                </a>
+              </li>
+              <li data-questiontype="NUMSCALE">
+                <a href="javascript:;">
+                  Numerical-scale question
+                </a>
+              </li>
+              <li data-questiontype="CONSTSUM_OPTION">
+                <a href="javascript:;">
+                  Distribute points (among options) question
+                </a>
+              </li>
+              <li data-questiontype="CONSTSUM_RECIPIENT">
+                <a href="javascript:;">
+                  Distribute points (among recipients) question
+                </a>
+              </li>
+              <li data-questiontype="CONTRIB">
+                <a href="javascript:;">
+                  Team contribution question
+                </a>
+              </li>
+              <li data-questiontype="RUBRIC">
+                <a href="javascript:;">
+                  Rubric question
+                </a>
+              </li>
+              <li data-questiontype="RANK_OPTIONS">
+                <a href="javascript:;">
+                  Rank (options) question
+                </a>
+              </li>
+              <li data-questiontype="RANK_RECIPIENTS">
+                <a href="javascript:;">
+                  Rank (recipients) question
+                </a>
+              </li>
+            </ul>
+          </div>
+          <a href="/instructorHelp.jsp#questions" rel="noopener noreferrer" target="_blank">
+            <i class="glyphicon glyphicon-info-sign">
+            </i>
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=FRubricQnUiT.instructor" data-courseid="FRubricQnUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
+            Copy Question
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=FRubricQnUiT.instructor&courseid=FRubricQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
+            Done Editing
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary questionTable" id="questionTable--1" style="display:none;">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-7">
+            <span>
+              <strong>
+                Question
+              </strong>
+              <select class="questionNumber nonDestructive text-primary" id="questionnum" name="questionnum">
+                <option value="1">
+                  1
+                </option>
+                <option value="2">
+                  2
+                </option>
+              </select>
+               
+            </span>
+            <span id="questionTypeHeader">
+            </span>
+          </div>
+          <div class="col-sm-5 mobile-margin-top-10px">
+            <span class="mobile-no-pull pull-right">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
+                Cancel
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+          <div class="form-group" style="padding: 15px;">
+            <h5 class="col-sm-2">
+              <label class="control-label" for="questiontext--1">
+                Question
+              </label>
+            </h5>
+            <div class="col-sm-10">
+              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext--1" name="questiontext" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" rows="2" tabindex="9" title="">
+              </textarea>
+            </div>
+          </div>
+          <div class="form-group" style="padding: 0 15px;">
+            <h5 class="col-sm-2">
+              <label class="align-left" for="questiondescription--1">
+                [Optional]
+                <br>
+                Description
+              </label>
+            </h5>
+            <div class="col-sm-10">
+              <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
+              </div>
+              <input name="questiondescription" type="hidden">
+            </div>
+            <div id="textForm">
+              <div>
+                <br>
+                <div class="row">
+                  <div class="col-xs-12 question-recommended-length">
+                    [Optional]
+                    <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                      Recommended length
+                    </span>
+                    for the response:
+                    <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                    words
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="mcqForm">
+              <div class="row">
+                <div class="col-sm-12 margin-bottom-7px">
+                  <div class="col-sm-4 padding-0">
+                    <input class="nonDestructive" id="mcqHasAssignedWeights--1" name="mcqHasAssignedWeights" type="checkbox">
+                    <span class="tool-tip-decorate" data-original-title="Assign weights to the choices for calculating statistics." data-placement="top" data-toggle="tooltip">
+                      Choices are weighted
+                    </span>
+                  </div>
+                  <div class="col-sm-2 padding-left-45px align-center">
+                    Weights
+                    <span class="glyphicon glyphicon-arrow-down">
+                    </span>
+                  </div>
+                </div>
+                <br>
+                <div class="col-sm-6">
+                  <div id="mcqChoiceTable--1">
+                    <div class="row">
+                      <div class="col-sm-9" id="mcqChoices--1">
+                        <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
+                          <div class="input-group width-100-pc">
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-resize-vertical">
+                              </span>
+                              <input class="disabled_radio" disabled="" type="radio">
+                            </span>
+                            <input class="form-control" disabled="" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
+                          <div class="input-group width-100-pc">
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-resize-vertical">
+                              </span>
+                              <input class="disabled_radio" disabled="" type="radio">
+                            </span>
+                            <input class="form-control" disabled="" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-3" id="mcqWeights--1">
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="mcqWeight-0--1" min="0" name="mcqWeight-0" step="0.01" type="number" value="0">
+                        </div>
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="mcqWeight-1--1" min="0" name="mcqWeight-1" step="0.01" type="number" value="0">
+                        </div>
+                      </div>
+                    </div>
+                    <div id="mcqAddOptionRow--1">
+                      <div colspan="2">
+                        <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink--1" onclick="addMcqOption(-1)" style="display:none">
+                          <span class="glyphicon glyphicon-plus">
+                          </span>
+                          add more options
+                        </a>
+                        <div class="row">
+                          <div class="checkbox col-sm-9 padding-left-35px">
+                            <label class="bold-label">
+                              <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" type="checkbox">
+                              Add 'Other' option (Allows respondents to type in their own answer)
+                            </label>
+                          </div>
+                          <div class="col-sm-3">
+                            <input class="form-control nonDestructive" id="mcqOtherWeight--1" min="0" name="mcqOtherWeight" step="0.01" type="number" value="0">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                </div>
+                <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+                  <div class="border-gray narrow-slight visible-xs margin-bottom-7px margin-top-7px">
+                  </div>
+                  <div class="checkbox padding-top-0">
+                    <label class="bold-label">
+                      <span class="inline-block">
+                        <input disabled="" id="generateMcqOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                        Or, generate options from the list of all
+                      </span>
+                    </label>
+                    <select class="form-control width-auto inline" disabled="" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)">
+                      <option value="STUDENTS">
+                        students
+                      </option>
+                      <option value="STUDENTS_EXCLUDING_SELF">
+                        students (excluding self)
+                      </option>
+                      <option value="TEAMS">
+                        teams
+                      </option>
+                      <option value="TEAMS_EXCLUDING_SELF">
+                        teams (excluding self)
+                      </option>
+                      <option value="INSTRUCTORS">
+                        instructors
+                      </option>
+                    </select>
+                  </div>
+                  <input id="mcqGeneratedOptions--1" name="mcqGeneratedOptions" type="hidden" value="NONE">
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="msqForm">
+              <div class="row">
+                <div class="col-sm-12 margin-bottom-7px">
+                  <div class="col-sm-4 padding-0">
+                    <input class="nonDestructive" id="msqHasAssignedWeights--1" name="msqHasAssignedWeights" type="checkbox">
+                    <span class="tool-tip-decorate" data-original-title="Assign weights to the choices for calculating statistics." data-placement="top" data-toggle="tooltip">
+                      Choices are weighted
+                    </span>
+                  </div>
+                  <div class="col-sm-2 padding-left-7px align-center">
+                    Weights
+                  </div>
+                </div>
+                <br>
+                <div class="col-sm-6">
+                  <div id="msqChoiceTable--1">
+                    <div class="row">
+                      <div class="col-sm-9" id="msqChoices--1">
+                        <div class="margin-bottom-7px" id="msqOptionRow-0--1">
+                          <div class="input-group width-100-pc">
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-resize-vertical">
+                              </span>
+                              <input class="disabled_radio" disabled="" type="checkbox">
+                            </span>
+                            <input class="form-control" disabled="" id="msqOption-0--1" name="msqOption-0" type="text" value="">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="margin-bottom-7px" id="msqOptionRow-1--1">
+                          <div class="input-group width-100-pc">
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-resize-vertical">
+                              </span>
+                              <input class="disabled_radio" disabled="" type="checkbox">
+                            </span>
+                            <input class="form-control" disabled="" id="msqOption-1--1" name="msqOption-1" type="text" value="">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2 padding-0" id="msqWeights--1">
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="msqWeight-0--1" min="0" name="msqWeight-0" step="0.01" type="number" value="0">
+                        </div>
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="msqWeight-1--1" min="0" name="msqWeight-1" step="0.01" type="number" value="0">
+                        </div>
+                      </div>
+                    </div>
+                    <div id="msqAddOptionRow--1">
+                      <div colspan="2">
+                        <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink--1" onclick="addMsqOption(-1)" style="display:none">
+                          <span class="glyphicon glyphicon-plus">
+                          </span>
+                          add more options
+                        </a>
+                        <div class="row">
+                          <div class="checkbox col-sm-9 padding-left-35px">
+                            <label class="bold-label">
+                              <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" type="checkbox">
+                              Add 'Other' option (Allows respondents to type in their own answer)
+                            </label>
+                          </div>
+                          <div class="col-sm-2 padding-0">
+                            <input class="form-control nonDestructive" id="msqOtherWeight--1" min="0" name="msqOtherWeight" step="0.01" type="number" value="0">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                </div>
+                <div class="col-sm-6 row">
+                  <div class="col-md-8 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="generateMsqOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                        Or, generate options from the list of all
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 margin-bottom-7px">
+                    <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
+                      <option value="STUDENTS">
+                        students
+                      </option>
+                      <option value="STUDENTS_EXCLUDING_SELF">
+                        students (excluding self)
+                      </option>
+                      <option value="TEAMS">
+                        teams
+                      </option>
+                      <option value="TEAMS_EXCLUDING_SELF">
+                        teams (excluding self)
+                      </option>
+                      <option value="INSTRUCTORS">
+                        instructors
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMaxSelectableChoices--1" name="msqEnableMaxSelectableChoices" type="checkbox">
+                        Maximum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMaxSelectableChoices--1" min="2" name="msqMaxSelectableChoices" required="" type="number" value="2">
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMinSelectableChoices--1" name="msqEnableMinSelectableChoices" type="checkbox">
+                        Minimum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" required="" type="number" value="1">
+                  </div>
+                  <input id="msqGeneratedOptions--1" name="msqGeneratedOptions" type="hidden" value="NONE">
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="numScaleForm">
+              <div>
+                <br>
+                <div>
+                  <div>
+                    <div class="row">
+                      <div class="col-sm-4" data-original-title="Minimum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
+                        Minimum value:
+                        <input class="form-control minScaleBox" disabled="" id="minScaleBox--1" name="numscalemin" onchange="updateNumScalePossibleValues(-1)" type="number" value="1">
+                      </div>
+                      <div class="col-sm-4" data-original-title="Value to be increased/decreased each step" data-placement="top" data-toggle="tooltip" title="">
+                        Increment:
+                        <input class="form-control stepBox" disabled="" id="stepBox--1" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(-1)" step="0.001" type="number" value="1">
+                      </div>
+                      <div class="col-sm-4" data-original-title="Maximum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
+                        Maximum value:
+                        <input class="form-control maxScaleBox" disabled="" id="maxScaleBox--1" name="numscalemax" onchange="updateNumScalePossibleValues(-1)" type="number" value="5">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <span id="numScalePossibleValues--1">
+                          [Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="constSumForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6" id="constSumOptionTable--1">
+                  <div id="constSumChoices--1">
+                    <div class="margin-bottom-7px" id="constSumOptionRow-0--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-resize-vertical">
+                          </span>
+                        </span>
+                        <input class="form-control" disabled="" id="constSumOption-0--1" name="constSumOption-0" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="margin-bottom-7px" id="constSumOptionRow-1--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-resize-vertical">
+                          </span>
+                        </span>
+                        <input class="form-control" disabled="" id="constSumOption-1--1" name="constSumOption-1" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="constSumAddOptionRow--1">
+                    <div colspan="2">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink--1" onclick="addConstSumOption(-1)" style="display:none">
+                        <span class="glyphicon glyphicon-plus">
+                        </span>
+                        add more options
+                      </a>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                  <input id="constSumToRecipients--1" name="constSumToRecipients" type="hidden" value="false">
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-inline">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                          <b>
+                            Total Points to distribute:
+                          </b>
+                        </label>
+                      </div>
+                      <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                        <div class="col-xs-1">
+                          <input checked="" id="constSumPointsTotal--1" name="constSumPointsPerOption" type="radio" value="false">
+                        </div>
+                        <div data-original-title="Respondents will have to distribute the total points specified here among the options, e.g. if you specify 100 points here and there are 3 options, respondents will have to distribute 100 points among 3 options." data-placement="top" data-toggle="tooltip" title="">
+                          <div class="col-xs-4 padding-0 col-sm-4">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                          </div>
+                          <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">
+                              in total
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option--1">
+                        <div class="col-xs-1">
+                          <input id="constSumPointsPerOption--1" name="constSumPointsPerOption" type="radio" value="true">
+                        </div>
+                        <div data-original-title="The number of points to distribute will vary based on the number of options, e.g. if you specify 100 points here and there are 3 options, the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3)." data-placement="top" data-toggle="tooltip" title="">
+                          <div class="col-xs-4 padding-0">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPointsForEachOption--1" min="1" name="constSumPointsForEachOption" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                          </div>
+                          <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">
+                              X
+                            </label>
+                            <label class="margin-top-7px">
+                              (number of options)
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient--1" style="display:none">
+                        <div class="col-xs-1">
+                          <input id="constSumPointsPerRecipient--1" name="constSumPointsPerOption" type="radio" value="true">
+                        </div>
+                        <div data-original-title="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3)." data-placement="top" data-toggle="tooltip" title="">
+                          <div class="col-xs-4 padding-0">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPointsForEachRecipient--1" min="1" name="constSumPointsForEachRecipient" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                          </div>
+                          <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">
+                              X
+                            </label>
+                            <label class="margin-top-7px">
+                              (number of recipients)
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="checkbox" data-container="body" data-original-title="This determines whether a giver can distribute the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
+                        <label class="bold-label">
+                          <span class="inline-block">
+                            <input disabled="" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" onchange="toggleConstSumDistributePointsOptions(this, -1)" type="checkbox">
+                          </span>
+                          <select class="form-control width-auto inline" disabled="" id="constSumDistributePointsSelect--1" onchange="changeConstSumDistributePointsFor(-1)">
+                            <option value="All options">
+                              Every option
+                            </option>
+                            <option value="At least some options">
+                              At least some options
+                            </option>
+                          </select>
+                          to receive a different number of points
+                        </label>
+                      </div>
+                      <input id="constSumDistributePointsOptions--1" name="constSumDistributePointsOptions" type="hidden" value="None">
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="contribForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6 row">
+                  <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
+                    <input checked="" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox">
+                    <span style="margin-left: 5px; font-weight: bold;">
+                      Allow response giver to select 'Not Sure' as the answer
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="rubricForm">
+              <div class="row">
+                <div class="col-sm-4">
+                  <input class="nonDestructive" id="rubricAssignWeights--1" name="rubricAssignWeights" type="checkbox">
+                  <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
+                    Choices are weighted
+                  </span>
+                </div>
+                <br>
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered margin-0" id="rubricEditTable--1">
+                    <thead>
+                      <tr>
+                        <th style="text-align:center; vertical-align:middle;">
+                          Choices
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                        </th>
+                        <th class="rubricCol--1-0">
+                          <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
+                        </th>
+                        <th class="rubricCol--1-1">
+                          <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Disagree">
+                        </th>
+                        <th class="rubricCol--1-2">
+                          <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Agree">
+                        </th>
+                        <th class="rubricCol--1-3">
+                          <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="rubricRow--1-0">
+                        <td>
+                          <div class="col-sm-12 input-group">
+                            <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-0" onclick="removeRubricRow(0,-1)" onmouseout="highlightRubricRow(0, -1, false)" onmouseover="highlightRubricRow(0, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                            <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" required="" rows="3">
+                              This student participates well in online discussions.
+                            </textarea>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-0">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-0" name="rubricDesc-0-0" rows="3">
+                            Rarely or never responds.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-0-0" name="rubricWeight-0-0" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-1">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-1" name="rubricDesc-0-1" rows="3">
+                            Occasionally responds, but never initiates discussions.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-0-1" name="rubricWeight-0-1" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-2">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-2" name="rubricDesc-0-2" rows="3">
+                            Takes part in discussions and sometimes initiates discussions.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-0-2" name="rubricWeight-0-2" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-3">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-3" name="rubricDesc-0-3" rows="3">
+                            Initiates discussions frequently, and engages the team.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-0-3" name="rubricWeight-0-3" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr id="rubricRow--1-1">
+                        <td>
+                          <div class="col-sm-12 input-group">
+                            <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-1" onclick="removeRubricRow(1,-1)" onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" required="" rows="3">
+                              This student completes assigned tasks on time.
+                            </textarea>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-0">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-0" name="rubricDesc-1-0" rows="3">
+                            Rarely or never completes tasks.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-1-0" name="rubricWeight-1-0" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-1">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-1" name="rubricDesc-1-1" rows="3">
+                            Often misses deadlines.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-1-1" name="rubricWeight-1-1" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-2">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-2" name="rubricDesc-1-2" rows="3">
+                            Occasionally misses deadlines.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-1-2" name="rubricWeight-1-2" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-3">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-3" name="rubricDesc-1-3" rows="3">
+                            Tasks are always completed before the deadline.
+                          </textarea>
+                          <div class="rubricWeights--1">
+                            <input class="form-control nonDestructive margin-top-10px" id="rubricWeight--1-1-3" name="rubricWeight-1-3" step="0.01" type="number" value="0">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="rubricRemoveChoiceLink--1" id="rubric-options-row--1">
+                        <td>
+                        </td>
+                        <td class="align-center rubricCol--1-0" data-col="0">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-0" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-0" onclick="removeRubricCol(0, -1)" onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-0" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-1" data-col="1">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-1" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-1" onclick="removeRubricCol(1, -1)" onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-1" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-2" data-col="2">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-2" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-2" onclick="removeRubricCol(2, -1)" onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-2" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-3" data-col="3">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-3" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-3" onclick="removeRubricCol(3, -1)" onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-3" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <input id="rubricNumRows--1" name="rubricNumRows" type="hidden" value="2">
+                <input id="rubricNumCols--1" name="rubricNumCols" type="hidden" value="4">
+              </div>
+              <div class="row">
+                <div class="col-sm-6 align-left">
+                  <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink--1" onclick="addRubricRow(-1)">
+                    <span class="glyphicon glyphicon-arrow-down">
+                    </span>
+                    add row
+                  </a>
+                </div>
+                <div class="col-sm-6 align-right">
+                  <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink--1" onclick="addRubricCol(-1)">
+                    add column
+                    <span class="glyphicon glyphicon-arrow-right">
+                    </span>
+                  </a>
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="rankOptionsForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6" id="rankOptionTable--1">
+                  <div id="rankChoices--1">
+                    <div class="margin-bottom-7px" id="rankOptionRow-0--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-resize-vertical">
+                          </span>
+                        </span>
+                        <input class="form-control" disabled="" id="rankOption-0--1" name="rankOption-0" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="margin-bottom-7px" id="rankOptionRow-1--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-resize-vertical">
+                          </span>
+                        </span>
+                        <input class="form-control" disabled="" id="rankOption-1--1" name="rankOption-1" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="rankAddOptionRow--1">
+                    <div colspan="2">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink--1" onclick="addRankOption(-1)" style="display:none">
+                        <span class="glyphicon glyphicon-plus">
+                        </span>
+                        add more options
+                      </a>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                </div>
+                <div class="col-sm-6">
+                  <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
+                    <label class="bold-label">
+                      <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox">
+                      Allow response giver to give the same rank to multiple options
+                    </label>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-9 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input data-linked-input-id="minOptionsToBeRanked--1" id="minOptionsToBeRankedEnabled--1" name="minOptionsToBeRankedEnabled" type="checkbox">
+                          Minimum number of options a respondent must rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                      <div class="pull-right">
+                        <input class="form-control" id="minOptionsToBeRanked--1" min="1" name="minOptionsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-9 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input data-linked-input-id="maxOptionsToBeRanked--1" id="maxOptionsToBeRankedEnabled--1" name="maxOptionsToBeRankedEnabled" type="checkbox">
+                          Maximum number of options a respondent can rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                      <div class="pull-right">
+                        <input class="form-control" id="maxOptionsToBeRanked--1" min="1" name="maxOptionsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="rankRecipientsForm">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients" data-placement="top" data-toggle="tooltip" title="">
+                    <label class="bold-label">
+                      <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox">
+                      Allow response giver to give the same rank to multiple options
+                    </label>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input data-linked-input-id="minRecipientsToBeRanked--1" id="minRecipientsToBeRankedEnabled--1" name="minRecipientsToBeRankedEnabled" type="checkbox">
+                          Minimum number of options a respondent must rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="pull-left">
+                        <input class="form-control" id="minRecipientsToBeRanked--1" min="1" name="minRecipientsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input data-linked-input-id="maxRecipientsToBeRanked--1" id="maxRecipientsToBeRankedEnabled--1" name="maxRecipientsToBeRankedEnabled" type="checkbox">
+                          Maximum number of options a respondent can rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="pull-left">
+                        <input class="form-control" id="maxRecipientsToBeRanked--1" min="1" name="maxRecipientsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+          <div class="margin-bottom-7px">
+            <b class="feedback-path-title">
+              Feedback Path
+            </b>
+            (Who is giving feedback about whom?)
+          </div>
+          <div class="feedback-path-dropdown btn-group">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+              Please select a feedback path
+              <span class="caret">
+              </span>
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common feedback path combinations
+              </li>
+              <li class="dropdown-submenu">
+                <a>
+                  Feedback session creator (i.e., me) will give feedback on...
+                </a>
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
+                  <li>
+                    <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
+                      Nobody specific (For general class feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)" data-recipient-type="SELF" href="javascript:;">
+                      Giver (Self feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
+                      Instructors in the course
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>
+                  Students in this course will give feedback on...
+                </a>
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
+                  <li>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
+                      Nobody specific (For general class feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)" data-recipient-type="SELF" href="javascript:;">
+                      Giver (Self feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
+                      Instructors in the course
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members" data-recipient-type="OWN_TEAM_MEMBERS" href="javascript:;">
+                      Giver's team members
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver's team members and Giver" data-recipient-type="OWN_TEAM_MEMBERS_INCLUDING_SELF" href="javascript:;">
+                      Giver's team members and Giver
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>
+                  Instructors in this course will give feedback on...
+                </a>
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
+                  <li>
+                    <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
+                      Nobody specific (For general class feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)" data-recipient-type="SELF" href="javascript:;">
+                      Giver (Self feedback)
+                    </a>
+                    <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course" data-recipient-type="INSTRUCTORS" href="javascript:;">
+                      Instructors in the course
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" data-path-description="Predefined combinations:" href="javascript:;">
+                  Other predefined combinations...
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="feedback-path-others margin-top-7px" style="display:none;">
+            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
+              <label class="col-sm-4 col-lg-5 control-label">
+                Who will give the feedback:
+              </label>
+              <div class="col-sm-8 col-lg-7">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
+                  <option value="SELF">
+                    Feedback session creator (i.e., me)
+                  </option>
+                  <option value="STUDENTS">
+                    Students in this course
+                  </option>
+                  <option value="INSTRUCTORS">
+                    Instructors in this course
+                  </option>
+                  <option value="TEAMS">
+                    Teams in this course
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
+              <label class="col-sm-4 col-lg-5 control-label">
+                Who the feedback is about:
+              </label>
+              <div class="col-sm-8 col-lg-7">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
+                  <option value="SELF">
+                    Giver (Self feedback)
+                  </option>
+                  <option value="STUDENTS">
+                    Other students in the course
+                  </option>
+                  <option value="INSTRUCTORS">
+                    Instructors in the course
+                  </option>
+                  <option value="TEAMS">
+                    Other teams in the course
+                  </option>
+                  <option value="OWN_TEAM">
+                    Giver's team
+                  </option>
+                  <option value="OWN_TEAM_MEMBERS">
+                    Giver's team members
+                  </option>
+                  <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+                    Giver's team members and Giver
+                  </option>
+                  <option value="NONE">
+                    Nobody specific (For general class feedback)
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
+              <label class="control-label col-sm-4 small">
+                The maximum number of
+                <span class="number-of-entities-inner-text">
+                </span>
+                each respondent should give feedback to:
+              </label>
+              <div class="col-sm-8 form-control-static">
+                <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
+                  <input class="nonDestructive" name="numofrecipientstype" type="radio" value="custom">
+                  <input class="nonDestructive numberOfEntitiesBox width-75-pc" max="250" min="1" name="numofrecipients" type="number" value="1">
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
+                  <input checked="" class="nonDestructive" name="numofrecipientstype" type="radio" value="max">
+                  <span class="">
+                    Unlimited
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+          <div class="margin-bottom-7px">
+            <b class="visibility-title">
+              Visibility
+            </b>
+            (Who can see the responses?)
+          </div>
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+              Please select a visibility option
+              <span class="caret">
+              </span>
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and team members, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions--1" style="display:none;">
+            <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
+              <tbody>
+                <tr>
+                  <th class="text-center">
+                    User/Group
+                  </th>
+                  <th class="text-center">
+                    Can see answer
+                  </th>
+                  <th class="text-center">
+                    Can see giver's name
+                  </th>
+                  <th class="text-center">
+                    Can see recipient's name
+                  </th>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what feedback recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                      Recipient(s)
+                    </div>
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
+                      Giver's Team Members
+                    </div>
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                      Recipient's Team Members
+                    </div>
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what other students can view" data-placement="top" data-toggle="tooltip" title="">
+                      Other students
+                    </div>
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                  </td>
+                  <td>
+                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="STUDENTS">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                    <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                      Instructors
+                    </div>
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                  </td>
+                  <td>
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="visibility-message overflow-hidden" id="visibilityMessage--1">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+            </ul>
+          </div>
+        </div>
+        <div>
+          <span class="pull-right">
+            <button class="btn btn-primary" id="button_submit_add" tabindex="9" type="submit">
+              Save Question
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <input name="questionnum" type="hidden" value="2">
+    <input id="questiontype" name="questiontype" type="hidden">
+    <input name="fsname" type="hidden" value="First Session">
+    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+    <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
+  </form>
+  <div aria-hidden="true" aria-labelledby="addTemplateQuestionModalTitle" class="modal fade" id="addTemplateQuestionModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+            <span class="sr-only">
+              Close
+            </span>
+          </button>
+          <h4 class="modal-title" id="addTemplateQuestionModalTitle">
+            Add Template Questions
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form action="/page/instructorFeedbackTemplateQuestionAdd" class="form" id="addTemplateQuestionModalForm" method="post" role="form">
+            <div class="panel panel-default" id="addTemplateQuestion-1">
+              <div class="panel-heading cursor-pointer">
+                <div class="panel-title">
+                  <label>
+                    <input name="templatequestionnum" type="checkbox" value="1">
+                  </label>
+                  Use
+                  <b>
+                    peer estimates
+                  </b>
+                  to determine the
+                  <b>
+                    work distribution percentage
+                  </b>
+                  among team members in
+                  <b>
+                    a team activity
+                  </b>
+                </div>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <span>
+                            <strong>
+                              Question
+                            </strong>
+                            <select class="nonDestructive text-primary" disabled="">
+                              <option>
+                                1
+                              </option>
+                            </select>
+                              Team contribution question
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="form-group" style="padding: 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="control-label">
+                              Question
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                              <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                                Your estimate of how much each team member has contributed.
+                              </textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group" style="padding: 0 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="align-left">
+                              [Optional]
+                              <br>
+                              Description
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                              <p>
+                                <br data-mce-bogus="1">
+                              </p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <br>
+                            <div class="col-sm-6 row">
+                              <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText-1" title="">
+                                <input checked="" id="isNotSureAllowedCheck-1" name="isNotSureAllowedCheck" type="checkbox">
+                                <span style="margin-left: 5px; font-weight: bold;">
+                                  Allow response giver to select 'Not Sure' as the answer
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="feedback-path-title">
+                            Feedback Path
+                          </b>
+                          (Who is giving feedback about whom?)
+                        </div>
+                        <div class="feedback-path-dropdown col-sm-12 btn-group">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Students in this course will give feedback on
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                            Giver's team members and Giver
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="visibility-title">
+                            Visibility
+                          </b>
+                          (Who can see the responses?)
+                        </div>
+                        <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Shown anonymously to recipient and team members, visible to instructors
+                          </button>
+                        </div>
+                        <div class="col-sm-12 visibility-message overflow-hidden">
+                          This is the visibility hint as seen by the feedback giver:
+                          <ul class="text-muted background-color-warning">
+                            <li>
+                              The receiving student can see your response, but not your name.
+                            </li>
+                            <li>
+                              Your team members can see your response, but not the name of the recipient, or your name.
+                            </li>
+                            <li>
+                              The recipient's team members can see your response, but not the name of the recipient, or your name.
+                            </li>
+                            <li>
+                              Instructors in this course can see your response, the name of the recipient, and your name.
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default" id="addTemplateQuestion-2">
+              <div class="panel-heading cursor-pointer">
+                <div class="panel-title">
+                  <label>
+                    <input name="templatequestionnum" type="checkbox" value="2">
+                  </label>
+                  Ask each student to describe something related to themselves i.e.,
+                  <b>
+                    self-reflection
+                  </b>
+                </div>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <span>
+                            <strong>
+                              Question
+                            </strong>
+                            <select class="nonDestructive text-primary" disabled="">
+                              <option>
+                                2
+                              </option>
+                            </select>
+                              Essay question
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="form-group" style="padding: 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="control-label">
+                              Question
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                              <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                                Comments about your contribution (shown to other teammates)
+                              </textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group" style="padding: 0 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="align-left">
+                              [Optional]
+                              <br>
+                              Description
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                              <p>
+                                <br data-mce-bogus="1">
+                              </p>
+                            </div>
+                          </div>
+                          <br>
+                          <div>
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-12 question-recommended-length">
+                                [Optional]
+                                <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                  Recommended length
+                                </span>
+                                for the response:
+                                <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                                words
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="feedback-path-title">
+                            Feedback Path
+                          </b>
+                          (Who is giving feedback about whom?)
+                        </div>
+                        <div class="feedback-path-dropdown col-sm-12 btn-group">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Students in this course will give feedback on
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                            Giver (Self feedback)
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="visibility-title">
+                            Visibility
+                          </b>
+                          (Who can see the responses?)
+                        </div>
+                        <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Custom visibility option:
+                          </button>
+                        </div>
+                        <div class="col-sm-12 visibility-message overflow-hidden">
+                          This is the visibility hint as seen by the feedback giver:
+                          <ul class="text-muted background-color-warning">
+                            <li>
+                              You can see your own feedback in the results page later on.
+                            </li>
+                            <li>
+                              Your team members can see your response, the name of the recipient, and your name.
+                            </li>
+                            <li>
+                              The recipient's team members can see your response, the name of the recipient, and your name.
+                            </li>
+                            <li>
+                              Instructors in this course can see your response, the name of the recipient, and your name.
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default" id="addTemplateQuestion-3">
+              <div class="panel-heading cursor-pointer">
+                <div class="panel-title">
+                  <label>
+                    <input name="templatequestionnum" type="checkbox" value="3">
+                  </label>
+                  Ask each student to give
+                  <b>
+                    confidential peer feedback (qualitative)
+                  </b>
+                  to other
+                  <b>
+                    team members
+                  </b>
+                </div>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <span>
+                            <strong>
+                              Question
+                            </strong>
+                            <select class="nonDestructive text-primary" disabled="">
+                              <option>
+                                3
+                              </option>
+                            </select>
+                              Essay question
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="form-group" style="padding: 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="control-label">
+                              Question
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                              <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                                Your comments about this teammate (confidential and only shown to instructor)
+                              </textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group" style="padding: 0 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="align-left">
+                              [Optional]
+                              <br>
+                              Description
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                              <p>
+                                <br data-mce-bogus="1">
+                              </p>
+                            </div>
+                          </div>
+                          <br>
+                          <div>
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-12 question-recommended-length">
+                                [Optional]
+                                <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                  Recommended length
+                                </span>
+                                for the response:
+                                <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                                words
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="feedback-path-title">
+                            Feedback Path
+                          </b>
+                          (Who is giving feedback about whom?)
+                        </div>
+                        <div class="feedback-path-dropdown col-sm-12 btn-group">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Students in this course will give feedback on
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                            Giver's team members
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="visibility-title">
+                            Visibility
+                          </b>
+                          (Who can see the responses?)
+                        </div>
+                        <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Visible to instructors only
+                          </button>
+                        </div>
+                        <div class="col-sm-12 visibility-message overflow-hidden">
+                          This is the visibility hint as seen by the feedback giver:
+                          <ul class="text-muted background-color-warning">
+                            <li>
+                              Instructors in this course can see your response, the name of the recipient, and your name.
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default" id="addTemplateQuestion-4">
+              <div class="panel-heading cursor-pointer">
+                <div class="panel-title">
+                  <label>
+                    <input name="templatequestionnum" type="checkbox" value="4">
+                  </label>
+                  Ask each student to give
+                  <b>
+                    confidential feedback (qualitative)
+                  </b>
+                  about the team behaviour
+                </div>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <span>
+                            <strong>
+                              Question
+                            </strong>
+                            <select class="nonDestructive text-primary" disabled="">
+                              <option>
+                                4
+                              </option>
+                            </select>
+                              Essay question
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="form-group" style="padding: 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="control-label">
+                              Question
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                              <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                                Comments about team dynamics (confidential and only shown to instructor)
+                              </textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group" style="padding: 0 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="align-left">
+                              [Optional]
+                              <br>
+                              Description
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                              <p>
+                                <br data-mce-bogus="1">
+                              </p>
+                            </div>
+                          </div>
+                          <br>
+                          <div>
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-12 question-recommended-length">
+                                [Optional]
+                                <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                  Recommended length
+                                </span>
+                                for the response:
+                                <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                                words
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="feedback-path-title">
+                            Feedback Path
+                          </b>
+                          (Who is giving feedback about whom?)
+                        </div>
+                        <div class="feedback-path-dropdown col-sm-12 btn-group">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Students in this course will give feedback on
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                            Giver's team
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="visibility-title">
+                            Visibility
+                          </b>
+                          (Who can see the responses?)
+                        </div>
+                        <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Visible to instructors only
+                          </button>
+                        </div>
+                        <div class="col-sm-12 visibility-message overflow-hidden">
+                          This is the visibility hint as seen by the feedback giver:
+                          <ul class="text-muted background-color-warning">
+                            <li>
+                              Instructors in this course can see your response, the name of the recipient, and your name.
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default" id="addTemplateQuestion-5">
+              <div class="panel-heading cursor-pointer">
+                <div class="panel-title">
+                  <label>
+                    <input name="templatequestionnum" type="checkbox" value="5">
+                  </label>
+                  Ask each student to give
+                  <b>
+                    comments about other team members, in confidence
+                  </b>
+                </div>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <span>
+                            <strong>
+                              Question
+                            </strong>
+                            <select class="nonDestructive text-primary" disabled="">
+                              <option>
+                                5
+                              </option>
+                            </select>
+                              Essay question
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="form-group" style="padding: 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="control-label">
+                              Question
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div data-original-title="Please enter the question for users to give feedback about." data-placement="top" data-toggle="tooltip">
+                              <textarea class="form-control textvalue nonDestructive" disabled="" name="questiontext" placeholder="A concise version of the question" rows="2" title="">
+                                Your feedback to this teammate (shown anonymously to the teammate)
+                              </textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group" style="padding: 0 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="align-left">
+                              [Optional]
+                              <br>
+                              Description
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" spellcheck="false" title="">
+                              <p>
+                                <br data-mce-bogus="1">
+                              </p>
+                            </div>
+                          </div>
+                          <br>
+                          <div>
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-12 question-recommended-length">
+                                [Optional]
+                                <span class="tool-tip-decorate" data-original-title="The recommended length is shown to the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                                  Recommended length
+                                </span>
+                                for the response:
+                                <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                                words
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="feedback-path-title">
+                            Feedback Path
+                          </b>
+                          (Who is giving feedback about whom?)
+                        </div>
+                        <div class="feedback-path-dropdown col-sm-12 btn-group">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Students in this course will give feedback on
+                            <span class="glyphicon glyphicon-arrow-right">
+                            </span>
+                            Giver's team members
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="visibility-title">
+                            Visibility
+                          </b>
+                          (Who can see the responses?)
+                        </div>
+                        <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+                            Shown anonymously to recipient, visible to instructors
+                          </button>
+                        </div>
+                        <div class="col-sm-12 visibility-message overflow-hidden">
+                          This is the visibility hint as seen by the feedback giver:
+                          <ul class="text-muted background-color-warning">
+                            <li>
+                              The receiving student can see your response, but not your name.
+                            </li>
+                            <li>
+                              Instructors in this course can see your response, the name of the recipient, and your name.
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input name="fsname" type="hidden" value="First Session">
+            <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+            <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+            <input name="token" type="hidden" value="${sessionToken}">
+          </form>
+        </div>
+        <div class="modal-footer margin-0">
+          <button class="btn btn-primary" disabled="" id="button_add_template_submit" type="button">
+            Add
+          </button>
+          <button class="btn btn-default" data-dismiss="modal" type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+            <span class="sr-only">
+              Close
+            </span>
+          </button>
+          <h4 class="modal-title" id="copyModalTitle">
+            Copy Questions
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
+            <input name="fsname" type="hidden" value="First Session">
+            <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+            <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+            <input name="token" type="hidden" value="${sessionToken}">
+          </form>
+          <div id="question-copy-modal-status">
+          </div>
+        </div>
+        <div class="modal-footer margin-0">
+          <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
+            Copy
+          </button>
+          <button class="btn btn-default" data-dismiss="modal" type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="well well-plain" id="questionPreviewTable">
+    <div class="row">
+      <form class="form-horizontal">
+        <label class="control-label col-xs-6 col-md-2 tablet-align-left text-right">
+          Preview Session:
+        </label>
+      </form>
+      <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled." data-placement="top" data-toggle="tooltip" title="">
+        <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
+          <div class="col-sm-6">
+            <select class="form-control margin-bottom-7px" name="previewas">
+              <option value="alice.b.tmms@gmail.tmt">
+                [Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"] Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+              </option>
+              <option value="benny.c.tmms@gmail.tmt">
+                [Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"] Benny Charles
+              </option>
+              <option value="colin.d.tmms@gmail.tmt">
+                [Team 2&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"] Colin Daniels
+              </option>
+            </select>
+          </div>
+          <input name="fsname" type="hidden" value="First Session">
+          <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+          <div class="col-sm-6">
+            <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student">
+          </div>
+          <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+        </form>
+      </div>
+      <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback.<br>Only instructors with submit privileges are included in the list." data-placement="top" data-toggle="tooltip" title="">
+        <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
+          <div class="col-sm-6">
+            <select class="form-control margin-bottom-7px" name="previewas">
+              <option value="tmms.test@gmail.tmt">
+                Teammates Test
+              </option>
+            </select>
+          </div>
+          <input name="fsname" type="hidden" value="First Session">
+          <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+          <div class="col-sm-6">
+            <input class="btn btn-primary" id="button_preview_instructor" type="submit" value="Preview as Instructor">
+          </div>
+          <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>

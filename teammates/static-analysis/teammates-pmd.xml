@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name=""
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        This is the PMD ruleset for all TEAMMATES Java code.
+    </description>
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
+
+    <rule ref="category/java/bestpractices.xml">
+        <!-- May consider enforcing -->
+        <exclude name="ArrayIsStoredDirectly"/>
+        <exclude name="MethodReturnsInternalArray"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="AccessorClassGeneration"/>
+        <exclude name="AccessorMethodGeneration"/>
+        <exclude name="GuardLogStatement"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="UseVarargs"/>
+
+        <!-- Not relevant as we use TestNG -->
+        <exclude name="JUnit4SuitesShouldUseSuiteAnnotation"/>
+        <exclude name="JUnit4TestShouldUseAfterAnnotation"/>
+        <exclude name="JUnit4TestShouldUseBeforeAnnotation"/>
+        <exclude name="JUnit4TestShouldUseTestAnnotation"/>
+
+        <!-- Handled by CheckStyle -->
+        <exclude name="DefaultLabelNotLastInSwitchStmt"/>
+        <exclude name="OneDeclarationPerLine"/>
+        <exclude name="UnusedImports"/>
+
+        <!-- Enforced for production code only -->
+        <exclude name="AvoidPrintStackTrace"/>
+        <exclude name="SystemPrintln"/>
+    </rule>
+
+    <!--
+    Most code style-related rules are enforced by CheckStyle.
+    The rules included here covers what CheckStyle does not cover.
+    -->
+    <rule ref="category/java/codestyle.xml/AvoidFinalLocalVariable"/>
+    <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass"/>
+    <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending"/>
+    <rule ref="category/java/codestyle.xml/AvoidUsingNativeCode"/>
+    <rule ref="category/java/codestyle.xml/ConfusingTernary">
+        <properties>
+            <property name="ignoreElseIf" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/codestyle.xml/EmptyMethodInAbstractClassShouldBeAbstract"/>
+    <rule ref="category/java/codestyle.xml/ExtendsObject"/>
+    <rule ref="category/java/codestyle.xml/FieldDeclarationsShouldBeAtStartOfClass"/>
+    <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop"/>
+    <rule ref="category/java/codestyle.xml/IdenticalCatchBranches"/>
+    <rule ref="category/java/codestyle.xml/PrematureDeclaration"/>
+    <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement"/>
+    <rule ref="category/java/codestyle.xml/UnnecessaryConstructor"/>
+    <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
+    <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
+    <rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
+    <rule ref="category/java/codestyle.xml/UselessQualifiedThis"/>
+
+    <rule ref="category/java/design.xml">
+        <!-- Metrics-related rules; not to be enforced in the near future -->
+        <exclude name="CouplingBetweenObjects"/>
+        <exclude name="CyclomaticComplexity"/>
+        <exclude name="DataClass"/>
+        <exclude name="ExcessiveClassLength"/>
+        <exclude name="ExcessiveImports"/>
+        <exclude name="ExcessiveMethodLength"/>
+        <exclude name="ExcessiveParameterList"/>
+        <exclude name="ExcessivePublicCount"/>
+        <exclude name="GodClass"/>
+        <exclude name="NcssCount"/>
+        <exclude name="NPathComplexity"/>
+        <exclude name="TooManyFields"/>
+        <exclude name="TooManyMethods"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="ImmutableField"/>
+        <exclude name="LawOfDemeter"/>
+        <exclude name="LoosePackageCoupling"/>
+        <exclude name="UseObjectForClearerAPI"/>
+
+        <!-- Some are needed as safety net -->
+        <exclude name="AvoidCatchingGenericException"/>
+
+        <!-- Enforced for production code only -->
+        <exclude name="AvoidThrowingRawExceptionTypes"/>
+        <exclude name="SignatureDeclareThrowsException"/>
+    </rule>
+
+    <!--
+    Most documentation-related rules are enforced by CheckStyle.
+    The rules included here covers what CheckStyle does not cover.
+    -->
+    <rule ref="category/java/documentation.xml/UncommentedEmptyConstructor"/>
+    <rule ref="category/java/documentation.xml/UncommentedEmptyMethodBody"/>
+
+    <rule ref="category/java/errorprone.xml">
+        <!-- May consider enforcing -->
+        <exclude name="AvoidFieldNameMatchingTypeName"/>
+        <exclude name="AvoidFieldNameMatchingMethodName"/>
+
+        <!-- Very difficult to enforce -->
+        <exclude name="AvoidDuplicateLiterals"/>
+        <exclude name="AvoidLiteralsInIfCondition"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="JUnitSpelling"/>
+        <exclude name="JUnitStaticSuite"/>
+        <exclude name="NullAssignment"/>
+        <exclude name="UseLocaleWithCaseConversions"/>
+
+        <!--  Unnecessary as they will cause compile error if violated -->
+        <exclude name="AvoidAssertAsIdentifier"/>
+        <exclude name="AvoidEnumAsIdentifier"/>
+
+        <!-- Handled by CheckStyle -->
+        <exclude name="DontImportSun"/>
+        <exclude name="ImportFromSamePackage"/>
+
+        <!-- Prefer Checkstyle's which allows commented empty block -->
+        <exclude name="EmptyCatchBlock"/>
+        <exclude name="EmptyIfStmt"/>
+
+        <!-- Finalizer rules; irrelevant -->
+        <exclude name="AvoidCallingFinalize"/>
+        <exclude name="EmptyFinalizer"/>
+        <exclude name="FinalizeDoesNotCallSuperFinalize"/>
+        <exclude name="FinalizeOnlyCallsSuperFinalize"/>
+        <exclude name="FinalizeOverloaded"/>
+        <exclude name="FinalizeShouldBeProtected"/>
+
+        <!-- Clone Implementation rules; irrelevant -->
+        <exclude name="CloneMethodMustBePublic"/>
+        <exclude name="CloneMethodMustImplementCloneable"/>
+        <exclude name="CloneMethodReturnTypeMustMatchClassName"/>
+        <exclude name="CloneThrowsCloneNotSupportedException"/>
+        <exclude name="ProperCloneImplementation"/>
+
+        <!-- Android rules; irrelevant -->
+        <exclude name="CallSuperFirst"/>
+        <exclude name="CallSuperLast"/>
+        <exclude name="DoNotHardCodeSDCard"/>
+
+        <!-- Java Beans rules; irrelevant -->
+        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="MissingSerialVersionUID"/>
+        <exclude name="StaticEJBFieldShouldBeFinal"/>
+
+        <!-- Irrelevant logging rules -->
+        <exclude name="InvalidSlf4jMessageFormat"/>
+        <exclude name="ProperLogger"/>
+        <exclude name="UseCorrectExceptionLogging"/>
+    </rule>
+
+    <rule ref="category/java/multithreading.xml">
+        <!-- Not applicable -->
+        <exclude name="DoNotUseThreads"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="UseConcurrentHashMap"/>
+    </rule>
+
+    <rule ref="category/java/performance.xml">
+        <!-- Inevitably occur -->
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="InefficientEmptyStringCheck"/>
+    </rule>
+
+    <rule ref="category/java/security.xml"/>
+</ruleset>

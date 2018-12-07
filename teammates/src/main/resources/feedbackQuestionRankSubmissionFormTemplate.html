@@ -1,0 +1,18 @@
+<div>
+  ${rankSubmissionFormOptionFragments}
+  <div id="rankInfo-${questionIndex}-${responseIndex}" class="form-group" ${rankOptionVisibility}>
+    <div class="col-sm-2" ${rankOptionVisibility}>
+    </div>
+    <div class="col-sm-3">
+      <hr class="margin-top-0">
+      <p class="text-color-blue" id="rankMessage-${questionIndex}-${responseIndex}">
+      </p>
+      <hr>
+    </div>
+  </div>
+  <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionIndex}" value="${rankToRecipientsValue}">
+  <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}-${questionIndex}" value="${rankNumOptionValue}">
+  <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionIndex}" value="${areDuplicatesAllowedValue}">
+  <input type="hidden" ${isMinOptionsToBeRankedEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}-${questionIndex}" value="${minOptionsToBeRanked}">
+  <input type="hidden" ${isMaxOptionsToBeRankedEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}-${questionIndex}" value="${maxOptionsToBeRanked}">
+</div>

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<head>
+    <link href="/favicon.png" rel="shortcut icon" />
+    <title>TEAMMATES - Instructor</title>
+    <link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
+    <link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="/js/helper.js" language="JavaScript"></script>
+    <script src="/js/constants.js" language="JavaScript"></script>
+    <script src="/js/common.js" language="JavaScript"></script>
+    
+    <script src="/js/instructorCoursePageNew.js" language="JavaScript"></script>
+    <script src="/js/instructor.js" language="JavaScript"></script>
+</head>
+
+<body>
+    <noscript>{*}</noscript>
+    <div id="dhtmltooltip"></div>
+    
+
+    <div id="frameTop">
+        
+
+
+        <div id="frameTopWrapper">
+            <div id="logo">
+                <a href="/index.jsp">
+                <img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
+                </a>
+            </div>            
+            <div id="contentLinks">
+                <ul id="navbar">
+                    <li><a href="instructorHome.jsp" class='nav home' data-link="instructorHome">Home</a></li>
+                    <li><a href="instructorCourse.jsp" class='nav courses' data-link="instructorCourse">Courses</a></li>
+                    <li><a href="instructorTFS.jsp" class="t_teamForming">Team-Forming</a></li>
+                    <li><a href="instructorEvals.jsp" class='nav evaluations' data-link="instructorEval">Sessions</a></li>
+                    <li><a target="_blank" href="/instructorHelp.jsp" class='nav help'>Help</a></li>
+                    <li><a href="javascript:logout();" class='nav logout'>Logout</a>
+                     <b>( teammates.demo.instructor)</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="frameBody">
+        <div id="mainContent">
+            <div id="topOfPage"></div>
+            <div id="headerOperation">
+                <h1>ADD NEW COURSE</h1>
+            </div>
+            <div id="instructorCourseManagement">
+                <form name="form_addcourse" action="instructorCourse.jsp" method="get">
+                    <table class="addform round">
+                        <tbody><tr>
+                            <td><b>Course ID:</b></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" tabindex="1" maxlength="30" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215Sem1.")' value="" id="courseid" name="courseid" class="addinput" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Course Name:</b></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the name of the course, e.g. Software Engineering.")' value="" id="coursename" name="coursename" class="addinput" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" tabindex="3" value="Add Course" onclick="return doAddCourse();" class="button" id="btnAddCourse" /></td>
+                        </tr>
+                    </tbody></table>
+                </form>
+            </div>
+            <br>
+            
+            <div style="display: none" id="statusMessage"></div>
+            
+            <div id="instructorCourseTable">
+                <br>
+                <br>
+                <table id="dataform">
+                    <tbody><tr>
+                        <th><input type="button" onclick="javascript:toggleSortCoursesByID(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
+                            COURSE ID</th>
+                        <th><input type="button" onclick="javascript:toggleSortCoursesByName(this,2);" id="button_sortcoursename" class="buttonSortNone" />
+                            COURSE NAME</th>
+                        <th class="align-center">TEAMS</th>
+                        <th class="align-center">TOTAL STUDENTS</th>
+                        <th class="align-center">TOTAL UNREGISTERED</th>
+                        <th class="align-center">ACTION(S)</th>
+                    </tr>
+                    
+                        <tr>
+                            <td id="courseID0">CS1101-TESTING</td>
+                            <td id="courseName0">Programming Methodology</td>
+                            <td class="t_course_teams align-center">2</td>
+                            <td class="align-center">4</td>
+                            <td class="align-center">0</td>
+                            <td class="align-center">
+                                <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="instructorCourseEnroll.jsp?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
+                                <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send invitation emails to the students in the course")' href="instructorCourseView.jsp?courseid=CS1101-TESTING" class="t_course_view">View</a>
+                                <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and sessions")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="instructorCourseDelete.jsp?courseid=CS1101-TESTING&amp;next=instructorCourse.jsp" class="t_course_delete">Delete</a>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td id="courseID1">CS2104-TESTING</td>
+                            <td id="courseName1">Programming Language Concepts</td>
+                            <td class="t_course_teams align-center">2</td>
+                            <td class="align-center">4</td>
+                            <td class="align-center">0</td>
+                            <td class="align-center">
+                                <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="instructorCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
+                                <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send invitation emails to the students in the course")' href="instructorCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
+                                <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and sessions")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="instructorCourseDelete.jsp?courseid=CS2104-TESTING&amp;next=instructorCourse.jsp" class="t_course_delete">Delete</a>
+                            </td>
+                        </tr>
+                    
+                </tbody></table>
+                <br>
+                <br>
+                <br>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="frameBottom">
+        
+<div id="contentFooter">
+    <span class="floatleft">[TEAMMATES <span class="color_white">V${version}</span>]</span>
+    [for <span class="color_white">TEAMMATES Test Institute 1</span>]
+    <span class="floatright">[Send <span class="color_white"><a href="/contact.jsp" target="_blank">Feedback</a></span>]</span>
+</div>
+    
+
+</body></html>
