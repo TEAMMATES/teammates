@@ -108,8 +108,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes updatedFrTwo =
                 frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
 
-        // Assert lastUpdate has NOT changed.
-        assertEquals(updatedFr.getUpdatedAt(), updatedFrTwo.getUpdatedAt());
+        // Assert lastUpdate has changed.
+        assertNotEquals(updatedFr.getUpdatedAt(), updatedFrTwo.getUpdatedAt());
     }
 
     @Test
