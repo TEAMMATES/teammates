@@ -173,7 +173,7 @@ POST http://localhost:8080/_ah/login?action=Log+Out
 ## Testing
 
 There are two big categories of testing in TEAMMATES:
-- **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/test.ts` (front-end).
+- **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
 - **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`.
 
 ### Configuring browsers for E2E Testing
@@ -243,7 +243,9 @@ To run all front-end component tests once and generate coverage data afterwards,
 npm run coverage
 ```
 
-To run an individual test or test group, change `it` or `describe` in any `*.spec.ts` file to `fit` or `fdescribe` respectively.
+To run an individual test in a test file, change `it` in the `*.spec.ts` file to `fit`.
+
+To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
 
 Back-end component tests and E2E tests follow this configuration:
 

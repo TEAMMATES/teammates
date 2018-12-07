@@ -10,7 +10,6 @@ import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
 
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.Priority;
 
 /**
  * Allows TestNG to run tests in a specified order, based on the {@code Priority(n)} annotation.
@@ -19,15 +18,6 @@ import teammates.test.driver.Priority;
  * @see Priority
  */
 public class PriorityInterceptor implements IMethodInterceptor {
-    private static String packageOrder;
-
-    static {
-        try {
-            packageOrder = FileHelper.readFile("src/e2e/resources/testng-e2e.xml");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     // This class prioritizes methods based on the following:
     // 1) Orders methods based on package name as ordered/found in testng.xml
@@ -36,15 +26,37 @@ public class PriorityInterceptor implements IMethodInterceptor {
     // 4) Orders methods by class name in lexical order
     // 5) Orders methods by priority e.g. Add "@Priority(1)" to method
 
-    private Method getMethod(IMethodInstance mi) {
+    private static final Comparator<IMethodInstance> COMPARE_BY_PACKAGE = (m1, m2) -> {
+        String p1 = getPackageName(m1);
+        String p2 = getPackageName(m2);
+
+        return p1.compareTo(p2) - getPackagePriority(p1) + getPackagePriority(p2);
+    };
+
+    private static final Comparator<IMethodInstance> COMPARATOR = COMPARE_BY_PACKAGE
+            .thenComparing(m -> getClassPriority(m))
+            .thenComparing(m -> getClassName(m))
+            .thenComparing(m -> getMethodPriority(m));
+
+    private static final String PACKAGE_ORDER;
+
+    static {
+        try {
+            PACKAGE_ORDER = FileHelper.readFile("src/e2e/resources/testng-e2e.xml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Method getMethod(IMethodInstance mi) {
         return mi.getMethod().getConstructorOrMethod().getMethod();
     }
 
-    private Class<?> getDeclaringClassOfMethod(IMethodInstance mi) {
+    private static Class<?> getDeclaringClassOfMethod(IMethodInstance mi) {
         return mi.getMethod().getRealClass();
     }
 
-    private int getMethodPriority(IMethodInstance mi) {
+    private static int getMethodPriority(IMethodInstance mi) {
         Method method = getMethod(mi);
         Priority a1 = method.getAnnotation(Priority.class);
         if (a1 != null) {
@@ -53,7 +65,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
         return 0;
     }
 
-    private int getClassPriority(IMethodInstance mi) {
+    private static int getClassPriority(IMethodInstance mi) {
         Class<?> cls = getDeclaringClassOfMethod(mi);
         Priority classPriority = cls.getAnnotation(Priority.class);
         if (classPriority != null) {
@@ -62,16 +74,16 @@ public class PriorityInterceptor implements IMethodInterceptor {
         return 0;
     }
 
-    private String getPackageName(IMethodInstance mi) {
+    private static String getPackageName(IMethodInstance mi) {
         return getDeclaringClassOfMethod(mi).getPackage().getName();
     }
 
-    private String getClassName(IMethodInstance mi) {
+    private static String getClassName(IMethodInstance mi) {
         return getDeclaringClassOfMethod(mi).getName();
     }
 
-    private int getPackagePriority(String packageName) {
-        int index = packageOrder.indexOf(packageName);
+    private static int getPackagePriority(String packageName) {
+        int index = PACKAGE_ORDER.indexOf(packageName);
 
         if (index == -1) {
             return 0;
@@ -81,23 +93,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
 
     @Override
     public List<IMethodInstance> intercept(List<IMethodInstance> methods, ITestContext context) {
-
-        //Package Name -> Package priority
-        Comparator<IMethodInstance> compareByPackage = (m1, m2) -> {
-            String p1 = getPackageName(m1);
-            String p2 = getPackageName(m2);
-
-            return p1.compareTo(p2) - getPackagePriority(p1) + getPackagePriority(p2);
-        };
-
-        //(Package name -> package priority) -> class priority -> class name -> method priority
-        Comparator<IMethodInstance> comparator = compareByPackage
-                .thenComparing(m -> getClassPriority(m))
-                .thenComparing(m -> getClassName(m))
-                .thenComparing(m -> getMethodPriority(m));
-
-        methods.sort(comparator);
-
+        methods.sort(COMPARATOR);
         return methods;
     }
 
