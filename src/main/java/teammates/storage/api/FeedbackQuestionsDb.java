@@ -152,10 +152,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
         fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
-
-        //set true to prevent changes to last update timestamp
-        fq.keepUpdateTimestamp = keepUpdateTimestamp;
-
+        
         saveEntity(fq, newAttributes);
     }
 
