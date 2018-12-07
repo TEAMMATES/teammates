@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.spec.json",
-  "compilerOptions": {
-    "outDir": "../../out-tsc/tslint-spec",
-    "resolveJsonModule": false,
-    "esModuleInterop": false
-  }
-}

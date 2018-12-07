@@ -5,6 +5,8 @@
     "types": []
   },
   "exclude": [
+    "karma.conf.ts",
+    "test.ts",
     "**/*.spec.ts"
   ]
 }

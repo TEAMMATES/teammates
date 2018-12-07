@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.Priority;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.pagedata.StudentHomePageData;
@@ -15,6 +16,9 @@ import teammates.ui.pagedata.StudentHomePageData;
 /**
  * SUT: {@link StudentHomePageAction}.
  */
+// Priority added due to conflict between InstructorStudentListPageActionTest,
+// and StudentHomePageActionTest.
+@Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
 
     @Override

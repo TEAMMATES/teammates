@@ -152,12 +152,16 @@ public final class HtmlHelper {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
                         || isPopoverAttribute(attribute)
-                        // ignored due to screen resolution issues
-                        || isHandsontableAttribute(attribute)) {
+                        || isHandsontableAttribute(attribute) // ignored due to screen resolution issues
+                        || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
+                    // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
                 } else if (isTinymceStyleDiv(attribute)) {
                     // ignore as the style definition differs across browsers
                     return ignoreNode();
+                } else if (isMotdContainerAttribute(attribute)) {
+                    // replace MOTD content with placeholder
+                    return generateStudentMotdPlaceholder(indentation);
                 } else if (isDatepickerAttribute(attribute)) {
                     // replace datepicker with placeholder
                     return generateDatepickerPlaceholder(indentation);
@@ -187,6 +191,10 @@ public final class HtmlHelper {
 
     private static String ignoreNode() {
         return "";
+    }
+
+    private static String generateStudentMotdPlaceholder(String indentation) {
+        return indentation + "${studentmotd.container}" + System.lineSeparator();
     }
 
     private static String generateDatepickerPlaceholder(String indentation) {
@@ -268,6 +276,22 @@ public final class HtmlHelper {
     }
 
     /**
+     * Checks for Message of the Day (MOTD) wrapper (i.e a <code>div</code> with id
+     * <code>student-motd-wrapper</code>).
+     */
+    private static boolean isMotdWrapperAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-wrapper");
+    }
+
+    /**
+     * Checks for Message of the Day (MOTD) container (i.e a <code>div</code> with id
+     * <code>student-motd-container</code>).
+     */
+    private static boolean isMotdContainerAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
+    }
+
+    /**
      * Checks for datepicker (i.e a <code>div</code> with id <code>ui-datepicker-div</code>).
      */
     private static boolean isDatepickerAttribute(Node attribute) {
@@ -343,7 +367,8 @@ public final class HtmlHelper {
      * Injects values specified in configuration files to the appropriate placeholders.
      */
     public static String injectTestProperties(String content) {
-        return content.replace("${support.email}", Config.SUPPORT_EMAIL)
+        return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                      .replace("${support.email}", Config.SUPPORT_EMAIL)
                       .replace("${version}", TestProperties.TEAMMATES_VERSION)
                       .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
@@ -468,7 +493,10 @@ public final class HtmlHelper {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
+        return content.replaceAll("( type=\"hidden\"| id=\"motd-url\"|"
+                                      + " value=\"" + Config.STUDENT_MOTD_URL + "\"){3}",
+                                  " id=\"motd-url\" type=\"hidden\" value=\"\\${studentmotd\\.url}\"")
+                      .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
@@ -483,6 +511,7 @@ public final class HtmlHelper {
         Instant now = Instant.now();
         return content
                 .replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
+                .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
                 .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                 .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
                 .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)

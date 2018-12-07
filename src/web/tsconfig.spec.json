@@ -2,16 +2,16 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "module": "commonjs",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "types": [
-      "jest",
+      "jasmine",
       "node"
     ]
   },
+  "files": [
+    "test.ts",
+    "polyfills.ts"
+  ],
   "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.ts"
   ]
 }

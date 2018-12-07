@@ -17,13 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "src/main/webapp",
+            "outputPath": "src/main/webapp/dist",
             "index": "src/web/index.html",
             "main": "src/web/main.ts",
             "polyfills": "src/web/polyfills.ts",
             "tsConfig": "src/web/tsconfig.app.json",
             "assets": [
-              "src/web/assets/"
+              { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
             ],
             "styles": [
               "src/web/styles.scss"
@@ -43,14 +43,9 @@
                 }
               ],
               "assets": [
-                "src/web/assets/",
-                "src/web/BingSiteAuth.xml",
-                "src/web/google8c7ef1e995031e09.html",
-                "src/web/pulse.html",
-                "src/web/robots.txt",
-                "src/web/sitemap.xml",
-                "src/web/manifest.json"
+                { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
               ],
+              "deployUrl": "dist/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -60,8 +55,7 @@
               "extractLicenses": false,
               "vendorChunk": true,
               "subresourceIntegrity": true,
-              "buildOptimizer": true,
-              "serviceWorker": true
+              "buildOptimizer": true
             }
           }
         },
@@ -83,9 +77,20 @@
           }
         },
         "test": {
-          "builder": "@angular-builders/jest:run",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "no-cache": true
+            "main": "src/web/test.ts",
+            "polyfills": "src/web/polyfills.ts",
+            "tsConfig": "src/web/tsconfig.spec.json",
+            "karmaConfig": "src/web/karma.conf.ts",
+            "sourceMap": true,
+            "styles": [
+              "src/web/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              { "glob": "**/*", "input": "src/web/assets/", "output": "/assets/" }
+            ]
           }
         },
         "lint": {
@@ -93,7 +98,7 @@
           "options": {
             "tsConfig": [
               "src/web/tsconfig.app.json",
-              "src/web/tsconfig.tslint-spec.json"
+              "src/web/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
