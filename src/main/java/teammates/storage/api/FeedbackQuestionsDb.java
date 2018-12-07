@@ -152,7 +152,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
         fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
-        
+
         saveEntity(fq, newAttributes);
     }
 
