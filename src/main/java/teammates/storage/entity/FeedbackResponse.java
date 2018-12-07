@@ -20,7 +20,6 @@ import teammates.common.util.Const;
 @Index
 public class FeedbackResponse extends BaseEntity {
 
-
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
     //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com

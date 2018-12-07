@@ -379,8 +379,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         updateFeedbackResponseOptimized(newAttributes, getEntity(newAttributes));
     }
 
-
-
     /**
      * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
      * Updates the feedback response identified by {@code newAttributes.getId()}
@@ -404,7 +402,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         if (fr == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
-
 
         fr.setAnswer(newAttributes.responseMetaData);
         fr.setRecipientEmail(newAttributes.recipient);
