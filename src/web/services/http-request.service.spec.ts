@@ -7,11 +7,16 @@ describe('HttpRequestService', () => {
   const backendUrl: string = environment.backendUrl;
   const withCredentials: boolean = environment.withCredentials;
 
-  let spyHttpClient: jasmine.SpyObj<HttpClient>;
+  let spyHttpClient: any;
   let service: HttpRequestService;
 
   beforeEach(() => {
-    spyHttpClient = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
+    spyHttpClient = {
+      get: jest.fn(),
+      post: jest.fn(),
+      put: jest.fn(),
+      delete: jest.fn(),
+    };
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpClient, useValue: spyHttpClient },
@@ -45,7 +50,7 @@ describe('HttpRequestService', () => {
     service.get('/url');
     expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, {
       withCredentials,
-      params: jasmine.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -53,8 +58,8 @@ describe('HttpRequestService', () => {
     service.post('/url');
     expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, null, {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -62,8 +67,8 @@ describe('HttpRequestService', () => {
     service.post('/url', { key: 'value' });
     expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, null, {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -71,8 +76,8 @@ describe('HttpRequestService', () => {
     service.post('/url', {}, 'body');
     expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, 'body', {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -80,8 +85,8 @@ describe('HttpRequestService', () => {
     service.put('/url');
     expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, null, {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -89,8 +94,8 @@ describe('HttpRequestService', () => {
     service.put('/url', { key: 'value' });
     expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, null, {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -98,8 +103,8 @@ describe('HttpRequestService', () => {
     service.put('/url', {}, 'body');
     expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, 'body', {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -107,8 +112,8 @@ describe('HttpRequestService', () => {
     service.delete('/url');
     expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 
@@ -116,8 +121,8 @@ describe('HttpRequestService', () => {
     service.delete('/url', { key: 'value' });
     expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, {
       withCredentials,
-      headers: jasmine.any(Object),
-      params: jasmine.any(Object),
+      headers: expect.any(Object),
+      params: expect.any(Object),
     });
   });
 

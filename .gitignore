@@ -45,8 +45,8 @@ appengine-web.xml
 appengine-generated
 geckodriver*
 chromedriver*
-src/main/webapp/dist
-src/main/webapp/assets
+src/main/webapp/*
+!src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/
 src/e2e/java/teammates/e2e/cases/scalability/data/
 src/e2e/resources/gmail-api/

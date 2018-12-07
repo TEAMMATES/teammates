@@ -6,11 +6,13 @@ import { HttpRequestService } from './http-request.service';
 describe('AuthService', () => {
   const frontendUrl: string = environment.frontendUrl;
 
-  let spyHttpRequestService: jasmine.SpyObj<HttpRequestService>;
+  let spyHttpRequestService: any;
   let service: AuthService;
 
   beforeEach(() => {
-    spyHttpRequestService = jasmine.createSpyObj('HttpRequestService', ['get']);
+    spyHttpRequestService = {
+      get: jest.fn(),
+    };
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

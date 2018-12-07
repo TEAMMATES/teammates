@@ -53,7 +53,7 @@ before_script:
 install: true
 script:
   - ./gradlew componentTests
-  - npm run coverage -- --progress=false
+  - npm run coverage
   - ./gradlew appengineStart
   - ./gradlew e2eTests
 
