@@ -64,7 +64,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("success : keep lastUpdated");
 
         feedbackQuestion.questionNumber++;
-        fqDb.updateFeedbackQuestion(feedbackQuestion, true);
+        fqDb.updateFeedbackQuestion(feedbackQuestion);
 
         FeedbackQuestionAttributes updatedFqTwo =
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
