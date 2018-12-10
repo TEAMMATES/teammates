@@ -54,7 +54,7 @@ jobs:
         - ./gradlew jacocoReport
         - npm run coverage
         - bash <(curl -s https://codecov.io/bash)
-    - name: "E2E Tests"
+    - name: "E2E Tests - Firefox"
       addons:
         firefox: "63.0"
       before_script:
@@ -71,6 +71,32 @@ jobs:
         - cd $TRAVIS_BUILD_DIR
         - gcloud -q components install app-engine-java
       script:
+        - ./gradlew createConfigs testClasses
+        - npm run build -- --progress=false
+        - ./gradlew appengineStart
+        - ./gradlew e2eTests
+    - name: "E2E Tests - Chrome"
+      addons:
+        apt:
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
+      before_script:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - sleep 3
+        - export PATH=$HOME/google-cloud-sdk/bin:$PATH
+        - cd $HOME
+        - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+        - curl -fsSL -o chromedriver.zip https://chromedriver.storage.googleapis.com/2.44/chromedriver_linux64.zip
+        - tar -xzf google-cloud-sdk.tar.gz
+        - unzip chromedriver.zip
+        - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
+        - cd $TRAVIS_BUILD_DIR
+        - gcloud -q components install app-engine-java
+      script:
+        - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.travis.properties
         - ./gradlew createConfigs testClasses
         - npm run build -- --progress=false
         - ./gradlew appengineStart
