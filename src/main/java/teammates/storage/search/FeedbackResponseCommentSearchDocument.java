@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -252,9 +251,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
 
             // construct course id and session name to question map
-            initializeCourseIdAndSessionNameToQuestionMapping(bundle, question.getCourseId(),
-                    question.feedbackSessionName);
             String uniqueSessionIdentifier = question.getCourseId() + "%" + question.getFeedbackSessionName();
+            bundle.questions.putIfAbsent(uniqueSessionIdentifier, new ArrayList<>());
             if (!isAdded.contains(question.getId())) {
                 isAdded.add(question.getId());
                 bundle.questions.get(uniqueSessionIdentifier).add(question);
@@ -531,24 +529,4 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frCommentSearchResults.responses.get(fq.getId()).isEmpty()));
     }
 
-    /**
-     * Initializes the course id and session name to question mapping.
-     *
-     * <p>Shifts existing questions (if any) for the session from the current mapping to the new mapping.</p>
-     */
-    private static void initializeCourseIdAndSessionNameToQuestionMapping(
-            FeedbackResponseCommentSearchResultBundle bundle, String courseId, String sessionName) {
-        String uniqueSessionIdentifier = courseId + "%" + sessionName;
-        if (bundle.questions.get(uniqueSessionIdentifier) == null) {
-            List<FeedbackQuestionAttributes> questionsInSession = new ArrayList<>();
-            List<FeedbackQuestionAttributes> existingQuestions = bundle.questions.get(sessionName);
-            if (existingQuestions != null && !existingQuestions.isEmpty()) {
-                questionsInSession = existingQuestions.stream()
-                        .filter(question -> question.getCourseId().equals(courseId))
-                        .collect(Collectors.toList());
-                existingQuestions.removeAll(questionsInSession);
-            }
-            bundle.questions.put(uniqueSessionIdentifier, questionsInSession);
-        }
-    }
 }
