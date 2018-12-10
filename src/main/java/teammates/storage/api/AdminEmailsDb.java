@@ -124,15 +124,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     }
 
     /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     */
-    @Deprecated
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return makeAttributes(getAdminEmailEntities());
-    }
-
-    /**
      * Gets an admin email by email id.
      * @return null if no matched email found
      */
@@ -187,10 +178,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
         return makeAttributes(
                 load().filter("isInTrashBin =", true).list());
-    }
-
-    private List<AdminEmail> getAdminEmailEntities() {
-        return load().list();
     }
 
     private AdminEmail getAdminEmailEntity(String adminEmailId) {

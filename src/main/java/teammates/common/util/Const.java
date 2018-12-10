@@ -439,7 +439,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS =
                 "Assign weights to the choices for calculating statistics.";
 
-        public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
+        public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture (.jpg or .png, max size 5 MB)";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
         public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";
@@ -1093,6 +1093,7 @@ public final class Const {
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
+        public static final String AUTOMATED_DATASTORE_BACKUP = "/auto/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";

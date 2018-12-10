@@ -17,7 +17,7 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 1. Install JDK 1.8.
 1. Install Python 2.7.
 1. Install Node.js (minimum version 6.11.5).
-1. Install Google Cloud SDK (any version between 217.0.0 and 219.0.1 inclusive). Follow the directions given [here](https://cloud.google.com/sdk/downloads).
+1. Install Google Cloud SDK (minimum version 222.0.0). Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
    # Run the following command at the Google Cloud SDK directory

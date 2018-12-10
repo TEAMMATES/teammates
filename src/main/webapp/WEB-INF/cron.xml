@@ -24,10 +24,9 @@
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
-      <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Instructor&amp;kind=Course&amp;kind=CourseStudent&amp;kind=FeedbackSession&amp;kind=FeedbackQuestion&amp;kind=FeedbackResponse&amp;kind=FeedbackResponseComment&amp;kind=Account&amp;kind=StudentProfile&amp;filesystem=gs&amp;gs_bucket_name=/gs/teammatesv4.appspot.com/backups</url>
+      <url>/auto/datastoreBackup</url>
       <description>Weekly Backup</description>
       <schedule>every monday 05:30</schedule>
-      <target>ah-builtin-python-bundle</target>
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>

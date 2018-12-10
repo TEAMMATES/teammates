@@ -225,12 +225,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
         assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId));
-        int currentStudentNum = studentsDb.getAllStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
-        assertEquals(2 + currentStudentNum, studentsDb.getAllStudents().size());
+        assertEquals(2, studentsDb.getStudentsForCourse(s.course).size());
         studentsDb.deleteStudentsForCourseWithoutDocument(s.course);
-        assertEquals(currentStudentNum, studentsDb.getAllStudents().size());
+        assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
         // delete again - should fail silently
         studentsDb.deleteStudentWithoutDocument(s.course, s.email);
 

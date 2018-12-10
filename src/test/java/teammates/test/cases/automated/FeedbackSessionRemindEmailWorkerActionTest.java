@@ -79,7 +79,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
             assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                       session1.getSessionName()),
+                                       session1.getFeedbackSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
 
             String header = "The email below has been sent to students of course: [" + session1.getCourseId() + "]";
