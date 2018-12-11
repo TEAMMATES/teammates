@@ -320,6 +320,24 @@ task setupIntellijStaticAnalysis {
     finalizedBy syncIntelliJCheckStyleVersion
 }
 
+task downloadDependencies {
+    doFirst {
+        configurations.compile.resolve()
+    }
+}
+
+task downloadTestDependencies {
+    doFirst {
+        configurations.testCompile.resolve()
+    }
+}
+
+task downloadLinters {
+    doFirst {
+        configurations.staticAnalysis.resolve()
+    }
+}
+
 // RUN SERVER TASKS
 
 compileJava.options.encoding = "UTF-8"
@@ -409,14 +427,6 @@ task printSpotbugsTestViolations {
     }
     doFirst {
         print new File("${buildDir}/reports/spotbugs/test.emacs").getText("UTF-8")
-    }
-}
-
-task downloadStaticAnalysisTools {
-    description "Downloads all static analysis tools."
-    group "Static analysis"
-    doFirst {
-        configurations.staticAnalysis.resolve()
     }
 }
 
