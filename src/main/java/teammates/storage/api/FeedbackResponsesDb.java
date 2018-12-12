@@ -361,8 +361,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
-     * Updates the feedback response identified by {@code newAttributes.getId()} and
-     *   changes the {@code updatedAt} timestamp to be the time of update.
+     * Updates the feedback response identified by {@code newAttributes.getId()}.<br>
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
      * Preconditions: <br>
@@ -384,8 +383,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Updates the feedback response identified by {@code newAttributes.getId()}
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}
-     *   and depends on the value of {@code keepUpdateTimestamp}
+     * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}.<br>
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
