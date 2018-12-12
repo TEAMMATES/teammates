@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -13,11 +17,27 @@ import {
   TimezoneService,
 } from '../../../services/timezone.service';
 import {
+  QuestionEditFormMode,
+  QuestionEditFormModel,
+} from '../../components/question-types/question-types-session-edit/question-edit-form-model';
+import {
   DateFormat,
-  SessionEditFormMode, SessionEditFormModel, TimeFormat,
+  SessionEditFormMode,
+  SessionEditFormModel,
+  TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { FeedbackParticipantType } from '../../feedback-participant-type';
+import {
+  FeedbackQuestion,
+  FeedbackQuestionType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../feedback-question';
 import { FeedbackSession, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { ErrorMessageOutput } from '../../message-output';
+
+interface FeedbackQuestionsResponse {
+  questions: FeedbackQuestion[];
+}
 
 /**
  * Instructor feedback session edit page.
@@ -31,6 +51,8 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
+  QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
+  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
   // url param
   user: string = '';
@@ -71,10 +93,43 @@ export class InstructorSessionEditPageComponent implements OnInit {
     hasEmailSettingsPanelExpanded: false,
   };
 
+  // to get the original question model
+  feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
+
+  questionEditFormModels: QuestionEditFormModel[] = [];
+
+  newQuestionEditFormModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    questionNumber: 0,
+    questionBrief: '',
+    questionDescription: '',
+
+    isQuestionHasResponses: false,
+
+    questionType: FeedbackQuestionType.TEXT,
+    questionDetails: {
+      recommendedLength: 0,
+    },
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 1,
+
+    showResponsesTo: [],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
+
+    isEditable: true,
+    isSaving: false,
+  };
+
+  isAddingQuestionPanelExpanded: boolean = false;
+
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService, private navigationService: NavigationService,
-              private timezoneService: TimezoneService) {
-    this.timezoneService.getTzVersion();
+              private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService) {
   }
 
   ngOnInit(): void {
@@ -84,6 +139,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
       this.feedbackSessionName = queryParams.fsname;
 
       this.loadFeedbackSession();
+      this.loadFeedbackQuestions();
     });
   }
 
@@ -141,7 +197,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
       isEditable: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
-      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled
+      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
     };
 
     if (feedbackSession.customSessionVisibleTimestamp) {
@@ -289,5 +345,279 @@ export class InstructorSessionEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Loads feedback questions.
+   */
+  loadFeedbackQuestions(): void {
+    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+    this.httpRequestService.get('/questions', paramMap)
+        .subscribe((response: FeedbackQuestionsResponse) => {
+          response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
+            this.questionEditFormModels.push(this.getQuestionEditFormModel(feedbackQuestion));
+            this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
+          });
+        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+  }
+
+  /**
+   * Tracks the question edit form by feedback question id.
+   *
+   * @see https://angular.io/api/common/NgForOf#properties
+   */
+  trackQuestionEditFormByFn(_: any, item: QuestionEditFormModel): any {
+    return item.feedbackQuestionId;
+  }
+
+  /**
+   * Converts feedback question to the question edit form model.
+   */
+  private getQuestionEditFormModel(feedbackQuestion: FeedbackQuestion): QuestionEditFormModel {
+    return {
+      feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
+
+      questionNumber: feedbackQuestion.questionNumber,
+      questionBrief: feedbackQuestion.questionBrief,
+      questionDescription: feedbackQuestion.questionDescription,
+
+      isQuestionHasResponses: false, // TODO use API to determine
+
+      questionType: feedbackQuestion.questionType,
+      questionDetails: this.deepCopy(feedbackQuestion.questionDetails),
+
+      giverType: feedbackQuestion.giverType,
+      recipientType: feedbackQuestion.recipientType,
+
+      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
+          ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo : 1,
+
+      showResponsesTo: feedbackQuestion.showResponsesTo,
+      showGiverNameTo: feedbackQuestion.showGiverNameTo,
+      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+
+      isEditable: false,
+      isSaving: false,
+    };
+  }
+
+  /**
+   * Saves the existing question.
+   */
+  saveExistingQuestionHandler(index: number): void {
+    const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
+    const originalQuestionNumber: number =
+        // tslint:disable-next-line:no-non-null-assertion
+        this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
+
+    questionEditFormModel.isSaving = true;
+    const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
+    this.httpRequestService.put('/question', paramMap, {
+      questionNumber: questionEditFormModel.questionNumber,
+      questionBrief: questionEditFormModel.questionBrief,
+      questionDescription: questionEditFormModel.questionDescription,
+
+      questionDetails: questionEditFormModel.questionDetails,
+      questionType: questionEditFormModel.questionType,
+
+      giverType: questionEditFormModel.giverType,
+      recipientType: questionEditFormModel.recipientType,
+
+      numberOfEntitiesToGiveFeedbackToSetting: questionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: questionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo,
+
+      showResponsesTo: questionEditFormModel.showResponsesTo,
+      showGiverNameTo: questionEditFormModel.showGiverNameTo,
+      showRecipientNameTo: questionEditFormModel.showRecipientNameTo,
+    })
+        .pipe(
+            finalize(() => {
+              questionEditFormModel.isSaving = false;
+            }),
+        )
+        .subscribe((updatedQuestion: FeedbackQuestion) => {
+          this.questionEditFormModels[index] = this.getQuestionEditFormModel(updatedQuestion);
+          this.feedbackQuestionModels.set(updatedQuestion.feedbackQuestionId, updatedQuestion);
+
+          // shift question if needed
+          if (originalQuestionNumber !== updatedQuestion.questionNumber) {
+            // move question form
+            this.moveQuestionForm(
+                originalQuestionNumber - 1, updatedQuestion.questionNumber - 1);
+            this.normalizeQuestionNumberInQuestionForms();
+          }
+
+          this.statusMessageService.showSuccessMessage('The changes to the question have been updated.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
+   * Moves question edit form from the original position to the new position.
+   */
+  private moveQuestionForm(originalPosition: number, newPosition: number): void {
+    this.questionEditFormModels.splice(newPosition, 0,
+        this.questionEditFormModels.splice(originalPosition, 1)[0]);
+  }
+
+  /**
+   * Normalizes question number in question forms by setting question number in sequence (i.e. 1, 2, 3, 4 ...).
+   */
+  private normalizeQuestionNumberInQuestionForms(): void {
+    for (let i: number = 1; i <= this.questionEditFormModels.length; i += 1) {
+      const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[i - 1];
+      questionEditFormModel.questionNumber = i;
+      // tslint:disable-next-line:no-non-null-assertion
+      this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber = i;
+    }
+  }
+
+  /**
+   * Discards the changes made to the existing question.
+   */
+  discardExistingQuestionHandler(index: number): void {
+    const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
+    const feedbackQuestion: FeedbackQuestion =
+        // tslint:disable-next-line:no-non-null-assertion
+        this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!;
+    this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
+  }
+
+  /**
+   * Duplicates the question.
+   */
+  duplicateCurrentQuestionHandler(index: number): void {
+    const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
+    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+
+    questionEditFormModel.isSaving = true;
+    this.httpRequestService.post('/question', paramMap, {
+      questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
+      questionBrief: questionEditFormModel.questionBrief,
+      questionDescription: questionEditFormModel.questionDescription,
+
+      questionDetails: questionEditFormModel.questionDetails,
+      questionType: questionEditFormModel.questionType,
+
+      giverType: questionEditFormModel.giverType,
+      recipientType: questionEditFormModel.recipientType,
+
+      numberOfEntitiesToGiveFeedbackToSetting: questionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: questionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo,
+
+      showResponsesTo: questionEditFormModel.showResponsesTo,
+      showGiverNameTo: questionEditFormModel.showGiverNameTo,
+      showRecipientNameTo: questionEditFormModel.showRecipientNameTo,
+    })
+        .pipe(
+            finalize(() => {
+              questionEditFormModel.isSaving = false;
+            }),
+        )
+        .subscribe((newQuestion: FeedbackQuestion) => {
+          this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
+          this.statusMessageService.showSuccessMessage(' The question has been duplicated below.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
+   * Deletes the existing question.
+   */
+  deleteExistingQuestionHandler(index: number): void {
+    const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
+    const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
+
+    this.httpRequestService.delete('/question', paramMap).subscribe(
+        () => {
+          // remove form model
+          this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
+          this.questionEditFormModels.splice(index, 1);
+          this.normalizeQuestionNumberInQuestionForms();
+
+          this.statusMessageService.showSuccessMessage('The question has been deleted.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
+   * Populates and shows new question edit form.
+   */
+  populateAndShowNewQuestionForm(type: FeedbackQuestionType): void {
+    this.isAddingQuestionPanelExpanded = true;
+
+    const newQuestionModel: NewQuestionModel =
+        this.feedbackQuestionsService.getNewQuestionModel(type);
+
+    this.newQuestionEditFormModel = {
+      feedbackQuestionId: '',
+      questionNumber: this.questionEditFormModels.length + 1,
+      questionBrief: newQuestionModel.questionBrief,
+      questionDescription: newQuestionModel.questionDescription,
+
+      isQuestionHasResponses: false,
+
+      questionType: newQuestionModel.questionType,
+      questionDetails: newQuestionModel.questionDetails,
+
+      giverType: newQuestionModel.giverType,
+      recipientType: newQuestionModel.recipientType,
+
+      numberOfEntitiesToGiveFeedbackToSetting: newQuestionModel.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo
+          ? newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo : 0,
+
+      showResponsesTo: newQuestionModel.showResponsesTo,
+      showGiverNameTo: newQuestionModel.showGiverNameTo,
+      showRecipientNameTo: newQuestionModel.showRecipientNameTo,
+
+      isEditable: true,
+      isSaving: false,
+    };
+  }
+
+  /**
+   * Creates a new question.
+   */
+  createNewQuestionHandler(): void {
+    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+
+    this.newQuestionEditFormModel.isSaving = true;
+    this.httpRequestService.post('/question', paramMap, {
+      questionNumber: this.newQuestionEditFormModel.questionNumber,
+      questionBrief: this.newQuestionEditFormModel.questionBrief,
+      questionDescription: this.newQuestionEditFormModel.questionDescription,
+
+      questionDetails: this.newQuestionEditFormModel.questionDetails,
+      questionType: this.newQuestionEditFormModel.questionType,
+
+      giverType: this.newQuestionEditFormModel.giverType,
+      recipientType: this.newQuestionEditFormModel.recipientType,
+
+      numberOfEntitiesToGiveFeedbackToSetting: this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: this.newQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo,
+
+      showResponsesTo: this.newQuestionEditFormModel.showResponsesTo,
+      showGiverNameTo: this.newQuestionEditFormModel.showGiverNameTo,
+      showRecipientNameTo: this.newQuestionEditFormModel.showRecipientNameTo,
+    })
+        .pipe(
+            finalize(() => {
+              this.newQuestionEditFormModel.isSaving = false;
+            }),
+        )
+        .subscribe((newQuestion: FeedbackQuestion) => {
+          this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
+          this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
+
+          this.moveQuestionForm(
+              this.questionEditFormModels.length - 1, newQuestion.questionNumber - 1);
+          this.normalizeQuestionNumberInQuestionForms();
+          this.isAddingQuestionPanelExpanded = false;
+
+          this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  private deepCopy<T>(obj: T): T {
+    return JSON.parse(JSON.stringify(obj));
   }
 }

@@ -1,0 +1,13 @@
+.question-recommended-length {
+  color: gray;
+}
+
+.question-recommended-length > span {
+  border-bottom: 1px dotted;
+  margin-left: 7px;
+}
+
+.question-recommended-length > input {
+  display: inline;
+  width: 80px;
+}
