@@ -1584,8 +1584,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
