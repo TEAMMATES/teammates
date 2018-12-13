@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
  * Instructor feedback session edit page.
  */
 @Component({
-  selector: 'tm-instructor-sessions-edit-page',
-  templateUrl: './instructor-sessions-edit-page.component.html',
-  styleUrls: ['./instructor-sessions-edit-page.component.scss'],
+  selector: 'tm-instructor-session-edit-page',
+  templateUrl: './instructor-session-edit-page.component.html',
+  styleUrls: ['./instructor-session-edit-page.component.scss'],
 })
-export class InstructorSessionsEditPageComponent implements OnInit {
+export class InstructorSessionEditPageComponent implements OnInit {
 
   user: string = '';
 

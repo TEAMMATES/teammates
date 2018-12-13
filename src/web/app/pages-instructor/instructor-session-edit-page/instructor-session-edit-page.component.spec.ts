@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { InstructorSessionsEditPageComponent } from './instructor-sessions-edit-page.component';
+import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 
-describe('InstructorSessionsEditPageComponent', () => {
-  let component: InstructorSessionsEditPageComponent;
-  let fixture: ComponentFixture<InstructorSessionsEditPageComponent>;
+describe('InstructorSessionEditPageComponent', () => {
+  let component: InstructorSessionEditPageComponent;
+  let fixture: ComponentFixture<InstructorSessionEditPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorSessionsEditPageComponent],
+      declarations: [InstructorSessionEditPageComponent],
       imports: [RouterTestingModule],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InstructorSessionsEditPageComponent);
+    fixture = TestBed.createComponent(InstructorSessionEditPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

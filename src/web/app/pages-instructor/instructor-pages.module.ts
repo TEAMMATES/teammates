@@ -26,8 +26,8 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page/instru
 import { InstructorHomePageComponent } from './instructor-home-page/instructor-home-page.component';
 import { InstructorSearchPageComponent } from './instructor-search-page/instructor-search-page.component';
 import {
-  InstructorSessionsEditPageComponent,
-} from './instructor-sessions-edit-page/instructor-sessions-edit-page.component';
+  InstructorSessionEditPageComponent,
+} from './instructor-session-edit-page/instructor-session-edit-page.component';
 import { InstructorSessionsPageComponent } from './instructor-sessions-page/instructor-sessions-page.component';
 import {
   InstructorSessionsResultPageComponent,
@@ -87,7 +87,7 @@ const routes: Routes = [
       },
       {
         path: 'edit',
-        component: InstructorSessionsEditPageComponent,
+        component: InstructorSessionEditPageComponent,
       },
       {
         path: 'submission',
@@ -147,7 +147,7 @@ const routes: Routes = [
     InstructorHomePageComponent,
     InstructorSearchPageComponent,
     InstructorSessionsPageComponent,
-    InstructorSessionsEditPageComponent,
+    InstructorSessionEditPageComponent,
     InstructorSessionsResultPageComponent,
     InstructorStudentListPageComponent,
     InstructorStudentRecordsPageComponent,
