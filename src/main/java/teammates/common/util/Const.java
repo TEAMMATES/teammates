@@ -672,6 +672,9 @@ public final class Const {
 
         public static final String ADMIN_SEARCH_KEY = "searchkey";
 
+        public static final String LOCAL_DATE_TIME = "localdatetime";
+        public static final String TIME_ZONE = "timezone";
+
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
@@ -966,6 +969,7 @@ public final class Const {
         public static final String SESSION = "/session";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
+        public static final String LOCAL_DATE_TIME = "/localdatetime";
 
     }
 
