@@ -61,7 +61,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(fra);
         }
     }
-    
+
     @Test
     public void testTimestamp()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
