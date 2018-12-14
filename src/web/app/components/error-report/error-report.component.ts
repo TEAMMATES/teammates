@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequestService } from '../../services/http-request.service';
-import { ErrorMessageOutput } from '../message-output';
+import { HttpRequestService } from '../../../services/http-request.service';
+import { ErrorMessageOutput } from '../../message-output';
 
 /**
  * Error report component.
