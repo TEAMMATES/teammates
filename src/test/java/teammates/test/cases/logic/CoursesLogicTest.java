@@ -260,6 +260,7 @@ public class CoursesLogicTest extends BaseLogicTest {
     }
 
     private void testGetSectionsNameForCourse() throws Exception {
+
         ______TS("Typical case: course with sections");
 
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
