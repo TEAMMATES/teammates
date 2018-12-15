@@ -95,11 +95,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
     }
 
-    public void createStudentWithoutDocument(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createStudent(student, false);
-    }
-
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
@@ -229,33 +224,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         }
         return unregistered;
     }
-
-    /**
-     * Update student's record without searchability
-     * This function is only used for testing, its purpose is to not create document if not necessary.
-     * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
-     */
-    public void updateStudentWithoutSearchability(String courseId, String email,
-            String newName,
-            String newTeamName, String newSectionName, String newEmail,
-            String newGoogleId,
-            String newComments,
-            boolean keepUpdateTimestamp) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                                        newEmail, newGoogleId, newComments, false, keepUpdateTimestamp);
-    }
-
-    public void updateStudentWithoutSearchability(String courseId, String email,
-            String newName,
-            String newTeamName, String newSectionName, String newEmail,
-            String newGoogleId,
-            String newComments) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleId, newComments, false, false);
-    }
-
+    
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
@@ -340,10 +309,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         deleteStudent(courseId, email, true);
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String email) {
-        deleteStudent(courseId, email, false);
-    }
-
     public void deleteStudent(String courseId, String email, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -394,10 +359,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     public void deleteStudentsForCourse(String courseId) {
         deleteStudentsForCourse(courseId, true);
-    }
-
-    public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        deleteStudentsForCourse(courseId, false);
     }
 
     public void deleteStudentsForCourse(String courseId, boolean hasDocument) {

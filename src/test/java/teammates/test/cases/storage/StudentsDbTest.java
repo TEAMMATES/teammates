@@ -39,8 +39,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("success : update lastUpdated");
 
         s.name = "new-name";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team,
-                                                     s.section, s.email, s.googleId, s.comments);
+        studentsDb.updateStudent(s.course, s.email, s.name, s.team,
+                                                     s.section, s.email, s.googleId, s.comments, false, false);
         StudentAttributes updatedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
 
         // Assert lastUpdate has changed, and is now.
@@ -50,8 +50,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("success : keep lastUpdated");
 
         s.name = "new-name-2";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team,
-                                                     s.section, s.email, s.googleId, s.comments, true);
+        studentsDb.updateStudent(s.course, s.email, s.name, s.team,
+                                                     s.section, s.email, s.googleId, s.comments, false, true);
         StudentAttributes updatedStudent2 = studentsDb.getStudentForGoogleId(s.course, s.googleId);
 
         // Assert lastUpdate has NOT changed.
@@ -115,8 +115,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes s = createNewStudent();
         s.googleId = "validGoogleId";
         s.team = "validTeam";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
-                                                     s.email, s.googleId, s.comments);
+        studentsDb.updateStudent(s.course, s.email, s.name, s.team, s.section,
+                                                     s.email, s.googleId, s.comments, false, false);
 
         ______TS("typical success case for getStudentForRegistrationKey: existing student");
         StudentAttributes retrieved = studentsDb.getStudentForEmail(s.course, s.email);
@@ -132,8 +132,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         StudentAttributes s2 = createNewStudent("one.new@gmail.com");
         s2.googleId = "validGoogleId2";
-        studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section,
-                                                     s2.email, s2.googleId, s2.comments);
+        studentsDb.updateStudent(s2.course, s2.email, s2.name, s2.team, s2.section,
+                                                     s2.email, s2.googleId, s2.comments, false, false);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s2.googleId);
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
 
@@ -161,14 +161,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section",
-                                                     "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
+        studentsDb.updateStudent(s.course, s.email, "new-name", "new-team", "new-section",
+                                                 "new@email.com", "new.google.id", "lorem ipsum dolor si amet", false, false);
 
         ______TS("non-existent case");
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> studentsDb.updateStudentWithoutSearchability("non-existent-course", "non@existent.email", "no-name",
+                () -> studentsDb.updateStudent("non-existent-course", "non@existent.email", "no-name",
                         "non-existent-team", "non-existent-section", "non.existent.ID",
-                        "blah", "blah"));
+                        "blah", "blah", false, false));
         assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
                 ednee.getMessage());
 
@@ -176,14 +176,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // The rest are actually allowed to be null.
         ______TS("null course case");
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section",
-                        "new@email.com", "new.google.id", "lorem ipsum dolor si amet"));
+                () -> studentsDb.updateStudent(null, s.email, "new-name", "new-team", "new-section",
+                        "new@email.com", "new.google.id", "lorem ipsum dolor si amet", false, false));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("null email case");
         ae = assertThrows(AssertionError.class,
-                () -> studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section",
-                        "new@email.com", "new.google.id", "lorem ipsum dolor si amet"));
+                () -> studentsDb.updateStudent(s.course, null, "new-name", "new-team", "new-section",
+                        "new@email.com", "new.google.id", "lorem ipsum dolor si amet", false, false));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("duplicate email case");
@@ -191,8 +191,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Create a second student with different email address
         StudentAttributes s2 = createNewStudent("valid2@email.com");
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> studentsDb.updateStudentWithoutSearchability(duplicate.course, duplicate.email, "new-name",
-                        "new-team", "new-section", s2.email, "new.google.id", "lorem ipsum dolor si amet"));
+                () -> studentsDb.updateStudent(duplicate.course, duplicate.email, "new-name",
+                        "new-team", "new-section", s2.email, "new.google.id", "lorem ipsum dolor si amet", false, false));
         assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email, ipe.getMessage());
 
         ______TS("typical success case");
@@ -202,8 +202,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.email = "new-email-2@email.com";
         s.googleId = "new-id-2";
         s.comments = "this are new comments";
-        studentsDb.updateStudentWithoutSearchability(s.course, originalEmail, s.name, s.team, s.section,
-                                                     s.email, s.googleId, s.comments);
+        studentsDb.updateStudent(s.course, originalEmail, s.name, s.team, s.section,
+                                                     s.email, s.googleId, s.comments, false, false);
 
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
@@ -215,10 +215,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
     public void testDeleteStudent() throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes s = createNewStudent();
         s.googleId = "validGoogleId";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
-                                                     s.email, s.googleId, s.comments);
+        studentsDb.updateStudent(s.course, s.email, s.name, s.team, s.section,
+                                                     s.email, s.googleId, s.comments, false, false);
         // Delete
-        studentsDb.deleteStudentWithoutDocument(s.course, s.email);
+        studentsDb.deleteStudent(s.course, s.email, false);
 
         StudentAttributes deleted = studentsDb.getStudentForEmail(s.course, s.email);
 
@@ -228,19 +228,19 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
         assertEquals(2, studentsDb.getStudentsForCourse(s.course).size());
-        studentsDb.deleteStudentsForCourseWithoutDocument(s.course);
+        studentsDb.deleteStudentsForCourse(s.course, false);
         assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
         // delete again - should fail silently
-        studentsDb.deleteStudentWithoutDocument(s.course, s.email);
+        studentsDb.deleteStudent(s.course, s.email, false);
 
         // Null params check:
         StudentAttributes[] finalStudent = new StudentAttributes[] { s };
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> studentsDb.deleteStudentWithoutDocument(null, finalStudent[0].email));
+                () -> studentsDb.deleteStudent(null, finalStudent[0].email, false));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ae = assertThrows(AssertionError.class,
-                () -> studentsDb.deleteStudentWithoutDocument(finalStudent[0].course, null));
+                () -> studentsDb.deleteStudent(finalStudent[0].course, null, false));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         studentsDb.deleteStudent(s.course, s.email);
