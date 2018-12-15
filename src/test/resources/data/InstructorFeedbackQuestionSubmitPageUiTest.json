@@ -247,7 +247,6 @@
     "qn1InSession1": {
       "feedbackSessionName": "Open Session",
       "courseId": "IFQSubmitUiT.CS2104",
-      "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -268,7 +267,6 @@
     "qn1InSession2": {
       "feedbackSessionName": "Closed Session",
       "courseId": "IFQSubmitUiT.CS2104",
-      "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -288,7 +286,6 @@
     "qn1InSession3": {
       "feedbackSessionName": "Awaiting Session",
       "courseId": "IFQSubmitUiT.CS2104",
-      "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -308,7 +305,6 @@
     "graceperiod.session.feedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "IFQSubmitUiT.CS2104",
-      "creatorEmail": "IFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to yourself.",
       "questionNumber": 1,
       "questionType": "TEXT",

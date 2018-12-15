@@ -185,7 +185,8 @@
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "SHomeUiT.benny.c@SHomeUiT.CS2104": {
       "googleId": "SHomeUiT.benny.c",
@@ -193,7 +194,8 @@
       "course": "SHomeUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "SHomeUiT.charlie.d@SHomeUiT.CS2104": {
       "googleId": "SHomeUiT.charlie.d",
@@ -201,7 +203,8 @@
       "course": "SHomeUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "SHomeUiT.danny.e@SHomeUiT.CS2104": {
       "googleId": "SHomeUiT.danny.e",
@@ -209,7 +212,8 @@
       "course": "SHomeUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "alice.tmms@SHomeUiT.CS1101": {
       "googleId": "${value.injected.in.testfile}",
@@ -217,7 +221,8 @@
       "course": "SHomeUiT.CS1101",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "SHomeUiT.benny.c@SHomeUiT.CS1101": {
       "googleId": "SHomeUiT.benny.c",
@@ -225,7 +230,8 @@
       "course": "SHomeUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "SHomeUiT.charlie.d@SHomeUiT.CS1101": {
       "googleId": "SHomeUiT.charlie.d",
@@ -233,7 +239,8 @@
       "course": "SHomeUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "SHomeUiT.danny.e@SHomeUiT.CS1101": {
       "googleId": "SHomeUiT.danny.e",
@@ -241,7 +248,8 @@
       "course": "SHomeUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "alice.tmms@SHomeUiT.CS4215": {
       "googleId": "${value.injected.in.testfile}",
@@ -249,7 +257,8 @@
       "course": "SHomeUiT.CS4215",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "alice.tmms@SHomeUiT.CS4221": {
       "googleId": "${value.injected.in.testfile}",
@@ -257,7 +266,8 @@
       "course": "SHomeUiT.CS4221",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "SHomeUiT.student1InTestingSanitizationCourse": {
       "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
@@ -395,7 +405,6 @@
     "SHomeUiT.CS2104:First Feedback Session:Q1": {
       "feedbackSessionName": "First Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
       "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -417,7 +426,6 @@
     "SHomeUiT.CS2104:Graced Feedback Session:Q1": {
       "feedbackSessionName": "Graced Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
       "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -439,7 +447,6 @@
     "SHomeUiT.CS2104:Future Feedback Session:Q1": {
       "feedbackSessionName": "Future Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
       "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -461,7 +468,6 @@
     "SHomeUiT.CS2104:Closed Feedback Session:Q1": {
       "feedbackSessionName": "Closed Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
       "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -483,7 +489,6 @@
     "SHomeUiT.CS4221:Feedback Session without Student Questions:Q1": {
       "feedbackSessionName": "Session without Student Questions",
       "courseId": "SHomeUiT.CS4221",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
       "questionMetaData": "This is a session without questions for students",
       "questionNumber": 1,
       "questionType": "TEXT",
