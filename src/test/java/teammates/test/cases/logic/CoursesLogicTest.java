@@ -271,8 +271,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("Typical case: course without sections");
 
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
-        List<String> emptySectionNameList = new ArrayList<>();
-        assertEquals(emptySectionNameList, coursesLogic.getSectionsNameForCourse(typicalCourse2.getId()));
+        assertTrue(coursesLogic.getSectionsNameForCourse(typicalCourse2.getId()).isEmpty());
 
         ______TS("Failure case: course does not exists");
 
