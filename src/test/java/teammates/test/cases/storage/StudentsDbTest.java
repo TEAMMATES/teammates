@@ -162,7 +162,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
         studentsDb.updateStudent(s.course, s.email, "new-name", "new-team", "new-section",
-                                                 "new@email.com", "new.google.id", "lorem ipsum dolor si amet", false, false);
+                                           "new@email.com", "new.google.id", "lorem ipsum dolor si amet", false, false);
 
         ______TS("non-existent case");
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
