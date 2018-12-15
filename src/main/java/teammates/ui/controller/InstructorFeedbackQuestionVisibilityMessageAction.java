@@ -11,7 +11,7 @@ import teammates.ui.pagedata.InstructorFeedbackQuestionVisibilityMessagePageData
 public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     @Override
     protected ActionResult execute() {
-        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(account.email);
+        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData();
 
         List<String> message = feedbackQuestion.getVisibilityMessage();
 
@@ -22,7 +22,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         return createAjaxResult(data);
     }
 
-    private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
+    private FeedbackQuestionAttributes extractFeedbackQuestionData() {
         String feedbackQuestionGiverType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
 
         FeedbackParticipantType giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
@@ -59,7 +59,6 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         FeedbackQuestionType questionType = FeedbackQuestionType.valueOf(questionTypeInString);
 
         return FeedbackQuestionAttributes.builder()
-                .withCreatorEmail(creatorEmail)
                 .withGiverType(giverType)
                 .withRecipientType(recipientType)
                 .withNumOfEntitiesToGiveFeedbackTo(numberOfEntitiesToGiveFeedbackTo)
