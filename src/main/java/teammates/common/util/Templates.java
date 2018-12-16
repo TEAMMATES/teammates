@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.util.Map;
+
 public final class Templates {
 
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
@@ -22,6 +24,24 @@ public final class Templates {
         String populatedTemplate = template;
         for (int i = 0; i < keyValuePairs.length; i += 2) {
             populatedTemplate = populatedTemplate.replace(keyValuePairs[i], keyValuePairs[i + 1]);
+        }
+        return populatedTemplate;
+    }
+
+    /**
+     * Populates the HTML templates by replacing variables in the template string
+     * with the given value strings.
+     * @param template The template html to be populated
+     * @param keyValuePairs Map of key-value pairs:
+     *                   { "key1" : "val1", "key2" : "val2", ... }
+     * @return The populated template
+     */
+    public static String populateTemplate(String template, Map<String, String> keyValuePairs) {
+        String populatedTemplate = template;
+        for (Map.Entry<String, String> entry : keyValuePairs.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            populatedTemplate = populatedTemplate.replace(key, value);
         }
         return populatedTemplate;
     }
