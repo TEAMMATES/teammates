@@ -19,6 +19,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.newcontroller.Action;
 import teammates.ui.newcontroller.JsonResult;
@@ -41,8 +42,18 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     protected abstract String getRequestMethod();
 
+    /**
+     * Gets an action with empty request body sent.
+     */
     protected T getAction(String... params) {
         return getAction(null, params);
+    }
+
+    /**
+     * Gets an action with request body sent.
+     */
+    protected T getAction(Object requestBody, String... params) {
+        return getAction(JsonUtils.toJson(requestBody), params);
     }
 
     @SuppressWarnings("unchecked")
@@ -219,6 +230,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCannotAccess(params);
 
+    }
+
+    protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Session privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
     }
 
     protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
