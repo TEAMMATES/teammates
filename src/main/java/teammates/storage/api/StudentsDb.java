@@ -224,7 +224,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         }
         return unregistered;
     }
-    
+
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
