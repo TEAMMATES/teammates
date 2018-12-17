@@ -244,6 +244,7 @@ public class FeedbackQuestionInfo {
         public void validate() {
             assertTrue(questionNumber >= 1, "Invalid question number");
             assertTrue(questionBrief != null, "Question brief cannot be null");
+            assertTrue(!questionBrief.isEmpty(), "Question brief cannot be empty");
             assertTrue(questionDetails != null, "Question details cannot be null");
 
             assertTrue(questionType != null, "Question type cannot be null");
@@ -408,6 +409,13 @@ public class FeedbackQuestionInfo {
      * The request body format for saving of feedback question.
      */
     public static class FeedbackQuestionSaveRequest extends FeedbackQuestionBasicRequest {
+
+    }
+
+    /**
+     * The request body format for creating of feedback question.
+     */
+    public static class FeedbackQuestionCreateRequest extends FeedbackQuestionBasicRequest {
 
     }
 }

@@ -55,7 +55,12 @@ public final class FeedbackQuestionsLogic {
         return instance;
     }
 
-    public void createFeedbackQuestion(FeedbackQuestionAttributes fqa)
+    /**
+     * Creates a new feedback question.
+     *
+     * @return the created question
+     */
+    public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException {
 
         String feedbackSessionName = fqa.feedbackSessionName;
@@ -68,7 +73,7 @@ public final class FeedbackQuestionsLogic {
             fqa.questionNumber = questions.size() + 1;
         }
         adjustQuestionNumbers(questions.size() + 1, fqa.questionNumber, questions);
-        createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
+        return createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
     }
 
     /**

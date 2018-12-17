@@ -1455,12 +1455,14 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Creates a new feedback question.
+     *
+     * @return the created question
      */
-    public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) throws InvalidParametersException {
+    public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
+            throws InvalidParametersException {
         Assumption.assertNotNull(feedbackQuestion);
-        feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
 
     /**
