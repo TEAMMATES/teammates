@@ -85,20 +85,24 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(frComment);
 
         ______TS("typical successful case: frComment already exists");
+
+        FeedbackResponseCommentAttributes actualComment =
+                frcLogic.getFeedbackResponseComment(
+                        frComment.feedbackResponseId, frComment.commentGiver, frComment.createdAt);
+
+        frComment.commentText = "New Text";
         frcLogic.createFeedbackResponseComment(frComment);
-        List<FeedbackResponseCommentAttributes> actualFrComments =
-                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
 
-        FeedbackResponseCommentAttributes actualFrComment = null;
-        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
-            if (comment.commentText.equals(frComment.commentText)) {
-                actualFrComment = comment;
-                break;
-            }
-        }
+        // check that it uses existing ID from database
+        assertEquals(actualComment.getId(), frComment.getId());
 
-        assertNotNull(actualFrComment);
+        // re-fetch the comment from database
+        actualComment = frcLogic.getFeedbackResponseComment(frComment.getId());
 
+        // check whether the comment text has been updated
+        assertEquals(frComment.commentText, actualComment.commentText);
+
+        
         //delete afterwards
         frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
         assertNull(frcLogic.getFeedbackResponseComment(frComment.getId()));
