@@ -102,7 +102,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         // check whether the comment text has been updated
         assertEquals(frComment.commentText, actualComment.commentText);
 
-        
         //delete afterwards
         frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
         assertNull(frcLogic.getFeedbackResponseComment(frComment.getId()));
