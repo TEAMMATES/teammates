@@ -48,6 +48,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         testIsSampleCourse();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
+        testGetSectionsNameForCourse();
         testGetCourseSummary();
         testGetCourseSummaryWithoutStats();
         testGetCourseDetails();
@@ -255,6 +256,32 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("Null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.verifyCourseIsPresent(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+    }
+
+    private void testGetSectionsNameForCourse() throws Exception {
+
+        ______TS("Typical case: course with sections");
+
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        assertEquals(2, coursesLogic.getSectionsNameForCourse(typicalCourse1.getId()).size());
+        assertEquals("Section 1", coursesLogic.getSectionsNameForCourse(typicalCourse1.getId()).get(0));
+        assertEquals("Section 2", coursesLogic.getSectionsNameForCourse(typicalCourse1.getId()).get(1));
+
+        ______TS("Typical case: course without sections");
+
+        CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
+        assertTrue(coursesLogic.getSectionsNameForCourse(typicalCourse2.getId()).isEmpty());
+
+        ______TS("Failure case: course does not exists");
+
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getSectionsNameForCourse("non-existent-course"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
+
+        ______TS("Failure case: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getSectionsNameForCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
