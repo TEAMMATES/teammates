@@ -3,8 +3,12 @@ package teammates.test.cases.newaction;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.newcontroller.GetCourseStudentDetailsAction;
+import teammates.ui.newcontroller.JsonResult;
+import teammates.ui.newcontroller.GetCourseStudentDetailsAction.StudentInfo;
 
 /**
  * SUT: {@link GetCourseStudentDetailsAction}.
@@ -23,30 +27,30 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
     @Override
     @Test
-    public void testExecuteAndPostProcess() {
+    public void testExecute() {
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         String instructorId = instructor1OfCourse1.googleId;
-        gaeSimulation.loginAsInstructor(instructorId);
+        loginAsInstructor(instructorId);
 
         ______TS("Invalid parameters");
 
         //no parameters
-        verifyAssumptionFailure();
+        verifyHttpParameterFailure();
 
         //null student email
         String[] invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
-        verifyAssumptionFailure(invalidParams);
+        verifyHttpParameterFailure(invalidParams);
 
         //null course id
         invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
-        verifyAssumptionFailure(invalidParams);
+        verifyHttpParameterFailure(invalidParams);
 
         ______TS("Typical case, view student detail");
 
@@ -55,39 +59,14 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
 
-        InstructorCourseStudentDetailsPageAction a = getAction(submissionParams);
-        ShowPageResult r = getShowPageResult(a);
+        GetCourseStudentDetailsAction a = getAction(submissionParams);
+        JsonResult r = getJsonResult(a);
 
-        assertEquals(
-                getPageResultDestination(
-                        Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS,
-                        false,
-                        "idOfInstructor1OfCourse1"),
-                r.getDestinationWithParams());
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        InstructorCourseStudentDetailsPageData pageData = (InstructorCourseStudentDetailsPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(student1InCourse1.name, pageData.getStudentInfoTable().getName());
-        assertEquals(student1InCourse1.email, pageData.getStudentInfoTable().getEmail());
-        assertEquals(student1InCourse1.section, pageData.getStudentInfoTable().getSection());
-        assertEquals(student1InCourse1.team, pageData.getStudentInfoTable().getTeam());
-        assertEquals(student1InCourse1.comments, pageData.getStudentInfoTable().getComments());
-        assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourseId());
+        StudentInfo output = (StudentInfo) r.getOutput();
+        assertEquals(student1InCourse1.toString(), output.getStudent().toString());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsPage|||instructorCourseStudentDetailsPage"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.tmt|||instructorCourseStudentDetails Page Load<br>Viewing details for Student "
-                + "<span class=\"bold\">student1InCourse1@gmail.tmt</span> in Course "
-                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                + "|||/page/instructorCourseStudentDetailsPage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-    }
-
-    @Override
-    protected InstructorCourseStudentDetailsPageAction getAction(String... params) {
-        return (InstructorCourseStudentDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override
@@ -102,6 +81,6 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(submissionParams);
+        verifyInaccessibleWithoutViewStudentInSectionsPrivilege(submissionParams);
     }
 }
