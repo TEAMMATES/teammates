@@ -1,23 +1,24 @@
-package teammates.test.cases.action;
+package teammates.test.cases.newaction;
 
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorCourseStudentDetailsPageAction;
-import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
+import teammates.ui.newcontroller.GetCourseStudentDetailsAction;
 
 /**
- * SUT: {@link InstructorCourseStudentDetailsPageAction}.
+ * SUT: {@link GetCourseStudentDetailsAction}.
  */
-public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest {
+public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseStudentDetailsAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
+        return Const.ResourceURIs.COURSE_STUDENT_DETAILS;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return GET;
     }
 
     @Override
@@ -103,5 +104,4 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(submissionParams);
     }
-
 }
