@@ -84,7 +84,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frcLogic.createFeedbackResponseComment(frComment);
         verifyPresentInDatastore(frComment);
 
-        ______TS("typical successful case: frComment already exists");
+        ______TS("successful case: add duplicate frComment - comment will reuse ID of existing comment and update "
+                + "itself");
 
         FeedbackResponseCommentAttributes actualComment =
                 frcLogic.getFeedbackResponseComment(
@@ -93,7 +94,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frComment.commentText = "New Text";
         frcLogic.createFeedbackResponseComment(frComment);
 
-        // check that it uses existing ID from database
+        // verify that ID of duplicate comment has been set by method (uses existing ID of original comment)
         assertEquals(actualComment.getId(), frComment.getId());
 
         // re-fetch the comment from database
