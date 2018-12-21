@@ -240,12 +240,6 @@ public class GateKeeper {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
         }
-
-        if (!feedbacksession.getCreatorEmail().equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for this purpose");
-        }
     }
 
     /**
@@ -265,12 +259,6 @@ public class GateKeeper {
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (!feedbacksession.getCreatorEmail().equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for this purpose");
-        }
-
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
@@ -288,12 +276,6 @@ public class GateKeeper {
         if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
-        }
-
-        if (!feedbacksession.getCreatorEmail().equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for this purpose");
         }
 
         if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.getFeedbackSessionName(), privilegeName)) {
