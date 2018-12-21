@@ -21,9 +21,8 @@ public class InstructorFeedbackPublishAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        boolean isCreatorOnly = false;
 
-        gateKeeper.verifyAccessible(instructor, session, isCreatorOnly,
+        gateKeeper.verifyAccessible(instructor, session,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
