@@ -28,10 +28,10 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails, String[] answer) {
 
-        /**
-         * Example: a response in the form: "0-1,1-0"
-         * means that for sub-question 0, choice 1 is chosen,
-         * and for sub-question 1, choice 0 is chosen.
+        /*
+          Example: a response in the form: "0-1,1-0"
+          means that for sub-question 0, choice 1 is chosen,
+          and for sub-question 1, choice 0 is chosen.
          */
 
         String rawResponses = answer[0];

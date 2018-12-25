@@ -990,7 +990,7 @@ public class PageData {
      * @param commentsForResponses map where key is response id and value is list of comments on that response
      * @param responseId response id of response associated with comment
      * @param isEditDeleteEnabled true if comment can be edited or deleted
-     * @return
+     * @return feedback response comment with associated parameters
      */
     public FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
             FeedbackQuestionAttributes questionAttributes,

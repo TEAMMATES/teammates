@@ -68,7 +68,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     /**
      * Removes search document for the given instructor by using {@code encryptedRegistrationKey}.
      *
-     * <p>See {@link InstructorSearchDocument#toDocument()} for more details.</p>
+     * <p>See {@see InstructorSearchDocument#toDocument()} for more details.</p>
      */
     public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
         deleteDocument(Const.SearchIndex.INSTRUCTOR, encryptedRegistrationKey);

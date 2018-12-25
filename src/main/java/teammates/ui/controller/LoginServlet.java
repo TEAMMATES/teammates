@@ -11,8 +11,8 @@ import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 @SuppressWarnings("serial")
-/**
- * Servlet to handle Login
+/*
+  Servlet to handle Login
  */
 public class LoginServlet extends HttpServlet {
 
