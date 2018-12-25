@@ -15,8 +15,10 @@ public class FeedbackSessionsTableRow {
     /**
      * Constructs a session row for a course table.
      * @param name name of the session
-     * @param tooltip tooltip displayed when hovering over status
-     * @param status status of the session
+     * @param submissionsTooltip tooltip displayed when hovering over status
+     * @param publishedTooltip tooltip displayed when hovering over status
+     * @param submissionStatus status of the session
+     * @param publishedStatus status of the session
      * @param href link for the session under response rate
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */

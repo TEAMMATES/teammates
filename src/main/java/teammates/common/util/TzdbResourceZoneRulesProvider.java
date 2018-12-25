@@ -22,7 +22,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Loads time-zone rules for 'TZDB'. Modified from {@link java.time.zone.TzdbZoneRulesProvider}.
+ * Loads time-zone rules for 'TZDB'. Modified from {@see java.time.zone.TzdbZoneRulesProvider}.
  * Reads the file 'tzdb.dat' from resources instead of the JRE library directory.
  */
 public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
@@ -153,7 +153,7 @@ public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
     }
 
     /**
-     * Modified from {@link java.time.zone.Ser#read}.
+     * Modified from {@see java.time.zone.Ser#read}.
      */
     private static Object serRead(DataInput in) throws IOException {
         byte type = in.readByte();
