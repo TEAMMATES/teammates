@@ -19,6 +19,9 @@ const routes: Routes = [
   {
     path: 'home',
     component: StudentHomePageComponent,
+    data: {
+      pageTitle: 'Student Home',
+    },
   },
   {
     path: 'profile',
