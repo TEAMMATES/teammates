@@ -156,12 +156,12 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public String getEntityTypeAsString() {
-        return "Course";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + getId();
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + getId();
     }
 
     @Override
