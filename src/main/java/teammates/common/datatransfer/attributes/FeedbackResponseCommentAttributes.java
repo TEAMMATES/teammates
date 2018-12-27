@@ -22,6 +22,9 @@ import teammates.storage.entity.FeedbackResponseComment;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
+    private static final String ATTRIBUTE_NAME = "FeedbackResponseComment";
+    private static final String GET_BACKUP_NAME = "Course";
+
     // Required fields
     public String courseId;
     public String feedbackSessionName;
@@ -181,12 +184,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public String getEntityTypeAsString() {
-        return "FeedbackResponseComment";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + courseId;
     }
 
     @Override
