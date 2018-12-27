@@ -12,7 +12,7 @@ import teammates.storage.entity.Account;
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
-    private final String ATTRIBUTE_NAME = "Account";
+    private static final String ATTRIBUTE_NAME = "Account";
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 

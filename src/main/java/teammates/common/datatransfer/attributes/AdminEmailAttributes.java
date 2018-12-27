@@ -14,7 +14,7 @@ import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
-    private final String ATTRIBUTE_NAME = "Admin Email";
+    private static final String ATTRIBUTE_NAME = "Admin Email";
 
     // Required fields
     public List<String> addressReceiver;
