@@ -219,7 +219,7 @@ public final class Const {
         public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Collections.unmodifiableList(
                 Arrays.asList(ActionURIs.STUDENT_COURSE_JOIN));
 
-        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+        public static final String BACKUP_LOG_MSG = "Recently modified ";
 
     }
 

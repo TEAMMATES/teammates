@@ -20,6 +20,8 @@ import teammates.storage.entity.Course;
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
+    public final String ATTRIBUTE_NAME = "Course:: ";
+
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Instant createdAt;
     public Instant deletedAt;
@@ -159,7 +161,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + getId();
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + getId();
     }
 
     @Override
