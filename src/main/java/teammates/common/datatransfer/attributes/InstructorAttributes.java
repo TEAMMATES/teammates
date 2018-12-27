@@ -16,6 +16,9 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
+    private static final String ATTRIBUTE_NAME = "Feedback Session";
+    private static final String GET_BACKUP_NAME = "Course";
+
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
 
     /**
@@ -147,7 +150,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + courseId;
     }
 
     @Override
