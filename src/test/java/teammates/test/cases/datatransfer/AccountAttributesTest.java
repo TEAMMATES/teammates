@@ -56,6 +56,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals("Account", account.getEntityTypeAsString());
     }
 
+    @Test
+    public void testGetBackupIdentifier() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        assertEquals("Recently modified Account::" + account.getGoogleId(), account.getBackupIdentifier());
+    }
+
     @Override
     @Test
     public void testToEntity() {
