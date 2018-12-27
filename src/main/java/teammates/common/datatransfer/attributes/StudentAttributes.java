@@ -265,7 +265,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String getBackupIdentifier() {
-        return return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + course;
+        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + course;
     }
 
     @Override
