@@ -13,6 +13,9 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
+
+    private final String ATTRIBUTE_NAME = "Admin Email";
+
     // Required fields
     public List<String> addressReceiver;
     public List<String> groupReceiver;
@@ -80,12 +83,12 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "Admin Email";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return "Admin Email";
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + getEmailId();
     }
 
     @Override
