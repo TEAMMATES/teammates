@@ -18,6 +18,10 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
+
+    private static final String ATTRIBUTE_NAME = "Student";
+    private static final String GET_BACKUP_NAME = "Course";
+
     // Required fields
     public String email;
     public String course;
@@ -256,12 +260,12 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "Student";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + course;
+        return return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + course;
     }
 
     @Override
