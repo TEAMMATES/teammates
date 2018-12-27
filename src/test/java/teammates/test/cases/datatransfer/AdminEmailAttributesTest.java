@@ -300,4 +300,10 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         return "";
     }
 
+    @Test
+    public void testGetBackupIdentifier() {
+        assertEquals("Recently modified Admin Email::" + validAdminEmailAttributesObject.getEmailId(),
+                validAdminEmailAttributesObject.getBackupIdentifier());
+    }
+
 }
