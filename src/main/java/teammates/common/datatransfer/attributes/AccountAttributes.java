@@ -4,16 +4,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
+import teammates.common.util.*;
 import teammates.storage.entity.Account;
 
 /**
  * A data transfer object for Account entities.
  */
 public class AccountAttributes extends EntityAttributes<Account> {
+
+    private final String ATTRIBUTE_NAME = "Account";
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 
@@ -166,12 +165,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "Account";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return "Account";
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + getGoogleId();
     }
 
     @Override

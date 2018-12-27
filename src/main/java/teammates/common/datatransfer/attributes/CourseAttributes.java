@@ -20,7 +20,7 @@ import teammates.storage.entity.Course;
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
-    private final String ATTRIBUTE_NAME = "Course:: ";
+    private final String ATTRIBUTE_NAME = "Course";
 
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Instant createdAt;
