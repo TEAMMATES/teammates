@@ -196,7 +196,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(profile.toString(), spa.toString());
     }
 
-
     // -------------------------------------------------------------------------------------------------------
     // -------------------------------------- Helper Functions
     // -----------------------------------------------
