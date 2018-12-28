@@ -19,6 +19,8 @@ import teammates.storage.entity.StudentProfile;
  */
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
+    public static final String ATTRIBUTE_NAME = "Student Profile";
+
     // Required
     public String googleId;
 
@@ -154,12 +156,12 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "StudentProfile";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return "Student profile modified";
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + googleId;
     }
 
     @Override
