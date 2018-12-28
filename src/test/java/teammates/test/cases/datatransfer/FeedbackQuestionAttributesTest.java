@@ -517,6 +517,12 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
+    @Test
+    public void testGetBackupIdentifier() {
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        assertEquals("Recently modified Course::testingCourse", fqa.getBackupIdentifier());
+    }
+
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 
