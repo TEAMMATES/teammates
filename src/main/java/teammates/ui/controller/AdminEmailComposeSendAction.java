@@ -1,11 +1,10 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -75,7 +74,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .builder(subject, addressReceiver, groupReceiver, emailContent)
                     .withEmailId(emailId)
                     .build();
 
@@ -92,7 +91,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .builder(subject, addressReceiver, groupReceiver, emailContent)
                     .withEmailId(emailId)
                     .build();
         }
@@ -143,11 +142,11 @@ public class AdminEmailComposeSendAction extends Action {
                                     String content) {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(new Date())
+                .builder(subject, addressReceiver, groupReceiver, content)
+                .withSendDate(Instant.now())
                 .build();
         try {
-            Date createDate = logic.createAdminEmail(newDraft);
+            Instant createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
         } catch (Exception e) {
             isError = true;
@@ -167,8 +166,8 @@ public class AdminEmailComposeSendAction extends Action {
                                         String content) {
 
         AdminEmailAttributes finalisedEmail = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(new Date())
+                .builder(subject, addressReceiver, groupReceiver, content)
+                .withSendDate(Instant.now())
                 .build();
 
         try {

@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -14,7 +15,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * SUT: {@link InstructorFeedbackResponseCommentEditAction}.
@@ -46,7 +47,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
 
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -80,11 +81,18 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         InstructorFeedbackResponseCommentEditAction action = getAction(submissionParams);
         AjaxResult result = getAjaxResult(action);
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        FeedbackResponseCommentAjaxPageData data =
+                (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+
+        FeedbackResponseCommentAttributes frc =
+                feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
+        assertEquals(feedbackResponseComment.commentText + " (Edited)", frc.commentText);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
 
         ______TS("Null show comments and show giver permissions");
 
@@ -99,7 +107,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -119,7 +127,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -138,7 +146,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -155,7 +163,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -172,7 +180,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -189,7 +197,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -206,7 +214,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -223,7 +231,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -243,7 +251,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         try {
             action = getAction(submissionParams);
-            result = getAjaxResult(action);
+            getAjaxResult(action);
+            signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("FeedbackResponseComment should not be null", e.getMessage());
         }
@@ -264,10 +273,17 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         };
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+
+        frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
+        assertEquals(feedbackResponseComment.commentText + " (Edited)", frc.commentText);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertEquals("instructor2@course1.tmt", frc.lastEditorEmail);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
 
         ______TS("Typical successful case for published session");
 
@@ -283,18 +299,24 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText
-                                                                + " (Edited for published session)",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT,
+                feedbackResponseComment.commentText + " (Edited for published session)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
         };
 
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
+        assertEquals(feedbackResponseComment.commentText + " (Edited for published session)",
+                frc.commentText);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
+        assertEquals("instructor1@course1.tmt", frc.commentGiver);
+        assertFalse(frc.isCommentFromFeedbackParticipant);
 
         ______TS("Unsuccessful case: empty comment text");
 
@@ -310,7 +332,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         action = getAction(submissionParams);
         result = getAjaxResult(action);
         assertEquals("", result.getStatusMessage());
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
@@ -324,9 +346,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -343,7 +365,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 .get("comment1FromT1C1ToR1Q1S1C1");
 
         feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),

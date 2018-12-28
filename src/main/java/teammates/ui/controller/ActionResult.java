@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.CryptoHelper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
@@ -36,7 +35,7 @@ public abstract class ActionResult {
     protected AccountAttributes account;
 
     /** A list of status messages to be shown to the user. */
-    protected List<StatusMessage> statusToUser = new ArrayList<>();
+    protected List<StatusMessage> statusToUser;
 
     /**
      * Parameters to be sent with the result. These will be automatically added
@@ -74,6 +73,10 @@ public abstract class ActionResult {
         return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
     }
 
+    public List<StatusMessage> getStatusToUser() {
+        return statusToUser;
+    }
+
     /**
      * Add a (key,value) pair ot the list of response parameters.
      */
@@ -95,7 +98,7 @@ public abstract class ActionResult {
      * This cookie is used to add CSRF tokens to dynamically-generated links from JS code on the front-end.
      */
     public void writeSessionTokenToCookieIfRequired(HttpServletRequest req, HttpServletResponse resp) {
-        String sessionToken = CryptoHelper.computeSessionToken(req.getSession().getId());
+        String sessionToken = StringHelper.encrypt(req.getSession().getId());
         String existingSessionToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.ParamsNames.SESSION_TOKEN);
 
         if (sessionToken.equals(existingSessionToken)) {

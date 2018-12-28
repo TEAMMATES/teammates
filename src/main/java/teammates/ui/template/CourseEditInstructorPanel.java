@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 
 public class CourseEditInstructorPanel {
     private int index;
@@ -17,6 +18,7 @@ public class CourseEditInstructorPanel {
     private ElementTag resendInviteButton;
     private ElementTag editButton;
     private ElementTag cancelButton;
+    private ElementTag cancelAddInstructorButton;
     private ElementTag deleteButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
@@ -33,6 +35,13 @@ public class CourseEditInstructorPanel {
             isAccessControlDisplayed = true;
         }
         this.instructor = instructor;
+
+        //TODO TO REMOVE AFTER DATA MIGRATION
+        if (this.instructor != null) {
+            this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
+            this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
+
+        }
 
         sectionRows = createSectionRows(instructorIndex, sectionNames, feedbackNames);
         permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel();
@@ -163,6 +172,14 @@ public class CourseEditInstructorPanel {
         return cancelButton;
     }
 
+    public void setCancelAddInstructorButton(ElementTag cancelAddInstructorButton) {
+        this.cancelAddInstructorButton = cancelAddInstructorButton;
+    }
+
+    public ElementTag getCancelAddInstructorButton() {
+        return cancelAddInstructorButton;
+    }
+
     public void setDeleteButton(ElementTag deleteButton) {
         this.deleteButton = deleteButton;
     }
@@ -223,13 +240,13 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup1ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<>();
 
-        permissionInputGroup.add(createCheckBox("Edit/Delete Course",
+        permissionInputGroup.add(createCheckBox("Edit/Delete/Restore Course",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
 
         permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
 
-        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions",
+        permissionInputGroup.add(createCheckBox("Create/Edit/Delete/Restore Sessions",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
 
         permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students",

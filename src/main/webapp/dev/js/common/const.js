@@ -31,9 +31,9 @@ const BootstrapContextualColors = {
     // Additional contextual colors that can be used in the components of modals
     PRIMARY: 'primary',
     isValidType(type) {
-        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO ||
-        type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING ||
-        type === BootstrapContextualColors.DANGER;
+        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO
+                || type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING
+                || type === BootstrapContextualColors.DANGER;
     },
 };
 BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
@@ -41,6 +41,7 @@ BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
 // Mirrored subset of Const#ParamsNames
 const ParamsNames = {
     SESSION_TOKEN: 'token',
+    COPIED_FEEDBACK_SESSION_NAME: 'copiedfsname',
 
     COURSE_ID: 'courseid',
     COURSE_NAME: 'coursename',
@@ -63,12 +64,17 @@ const ParamsNames = {
     FEEDBACK_QUESTION_TYPE: 'questiontype',
     FEEDBACK_QUESTION_NUMBEROFCHOICECREATED: 'noofchoicecreated',
     FEEDBACK_QUESTION_MCQCHOICE: 'mcqOption',
+    FEEDBACK_QUESTION_MCQ_WEIGHT: 'mcqWeight',
     FEEDBACK_QUESTION_MSQCHOICE: 'msqOption',
+    FEEDBACK_QUESTION_MSQ_WEIGHT: 'msqWeight',
     FEEDBACK_QUESTION_CONSTSUMOPTION: 'constSumOption',
     FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS: 'constSumToRecipients',
     FEEDBACK_QUESTION_CONSTSUMPOINTS: 'constSumPoints',
     FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION: 'constSumPointsForEachOption',
     FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT: 'constSumPointsForEachRecipient',
+    FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION: 'All options',
+    FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION: 'At least some options',
+    FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION: 'None',
     FEEDBACK_QUESTION_RECIPIENTTYPE: 'recipienttype',
     FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE: 'numofrecipientstype',
     FEEDBACK_QUESTION_EDITTEXT: 'questionedittext',
@@ -83,7 +89,16 @@ const ParamsNames = {
     FEEDBACK_QUESTION_NUMSCALE_STEP: 'numscalestep',
     FEEDBACK_QUESTION_RANKOPTION: 'rankOption',
     FEEDBACK_QUESTION_RANKTORECIPIENTS: 'rankToRecipients',
-
+    FEEDBACK_QUESTION_NUMBER: 'questionnum',
+    FEEDBACK_QUESTION_NUMBER_STATIC: 'questionnum-static',
+    FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED: 'minOptionsToBeRankedEnabled',
+    FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED: 'maxOptionsToBeRankedEnabled',
+    FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED: 'minOptionsToBeRanked',
+    FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED: 'maxOptionsToBeRanked',
+    FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED: 'minRecipientsToBeRankedEnabled',
+    FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED: 'maxRecipientsToBeRankedEnabled',
+    FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED: 'minRecipientsToBeRanked',
+    FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED: 'maxRecipientsToBeRanked',
 };
 
 export {

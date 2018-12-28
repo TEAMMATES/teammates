@@ -96,18 +96,39 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertEquals("", questionBundle1.getQuestionDetails().getAdditionalInfo());
         assertEquals("", questionBundle2.getQuestionDetails().getAdditionalInfo());
 
-        assertNotNull(questionBundle1.getResponseTables());
-        assertNotNull(questionBundle2.getResponseTables());
+        ______TS("giver & receiver in self/others response tables");
 
-        assertEquals("You", questionBundle1.getResponseTables().get(0).getRecipientName());
+        // test the existence of both tables for each question bundle
+        assertNotNull(questionBundle1.getSelfResponseTables());
+        assertNotNull(questionBundle1.getOthersResponseTables());
+        assertNotNull(questionBundle2.getSelfResponseTables());
+        assertNotNull(questionBundle2.getOthersResponseTables());
 
-        assertNotNull(questionBundle1.getResponseTables().get(0).getResponses());
-
-        assertEquals("You", questionBundle1.getResponseTables().get(0).getResponses()
+        // test that self response table for question one contains correct names & responses
+        assertFalse(questionBundle1.getIsSelfResponseTablesEmpty());
+        assertTrue(questionBundle1.getSelfResponseTables().get(0).isGiverNameYou());
+        assertEquals("You", questionBundle1.getSelfResponseTables().get(0).getRecipientName());
+        assertNotNull(questionBundle1.getSelfResponseTables().get(0).getResponses());
+        assertEquals("You", questionBundle1.getSelfResponseTables().get(0).getResponses()
                                         .get(0).getGiverName());
-
-        assertEquals("Student 1 self feedback.", questionBundle1.getResponseTables().get(0).getResponses()
+        assertEquals("Student 1 self feedback.", questionBundle1.getSelfResponseTables().get(0).getResponses()
                                         .get(0).getAnswer());
+
+        // test that others response table for question one does not contain any responses
+        assertEquals(0, questionBundle1.getOthersResponseTables().size());
+
+        // test that self response table for question two contains exactly one response
+        assertFalse(questionBundle2.getIsSelfResponseTablesEmpty());
+        assertEquals(1, questionBundle2.getSelfResponseTables().size());
+
+        // test that others response table for question two contains correct names & responses
+        assertFalse(questionBundle2.getOthersResponseTables().get(0).isGiverNameYou());
+        assertEquals("You", questionBundle2.getOthersResponseTables().get(0).getRecipientName());
+        assertNotNull(questionBundle2.getOthersResponseTables().get(0).getResponses());
+        assertEquals("student2 In Course1", questionBundle2.getOthersResponseTables().get(0).getResponses()
+                .get(0).getGiverName());
+        assertEquals("Response from student 2 to student 1.", questionBundle2.getOthersResponseTables().get(0)
+                .getResponses().get(0).getAnswer());
 
         ______TS("student in unregistered course");
 

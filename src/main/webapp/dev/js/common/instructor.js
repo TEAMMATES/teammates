@@ -8,7 +8,19 @@ import {
 
 import {
     BootstrapContextualColors,
+    ParamsNames,
 } from './const';
+import {
+    setStatusMessage,
+} from './statusMessage';
+
+import {
+    countRemainingCharactersOnInput,
+} from './countRemainingCharactersOnInput';
+
+import {
+    TimeZone,
+} from './timezone';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -50,6 +62,7 @@ function setupFsCopyModal() {
                             $('#fscopy_submit').closest('form').submit();
                         });
                 $('#fscopy_submit').prop('disabled', false);
+                countRemainingCharactersOnInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
             },
         });
     });
@@ -85,6 +98,23 @@ function setupFsCopyModal() {
             },
         });
     });
+}
+
+function initializeTimeZoneOptions($selectElement) {
+    if (typeof moment !== 'undefined') {
+        TimeZone.prepareTimeZoneInput($selectElement);
+
+        const existingTimeZone = $selectElement.data('timeZone');
+        if (existingTimeZone) {
+            TimeZone.updateTimeZone($selectElement, existingTimeZone);
+        } else {
+            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
+        }
+
+        $('#auto-detect-time-zone').on('click', () => {
+            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
+        });
+    }
 }
 
 // Student Profile Picture
@@ -272,6 +302,18 @@ function bindStudentPhotoHoverLink(elements) {
     });
 }
 
+/**
+ * Returns the HTML required to render the items as an unordered list.
+ */
+function generateUnorderedListHtml(items) {
+    return `\
+<ul>
+${items
+            .map(item => `<li>${item}</li>`)
+            .join('')}
+</ul>`;
+}
+
 function bindDeleteButtons() {
     $('body').on('click', '.session-delete-for-test', (event) => {
         event.preventDefault();
@@ -280,13 +322,30 @@ function bindDeleteButtons() {
         const courseId = $button.data('courseid');
         const feedbackSessionName = $button.data('fsname');
 
-        const messageText = `Are you want to delete the feedback session ${feedbackSessionName} in ${courseId}?`;
+        const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}? `
+                + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
         const okCallback = function () {
             window.location = $button.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+        showModalConfirmation('Confirm moving session to Recycle Bin', messageText, okCallback, null,
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.DANGER);
+    });
+}
+
+function bindCourseMoveToRecycleBinLinks() {
+    $('body').on('click', '.course-move-to-recycle-bin-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
+                + 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm moving course to Recycle Bin', messageText, okCallback, null,
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.WARNING);
     });
 }
 
@@ -295,7 +354,7 @@ function bindCourseDeleteLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
+        const messageText = `Are you sure you want to permanently delete the course: ${$clickedLink.data('courseId')}? `
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
         const okCallback = function () {
@@ -307,19 +366,75 @@ function bindCourseDeleteLinks() {
     });
 }
 
+function bindCourseDeleteAllLinks() {
+    $('body').on('click', '.course-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const softDeletedCourseIds = $('[id^="softdeletedcourseelement"]').toArray()
+                .map(softDeletedCourseElement => $(softDeletedCourseElement).data('courseId'));
+        const message = `<p>Are you sure you want to permanently delete the following ${softDeletedCourseIds.length} courses in the <b>Recycle Bin</b>? This operation will delete all students and sessions in these courses. All instructors of these courses will not be able to access them hereafter as well.</p>
+${generateUnorderedListHtml(softDeletedCourseIds)}`;
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deleting all courses in the Recycle Bin', message, okCallback, null,
+                null, null, BootstrapContextualColors.DANGER);
+    });
+}
+
 function bindSessionDeleteLinks() {
     $('body').on('click', '#fsDeleteLink', (event) => {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to delete the feedback session '
+        const messageText = 'Are you sure you want to permanently delete the feedback session '
                 + `${$clickedLink.data('feedbackSessionName')} in ${$clickedLink.data('courseId')}?`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.DANGER);
+    });
+}
+
+function bindSessionDeleteAllLinks() {
+    $('body').on('click', '.session-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const softDeletedSessionItems = $('[id^="softdeletedsessionelement"]').toArray()
+                .map(softDeletedSessionElement => `${$(softDeletedSessionElement).data('courseId')}: ${$(softDeletedSessionElement).data('sessionName')}`);
+        const message = `<p>Are you sure you want to permanently delete the following ${softDeletedSessionItems.length} feedback sessions in the <b>Recycle Bin</b>?</p>
+${generateUnorderedListHtml(softDeletedSessionItems)}`;
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deleting all feedback sessions in the Recycle Bin', message, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
+    });
+}
+
+function attachEventToSendInviteLink() {
+    $(document).on('click', '.course-student-remind-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                + 'invite to students at the opening time of each session. Send a join request anyway?';
+        const okCallback = function okCallback() {
+            $.get($clickedLink.attr('href'), () => {
+                const studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
+                const message = `An email has been sent to ${studentEmail}`;
+                setStatusMessage(message, 'success');
+            });
+        };
+
+        showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.INFO);
     });
 }
 
@@ -350,6 +465,27 @@ function sendRemindersToStudents(urlLink) {
         },
         error() {
             $statusMessage.html('An error has occurred while sending reminder. Please try again.');
+        },
+        success(data) {
+            const statusToUser = $(data).find('#statusMessagesToUser').html();
+            $statusMessage.html(statusToUser);
+
+            scrollToElement($statusMessage[0], { duration: 1000 });
+        },
+    });
+}
+
+function resendPublishedEmailToStudents(urlLink) {
+    const $statusMessage = $('#statusMessagesToUser');
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        beforeSend() {
+            $statusMessage.html('<img src="/images/ajax-loader.gif">');
+            $statusMessage.css('display', 'block');
+        },
+        error() {
+            $statusMessage.html('An error has occurred while requesting for emails to be resent. Please try again.');
         },
         success(data) {
             const statusToUser = $(data).find('#statusMessagesToUser').html();
@@ -477,13 +613,17 @@ function prepareInstructorPages() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 
     // bind the event handler to show confirmation modal
+    bindCourseMoveToRecycleBinLinks();
     bindCourseDeleteLinks();
+    bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();
+    bindSessionDeleteAllLinks();
 }
 
 export {
     attachEventToDeleteStudentLink,
     attachEventToDeleteAllStudentLink,
+    attachEventToSendInviteLink,
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
@@ -491,7 +631,9 @@ export {
     bindStudentPhotoLink,
     bindUnpublishButtons,
     executeCopyCommand,
+    initializeTimeZoneOptions,
     prepareInstructorPages,
+    resendPublishedEmailToStudents,
     selectElementContents,
     setupFsCopyModal,
     sendRemindersToStudents,

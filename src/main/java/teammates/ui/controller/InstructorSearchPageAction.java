@@ -1,8 +1,6 @@
 package teammates.ui.controller;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -32,8 +30,8 @@ public class InstructorSearchPageAction extends Action {
             numberOfSearchOptions++;
         }
 
-        boolean isSearchCommentForResponses = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES);
-        if (isSearchCommentForResponses) {
+        boolean isSearchFeedbackSessionData = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA);
+        if (isSearchFeedbackSessionData) {
             numberOfSearchOptions++;
         }
 
@@ -47,7 +45,7 @@ public class InstructorSearchPageAction extends Action {
         } else {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
-            if (isSearchCommentForResponses) {
+            if (isSearchFeedbackSessionData) {
                 frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors);
             }
             if (isSearchForStudents) {
@@ -56,12 +54,6 @@ public class InstructorSearchPageAction extends Action {
 
             totalResultsSize = frCommentSearchResults.numberOfResults + studentSearchResults.numberOfResults;
 
-            Set<String> instructorEmails = new HashSet<>();
-
-            for (InstructorAttributes instructor : instructors) {
-                instructorEmails.add(instructor.email);
-            }
-
             if (totalResultsSize == 0) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS,
                                                    StatusMessageColor.WARNING));
@@ -69,7 +61,7 @@ public class InstructorSearchPageAction extends Action {
         }
 
         InstructorSearchPageData data = new InstructorSearchPageData(account, sessionToken);
-        data.init(frCommentSearchResults, studentSearchResults, searchKey, isSearchCommentForResponses, isSearchForStudents);
+        data.init(frCommentSearchResults, studentSearchResults, searchKey, isSearchFeedbackSessionData, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }

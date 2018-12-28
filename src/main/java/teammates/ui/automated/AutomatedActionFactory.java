@@ -22,6 +22,7 @@ public class AutomatedActionFactory {
     static {
         // Cron jobs
         map(ActionURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
+        map(ActionURIs.AUTOMATED_DATASTORE_BACKUP, DatastoreBackupAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, FeedbackSessionOpeningRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
@@ -33,6 +34,8 @@ public class AutomatedActionFactory {
         map(TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, AdminSendEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, FeedbackResponseAdjustmentWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, FeedbackSessionPublishedEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL,
+                FeedbackSessionResendPublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, FeedbackSessionRemindEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class);

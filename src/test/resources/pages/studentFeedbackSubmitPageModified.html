@@ -16,8 +16,13 @@
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="SFSubmitUiT.alice.b">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-info icon-info statusMessage">
+        Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -47,8 +52,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -57,8 +62,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="2026-04-30T15:59:00Z" id="end-time">
-                  Thu, 30 Apr 2026, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2026-04-30T15:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -83,8 +88,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 1:
-          <br>
+          <b>
+            Question 1:
+          </b>
           <span class="text-preserve-space">
             What is the best selling point of your product?
           </span>
@@ -107,9 +113,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-1">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                   <option value="">
@@ -122,7 +130,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
@@ -161,8 +169,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 2:
-          <br>
+          <b>
+            Question 2:
+          </b>
           <span class="text-preserve-space">
             Rate 3 other students' products
           </span>
@@ -182,7 +191,9 @@
               Your team members can see your response, and your name, but not the name of the recipient.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-2">
+          </div>
+          <div class="evalueeLabel-2 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -191,8 +202,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                   <option value="">
@@ -214,7 +225,7 @@
                   </option>
                 </select>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-7">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
@@ -243,8 +254,8 @@
             <input name="responseid-2-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.benny.c@gmail.tmt">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
                   <option value="">
@@ -266,7 +277,7 @@
                   </option>
                 </select>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-7">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" spellcheck="false" style="position: relative;">
@@ -295,8 +306,8 @@
             <input name="responseid-2-1" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%extra.guy@gmail.tmt">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
                   <option selected="" value="">
@@ -318,7 +329,7 @@
                   </option>
                 </select>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-7">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" spellcheck="false" style="position: relative;">
@@ -356,8 +367,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 3:
-          <br>
+          <b>
+            Question 3:
+          </b>
           <span class="text-preserve-space">
             Comments about the class
           </span>
@@ -374,9 +386,11 @@
               Your team members can see your response, but not your name.
             </li>
           </ul>
+          <div class="constraints-3">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-3 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
                   <option value="">
@@ -428,8 +442,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 4:
-          <br>
+          <b>
+            Question 4:
+          </b>
           <span class="text-preserve-space">
             Give feedback to 3 other teams.
           </span>
@@ -443,7 +458,9 @@
               The receiving teams can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-4">
+          </div>
+          <div class="evalueeLabel-4 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -455,8 +472,8 @@
             Please note that you are submitting this response on behalf of your team.
           </p>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-4 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                   <option value="">
@@ -475,7 +492,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
@@ -504,8 +521,8 @@
             <input name="responseid-4-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 2">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-4 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                   <option value="">
@@ -524,7 +541,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" spellcheck="false" style="position: relative;">
@@ -553,8 +570,8 @@
             <input name="responseid-4-1" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 3">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-4 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -573,7 +590,7 @@
                   New Team
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-2" data-recommended-text="0" id="responsetext-4-2" name="responsetext-4-2" spellcheck="false" style="position: relative;">
@@ -611,8 +628,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 5:
-          <br>
+          <b>
+            Question 5:
+          </b>
           <span class="text-preserve-space">
             Give feedback to your team mates
           </span>
@@ -626,7 +644,9 @@
               The receiving student can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-5">
+          </div>
+          <div class="evalueeLabel-5 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -648,8 +668,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 6:
-          <br>
+          <b>
+            Question 6:
+          </b>
           <span class="text-preserve-space">
             What is the best selling point of your product?
           </span>
@@ -672,9 +693,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-6">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-6 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
                   <option value="">
@@ -687,7 +710,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -727,6 +750,40 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="6" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-6-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-6-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-6-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="6" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-6-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <input name="responseid-6-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
           </div>
         </div>
@@ -740,8 +797,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 7:
-          <br>
+          <b>
+            Question 7:
+          </b>
           <span class="text-preserve-space">
             What do you think is the other teams' best feature?
           </span>
@@ -755,7 +813,9 @@
               The receiving teams can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-7">
+          </div>
+          <div class="evalueeLabel-7 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -767,8 +827,8 @@
             Please note that you are submitting this response on behalf of your team.
           </p>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-7 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                   <option value="">
@@ -787,7 +847,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <table>
@@ -815,11 +875,45 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="7" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-7-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-7-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-7-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="7" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-7-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <input name="responseid-7-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 2">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-7 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-7-1" style="display:none;max-width:125px">
                   <option value="">
@@ -838,7 +932,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <table>
@@ -866,11 +960,45 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="7" data-responseindex="1" data-toggle="tooltip" id="button_add_comment-7-1" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-7-1">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-7-1" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="7" data-responseindex="1" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-7-1">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <input name="responseid-7-1" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 3">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-7 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -889,7 +1017,7 @@
                   New Team
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <table>
@@ -917,6 +1045,40 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="7" data-responseindex="2" data-toggle="tooltip" id="button_add_comment-7-2" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-7-2">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-7-2" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="7" data-responseindex="2" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-7-2">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -929,8 +1091,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 8:
-          <br>
+          <b>
+            Question 8:
+          </b>
           <span class="text-preserve-space">
             What is the best selling point of your product?
           </span>
@@ -953,9 +1116,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-8">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-8 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
                   <option value="">
@@ -968,7 +1133,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -1051,8 +1216,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 9:
-          <br>
+          <b>
+            Question 9:
+          </b>
           <span class="text-preserve-space">
             What do you think is the other teams' best feature?
           </span>
@@ -1066,7 +1232,9 @@
               The receiving teams can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-9">
+          </div>
+          <div class="evalueeLabel-9 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -1078,8 +1246,8 @@
             Please note that you are submitting this response on behalf of your team.
           </p>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-9 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1098,7 +1266,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <p class="text-muted" hidden="">
@@ -1159,8 +1327,8 @@
             <input name="responseid-9-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 2">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-9 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-9-1" style="display:none;max-width:125px">
                   <option value="">
@@ -1179,7 +1347,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <p class="text-muted" hidden="">
@@ -1240,8 +1408,8 @@
             <input name="responseid-9-1" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 3">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-9 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -1260,7 +1428,7 @@
                   New Team
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <p class="text-muted" hidden="">
@@ -1330,8 +1498,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 10:
-          <br>
+          <b>
+            Question 10:
+          </b>
           <span class="text-preserve-space">
             Who is the best class mate?
           </span>
@@ -1354,9 +1523,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-10">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-10 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1369,7 +1540,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1437,6 +1608,40 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="10" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-10-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-10-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-10-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="10" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-10-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <input name="responseid-10-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
           </div>
         </div>
@@ -1450,8 +1655,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 11:
-          <br>
+          <b>
+            Question 11:
+          </b>
           <span class="text-preserve-space">
             Who do you recommend as tutor?
           </span>
@@ -1474,9 +1680,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-11">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-11 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1489,7 +1697,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -1590,8 +1798,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 12:
-          <br>
+          <b>
+            Question 12:
+          </b>
           <span class="text-preserve-space">
             Which is the best team?
           </span>
@@ -1614,9 +1823,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-12">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-12 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1629,7 +1840,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1677,6 +1888,40 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="12" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-12-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-12-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-12-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="12" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-12-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <input name="responseid-12-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
           </div>
         </div>
@@ -1690,8 +1935,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 13:
-          <br>
+          <b>
+            Question 13:
+          </b>
           <span class="text-preserve-space">
             Who do you recommend as tutor?
           </span>
@@ -1714,9 +1960,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-13">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-13 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1729,7 +1977,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -1810,8 +2058,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 14:
-          <br>
+          <b>
+            Question 14:
+          </b>
           <span class="text-preserve-space">
             Rate your product
           </span>
@@ -1834,9 +2083,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-14">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-14-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1849,7 +2100,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -1875,8 +2126,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 15:
-          <br>
+          <b>
+            Question 15:
+          </b>
           <span class="text-preserve-space">
             Rate others' product
           </span>
@@ -1890,7 +2142,9 @@
               The receiving teams can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-15">
+          </div>
+          <div class="evalueeLabel-15 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -1902,8 +2156,8 @@
             Please note that you are submitting this response on behalf of your team.
           </p>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-15 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                   <option value="">
@@ -1922,7 +2176,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -1938,8 +2192,8 @@
             <input name="responseid-15-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 2">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-15 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-15-1" style="display:none;max-width:125px">
                   <option value="">
@@ -1958,7 +2212,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -1974,8 +2228,8 @@
             <input name="responseid-15-1" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 3">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-15 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -1994,7 +2248,7 @@
                   New Team
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -2019,8 +2273,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 16:
-          <br>
+          <b>
+            Question 16:
+          </b>
           <span class="text-preserve-space">
             Who is the best instructor?
           </span>
@@ -2043,9 +2298,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-16">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-16 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
                   <option value="">
@@ -2058,7 +2315,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -2096,6 +2353,40 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="16" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-16-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-16-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-16-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="16" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-16-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <input name="responseid-16-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
           </div>
         </div>
@@ -2109,8 +2400,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 17:
-          <br>
+          <b>
+            Question 17:
+          </b>
           <span class="text-preserve-space">
             Who do you recommend as tutors?
           </span>
@@ -2133,9 +2425,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-17">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-17 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
                   <option value="">
@@ -2148,7 +2442,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -2219,8 +2513,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 18:
-          <br>
+          <b>
+            Question 18:
+          </b>
           <span class="text-preserve-space">
             How important are the following factors to you? Give points accordingly.
           </span>
@@ -2243,9 +2538,21 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-18">
+            <p class="text-color-blue align-left text-bold">
+              Note:
+            </p>
+            <p class="text-color-blue padding-left-35px" id="constSumInstruction-18">
+              <span class="glyphicon glyphicon-info-sign padding-right-10px">
+              </span>
+              Total points distributed should add up to 100.
+              <br>
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-18 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
                   <option value="">
@@ -2258,33 +2565,24 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
-            <div class="col-sm-6 width-auto">
-              <div class="margin-bottom-15px flex">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-18">
+              <div class="margin-top-7px margin-bottom-15px flex">
                 <label class="const-sum-options-label">
                   Grades
                 </label>
                 <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-18-0-0" min="0" name="responsetext-18-0" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="70">
+                  <input class="form-control pointsBox" id="responsetext-18-0-0" min="0" name="responsetext-18-0" onchange="updateConstSumQnMessages('18')" step="1" type="number" value="70">
                 </div>
               </div>
-              <div class="margin-bottom-15px flex">
+              <div class="margin-top-7px margin-bottom-15px flex">
                 <label class="const-sum-options-label">
                   Fun
                 </label>
                 <div class="margin-left-auto">
-                  <input class="form-control pointsBox" id="responsetext-18-0-1" min="0" name="responsetext-18-0" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="30">
+                  <input class="form-control pointsBox" id="responsetext-18-0-1" min="0" name="responsetext-18-0" onchange="updateConstSumQnMessages('18')" step="1" type="number" value="30">
                 </div>
-              </div>
-            </div>
-            <div class="form-group" id="constSumInfo-18-0">
-              <div class="col-sm-6 text-center" style="clear: both;">
-                <hr class="margin-top-0">
-                <p class="text-color-green" id="constSumMessage-18-0">
-                  All points distributed!
-                </p>
-                <hr>
               </div>
             </div>
             <input id="constSumToRecipients-18" type="hidden" value="false">
@@ -2292,7 +2590,19 @@
             <input id="constSumNumOption-18" type="hidden" value="2">
             <input id="constSumPoints-18" type="hidden" value="100">
             <input id="constSumUnevenDistribution-18" type="hidden" value="false">
+            <input id="constSumDistributePointsOptions-18" type="hidden" value="None">
             <input name="responseid-18-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
+          </div>
+          <div id="constSumInputAlert-18-0" style="">
+            <p class="text-color-green padding-left-35px" id="constSumMessage-18-0">
+              <span class="text-color-green">
+                <span class="glyphicon glyphicon-ok padding-right-10px">
+                </span>
+                All points distributed!
+              </span>
+              <br>
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
           </div>
         </div>
       </div>
@@ -2305,8 +2615,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 19:
-          <br>
+          <b>
+            Question 19:
+          </b>
           <span class="text-preserve-space">
             Split points among the teams
           </span>
@@ -2323,7 +2634,19 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-19">
+            <p class="text-color-blue align-left text-bold">
+              Note:
+            </p>
+            <p class="text-color-blue padding-left-35px" id="constSumInstruction-19">
+              <span class="glyphicon glyphicon-info-sign padding-right-10px">
+              </span>
+              Total points distributed should add up to 300.
+              <br>
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
+          </div>
+          <div class="evalueeLabel-19 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -2335,8 +2658,8 @@
             Please note that you are submitting this response on behalf of your team.
           </p>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-19 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                   <option value="">
@@ -2355,23 +2678,15 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
-            <div class="col-sm-6 width-auto">
-              <div class="margin-bottom-15px flex">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-19">
+              <div class="margin-top-7px margin-bottom-15px flex">
                 <label class="const-sum-options-label" style="display:none">
                 </label>
                 <div class="">
-                  <input class="form-control pointsBox" id="responsetext-19-0-0" min="0" name="responsetext-19-0" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="90">
+                  <input class="form-control pointsBox" id="responsetext-19-0-0" min="0" name="responsetext-19-0" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="90">
                 </div>
-              </div>
-            </div>
-            <div class="form-group" id="constSumInfo-19-0" style="display:none">
-              <div class="col-sm-6 text-center" style="clear: both;">
-                <hr class="margin-top-0">
-                <p class="text-color-blue" id="constSumMessage-19-0">
-                </p>
-                <hr>
               </div>
             </div>
             <input id="constSumToRecipients-19" type="hidden" value="true">
@@ -2379,11 +2694,17 @@
             <input id="constSumNumOption-19" type="hidden" value="0">
             <input id="constSumPoints-19" type="hidden" value="100">
             <input id="constSumUnevenDistribution-19" type="hidden" value="false">
+            <input id="constSumDistributePointsOptions-19" type="hidden" value="None">
             <input name="responseid-19-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 2">
           </div>
+          <div id="constSumInputAlert-19-0" style="display:none">
+            <p class="text-color-green padding-left-35px" id="constSumMessage-19-0">
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-19 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
                   <option value="">
@@ -2402,23 +2723,15 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
-            <div class="col-sm-6 width-auto">
-              <div class="margin-bottom-15px flex">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-19">
+              <div class="margin-top-7px margin-bottom-15px flex">
                 <label class="const-sum-options-label" style="display:none">
                 </label>
                 <div class="">
-                  <input class="form-control pointsBox" id="responsetext-19-1-0" min="0" name="responsetext-19-1" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="110">
+                  <input class="form-control pointsBox" id="responsetext-19-1-0" min="0" name="responsetext-19-1" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="110">
                 </div>
-              </div>
-            </div>
-            <div class="form-group" id="constSumInfo-19-1" style="display:none">
-              <div class="col-sm-6 text-center" style="clear: both;">
-                <hr class="margin-top-0">
-                <p class="text-color-blue" id="constSumMessage-19-1">
-                </p>
-                <hr>
               </div>
             </div>
             <input id="constSumToRecipients-19" type="hidden" value="true">
@@ -2426,11 +2739,17 @@
             <input id="constSumNumOption-19" type="hidden" value="0">
             <input id="constSumPoints-19" type="hidden" value="100">
             <input id="constSumUnevenDistribution-19" type="hidden" value="false">
+            <input id="constSumDistributePointsOptions-19" type="hidden" value="None">
             <input name="responseid-19-1" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 3">
           </div>
+          <div id="constSumInputAlert-19-1" style="display:none">
+            <p class="text-color-green padding-left-35px" id="constSumMessage-19-1">
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-19 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -2449,24 +2768,15 @@
                   New Team
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
-            <div class="col-sm-6 width-auto">
-              <div class="margin-bottom-15px flex">
+            <div class="col-sm-6 width-auto" id="constSumSubmissionFormOptionFragment-19">
+              <div class="margin-top-7px margin-bottom-15px flex">
                 <label class="const-sum-options-label" style="display:none">
                 </label>
                 <div class="">
-                  <input class="form-control pointsBox" id="responsetext-19-2-0" min="0" name="responsetext-19-2" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
+                  <input class="form-control pointsBox" id="responsetext-19-2-0" min="0" name="responsetext-19-2" onchange="updateConstSumQnMessages('19')" step="1" type="number" value="">
                 </div>
-              </div>
-            </div>
-            <div class="form-group" id="constSumInfo-19-2" style="">
-              <div class="col-sm-6 text-center" style="clear: both;">
-                <hr class="margin-top-0">
-                <p class="text-color-red" id="constSumMessage-19-2">
-                  100 points left to distribute.
-                </p>
-                <hr>
               </div>
             </div>
             <input id="constSumToRecipients-19" type="hidden" value="true">
@@ -2474,6 +2784,18 @@
             <input id="constSumNumOption-19" type="hidden" value="0">
             <input id="constSumPoints-19" type="hidden" value="100">
             <input id="constSumUnevenDistribution-19" type="hidden" value="false">
+            <input id="constSumDistributePointsOptions-19" type="hidden" value="None">
+          </div>
+          <div id="constSumInputAlert-19-2" style="">
+            <p class="padding-left-35px text-color-red" id="constSumMessage-19-2">
+              <span class="text-color-red">
+                <span class="glyphicon glyphicon-remove padding-right-10px">
+                </span>
+                Actual total is 200! Distribute the remaining 100 points.
+              </span>
+              <br>
+            </p>
+            <hr class="margin-top-0 border-top-dark-gray">
           </div>
         </div>
       </div>
@@ -2486,8 +2808,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 20:
-          <br>
+          <b>
+            Question 20:
+          </b>
           <span class="text-preserve-space">
             Rate the contribution of your team members and yourself.
           </span>
@@ -2501,7 +2824,9 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-20">
+          </div>
+          <div class="evalueeLabel-20 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -2510,8 +2835,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-20 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
                   <option value="">
@@ -2524,10 +2849,10 @@
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
-              <div class="col-sm-3 mobile-no-padding">
+              <div class="col-sm-3 col-no-padding">
                 <select class="form-control color-neutral" name="responsetext-20-0">
                   <option class="color-neutral" value="-999">
                   </option>
@@ -2599,7 +2924,7 @@
                   </option>
                 </select>
               </div>
-              <div>
+              <div class="col-sm-6 mobile-no-padding">
                 <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
                   <span class="glyphicon glyphicon-info-sign">
                   </span>
@@ -2675,8 +3000,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 21:
-          <br>
+          <b>
+            Question 21:
+          </b>
           <span class="text-preserve-space">
             Please choose the best choice for the following sub-questions.
           </span>
@@ -2693,7 +3019,9 @@
               Other students in the course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-21">
+          </div>
+          <div class="evalueeLabel-21 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -2702,8 +3030,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-21 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -2716,7 +3044,7 @@
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div class="row">
@@ -2847,8 +3175,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 22:
-          <br>
+          <b>
+            Question 22:
+          </b>
           <span class="text-preserve-space">
             Nominate and rank at least 2 students for prizes.
           </span>
@@ -2865,9 +3194,11 @@
               Other students in the course can see your response, and your name.
             </li>
           </ul>
+          <div class="constraints-22">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-22 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-22-0" style="display:none;max-width:125px">
                   <option value="">
@@ -2969,8 +3300,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 23:
-          <br>
+          <b>
+            Question 23:
+          </b>
           <span class="text-preserve-space">
             Rank exactly 3 options.
           </span>
@@ -2987,7 +3319,9 @@
               Other students in the course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-23">
+          </div>
+          <div class="evalueeLabel-23 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -2996,8 +3330,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign form-control" name="responserecipient-23-0" style="display:none;max-width:125px">
                   <option value="">
@@ -3022,7 +3356,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <p class="text-muted">
@@ -3091,8 +3425,8 @@
             <input name="responseid-23-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.benny.c@gmail.tmt">
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-1" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -3117,7 +3451,7 @@
                   Charlie Davis
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <p class="text-muted">
@@ -3185,8 +3519,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -3211,7 +3545,7 @@
                   Danny Engrid
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <p class="text-muted">
@@ -3279,8 +3613,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-3" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -3305,7 +3639,7 @@
                   Emily
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <p class="text-muted">
@@ -3373,8 +3707,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-23 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-4" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -3399,7 +3733,7 @@
                   Extra guy
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <p class="text-muted">
@@ -3464,6 +3798,486 @@
               </table>
               <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
               <input name="msqMinSelectableChoices-23" type="hidden" value="3">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-24" type="hidden" value="MCQ">
+    <input name="questionid-24" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-24" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            Question 24:
+          </b>
+          <span class="text-preserve-space">
+            Which is the best team?
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, and your name.
+            </li>
+          </ul>
+          <div class="constraints-24">
+          </div>
+          <br>
+          <div class="evalueeForm-24 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-24-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="%GENERAL%">
+                    %GENERAL%
+                  </option>
+                </select>
+                <span>
+                  %GENERAL%
+                </span>
+              </label>
+              :
+            </div>
+            <div class="col-sm-12">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-24-0" type="radio" value="Benny Charles (Team 2)">
+                          Benny Charles (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-24-0" type="radio" value="Charlie Davis (Team 2)">
+                          Charlie Davis (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-24-0" type="radio" value="Danny Engrid (Team 2)">
+                          Danny Engrid (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-24-0" type="radio" value="Emily (Team 3)">
+                          Emily (Team 3)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-24-0" type="radio" value="Extra guy (New Team)">
+                          Extra guy (New Team)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="24" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-24-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-24-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-24-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="24" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-24-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-25" type="hidden" value="MSQ">
+    <input name="questionid-25" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-25" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            Question 25:
+          </b>
+          <span class="text-preserve-space">
+            Who do you like working with?
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, and your name.
+            </li>
+          </ul>
+          <div class="constraints-25">
+          </div>
+          <br>
+          <div class="evalueeForm-25 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-25-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="%GENERAL%">
+                    %GENERAL%
+                  </option>
+                </select>
+                <span>
+                  %GENERAL%
+                </span>
+              </label>
+              :
+            </div>
+            <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-25-0" type="checkbox" value="Benny Charles (Team 2)">
+                          Benny Charles (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-25-0" type="checkbox" value="Charlie Davis (Team 2)">
+                          Charlie Davis (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-25-0" type="checkbox" value="Danny Engrid (Team 2)">
+                          Danny Engrid (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-25-0" type="checkbox" value="Emily (Team 3)">
+                          Emily (Team 3)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-25-0" type="checkbox" value="Extra guy (New Team)">
+                          Extra guy (New Team)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-25-0" type="checkbox" value="">
+                          <i>
+                            None of the above
+                          </i>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input disabled="" name="msqMaxSelectableChoices-25" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-25" type="hidden" value="-1">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-26" type="hidden" value="MCQ">
+    <input name="questionid-26" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-26" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            Question 26:
+          </b>
+          <span class="text-preserve-space">
+            Which is the best team?
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, and your name.
+            </li>
+          </ul>
+          <div class="constraints-26">
+          </div>
+          <br>
+          <div class="evalueeForm-26 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-26-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="%GENERAL%">
+                    %GENERAL%
+                  </option>
+                </select>
+                <span>
+                  %GENERAL%
+                </span>
+              </label>
+              :
+            </div>
+            <div class="col-sm-12">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-26-0" type="radio" value="New Team">
+                          New Team
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-26-0" type="radio" value="Team 2">
+                          Team 2
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input name="responsetext-26-0" type="radio" value="Team 3">
+                          Team 3
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-sm-12">
+              <br>
+              <button class="btn-link show-frc-add-form" data-original-title="Add comment to explain your feedback response. It is optional." data-placement="top" data-qnindex="26" data-responseindex="0" data-toggle="tooltip" id="button_add_comment-26-0" title="" type="button">
+                Want to add comment to your response? Click here.
+              </button>
+            </div>
+            <div class="col-sm-12" style="display: none">
+              <br>
+              <ul class="list-group" id="responseCommentTable-26-0">
+                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-26-0" style="display: none;">
+                  <div class="responseCommentAddForm">
+                    <div class="row">
+                      <div class="col-xs-10 text-muted">
+                        <p>
+                          Your comment about the above response
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="close pull-right hide-frc-add-form" data-original-title="Discard changes to comment" data-qnindex="26" data-responseindex="0" data-toggle="tooltip" title="" type="button">
+                          ×
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="container-fluid">
+                        <div class="panel panel-default panel-body" id="responsecommentaddtext-26-0">
+                        </div>
+                      </div>
+                      <input name="responsecommenttext" type="hidden">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-27" type="hidden" value="MSQ">
+    <input name="questionid-27" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-27" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <b>
+            Question 27:
+          </b>
+          <span class="text-preserve-space">
+            Who do you like working with?
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, and your name.
+            </li>
+          </ul>
+          <div class="constraints-27">
+          </div>
+          <br>
+          <div class="evalueeForm-27 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-27-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="%GENERAL%">
+                    %GENERAL%
+                  </option>
+                </select>
+                <span>
+                  %GENERAL%
+                </span>
+              </label>
+              :
+            </div>
+            <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-27-0" type="checkbox" value="New Team">
+                          New Team
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-27-0" type="checkbox" value="Team 2">
+                          Team 2
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-27-0" type="checkbox" value="Team 3">
+                          Team 3
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-27-0" type="checkbox" value="">
+                          <i>
+                            None of the above
+                          </i>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input disabled="" name="msqMaxSelectableChoices-27" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-27" type="hidden" value="-1">
             </div>
           </div>
         </div>

@@ -221,7 +221,7 @@ public class AdminSearchPageData extends PageData {
                                     StudentAttributes student, FeedbackSessionState fsState) {
 
         List<AdminSearchStudentFeedbackSession> sessions = new ArrayList<>();
-        List<String> links = new ArrayList<>();
+        List<String> links;
 
         switch (fsState) {
         case OPEN:
@@ -235,6 +235,7 @@ public class AdminSearchPageData extends PageData {
             break;
         default:
             Assumption.fail();
+            links = new ArrayList<>(); // will not be reached; this is to prevent compile error
             break;
         }
 

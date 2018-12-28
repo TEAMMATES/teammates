@@ -1,8 +1,10 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
@@ -19,16 +21,18 @@ import teammates.storage.entity.Course;
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
-    public Date createdAt;
+    public Instant createdAt;
+    public Instant deletedAt;
     private String id;
     private String name;
-    private String timeZone;
+    private ZoneId timeZone;
 
-    CourseAttributes(String courseId, String name, String timeZone) {
+    CourseAttributes(String courseId, String name, ZoneId timeZone) {
         this.id = SanitizationHelper.sanitizeTitle(courseId);
         this.name = SanitizationHelper.sanitizeTitle(name);
         this.timeZone = timeZone;
-        this.createdAt = new Date();
+        this.createdAt = Instant.now();
+        this.deletedAt = null;
     }
 
     /**
@@ -38,8 +42,13 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      * <ul>
      * <li>{@code createdAt = current date}</li>
      * </ul>
+     *
+     * @param courseId Id of the course.
+     * @param name Name of the course.
+     * @param timeZone Time zone of the course.
+     * @return a {@code Builder} object that can be used to construct a {@code CourseAttributes} object
      */
-    public static Builder builder(String courseId, String name, String timeZone) {
+    public static Builder builder(String courseId, String name, ZoneId timeZone) {
         return new Builder(courseId, name, timeZone);
     }
 
@@ -55,23 +64,62 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.name = name;
     }
 
-    public String getTimeZone() {
+    public ZoneId getTimeZone() {
         return timeZone;
     }
 
     public String getCreatedAtDateString() {
-        return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt);
+        return TimeHelper.formatDateForInstructorPages(createdAt, timeZone);
     }
 
     public String getCreatedAtDateStamp() {
-        return TimeHelper.formatDateToIso8601Utc(createdAt);
+        return TimeHelper.formatDateTimeToIso8601Utc(createdAt);
     }
 
     public String getCreatedAtFullDateTimeString() {
-        return TimeHelper.formatTime12H(createdAt);
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(localDateTime);
     }
 
-    public void setTimeZone(String timeZone) {
+    public String getDeletedAtDateString() {
+        if (this.deletedAt == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
+        }
+        return TimeHelper.formatDateForInstructorPages(deletedAt, timeZone);
+    }
+
+    public String getDeletedAtDateStamp() {
+        if (this.deletedAt == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
+        }
+        return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
+    }
+
+    public String getDeletedAtFullDateTimeString() {
+        if (this.deletedAt == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
+        }
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(localDateTime);
+    }
+
+    public void setDeletedAt() {
+        this.deletedAt = Instant.now();
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public void resetDeletedAt() {
+        this.deletedAt = null;
+    }
+
+    public boolean isCourseDeleted() {
+        return this.deletedAt != null;
+    }
+
+    public void setTimeZone(ZoneId timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -85,14 +133,12 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         addNonEmptyError(validator.getInvalidityInfoForCourseName(getName()), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseTimeZone(getTimeZone()), errors);
-
         return errors;
     }
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone(), createdAt);
+        return new Course(getId(), getName(), getTimeZone().getId(), createdAt, deletedAt);
     }
 
     @Override
@@ -147,15 +193,21 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Non-null value expected";
         private final CourseAttributes courseAttributes;
 
-        public Builder(String courseId, String name, String timeZone) {
+        public Builder(String courseId, String name, ZoneId timeZone) {
             validateRequiredFields(courseId, name, timeZone);
             courseAttributes = new CourseAttributes(courseId, name, timeZone);
         }
 
-        public Builder withCreatedAt(Date createdAt) {
+        public Builder withCreatedAt(Instant createdAt) {
             if (createdAt != null) {
                 courseAttributes.createdAt = createdAt;
             }
+
+            return this;
+        }
+
+        public Builder withDeletedAt(Instant deletedAt) {
+            courseAttributes.deletedAt = deletedAt;
 
             return this;
         }

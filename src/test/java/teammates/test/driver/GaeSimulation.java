@@ -1,8 +1,10 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,7 @@ import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
 import teammates.common.util.Const;
-import teammates.common.util.CryptoHelper;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
@@ -64,25 +66,29 @@ public class GaeSimulation {
     /**
      * Sets up the GAE simulation.
      */
-    public synchronized void setup() {
-        System.out.println("Setting up GAE simulation");
+    public void setup() {
+        synchronized (this) {
+            System.out.println("Setting up GAE simulation");
 
-        LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-        localTasks.setQueueXmlPath(QUEUE_XML_PATH);
+            LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
+            localTasks.setQueueXmlPath(QUEUE_XML_PATH);
 
-        LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-        LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-        LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-        LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
-        localSearch.setPersistent(false);
-        LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-        LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
-                                            localTasks, localSearch, localModules, localLog);
-        helper.setUp();
+            LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
+            LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
+            LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
+            LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
+            localSearch.setPersistent(false);
+            LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
+            LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
+                                                localTasks, localSearch, localModules, localLog);
 
-        sc = new ServletRunner().newClient();
-        localLogService = LocalLogServiceTestConfig.getLocalLogService();
+            helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
+            helper.setUp();
+
+            sc = new ServletRunner().newClient();
+            localLogService = LocalLogServiceTestConfig.getLocalLogService();
+        }
     }
 
     /**
@@ -207,7 +213,7 @@ public class GaeSimulation {
             request.setHeaderField("referer", "http://localhost");
 
             String sessionId = sc.getSession(true).getId();
-            String token = CryptoHelper.computeSessionToken(sessionId);
+            String token = StringHelper.encrypt(sessionId);
             request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
         }
 
@@ -220,7 +226,7 @@ public class GaeSimulation {
             paramMultiMap.get(key).add(parameters[i + 1]);
         }
 
-        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[values.size()])));
+        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
 
         try {
             InvocationContext ic = sc.newInvocation(request);
@@ -228,6 +234,20 @@ public class GaeSimulation {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Returns an environment attribute with application host name.
+     */
+    public static Map<String, Object> getEnvironmentAttributesWithApplicationHostname() {
+        Map<String, Object> attributes = new HashMap<>();
+        try {
+            attributes.put("com.google.appengine.runtime.default_version_hostname",
+                    new URL(TestProperties.TEAMMATES_URL).getAuthority());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        return attributes;
     }
 
 }

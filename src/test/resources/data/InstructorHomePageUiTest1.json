@@ -17,25 +17,25 @@
   },
   "courses": {
     "CHomeUiT.Course1": {
-      "createdAt": "2012-04-01 11:59 PM UTC",
+      "createdAt": "2012-04-01T23:59:00Z",
       "id": "ins.wit-demo1",
       "name": "Sample Course 101",
       "timeZone": "UTC"
     },
     "CHomeUiT.Course2": {
-      "createdAt": "2012-04-01 11:58 PM UTC",
+      "createdAt": "2012-04-01T23:58:00Z",
       "id": "ins.wit-demo2",
       "name": "Sample Course 201",
       "timeZone": "UTC"
     },
     "CHomeUiT.Course3": {
-      "createdAt": "2012-04-01 11:57 PM UTC",
+      "createdAt": "2012-04-01T23:57:00Z",
       "id": "ins.wit-demo3",
       "name": "Sample Course 301",
       "timeZone": "UTC"
     },
     "CHomeUiT.Unloaded": {
-      "createdAt": "2012-04-01 11:56 PM UTC",
+      "createdAt": "2012-04-01T23:56:00Z",
       "id": "ins.wit-Unloaded",
       "name": "Sample Course Unloaded",
       "timeZone": "UTC"

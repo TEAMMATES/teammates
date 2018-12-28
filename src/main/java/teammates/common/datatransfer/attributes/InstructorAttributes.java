@@ -21,8 +21,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     /**
      * Sorts the Instructors list alphabetically by name.
      */
-    public static Comparator<InstructorAttributes> compareByName = Comparator.comparing(instructor ->
-            instructor.name.toLowerCase());
+    public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
+            Comparator.comparing(instructor -> instructor.name.toLowerCase());
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 
@@ -165,13 +165,13 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         if (role == null) {
             role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            role = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(role));
+            role = SanitizationHelper.sanitizeName(role);
         }
 
         if (displayedName == null) {
             displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            displayedName = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(displayedName));
+            displayedName = SanitizationHelper.sanitizeName(displayedName);
         }
 
         if (privileges == null) {

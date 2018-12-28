@@ -1,5 +1,6 @@
 package teammates.test.cases.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
 
         // only course ID and name are used
         sampleCourse = CourseAttributes
-                .builder("validCourseId", "Sample course name", "UTC")
+                .builder("validCourseId", "Sample course name", ZoneId.of("UTC"))
                 .build();
 
         isCourseArchived = false;

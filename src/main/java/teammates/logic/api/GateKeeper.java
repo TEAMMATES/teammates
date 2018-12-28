@@ -7,6 +7,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -141,7 +142,7 @@ public class GateKeeper {
         verifyNotNull(feedbacksession, "feedback session");
         verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
-        if (!student.course.equals(feedbacksession.getCourseId()) || feedbacksession.isPrivateSession()) {
+        if (!student.course.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to student [" + student.email + "]");
         }
@@ -150,6 +151,23 @@ public class GateKeeper {
             throw new FeedbackSessionNotVisibleException(
                                             "This feedback session is not yet visible.",
                                             feedbacksession.getStartTimeString());
+        }
+    }
+
+    /**
+     * Verifies that comment is created by feedback participant.
+     *
+     * @param frc comment to be accessed
+     * @param feedbackParticipant email or team of feedback participant
+     */
+    public void verifyOwnership(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
+        verifyNotNull(frc, "feedback response comment");
+        verifyNotNull(frc.commentGiver, "feedback response comment giver");
+        verifyNotNull(feedbackParticipant, "comment giver");
+
+        if (!frc.commentGiver.equals(feedbackParticipant)) {
+            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
+                    + feedbackParticipant);
         }
     }
 

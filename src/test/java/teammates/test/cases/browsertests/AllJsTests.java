@@ -13,8 +13,6 @@ import teammates.test.pageobjects.QUnitPage;
  */
 public class AllJsTests extends BaseUiTestCase {
 
-    private static final float MIN_COVERAGE_REQUIREMENT = 38;
-
     private QUnitPage page;
 
     @Override
@@ -49,13 +47,12 @@ public class AllJsTests extends BaseUiTestCase {
             return;
         }
 
-        page.navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST + (TestProperties.isDevServer() ? "?coverage" : "")));
+        page.navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST + "?coverage"));
         page.waitForCoverageVisibility();
 
         float coverage = page.getCoverage();
 
-        print(coverage + "% of scripts covered, the minimum requirement is " + MIN_COVERAGE_REQUIREMENT + "%");
-        assertTrue(coverage >= MIN_COVERAGE_REQUIREMENT);
+        print(coverage + "% of scripts covered");
     }
 
 }

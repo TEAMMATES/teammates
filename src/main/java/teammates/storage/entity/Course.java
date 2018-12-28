@@ -1,10 +1,11 @@
 package teammates.storage.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Translate;
 
 import teammates.common.util.Const;
 
@@ -20,7 +21,11 @@ public class Course extends BaseEntity {
 
     private String name;
 
-    private Date createdAt;
+    @Translate(InstantTranslatorFactory.class)
+    private Instant createdAt;
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
 
     private String timeZone;
 
@@ -29,19 +34,20 @@ public class Course extends BaseEntity {
         // required by Objectify
     }
 
-    public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt, Instant deletedAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
-            this.setTimeZone(Const.DEFAULT_TIMEZONE);
+            this.setTimeZone(Const.DEFAULT_TIME_ZONE.getId());
         } else {
             this.setTimeZone(courseTimeZone);
         }
         if (createdAt == null) {
-            this.setCreatedAt(new Date());
+            this.setCreatedAt(Instant.now());
         } else {
             this.setCreatedAt(createdAt);
         }
+        this.setDeletedAt(deletedAt);
     }
 
     public String getUniqueId() {
@@ -60,12 +66,20 @@ public class Course extends BaseEntity {
         this.name = name.trim();
     }
 
-    public Date getCreatedAt() {
-        return this.createdAt;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public String getTimeZone() {

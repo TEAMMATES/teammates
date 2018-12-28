@@ -9,7 +9,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.DataBundle;
@@ -57,22 +56,22 @@ public final class DataBundleRegenerator {
     }
 
     private static void fixResponse(FeedbackResponseAttributes response) {
-        String responseValue = response.responseMetaData.getValue();
+        String responseValue = response.responseMetaData;
         try {
             JSONObject responseJson = maintainKeyOrder(new JSONObject(responseValue));
-            response.responseMetaData = new Text(responseJson.toString());
+            response.responseMetaData = responseJson.toString();
         } catch (JSONException e) {
-            response.responseMetaData = new Text(responseValue);
+            response.responseMetaData = responseValue;
         }
     }
 
     private static void fixQuestion(FeedbackQuestionAttributes question) {
-        String questionValue = question.questionMetaData.getValue();
+        String questionValue = question.questionMetaData;
         try {
             JSONObject questionJson = maintainKeyOrder(new JSONObject(questionValue));
-            question.questionMetaData = new Text(questionJson.toString());
+            question.questionMetaData = questionJson.toString();
         } catch (JSONException e) {
-            question.questionMetaData = new Text(questionValue);
+            question.questionMetaData = questionValue;
         }
     }
 

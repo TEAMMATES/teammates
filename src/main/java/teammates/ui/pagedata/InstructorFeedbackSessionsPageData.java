@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
@@ -16,6 +17,8 @@ import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.InstructorFeedbackSessionActions;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTable;
+import teammates.ui.template.SoftDeletedFeedbackSessionsTableRow;
 
 public class InstructorFeedbackSessionsPageData extends PageData {
 
@@ -24,8 +27,11 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private boolean isUsingAjax;
 
     private FeedbackSessionsTable fsList;
+    private SoftDeletedFeedbackSessionsTable softDeletedFsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
+    private List<CourseAttributes> courseAttributes;
+    private Map<String, InstructorAttributes> instructorsForCourses;
 
     public InstructorFeedbackSessionsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -42,43 +48,53 @@ public class InstructorFeedbackSessionsPageData extends PageData {
      * @param existingFeedbackSessions   list of existing feedback sessions
      * @param instructors                a map of courseId to the instructorAttributes for the current user
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
-     * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
+     * @param sessionTemplateType        "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession,
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
+                     List<FeedbackSessionAttributes> softDeletedFeedbackSessions,
                      Map<String, InstructorAttributes> instructors,
-                     FeedbackSessionAttributes defaultFormValues, String feedbackSessionType,
+                     FeedbackSessionAttributes defaultFormValues, String sessionTemplateType,
                      String highlightedFeedbackSession) {
+
+        this.instructorsForCourses = instructors;
 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
 
         buildNewForm(courses, courseIdForNewSession,
                      instructors, defaultFormValues,
-                     feedbackSessionType);
+                     sessionTemplateType);
 
         buildFsList(courseIdForNewSession, existingFeedbackSessions,
                     instructors, highlightedFeedbackSession);
 
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
                            defaultFormValues, highlightedFeedbackSession);
+
+        courseAttributes = courses;
+
+        this.softDeletedFsList = convertToSoftDeletedFeedbackSessionsTable(softDeletedFeedbackSessions);
     }
 
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession,
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
+                                          List<FeedbackSessionAttributes> softDeletedFeedbackSessions,
                                           Map<String, InstructorAttributes> instructors,
-                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
+                                          FeedbackSessionAttributes defaultFormValues, String sessionTemplateType) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues,
-                feedbackSessionType, null);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, softDeletedFeedbackSessions, instructors,
+                defaultFormValues, sessionTemplateType, null);
     }
 
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession,
                                              List<FeedbackSessionAttributes> existingFeedbackSessions,
+                                             List<FeedbackSessionAttributes> softDeletedFeedbackSessions,
                                              Map<String, InstructorAttributes> instructors,
                                              String highlightedFeedbackSession) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, softDeletedFeedbackSessions, instructors,
+                null, null, highlightedFeedbackSession);
     }
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -124,7 +140,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
-                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
+                              FeedbackSessionAttributes newFeedbackSession, String sessionTemplateType) {
         List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
@@ -132,14 +148,14 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors,
-                                   newFeedbackSession, feedbackSessionType,
+                                   newFeedbackSession, sessionTemplateType,
                                    courseIds,
                                    additionalSettings);
     }
 
     private FeedbackSessionsForm buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
                                                 Map<String, InstructorAttributes> instructors,
-                                                FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
+                                                FeedbackSessionAttributes newFeedbackSession, String sessionTemplateType,
                                                 List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
 
@@ -151,7 +167,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
-                                        getFeedbackSessionTypeOptions(feedbackSessionType),
+                                        getSessionTemplateTypeOptions(sessionTemplateType),
                                         courseIdForNewSession,
                                         courseIds, courseIdOptions,
                                         instructors,
@@ -206,6 +222,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return fsList;
     }
 
+    public SoftDeletedFeedbackSessionsTable getSoftDeletedFsList() {
+        return softDeletedFsList;
+    }
+
     public FeedbackSessionsForm getNewFsForm() {
         return newFsForm;
     }
@@ -214,19 +234,29 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return copyFromModal;
     }
 
+    public List<CourseAttributes> getCourseAttributes() {
+        return courseAttributes;
+    }
+
+    public boolean isInstructorAllowedToModify() {
+        return getSoftDeletedFsList().getRows().stream()
+                .allMatch(session -> instructorsForCourses.get(session.getCourseId())
+                        .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+    }
+
     /**
-     * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionType is null,
+     * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionTemplateType is null,
      *     TEAMEVALUATION is selected by default.
-     * @param defaultSessionType  either STANDARD or TEAMEVALUATION, the option that is selected on page load
+     * @param defaultSessionTemplateType  either STANDARD or TEAMEVALUATION, the option that is selected on page load
      */
-    private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
+    private List<ElementTag> getSessionTemplateTypeOptions(String defaultSessionTemplateType) {
         ArrayList<ElementTag> result = new ArrayList<>();
 
-        ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD",
-                                                          "STANDARD".equals(defaultSessionType));
+        ElementTag standardFeedbackSession = createOption("session with my own questions", "STANDARD",
+                                                          "STANDARD".equals(defaultSessionTemplateType));
         ElementTag evaluationFeedbackSession =
-                createOption("Team peer evaluation session", "TEAMEVALUATION",
-                             defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
+                createOption("session using template: team peer evaluation", "TEAMEVALUATION",
+                        defaultSessionTemplateType == null || "TEAMEVALUATION".equals(defaultSessionTemplateType));
 
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);
@@ -304,8 +334,90 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * Also contains feedback page link to return to after the action.
+     * @return form submit action link
+     */
+    public String getSessionResendPublishedEmailLink() {
+        return getInstructorFeedbackResendPublishedEmailLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
+    }
+
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
     }
 
+    private SoftDeletedFeedbackSessionsTable convertToSoftDeletedFeedbackSessionsTable(
+            List<FeedbackSessionAttributes> sessions) {
+        SoftDeletedFeedbackSessionsTable softDeletedFeedbackSessionsTable = new SoftDeletedFeedbackSessionsTable();
+
+        int idx = -1;
+
+        for (FeedbackSessionAttributes session : sessions) {
+            idx++;
+
+            List<ElementTag> actionsParam = new ArrayList<>();
+
+            String restoreLink = getInstructorFeedbackRestoreSoftDeletedSessionLink(session.getCourseId(),
+                    session.getFeedbackSessionName());
+            Boolean hasRestorePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_session_restore" + idx, "",
+                    restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, !hasRestorePermission);
+
+            String deleteLink = getInstructorFeedbackDeleteSoftDeletedSessionLink(session.getCourseId(),
+                    session.getFeedbackSessionName());
+            Boolean hasDeletePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs t_session_delete"
+                    + idx, "fsDeleteLink", deleteLink, Const.Tooltips.FEEDBACK_SESSION_DELETE, !hasDeletePermission);
+            deleteButton.setAttribute("data-course-id", session.getCourseId());
+            deleteButton.setAttribute("data-feedback-session-name", session.getFeedbackSessionName());
+            deleteButton.setAttribute("style", "color: red");
+
+            actionsParam.add(restoreButton);
+            actionsParam.add(deleteButton);
+
+            SoftDeletedFeedbackSessionsTableRow row = new SoftDeletedFeedbackSessionsTableRow(
+                    SanitizationHelper.sanitizeForHtml(session.getCourseId()),
+                    SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                    session.getCreatedTimeDateString(),
+                    session.getCreatedTimeDateStamp(),
+                    session.getCreatedTimeFullDateTimeString(),
+                    session.getDeletedTimeDateString(),
+                    session.getDeletedTimeDateStamp(),
+                    session.getDeletedTimeFullDateTimeString(),
+                    this.getInstructorCourseStatsLink(session.getCourseId()),
+                    actionsParam);
+            softDeletedFeedbackSessionsTable.getRows().add(row);
+        }
+
+        return softDeletedFeedbackSessionsTable;
+    }
+
+    private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
+            boolean isDisabled) {
+        ElementTag button = new ElementTag(content);
+
+        button.setAttribute("class", buttonClass);
+
+        if (id != null && !id.isEmpty()) {
+            button.setAttribute("id", id);
+        }
+
+        if (href != null && !href.isEmpty()) {
+            button.setAttribute("href", href);
+        }
+
+        if (title != null && !title.isEmpty()) {
+            button.setAttribute("title", title);
+            button.setAttribute("data-toggle", "tooltip");
+            button.setAttribute("data-placement", "top");
+        }
+
+        if (isDisabled) {
+            button.setAttribute("disabled", null);
+        }
+        return button;
+    }
 }

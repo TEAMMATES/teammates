@@ -41,8 +41,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM UTC+0200
+                <p class="form-control-static" data-date-stamp="2012-04-01T21:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -51,8 +51,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="2026-05-01T20:00:00Z" id="end-time">
-                  Fri, 01 May 2026, 10:00 PM UTC+0200
+                <p class="form-control-static" data-date-stamp="2026-05-01T20:00:00Z" id="end-time">
+                  Fri, 01 May 2026, 10:00 PM SAST
                 </p>
               </div>
             </div>
@@ -81,8 +81,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 1:
-          <br>
+          <b>
+            Question 1:
+          </b>
           <span class="text-preserve-space">
             question for students
           </span>
@@ -93,8 +94,6 @@
               <b>
                 More details:
               </b>
-              <br>
-              <hr>
               <p>
                 more details
               </p>
@@ -111,7 +110,9 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-1">
+          </div>
+          <div class="evalueeLabel-1 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -120,8 +121,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -134,7 +135,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
@@ -172,8 +173,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 2:
-          <br>
+          <b>
+            Question 2:
+          </b>
           <span class="text-preserve-space">
             question for students to instructors
           </span>
@@ -184,8 +186,6 @@
               <b>
                 More details:
               </b>
-              <br>
-              <hr>
               <p>
                 more details
               </p>
@@ -202,7 +202,9 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-2">
+          </div>
+          <div class="evalueeLabel-2 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -211,8 +213,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -225,7 +227,7 @@
                   Teammates Test
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
@@ -258,7 +260,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input name="sendsubmissionemail" type="checkbox">
+      <input checked="" name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
       <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit">
         Submit Feedback

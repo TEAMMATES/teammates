@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -23,7 +24,7 @@
           <b>Learning Innovation Fund-Technology (LIF-T)</b> initiative of NUS, for funding us for the 2015-2018 period.
         </li>
         <li>
-          <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015, GSoC2016, and and GSoC2017 editions.
+          <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015, GSoC2016, GSoC2017 and GSoC2018 editions.
         </li>
         <li>
           <b>Facebook Open Academy</b> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
@@ -32,8 +33,12 @@
           <b>Jet Brains</b>, for the <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener noreferrer">Intellij IDEA</a> licences.
         </li>
         <li>
-          <b>YourKit LLC</b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>
-          <img src="https://www.yourkit.com/images/yklogo.png" width='70'>.
+          <img src="images/yklogo.png" width="100">
+          <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">YourKit LLC</a></b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>.
+        </li>
+        <li>
+          <img src="images/saucelabs.png" width="100">
+          <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">SauceLabs</a></b>, for providing us with a free <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for cross-browser testing.
         </li>
       </ul>
       <p>
@@ -63,6 +68,8 @@
 
     <section class="row">
       <h3>Contributors</h3>
+      <h4>Major contributions:</h4>
+      <ol id="contributors-major"></ol>
       <h4>Multiple contributions:</h4>
       <ol id="contributors-multiple"></ol>
       <h4>One-time contributions:</h4>

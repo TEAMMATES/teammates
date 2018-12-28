@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -34,8 +35,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("studentForHelperCourse").googleId = student1GoogleId;
+        testData.profiles.get("studentForHelperCourse").googleId = student1GoogleId;
         testData.accounts.get("studentForHelperCourse").email = student1Email;
-        testData.accounts.get("studentForHelperCourse").studentProfile.googleId = student1GoogleId;
         testData.students.get("studentForHelperCourse").googleId = student1GoogleId;
         testData.students.get("studentForHelperCourse").email = student1Email;
 
@@ -44,20 +45,20 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
+        testData.profiles.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.accounts.get("studentWithExistingProfile").email = student2Email;
-        testData.accounts.get("studentWithExistingProfile").studentProfile.googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").email = student2Email;
 
         // also inject instructor account for this test
         String instructorGoogleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         String instructorEmail = instructorGoogleId + "@gmail.com";
-        testData.accounts.get("SHomeUiT.instr").googleId = instructorGoogleId;
-        testData.accounts.get("SHomeUiT.instr").email = instructorEmail;
-        testData.instructors.get("SHomeUiT.instr.CS2104").googleId = instructorGoogleId;
-        testData.instructors.get("SHomeUiT.instr.CS2104").email = instructorEmail;
-        testData.instructors.get("SHomeUiT.instr.CS2103").googleId = instructorGoogleId;
-        testData.instructors.get("SHomeUiT.instr.CS2103").email = instructorEmail;
+        testData.accounts.get("SProfileUiT.instr").googleId = instructorGoogleId;
+        testData.accounts.get("SProfileUiT.instr").email = instructorEmail;
+        testData.instructors.get("SProfileUiT.instr.CS2104").googleId = instructorGoogleId;
+        testData.instructors.get("SProfileUiT.instr.CS2104").email = instructorEmail;
+        testData.instructors.get("SProfileUiT.instr.CS2103").googleId = instructorGoogleId;
+        testData.instructors.get("SProfileUiT.instr.CS2103").email = instructorEmail;
 
         removeAndRestoreDataBundle(testData);
     }
@@ -126,7 +127,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
 
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyHtmlMainContent("/studentProfilePageFilled.html");
 
@@ -144,7 +145,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Singaporean",
                                           "male", "this is enough!$%&*</>");
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: attempted script injection");
 
@@ -161,7 +162,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
                 "e@email.tmt", "inst<script>alert(\"Hello world!\");</script>", "American",
                 "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: changing genders for complete coverage");
 
@@ -185,7 +186,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(StringHelper.toString(spa.getInvalidityInfo(), " ")
                                              // de-sanitize
                                              .replace("&lt;", "<").replace("&gt;", ">")
                                              .replace("&quot;", "\"").replace("&#x2f;", "/"));
@@ -201,14 +202,14 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(StringHelper.toString(spa.getInvalidityInfo(), " "));
 
         ______TS("Typical case: picture upload and edit");
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
 
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
@@ -235,7 +236,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
         profilePage.uploadPicture();
 
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Failure case: picture too large");
@@ -243,7 +244,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_large.jpg");
         profilePage.uploadPicture();
 
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Typical case: update picture (too tall)");
@@ -251,7 +252,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/image_tall.jpg");
         profilePage.uploadPicture();
 
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyPhotoSize(3074, 156);
 
@@ -261,7 +262,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testAjaxPictureUrl() {
         String studentId = "studentWithExistingProfile";
-        String instructorId = "SHomeUiT.instr";
+        String instructorId = "SProfileUiT.instr";
         String instructorGoogleId = testData.accounts.get(instructorId).googleId;
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -330,6 +331,21 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(profileUrl, StudentProfilePage.class);
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        // The courses of test student1 account is not the same as `StudentHomePageUiTest`
+        // so it has to be cleared before running that test. This is the reason why `StudentHomePageUiTest`
+        // would fail if we don't remove the data bundle in this test.
+
+        // Since the account of user being logged in is shared in this test and `StudentHomepageUiTest`,
+        // we need to explicitly remove the data bundle of tests.
+        // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
+        // as the tests can run in any order.
+
+        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
+        BackDoor.removeDataBundle(testData);
     }
 
 }

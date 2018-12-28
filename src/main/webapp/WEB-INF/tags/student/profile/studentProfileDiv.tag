@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="studentProfile - Edit profile div" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -12,10 +13,7 @@
   </h3>
   <br>
   <div class="form-group row">
-    <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer"
-        title="<%= Const.Tooltips.STUDENT_PROFILE_PICTURE %>"
-        data-toggle="tooltip"
-        data-placement="top">
+    <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer">
       <img id="profilePic"
           src="${profile.pictureUrl}"
           class="profile-pic"
@@ -23,7 +21,10 @@
           data-target="#studentPhotoUploader"
           data-edit="${profile.editingPhoto}">
     </div>
-    <div class="">
+    <div class="col-xs-6 col-sm-5 col-md-3"
+         title="<%= Const.Tooltips.STUDENT_PROFILE_PICTURE %>"
+         data-toggle="tooltip"
+         data-placement="top">
       <button id="uploadEditPhoto"
           class="btn btn-primary"
           type="button"
@@ -116,7 +117,7 @@
               class="radio"
               type="radio"
               value="<%= Const.GenderTypes.MALE %>"
-              <c:if test="${profile.gender == MALE}">checked</c:if>> Male
+              <c:if test="${profile.gender == MALE}">checked=""</c:if>> Male
         </label>
         <label for="genderFemale" class="radio-inline">
           <input id="genderFemale"
@@ -124,7 +125,7 @@
               class="radio"
               type="radio"
               value="<%= Const.GenderTypes.FEMALE %>"
-              <c:if test="${profile.gender == FEMALE}">checked</c:if>> Female
+              <c:if test="${profile.gender == FEMALE}">checked=""</c:if>> Female
         </label>
         <label class="radio-inline" for="genderOther">
           <input id="genderOther"
@@ -132,7 +133,7 @@
               class="radio"
               type="radio"
               value="<%= Const.GenderTypes.OTHER %>"
-              <c:if test="${profile.gender == OTHER}">checked</c:if>> Not Specified
+              <c:if test="${profile.gender == OTHER}">checked=""</c:if>> Not Specified
         </label>
       </div>
     </div>

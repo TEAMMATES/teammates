@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -38,13 +40,12 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getQuestionTypeDisplayName();
 
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
-                                boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients,
-                                FeedbackResponseDetails existingResponseDetails);
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
 
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
                                 boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients);
+                                int totalNumRecipients, StudentAttributes student);
 
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 
@@ -62,24 +63,31 @@ public abstract class FeedbackQuestionDetails {
                                                           FeedbackQuestionAttributes question,
                                                           FeedbackSessionResultsBundle bundle);
 
-    public abstract boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails);
+    public abstract boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails);
 
     public abstract String getCsvHeader();
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader(int noOfComments) {
-        return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," + "Giver's Email" + ","
-               + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-               + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + getCsvHeader()
-               + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
-               + System.lineSeparator();
+    public String getCsvDetailedResponsesHeader(int noOfInstructorComments) {
+        StringBuilder header = new StringBuilder(1000);
+        String headerString = "Team" + "," + "Giver's Full Name" + ","
+                + "Giver's Last Name" + "," + "Giver's Email" + ","
+                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
+                + getCsvHeader();
+        header.append(headerString);
+
+        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+            headerString = ',' + "Giver's Comments";
+            header.append(headerString);
+        }
+        header.append(getCsvDetailedInstructorsCommentsHeader(noOfInstructorComments)).append(System.lineSeparator());
+        return header.toString();
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
+                                             FeedbackQuestionAttributes question) {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
@@ -92,7 +100,8 @@ public abstract class FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        return SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+        StringBuilder detailedResponseRow = new StringBuilder(1000);
+        String detailedResponseRowString = SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
@@ -100,10 +109,21 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
-                + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
-                + (hasCommentsForResponses
-                        ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                + System.lineSeparator();
+                + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question);
+        detailedResponseRow.append(detailedResponseRowString);
+        // Append feedback participant comments if allowed
+        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+            String feedbackParticipantComment =
+                    fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
+            detailedResponseRow.append(',').append(feedbackParticipantComment);
+        }
+        // Append instructor comments if allowed
+        if (isInstructorCommentsOnResponsesAllowed()) {
+            String instructorComments =
+                    fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
+            detailedResponseRow.append(instructorComments);
+        }
+        return detailedResponseRow.append(System.lineSeparator()).toString();
     }
 
     public String getQuestionText() {
@@ -135,11 +155,11 @@ public abstract class FeedbackQuestionDetails {
 
     /**
      * Validates the question details.
-     *
+     * @param courseId courseId of the question
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      *         empty list if question details are valid.
      */
-    public abstract List<String> validateQuestionDetails();
+    public abstract List<String> validateQuestionDetails(String courseId);
 
     /**
      * Validates {@code List<FeedbackResponseAttributes>} for the question
@@ -217,21 +237,11 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /** Checks if the question has been skipped. */
-    public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) {
+    public boolean isQuestionSkipped(String[] answers) {
+        if (answers == null) {
             return true;
         }
-
-        boolean allAnswersEmpty = true;
-
-        for (int i = 0; i < answer.length; i++) {
-            if (answer[i] != null && !answer[i].trim().isEmpty()) {
-                allAnswersEmpty = false;
-                break;
-            }
-        }
-
-        return allAnswersEmpty;
+        return Arrays.stream(answers).noneMatch(answer -> answer != null && !answer.trim().isEmpty());
     }
 
     public boolean isQuestionSpecificSortingRequired() {
@@ -248,11 +258,13 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
-    public boolean isCommentsOnResponsesAllowed() {
+    public boolean isInstructorCommentsOnResponsesAllowed() {
         return true;
     }
 
-    public String getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
+    public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
+
+    public String getCsvDetailedInstructorsCommentsHeader(int noOfComments) {
         StringBuilder commentsHeader = new StringBuilder(200);
 
         for (int i = noOfComments; i > 0; i--) {

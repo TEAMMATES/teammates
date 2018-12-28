@@ -1,6 +1,7 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorHome - Course table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/home" prefix="home" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionRows" type="java.util.Collection" required="true" %>
 <div class="panel-collapse collapse">
@@ -13,10 +14,10 @@
           </th>
           <th class="button_sortstartdate button-sort-none toggle-sort"
               data-toggle-sort-comparator="sortDate"
-              data-toggle-sort-extractor="tooltipExtractor">Start Date<span class="icon-sort unsorted"></span></th>
+              data-toggle-sort-extractor="dateStampExtractor">Start Date<span class="icon-sort unsorted"></span></th>
           <th class="button_sortenddate button-sort-none toggle-sort"
               data-toggle-sort-comparator="sortDate"
-              data-toggle-sort-extractor="tooltipExtractor">End Date<span class="icon-sort unsorted"></span></th>
+              data-toggle-sort-extractor="dateStampExtractor">End Date<span class="icon-sort unsorted"></span></th>
           <th>Submissions</th>
           <th>Responses</th>
           <th>
@@ -44,10 +45,10 @@
           <td>
             ${sessionRow.name}
           </td>
-          <td class="text-nowrap">
+          <td class="text-nowrap" data-date-stamp="${sessionRow.startTimeIso8601Utc}">
             <span title="${sessionRow.startTimeToolTip}" data-toggle="tooltip">${sessionRow.startTime}</span>
           </td>
-          <td class="text-nowrap">
+          <td class="text-nowrap" data-date-stamp="${sessionRow.endTimeIso8601Utc}">
             <span title="${sessionRow.endTimeToolTip}" data-toggle="tooltip">${sessionRow.endTime}</span>
           </td>
           <td>
@@ -64,7 +65,7 @@
             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
           </td>
           <td class="no-print text-nowrap padding-right-25px">
-            <tif:feedbackSessionActions actions="${sessionRow.actions}" />
+            <home:feedbackSessionActions actions="${sessionRow.actions}" />
           </td>
         </tr>
       </c:forEach>

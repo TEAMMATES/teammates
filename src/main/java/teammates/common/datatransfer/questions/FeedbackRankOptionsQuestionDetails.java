@@ -8,9 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
+
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -41,11 +46,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public List<String> getInstructions() {
         List<String> instructions = new ArrayList<>();
 
-        if (minOptionsToBeRanked != Integer.MIN_VALUE) {
+        if (minOptionsToBeRanked != NO_VALUE) {
             instructions.add("You need to rank at least " + minOptionsToBeRanked + " options.");
         }
 
-        if (maxOptionsToBeRanked != Integer.MIN_VALUE) {
+        if (maxOptionsToBeRanked != NO_VALUE) {
             instructions.add("Rank no more than " + maxOptionsToBeRanked + " options.");
         }
 
@@ -73,19 +78,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
 
         this.initialiseQuestionDetails(options);
+        String minOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED));
+        String maxOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED));
 
-        String minOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED);
-        String maxOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED);
-
-        if (minOptionsToBeRanked != null) {
-            this.minOptionsToBeRanked = Integer.parseInt(minOptionsToBeRanked);
-        }
-
-        if (maxOptionsToBeRanked != null) {
-            this.maxOptionsToBeRanked = Integer.parseInt(maxOptionsToBeRanked);
-        }
+        minOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(minOptionsToBeRankedParameter), NO_VALUE);
+        maxOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(maxOptionsToBeRankedParameter), NO_VALUE);
 
         return true;
     }
@@ -103,7 +102,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                         int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails) {
+                        FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
 
         FeedbackRankOptionsResponseDetails existingResponse = (FeedbackRankOptionsResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
@@ -125,8 +124,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         }
 
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
@@ -141,11 +140,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
-                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
                         ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
-                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
                         ? Integer.toString(minOptionsToBeRanked) : ""
                 );
@@ -153,7 +152,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -172,8 +172,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
@@ -189,13 +189,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
-                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
-                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED,
+                isMaxOptionsToBeRankedEnabled ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
-                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
-                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : ""
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(minOptionsToBeRanked) : ""
                 );
     }
 
@@ -233,8 +233,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_EDIT_OPTIONS_FORM,
@@ -245,15 +245,17 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "option",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
-                Slots.RANK_PARAM_MIN_OPTIONS_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED,
-                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
-                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : "1",
+                Slots.RANK_PARAM_MIN_OPTIONS_CHECKBOX,
+                Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED,
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(minOptionsToBeRanked) : "",
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
-                Slots.RANK_PARAM_MAX_OPTIONS_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED,
-                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
-                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "1",
+                Slots.RANK_PARAM_MAX_OPTIONS_CHECKBOX,
+                Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED,
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED,
+                isMaxOptionsToBeRankedEnabled ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
 
     }
@@ -387,8 +389,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             Map<String, Integer> normalisedRankForOption =
                     obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
 
-            for (int i = 0; i < options.size(); i++) {
-                String optionReceivingRanks = options.get(i);
+            for (String optionReceivingRanks : options) {
                 int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
 
                 if (rankReceived != Const.POINTS_NOT_SUBMITTED) {
@@ -400,7 +401,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackRankOptionsQuestionDetails newRankQuestionDetails = (FeedbackRankOptionsQuestionDetails) newDetails;
 
         return this.options.size() != newRankQuestionDetails.options.size()
@@ -429,11 +430,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
         }
+
         return errors;
     }
 
@@ -468,6 +470,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
         return null;
+    }
+
+    @Override
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return false;
     }
 
     @Override

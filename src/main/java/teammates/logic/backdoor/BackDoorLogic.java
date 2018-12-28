@@ -14,7 +14,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
@@ -43,6 +42,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -50,6 +50,7 @@ import teammates.storage.api.StudentsDb;
  */
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
+    private static final ProfilesDb profilesDb = new ProfilesDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
@@ -79,6 +80,7 @@ public class BackDoorLogic extends Logic {
         }
 
         Collection<AccountAttributes> accounts = dataBundle.accounts.values();
+        Collection<StudentProfileAttributes> profiles = dataBundle.profiles.values();
         Collection<CourseAttributes> courses = dataBundle.courses.values();
         Collection<InstructorAttributes> instructors = dataBundle.instructors.values();
         Collection<StudentAttributes> students = dataBundle.students.values();
@@ -104,6 +106,7 @@ public class BackDoorLogic extends Logic {
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
         accountsDb.createEntitiesDeferred(googleIdAccountMap.values());
+        profilesDb.createEntitiesDeferred(profiles);
         coursesDb.createEntitiesDeferred(courses);
         instructorsDb.createEntitiesDeferred(instructors);
         studentsDb.createEntitiesDeferred(students);
@@ -164,7 +167,7 @@ public class BackDoorLogic extends Logic {
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
+                    responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
             fcDb.putDocument(fcInDb);
         }
 
@@ -172,7 +175,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId, true);
+        AccountAttributes accountData = getAccount(googleId);
         return JsonUtils.toJson(accountData);
     }
 
@@ -211,6 +214,14 @@ public class BackDoorLogic extends Logic {
         return JsonUtils.toJson(fs);
     }
 
+    /**
+     * Gets an json serialized feedback session from the recycle bin.
+     */
+    public String getFeedbackSessionFromRecycleBinAsJson(String feedbackSessionName, String courseId) {
+        FeedbackSessionAttributes fs = getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        return JsonUtils.toJson(fs);
+    }
+
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
         FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
@@ -246,6 +257,12 @@ public class BackDoorLogic extends Logic {
         updateAccount(account);
     }
 
+    public void editCourseAsJson(String newValues)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = JsonUtils.fromJson(newValues, CourseAttributes.class);
+        updateCourse(course.getId(), course.getName(), course.getTimeZone().getId());
+    }
+
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
@@ -269,7 +286,6 @@ public class BackDoorLogic extends Logic {
 
     private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
             Map<String, AccountAttributes> googleIdAccountMap) {
-        populateNullStudentProfiles(accounts);
         for (AccountAttributes account : accounts) {
             googleIdAccountMap.put(account.googleId, account);
         }
@@ -328,7 +344,6 @@ public class BackDoorLogic extends Logic {
             SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
             SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
         for (FeedbackSessionAttributes session : sessions) {
-            cleanSessionData(session);
             String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
             Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
@@ -443,7 +458,8 @@ public class BackDoorLogic extends Logic {
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
             comment.feedbackQuestionId = questionIdMap.get(questionKey);
 
-            String[] responseIdParam = comment.feedbackResponseId.split("%");
+            // format of feedbackResponseId: questionNumber%giverEmail%recipient
+            String[] responseIdParam = comment.feedbackResponseId.split("%", 3);
             comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
         }
     }
@@ -490,27 +506,6 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    /**
-     * This method ensures consistency for private feedback sessions
-     * between the type and visibility times. This allows easier creation
-     * of private sessions by setting the feedbackSessionType field as PRIVATE
-     * in the json file.
-     */
-    private void cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
-            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-        }
-    }
-
-    private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
-        for (AccountAttributes account : accounts) {
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder(account.googleId).build();
-            }
-        }
-    }
-
     private void populateNullSection(StudentAttributes student) {
         student.section = student.section == null ? "None" : student.section;
     }
@@ -522,7 +517,6 @@ public class BackDoorLogic extends Logic {
                 .withEmail(instructor.email)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withDefaultStudentProfileAttributes(instructor.googleId)
                 .build();
     }
 
@@ -533,7 +527,6 @@ public class BackDoorLogic extends Logic {
                 .withEmail(student.email)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(false)
-                .withDefaultStudentProfileAttributes(student.googleId)
                 .build();
     }
 
@@ -564,8 +557,11 @@ public class BackDoorLogic extends Logic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        populateNullStudentProfiles(dataBundle.accounts.values());
         accountsDb.deleteAccounts(dataBundle.accounts.values());
+        // delete associated profiles
+        // TODO: Remove the following line after tests have been run against LIVE server
+        dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
+        profilesDb.deleteEntities(dataBundle.profiles.values());
 
         for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
             // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.

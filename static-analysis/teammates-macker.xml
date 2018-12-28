@@ -295,6 +295,7 @@
                         <allow>
                             <from>
                                 <include class="${testCases}.datatransfer.**" />
+                                <include class="${testCases}.storage.**" />
                             </from>
                         </allow>
                     </deny>
@@ -316,6 +317,7 @@
                                 <include class="${testCases}.automated.**" />
                                 <include class="${testCases}.search.**" />
                                 <include class="${testCases}.BaseComponentTestCase" />
+                                <include class="${testCases}.BaseTestCaseWithMinimalGaeEnvironment" />
 
                                 <!-- violation that needs fixing -->
                                 <include class="${testCases}.pagedata.StudentFeedbackResultsPageDataTest" />
@@ -457,6 +459,17 @@
                     </deny>
                 </access-rule>
             </ruleset>
+            <ruleset name="Google Cloud Datastore specific data type can only be accessed in storage::entity">
+                <!-- Remove the rule after Objectify V6 as V6 does not have Text data type anymore -->
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.api.datastore.Text" />
+                        <allow>
+                            <from class="${storage}.entity.**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
             <ruleset name="Servlet API can only be accessed via Servlet classes, GaeSimulation, and selected utility classes">
                 <access-rule>
                     <deny>
@@ -471,6 +484,21 @@
                                 <include class="${ui}.controller.**" />
                                 <include class="${test}.driver.GaeSimulation" />
                             </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="java.util.Date/java.util.Calendar should not be used">
+                <access-rule>
+                    <deny>
+                        <to>
+                            <include class="java.util.Date" />
+                            <include class="java.util.Calendar" />
+                        </to>
+                        <allow>
+                            <!-- allow data type translator in BaseEntity -->
+                            <!-- this exception can be removed after upgrading to Objectify V6 -->
+                            <from class="${storage}.entity.BaseEntity$InstantTranslatorFactory**" />
                         </allow>
                     </deny>
                 </access-rule>

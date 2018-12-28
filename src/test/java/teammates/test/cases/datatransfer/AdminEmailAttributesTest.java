@@ -1,13 +1,11 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
@@ -25,8 +23,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
     private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
     private String subject = "subject of email";
-    private Text content = new Text("valid email content");
-    private Date date = new Date();
+    private String content = "valid email content";
+    private Instant date = Instant.now();
     private AdminEmailAttributes validAdminEmailAttributesObject = AdminEmailAttributes
             .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
             .build();
@@ -68,40 +66,40 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredSubjectParam() {
         ______TS("failure: subject cannot be null)");
 
-        AdminEmailAttributes
-                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(null, addressReceiverListString, groupReceiverListFileKey, content).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredAddressReceiverParam() {
         ______TS("failure: addressReceiverListString cannot be null)");
 
-        AdminEmailAttributes
-                .builder(subject, null, groupReceiverListFileKey, content)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(subject, null, groupReceiverListFileKey, content).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredGroupReceiverParam() {
         ______TS("failure: groupReceiverListFileKey cannot be null)");
 
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, null, content)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(subject, addressReceiverListString, null, content).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    @Test
     public void testBuilderWithNullRequiredContentParam() {
         ______TS("failure: content cannot be null)");
 
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
-                .build();
+        AssertionError ae = assertThrows(AssertionError.class, () ->
+                AdminEmailAttributes.builder(subject, addressReceiverListString, groupReceiverListFileKey, null).build());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
     }
 
     @Test
@@ -142,7 +140,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("failure: content cannot be empty");
 
         AdminEmailAttributes invalidAttributesContentEmpty = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, new Text(""))
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, "")
                 .withSendDate(date)
                 .build();
         String expectedContentEmptyError = getPopulatedErrorMessage(
@@ -167,7 +165,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("failure: subject must start with alphanumeric character");
 
         attributes.subject = "_InvalidSubject";
-        assertTrue(attributes.subject.startsWith("_"));
+        assertEquals('_', attributes.subject.charAt(0));
         String expectedSubjectCharsError = getInvalidityInfoForSubject(attributes.subject);
 
         assertEquals("Invalid subject input should return appropriate error string",
@@ -201,6 +199,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 validAdminEmailAttributesObject.getIdentificationString());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         AdminEmail adminEmail = validAdminEmailAttributesObject.toEntity();
@@ -214,7 +213,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testSanitizeForSaving() {
         String subjectWithWhitespaces = " subject to be sanitized by removing leading/trailing whitespace ";
-        Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
+        String contentWithWhitespaces = " content to be sanitized by removing leading/trailing whitespace ";
 
         ______TS("valid sanitation of admin email");
 
@@ -233,52 +232,50 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         ______TS("success: sanitized code block");
 
-        adminEmailAttributes.content = new Text("<code>System.out.println(\"Hello World\");</code>");
+        adminEmailAttributes.content = "<code>System.out.println(\"Hello World\");</code>";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals("<code>System.out.println(&#34;Hello World&#34;);</code>", adminEmailAttributes.getContentValue());
 
         ______TS("success: sanitized superscript");
 
-        adminEmailAttributes.content = new Text("f(x) = x<sup>2</sup>");
+        adminEmailAttributes.content = "f(x) = x<sup>2</sup>";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals("f(x) &#61; x<sup>2</sup>", adminEmailAttributes.getContentValue());
 
         ______TS("success: sanitized chemical formula");
 
-        adminEmailAttributes.content = new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>");
+        adminEmailAttributes.content = "<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>",
                 adminEmailAttributes.getContentValue());
 
         ______TS("success: sanitized invalid closing tag");
 
-        adminEmailAttributes.content = new Text("</td></option></div> invalid closing tags");
+        adminEmailAttributes.content = "</td></option></div> invalid closing tags";
         adminEmailAttributes.sanitizeForSaving();
         assertEquals(" invalid closing tags", adminEmailAttributes.getContentValue());
     }
 
     @Test
     public void testSendDateForDisplay() {
-        Calendar calendar = formatDateForAdminEmailAttributesTest(validAdminEmailAttributesObject.sendDate);
-        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        validAdminEmailAttributesObject.sendDate = Instant.now();
+        String expectedDate = TimeHelper.formatDateTimeForDisplay(
+                convertToAdminTime(validAdminEmailAttributesObject.sendDate));
         String actualDate = validAdminEmailAttributesObject.getSendDateForDisplay();
         assertEquals(expectedDate, actualDate);
     }
 
     @Test
     public void testCreateDateForDisplay() {
-        validAdminEmailAttributesObject.createDate = new Date();
-        Calendar calendar = formatDateForAdminEmailAttributesTest(validAdminEmailAttributesObject.createDate);
-        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        validAdminEmailAttributesObject.createDate = Instant.now();
+        String expectedDate = TimeHelper.formatDateTimeForDisplay(
+                convertToAdminTime(validAdminEmailAttributesObject.createDate));
         String actualDate = validAdminEmailAttributesObject.getCreateDateForDisplay();
         assertEquals(expectedDate, actualDate);
     }
 
-    private Calendar formatDateForAdminEmailAttributesTest(Date date) {
-        validAdminEmailAttributesObject.sendDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+    private LocalDateTime convertToAdminTime(Instant date) {
+        return TimeHelper.convertInstantToLocalDateTime(date, Const.SystemParams.ADMIN_TIME_ZONE);
     }
 
     private String getInvalidityInfoForSubject(String emailSubject) throws Exception {

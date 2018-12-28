@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseStudentDetails / instructorStudentRecords - Student Profile" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -16,7 +17,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th colspan="2">Profile</th>
+              <th colspan="2"><h4><span class="text-bold">Profile Details </span>(submitted by student)</h4></th>
             </tr>
           </thead>
           <tbody>

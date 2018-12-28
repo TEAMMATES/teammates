@@ -8,16 +8,13 @@ import {
 } from '../common/const';
 
 import {
+    initializeTimeZoneOptions,
     prepareInstructorPages,
 } from '../common/instructor';
 
 import {
     scrollToElement,
 } from '../common/scrollTo';
-
-import {
-    TimeZone,
-} from '../common/timezone';
 
 // global parameter to remember settings for custom access level
 
@@ -199,6 +196,11 @@ function enableEditInstructor(event) {
             disableFormEditInstructor(i);
         }
     }
+    hideNewInstructorForm();
+}
+
+function cancelAddInstructor() {
+    $('#formAddInstructor').get(0).reset();
     hideNewInstructorForm();
 }
 
@@ -436,11 +438,6 @@ function editCourse() {
     $('#courseEditLink').hide();
 }
 
-function autoDetectTimeZone() {
-    const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
-    TimeZone.autoDetectAndUpdateTimeZone($selectElement);
-}
-
 let instructorSize;
 
 function editFormRequest(e) {
@@ -516,6 +513,7 @@ $(document).ready(() => {
         const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
+    $('a[id^="cancelAddInstructorLink"]').click(() => cancelAddInstructor());
     bindCheckboxToggle();
     const index = $('#new-instructor-index').val();
     bindChangingRole(index);
@@ -523,17 +521,7 @@ $(document).ready(() => {
     bindRemindInstructorLink();
     bindDeleteInstructorLink();
 
-    const courseTimeZone = $('#course-time-zone').val();
-
-    if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
-        TimeZone.prepareTimeZoneInput($selectElement);
-        TimeZone.updateTimeZone($selectElement, courseTimeZone);
-
-        $('#auto-detect-time-zone').on('click', () => {
-            autoDetectTimeZone();
-        });
-    }
+    initializeTimeZoneOptions($(`#${ParamsNames.COURSE_TIME_ZONE}`));
 
     const editLinks = $('a[id^=instrEditLink]');
     instructorSize = editLinks.length;

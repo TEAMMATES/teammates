@@ -9,8 +9,6 @@ public class InstructorFeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    private boolean isPrivateSession;
-
     private String courseId;
     private String fsName;
 
@@ -21,11 +19,13 @@ public class InstructorFeedbackSessionActions {
     private String remindLink;
     private String remindParticularStudentsPageLink;
     private String editCopyLink;
+    private String sessionResendPublishedEmailPageLink;
 
     private boolean isAllowedToEdit;
     private boolean isAllowedToDelete;
     private boolean isAllowedToSubmit;
     private boolean isAllowedToRemind;
+    private boolean isAllowedToResendPublishedEmail;
 
     private FeedbackSessionPublishButton publishButton;
 
@@ -33,8 +33,6 @@ public class InstructorFeedbackSessionActions {
                                             InstructorAttributes instructor) {
         String courseId = session.getCourseId();
         String feedbackSessionName = session.getFeedbackSessionName();
-
-        this.isPrivateSession = session.isPrivateSession();
 
         this.courseId = courseId;
         this.fsName = feedbackSessionName;
@@ -47,6 +45,8 @@ public class InstructorFeedbackSessionActions {
         this.remindParticularStudentsPageLink =
                 data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
+        this.sessionResendPublishedEmailPageLink =
+                data.getInstructorFeedbackResendPublishedEmailPageLink(courseId, feedbackSessionName);
 
         this.isAllowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.isAllowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -59,17 +59,14 @@ public class InstructorFeedbackSessionActions {
         }
 
         this.isAllowedToSubmit =
-                (session.isPrivateSession() || session.isVisible()) && !session.isClosed() && shouldEnableSubmitLink;
+                session.isVisible() && !session.isClosed() && shouldEnableSubmitLink;
         this.isAllowedToRemind =
                 session.isOpened()
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
-    }
-
-    public boolean isPrivateSession() {
-        return isPrivateSession;
+        this.isAllowedToResendPublishedEmail = session.isPublished();
     }
 
     public String getCourseId() {
@@ -104,6 +101,10 @@ public class InstructorFeedbackSessionActions {
         return remindParticularStudentsPageLink;
     }
 
+    public String getSessionResendPublishedEmailPageLink() {
+        return sessionResendPublishedEmailPageLink;
+    }
+
     public String getEditCopyLink() {
         return editCopyLink;
     }
@@ -122,6 +123,10 @@ public class InstructorFeedbackSessionActions {
 
     public boolean isAllowedToRemind() {
         return isAllowedToRemind;
+    }
+
+    public boolean isAllowedToResendPublishedEmail() {
+        return isAllowedToResendPublishedEmail;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {

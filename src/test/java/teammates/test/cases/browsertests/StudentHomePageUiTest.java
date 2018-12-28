@@ -1,11 +1,13 @@
 package teammates.test.cases.browsertests;
 
+import java.time.Instant;
+
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.StudentHelpPage;
@@ -27,7 +29,10 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("alice.tmms").googleId = student1GoogleId;
         testData.accounts.get("alice.tmms").email = student1Email;
+
+        // This student's name is Amy Betsy and has a registered account but yet to join course
         testData.students.get("alice.tmms@SHomeUiT.CS2104").email = student1Email;
+
         testData.students.get("alice.tmms@SHomeUiT.CS1101").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS1101").email = student1Email;
         testData.students.get("alice.tmms@SHomeUiT.CS4215").googleId = student1GoogleId;
@@ -39,8 +44,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        gracedFeedbackSession.setEndTime(TimeHelper.convertLocalDateToUtc(
-                TimeHelper.getDateOffsetToCurrentTime(0), gracedFeedbackSession.getTimeZone()));
+        gracedFeedbackSession.setEndTime(Instant.now());
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 
@@ -145,7 +149,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of Grace period feedback");
 
-        assertEquals("true", studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled"));
+        assertTrue(studentHomePage.getViewFeedbackButton("Graced Feedback Session")
+                .getAttribute("class").contains("disabled"));
 
         studentHomePage.clickSubmitFeedbackButton("Graced Feedback Session");
         studentHomePage.reloadPage();
@@ -158,7 +163,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of pending feedback");
 
-        assertEquals("true", studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled"));
+        assertTrue(studentHomePage.getViewFeedbackButton("First Feedback Session")
+                .getAttribute("class").contains("disabled"));
 
         studentHomePage.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePage.reloadPage();
@@ -192,6 +198,21 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         studentHome = loginAdminToPage(homeUrl, StudentHomePage.class);
 
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        // The courses of test student1 account is not the same as `StudentProfilePageUiTest`
+        // so it has to be cleared before running that test. This is the reason why `StudentProfilePageUiTest`
+        // would fail if we don't remove the data bundle in this test.
+
+        // Since the account of user being logged in is shared in this test and `StudentProfilePageUiTest`,
+        // we need to explicitly remove the data bundle of tests.
+        // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
+        // as the tests can run in any order.
+
+        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
+        BackDoor.removeDataBundle(testData);
     }
 
 }

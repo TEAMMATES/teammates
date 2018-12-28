@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -97,8 +97,7 @@ public class InstructorCopyFsToModal extends AppPage {
 
     public void clickCloseButton() {
         WebElement closeButton = browser.driver.findElement(By.cssSelector("#fsCopyModal .close"));
-        click(closeButton);
-        waitForElementToDisappear(By.cssSelector("#fsCopyModal"));
+        clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
 
     /**

@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorSearch / instructorStudentList - Student List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -105,7 +106,7 @@
                       <c:choose>
                         <c:when test="${not viewButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                          disabled
+                          href="javascript:;"
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
@@ -122,7 +123,7 @@
                       <c:choose>
                         <c:when test="${not editButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                          disabled
+                          href="javascript:;"
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
@@ -134,13 +135,13 @@
                       data-placement="top">
                     Edit
                   </a>
-                  <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
+                  <c:if test="${(fromCourseDetailsPage || fromStudentListPage) && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                     <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
                     <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                         <c:choose>
                           <c:when test="${not remindButtonEnabled}">
                             title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                            disabled
+                            href="javascript:;"
                           </c:when>
                           <c:otherwise>
                             title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
@@ -158,7 +159,7 @@
                       <c:choose>
                         <c:when test="${not deleteButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                          disabled
+                          href="javascript:;"
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"

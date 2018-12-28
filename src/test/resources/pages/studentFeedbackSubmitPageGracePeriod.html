@@ -55,8 +55,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -65,8 +65,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="${datetime.now.iso8601utc}" id="end-time">
-                  ${datetime.now} UTC+0800
+                <p class="form-control-static" data-date-stamp="${datetime.now.iso8601utc}" id="end-time">
+                  ${datetime.now} SGT
                 </p>
               </div>
             </div>
@@ -91,8 +91,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 1:
-          <br>
+          <b>
+            Question 1:
+          </b>
           <span class="text-preserve-space">
             Rate your product
           </span>
@@ -115,9 +116,11 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="constraints-1">
+          </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -130,7 +133,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -155,8 +158,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 2:
-          <br>
+          <b>
+            Question 2:
+          </b>
           <span class="text-preserve-space">
             Rate others' product
           </span>
@@ -170,7 +174,9 @@
               The receiving teams can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-2">
+          </div>
+          <div class="evalueeLabel-2 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -182,8 +188,8 @@
             Please note that you are submitting this response on behalf of your team.
           </p>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-2-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -199,7 +205,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -214,8 +220,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-2-1" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -231,7 +237,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -256,8 +262,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 3:
-          <br>
+          <b>
+            Question 3:
+          </b>
           <span class="text-preserve-space">
             You cannot answer 'Not Sure' here.
           </span>
@@ -271,7 +278,9 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-3">
+          </div>
+          <div class="evalueeLabel-3 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -280,8 +289,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-3 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-3-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -297,10 +306,10 @@
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
-              <div class="col-sm-3 mobile-no-padding">
+              <div class="col-sm-3 col-no-padding">
                 <select class="form-control color-neutral" disabled="" name="responsetext-3-0">
                   <option class="color-neutral" selected="" value="-999">
                   </option>
@@ -369,7 +378,7 @@
                   </option>
                 </select>
               </div>
-              <div>
+              <div class="col-sm-6 mobile-no-padding">
                 <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
                   <span class="glyphicon glyphicon-info-sign">
                   </span>
@@ -434,8 +443,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-3 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-3-1" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -451,10 +460,10 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
-              <div class="col-sm-3 mobile-no-padding">
+              <div class="col-sm-3 col-no-padding">
                 <select class="form-control color-neutral" disabled="" name="responsetext-3-1">
                   <option class="color-neutral" selected="" value="-999">
                   </option>
@@ -523,7 +532,7 @@
                   </option>
                 </select>
               </div>
-              <div>
+              <div class="col-sm-6 mobile-no-padding">
                 <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
                 </a>
               </div>
@@ -586,7 +595,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input name="sendsubmissionemail" type="checkbox">
+      <input checked="" name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
       <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit">
         Submit Feedback

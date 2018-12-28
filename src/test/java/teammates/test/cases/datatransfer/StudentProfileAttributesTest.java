@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
@@ -38,10 +37,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .build();
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testBuilderWithNullValuesForRequiredFields() {
-        StudentProfileAttributes.builder(null)
-                .build();
+        assertThrows(AssertionError.class, () -> StudentProfileAttributes.builder(null).build());
     }
 
     @Test
@@ -74,7 +72,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
                 "Teammates Institute", "American", "male",
-                new Text("hello"), new BlobKey("key"));
+                "hello", new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
         assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
@@ -83,7 +81,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
         assertEquals(studentProfile.getGender(), profileAttributes.gender);
-        assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
+        assertEquals(studentProfile.getMoreInfo(), profileAttributes.moreInfo);
         assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
 
     }
@@ -106,13 +104,13 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testGetJsonString() throws Exception {
         StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
-        spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
+        spa.modifiedDate = TimeHelper.parseInstant("2015-05-21 8:34 AM +0000");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
                      + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
-                     + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
+                     + "\n  \"modifiedDate\": \"2015-05-21T08:34:00Z\"\n}",
                      spa.getJsonString());
     }
 
@@ -184,8 +182,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(expectedEntity.getNationality(), actualEntity.getNationality());
         assertEquals(expectedEntity.getGender(), actualEntity.getGender());
         assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
-        assertEquals(expectedEntity.getModifiedDate().toString(),
-                     actualEntity.getModifiedDate().toString());
         assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
     }
 
@@ -207,7 +203,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
                                   profile.institute, profile.nationality, profile.gender,
-                                  new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
+                                  profile.moreInfo, new BlobKey(profile.pictureKey));
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {

@@ -19,7 +19,7 @@ function isMaxOptionsToBeRankedEnabled(qnNumber) {
 function getNumOfRankOptions(qnNumber) {
     if (isRankOptionsQuestion(qnNumber)) {
         // for rank options question, return number of options
-        return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
+        return $(`#rankChoices-${qnNumber}`).children().length;
     }
 
     // for rank recipients question, compute the number of recipients
@@ -149,7 +149,10 @@ function addRankOption(questionNum) {
 
     $(`
     <div class="margin-bottom-7px" id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
-        <div class="input-group">
+        <div class="input-group width-100-pc">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
+            </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
                     class="form-control rankOptionTextBox">
@@ -161,7 +164,9 @@ function addRankOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#rankAddOptionRow-${questionNum}`));
+    `).appendTo($(`#rankChoices-${questionNum}`));
+
+    $(`#rankChoices-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -182,10 +187,12 @@ function hideRankOptionTable(questionNum) {
 
 function removeRankOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
+
+    const $rankChoices = $(`#rankChoices-${questionNum}`);
     const $thisRow = $(`#rankOptionRow-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of 'add option' button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child rows the table has
+    const numberOfOptions = $rankChoices.children('div').length;
 
     if (numberOfOptions <= 2) {
         $thisRow.find('input').val('');
@@ -235,6 +242,26 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
     }
 }
 
+/**
+ * Auto fills the min and max options to 1 if empty when the corresponding checkbox is checked
+ * in Rank options and Rank recipients questions
+ */
+function bindAutoFillEmptyRankOptionsChangeEvent() {
+    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED}]`).change((e) => {
+        const linkedInputId = $(e.currentTarget).data('linkedInputId');
+        const linkedInput = $(`#${linkedInputId}`);
+
+        if ($(e.currentTarget).prop('checked')) {
+            if ($(linkedInput).val() === '') {
+                $(linkedInput).val('1');
+            }
+        }
+    });
+}
+
 export {
     addRankOption,
     bindRankEvents,
@@ -244,4 +271,5 @@ export {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 };

@@ -1,12 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import com.google.appengine.api.datastore.Text;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
@@ -23,8 +25,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     // Required fields
     public String courseId;
     public String feedbackSessionName;
-    public String giverEmail;
-    public Text commentText;
+    /**
+     * Contains the email of student/instructor if comment giver is student/instructor
+     * and name of team if comment giver is a team.
+     */
+    public String commentGiver;
+    public String commentText;
 
     // Optional fields
     public String feedbackResponseId;
@@ -32,12 +38,16 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
-    public Date createdAt;
+    public Instant createdAt;
     public String lastEditorEmail;
-    public Date lastEditedAt;
+    public Instant lastEditedAt;
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
+    // Determines the type of comment giver- instructor, student, or team
+    public FeedbackParticipantType commentGiverType;
+    // true if comment is given by response giver
+    public boolean isCommentFromFeedbackParticipant;
 
     FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -45,7 +55,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         showCommentTo = new ArrayList<>();
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
-        createdAt = new Date();
+        createdAt = Instant.now();
+        commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+        isCommentFromFeedbackParticipant = false;
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
@@ -57,11 +69,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 .withCreatedAt(comment.getCreatedAt())
                 .withGiverSection(comment.getGiverSection())
                 .withReceiverSection(comment.getReceiverSection())
+                .withCommentGiverType(comment.getCommentGiverType())
                 .withLastEditorEmail(comment.getLastEditorEmail())
                 .withLastEditedAt(comment.getLastEditedAt())
                 .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
                 .withShowCommentTo(comment.getShowCommentTo())
                 .withShowGiverNameTo(comment.getShowGiverNameTo())
+                .withCommentFromFeedbackParticipant(comment.getIsCommentFromFeedbackParticipant())
                 .build();
     }
 
@@ -77,8 +91,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * <li>{@code isVisibilityFollowingFeedbackQuestion = true}</li>
      * </ul>
      */
-    public static Builder builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
-        return new Builder(courseId, feedbackSessionName, giverEmail, commentText);
+    public static Builder builder(String courseId, String feedbackSessionName, String commentGiver, String commentText) {
+        return new Builder(courseId, feedbackSessionName, commentGiver, commentText);
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
@@ -87,6 +101,43 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     public Long getId() {
         return feedbackResponseCommentId;
+    }
+
+    /**
+     * Converts comment text in form of string for csv i.e if it contains image, changes it into link.
+     *
+     * @return Comment in form of string
+     */
+    public String getCommentAsCsvString() {
+        String htmlText = commentText;
+        StringBuilder comment = new StringBuilder(200);
+        comment.append(Jsoup.parse(htmlText).text());
+        convertImageToLinkInComment(comment, htmlText);
+        return SanitizationHelper.sanitizeForCsv(comment.toString());
+    }
+
+    /**
+     * Converts comment text in form of string.
+     *
+     * @return Comment in form of string
+     */
+    public String getCommentAsHtmlString() {
+        String htmlText = commentText;
+        StringBuilder comment = new StringBuilder(200);
+        comment.append(Jsoup.parse(htmlText).text());
+        convertImageToLinkInComment(comment, htmlText);
+        return SanitizationHelper.sanitizeForHtml(comment.toString());
+    }
+
+    // Converts image in comment text to link.
+    private void convertImageToLinkInComment(StringBuilder comment, String htmlText) {
+        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
+            comment.append(" Images Link: ");
+            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
+            for (Element element : ele) {
+                comment.append(element.absUrl("src") + ' ');
+            }
+        }
     }
 
     /**
@@ -105,7 +156,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForEmail(giverEmail), errors);
+        addNonEmptyError(validator.getInvalidityInfoForCommentGiverType(commentGiverType), errors);
+
+        addNonEmptyError(validator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
+                isCommentFromFeedbackParticipant, isVisibilityFollowingFeedbackQuestion), errors);
 
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
@@ -114,14 +168,15 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public FeedbackResponseComment toEntity() {
-        return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
-                showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
+        return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, commentGiver,
+                commentGiverType, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
+                showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt, isCommentFromFeedbackParticipant,
+                isVisibilityFollowingFeedbackQuestion);
     }
 
     @Override
     public String getIdentificationString() {
-        return toString();
+        return feedbackResponseId + "/" + createdAt + ":" + commentGiver;
     }
 
     @Override
@@ -146,18 +201,25 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public String toString() {
-        //TODO: print visibilityOptions also
         return "FeedbackResponseCommentAttributes ["
                 + "feedbackResponseCommentId = " + feedbackResponseCommentId
                 + ", courseId = " + courseId
                 + ", feedbackSessionName = " + feedbackSessionName
                 + ", feedbackQuestionId = " + feedbackQuestionId
-                + ", giverEmail = " + giverEmail
+                + ", commentGiver = " + commentGiver
                 + ", feedbackResponseId = " + feedbackResponseId
-                + ", commentText = " + commentText.getValue()
+                + ", commentText = " + commentText
                 + ", createdAt = " + createdAt
                 + ", lastEditorEmail = " + lastEditorEmail
-                + ", lastEditedAt = " + lastEditedAt + "]";
+                + ", lastEditedAt = " + lastEditedAt
+                + ", giverSection = " + giverSection
+                + ", receiverSection = " + receiverSection
+                + ", showCommentTo = " + showCommentTo
+                + ", showGiverNameTo = " + showGiverNameTo
+                + ", commentGiverType = " + commentGiverType
+                + ", isVisibilityFollowingFeedbackQuestion = " + isVisibilityFollowingFeedbackQuestion
+                + ", isCommentFromFeedbackParticipant = " + isCommentFromFeedbackParticipant
+                + "]";
     }
 
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
@@ -172,14 +234,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         private final FeedbackResponseCommentAttributes frca;
 
-        public Builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
+        public Builder(String courseId, String feedbackSessionName, String giverEmail, String commentText) {
             frca = new FeedbackResponseCommentAttributes();
 
             validateRequiredFields(courseId, feedbackSessionName, giverEmail, commentText);
 
             frca.courseId = courseId;
             frca.feedbackSessionName = feedbackSessionName;
-            frca.giverEmail = giverEmail;
+            frca.commentGiver = giverEmail;
             frca.commentText = commentText;
         }
 
@@ -215,7 +277,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withCreatedAt(Date createdAt) {
+        public Builder withCreatedAt(Instant createdAt) {
             if (createdAt != null) {
                 frca.createdAt = createdAt;
             }
@@ -225,12 +287,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         public Builder withLastEditorEmail(String lastEditorEmail) {
             frca.lastEditorEmail = lastEditorEmail == null
-                    ? frca.giverEmail
+                    ? frca.commentGiver
                     : lastEditorEmail;
             return this;
         }
 
-        public Builder withLastEditedAt(Date lastEditedAt) {
+        public Builder withLastEditedAt(Instant lastEditedAt) {
             frca.lastEditedAt = lastEditedAt == null
                     ? frca.createdAt
                     : lastEditedAt;
@@ -256,6 +318,16 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
+        public Builder withCommentGiverType(FeedbackParticipantType commentGiverType) {
+            frca.commentGiverType = commentGiverType;
+            return this;
+        }
+
+        public Builder withCommentFromFeedbackParticipant(boolean isCommentFromFeedbackParticipant) {
+            frca.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
+            return this;
+        }
+
         public FeedbackResponseCommentAttributes build() {
             return frca;
         }
@@ -266,5 +338,4 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             }
         }
     }
-
 }

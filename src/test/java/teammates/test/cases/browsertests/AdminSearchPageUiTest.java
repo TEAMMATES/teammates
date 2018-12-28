@@ -60,7 +60,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
 
         assertTrue(isPageTitleCorrect());
         assertTrue(isSearchPanelPresent());
-        searchPage.verifyStatus("Search key cannot be empty");
+        searchPage.waitForTextsForAllStatusMessagesToUserEquals("Search key cannot be empty");
 
         ______TS("search for student1");
 
@@ -86,7 +86,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
 
         assertTrue(isSearchPanelPresent());
         assertTrue(isSearchDataDisplayCorrect());
-        searchPage.verifyStatus("Total results found: 1");
+        searchPage.waitForTextsForAllStatusMessagesToUserEquals("Total results found: 1");
 
         ______TS("search for student name with special characters");
 
@@ -152,7 +152,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             }
             return true;
         }
-        searchPage.verifyStatus("No result found, please try again");
+        searchPage.waitForTextsForAllStatusMessagesToUserEquals("No result found, please try again");
         return true;
 
     }

@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.ProfilesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfileEditSaveAction;
@@ -171,7 +172,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private void verifyLogMessage(AccountAttributes student, StudentProfileEditSaveAction action,
                                   StudentProfileAttributes expectedProfile, boolean isMasquerade) {
-        expectedProfile.modifiedDate = action.account.studentProfile.modifiedDate;
+        StudentProfileAttributes actualAttr = ProfilesLogic.inst().getStudentProfile(student.googleId);
+        expectedProfile.modifiedDate = actualAttr.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + student.name + "|||" + student.googleId + "|||" + student.email
@@ -179,7 +181,11 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                   + ")</span> edited.<br>"
                                   + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
                                   + "|||/page/studentProfileEditSave";
-        AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
+        // ignore the minor difference in modifiedDate
+        String actualLogMessage = action.getLogMessage()
+                .replaceAll("(\"modifiedDate\": \").+(\")",
+                        "$1" + expectedProfile.modifiedDate.toString() + "$2");
+        AssertHelper.assertContainsRegex(expectedLogMessage, actualLogMessage);
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(

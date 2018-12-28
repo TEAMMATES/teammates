@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -36,28 +38,22 @@ public class BackDoorLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
 
         ______TS("null parameter");
-        try {
-            backDoorLogic.persistDataBundle(null);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> backDoorLogic.persistDataBundle(null));
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ipe.errorCode);
 
         ______TS("invalid parameters in an entity");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id", "valid course name", "UTC")
+                .builder("invalid id", "valid course name", ZoneId.of("UTC"))
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
-        try {
-            backDoorLogic.persistDataBundle(dataBundle);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            assertTrue(e.getMessage().equals(
-                    getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
-                            FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                            FieldValidator.COURSE_ID_MAX_LENGTH)));
-        }
+        ipe = assertThrows(InvalidParametersException.class, () -> backDoorLogic.persistDataBundle(dataBundle));
+        assertEquals(
+                getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                ipe.getMessage());
 
         // Not checking for invalid values in other entities because they
         // should be checked at lower level methods

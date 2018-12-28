@@ -2,7 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -29,7 +29,7 @@ import teammates.storage.entity.AdminEmail;
  */
 public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> {
 
-    public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
+    public Instant createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
             AdminEmail ae = createEntity(adminEmailToAdd);
             return ae.getCreateDate();
@@ -124,15 +124,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     }
 
     /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     */
-    @Deprecated
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return makeAttributes(getAdminEmailEntities());
-    }
-
-    /**
      * Gets an admin email by email id.
      * @return null if no matched email found
      */
@@ -144,7 +135,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * Gets an admin email by subject and createDate.
      * @return null if no matched email found
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
+    public AdminEmailAttributes getAdminEmail(String subject, Instant createDate) {
         return makeAttributesOrNull(getAdminEmailEntity(subject, createDate));
     }
 
@@ -189,10 +180,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
                 load().filter("isInTrashBin =", true).list());
     }
 
-    private List<AdminEmail> getAdminEmailEntities() {
-        return load().list();
-    }
-
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
 
@@ -204,7 +191,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
         return ofy().load().key(key).now();
     }
 
-    private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
+    private AdminEmail getAdminEmailEntity(String subject, Instant createDate) {
         return load()
                 .filter("subject =", subject)
                 .filter("createDate =", createDate)
@@ -226,8 +213,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
         }
 
-        return getAdminEmailEntity(adminEmailToGet.getSubject(),
-                                   adminEmailToGet.getCreateDate());
+        return getAdminEmailEntity(adminEmailToGet.getSubject(), adminEmailToGet.getCreateDate());
     }
 
     @Override

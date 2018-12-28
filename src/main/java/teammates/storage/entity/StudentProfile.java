@@ -1,6 +1,6 @@
 package teammates.storage.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
@@ -9,6 +9,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
 /**
@@ -36,13 +37,14 @@ public class StudentProfile extends BaseEntity {
     /* only accepts "male", "female" or "other" */
     private String gender;
 
-    /* must be html sanitized before saving */
+    @Unindex
     private Text moreInfo;
 
     private BlobKey pictureKey;
 
     @Index
-    private Date modifiedDate;
+    @Translate(InstantTranslatorFactory.class)
+    private Instant modifiedDate;
 
     @SuppressWarnings("unused")
     private StudentProfile() {
@@ -70,7 +72,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
+                          String nationality, String gender, String moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -78,7 +80,7 @@ public class StudentProfile extends BaseEntity {
         this.setNationality(nationality);
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
-        this.setModifiedDate(new Date());
+        this.setModifiedDate(Instant.now());
         this.setPictureKey(pictureKey);
     }
 
@@ -89,9 +91,9 @@ public class StudentProfile extends BaseEntity {
         this.setInstitute("");
         this.setNationality("");
         this.setGender("other");
-        this.setMoreInfo(new Text(""));
+        this.setMoreInfo("");
         this.setPictureKey(new BlobKey(""));
-        this.setModifiedDate(new Date());
+        this.setModifiedDate(Instant.now());
     }
 
     public String getGoogleId() {
@@ -143,12 +145,12 @@ public class StudentProfile extends BaseEntity {
         this.gender = gender;
     }
 
-    public Text getMoreInfo() {
-        return this.moreInfo;
+    public String getMoreInfo() {
+        return this.moreInfo == null ? null : this.moreInfo.getValue();
     }
 
-    public void setMoreInfo(Text moreInfo) {
-        this.moreInfo = moreInfo;
+    public void setMoreInfo(String moreInfo) {
+        this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
     }
 
     public BlobKey getPictureKey() {
@@ -159,11 +161,11 @@ public class StudentProfile extends BaseEntity {
         this.pictureKey = pictureKey;
     }
 
-    public Date getModifiedDate() {
+    public Instant getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
+    public void setModifiedDate(Instant modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

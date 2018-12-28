@@ -1,11 +1,9 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -37,11 +35,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      *
      * <p>This is set to null to represent a missing response.
      */
-    public Text responseMetaData;
+    public String responseMetaData;
     public String giverSection;
     public String recipientSection;
-    protected transient Date createdAt;
-    protected transient Date updatedAt;
+    protected transient Instant createdAt;
+    protected transient Instant updatedAt;
     private String feedbackResponseId;
 
     public FeedbackResponseAttributes() {
@@ -51,7 +49,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
             FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
-            String recipient, String recipientSection, Text responseMetaData) {
+            String recipient, String recipientSection, String responseMetaData) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
@@ -101,11 +99,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.feedbackResponseId = feedbackResponseId;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
@@ -175,13 +173,13 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
         if (responseDetails == null) {
             // There was error extracting response data from http request
-            responseMetaData = new Text("");
+            responseMetaData = "";
         } else if (responseDetails.questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the answer simply contains the response text, not a JSON
             // This is due to legacy data in the data store before there were multiple question types
-            responseMetaData = new Text(responseDetails.getAnswerString());
+            responseMetaData = responseDetails.getAnswerString();
         } else {
-            responseMetaData = new Text(JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass()));
+            responseMetaData = JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass());
         }
     }
 
@@ -200,9 +198,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
-            return new FeedbackTextResponseDetails(responseMetaData.getValue());
+            return new FeedbackTextResponseDetails(responseMetaData);
         }
-        return JsonUtils.fromJson(responseMetaData.getValue(), responseDetailsClass);
+        return JsonUtils.fromJson(responseMetaData, responseDetailsClass);
     }
 
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object

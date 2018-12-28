@@ -61,7 +61,7 @@ public final class GoogleCloudStorageHelper {
      * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
      */
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
-        GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
+        GcsFilename gcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, googleId);
         try (GcsOutputChannel outputChannel =
                 GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
                 .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build())) {
@@ -70,7 +70,7 @@ public final class GoogleCloudStorageHelper {
         }
 
         return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
+                .createGsBlobKey("/gs/" + Config.PRODUCTION_GCS_BUCKETNAME + "/" + googleId).getKeyString();
     }
 
     /**
@@ -81,7 +81,7 @@ public final class GoogleCloudStorageHelper {
     public static String getNewUploadUrl(String callbackUrl) {
         UploadOptions uploadOptions =
                 UploadOptions.Builder.withDefaults()
-                             .googleStorageBucketName(Config.GCS_BUCKETNAME)
+                             .googleStorageBucketName(Config.PRODUCTION_GCS_BUCKETNAME)
                              .maxUploadSizeBytes(Const.SystemParams.MAX_FILE_LIMIT_FOR_BLOBSTOREAPI);
 
         return BlobstoreServiceFactory.getBlobstoreService()

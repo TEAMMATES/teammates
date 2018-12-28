@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseStudentDetails / instructorStudentRecords - More Info Modal & Panel" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -28,7 +29,7 @@
       <div class="panel-body">
         <span data-toggle="modal" data-target="#studentProfileMoreInfo"
             class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-        <h5>More Info </h5>
+        <h4 class="text-bold">More Info:</h4>
         <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
         <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : fn:escapeXml(student.moreInfo)}</p>
       </div>

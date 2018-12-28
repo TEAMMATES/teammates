@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResultsTop - Feedback Session Information Table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
@@ -21,7 +22,13 @@
             <div class="col-lg-8">
               <p class="form-control-static">${sessionPanel.feedbackSessionName}
                 <c:if test="${not empty sessionPanel.editLink}">
-                  <a href="${sessionPanel.editLink}">[Edit]</a>
+                  <a href="${sessionPanel.editLink}"
+                      id="edit_icon_button"
+                      data-original-title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
+                      data-placement="top"
+                      data-toggle="tooltip">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </a>
                 </c:if>
               </p>
             </div>

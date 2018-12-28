@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="responseTable.tag - Responses given to a particular recipient" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -20,7 +21,14 @@
     <td>
       <ul class="list-group comment-list">
         <c:forEach items="${response.comments}" var="comment">
-          <shared:feedbackResponseCommentRow frc="${comment}" />
+          <c:choose>
+            <c:when test="${comment.commentFromFeedbackParticipant}">
+              <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${comment}"/>
+            </c:when>
+            <c:otherwise>
+              <shared:feedbackResponseCommentRow frc="${comment}" />
+            </c:otherwise>
+          </c:choose>
         </c:forEach>
       </ul>
     </td>

@@ -1,6 +1,6 @@
 package teammates.test.cases.browsertests;
 
-import java.util.Calendar;
+import java.time.Instant;
 
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
@@ -69,17 +69,15 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertEquals(2, logPage.getNumberOfTableHeaders());
 
         ______TS("content: ensure default search period is not more than one day");
-        Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-        assertTrue(logPage.getDateOfEarliestLog()
-                                        .after(yesterday.getTime()));
+        Instant yesterday = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        assertTrue(logPage.getDateOfEarliestLog().isAfter(yesterday));
 
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
-        assertTrue(logPage.getStatus().contains("The earliest log entry checked on"));
-        assertTrue(logPage.getStatus().contains("in Admin Time Zone"));
-        assertTrue(logPage.getStatus().contains("in Local Time Zone")
-                   || logPage.getStatus().contains("Local Time Unavailable"));
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
+        assertTrue(statusMessageText.contains("The earliest log entry checked on"));
+        assertTrue(statusMessageText.contains("in Admin Time Zone"));
+        assertTrue(statusMessageText.contains("in Local Time Zone")
+                   || statusMessageText.contains("Local Time Unavailable"));
     }
 
     private void testViewActionsLink() {
@@ -91,17 +89,14 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
             logPage.clickViewActionsButtonOfFirstEntry();
             String actualPersonInfo = logPage.getFilterBoxString();
             assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);
-        } catch (NoSuchElementException exceptionFromEmptyLogs) {
+        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             /*
-             * This can happen if this test is run right after the server is started.
-             * In this case, no view actions can be done.
-             */
-            ignorePossibleException();
-        } catch (IndexOutOfBoundsException exceptionFromInvisibleTmtLogs) {
-            /*
-             * This can happen if all the log entries are from test accounts
+             * NoSuchElementException can happen if this test is run right after the server is started.
+             *
+             * IndexOutOfBoundsException can happen if all the log entries are from test accounts
              * (i.e emails ending with .tmt) because they are invisible.
-             * In this case, no view actions can be done.
+             *
+             * In either case, no view actions can be done.
              */
             ignorePossibleException();
         }
@@ -120,8 +115,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         logPage.fillQueryBoxWithText("role:instructor");
         logPage.clickSearchSubmitButton();
-
-        assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
+        assertTrue(statusMessageText.contains("Total Logs gone through in last search:"));
 
     }
 
@@ -140,12 +135,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
 
-        try {
-            browser.driver.switchTo().alert();
-            signalFailureToDetectException("Script managed to get injected");
-        } catch (NoAlertPresentException e) {
-            // this is what we expect, since we expect the script injection to fail
-        }
+        // Expect no alert to appear since the script injection should fail
+        assertThrows(NoAlertPresentException.class, () -> browser.driver.switchTo().alert());
     }
 
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {

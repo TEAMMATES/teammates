@@ -22,6 +22,9 @@ import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
 public class StudentFeedbackResultsPageData extends PageData {
+
+    private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
+
     private FeedbackSessionResultsBundle bundle;
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
@@ -165,12 +168,12 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResultsResponse> responses = new ArrayList<>();
 
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-        String recipientName = recipientNameParam;
+        String recipientName = removeAnonymousHash(recipientNameParam);
         for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(response);
             String displayedGiverName;
 
-            /* Change display name to 'You' or 'Your team' if necessary */
+            /* Change display name to 'You' or 'Your team' or 'Anonymous student' if necessary */
             boolean isUserGiver = student.email.equals(response.giver);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
@@ -178,7 +181,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             } else if (isUserGiver) {
                 displayedGiverName = "You";
             } else {
-                displayedGiverName = giverName;
+                displayedGiverName = removeAnonymousHash(giverName);
             }
 
             boolean isUserRecipient = student.email.equals(response.recipient);
@@ -189,8 +192,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
 
             String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
-            List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
-                                                                                          response.getId());
+            List<FeedbackResponseCommentRow> comments =
+                    createStudentFeedbackResultsResponseComments(response.getId(), question);
 
             responses.add(new FeedbackResultsResponse(displayedGiverName, answer, comments));
         }
@@ -202,16 +205,14 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
-    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
-                                                                               String feedbackResponseId) {
-
+    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(String feedbackResponseId,
+            FeedbackQuestionAttributes question) {
         List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
-
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
-                        bundle.getTimeZone()));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.commentGiver,
+                        bundle.commentGiverEmailToNameTable, bundle.getTimeZone(), question));
             }
         }
         return comments;
@@ -234,5 +235,11 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
         }
         return responsesForRecipient;
+    }
+
+    @Deprecated // The anonymous identifier hash is slated for complete removal
+    private String removeAnonymousHash(String identifier) {
+        return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                        + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
     }
 }

@@ -121,9 +121,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         List<String> subQuestions = fqd.getRubricSubQuestions();
         List<String> rubricChoices = fqd.getRubricChoices();
 
-        for (int i = 0; i < rubricChoices.size(); i++) {
+        for (String rubricChoice : rubricChoices) {
             tableHeaderHtml.append("<th class=\"text-center\">");
-            tableHeaderHtml.append(rubricChoices.get(i));
+            tableHeaderHtml.append(rubricChoice);
             tableHeaderHtml.append("</th>");
         }
 

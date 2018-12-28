@@ -47,17 +47,7 @@
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
       "email": "CSListUiT.normal@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
-      "studentProfile": {
-        "googleId": "student1InTestingSanitizationCourse",
-        "shortName": "Stud1<script> alert('hi!'); </script>",
-        "email": "weird&'@gmail.tmt",
-        "institute": "inst<script> alert('hi!'); </script>",
-        "nationality": "American",
-        "gender": "other",
-        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-        "pictureKey": ""
-      }
+      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -82,7 +72,7 @@
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
-      "createdAt": "2012-04-01 11:58 PM UTC",
+      "createdAt": "2012-04-01T23:58:00Z",
       "id": "CSListUiT.idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
@@ -241,7 +231,7 @@
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
-      "displayedName": "inst<script>alert('hi!');</script>",
+      "displayedName": "inst'\"/><script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -361,5 +351,16 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {
+    "student1InTestingSanitizationCourse": {
+      "googleId": "student1InTestingSanitizationCourse",
+      "shortName": "Stud1<script> alert('hi!'); </script>",
+      "email": "weird&'@gmail.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "nationality": "American",
+      "gender": "other",
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "pictureKey": ""
+    }
+  }
 }

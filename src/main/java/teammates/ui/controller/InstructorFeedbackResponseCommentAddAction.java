@@ -1,9 +1,7 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -16,7 +14,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * Action: Create a new {@link FeedbackResponseCommentAttributes}.
@@ -47,8 +45,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
+        FeedbackResponseCommentAjaxPageData data =
+                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         String giverEmail = response.giver;
         String recipientEmail = response.recipient;
@@ -73,15 +71,18 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .builder(courseId, feedbackSessionName, instructor.email, commentText)
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
-                .withCreatedAt(new Date())
+                .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withCommentFromFeedbackParticipant(false)
+                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withVisibilityFollowingFeedbackQuestion(false)
                 .build();
 
-        //Set up visibility settings
+        // Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
         feedbackResponseComment.showCommentTo = new ArrayList<>();
@@ -114,9 +115,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
-                           + "by: " + feedbackResponseComment.giverEmail + " at "
+                           + "by: " + feedbackResponseComment.commentGiver + " at "
                            + feedbackResponseComment.createdAt + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "comment text: " + feedbackResponseComment.commentText;
         }
 
         if (createdComment == null) {
@@ -129,7 +130,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
         data.comment = createdComment;
         data.commentId = commentId;
-        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.commentGiverNameToEmailTable = bundle.commentGiverEmailToNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
         data.sessionTimeZone = session.getTimeZone();
 

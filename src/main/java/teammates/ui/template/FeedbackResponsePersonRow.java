@@ -13,11 +13,11 @@ public class FeedbackResponsePersonRow {
 
     public FeedbackResponsePersonRow(int fbIndex, int personIndex, String personName, String personType,
                                      List<FeedbackResponseAttributes> responses,
-                                     FeedbackSessionResultsBundle results) {
+                                     FeedbackSessionResultsBundle results, Boolean showPcRow) {
         this.personName = personName;
         this.responses = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
-            this.responses.add(new FeedbackResponseRow(fbIndex, personIndex, personType, response, results));
+            this.responses.add(new FeedbackResponseRow(fbIndex, personIndex, personType, response, results, showPcRow));
         }
     }
 

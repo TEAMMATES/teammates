@@ -9,8 +9,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.1/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.1/skins/lightgray/content.inline.min.css" id="u1" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.13/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.13/skins/lightgray/content.inline.min.css" id="u1" rel="stylesheet" type="text/css">
 </head>
 <body class="modal-open" spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -129,8 +129,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Mon, 02 Apr 2035, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2035-04-02T15:59:00Z">
+                  Mon, 02 Apr 2035, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -139,8 +139,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="2035-04-30T15:59:00Z" id="end-time">
-                  Mon, 30 Apr 2035, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2035-04-30T15:59:00Z" id="end-time">
+                  Mon, 30 Apr 2035, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -165,8 +165,9 @@
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Question 1:
-          <br>
+          <b>
+            Question 1:
+          </b>
           <span class="text-preserve-space">
             Give feedback to your instructors
           </span>
@@ -180,7 +181,9 @@
               The receiving instructors can see your response, and your name.
             </li>
           </ul>
-          <div class="col-sm-12 form-inline mobile-align-left">
+          <div class="constraints-1">
+          </div>
+          <div class="evalueeLabel-1 form-inline mobile-align-left">
             <label for="input" style="text-indent: 24px">
               <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
                 Evaluee/Recipient
@@ -189,8 +192,8 @@
           </div>
           <br>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -212,7 +215,7 @@
                   Teammates Test2
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false">
@@ -240,8 +243,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-1" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -263,7 +266,7 @@
                   Teammates Test3
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-1" data-recommended-text="0" id="responsetext-1-1" name="responsetext-1-1" spellcheck="false">
@@ -291,8 +294,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-2" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -314,7 +317,7 @@
                   Teammates Test4
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-2" data-recommended-text="0" id="responsetext-1-2" name="responsetext-1-2" spellcheck="false">
@@ -342,8 +345,8 @@
             </div>
           </div>
           <br>
-          <div class="form-group margin-0">
-            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+          <div class="evalueeForm-1 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-3" style="display:none;max-width:125px">
                   <option selected="" value="">
@@ -365,7 +368,7 @@
                   Teammates Test5
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-3" data-recommended-text="0" id="responsetext-1-3" name="responsetext-1-3" spellcheck="false">
@@ -398,7 +401,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input name="sendsubmissionemail" type="checkbox">
+      <input checked="" name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
       <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit">
         Submit Feedback
@@ -451,7 +454,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="https://cdn.jsdelivr.net/npm/tinymce@4.7.1/tinymce.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/tinymce@4.7.13/tinymce.min.js" type="text/javascript">
 </script>
 <script src="/js/feedbackSubmissionsEdit.js" type="text/javascript">
 </script>

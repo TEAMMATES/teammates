@@ -27,8 +27,9 @@
               <div class="col-lg-8">
                 <p class="form-control-static">
                   Second Session
-                  <a href="/page/instructorFeedbackEditPage?courseid=FRubricQnUiT.CS2104&fsname=Second+Session&editsessiondetails=true&user=FRubricQnUiT.instructor">
-                    [Edit]
+                  <a data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=FRubricQnUiT.CS2104&fsname=Second+Session&editsessiondetails=true&user=FRubricQnUiT.instructor" id="edit_icon_button">
+                    <span class="glyphicon glyphicon-edit">
+                    </span>
                   </a>
                 </p>
               </div>
@@ -41,11 +42,11 @@
               </label>
               <div class="col-lg-8">
                 <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM   
+                  Sun, 01 Apr 2012, 11:59 PM SAST   
                   <b>
                     to
                   </b>
-                     Thu, 30 Apr 2026, 11:59 PM
+                     Thu, 30 Apr 2026, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -55,7 +56,7 @@
               </label>
               <div class="col-lg-8">
                 <p class="form-control-static">
-                  Tue, 01 May 2012, 11:59 PM
+                  Tue, 01 May 2012, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -1319,6 +1320,16 @@
                 (Select the student(s) you want to remind)
               </small>
             </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group" id="studentList">

@@ -1,16 +1,9 @@
-<div class="col-sm-6 width-auto">
+<div id="constSumSubmissionFormOptionFragment-${questionIndex}" class="col-sm-6 width-auto">
   ${constSumSubmissionFormOptionFragments}
-</div>
-<div id="constSumInfo-${questionIndex}-${responseIndex}" class="form-group" ${constSumOptionVisibility}>
-  <div class="col-sm-6 text-center" style="clear: both;">
-    <hr class="margin-top-0">
-    <p class="text-color-blue" id="constSumMessage-${questionIndex}-${responseIndex}">
-    </p>
-    <hr>
-  </div>
 </div>
 <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${questionIndex}" value="${constSumToRecipientsValue}">
 <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}-${questionIndex}" value="${constSumPointsPerOptionValue}">
 <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}-${questionIndex}" value="${constSumNumOptionValue}">
 <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionIndex}" value="${constSumPointsValue}">
 <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}-${questionIndex}" value="${constSumUnevenDistributionValue}">
+<input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS}-${questionIndex}" value="${distributePointsForValue}">

@@ -1,5 +1,7 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.util.FieldValidator" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="form-group">
@@ -10,6 +12,7 @@
       id="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
       type="text"
       name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
+      maxlength="<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>"
       value="${data.fsName}">
 </div>
 

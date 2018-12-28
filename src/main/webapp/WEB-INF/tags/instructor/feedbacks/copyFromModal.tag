@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks  - Copy From Another FS modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -42,7 +43,7 @@
             <input class="form-control" type="text"
                 name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
                 id="modalCopiedSessionName"
-                maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
+                maxlength="<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>"
                 value="${copyFromModal.fsName}"
                 placeholder="e.g. Feedback for Project Presentation 1">
           </div>

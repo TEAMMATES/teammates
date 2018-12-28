@@ -4,6 +4,7 @@ import {
 } from '../common/const';
 
 import {
+    initializeTimeZoneOptions,
     prepareInstructorPages,
 } from '../common/instructor';
 
@@ -16,10 +17,6 @@ import {
     clearStatusMessages,
     setStatusMessage,
 } from '../common/statusMessage';
-
-import {
-    TimeZone,
-} from '../common/timezone';
 
 let isFetchingCourses = false;
 let needsRetrying = false;
@@ -59,6 +56,33 @@ function linkAjaxForCourseStats() {
         });
     };
     $('td[id^="course-stats"] > a').click(courseStatsClickHandler);
+}
+
+function bindCollapseEvents() {
+    const tables = $('div.courses-tables');
+    const panels = $(tables[0]).children('.panel');
+    const heading = $(panels[0]).children('.panel-heading');
+    const bodyCollapse = $(panels[0]).children('.panel-collapse');
+    if (heading.length !== 0 && bodyCollapse.length !== 0) {
+        $(heading[0]).attr('data-target', '#softDeletedPanelBodyCollapse');
+        $(heading[0]).attr('id', 'softDeletedPanelHeading');
+        $(heading[0]).css('cursor', 'pointer');
+        $(bodyCollapse[0]).attr('id', 'softDeletedPanelBodyCollapse');
+    }
+
+    $(heading[0]).click((e) => {
+        if ($(e.target).hasClass('ajax_submit')) {
+            const toggleChevronDown = $(panels[0]).find('.glyphicon-chevron-down');
+            const toggleChevronUp = $(panels[0]).find('.glyphicon-chevron-up');
+            if (toggleChevronDown.length === 0) {
+                $(bodyCollapse).collapse('toggle');
+                $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+            } else {
+                $(bodyCollapse).collapse('toggle');
+                $(toggleChevronDown[0]).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+            }
+        }
+    });
 }
 
 $(document).ready(() => {
@@ -109,15 +133,13 @@ $(document).ready(() => {
                         .html(appendedCoursesTable);
                 toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
+
+                bindCollapseEvents();
             },
         });
     };
     $('#ajaxForCourses').submit(ajaxRequest);
     $('#ajaxForCourses').trigger('submit');
 
-    if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
-        TimeZone.prepareTimeZoneInput($selectElement);
-        TimeZone.autoDetectAndUpdateTimeZone($selectElement);
-    }
+    initializeTimeZoneOptions($(`#${ParamsNames.COURSE_TIME_ZONE}`));
 });

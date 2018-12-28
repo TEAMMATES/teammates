@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -7,7 +8,7 @@
 
 <c:set var="jsIncludes">
   <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-  <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
+  <script type="text/javascript" src="/data/moment-timezone-with-data.min.js"></script>
   <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
 </c:set>
 
@@ -20,7 +21,7 @@
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <div class="pull-right">
-    <a href="/instructorHelp.jsp#editCourse" class="small" target="_blank" rel="noopener noreferrer">
+    <a href="/instructorHelp.jsp#course-instructor-access" class="small" target="_blank" rel="noopener noreferrer">
       <span class="glyphicon glyphicon-info-sign"></span>
       More about configuring access permissions
     </a>
@@ -32,6 +33,7 @@
       addInstructorButton="${data.addInstructorButton}"
       courseId="${data.course.id}"
       addInstructorPanel="${data.addInstructorPanel}"
+      addInstructorCancelButton="${data.addInstructorPanel.cancelAddInstructorButton}"
   />
   <course:courseEditInstructorRoleModal />
   <br>

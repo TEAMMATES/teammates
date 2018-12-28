@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +17,7 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Student Details</h1>");
+        return getPageSource().contains("Enrollment Details");
     }
 
     public void verifyIsCorrectPage(String email) {

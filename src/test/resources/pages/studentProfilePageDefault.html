@@ -33,12 +33,12 @@
     <div class="collapse navbar-collapse" id="contentLinks">
       <ul class="nav navbar-nav">
         <li>
-          <a class="navLinks" href="/page/studentHomePage?user=SHomeUiT.benny.c" id="studentHomeNavLink">
+          <a class="navLinks" href="/page/studentHomePage?user=SProfileUiT.benny.c" id="studentHomeNavLink">
             Home
           </a>
         </li>
         <li class="active">
-          <a class="navLinks" href="/page/studentProfilePage?user=SHomeUiT.benny.c" id="studentProfileNavLink">
+          <a class="navLinks" href="/page/studentProfilePage?user=SProfileUiT.benny.c" id="studentProfileNavLink">
             Profile
           </a>
         </li>
@@ -52,8 +52,8 @@
         <li>
           <a class="nav logout" href="/logout" id="btnLogout">
             Logout (
-            <span class="text-info tool-tip-decorate" data-original-title="SHomeUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
-              SHomeUiT.benny.c
+            <span class="text-info tool-tip-decorate" data-original-title="SProfileUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
+              SProfileUiT.benny.c
             </span>
             )
           </a>
@@ -100,7 +100,7 @@
                   <button class="btn btn-primary width-100-pc" disabled="" id="profileUploadPictureSubmit" type="button">
                     Upload Picture
                   </button>
-                  <input name="user" type="hidden" value="SHomeUiT.benny.c">
+                  <input name="user" type="hidden" value="SProfileUiT.benny.c">
                 </form>
               </div>
             </div>
@@ -124,10 +124,10 @@
     </h3>
     <br>
     <div class="form-group row">
-      <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
+      <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer">
         <img class="profile-pic" data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/images/profile_picture_default.png">
       </div>
-      <div class="">
+      <div class="col-xs-6 col-sm-5 col-md-3" data-original-title="Upload a profile picture (.jpg or .png, max size 5 MB)" data-placement="top" data-toggle="tooltip" title="">
         <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
           Upload/Edit Photo
         </button>
@@ -799,7 +799,7 @@
           * This profile will be visible to all your Instructors and Coursemates
         </i>
       </p>
-      <input name="user" type="hidden" value="SHomeUiT.benny.c">
+      <input name="user" type="hidden" value="SProfileUiT.benny.c">
       <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>

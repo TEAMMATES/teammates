@@ -100,7 +100,9 @@ public class InstructorCourseEditPageData extends PageData {
                                                                           instructorIndex, instructor,
                                                                           sectionNames, feedbackNames);
 
-        if (instructor != null) {
+        if (instructor == null) {
+            instructorPanel.setCancelAddInstructorButton(createCancelAddInstructorButton());
+        } else {
             int panelIndex = instructorPanel.getIndex();
             boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
@@ -173,11 +175,11 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonId = "courseDeleteLink";
         String href = getInstructorCourseDeleteLink(course.getId(), false);
 
-        ElementTag button = createBasicButton(buttonContent, buttonId, href, Const.Tooltips.COURSE_DELETE,
+        ElementTag button = createBasicButton(buttonContent, buttonId, href, Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN,
                                               isDisabled);
         button.setAttribute("data-course-id", course.getId());
         String existingClasses = button.removeAttribute("class");
-        button.setAttribute("class", existingClasses + " course-delete-link");
+        button.setAttribute("class", existingClasses);
 
         return button;
     }
@@ -223,6 +225,14 @@ public class InstructorCourseEditPageData extends PageData {
 
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_EDIT,
                                  isDisabled);
+    }
+
+    private ElementTag createCancelAddInstructorButton() {
+        String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+        String buttonId = "cancelAddInstructorLink";
+
+        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_ADD,
+                false);
     }
 
     /**

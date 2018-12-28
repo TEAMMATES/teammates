@@ -8,123 +8,14 @@
     </small>
   </h1>
   <br>
-  <div id="statusMessagesToUser" style="display: none;">
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-warning icon-warning statusMessage">
+      Normally, we would show the student’s profile here. However, this student has not created a profile yet
+    </div>
   </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="row" id="studentProfile">
-          <div class="col-md-2 col-xs-3 block-center">
-            <img class="profile-pic pull-right" src="/images/profile_picture_default.png">
-          </div>
-          <div class="col-md-10 col-sm-9 col-xs-8">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th colspan="2">
-                    Profile
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-bold">
-                    Short Name (Gender)
-                  </td>
-                  <td>
-                    <i class="text-muted">
-                      Not Specified
-                    </i>
-                    (
-                    <i>
-                      <span class="text-muted">
-                        Not Specified
-                      </span>
-                    </i>
-                    )
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-bold">
-                    Personal Email
-                  </td>
-                  <td>
-                    <i class="text-muted">
-                      Not Specified
-                    </i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-bold">
-                    Institution
-                  </td>
-                  <td>
-                    <i class="text-muted">
-                      Not Specified
-                    </i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-bold">
-                    Nationality
-                  </td>
-                  <td>
-                    <i class="text-muted">
-                      Not Specified
-                    </i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentProfileMoreInfo" role="dialog">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-              ×
-            </button>
-            <h4 class="modal-title">
-              student1 In Course1&lt;/td&gt;&lt;/div&gt;'"'s Profile - More Info
-            </h4>
-          </div>
-          <div class="modal-body">
-            <br>
-            <p class="text-preserve-space height-fixed-md">
-              <i class="text-muted">
-                Not Specified
-              </i>
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" type="button">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <span class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer" data-target="#studentProfileMoreInfo" data-toggle="modal">
-            </span>
-            <h5>
-              More Info
-            </h5>
-            <p class="text-preserve-space height-fixed-md">
-              <i class="text-muted">
-                Not Specified
-              </i>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div class="col-md-12">
         <br>
@@ -717,6 +608,41 @@
                           </div>
                         </div>
                       </div>
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          Question 4:
+                          <span class="text-preserve-space">
+                            What do you like best about our product? 
+                            <span style=" white-space: normal;">
+                              <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-4-giver-1-session-0" onclick="toggleAdditionalQuestionInfo('4-giver-1-session-0')">
+                                [more]
+                              </a>
+                              <br>
+                              <span id="questionAdditionalInfo-4-giver-1-session-0" style="display:none;">
+                                Multiple-choice (single answer) question options:
+                                <ul style="list-style-type: disc;margin-left: 20px;">
+                                  <li>
+                                    It's good
+                                  </li>
+                                  <li>
+                                    It's perfect
+                                  </li>
+                                  <li>
+                                    Others
+                                  </li>
+                                </ul>
+                              </span>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="panel-body">
+                          <div style="clear:both; overflow: hidden">
+                            <div class="pull-left text-preserve-space">
+                              It's good
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <br>
@@ -802,6 +728,41 @@
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
                               Lecture notes
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          Question 4:
+                          <span class="text-preserve-space">
+                            What do you like best about our product? 
+                            <span style=" white-space: normal;">
+                              <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-4-recipient-1-session-0" onclick="toggleAdditionalQuestionInfo('4-recipient-1-session-0')">
+                                [more]
+                              </a>
+                              <br>
+                              <span id="questionAdditionalInfo-4-recipient-1-session-0" style="display:none;">
+                                Multiple-choice (single answer) question options:
+                                <ul style="list-style-type: disc;margin-left: 20px;">
+                                  <li>
+                                    It's good
+                                  </li>
+                                  <li>
+                                    It's perfect
+                                  </li>
+                                  <li>
+                                    Others
+                                  </li>
+                                </ul>
+                              </span>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="panel-body">
+                          <div style="clear:both; overflow: hidden">
+                            <div class="pull-left text-preserve-space">
+                              It's good
                             </div>
                           </div>
                         </div>

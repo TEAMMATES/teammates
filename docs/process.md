@@ -47,6 +47,12 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
 
 ### Step 2: Start clean from a new branch
 
+In most cases, you will start the PR from the `master` branch. There are scenarios where you are required to start from another branch instead:
+* You are creating a hot patch: start from the `release` branch.
+* You are working on a *long-lived feature branch* (a branch which contains multiple commits from possibly multiple authors, used for major feature development/refactoring): start from that branch.
+
+For brevity, this instruction set will use `master` branch as the base branch. Any reference to the `master` branch should be replaced with the base branch that applies to your case.
+
 1. Start off from your `master` branch and make sure it is up-to-date with the latest version of the main repo's `master` branch.
    ```sh
    git checkout master
@@ -79,6 +85,12 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      It is, however, a good idea to commit at meaningful points to keep your branch reasonably clean.
    * Use meaningful commit messages (e.g. `Add tests for the truncate method`).
      [Here](http://chris.beams.io/posts/git-commit/) is a good reference.
+   * If you introduce changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes"), a *data migration* is necessary to be done by the core team. If a data migration is necessary to take the issue forward:
+     * Make sure that the core team (or at least your reviewer) is aware of this.
+     * Follow [data migration best practices](https://github.com/TEAMMATES/teammates-ops/blob/master/best-practices.md#data-migration).
+     * Your changes should initially work for both the old and new versions of the data schema. It is fine if an unclean hack is necessary for the new code to work under the *old* data schema.
+     * Mark clearly in the code which parts are tailored specifically for the old data schema, *especially if an unclean hack is used*.
+     * Concurrently or immediately after the breaking changes are merged, you need to create a [client script](development.md#running-client-scripts) to migrate all data following the old schema to the new schema.
 
 1. Sync with the main repo frequently. While you were fixing the issue, others might have pushed new code to the main repo.
    * Update your repo's `master` branch with any new changes from main repo, then switch back to your work branch.
@@ -99,7 +111,6 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      git rebase master
      ```
    * If there are updates to the dependencies on the build configuration, you should update your local copies accordingly.
-     The details on the steps can be found on [this document](dependencies.md).
 
 1. <a name="things-to-check"></a>Before submitting your work for review, here are some things to check (non-exhaustive):
    * The code is **properly formatted for readability**.
@@ -136,27 +147,28 @@ Make the changes to the code, tests, and documentations as needed by the issue.
 ### Step 4: Submit a PR
 
 [Create a PR](https://help.github.com/articles/creating-a-pull-request/) with the following configuration:
-* The base branch is the main repo's `master` branch (except for hot patches in which it will be the `release` branch).
-* PR name: copy-and-paste the relevant issue name and include the issue number as well,
-  e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
+* The base branch is the main repo's `master` branch.
+* PR name: copy-and-paste the relevant issue name and include the issue number in front in square brackets,
+  e.g. `[#3942] Remove unnecessary System.out.printlns from Java files`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
+* Ensure that "Allow edits from maintainers" is ticked.
 * You are encouraged to describe the changes you have made in your branch and how they resolve the issue.
 
 It is not required that you submit a PR only when your work is ready for review;
 make it clear in the PR (e.g. in the description, in a comment, or as an `s.*` label) whether it is still a work-in-progress or is ready for review.
+
+**Note**: if the PR does not fix an issue completely, observe the following:
+* Use an appropriate PR name (at your discretion) instead of copying-and-pasting the relevant issue name.
+* Use `Part of #3942` as the PR description. Do NOT use any of the special keywords.
 
 ### Step 5: Following up
 
 Once a PR is opened, try and complete it within 2 weeks, or at least stay actively working on it.
 Inactivity for a long period may necessitate a closure of the PR.
 
-The following labels are used to indicate status of PRs:
-* `s.Ongoing`: the PR is being worked on
-* `s.ToReview`: the PR is waiting for review
-* `s.ToMerge`: reviewer has accepted the changes
-* `s.MergeApproved`: code quality reviewer has approved the merge; PR ready to be merged
-* `s.OnHold`: the work on the PR has been put on hold pending some other event; this label is to be used as needed
+Labels `s.*` (status labels) are used to indicate status of PRs.
+Their full descriptions can be viewed under the [labels page](https://github.com/TEAMMATES/teammates/labels).
 
 #### Code review
 
@@ -171,7 +183,7 @@ Your code will be reviewed, in this sequence, by:
   You can consult the CI log to find which tests.<br>
   Ensure that all tests pass before triggering another build.
   * The CI log will also contain the command that will enable running the failed tests locally.
-* Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.ToMerge`) or suggest changes (`s.Ongoing`).
+* Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.FinalReview`) or suggest changes (`s.Ongoing`).
   Feel free to add a comment if:
   * a reviewer is not assigned within 24 hours.
   * the PR does not get any review within 48 hours of review request.
@@ -186,14 +198,14 @@ You should make and push the updates to the same branch used in the PR, essentia
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
 If you have permission to change labels, you may additionally change the `s.*` PR label as appropriate.
 
-The cycle of "code review" - "updating the PR" will be repeated until your PR is approved by all the parties involved (`s.MergeApproved`).
+The cycle of "code review" - "updating the PR" will be repeated until your PR is approved by all the parties involved (`s.ToMerge`).
 
 ### Step 6: Prepare for merging
 
-The core team member responsible for merging your PR might contact you for reasons such as syncing your PR with the latest `master` branch or resolving merge conflicts.
+The core team member responsible for merging your PR might contact you for reasons such as resolving merge conflicts.
 Depending on the situation, this may necessitate more changes to be made in your PR (e.g. if your PR is functionally conflicting with a recent change), however this rarely happens.
 
-Your work on the issue is done when your PR is successfully merged to the main repo's `master` or `release` branch.
+Your work on the issue is done when your PR is successfully merged to the main repo's `master` branch.
 
 ## Reviewing a PR
 
@@ -209,48 +221,39 @@ Your work on the issue is done when your PR is successfully merged to the main r
   * Naming conventions for PR and branch are followed, and `Fixes #....` or similar keyword is present in the PR description.
   * The items in [this list](#things-to-check) are all satisfied.
   * The solution is the best possible solution to the problem under the circumstances.
-  * The code is up-to-date with the latest `master` branch, or at least no conflict.
-    If this is not the case, ask the dev to sync with it with the latest `master` branch.
+  * The code is up-to-date with the latest `master` branch (or whichever base branch applies), or at least no conflict.
+    If this is not the case, ask the dev to sync it.
 * If any of the above are not OK:
   * Add comments in the diff to suggest changes.
     Bundle the review comments with the "Start a review" and "Add review comment" features, and finish it with "Request changes", preferably with the review summary.
   * Change the status of the PR to `s.Ongoing`.
-* If the code is OK in all aspects, change the PR status to `s.ToMerge` and "Approve" the PR.
+* If the code is OK in all aspects, change the PR status to `s.FinalReview` and "Approve" the PR.
 
 **Role: Code quality reviewer**
 
 * Review the code for maintainability and style.
-* The follow-up action is the same as that of reviewers, with the only difference being the label to be applied is `s.MergeApproved`.
+* The follow-up action is the same as that of reviewers, with the only difference being the label to be applied is `s.ToMerge`.
 
 ## Merging a PR
 
 **Role: dev (with push permission), or reviewer**
 
-This instruction set will use the issue `Remove unnecessary System.out.printlns from Java files #3942`, resolved by PR `#3944`, as an example.
+This instruction set will use the issue `Remove unnecessary System.out.printlns from Java files #3942`, resolved by PR `#3944`, with `master` branch as the base branch, as an example.
 
-* Merging can be done anytime as long as the `s.MergeApproved` label is present and GitHub gives a green light for merging.
+* Merging can be done anytime as long as the `s.ToMerge` label is present and GitHub gives a green light for merging.
   There are a few scenarios where GitHub can prevent merging from proceeding:
   * **Merge conflict**: the PR is conflicting with the current `master` branch; the author will need to resolve the conflicts before proceeding.
-  * **Outdated branch**: the PR is not in sync with the current `master` branch; the author will need to sync it before proceeding.
+  * **Outdated branch**: the PR is not in sync with the current `master` branch. If the PR allows edits from maintainers, simply update the branch using the "Update branch" option; otherwise, the author will need to sync it themselves before proceeding.
 
-  The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
+  It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
   In general, unless the changeset is functionally conflicting, there is no need for another review.
 * When ready for merging,
-  * Checkout to the PR branch and test the code locally by running the "Local tests".
+  * Merge with ["Squash and merge"](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits) option. Format of the commit message:
 
-    ```sh
-    git checkout -b 3942-remove-unnecessary-println {remote-name}/3942-remove-unnecessary-println
     ```
-  * If green,
-    * Merge with ["Squash and merge"](https://github.com/blog/2141-squash-your-commits) option (preferable). Format of the commit message:
-
-      ```
-      [#Issue number] Issue title as given in the original issue (#PR number)
-      ```
-      e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
-    * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
-      and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
-      `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
-  * If not green,
-    * Change the PR status back to `s.Ongoing`.
-    * Add a comment to mention the test failure(s).
+    [#Issue number] Issue title as given in the original issue (#PR number)
+    ```
+    e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
+  * Where appropriate (e.g. merging a long-lived feature branch), the ["Rebase and merge"](https://help.github.com/articles/about-pull-request-merges/#rebase-and-merge-your-pull-request-commits) option can be used instead.
+  * Apply a `c.*` label to the PR to indicate the type of the PR, if it has not been done before.
+* If the PR necessitates a data migration, [create a data migration issue](https://github.com/TEAMMATES/teammates/issues/new?template=data-migration.md) after merging.

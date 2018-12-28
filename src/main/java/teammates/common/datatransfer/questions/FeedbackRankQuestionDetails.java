@@ -6,25 +6,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
+    static final transient int NO_VALUE = Integer.MIN_VALUE;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
-        minOptionsToBeRanked = Integer.MIN_VALUE;
-        maxOptionsToBeRanked = Integer.MIN_VALUE;
+        minOptionsToBeRanked = NO_VALUE;
+        maxOptionsToBeRanked = NO_VALUE;
     }
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
-        minOptionsToBeRanked = Integer.MIN_VALUE;
-        maxOptionsToBeRanked = Integer.MIN_VALUE;
+        minOptionsToBeRanked = NO_VALUE;
+        maxOptionsToBeRanked = NO_VALUE;
     }
 
     @Override
@@ -48,11 +50,12 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                         int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails);
+                        FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
 
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients);
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student);
 
     @Override
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);

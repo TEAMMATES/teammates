@@ -1,15 +1,14 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -34,16 +33,16 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private String frId = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").feedbackResponseId;
     private FeedbackResponseCommentAttributes anotherFrcaData =
             dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-    private ArrayList<FeedbackResponseCommentAttributes> frcasData = new ArrayList<>();
+    private List<FeedbackResponseCommentAttributes> frcasData = new ArrayList<>();
 
     @BeforeClass
     public void classSetup() throws Exception {
         frcDb.createEntity(frcaData);
         frcDb.createEntity(anotherFrcaData);
         frcaData = frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId,
-                                 frcaData.giverEmail, frcaData.createdAt);
+                                 frcaData.commentGiver, frcaData.createdAt);
         anotherFrcaData = frcDb.getFeedbackResponseComment(anotherFrcaData.feedbackResponseId,
-                                        anotherFrcaData.giverEmail, anotherFrcaData.createdAt);
+                                        anotherFrcaData.commentGiver, anotherFrcaData.createdAt);
         frcasData.add(frcaData);
         frcasData.add(anotherFrcaData);
     }
@@ -74,8 +73,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private void testEntityCreationAndDeletion() throws Exception {
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        frcaTemp.createdAt = new Date();
-        frcaTemp.commentText = new Text("test creation and deletion");
+        frcaTemp.createdAt = Instant.now();
+        frcaTemp.commentText = "test creation and deletion";
 
         ______TS("Entity creation");
 
@@ -92,17 +91,13 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        try {
-            frcDb.getFeedbackResponseComment(null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.getFeedbackResponseComment(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
         FeedbackResponseCommentAttributes frcaExpected =
-                frcDb.getFeedbackResponseComment(frcaData.courseId, frcaData.createdAt, frcaData.giverEmail);
+                frcDb.getFeedbackResponseComment(frcaData.courseId, frcaData.createdAt, frcaData.commentGiver);
 
         FeedbackResponseCommentAttributes frcaActual =
                 frcDb.getFeedbackResponseComment(frcaExpected.getId());
@@ -118,32 +113,23 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        try {
-            frcDb.getFeedbackResponseComment(null, "", new Date());
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseComment(null, "", Instant.now()));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            frcDb.getFeedbackResponseComment("", null, new Date());
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseComment("", null, Instant.now()));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            frcDb.getFeedbackResponseComment("", "", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseComment("", "", null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
         FeedbackResponseCommentAttributes frcaExpected = frcaData;
         FeedbackResponseCommentAttributes frca =
-                frcDb.getFeedbackResponseComment(frId, frcaExpected.giverEmail, frcaExpected.createdAt);
+                frcDb.getFeedbackResponseComment(frId, frcaExpected.commentGiver, frcaExpected.createdAt);
 
         // fill back the Ids
         frcaExpected.feedbackResponseId = frId;
@@ -154,7 +140,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("non-existent comment");
 
-        assertNull(frcDb.getFeedbackResponseComment("123", frca.giverEmail, frca.createdAt));
+        assertNull(frcDb.getFeedbackResponseComment("123", frca.commentGiver, frca.createdAt));
 
         ______TS("non-existent giver");
 
@@ -167,29 +153,23 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        try {
-            frcDb.getFeedbackResponseCommentForGiver(null, frcaData.giverEmail);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseCommentForGiver(null, frcaData.commentGiver));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            frcDb.getFeedbackResponseCommentForGiver(frcaData.courseId, null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseCommentForGiver(frcaData.courseId, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
         List<FeedbackResponseCommentAttributes> frcas =
-                frcDb.getFeedbackResponseCommentForGiver(frcaData.courseId, frcaData.giverEmail);
+                frcDb.getFeedbackResponseCommentForGiver(frcaData.courseId, frcaData.commentGiver);
         verifyListsContainSameResponseCommentAttributes(new ArrayList<>(frcasExpected), frcas);
 
         ______TS("non-existent course id");
 
-        frcas = frcDb.getFeedbackResponseCommentForGiver("idOfNonExistentCourse", frcaData.giverEmail);
+        frcas = frcDb.getFeedbackResponseCommentForGiver("idOfNonExistentCourse", frcaData.commentGiver);
         assertTrue(frcas.isEmpty());
 
         ______TS("non-existent giver");
@@ -213,31 +193,27 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        try {
-            frcDb.updateFeedbackResponseComment(null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.updateFeedbackResponseComment(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        frcaTemp.createdAt = new Date();
-        frcaTemp.commentText = new Text("Update feedback response comment");
+        frcaTemp.createdAt = Instant.now();
+        frcaTemp.commentText = "Update feedback response comment";
         frcDb.createEntity(frcaTemp);
         frcaTemp = frcDb.getFeedbackResponseComment(frcaTemp.feedbackResponseId,
-                                 frcaTemp.giverEmail, frcaTemp.createdAt);
+                                 frcaTemp.commentGiver, frcaTemp.createdAt);
 
         FeedbackResponseCommentAttributes frcaExpected =
-                frcDb.getFeedbackResponseComment(frcaTemp.courseId, frcaTemp.createdAt, frcaTemp.giverEmail);
-        frcaExpected.commentText = new Text("This is new Text");
+                frcDb.getFeedbackResponseComment(frcaTemp.courseId, frcaTemp.createdAt, frcaTemp.commentGiver);
+        frcaExpected.commentText = "This is new Text";
         frcDb.updateFeedbackResponseComment(frcaExpected);
 
         FeedbackResponseCommentAttributes frcaActual =
                 frcDb.getFeedbackResponseComment(
-                              frcaExpected.courseId, frcaExpected.createdAt, frcaExpected.giverEmail);
+                              frcaExpected.courseId, frcaExpected.createdAt, frcaExpected.commentGiver);
 
         frcaExpected.setId(frcaActual.getId());
         frcaExpected.feedbackQuestionId = frcaActual.feedbackQuestionId;
@@ -250,12 +226,9 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         frcaExpected.setId(-1L);
 
-        try {
-            frcDb.updateFeedbackResponseComment(frcaExpected);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + frcaExpected.toString(), edne.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> frcDb.updateFeedbackResponseComment(frcaExpected));
+        assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + frcaExpected.toString(), ednee.getMessage());
 
         // set responseId back
         frcaExpected.feedbackResponseId = frId;
@@ -264,33 +237,25 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         frcaExpected.courseId = "";
         frcaExpected.feedbackSessionName = "%asdt";
-        frcaExpected.giverEmail = "test-no-at-funny.com";
+        frcaExpected.commentGiver = "test-no-at-funny.com";
+        frcaExpected.commentGiverType = FeedbackParticipantType.NONE;
 
-        try {
-            frcDb.updateFeedbackResponseComment(frcaExpected);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException ipe) {
-            assertEquals(StringHelper.toString(frcaExpected.getInvalidityInfo()), ipe.getMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> frcDb.updateFeedbackResponseComment(frcaExpected));
+        assertEquals(StringHelper.toString(frcaExpected.getInvalidityInfo()), ipe.getMessage());
     }
 
     private void testGetFeedbackResponseCommentsForSession() {
 
         ______TS("null parameter");
 
-        try {
-            frcDb.getFeedbackResponseCommentsForSession(null, "");
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseCommentsForSession(null, ""));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            frcDb.getFeedbackResponseCommentsForSession("", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> frcDb.getFeedbackResponseCommentsForSession("", null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
@@ -308,11 +273,11 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q3S1C1");
         String giverEmail = "frcdb.newGiver@email.com";
         String courseId = "frcdb.giver.courseId";
-        Date createdAt = new Date();
+        Instant createdAt = Instant.now();
         frcaDataOfNewGiver.createdAt = createdAt;
-        frcaDataOfNewGiver.commentText = new Text("another comment for this response");
+        frcaDataOfNewGiver.commentText = "another comment for this response";
         frcaDataOfNewGiver.setId(null);
-        frcaDataOfNewGiver.giverEmail = giverEmail;
+        frcaDataOfNewGiver.commentGiver = giverEmail;
         frcaDataOfNewGiver.courseId = courseId;
         frcDb.createEntity(frcaDataOfNewGiver);
         assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
@@ -333,30 +298,21 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail);
         assertEquals(actualFrca.courseId, expectedFrca.courseId);
         assertEquals(actualFrca.createdAt, expectedFrca.createdAt);
-        assertEquals(actualFrca.giverEmail, expectedFrca.giverEmail);
+        assertEquals(actualFrca.commentGiver, expectedFrca.commentGiver);
 
         ______TS("null parameter");
 
-        try {
-            frcDb.updateGiverEmailOfFeedbackResponseComments(null, giverEmail, updatedEmail);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frcDb.updateGiverEmailOfFeedbackResponseComments(null, giverEmail, updatedEmail));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, null, updatedEmail);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, null, updatedEmail));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        try {
-            frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testDeleteFeedbackResponseCommentsForResponse()
@@ -367,8 +323,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         // get another frc from data bundle and use it to create another feedback response
         FeedbackResponseCommentAttributes tempFrcaData =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        tempFrcaData.createdAt = new Date();
-        tempFrcaData.commentText = new Text("another comment for this response");
+        tempFrcaData.createdAt = Instant.now();
+        tempFrcaData.commentText = "another comment for this response";
         // for some reason, the id is 0 instead of null. so we explicitly set it to be null
         tempFrcaData.setId(null);
         // set this comment to have the same responseId as frcaData
@@ -381,12 +337,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        try {
-            frcDb.deleteFeedbackResponseCommentsForResponse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseCommentsForResponse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void verifyListsContainSameResponseCommentAttributes(

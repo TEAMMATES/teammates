@@ -17,7 +17,7 @@
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="InsCrsEdit.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.test&token=${sessionToken}" id="courseDeleteLink" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.test&token=${sessionToken}" id="courseDeleteLink" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -49,13 +49,16 @@
           <label class="col-xs-12 col-sm-3 control-label">
             Time Zone:
           </label>
-          <div class="col-xs-12 col-sm-5">
-            ${timezone.options}
-          </div>
-          <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-          </div>
-          <div class="col-xs-12 col-sm-4">
-            <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect Time Zone">
+          <div class="col-xs-12 col-sm-9">
+            <div class="input-group">
+              <select class="form-control" data-original-title="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                  including clock changes due to daylight saving time." data-placement="top" data-time-zone="UTC" data-toggle="tooltip" disabled="" id="coursetimezone" name="coursetimezone" title="">
+              </select>
+              <span class="input-group-btn">
+                <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect">
+              </span>
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -76,7 +79,7 @@
   <script defer="" src="/js/statusMessage.js" type="text/javascript">
   </script>
   <div class="pull-right">
-    <a class="small" href="/instructorHelp.jsp#editCourse" rel="noopener noreferrer" target="_blank">
+    <a class="small" href="/instructorHelp.jsp#course-instructor-access" rel="noopener noreferrer" target="_blank">
       <span class="glyphicon glyphicon-info-sign">
       </span>
       More about configuring access permissions
@@ -187,7 +190,7 @@
                 </a>
                 <br>
                 <input id="instructorroleforinstructor1" name="instructorrole" type="radio" value="Manager">
-                 Manager: Can do everything except for deleting the course 
+                 Manager: Can do everything except for deleting/restoring the course 
                 <a class="view-role-details" data-role="Manager" href="javascript:;">
                   View Details
                 </a>
@@ -221,7 +224,7 @@
                     <div class="panel-body">
                       <div class="col-sm-3">
                         <input checked="" name="canmodifycourse" type="checkbox" value="true">
-                        Edit/Delete Course
+                        Edit/Delete/Restore Course
                       </div>
                       <div class="col-sm-3">
                         <input checked="" name="canmodifyinstructor" type="checkbox" value="true">
@@ -229,7 +232,7 @@
                       </div>
                       <div class="col-sm-3">
                         <input checked="" name="canmodifysession" type="checkbox" value="true">
-                        Create/Edit/Delete Sessions
+                        Create/Edit/Delete/Restore Sessions
                       </div>
                       <div class="col-sm-3">
                         <input checked="" name="canmodifystudent" type="checkbox" value="true">
@@ -1326,6 +1329,15 @@
       <strong>
         Instructor 9:
       </strong>
+      <div class="pull-right">
+        <div class="display-icon" style="display:inline;">
+        </div>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel adding an instructor" data-placement="top" data-toggle="tooltip" href="javascript:;" id="cancelAddInstructorLink" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
+      </div>
     </div>
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseInstructorAdd" class="form form-horizontal" id="formAddInstructor" method="post" name="formAddInstructor">
@@ -1373,7 +1385,7 @@
                 </a>
                 <br>
                 <input id="instructorroleforinstructor9" name="instructorrole" type="radio" value="Manager">
-                 Manager: Can do everything except for deleting the course
+                 Manager: Can do everything except for deleting/restoring the course
                 <a class="view-role-details" data-role="Manager" href="javascript:;">
                   View Details
                 </a>
@@ -1406,7 +1418,7 @@
                     <div class="panel-body">
                       <div class="col-sm-3">
                         <input name="canmodifycourse" type="checkbox" value="true">
-                        Edit/Delete Course
+                        Edit/Delete/Restore Course
                       </div>
                       <div class="col-sm-3">
                         <input name="canmodifyinstructor" type="checkbox" value="true">
@@ -1414,7 +1426,7 @@
                       </div>
                       <div class="col-sm-3">
                         <input name="canmodifysession" type="checkbox" value="true">
-                        Create/Edit/Delete Sessions
+                        Create/Edit/Delete/Restore Sessions
                       </div>
                       <div class="col-sm-3">
                         <input name="canmodifystudent" type="checkbox" value="true">
@@ -1803,7 +1815,7 @@
           <div class="row">
             <div class="col-sm-6">
               <input checked="" disabled="" name="canmodifycourse" type="checkbox" value="true">
-              Edit/Delete Course
+              Edit/Delete/Restore Course
             </div>
             <div class="col-sm-6">
               <input checked="" disabled="" name="canmodifyinstructor" type="checkbox" value="true">
@@ -1811,7 +1823,7 @@
             </div>
             <div class="col-sm-6">
               <input checked="" disabled="" name="canmodifysession" type="checkbox" value="true">
-              Create/Edit/Delete Sessions
+              Create/Edit/Delete/Restore Sessions
             </div>
             <div class="col-sm-6">
               <input checked="" disabled="" name="canmodifystudent" type="checkbox" value="true">
