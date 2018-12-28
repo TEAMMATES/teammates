@@ -47,7 +47,7 @@ public final class StringHelper {
     }
 
     public static boolean isWhiteSpace(String string) {
-        return string.trim().isEmpty();
+        return isEmpty(trimIfNotNull(string));
     }
 
     /**
