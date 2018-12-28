@@ -69,6 +69,9 @@ public class WebApiServlet extends HttpServlet {
         } catch (ActionMappingException e) {
             throwError(resp, e.getStatusCode(), e.getMessage());
             return;
+        } catch (UnauthorizedAccessException uae) {
+            throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
+            return;
         }
 
         try {

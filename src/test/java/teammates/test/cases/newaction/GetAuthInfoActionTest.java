@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.newcontroller.GetAuthInfoAction;
@@ -98,25 +99,9 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        a = getAction(new String[] {
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(new String[] {
                 Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
-        });
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        output = (AuthInfo) r.getOutput();
-        assertNull(output.getStudentLoginUrl());
-        assertNull(output.getInstructorLoginUrl());
-        assertNull(output.getAdminLoginUrl());
-        assertFalse(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
-
-        user = output.getUser();
-        assertFalse(user.isAdmin);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isStudent);
-        assertEquals("idOfInstructor1OfCourse1", user.id);
+        }));
 
         // TODO test CSRF token cookies
 
