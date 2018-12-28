@@ -88,12 +88,14 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetEntityTypeAsString() {
-        assertEquals("StudentProfile", profile.getEntityTypeAsString());
+        assertEquals("Student Profile",
+                profile.getEntityTypeAsString());
     }
 
     @Test
     public void testGetBackupIdentifier() {
-        assertEquals("Student profile modified", profile.getBackupIdentifier());
+        assertEquals("Recently modified Student Profile::" + profile.googleId,
+                profile.getBackupIdentifier());
     }
 
     @Test
@@ -193,6 +195,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         // the toString must be unique to the values in the object
         assertEquals(profile.toString(), spa.toString());
     }
+
 
     // -------------------------------------------------------------------------------------------------------
     // -------------------------------------- Helper Functions
