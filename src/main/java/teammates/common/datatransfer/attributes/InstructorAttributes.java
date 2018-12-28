@@ -16,9 +16,6 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
-    private static final String ATTRIBUTE_NAME = "Instructor";
-    private static final String GET_BACKUP_NAME = "Course";
-
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
 
     /**
@@ -28,6 +25,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             Comparator.comparing(instructor -> instructor.name.toLowerCase());
 
     // Note: be careful when changing these variables as their names are used in *.json files.
+
+    private static final String ATTRIBUTE_NAME = "Instructor";
+    private static final String GET_BACKUP_NAME = "Course";
 
     /** Required fields. */
     public String googleId;

@@ -19,10 +19,6 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
-
-    private static final String ATTRIBUTE_NAME = "Feedback Session";
-    private static final String GET_BACKUP_NAME = "Course";
-
     /**
      * Comparator to sort SessionAttributes on DESCENDING order based on
      * end time, followed by start time and session name.
@@ -52,6 +48,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
         return result;
     };
+
+    private static final String ATTRIBUTE_NAME = "Feedback Session";
+    private static final String GET_BACKUP_NAME = "Course";
 
     // Required fields
     private String feedbackSessionName;
