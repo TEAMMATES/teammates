@@ -7,8 +7,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.newcontroller.GetCourseStudentDetailsAction;
-import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.GetCourseStudentDetailsAction.StudentInfo;
+import teammates.ui.newcontroller.JsonResult;
 
 /**
  * SUT: {@link GetCourseStudentDetailsAction}.

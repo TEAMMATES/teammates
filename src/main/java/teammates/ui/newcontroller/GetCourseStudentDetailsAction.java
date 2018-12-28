@@ -25,8 +25,8 @@ public class GetCourseStudentDetailsAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
-        String courseId =  getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail =   getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
@@ -41,8 +41,8 @@ public class GetCourseStudentDetailsAction extends Action {
     @Override
     public ActionResult execute() {
 
-        String courseId =  getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail =   getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
@@ -76,29 +76,20 @@ public class GetCourseStudentDetailsAction extends Action {
         private final boolean hasSection;
 
         public StudentInfo(StudentAttributes student,
-                           StudentProfileAttributes studentProfile,boolean hasSection) {
+                           StudentProfileAttributes studentProfile, boolean hasSection) {
             this.student = student;
             this.studentProfile = studentProfile;
             this.hasSection = hasSection;
         }
 
-        /**
-         * @return the hasSection
-         */
         public boolean isHasSection() {
             return hasSection;
         }
 
-        /**
-         * @return the studentProfile
-         */
         public StudentProfileAttributes getStudentProfile() {
             return studentProfile;
         }
 
-        /**
-         * @return the student
-         */
         public StudentAttributes getStudent() {
             return student;
         }
