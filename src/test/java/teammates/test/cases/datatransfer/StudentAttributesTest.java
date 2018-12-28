@@ -477,6 +477,16 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                      + "\n  \"section\": \"sect 1\"\n}", studentAttributes.getJsonString());
     }
 
+    @Test
+    public void testGetBackupIdentifier() {
+        StudentAttributes sa = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
+
+        assertEquals("Recently modified Course::course1", sa.getBackupIdentifier());
+    }
+
     private CourseStudent generateTypicalStudentObject() {
         return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
     }
