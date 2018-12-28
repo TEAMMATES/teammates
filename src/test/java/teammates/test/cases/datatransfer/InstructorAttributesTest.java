@@ -288,4 +288,13 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         // TODO: find ways to test this method more thoroughly
     }
 
+    @Test
+    public void testGetBackupIdentifier() {
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("valid.google.id", "valid-course-id", "valid name",
+                        "valid@email.com")
+                .build();
+        assertEquals("Recently modified Course::valid-course-id", instructor.getBackupIdentifier());
+    }
+
 }
