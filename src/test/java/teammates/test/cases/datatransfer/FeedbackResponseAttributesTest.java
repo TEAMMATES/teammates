@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.test.cases.BaseTestCase;
 
 /**

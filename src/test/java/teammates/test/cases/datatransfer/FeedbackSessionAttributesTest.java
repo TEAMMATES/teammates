@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.TimeHelper;
-import teammates.storage.entity.FeedbackSession;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.TimeHelperExtension;
 
