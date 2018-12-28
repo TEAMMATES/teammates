@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.TimeHelper;
+import teammates.storage.entity.FeedbackSession;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -174,6 +175,15 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withGracePeriodMinutes(-100)
                 .build();
         assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
+    }
+
+    @Test
+    public void testGetBackupIdentifier() {
+        FeedbackSessionAttributes fsa = FeedbackSessionAttributes.builder("name",
+                "Math", "email")
+                .build();
+
+        assertEquals("Recently modified Course::Math", fsa.getBackupIdentifier());
     }
 
     private List<String> buildExpectedErrorMessages() {
