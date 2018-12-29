@@ -64,13 +64,13 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("success : keep lastUpdated");
 
         feedbackQuestion.questionNumber++;
-        fqDb.updateFeedbackQuestion(feedbackQuestion, true);
+        fqDb.updateFeedbackQuestion(feedbackQuestion);
 
         FeedbackQuestionAttributes updatedFqTwo =
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
 
-        // Assert lastUpdate has NOT changed.
-        assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
+        // Assert lastUpdate has changed the instant.
+        assertNotEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
     }
 
     @Test
