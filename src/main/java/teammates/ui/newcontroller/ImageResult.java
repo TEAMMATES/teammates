@@ -1,0 +1,30 @@
+package teammates.ui.newcontroller;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
+import org.apache.http.HttpStatus;
+
+public class ImageResult extends ActionResult {
+
+    /** The Google Cloud Storage blob key for the image. */
+    public String blobKey;
+
+    public ImageResult(String blobKey) {
+        super(HttpStatus.SC_OK);
+        this.blobKey = blobKey;
+    }
+
+    @Override
+    public void send(HttpServletResponse resp) throws IOException {
+        resp.setContentType("image/png");
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        blobstoreService.serve(new BlobKey(blobKey), resp);
+    }
+
+}

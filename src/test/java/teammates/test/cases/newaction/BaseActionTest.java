@@ -20,6 +20,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.newcontroller.Action;
+import teammates.ui.newcontroller.ImageResult;
 import teammates.ui.newcontroller.JsonResult;
 
 /**
@@ -335,6 +336,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected JsonResult getJsonResult(Action a) {
         return (JsonResult) a.execute();
+    }
+
+    /**
+     * Executes the action and returns the result.
+     *
+     * <p>Assumption: The action returns a {@link ImageResult}.
+     */
+    protected ImageResult getImageResult(Action a) {
+        return (ImageResult) a.execute();
     }
 
     // The next few methods are for verifying action results
