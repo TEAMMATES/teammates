@@ -3,7 +3,7 @@
     "ng": "ng",
     "mv": "move-cli --mkdirp",
     "start": "ng serve",
-    "build": "npm-run-all \"mv -- src/main/webapp/WEB-INF src/main/temp/WEB-INF\" \"ng -- build --prod {@}\" \"mv -- src/main/temp/WEB-INF src/main/webapp/WEB-INF\" --",
+    "build": "npm run mv -- src/main/webapp/WEB-INF src/main/temp/WEB-INF && npm-run-all \"ng -- build --prod {@}\" \"mv -- src/main/temp/WEB-INF src/main/webapp/WEB-INF\" -c --",
     "analyze": "webpack-bundle-analyzer src/main/webapp/stats.json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
