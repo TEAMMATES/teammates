@@ -4,6 +4,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { ErrorMessageOutput } from '../../message-output';
 import { StatusMessageService } from 'src/web/services/status-message.service';
 import { environment } from 'src/web/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface StudentAttributes {
   email: string,
@@ -52,7 +53,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   studentProfile?: StudentProfile;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-    private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService, private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
