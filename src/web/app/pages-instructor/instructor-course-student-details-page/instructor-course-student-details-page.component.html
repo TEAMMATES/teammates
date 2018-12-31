@@ -1,3 +1,40 @@
-<p>
-  instructor-course-student-details-page works!
-</p>
+<h1>{{student.name}}</h1>
+<div class="row" *ngIf="studentProfile">
+  <div class="col-xs-12">
+    <div class="row" id="studentProfile">
+      <div class="col-md-2 col-xs-3 block-center">
+        <img src="{{getPictureUrl(studentProfile.pictureKey)}}" class="profile-pic float-right">
+      </div>
+      <div class="col-md-10 col-sm-9 col-xs-8">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th colspan="2"><h4><span class="text-bold">Profile Details </span>(submitted by student)</h4></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-bold">Short Name (Gender)</td>
+              <td>{{studentProfile.shortName || none}}
+                <!--(<i> {{studentProfile.gender == other ? noneForGender : studentProfile.gender)}} </i>-->
+              </td>
+            </tr>
+            <tr>
+              <td class="text-bold">Personal Email</td>
+              <td>{{studentProfile.email || none}}</td>
+            </tr>
+            <tr>
+              <td class="text-bold">Institution</td>
+              <td>{{studentProfile.institute || none}}</td>
+            </tr>
+            <tr>
+              <td class="text-bold">Nationality</td>
+              <td>{{studentProfile.nationality || none}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
