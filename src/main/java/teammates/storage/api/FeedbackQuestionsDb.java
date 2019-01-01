@@ -102,7 +102,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         return makeAttributes(getFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType));
     }
 
-
     /**
      * Updates the feedback question identified by `{@code newAttributes.getId()}
      * For the remaining parameters, the existing value is preserved
