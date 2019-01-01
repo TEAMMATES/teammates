@@ -61,6 +61,10 @@ public class GetCourseStudentDetailsAction extends Action {
 
         StudentProfileAttributes studentProfile = logic.getStudentProfile(student.googleId);
 
+        student.googleId = null;
+        student.key = null;
+        studentProfile.googleId = null;
+        studentProfile.modifiedDate = null;
         StudentInfo output = new StudentInfo(student, studentProfile, hasSection);
         return new JsonResult(output);
 

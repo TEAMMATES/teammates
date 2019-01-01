@@ -65,6 +65,8 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         StudentInfo output = (StudentInfo) r.getOutput();
+        student1InCourse1.googleId = null;
+        student1InCourse1.key = null;
         assertEquals(student1InCourse1.toString(), output.getStudent().toString());
 
     }
