@@ -10,16 +10,13 @@ interface StudentAttributes {
   email: string,
   course: string,
   name: string,
-  googleId: string,
   lastName: string,
   comments: string,
   team: string,
   section: string,
-  key: string
 }
 
 interface StudentProfile {
-  googleId: string,
   shortName: string,
   email: string,
   institute: string,
@@ -27,7 +24,6 @@ interface StudentProfile {
   gender: string,
   moreInfo: string,
   pictureKey: string,
-  modifiedDate: Date
 }
 
 interface StudentDetails {
@@ -67,10 +63,22 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
       this.student = resp.student;
       this.studentProfile = resp.studentProfile;
-      this.studentProfile.modifiedDate = new Date(this.studentProfile.modifiedDate);
+      if (!this.student) {
+        this.statusMessageService.showErrorMessage("Error retrieving student details")
+      }
+      if (!this.studentProfile) {
+        this.statusMessageService.showWarningMessage(
+                "Normally, we would show the student’s profile here. "
+                + "However, either this student has not created a profile yet, "
+                + "or you do not have access to view this student's profile.");
+      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  openModal(content: any) {
+    this.ngbModal.open(content);
   }
 
   getPictureUrl(pictureKey: string): string {
