@@ -1,35 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpRequestService } from '../../../services/http-request.service';
-import { ErrorMessageOutput } from '../../message-output';
-import { StatusMessageService } from 'src/web/services/status-message.service';
-import { environment } from 'src/web/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
+import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { ErrorMessageOutput } from '../../message-output';
 
 interface StudentAttributes {
-  email: string,
-  course: string,
-  name: string,
-  lastName: string,
-  comments: string,
-  team: string,
-  section: string,
+  email: string;
+  course: string;
+  name: string;
+  lastName: string;
+  comments: string;
+  team: string;
+  section: string;
 }
 
 interface StudentProfile {
-  shortName: string,
-  email: string,
-  institute: string,
-  nationality: string,
-  gender: string,
-  moreInfo: string,
-  pictureKey: string,
+  shortName: string;
+  email: string;
+  institute: string;
+  nationality: string;
+  gender: string;
+  moreInfo: string;
+  pictureKey: string;
 }
 
 interface StudentDetails {
-  student: StudentAttributes,
-  studentProfile: StudentProfile,
-  hasSection: boolean
+  student: StudentAttributes;
+  studentProfile: StudentProfile;
+  hasSection: boolean;
 }
 
 /**
@@ -42,11 +42,11 @@ interface StudentDetails {
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 
-  private backendUrl: string = environment.backendUrl;
-
   user: string = '';
   student?: StudentAttributes;
   studentProfile?: StudentProfile;
+
+  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
     private statusMessageService: StatusMessageService, private ngbModal: NgbModal) { }
@@ -58,32 +58,41 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Loads the student's details based on the given course ID and email.
+   */
   loadStudentDetails(courseid: string, studentemail: string): void {
     const paramMap: { [key: string]: string } = { courseid, studentemail };
     this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
       this.student = resp.student;
       this.studentProfile = resp.studentProfile;
       if (!this.student) {
-        this.statusMessageService.showErrorMessage("Error retrieving student details")
+        this.statusMessageService.showErrorMessage('Error retrieving student details');
       }
       if (!this.studentProfile) {
         this.statusMessageService.showWarningMessage(
-                "Normally, we would show the student’s profile here. "
-                + "However, either this student has not created a profile yet, "
-                + "or you do not have access to view this student's profile.");
+                'Normally, we would show the student’s profile here. '
+                + 'However, either this student has not created a profile yet, '
+                + 'or you do not have access to view this student\'s profile.');
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
-  openModal(content: any) {
+  /**
+   * Open the more info modal.
+   */
+  openModal(content: any): void {
     this.ngbModal.open(content);
   }
 
+  /**
+   * Construct the url for the profile picture from the given key.
+   */
   getPictureUrl(pictureKey: string): string {
     if (!pictureKey) {
-        return "/assets/images/profile_picture_default.png";
+      return '/assets/images/profile_picture_default.png';
     }
     return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
   }

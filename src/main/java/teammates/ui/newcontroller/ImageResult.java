@@ -4,12 +4,15 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import org.apache.http.HttpStatus;
-
+/**
+ * Action result in form of an image.
+ */
 public class ImageResult extends ActionResult {
 
     /** The Google Cloud Storage blob key for the image. */
