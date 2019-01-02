@@ -34,9 +34,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        boolean isCreatorOnly = true;
 
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
+        gateKeeper.verifyAccessible(instructor, session);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
