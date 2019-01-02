@@ -12,7 +12,7 @@ import teammates.ui.newcontroller.GetStudentProfilePictureAction;
 import teammates.ui.newcontroller.ImageResult;
 
 /**
- * SUT: {@link StudentProfilePictureAction}.
+ * SUT: {@link GetStudentProfilePictureAction}.
  */
 public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStudentProfilePictureAction> {
 
