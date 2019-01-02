@@ -104,12 +104,12 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
     /**
      * Updates the feedback question identified by `{@code newAttributes.getId()}
-     *   and changes the {@code updatedAt} timestamp to be the time of update.
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
-     *
-     * <p>Preconditions:
-     * {@code newAttributes.getId()} is non-null and correspond to an existing feedback question.
+     * The timestamp for {@code updatedAt} is dependent of the {@code newAttributes}
+     * Preconditions: <br>
+     * * {@code newAttributes.getId()} is non-null and
+     *  correspond to an existing feedback question. <br>
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
