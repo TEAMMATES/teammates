@@ -3,9 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -230,57 +228,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             }
         }
         return unregistered;
-    }
-
-    /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all students in the database.
-     */
-    // TODO remove this method once all Students have been migrated to CourseStudents
-    @Deprecated
-    public List<StudentAttributes> getAllStudents() {
-        Map<String, StudentAttributes> result = new LinkedHashMap<>();
-
-        for (StudentAttributes student : getAllCourseStudents()) {
-            result.put(student.getId(), student);
-        }
-        return new ArrayList<>(result.values());
-    }
-
-    /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all students in the database.
-     */
-    @Deprecated
-    public List<StudentAttributes> getAllCourseStudents() {
-        return makeAttributes(getCourseStudentEntities());
-    }
-
-    /**
-     * Updates the student identified by {@code courseId} and {@code email}.
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy)<br>
-     * Preconditions: <br>
-     * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
-     * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
-     */
-    public void updateStudent(String courseId, String email, String newName,
-                                    String newTeamName, String newSectionName, String newEmail,
-                                    String newGoogleId,
-                                    String newComments,
-                                    boolean keepUpdateTimestamp) throws InvalidParametersException,
-                                    EntityDoesNotExistException {
-        updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleId, newComments, true, keepUpdateTimestamp);
-    }
-
-    public void updateStudent(String courseId, String email, String newName,
-            String newTeamName, String newSectionName, String newEmail,
-            String newGoogleId,
-            String newComments) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleId, newComments, true, false);
     }
 
     /**
@@ -543,14 +490,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 .filter("sectionName =", sectionName)
                 .filter("courseId =", courseId)
                 .list();
-    }
-
-    @Deprecated
-    /**
-     * Retrieves all course student entities. This function is not scalable.
-     */
-    public List<CourseStudent> getCourseStudentEntities() {
-        return load().list();
     }
 
     @Override

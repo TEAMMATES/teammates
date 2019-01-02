@@ -359,20 +359,20 @@ public class InstructorFeedbackSessionsPageData extends PageData {
             List<ElementTag> actionsParam = new ArrayList<>();
 
             String restoreLink = getInstructorFeedbackRestoreSoftDeletedSessionLink(session.getCourseId(),
-                    session.getSessionName());
+                    session.getFeedbackSessionName());
             Boolean hasRestorePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_session_restore" + idx, "",
                     restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, !hasRestorePermission);
 
             String deleteLink = getInstructorFeedbackDeleteSoftDeletedSessionLink(session.getCourseId(),
-                    session.getSessionName());
+                    session.getFeedbackSessionName());
             Boolean hasDeletePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs t_session_delete"
                     + idx, "fsDeleteLink", deleteLink, Const.Tooltips.FEEDBACK_SESSION_DELETE, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", session.getCourseId());
-            deleteButton.setAttribute("data-feedback-session-name", session.getSessionName());
+            deleteButton.setAttribute("data-feedback-session-name", session.getFeedbackSessionName());
             deleteButton.setAttribute("style", "color: red");
 
             actionsParam.add(restoreButton);
@@ -380,7 +380,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
             SoftDeletedFeedbackSessionsTableRow row = new SoftDeletedFeedbackSessionsTableRow(
                     SanitizationHelper.sanitizeForHtml(session.getCourseId()),
-                    SanitizationHelper.sanitizeForHtml(session.getSessionName()),
+                    SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                     session.getCreatedTimeDateString(),
                     session.getCreatedTimeDateStamp(),
                     session.getCreatedTimeFullDateTimeString(),

@@ -65,16 +65,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Gets all courses in the Datastore.
-     *
-     * @deprecated Not scalable. Use only in admin features.
-     */
-    @Deprecated
-    public List<CourseAttributes> getAllCourses() {
-        return makeAttributes(load().list());
-    }
-
-    /**
      * Updates the course.<br>
      * Updates only name, deletion date and course archive status.<br>
      * Preconditions: <br>

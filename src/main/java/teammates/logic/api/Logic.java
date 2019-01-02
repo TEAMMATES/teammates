@@ -375,14 +375,6 @@ public class Logic {
     }
 
     /**
-     * Returns true if this email belongs to an instructor of the course.
-     */
-    public boolean isInstructorEmailOfCourse(String email, String courseId) {
-
-        return instructorsLogic.isEmailOfInstructorOfCourse(email, courseId);
-    }
-
-    /**
      * Returns true if the instructor is a new user.
      *
      * @see InstructorsLogic#isNewInstructor(String)
@@ -563,18 +555,6 @@ public class Logic {
 
         Assumption.assertNotNull(googleId);
         return coursesLogic.getCourseSummariesForInstructor(googleId, false);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return A less detailed version of courses for the specified instructor attributes.
-     *         Returns an empty list if none found.
-     */
-    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) {
-
-        Assumption.assertNotNull(instructorList);
-        return coursesLogic.getCourseSummariesForInstructor(instructorList);
     }
 
     /**
@@ -841,28 +821,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<StudentAttributes> getStudentsForSection(String section, String courseId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(section);
-        return studentsLogic.getStudentsForSection(section, courseId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<StudentAttributes> getStudentsForTeam(String team, String courseId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(team);
-        return studentsLogic.getStudentsForTeam(team, courseId);
-    }
-
-    /**
      * Returns a list of section names for the course with ID courseId.
      *
      * <p>Preconditions: <br>
@@ -873,19 +831,6 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
-    }
-
-    /**
-     * Returns a list of section names for the specified course.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see CoursesLogic#getSectionsNameForCourse(CourseAttributes)
-     */
-    public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(course);
-        return coursesLogic.getSectionsNameForCourse(course);
     }
 
     /**
@@ -1049,14 +994,6 @@ public class Logic {
         studentsLogic.deleteAllStudentsInCourse(courseId);
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(studentEmail);
-
-        studentsLogic.deleteStudentCascadeWithoutDocument(courseId, studentEmail);
-    }
-
     /**
      *  Checks if a course has sections for each team
      *  Preconditions: <br>
@@ -1204,21 +1141,6 @@ public class Logic {
     }
 
     /**
-     * Returns a {@code List} of all feedback sessions bundled with their
-     * response statistics for a instructor given by his googleId.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see FeedbackSessionsLogic#getFeedbackSessionDetailsForInstructor(String)
-     */
-    public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
-            String googleId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(googleId);
-        return feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(googleId);
-    }
-
-    /**
      * Returns a {@code List} of all feedback sessions WITHOUT their response
      * statistics for a instructor given by his googleId.
      *
@@ -1298,18 +1220,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
-    }
-
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
@@ -2189,14 +2099,5 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(teamName);
         return studentsLogic.getSectionForTeam(courseId, teamName);
-    }
-
-    /**
-     * Returns a list of feedback comments associated with feedbackResponseId.
-     *
-     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
     }
 }

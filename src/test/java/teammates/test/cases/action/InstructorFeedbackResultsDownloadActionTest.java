@@ -2,7 +2,6 @@ package teammates.test.cases.action;
 
 import java.net.URL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -12,6 +11,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.test.driver.CsvChecker;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 import teammates.ui.controller.RedirectResult;
@@ -99,7 +99,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1_actionTest.csv");
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
 
@@ -118,7 +118,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1WithNewLastName(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1NewLastName_actionTest.csv");
 
         removeAndRestoreTypicalDataBundle();
 
@@ -148,6 +148,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response if the giver is in the selected section";
         assertEquals(expectedFileName, result.getFileName());
+
         verifyFileContentForSession1InCourse1FromSection1(result.getFileContent(), session);
 
         ______TS("Typical case: results downloadable showing section to recipient");
@@ -177,6 +178,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 + "_Show response only if both are in the selected section";
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1BothToAndFromSection1(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1_actionTest.csv");
 
         ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
 
@@ -224,7 +226,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForDownloadWithMissingResponsesShown(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsMissingResponsesShown_actionTest.csv");
 
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
@@ -235,7 +237,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForDownloadWithMissingResponsesHidden(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsMissingResponsesHidden_actionTest.csv");
 
         ______TS("Typical case: results downloadable by question");
 
@@ -286,7 +288,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response if either the giver or evaluee is in the selected section" + "_question2";
         assertEquals(expectedFileName, result.getFileName());
+
         verifyFileContentForQuestion2Session1InCourse1InSection1(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1Q2_actionTest.csv");
+
+        ______TS("Typical case: results within section downloadable by question");
 
         ______TS("Typical case: results downloadable by question showing section from giver");
 
@@ -309,6 +315,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response if the giver is in the selected section" + "_question2";
         assertEquals(expectedFileName, result.getFileName());
+
         verifyFileContentForQuestion2Session1InCourse1FromSection1(result.getFileContent(), session);
     }
 
@@ -606,6 +613,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
         assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Q1_actionTest.csv");
+
     }
 
     @Override

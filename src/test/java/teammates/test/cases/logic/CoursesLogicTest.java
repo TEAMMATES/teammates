@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -28,6 +27,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.CsvChecker;
 
 /**
  * SUT: {@link CoursesLogic}.
@@ -48,6 +48,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         testIsSampleCourse();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
+        testGetSectionsNameForCourse();
         testGetCourseSummary();
         testGetCourseSummaryWithoutStats();
         testGetCourseDetails();
@@ -255,6 +256,32 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("Null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.verifyCourseIsPresent(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+    }
+
+    private void testGetSectionsNameForCourse() throws Exception {
+
+        ______TS("Typical case: course with sections");
+
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        assertEquals(2, coursesLogic.getSectionsNameForCourse(typicalCourse1.getId()).size());
+        assertEquals("Section 1", coursesLogic.getSectionsNameForCourse(typicalCourse1.getId()).get(0));
+        assertEquals("Section 2", coursesLogic.getSectionsNameForCourse(typicalCourse1.getId()).get(1));
+
+        ______TS("Typical case: course without sections");
+
+        CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
+        assertTrue(coursesLogic.getSectionsNameForCourse(typicalCourse2.getId()).isEmpty());
+
+        ______TS("Failure case: course does not exists");
+
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> coursesLogic.getSectionsNameForCourse("non-existent-course"));
+        AssertHelper.assertContains("does not exist", ednee.getMessage());
+
+        ______TS("Failure case: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getSectionsNameForCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
@@ -610,6 +637,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         String courseId = instructor1OfCourse1.courseId;
 
         String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
+
         String[] expectedCsvString = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course ID,\"idOfTypicalCourse1\"",
@@ -627,6 +655,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         };
 
         assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
+        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithSection.csv");
 
         ______TS("Typical case: course without sections");
 
@@ -636,20 +665,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         courseId = instructor1OfCourse2.courseId;
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        expectedCsvString = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID,\"idOfTypicalCourse2\"",
-                "Course Name,\"Typical Course 2 with 1 Evals\"",
-                "",
-                "",
-                "Team,Full Name,Last Name,Status,Email",
-                "\"Team 2.1\",\"student1 In Course2\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.tmt\"",
-                "\"Team 2.1\",\"student2 In Course2\",\"Course2\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
+        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithoutSections.csv");
 
         ______TS("Typical case: course with unregistered student");
 
@@ -659,20 +675,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         courseId = instructor5.courseId;
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        expectedCsvString = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID,\"idOfUnregisteredCourse\"",
-                "Course Name,\"Unregistered Course\"",
-                "",
-                "",
-                "Section,Team,Full Name,Last Name,Status,Email",
-                "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.tmt\"",
-                "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
+        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithUnregisteredStudent.csv");
 
         String finalCourseId = courseId;
         String finalInstructorId = instructorId;
