@@ -61,8 +61,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
         AssertHelper.assertInstantIsNow(updatedFq.getUpdatedAt());
 
-        ______TS("success : keep lastUpdated");
-
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
 
