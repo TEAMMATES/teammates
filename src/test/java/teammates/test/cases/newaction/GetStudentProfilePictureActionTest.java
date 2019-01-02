@@ -50,9 +50,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         String[] submissionParams = new String[] {};
 
         GetStudentProfilePictureAction action = getAction(submissionParams);
-        assertThrows(NullHttpParameterException.class, () -> {
-            action.execute();
-        });
+        assertThrows(NullHttpParameterException.class, () -> action.execute());
     }
 
     /**

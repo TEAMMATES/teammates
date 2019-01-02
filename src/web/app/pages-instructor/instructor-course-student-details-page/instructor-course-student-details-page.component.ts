@@ -71,7 +71,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       }
       if (!this.studentProfile) {
         this.statusMessageService.showWarningMessage(
-                'Normally, we would show the student’s profile here. '
+                'Normally, we would show the student\'s profile here. '
                 + 'However, either this student has not created a profile yet, '
                 + 'or you do not have access to view this student\'s profile.');
       }

@@ -15,7 +15,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
  */
 public class ImageResult extends ActionResult {
 
-    /** The Google Cloud Storage blob key for the image. */
+    /** The blob key for the image. */
     public String blobKey;
 
     public ImageResult(String blobKey) {
@@ -25,6 +25,7 @@ public class ImageResult extends ActionResult {
 
     @Override
     public void send(HttpServletResponse resp) throws IOException {
+        // TODO do not hardcode PNG format
         resp.setContentType("image/png");
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         blobstoreService.serve(new BlobKey(blobKey), resp);

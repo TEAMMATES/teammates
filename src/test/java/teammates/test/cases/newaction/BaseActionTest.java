@@ -252,7 +252,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         loginAsAdmin();
         //not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
+        verifyCanMasquerade(instructor1OfCourse1.googleId, submissionParams);
 
     }
 
@@ -277,8 +277,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId, submissionParams));
+        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
+        verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
 
     }
 
@@ -313,18 +313,18 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is
-     * accessible to the logged in user masquerading as another user.
+     * accessible to the logged in user masquerading as another user with {@code userId}.
      */
-    protected void verifyCanMasquerade(String... params) {
-        verifyCanAccess(params);
+    protected void verifyCanMasquerade(String userId, String... params) {
+        verifyCanAccess(addUserIdToParams(userId, params));
     }
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
-     * accessible to the logged in user masquerading as another user.
+     * accessible to the logged in user masquerading as another user with {@code userId}.
      */
-    protected void verifyCannotMasquerade(String... params) {
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(params));
+    protected void verifyCannotMasquerade(String userId, String... params) {
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(addUserIdToParams(userId, params)));
     }
 
     // The next few methods are for parsing results
