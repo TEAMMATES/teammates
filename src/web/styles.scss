@@ -60,3 +60,11 @@ body {
   opacity: .9;
   position: absolute;
 }
+
+.text-preserve-space {
+  white-space: pre-wrap;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
