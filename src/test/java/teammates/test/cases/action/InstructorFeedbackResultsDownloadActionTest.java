@@ -113,7 +113,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response if either the giver or evaluee is in the selected section";
         assertEquals(expectedFileName, result.getFileName());
-        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1EitherSection_actionTest.csv");
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Either_actionTest.csv");
 
         ______TS("Typical case: results downloadable showing section from giver");
 
@@ -127,7 +127,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response if the giver is in the selected section";
         assertEquals(expectedFileName, result.getFileName());
-        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1GiverSection_actionTest.csv");
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Giver_actionTest.csv");
 
         ______TS("Typical case: results downloadable showing section to recipient");
 
@@ -141,7 +141,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response if the evaluee is in the selected section";
         assertEquals(expectedFileName, result.getFileName());
-        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1RecipientSection_actionTest.csv");
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Recipient_actionTest.csv");
 
         ______TS("Typical case: results downloadable showing section from both giver and recipient");
 
@@ -155,7 +155,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
                 + "_Show response only if both are in the selected section";
         assertEquals(expectedFileName, result.getFileName());
-        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1BothSection_actionTest.csv");
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Both_actionTest.csv");
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
 
