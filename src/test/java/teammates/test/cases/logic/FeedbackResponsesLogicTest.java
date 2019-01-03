@@ -78,7 +78,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.alice.b@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
         // Benny will see 4 responses
         assertEquals(4,
@@ -86,7 +86,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.benny.c@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
         // Charlie will see 3 responses
         assertEquals(3,
@@ -94,8 +94,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.charlie.d@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session", null).size(), 3);
-                "First Session").size());
+                "First Session", null).size());
 
         // Danny will see 3 responses
         assertEquals(3,
@@ -103,8 +102,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.danny.e@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session", null).size(), 3);
-                "First Session").size());
+                "First Session", null).size());
 
         // Emily will see 1 response
         assertEquals(1,
@@ -112,8 +110,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.emily.f@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session", null).size(), 1);
-                "First Session").size());
+                "First Session", null).size());
 
     }
 
@@ -373,7 +370,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     private void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
 
-        // Student 1 currently has 2 responses to him and 2 from himself.
+        // Student 1 currently has 1 response to him and 2 from himself.
         // Student 1 currently has 2 response comment for responses to him
         // and 1 response comment from responses from himself.
         StudentAttributes studentToUpdate = dataBundle.students.get("student1InCourse1");
@@ -390,7 +387,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
         assertEquals(2, responsesForReceiver.size());
-        assertEquals(2, responsesFromGiver.size());
+        assertEquals(1, responsesFromGiver.size());
         assertEquals(3, responseCommentsForStudent.size());
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -421,7 +418,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
         assertEquals(2, responsesForReceiver.size());
-        assertEquals(2, responsesFromGiver.size());
+        assertEquals(1, responsesFromGiver.size());
         assertEquals(3, responseCommentsForStudent.size());
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -461,7 +458,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
                 null, null);
 
-        assertEquals(2, responses.size());
+        assertEquals(0, responses.size());
 
         fq = getQuestionFromDatastore("qn3InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
@@ -503,7 +500,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
         assertEquals(4, responses.size());
 
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
