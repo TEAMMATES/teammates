@@ -194,24 +194,13 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of section names for the course with ID courseId.
-     */
-    public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
-        return getSectionsNameForCourse(courseId, false);
-    }
-
-    /**
-     * Returns a list of section names for a course with or without a need to
-     * check if the course is existent.
+     * Returns a list of section names for the course with valid ID courseId.
      *
      * @param courseId Course ID of the course
-     * @param isCourseVerified Determine whether it is necessary to check if the course exists
      */
-    private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified)
-            throws EntityDoesNotExistException {
-        if (!isCourseVerified) {
-            verifyCourseIsPresent(courseId);
-        }
+    public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
+
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
         Set<String> sectionNameSet = new HashSet<>();
