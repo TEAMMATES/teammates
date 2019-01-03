@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.ui.newcontroller.GetCourseStudentDetailsAction;
 import teammates.ui.newcontroller.GetCourseStudentDetailsAction.StudentInfo;
@@ -31,6 +32,8 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        StudentProfileAttributes student1InCourse1Profile = typicalBundle.profiles.get("student1InCourse1");
+        StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
 
         String instructorId = instructor1OfCourse1.googleId;
         loginAsInstructor(instructorId);
@@ -52,7 +55,7 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
         };
         verifyHttpParameterFailure(invalidParams);
 
-        ______TS("Typical case, view student detail");
+        ______TS("Typical case, view student details, with profile");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
@@ -68,7 +71,27 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
         student1InCourse1.googleId = null;
         student1InCourse1.key = null;
         assertEquals(student1InCourse1.toString(), output.getStudent().toString());
+        student1InCourse1Profile.googleId = null;
+        student1InCourse1Profile.modifiedDate = null;
+        assertEquals(student1InCourse1Profile.toString(), output.getStudentProfile().toString());
 
+        ______TS("Typical case, view student details, without profile");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student2InCourse1.email
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (StudentInfo) r.getOutput();
+        student2InCourse1.googleId = null;
+        student2InCourse1.key = null;
+        assertEquals(student2InCourse1.toString(), output.getStudent().toString());
+        assertNull(output.getStudentProfile());
     }
 
     @Override

@@ -63,8 +63,10 @@ public class GetCourseStudentDetailsAction extends Action {
 
         student.googleId = null;
         student.key = null;
-        studentProfile.googleId = null;
-        studentProfile.modifiedDate = null;
+        if (studentProfile != null) {
+            studentProfile.googleId = null;
+            studentProfile.modifiedDate = null;
+        }
         StudentInfo output = new StudentInfo(student, studentProfile, hasSection);
         return new JsonResult(output);
 
