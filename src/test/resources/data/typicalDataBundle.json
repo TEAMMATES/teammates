@@ -609,8 +609,8 @@
       "course": "idOfTypicalCourse1",
       "name": "student2 In Course1",
       "comments": "",
-      "team": "Team 1.2</td></div>'\"",
-      "section": "Section 2"
+      "team": "Team 1.1</td></div>'\"",
+      "section": "Section 1"
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
@@ -636,7 +636,7 @@
       "course": "idOfTypicalCourse1",
       "name": "student5 In Course1",
       "comments": "",
-      "team": "Team 1.2</td></div>'\"",
+      "team": "Team 1.2",
       "section": "Section 2"
     },
     "student1InCourse2": {
@@ -1388,7 +1388,7 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 1"
     },
     "response1ForQ3S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -1454,7 +1454,7 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "Response from student 4 to team member (student 2).",
       "giverSection": "Section 1",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 1"
     },
     "response2ForQ2S2C1": {
       "feedbackSessionName": "Second feedback session",
