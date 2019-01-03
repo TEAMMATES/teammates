@@ -87,9 +87,15 @@ public abstract class Action {
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userInfo.isAdmin && userParam != null) {
-            userInfo = gateKeeper.getMasqueradeUser(userParam);
-            authType = AuthType.MASQUERADE;
+        if (userInfo != null && userParam != null) {
+            if (userInfo.isAdmin) {
+                userInfo = gateKeeper.getMasqueradeUser(userParam);
+                authType = AuthType.MASQUERADE;
+            } else {
+                throw new UnauthorizedAccessException("User " + userInfo.id
+                                                    + " is trying to masquerade as " + userParam
+                                                    + " without admin permission.");
+            }
         }
     }
 
