@@ -221,25 +221,25 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
 
-        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
+        String questionId = fras.get("response1ForQ2S1C1").feedbackQuestionId;
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
                 SectionDetail.EITHER);
+        assertEquals(3, responses.size());
+
+        ______TS("show response after filtering by giver from section 1");
+
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", SectionDetail.GIVER);
         assertEquals(2, responses.size());
 
-        ______TS("Responses filtered by both giver and recipient from section");
-
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", SectionDetail.BOTH);
-        assertEquals(2, responses.size());
-
-        ______TS("Show response after filtering by giver from section");
-
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.GIVER);
-        assertEquals(0, responses.size());
-
-        ______TS("Show response after filtering by recipient from section");
+        ______TS("show response after filtering by recipient from section 2");
 
         responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.EVALUEE);
+        assertEquals(1, responses.size());
+
+        ______TS("no responses as they are filtered by both giver and recipient from section 2");
+
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.BOTH);
         assertEquals(0, responses.size());
 
         ______TS("null params");
