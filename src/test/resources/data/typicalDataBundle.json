@@ -1318,20 +1318,6 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
-    },
-    "qn1InSession1InCourse3": {
-      "feedbackSessionName": "First feedback session",
-      "courseId": "idOfTypicalCourse3",
-      "creatorEmail": "instructor1@course3.tmt",
-      "questionMetaData": "This is a session for myself",
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "SELF",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 10,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
     }
   },
   "feedbackResponses": {
@@ -1478,14 +1464,14 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
-    "response1ForQ1S1C3": {
-      "feedbackSessionName": "First feedback session",
-      "courseId": "idOfTypicalCourse3",
+    "response1ForQ1S2C2": {
+      "feedbackSessionName": "Not answerable feedback session",
+      "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
-      "giver": "instructor1@course3.tmt",
-      "recipient": "student1InCourse3@gmail.tmt",
-      "responseMetaData": "Response from instr1InC3 to student1InC3.",
+      "giver": "instructor1@course2.tmt",
+      "recipient": "student1InCourse2@gmail.tmt",
+      "responseMetaData": "Response from instr1InC2 to student1InC2.",
       "giverSection": "None",
       "recipientSection": "None"
     },
@@ -1552,21 +1538,21 @@
       "createdAt": "2026-01-01T23:59:00Z",
       "commentText": "Instructor 1 comment to instructor 1 self feedback Question 3"
     },
-    "comment1FromT1C1ToR1Q1S1C3": {
-      "courseId": "idOfTypicalCourse3",
-      "feedbackSessionName": "First feedback session",
+    "comment1FromT1C1ToR1Q1S2C2": {
+      "courseId": "idOfTypicalCourse2",
+      "feedbackSessionName": "Not answerable feedback session",
       "feedbackQuestionId": "1",
       "commentGiver": "instructor3@course.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "commentGiverType": "INSTRUCTORS",
-      "feedbackResponseId": "1%instructor1@course3.tmt%student1InCourse3@gmail.tmt",
+      "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2027-01-01T23:59:00Z",
-      "commentText": "Instructor 3 comment to instr1C3 response to student1C3"
+      "commentText": "Instructor 3 comment to instr1C2 response to student1C2"
     }
   },
   "profiles": {
