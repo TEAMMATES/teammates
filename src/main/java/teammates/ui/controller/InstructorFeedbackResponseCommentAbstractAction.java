@@ -19,9 +19,9 @@ public abstract class InstructorFeedbackResponseCommentAbstractAction extends Ac
         if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
             return;
         }
-        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
+        gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
+        gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

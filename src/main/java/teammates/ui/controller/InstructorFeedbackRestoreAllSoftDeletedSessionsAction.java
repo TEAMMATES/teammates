@@ -26,7 +26,6 @@ public class InstructorFeedbackRestoreAllSoftDeletedSessionsAction extends Actio
             for (FeedbackSessionAttributes feedbackSession : feedbackSessionList) {
                 gateKeeper.verifyAccessible(instructor,
                         feedbackSession,
-                        false,
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             }
         }
