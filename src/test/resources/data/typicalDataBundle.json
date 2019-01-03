@@ -1394,7 +1394,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "Response from team 1 by (student 4) to team 1.2.",
+      "responseMetaData": "Response from team 1.1 by (student 4) to team 1.2.",
       "giverSection": "Section 1",
       "recipientSection": "Section 2"
     },
@@ -1405,7 +1405,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "Response from team 1 by (student 4) to team 1.2.",
+      "responseMetaData": "Response from team 1.1 by (student 4) to team 1.2.",
       "giverSection": "Section 1",
       "recipientSection": "Section 2"
     },
@@ -1514,13 +1514,13 @@
       "giverSection": "None",
       "receiverSection": "None",
       "commentGiverType": "INSTRUCTORS",
-      "feedbackResponseId": "2%student2InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "2%student2InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-02-01T23:59:00Z",
-      "commentText": "Instructor 1 comment to student 1 self feedback Question 2"
+      "commentText": "Instructor 1 comment to student 2 self feedback Question 2"
     },
     "comment1FromT1C1ToR1Q3S1C1": {
       "courseId": "idOfTypicalCourse1",
