@@ -293,10 +293,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("edit response, did not specify recipient");
 
-        fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 2);
+        fq = fqDb.getFeedbackQuestion("Second feedback session", "idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
 
-        fr = typicalBundle.feedbackResponses.get("response2ForQ2S1C1");
+        fr = typicalBundle.feedbackResponses.get("response2ForQ2S2C1");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
@@ -324,7 +324,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         r.isError,
                         "student1InCourse1",
                         "idOfTypicalCourse1",
-                        "First+feedback+session"),
+                        "Second+feedback+session"),
                 r.getDestinationWithParams());
 
         // submission confirmation email not sent if the action is an error, even with submission parameter "on"
@@ -356,7 +356,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         r.isError,
                         "student1InCourse1",
                         "idOfTypicalCourse1",
-                        "First+feedback+session"),
+                        "Second+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -386,7 +386,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         r.isError,
                         "student1InCourse1",
                         "idOfTypicalCourse1",
-                        "First+feedback+session"),
+                        "Second+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
