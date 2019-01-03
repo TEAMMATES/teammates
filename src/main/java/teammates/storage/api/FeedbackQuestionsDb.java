@@ -106,8 +106,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Updates the feedback question identified by `{@code newAttributes.getId()}
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} is dependent of the {@code newAttributes}
-     * Preconditions: <br>
+     * The timestamp for {@code updatedAt} will be updated
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
