@@ -53,7 +53,7 @@
             <label>Course</label>
           </div>
           <div class="col-8">
-            <a routerLink="/web/instructor/courses/details?courseid={{student.course}}">
+            <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student.course}">
               <span>{{student.course}}</span>
             </a>
           </div>
