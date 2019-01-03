@@ -38,11 +38,10 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-        boolean isCreatorOnly = true;
 
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
+        gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
+        gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
         FeedbackResponseCommentAjaxPageData data =

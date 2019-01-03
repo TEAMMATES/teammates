@@ -41,7 +41,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, studentUnderModeration.section,
+                studentUnderModeration.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
 
         String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
