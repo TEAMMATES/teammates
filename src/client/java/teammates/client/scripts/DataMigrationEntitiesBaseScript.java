@@ -76,11 +76,23 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     protected abstract void migrateEntity(Key<T> entity) throws Exception;
 
     /**
+     * Determines whether the migration should be done in a transaction.
+     *
+     * <p>Transaction is useful for data consistency. However, there are some limitations on operations
+     * inside a transaction.
+     *
+     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/datastore/transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
+     */
+    protected boolean shouldUseTransaction() {
+        return true;
+    }
+
+    /**
      * Does data migration ({@link #isMigrationNeeded(Key)} and {@link #migrateEntity(Key)}) in transaction
      * to ensure data consistency.
      */
     private void migrate(Key<T> entityKey) {
-        ofy().transact(() -> {
+        Runnable task = () -> {
             try {
                 if (!isMigrationNeeded(entityKey)) {
                     return;
@@ -94,7 +106,12 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
                 System.err.println("Problem migrating entity with key: " + entityKey);
                 System.err.println(e.getMessage());
             }
-        });
+        };
+        if (shouldUseTransaction()) {
+            ofy().transact(task);
+        } else {
+            task.run();
+        }
     }
 
     @Override
