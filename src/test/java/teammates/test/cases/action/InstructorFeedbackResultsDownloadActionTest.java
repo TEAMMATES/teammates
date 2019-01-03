@@ -37,7 +37,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        String[] paramsNormalInSection = {
+        String[] paramsNormalEitherSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
@@ -101,6 +101,62 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedFileName, result.getFileName());
         CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1_actionTest.csv");
 
+        ______TS("Typical case: results downloadable showing section from giver or recipient");
+
+        action = getAction(paramsNormalEitherSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if either the giver or evaluee is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1EitherSection_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section from giver");
+
+        action = getAction(paramsNormalFromGiverSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the giver is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1GiverSection_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section to recipient");
+
+        action = getAction(paramsNormalToRecipientSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the evaluee is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1RecipientSection_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section from both giver and recipient");
+
+        action = getAction(paramsNormalBothGiverAndRecipientInSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response only if both are in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1BothSection_actionTest.csv");
+
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -121,64 +177,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1NewLastName_actionTest.csv");
 
         removeAndRestoreTypicalDataBundle();
-
-        ______TS("Typical case: results downloadable showing section from giver or recipient");
-
-        action = getAction(paramsNormalInSection);
-        result = getFileDownloadResult(action);
-
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
-                + "_Show response if either the giver or evaluee is in the selected section";
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1InSection1(result.getFileContent(), session);
-
-        ______TS("Typical case: results downloadable showing section from giver");
-
-        action = getAction(paramsNormalFromGiverSection);
-        result = getFileDownloadResult(action);
-
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
-                + "_Show response if the giver is in the selected section";
-        assertEquals(expectedFileName, result.getFileName());
-
-        verifyFileContentForSession1InCourse1FromSection1(result.getFileContent(), session);
-
-        ______TS("Typical case: results downloadable showing section to recipient");
-
-        action = getAction(paramsNormalToRecipientSection);
-        result = getFileDownloadResult(action);
-
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
-                + "_Show response if the evaluee is in the selected section";
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1ToSection1(result.getFileContent(), session);
-
-        ______TS("Typical case: results downloadable showing section from both giver and recipient");
-
-        action = getAction(paramsNormalBothGiverAndRecipientInSection);
-        result = getFileDownloadResult(action);
-
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
-                + "_Show response only if both are in the selected section";
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1BothToAndFromSection1(result.getFileContent(), session);
-        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1_actionTest.csv");
 
         ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
 
