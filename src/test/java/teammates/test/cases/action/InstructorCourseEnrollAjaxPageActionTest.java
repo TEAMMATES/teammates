@@ -41,10 +41,10 @@ public class InstructorCourseEnrollAjaxPageActionTest extends BaseActionTest {
 
         String expectedString = "Section 1|Team 1.1</td></div>'\"|student1 In Course1</td></div>'\""
                 + "|student1InCourse1@gmail.tmt|comment for student1InCourse1</td></div>'\""
-                + "Section 2|Team 1.2</td></div>'\"|student2 In Course1|student2InCourse1@gmail.tmt|"
+                + "Section 1|Team 1.1</td></div>'\"|student2 In Course1|student2InCourse1@gmail.tmt|"
                 + "Section 1|Team 1.1</td></div>'\"|student3 In Course1|student3InCourse1@gmail.tmt|"
                 + "Section 1|Team 1.1</td></div>'\"|student4 In Course1|student4InCourse1@gmail.tmt|"
-                + "Section 2|Team 1.2</td></div>'\"|student5 In Course1|student5InCourse1@gmail.tmt|";
+                + "Section 2|Team 1.2|student5 In Course1|student5InCourse1@gmail.tmt|";
 
         StringBuilder resultString = new StringBuilder();
         for (StudentAttributes student : pageData.students) {

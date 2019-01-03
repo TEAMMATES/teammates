@@ -166,11 +166,11 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) pageResult.data;
 
         List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
-        boolean isStudentDisplayedOnViewTeam = true;
+        boolean isStudentDisplayedOnViewTeam = false;
         for (StudentAttributes stud : actualStudentsList) {
             if (student1.email.equals(stud.email) && student1.name.equals(stud.name)
                     && student1.getPublicProfilePictureUrl().equals(stud.getPublicProfilePictureUrl())) {
-                isStudentDisplayedOnViewTeam = false;
+                isStudentDisplayedOnViewTeam = true;
             }
         }
 

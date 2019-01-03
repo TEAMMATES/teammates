@@ -93,7 +93,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         assertEquals("Team 1.1</td></div>'\"", team.name);
         assertNotNull(team.students);
-        assertEquals(3, team.students.size());
+        assertEquals(4, team.students.size());
 
         ______TS("Typical case: get team of non-existing student");
         courseId = "idOfTypicalCourse1";
@@ -1023,16 +1023,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), nonExistStudentEmail,
                                                        student2InCourse1.email));
 
-        ______TS("students of same teams");
-
-        StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
-        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
-                                                       student5InCourse1.email));
-
         ______TS("students of different teams");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
+        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
                                                       student1InCourse1.email));
 
     }
