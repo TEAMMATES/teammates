@@ -12,6 +12,7 @@
     "noUnusedParameters": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "importHelpers": true,
     "strict": true,
     "target": "es5",
     "typeRoots": [
@@ -23,7 +24,7 @@
       ]
     },
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ]
   }
