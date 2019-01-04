@@ -156,6 +156,7 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
 
     // Replaces tooltip text of the {@code button}.
     const tooltipString = $(button).attr('data-original-title').replace(from, to);
+    tooltipString = tooltipString.replace( from.toLowerCase(), to.toLowerCase());
     $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
 }
 
