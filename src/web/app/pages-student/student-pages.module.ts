@@ -15,6 +15,8 @@ import { StudentCourseDetailsPageComponent } from './student-course-details-page
 import { StudentHomePageComponent } from './student-home-page/student-home-page.component';
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
 
+import { Pipes } from '../pipes/pipes.module';
+
 const routes: Routes = [
   {
     path: 'home',
@@ -71,6 +73,7 @@ const routes: Routes = [
     SessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
+    Pipes
   ],
   declarations: [
     StudentHomePageComponent,

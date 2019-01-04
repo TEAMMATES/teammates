@@ -1,7 +1,5 @@
-<br>
-<br>
 <ng-container *ngFor="let course of courses">
-  <div class="card bg-light top-padded" *ngIf="course.sessions.length">
+  <div class="card bg-light top-padded">
     <div class="card-header bg-primary text-white">
       <strong>[{{ course.id }}]: {{ course.name }}</strong>
       <span class="float-sm-right">
@@ -12,7 +10,7 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table table-striped table-bordered margin-0">
+      <table class="table table-striped table-bordered margin-0" *ngIf="course.sessions.length">
         <thead>
         <tr>
           <th>Session Name</th>
@@ -26,12 +24,8 @@
           <tr *ngFor="let session of course.sessions">
             <td>{{ session.name }}</td>
             <td>{{ session.deadline }}</td>
-            <td *ngIf="session.isOpened && session.isSubmitted">Submitted</td>
-            <td *ngIf="session.isOpened && !session.isSubmitted">Pending</td>
-            <td *ngIf="session.isWaitingToOpen">Awaiting</td>
-            <td *ngIf="!session.isOpened && !session.isWaitingToOpen">Closed</td>
-            <td *ngIf="session.isSessionPublished">Published</td>
-            <td *ngIf="!session.isSessionPublished">Not Published</td>
+            <td>{{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}</td>
+            <td>{{ session.isSessionPublished | sessionResponseStatus }}</td>
             <td>
               <a *ngIf="session.isSessionPublished" [href]="session.studentFeedbackResultsLink" class="btn btn-light btn-sm btn-left" type="button">
                 View Responses
@@ -57,5 +51,4 @@
       </table>
     </div>
   </div>
-  <br>
 </ng-container>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpRequestService } from "../../../services/http-request.service";
@@ -42,7 +42,9 @@ const COURSES: StudentCourse[]= [
         isSubmitted: false, isOpened: false, isWaitingToOpen: false,
         isSessionVisible: true, isSessionPublished: false,
         studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
-    ]}
+    ]},
+  { id: 'CS3103', name: 'Sample Course 103', teamLink: '#',
+    sessions: []},
 ];
 
 interface StudentFeedbackSession {
@@ -79,7 +81,7 @@ interface StudentCourses {
   templateUrl: './student-home-page.component.html',
   styleUrls: ['./student-home-page.component.scss'],
 })
-export class StudentHomePageComponent {
+export class StudentHomePageComponent implements OnInit {
 
   user: string = '';
 
