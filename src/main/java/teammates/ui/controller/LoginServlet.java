@@ -10,10 +10,11 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-@SuppressWarnings("serial")
-/*
-  Servlet to handle Login
+/**
+ Servlet to handle Login
  */
+@SuppressWarnings("serial")
+
 public class LoginServlet extends HttpServlet {
 
     @Override
