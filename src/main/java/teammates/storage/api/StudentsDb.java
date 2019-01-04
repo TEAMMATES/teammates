@@ -387,14 +387,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      */
 
-    public void deleteStudentsForCourse(String courseId) {
-        deleteStudentsForCourse(courseId, true);
-    }
-
-    public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        deleteStudentsForCourse(courseId, false);
-    }
-
     public void deleteStudentsForCourse(String courseId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 

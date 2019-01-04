@@ -228,7 +228,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
         assertEquals(2, studentsDb.getStudentsForCourse(s.course).size());
-        studentsDb.deleteStudentsForCourseWithoutDocument(s.course);
+        studentsDb.deleteStudentsForCourse(s.course,false);
         assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
         // delete again - should fail silently
         studentsDb.deleteStudentWithoutDocument(s.course, s.email);

@@ -483,11 +483,11 @@ public final class StudentsLogic {
     }
 
     public void deleteStudentsForCourse(String courseId) {
-        studentsDb.deleteStudentsForCourse(courseId);
+        studentsDb.deleteStudentsForCourse(courseId,true);
     }
 
     public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        studentsDb.deleteStudentsForCourseWithoutDocument(courseId);
+        studentsDb.deleteStudentsForCourse(courseId,false);
     }
 
     public void adjustFeedbackResponseForEnrollments(
