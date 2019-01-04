@@ -33,7 +33,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * leading to any previously deferred operations being written immediately. This is needed
      * to update the question entities with actual question IDs.
      *
-     * @returns list of created {@link FeedbackQuestionAttributes} containing actual question IDs.
+     * @return list of created {@link FeedbackQuestionAttributes} containing actual question IDs.
      */
     public List<FeedbackQuestionAttributes> createFeedbackQuestionsWithoutExistenceCheck(
             Collection<FeedbackQuestionAttributes> questions) throws InvalidParametersException {

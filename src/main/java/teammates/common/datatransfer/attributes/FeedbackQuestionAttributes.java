@@ -421,12 +421,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         if (this.questionNumber != o.questionNumber) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
-        /**
-         * Although question numbers ought to be unique in a feedback session,
-         * eventual consistency can result in duplicate questions numbers.
-         * Therefore, to ensure that the question order is always consistent to the user,
-         * compare feedbackQuestionId, which is guaranteed to be unique,
-         * when the questionNumbers are the same.
+        /*
+          Although question numbers ought to be unique in a feedback session,
+          eventual consistency can result in duplicate questions numbers.
+          Therefore, to ensure that the question order is always consistent to the user,
+          compare feedbackQuestionId, which is guaranteed to be unique,
+          when the questionNumbers are the same.
          */
         return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
