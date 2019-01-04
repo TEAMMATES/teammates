@@ -95,11 +95,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
     }
 
-    public void createStudentWithoutDocument(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createStudent(student, false);
-    }
-
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
