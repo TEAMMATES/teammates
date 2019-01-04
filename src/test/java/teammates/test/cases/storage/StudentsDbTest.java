@@ -85,7 +85,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.course = "valid-course";
 
         // remove possibly conflicting entity from the database
-        studentsDb.deleteStudent(s.course, s.email);
+        studentsDb.deleteStudent(s.course, s.email,true);
 
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
@@ -152,8 +152,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail("any-course-id", null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        studentsDb.deleteStudent(s.course, s.email);
-        studentsDb.deleteStudent(s2.course, s2.email);
+        studentsDb.deleteStudent(s.course, s.email,true);
+        studentsDb.deleteStudent(s2.course, s2.email,true);
     }
 
     @Test
@@ -218,7 +218,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
                                                      s.email, s.googleId, s.comments);
         // Delete
-        studentsDb.deleteStudentWithoutDocument(s.course, s.email);
+        studentsDb.deleteStudent(s.course, s.email,false);
 
         StudentAttributes deleted = studentsDb.getStudentForEmail(s.course, s.email);
 
@@ -231,19 +231,19 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.deleteStudentsForCourse(s.course,false);
         assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
         // delete again - should fail silently
-        studentsDb.deleteStudentWithoutDocument(s.course, s.email);
+        studentsDb.deleteStudent(s.course, s.email,false);
 
         // Null params check:
         StudentAttributes[] finalStudent = new StudentAttributes[] { s };
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> studentsDb.deleteStudentWithoutDocument(null, finalStudent[0].email));
+                () -> studentsDb.deleteStudent(null, finalStudent[0].email,false));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ae = assertThrows(AssertionError.class,
-                () -> studentsDb.deleteStudentWithoutDocument(finalStudent[0].course, null));
+                () -> studentsDb.deleteStudent(finalStudent[0].course, null,false));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        studentsDb.deleteStudent(s.course, s.email);
+        studentsDb.deleteStudent(s.course, s.email,true);
 
     }
 

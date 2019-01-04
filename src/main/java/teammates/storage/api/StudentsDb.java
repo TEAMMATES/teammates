@@ -298,7 +298,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             throw new InvalidParametersException(error);
         }
 
-        deleteStudent(courseId, email);
+        deleteStudent(courseId, email,true);
     }
 
     private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
@@ -330,14 +330,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *  * All parameters are non-null.
      *
      */
-
-    public void deleteStudent(String courseId, String email) {
-        deleteStudent(courseId, email, true);
-    }
-
-    public void deleteStudentWithoutDocument(String courseId, String email) {
-        deleteStudent(courseId, email, false);
-    }
 
     public void deleteStudent(String courseId, String email, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
