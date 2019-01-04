@@ -78,7 +78,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for students; deleted student no longer searchable");
 
-        studentsDb.deleteStudent(stu1InCourse1.course, stu1InCourse1.email,true);
+        studentsDb.deleteStudent(stu1InCourse1.course, stu1InCourse1.email, true);
 
         bundle = studentsDb.search("student1", ins1OfCourse1);
 
@@ -88,14 +88,14 @@ public class StudentSearchTest extends BaseSearchTest {
         ______TS("success: search for students; deleted student without deleted document: the document "
                  + "will be deleted during the search");
 
-        studentsDb.deleteStudent(stu1InCourse2.course, stu1InCourse2.email,false);
+        studentsDb.deleteStudent(stu1InCourse2.course, stu1InCourse2.email, false);
 
         bundle = studentsDb.search("student1", ins1OfCourse2);
 
         assertEquals(0, bundle.numberOfResults);
         assertTrue(bundle.studentList.isEmpty());
 
-        studentsDb.deleteStudent(stu2InCourse1.course, stu2InCourse1.email,false);
+        studentsDb.deleteStudent(stu2InCourse1.course, stu2InCourse1.email, false);
 
         bundle = studentsDb.searchStudentsInWholeSystem("student2");
 

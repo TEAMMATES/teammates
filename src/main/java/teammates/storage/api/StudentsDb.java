@@ -291,14 +291,14 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         StudentAttributes newCourseStudentAttributes = makeAttributes(newCourseStudent);
         try {
-            createStudent(newCourseStudentAttributes,hasDocument);
+            createStudent(newCourseStudentAttributes, hasDocument);
         } catch (EntityAlreadyExistsException e) {
             CourseStudent existingStudent = getEntity(newCourseStudentAttributes);
             String error = ERROR_UPDATE_EMAIL_ALREADY_USED + existingStudent.getName() + "/" + existingStudent.getEmail();
             throw new InvalidParametersException(error);
         }
 
-        deleteStudent(courseId, email,true);
+        deleteStudent(courseId, email, true);
     }
 
     private void updateStudentDetails(String newName, String newTeamName, String newSectionName,

@@ -462,7 +462,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
-        studentsDb.deleteStudentsForGoogleId(googleId,true);
+        studentsDb.deleteStudentsForGoogleId(googleId, true);
     }
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
@@ -470,7 +470,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
-        studentsDb.deleteStudentsForGoogleId(googleId,false);
+        studentsDb.deleteStudentsForGoogleId(googleId, false);
     }
 
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
@@ -483,11 +483,11 @@ public final class StudentsLogic {
     }
 
     public void deleteStudentsForCourse(String courseId) {
-        studentsDb.deleteStudentsForCourse(courseId,true);
+        studentsDb.deleteStudentsForCourse(courseId, true);
     }
 
     public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        studentsDb.deleteStudentsForCourse(courseId,false);
+        studentsDb.deleteStudentsForCourse(courseId, false);
     }
 
     public void adjustFeedbackResponseForEnrollments(

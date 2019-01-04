@@ -122,7 +122,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
 
         // delete the new student
-        studentsDb.deleteStudent(newStudentData.course, newStudentData.email,false);
+        studentsDb.deleteStudent(newStudentData.course, newStudentData.email, false);
 
         ______TS("Non-existent student attempting to join course displays error");
 

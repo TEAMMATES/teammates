@@ -214,7 +214,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         // for unregistered student
 
         StudentsDb stDb = new StudentsDb();
-        stDb.createStudent(unregStudent,false);
+        stDb.createStudent(unregStudent, false);
         unregStudent = stDb.getStudentForEmail("idOfTypicalCourse1", "unreg@stud.ent");
         gaeSimulation.logoutUser();
 
@@ -240,7 +240,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             assertEquals("unregistered student trying to access non-existent session", enfe.getMessage());
         }
 
-        stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent",true);
+        stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent", true);
 
         ______TS("typical success case for unregistered student");
 
