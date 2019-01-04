@@ -134,7 +134,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s2.googleId = "validGoogleId2";
         studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section,
                                                      s2.email, s2.googleId, s2.comments);
-        studentsDb.deleteStudentsForGoogleIdWithoutDocument(s2.googleId);
+        studentsDb.deleteStudentsForGoogleId(s2.googleId,false);
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
 
         s2 = createNewStudent("one.new@gmail.com");
@@ -223,7 +223,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes deleted = studentsDb.getStudentForEmail(s.course, s.email);
 
         assertNull(deleted);
-        studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
+        studentsDb.deleteStudentsForGoogleId(s.googleId,false);
         assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId));
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");

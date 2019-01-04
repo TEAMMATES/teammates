@@ -354,14 +354,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      */
 
-    public void deleteStudentsForGoogleId(String googleId) {
-        deleteStudentsForGoogleId(googleId, true);
-    }
-
-    public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
-        deleteStudentsForGoogleId(googleId, false);
-    }
-
     public void deleteStudentsForGoogleId(String googleId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 

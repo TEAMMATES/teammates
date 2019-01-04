@@ -462,7 +462,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
-        studentsDb.deleteStudentsForGoogleId(googleId);
+        studentsDb.deleteStudentsForGoogleId(googleId,true);
     }
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
@@ -470,7 +470,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
-        studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
+        studentsDb.deleteStudentsForGoogleId(googleId,false);
     }
 
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
