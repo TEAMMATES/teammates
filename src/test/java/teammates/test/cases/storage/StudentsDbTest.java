@@ -85,7 +85,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.course = "valid-course";
 
         // remove possibly conflicting entity from the database
-        studentsDb.deleteStudent(s.course, s.email, true);
+        studentsDb.deleteStudent(s.course, s.email);
 
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
@@ -134,7 +134,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s2.googleId = "validGoogleId2";
         studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section,
                                                      s2.email, s2.googleId, s2.comments);
-        studentsDb.deleteStudentsForGoogleId(s2.googleId, false);
+        studentsDb.deleteStudentsForGoogleId(s2.googleId);
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
 
         s2 = createNewStudent("one.new@gmail.com");
@@ -152,8 +152,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail("any-course-id", null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        studentsDb.deleteStudent(s.course, s.email, true);
-        studentsDb.deleteStudent(s2.course, s2.email, true);
+        studentsDb.deleteStudent(s.course, s.email);
+        studentsDb.deleteStudent(s2.course, s2.email);
     }
 
     @Test
@@ -218,32 +218,32 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
                                                      s.email, s.googleId, s.comments);
         // Delete
-        studentsDb.deleteStudent(s.course, s.email, false);
+        studentsDb.deleteStudent(s.course, s.email);
 
         StudentAttributes deleted = studentsDb.getStudentForEmail(s.course, s.email);
 
         assertNull(deleted);
-        studentsDb.deleteStudentsForGoogleId(s.googleId, false);
+        studentsDb.deleteStudentsForGoogleId(s.googleId);
         assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId));
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
         assertEquals(2, studentsDb.getStudentsForCourse(s.course).size());
-        studentsDb.deleteStudentsForCourse(s.course, false);
+        studentsDb.deleteStudentsForCourse(s.course);
         assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
         // delete again - should fail silently
-        studentsDb.deleteStudent(s.course, s.email, false);
+        studentsDb.deleteStudent(s.course, s.email);
 
         // Null params check:
         StudentAttributes[] finalStudent = new StudentAttributes[] { s };
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> studentsDb.deleteStudent(null, finalStudent[0].email, false));
+                () -> studentsDb.deleteStudent(null, finalStudent[0].email));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ae = assertThrows(AssertionError.class,
-                () -> studentsDb.deleteStudent(finalStudent[0].course, null, false));
+                () -> studentsDb.deleteStudent(finalStudent[0].course, null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        studentsDb.deleteStudent(s.course, s.email, true);
+        studentsDb.deleteStudent(s.course, s.email);
 
     }
 

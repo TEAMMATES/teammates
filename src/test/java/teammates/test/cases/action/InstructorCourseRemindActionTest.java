@@ -166,8 +166,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent2.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
 
         ______TS("Typical case: no unregistered students in course");
 

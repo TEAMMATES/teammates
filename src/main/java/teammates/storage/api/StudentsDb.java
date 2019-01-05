@@ -298,7 +298,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             throw new InvalidParametersException(error);
         }
 
-        deleteStudent(courseId, email, true);
+        deleteStudent(courseId, email);
     }
 
     private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
@@ -331,19 +331,15 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      */
 
-    public void deleteStudent(String courseId, String email, boolean hasDocument) {
+    public void deleteStudent(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
-        if (hasDocument) {
-            CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
-            if (courseStudentToDelete != null) {
-                StudentAttributes courseStudentToDeleteAttributes = makeAttributes(courseStudentToDelete);
-                deleteDocumentByStudentKey(courseStudentToDelete.getRegistrationKey());
-                deleteEntityDirect(courseStudentToDelete, courseStudentToDeleteAttributes);
-            }
-        } else {
-            ofy().delete().keys(getCourseStudentForEmailQuery(courseId, email).keys()).now();
+        CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
+        if (courseStudentToDelete != null) {
+            StudentAttributes courseStudentToDeleteAttributes = makeAttributes(courseStudentToDelete);
+            deleteDocumentByStudentKey(courseStudentToDelete.getRegistrationKey());
+            deleteEntityDirect(courseStudentToDelete, courseStudentToDeleteAttributes);
         }
     }
 
@@ -354,14 +350,9 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      */
 
-    public void deleteStudentsForGoogleId(String googleId, boolean hasDocument) {
+    public void deleteStudentsForGoogleId(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-
-        if (hasDocument) {
-            deleteStudentsCascadeDocuments(getCourseStudentEntitiesForGoogleId(googleId));
-        } else {
-            ofy().delete().keys(getCourseStudentsForGoogleIdQuery(googleId).keys());
-        }
+        deleteStudentsCascadeDocuments(getCourseStudentEntitiesForGoogleId(googleId));
     }
 
     /**
@@ -371,14 +362,9 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      */
 
-    public void deleteStudentsForCourse(String courseId, boolean hasDocument) {
+    public void deleteStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        if (hasDocument) {
-            deleteStudentsCascadeDocuments(getCourseStudentEntitiesForCourse(courseId));
-        } else {
-            ofy().delete().keys(getCourseStudentsForCourseQuery(courseId).keys());
-        }
+        deleteStudentsCascadeDocuments(getCourseStudentEntitiesForCourse(courseId));
     }
 
     public void deleteStudentsForCourses(List<String> courseIds) {

@@ -443,18 +443,10 @@ public final class StudentsLogic {
     }
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        deleteStudentCascade(courseId, studentEmail, true);
-    }
-
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
-        deleteStudentCascade(courseId, studentEmail, false);
-    }
-
-    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
-        studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
+        studentsDb.deleteStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -462,15 +454,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : students) {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
-        studentsDb.deleteStudentsForGoogleId(googleId, true);
-    }
-
-    public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
-        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondentsList(student);
-        }
-        studentsDb.deleteStudentsForGoogleId(googleId, false);
+        studentsDb.deleteStudentsForGoogleId(googleId);
     }
 
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
@@ -483,11 +467,7 @@ public final class StudentsLogic {
     }
 
     public void deleteStudentsForCourse(String courseId) {
-        studentsDb.deleteStudentsForCourse(courseId, true);
-    }
-
-    public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        studentsDb.deleteStudentsForCourse(courseId, false);
+        studentsDb.deleteStudentsForCourse(courseId);
     }
 
     public void adjustFeedbackResponseForEnrollments(

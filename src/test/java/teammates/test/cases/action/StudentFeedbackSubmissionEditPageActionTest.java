@@ -240,7 +240,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             assertEquals("unregistered student trying to access non-existent session", enfe.getMessage());
         }
 
-        stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent", true);
+        stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent");
 
         ______TS("typical success case for unregistered student");
 

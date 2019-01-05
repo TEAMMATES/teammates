@@ -590,7 +590,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     * {@link #signalFailureToDetectException(String...)} ()}.
+     *  ()}.
      *
      * @param invalidEnrollLines is assumed to be invalid
      */
@@ -1045,7 +1045,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         verifyPresentInDatastore(student2InCourse1);
 
-        studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
         verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
@@ -1056,12 +1056,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("delete non-existent student");
 
         // should fail silently.
-        studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
 
         ______TS("null parameters");
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.tmt"));
+                () -> studentsLogic.deleteStudentCascade(null, "valid@email.tmt"));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
