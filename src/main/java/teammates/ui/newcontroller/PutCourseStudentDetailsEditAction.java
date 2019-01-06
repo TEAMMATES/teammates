@@ -44,8 +44,8 @@ public class PutCourseStudentDetailsEditAction extends Action {
     @Override
     public ActionResult execute() throws EntityNotFoundException {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
         if (student == null) {
