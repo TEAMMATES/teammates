@@ -98,6 +98,8 @@ export class StudentHomePageComponent implements OnInit {
     this.getMockCourses();
 
     //this.getStudentCourses();
+    this.sortCourses();
+    this.sortSessionsInCourses();
   }
 
   getMockCourses(): void {
@@ -112,10 +114,48 @@ export class StudentHomePageComponent implements OnInit {
       student: this.user,
     };
     this.httpRequestService.get('/sessions/student', paramMap).subscribe((resp: StudentCourses) => {
-      //TODO: Sort courses and sessions by name and creation time respectively
       this.courses = resp.courses;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Sorts courses by course id in ascending alphabetical order.
+   */
+  sortCourses(): void {
+    this.courses.sort((a: StudentCourse, b: StudentCourse) => {
+      if (a.id < b.id) {
+        return -1;
+      } else if (a.id > b.id) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  /**
+   * Sorts sessions in all courses by session names in ascending alphabetical order.
+   */
+  sortSessionsInCourses(): void {
+    this.courses.forEach((course) => {
+      this.sortSessionsInCourse(course);
+    })
+  }
+
+  /**
+   * Sorts sessions in a course by session names in ascending alphabetical order.
+   */
+  sortSessionsInCourse(course: StudentCourse): void {
+    course.sessions.sort((a: StudentFeedbackSession, b: StudentFeedbackSession) => {
+      if (a.name < b.name) {
+        return -1;
+      } else if (a.name > b.name) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
   }
 
