@@ -1,3 +1,161 @@
-<p>
-  instructor-courses-page works!
-</p>
+<br>
+<ng-container>
+  <div class="card bg-primary">
+    <div class="card-body fill-plain">
+      <form class="form">
+        <div class="form-group row">
+          <label class="col-sm-3 control-label bold-label text-right">Course ID:</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" placeholder="e.g. CS3215-2013Semester1"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 control-label bold-label text-right">Course Name:</label>
+          <div class="col-sm-9">
+            <input class="form-control" type="text" placeholder="e.g. Software Engineering"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 control-label bold-label text-right">Time Zone:</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <select class="form-control">
+                <option>Asia/Singapore (UTC+08:00)</option>
+              </select>
+              <span class="input-group-btn">
+                <input type="button" class="btn btn-primary" id="auto-detect-time-zone" value="Auto-Detect">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-sm-3 col-sm-9">
+            <input id="btnAddCourse" type="submit" class="btn btn-primary" value="Add Course">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <br><br><br><br>
+</ng-container>
+
+<ng-container>
+  <h2>Active Courses</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered margin-0">
+      <thead>
+        <tr class="bg-primary text-white">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Creation Date</th>
+          <th>Sections</th>
+          <th>Teams</th>
+          <th>Total Students</th>
+          <th>Total Unregistered</th>
+          <th class="text-center">Action(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of activeCourses">
+          <td>{{course.id}}</td>
+          <td>{{course.name}}</td>
+          <td>{{course.createdAt}}</td>
+          <td><a routerLink="/web/instructor/courses">show</a></td>
+          <td><a routerLink="/web/instructor/courses">show</a></td>
+          <td><a routerLink="/web/instructor/courses">show</a></td>
+          <td><a routerLink="/web/instructor/courses">show</a></td>
+          <td class="text-center">
+            <a class="btn btn-light btn-sm btn-left" type="button" routerLink="/web/instructor/courses/enroll">Enroll</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" routerLink="/web/instructor/courses/details">View</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" routerLink="/web/instructor/courses/edit">Edit</a>
+            <a class="btn btn-light btn-sm btn-left" type="button">Archive</a>
+            <a class="btn btn-light btn-sm" type="button">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p *ngIf="!activeCourses.length">No records found.</p>
+  <br><br><br><br>
+</ng-container>
+
+<ng-container *ngIf="archivedCourses.length">
+  <h2 class="text-muted">
+    <span class="fa fa-file-archive"></span> Archived Courses
+  </h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered margin-0">
+      <thead>
+        <tr class="bg-info text-white">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Creation Date</th>
+          <th class="text-center">Action(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of archivedCourses">
+          <td>{{course.id}}</td>
+          <td>{{course.name}}</td>
+          <td>{{course.createdAt}}</td>
+          <td class="text-center">
+            <a class="btn btn-light btn-sm btn-left" type="button">Unarchive</a>
+            <a class="btn btn-light btn-sm" type="button">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br><br><br><br>
+</ng-container>
+
+<ng-container *ngIf="deletedCourses.length">
+  <h2 class="text-muted">
+    <span class="fa fa-trash"></span> Deleted Courses
+  </h2>
+  <div class="card bg-light top-padded">
+    <div class="card-header bg-secondary text-white">
+      <strong>Recycle Bin</strong>
+      <span class="float-sm-right margin-left-10px">
+        <a class="btn btn-light btn-sm" type="button">
+          <strong class="text-color-red">
+            <span class="fa fa-times-circle"></span> Delete All
+          </strong>
+        </a>
+      </span>
+      <span class="float-sm-right">
+        <a class="btn btn-light btn-sm" type="button">
+          <strong class="text-color-black">
+            <span class="fa fa-check-circle"></span> Restore All
+          </strong>
+        </a>
+      </span>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered margin-0">
+      <thead>
+        <tr class="background-color-medium-gray text-color-gray">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Creation Date</th>
+          <th>Deletion Date</th>
+          <th class="text-center">Action(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of deletedCourses">
+          <td>{{course.id}}</td>
+          <td>{{course.name}}</td>
+          <td>{{course.createdAt}}</td>
+          <td>{{course.deletedAt}}</td>
+          <td class="text-center">
+            <a class="btn btn-light btn-sm btn-left" type="button">Restore</a>
+            <a class="btn btn-light btn-sm" type="button" style="color: red">Delete Permanently</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br><br><br><br>
+</ng-container>

@@ -64,6 +64,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        data: {
+          pageTitle: 'Add New Course',
+        },
         component: InstructorCoursesPageComponent,
       },
       {
