@@ -99,17 +99,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertFalse(feedbackResponse.getUpdatedAt().equals(updatedFr.getUpdatedAt()));
         AssertHelper.assertInstantIsNow(updatedFr.getUpdatedAt());
 
-        ______TS("success : keep lastUpdated");
-
-        String newRecipientEmailTwo = "new-email-two@tmt.com";
-        feedbackResponse.recipient = newRecipientEmailTwo;
-        frDb.updateFeedbackResponse(feedbackResponse, true);
-
-        FeedbackResponseAttributes updatedFrTwo =
-                frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
-
-        // Assert lastUpdate has NOT changed.
-        assertEquals(updatedFr.getUpdatedAt(), updatedFrTwo.getUpdatedAt());
     }
 
     @Test
