@@ -20,7 +20,7 @@ Here are some documents important for TEAMMATES developers.
   [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
   [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true),
   [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
-  [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub),
+  [CSS](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html),
   [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
 
 * **Best practices** for:
