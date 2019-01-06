@@ -967,6 +967,7 @@ public final class Const {
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
+        public static final String STUDENT_COURSES = "/students/courses";
     }
 
     @Deprecated

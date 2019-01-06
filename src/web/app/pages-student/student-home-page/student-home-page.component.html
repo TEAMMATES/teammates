@@ -3,7 +3,7 @@
     <div class="card-header bg-primary text-white">
       <strong>[{{ course.id }}]: {{ course.name }}</strong>
       <span class="float-sm-right">
-        <a routerLink="web/student/course" [queryParams]="{user: this.user, courseid: course.id}"
+        <a routerLink="web/student/courses" [queryParams]="{user: this.user, courseid: course.id}"
            class="btn btn-light btn-sm button">
           View team
         </a>
