@@ -147,9 +147,10 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
      Configure for all the languages used in TEAMMATES:
      1. Go to `Editor → Code Style`.
      1. Select `Project` for `Scheme` if you do not wish to make the settings the default for your IDE.
-     1. For `Java`, `JavaScript`, `JSON`, `CSS`, `XML`, `HTML`, and `JSP`:
+     1. For `Java`, `JavaScript`, `CSS`, and `XML`:
         * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
-        * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.
+     1. For `HTML`, `JSON`, and `JSP`:
+        * Ensure that `Use tab character` is unchecked, and the numbers are `2`, `2`, and `4` instead.
 
    * Text encoding: `UTF-8` is used for text encoding.
      Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
