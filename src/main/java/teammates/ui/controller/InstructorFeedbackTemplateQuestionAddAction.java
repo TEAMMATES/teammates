@@ -22,7 +22,7 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         RedirectResult redirectResult = createRedirectResult(new PageData(account, sessionToken)
                 .getInstructorFeedbackEditLink(courseId, feedbackSessionName));

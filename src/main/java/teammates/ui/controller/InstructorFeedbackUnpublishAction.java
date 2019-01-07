@@ -21,9 +21,10 @@ public class InstructorFeedbackUnpublishAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        boolean isCreatorOnly = false;
 
         gateKeeper.verifyAccessible(
-                instructor, session, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                instructor, session, isCreatorOnly, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
             logic.unpublishFeedbackSession(session);
