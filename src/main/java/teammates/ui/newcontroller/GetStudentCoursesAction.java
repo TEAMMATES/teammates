@@ -35,7 +35,7 @@ public class GetStudentCoursesAction extends Action {
     @Override
     public ActionResult execute() {
 
-        String recentlyJoinedCourseId = getNonNullRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
+        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
         boolean hasEventualConsistencyMsg = false;
 
         List<CourseDetailsBundle> courses = new ArrayList<>();
@@ -59,7 +59,8 @@ public class GetStudentCoursesAction extends Action {
 
         } catch (EntityDoesNotExistException e) {
             if (recentlyJoinedCourseId == null) {
-                return new JsonResult("Your Google account is not known to TEAMMATES", HttpStatus.SC_NOT_FOUND);
+                return new JsonResult("Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",
+                        HttpStatus.SC_NOT_FOUND);
             } else {
                 hasEventualConsistencyMsg = addPlaceholderCourse(courses, recentlyJoinedCourseId,
                         sessionSubmissionStatusMap);

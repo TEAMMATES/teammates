@@ -127,7 +127,7 @@ export class StudentHomePageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.getStudentCourses(queryParams.persistencecourse);
+      // this.getStudentCourses(queryParams.persistencecourse);
     });
 
     this.getMockCourses();
