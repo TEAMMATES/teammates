@@ -11,7 +11,7 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table table-striped table-bordered margin-0" *ngIf="course.sessions != null">
+      <table class="table table-striped table-bordered margin-0" *ngIf="course.sessions.length">
         <thead>
         <tr>
           <th>Session Name</th>
@@ -64,7 +64,7 @@
         </tbody>
       </table>
 
-      <table class="table table-striped table-bordered margin-0" *ngIf="course.sessions == null">
+      <table class="table table-striped table-bordered margin-0" *ngIf="!course.sessions.length">
         <tbody>
         <tr>
           <th class="align-center white">
