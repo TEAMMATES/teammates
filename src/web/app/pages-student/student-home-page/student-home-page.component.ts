@@ -9,56 +9,86 @@ import { ErrorMessageOutput } from '../../message-output';
  * Mock courses to test the UI.
  */
 const COURSES: StudentCourse[] = [
-  { id: 'test.exa-demo', name: 'Sample Course 101', teamLink: '#',
+  { id: 'test.exa-demo', name: 'Sample Course 101',
     sessions: [
       { name: 'First team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: false, isOpened: false, isWaitingToOpen: true,
-        isSessionVisible: true, isSessionPublished: false,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: false, isWaitingToOpen: true,
+        isSessionVisible: true, isSessionPublished: false },
       { name: 'Second team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: true, isOpened: true, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: true,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: true, isWaitingToOpen: false,
+        isSessionVisible: true, isSessionPublished: true },
       { name: 'Third team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: true, isOpened: true, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: false,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: true, isWaitingToOpen: false,
+        isSessionVisible: true, isSessionPublished: false },
       { name: 'Fourth team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: false, isOpened: true, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: true,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: true, isWaitingToOpen: false,
+        isSessionVisible: true, isSessionPublished: true },
       { name: 'Fifth team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: false, isOpened: true, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: false,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: true, isWaitingToOpen: false,
+        isSessionVisible: true, isSessionPublished: false },
     ]},
-  { id: 'CS3244', name: 'Sample Course 103', teamLink: '#',
+  { id: 'CS3244', name: 'Sample Course 103',
     sessions: [
       { name: 'Sixth team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: true, isOpened: false, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: true,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: false, isWaitingToOpen: false,
+        isSessionVisible: true, isSessionPublished: true },
       { name: 'Seventh team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-        isSubmitted: false, isOpened: false, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: false,
-        studentFeedbackResultsLink: '#', studentFeedbackResponseEditLink: '#'},
+        isOpened: false, isWaitingToOpen: false,
+        isSessionVisible: true, isSessionPublished: false }
     ]},
-  { id: 'CS3103', name: 'Sample Course 103', teamLink: '#',
+  { id: 'CS3103', name: 'Sample Course 103',
     sessions: []},
 ];
+
+/**
+ * Mock submission statuses for each mock feedback session.
+ * @type {Map<any, any>}
+ */
+const SESSIONSUBMISSIONSTATUSMAP: Map<StudentFeedbackSession, Boolean> = new Map();
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+    { name: 'First team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: false, isWaitingToOpen: true,
+    isSessionVisible: true, isSessionPublished: false }, false );
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+    { name: 'Second team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: true, isWaitingToOpen: false,
+    isSessionVisible: true, isSessionPublished: true }, true );
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+  { name: 'Third team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: true, isWaitingToOpen: false,
+    isSessionVisible: true, isSessionPublished: false }, true);
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+  { name: 'Fourth team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: true, isWaitingToOpen: false,
+    isSessionVisible: true, isSessionPublished: true }, false);
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+  { name: 'Fifth team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: true, isWaitingToOpen: false,
+    isSessionVisible: true, isSessionPublished: false }, false);
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+  { name: 'Sixth team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: false, isWaitingToOpen: false,
+    isSessionVisible: true, isSessionPublished: true }, true);
+
+SESSIONSUBMISSIONSTATUSMAP.set(
+  { name: 'Seventh team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+    isOpened: false, isWaitingToOpen: false,
+    isSessionVisible: true, isSessionPublished: false }, false);
 
 interface StudentFeedbackSession {
   name: string;
   deadline: string;
 
-  isSubmitted: boolean;
   isOpened: boolean;
   isWaitingToOpen: boolean;
   isSessionVisible: boolean;
   isSessionPublished: boolean;
-
-  studentFeedbackResultsLink: string;
-  studentFeedbackResponseEditLink: string;
 }
 
 interface StudentCourse {
@@ -90,7 +120,7 @@ export class StudentHomePageComponent implements OnInit {
   recentlyJoinedCourseId: string = '';
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
-  sessionSubmissionStatusMap: Map<StudentFeedbackSession, Boolean> = new Map<>();
+  sessionSubmissionStatusMap: Map<StudentFeedbackSession, Boolean> = new Map();
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
@@ -116,7 +146,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getStudentCourses(persistencecourse: string): void {
     const paramMap: { [key: string]: string } = { persistencecourse };
-    this.httpRequestService.get('/sessions/student', paramMap).subscribe((resp: StudentCourses) => {
+    this.httpRequestService.get('/students/courses', paramMap).subscribe((resp: StudentCourses) => {
       this.recentlyJoinedCourseId = resp.recentlyJoinedCourseId;
       this.hasEventualConsistencyMsg = resp.hasEventualConsistencyMsg;
       this.courses = resp.courses;

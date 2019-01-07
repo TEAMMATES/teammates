@@ -3,7 +3,7 @@
     <div class="card-header bg-primary text-white">
       <strong>[{{ course.id }}]: {{ course.name }}</strong>
       <span class="float-sm-right">
-        <a routerLink="web/student/courses" [queryParams]="{user: this.user, courseid: course.id}"
+        <a routerLink="../course" [queryParams]="{user: this.user, courseid: course.id}"
            class="btn btn-light btn-sm button">
           View team
         </a>
@@ -25,25 +25,38 @@
           <tr *ngFor="let session of course.sessions">
             <td>{{ session.name }}</td>
             <td>{{ session.deadline }}</td>
-            <td>{{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}</td>
+            <td>{{ session.isOpened | sessionSubmissionStatus:
+                    session.isWaitingToOpen : sessionSubmissionStatusMap.get(session) }}</td>
             <td>{{ session.isSessionPublished | sessionResponseStatus }}</td>
             <td>
-              <a *ngIf="session.isSessionPublished" [href]="session.studentFeedbackResultsLink" class="btn btn-light btn-sm btn-left button">
+              <a *ngIf="session.isSessionPublished"
+                 routerLink="../sessions/result"
+                 [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
+                 class="btn btn-light btn-sm btn-left button">
                 View Responses
               </a>
               <a *ngIf="!session.isSessionPublished" class="btn btn-light btn-sm btn-left disabled button" type="button">
                 View Responses
               </a>
-              <a *ngIf="session.isOpened && !session.isSubmitted" [href]="session.studentFeedbackResponseEditLink" class="btn btn-light btn-sm button">
+              <a *ngIf="session.isOpened && !sessionSubmissionStatusMap.get(session)"
+                 routerLink="../sessions/submission"
+                 [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
+                 class="btn btn-light btn-sm button">
                 Start Submission
               </a>
               <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled button">
                 Start Submission
               </a>
-              <a *ngIf="session.isOpened && session.isSubmitted" [href]="session.studentFeedbackResponseEditLink" class="btn btn-light btn-sm button">
+              <a *ngIf="session.isOpened && sessionSubmissionStatusMap.get(session)"
+                 routerLink="../sessions/submission"
+                 [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
+                 class="btn btn-light btn-sm button">
                 Edit Submission
               </a>
-              <a *ngIf="!session.isOpened && !session.isWaitingToOpen" [href]="session.studentFeedbackResponseEditLink" class="btn btn-light btn-sm button">
+              <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
+                 routerLink="../sessions/submission"
+                 [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
+                 class="btn btn-light btn-sm button">
                 View Submission
               </a>
             </td>
