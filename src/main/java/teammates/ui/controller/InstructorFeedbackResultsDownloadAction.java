@@ -29,8 +29,9 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        boolean isCreatorOnly = true;
 
-        gateKeeper.verifyAccessible(instructor, session);
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
         String fileContent;
         String fileName;

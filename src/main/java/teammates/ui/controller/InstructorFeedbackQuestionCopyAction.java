@@ -19,7 +19,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String instructorEmail = instructorDetailForCourse.email;
 

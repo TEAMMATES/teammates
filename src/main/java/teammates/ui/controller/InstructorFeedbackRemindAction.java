@@ -22,7 +22,7 @@ public class InstructorFeedbackRemindAction extends Action {
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 feedbackSession,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         if (!feedbackSession.isOpened()) {
             statusToUser.add(new StatusMessage(
