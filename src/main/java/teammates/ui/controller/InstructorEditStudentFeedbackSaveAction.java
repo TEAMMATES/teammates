@@ -26,7 +26,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 
-        gateKeeper.verifyAccessible(instructor, session, false, moderatedStudent.section,
+        gateKeeper.verifyAccessible(instructor, session, moderatedStudent.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

@@ -21,7 +21,6 @@ public class InstructorFeedbackDeleteSoftDeletedSessionAction extends Action {
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
                 logic.getFeedbackSessionFromRecycleBin(nameOfSessionToDelete, idOfCourseToDelete),
-                false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
