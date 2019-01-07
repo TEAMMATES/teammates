@@ -34,7 +34,7 @@ const COURSES: StudentCourse[] = [
         isSessionVisible: true, isSessionPublished: true },
       { name: 'Seventh team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
         isOpened: false, isWaitingToOpen: false,
-        isSessionVisible: true, isSessionPublished: false }
+        isSessionVisible: true, isSessionPublished: false },
     ]},
   { id: 'CS3103', name: 'Sample Course 103',
     sessions: []},
@@ -42,19 +42,18 @@ const COURSES: StudentCourse[] = [
 
 /**
  * Mock submission statuses for each mock feedback session.
- * @type {Map<any, any>}
  */
 const SESSIONSUBMISSIONSTATUSMAP: Map<StudentFeedbackSession, Boolean> = new Map();
 
 SESSIONSUBMISSIONSTATUSMAP.set(
-    { name: 'First team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+  { name: 'First team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
     isOpened: false, isWaitingToOpen: true,
-    isSessionVisible: true, isSessionPublished: false }, false );
+    isSessionVisible: true, isSessionPublished: false }, false);
 
 SESSIONSUBMISSIONSTATUSMAP.set(
-    { name: 'Second team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
+  { name: 'Second team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
     isOpened: true, isWaitingToOpen: false,
-    isSessionVisible: true, isSessionPublished: true }, true );
+    isSessionVisible: true, isSessionPublished: true }, true);
 
 SESSIONSUBMISSIONSTATUSMAP.set(
   { name: 'Third team feedback session', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
@@ -146,7 +145,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getStudentCourses(persistencecourse: string): void {
     const paramMap: { [key: string]: string } = { persistencecourse };
-    this.httpRequestService.get('/students/courses', paramMap).subscribe((resp: StudentCourses) => {
+    this.httpRequestService.get('/student/courses', paramMap).subscribe((resp: StudentCourses) => {
       this.recentlyJoinedCourseId = resp.recentlyJoinedCourseId;
       this.hasEventualConsistencyMsg = resp.hasEventualConsistencyMsg;
       this.courses = resp.courses;
@@ -158,8 +157,7 @@ export class StudentHomePageComponent implements OnInit {
             + '<br>Updating of the course data on our servers is currently in progress '
             + 'and will be completed in a few minutes. '
             + '<br>Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
-            + ' in the list below.'
-        );
+            + ' in the list below.');
       }
 
     }, (resp: ErrorMessageOutput) => {

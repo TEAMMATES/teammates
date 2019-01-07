@@ -1,19 +1,26 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 /**
- * Displays the submission status depending on student submissions and whether the session is open
+ * Processes and displays the submission status.
  */
-@Pipe({name: 'sessionSubmissionStatus'})
+@Pipe({ name: 'sessionSubmissionStatus' })
 export class SubmissionStatusPipe implements PipeTransform {
+  /**
+   * Displays the submission status depending on student submissions and whether the session is open.
+   */
   transform(isOpened: boolean, isWaitingToOpen: boolean, isSubmitted: boolean): string {
     if (isOpened && isSubmitted) {
-      return "Submitted";
-    } else if (isOpened && !isSubmitted) {
-      return "Pending";
-    } else if (isWaitingToOpen) {
-      return "Awaiting";
-    } else {
-      return "Closed";
+      return 'Submitted';
     }
+
+    if (isOpened && !isSubmitted) {
+      return 'Pending';
+    }
+
+    if (isWaitingToOpen) {
+      return 'Awaiting';
+    }
+
+    return 'Closed';
   }
 }

@@ -4,16 +4,21 @@ import { NgModule } from '@angular/core';
 import { ResponseStatusPipe } from './sessionResponseStatus.pipe';
 import { SubmissionStatusPipe } from './sessionSubmissionStatus.pipe';
 
+/**
+ * Module for common pipes.
+ */
 @NgModule({
-  declarations:[
+  declarations: [
     ResponseStatusPipe,
-    SubmissionStatusPipe
+    SubmissionStatusPipe,
   ],
-  imports:[CommonModule],
-  exports:[
+  imports: [
+    CommonModule,
+  ],
+  exports: [
     ResponseStatusPipe,
-    SubmissionStatusPipe
-  ]
+    SubmissionStatusPipe,
+  ],
 })
 
 export class Pipes {}

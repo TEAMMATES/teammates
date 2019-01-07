@@ -73,7 +73,7 @@ const routes: Routes = [
     SessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
-    Pipes
+    Pipes,
   ],
   declarations: [
     StudentHomePageComponent,
