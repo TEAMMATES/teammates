@@ -27,7 +27,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     // Note: be careful when changing these variables as their names are used in *.json files.
 
     private static final String ATTRIBUTE_NAME = "Instructor";
-    private static final String GET_BACKUP_NAME = "Course";
 
     /** Required fields. */
     public String googleId;
@@ -150,7 +149,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + courseId;
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + googleId;
     }
 
     @Override
