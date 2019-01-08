@@ -16,7 +16,6 @@ import teammates.storage.entity.FeedbackResponse;
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
 
     private static final String ATTRIBUTE_NAME = "Feedback Response";
-    private static final String GET_BACKUP_NAME = "Course";
 
     public String feedbackSessionName;
     public String courseId;
@@ -148,7 +147,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + courseId;
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + courseId;
     }
 
     @Override
