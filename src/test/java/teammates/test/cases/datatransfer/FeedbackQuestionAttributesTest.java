@@ -520,7 +520,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     @Test
     public void testGetBackupIdentifier() {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
-        assertEquals("Recently modified Course::testingCourse", fqa.getBackupIdentifier());
+        assertEquals("Recently modified Feedback Question::" + fqa.getFeedbackQuestionId(),
+                fqa.getBackupIdentifier());
     }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
