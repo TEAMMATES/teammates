@@ -149,7 +149,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + googleId;
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + name;
     }
 
     @Override
