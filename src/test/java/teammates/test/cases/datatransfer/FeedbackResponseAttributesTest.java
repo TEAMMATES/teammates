@@ -48,7 +48,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testGetBackupIdentifier() {
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes();
         fra.courseId = "Math";
-        assertEquals("Recently modified Course::Math", fra.getBackupIdentifier());
+        assertEquals("Recently modified Feedback Response::" + fra.feedbackQuestionId,
+                fra.getBackupIdentifier());
     }
 
 }
