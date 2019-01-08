@@ -21,7 +21,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         implements Comparable<FeedbackQuestionAttributes> {
 
     private static final String ATTRIBUTE_NAME = "Feedback Question";
-    private static final String GET_BACKUP_NAME = "Course";
 
     public String feedbackSessionName;
     public String courseId;
@@ -263,7 +262,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + courseId;
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + feedbackQuestionId;
     }
 
     @Override
