@@ -20,7 +20,6 @@ import teammates.storage.entity.CourseStudent;
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     private static final String ATTRIBUTE_NAME = "Student";
-    private static final String GET_BACKUP_NAME = "Course";
 
     // Required fields
     public String email;
@@ -265,7 +264,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + course;
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + name;
     }
 
     @Override
