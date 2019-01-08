@@ -118,6 +118,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     public void testGetBackupIdentifier() {
         FeedbackResponseCommentAttributes frc = FeedbackResponseCommentAttributes.builder("Math",
                 "name", "email", "").build();
-        assertEquals("Recently modified Course::Math", frc.getBackupIdentifier());
+        assertEquals("Recently modified Feedback Response Comment::" + frc.feedbackResponseCommentId,
+                frc.getBackupIdentifier());
     }
 }
