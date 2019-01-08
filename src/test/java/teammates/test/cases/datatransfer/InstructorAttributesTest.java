@@ -294,7 +294,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .builder("valid.google.id", "valid-course-id", "valid name",
                         "valid@email.com")
                 .build();
-        assertEquals("Recently modified Course::valid-course-id", instructor.getBackupIdentifier());
+        assertEquals("Recently modified Instructor::" + instructor.getEmail(),
+                instructor.getBackupIdentifier());
     }
 
 }
