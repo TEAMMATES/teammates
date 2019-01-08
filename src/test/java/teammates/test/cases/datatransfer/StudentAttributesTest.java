@@ -484,7 +484,7 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .withSection("sect 1").withComments("comment 1").withTeam("team 1")
                 .build();
 
-        assertEquals("Recently modified Course::course1", sa.getBackupIdentifier());
+        assertEquals("Recently modified Student::" + sa.getEmail(), sa.getBackupIdentifier());
     }
 
     private CourseStudent generateTypicalStudentObject() {
