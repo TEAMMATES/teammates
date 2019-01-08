@@ -50,7 +50,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     };
 
     private static final String ATTRIBUTE_NAME = "Feedback Session";
-    private static final String GET_BACKUP_NAME = "Course";
 
     // Required fields
     private String feedbackSessionName;
@@ -187,7 +186,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.BACKUP_LOG_MSG + GET_BACKUP_NAME + "::" + feedbackSessionName;
+        return Const.SystemParams.BACKUP_LOG_MSG + ATTRIBUTE_NAME + "::" + feedbackSessionName;
     }
 
     @Override

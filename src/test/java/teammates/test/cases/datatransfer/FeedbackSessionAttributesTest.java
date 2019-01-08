@@ -182,7 +182,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 "Math", "email")
                 .build();
 
-        assertEquals("Recently modified Course::Math", fsa.getBackupIdentifier());
+        assertEquals("Recently modified Feedback Session::" + fsa.getFeedbackSessionName(),
+                fsa.getBackupIdentifier());
     }
 
     private List<String> buildExpectedErrorMessages() {
