@@ -1,15 +1,15 @@
 package teammates.ui.newcontroller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
-import teammates.ui.pagedata.InstructorSearchPageData;
 
 /**
  * Action: Showing the InstructorSearchPage for an instructor.
@@ -31,51 +31,123 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        if (searchKey == null) {
-            searchKey = "";
-        }
+        String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
+        boolean isSearchForStudents = getBooleanRequestParamValue(Const.ParamsNames.SEARCH_STUDENTS);
+        boolean isSearchFeedbackSessionData = getBooleanRequestParamValue(Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA);
 
-        int numberOfSearchOptions = 0;
+        SearchResult output = new SearchResult();
 
-        boolean isSearchForStudents = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_STUDENTS);
-        if (isSearchForStudents) {
-            numberOfSearchOptions++;
-        }
-
-        boolean isSearchFeedbackSessionData = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA);
+        //Start searching
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
         if (isSearchFeedbackSessionData) {
-            numberOfSearchOptions++;
+            FeedbackResponseCommentSearchResultBundle frCommentSearchResults =
+                logic.searchFeedbackResponseComments(searchKey, instructors);
+            setSearchFeedbackSessionDataTables(output, frCommentSearchResults);
+        }
+        if (isSearchForStudents) {
+            StudentSearchResultBundle studentSearchResults = logic.searchStudents(searchKey, instructors);
+            setSearchStudentsTables(output, studentSearchResults);
         }
 
-        FeedbackResponseCommentSearchResultBundle frCommentSearchResults = new FeedbackResponseCommentSearchResultBundle();
-        StudentSearchResultBundle studentSearchResults = new StudentSearchResultBundle();
-        int totalResultsSize = 0;
+        return new JsonResult(output);
+    }
 
-        if (searchKey.isEmpty() || numberOfSearchOptions == 0) {
-            //display search tips and tutorials
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
-        } else {
-            //Start searching
-            List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
-            if (isSearchFeedbackSessionData) {
-                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors);
-            }
-            if (isSearchForStudents) {
-                studentSearchResults = logic.searchStudents(searchKey, instructors);
-            }
+    public void setSearchStudentsTables(SearchResult output, StudentSearchResultBundle studentSearchResultBundle) {
+        Stream<String> distinctCourseIds = 
+            studentSearchResultBundle.studentList.stream().map(student -> student.course).distinct();
+        output.searchStudentsTables = distinctCourseIds
+            .map(courseId -> new SearchStudentsTable(
+                courseId, createStudentRows(courseId, studentSearchResultBundle)))
+            .collect(Collectors.toList());
+    }
 
-            totalResultsSize = frCommentSearchResults.numberOfResults + studentSearchResults.numberOfResults;
+    public void setSearchFeedbackSessionDataTables(SearchResult output,
+            FeedbackResponseCommentSearchResultBundle resultBundle) {
+        /*
+        this.feedbackSessionDataResults = resultBundle.questions.keySet().stream()
+            .map(fsName -> new FeedbackSessionDataResultRow(fsName,
+                resultBundle.sessions.get(fsName).getCourseId(),
+                createQuestions(fsName, resultBundle)))
+            .collect(Collectors.toList());
+            */
+    }
 
-            if (totalResultsSize == 0) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS,
-                                                   StatusMessageColor.WARNING));
-            }
+    private List<StudentListSectionData> createStudentRows(String courseId,
+            StudentSearchResultBundle studentSearchResultBundle) {
+        List<StudentAttributes> studentsInCourse = studentSearchResultBundle.studentList.stream()
+            .filter(student -> student.course.equals(courseId)).collect(Collectors.toList());
+        Stream<String> distinctSectionName = studentsInCourse.stream().map(student -> student.section).distinct();
+        InstructorAttributes instructor = studentSearchResultBundle.courseIdInstructorMap.get(courseId);
+        return distinctSectionName
+            .map(sectionName -> new StudentListSectionData(
+                sectionName,
+                instructor.isAllowedForPrivilege(
+                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS),
+                instructor.isAllowedForPrivilege(
+                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
+                createStudentDataInSection(sectionName, studentsInCourse)))
+            .collect(Collectors.toList());
+    }
+
+    private List<StudentListStudentData> createStudentDataInSection(String sectionName,
+        List<StudentAttributes> studentsInCourse) {
+        return studentsInCourse.stream().filter(student -> student.section.equals(sectionName))
+            .map(student -> new StudentListStudentData(
+                student.name, student.email, student.getStudentStatus(), student.team))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Output format for {@link SearchStudentsAndFeedbackSessionDataAction}.
+     */
+    private static class SearchResult extends ActionResult.ActionOutput {
+        /* Tables containing search results */
+        public List<SearchFeedbackSessionDataTable> searchFeedbackSessionDataTables;
+        public List<SearchStudentsTable> searchStudentsTables;
+
+    }
+
+    private static class SearchFeedbackSessionDataTable {
+
+    }
+
+    private static class SearchStudentsTable {
+        public String courseId;
+        public List<StudentListSectionData> sections;
+
+        public SearchStudentsTable(String courseId, List<StudentListSectionData> sections) {
+            this.courseId = courseId;
+            this.sections = sections;
         }
+    }
 
-        InstructorSearchPageData data = new InstructorSearchPageData(account, sessionToken);
-        data.init(frCommentSearchResults, studentSearchResults, searchKey, isSearchFeedbackSessionData, isSearchForStudents);
+    private static class StudentListSectionData {
+        public String sectionName;
+        public boolean isAllowedToViewStudentInSection;
+        public boolean isAllowedToModifyStudent;
+        public List<StudentListStudentData> students;
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
+        public StudentListSectionData(String sectionName, boolean isAllowedToViewStudentInSection,
+                                    boolean isAllowedToModifyStudent, List<StudentListStudentData> students) {
+            this.sectionName = sectionName;
+            this.isAllowedToViewStudentInSection = isAllowedToViewStudentInSection;
+            this.isAllowedToModifyStudent = isAllowedToModifyStudent;
+            this.students = students;
+        }
+    }
+
+    private static class StudentListStudentData {
+
+        public String name;
+        public String email;
+        public String status;
+        public String team;
+
+        public StudentListStudentData(String studentName, String studentEmail, String studentStatus, String teamName) {
+            this.name = studentName;
+            this.email = studentEmail;
+            this.status = studentStatus;
+            this.team = teamName;
+        }
     }
 }
