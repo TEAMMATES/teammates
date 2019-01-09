@@ -1,3 +1,67 @@
-<p>
-  instructor-course-student-edit-page works!
-</p>
+<h1>Edit Student Details</h1>
+<div class="card border-primary">
+  <div class="card-body fill-plain">
+    <form
+      id="instructor-student-edit-form"
+      class="form form-horizontal">
+      <div class="form-row">
+        <label class="col-sm-1">Student Name:</label>
+        <div class="col-sm-11">
+          <input
+            class="form-control"
+            name="studentname"
+            id="studentname"
+            ngModel>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="col-sm-1">Section Name:</label>
+        <div class="col-sm-11">
+          <input
+            class="form-control"
+            name="sectionname"
+            id="sectionname"
+            ngModel>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="col-sm-1">Team<br>Name:</label>
+        <div class="col-sm-11">
+          <input
+            class="form-control col-form-label"
+            name="teamname"
+            id="teamname"
+            ngModel>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="col-sm-1">E-mail Address:</label>
+        <div class="col-sm-11">
+          <input
+            class="form-control"
+            name="studentemail"
+            id="studentemail"
+            ngModel>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="col-sm-1">Comments:</label>
+        <div class="col-sm-11">
+          <textarea
+            class="form-control"
+            rows="6"
+            name="comments"
+            id="comments"
+            ngModel>
+          </textarea>
+        </div>
+      </div>
+      <br>
+      <div class="text-center">
+        <input type="submit" class="btn btn-primary" id="button_submit" value="Save Changes">
+      </div>
+      <br>
+      <br>
+    </form>
+  </div>
+</div>
