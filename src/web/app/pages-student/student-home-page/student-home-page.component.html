@@ -4,7 +4,7 @@
       <strong>[{{ course.id }}]: {{ course.name }}</strong>
       <span class="float-sm-right">
         <a routerLink="../course" [queryParams]="{user: this.user, courseid: course.id}"
-           class="btn btn-light btn-sm button">
+           class="btn btn-light btn-sm button" [ngbTooltip]=this.studentCourseDetails>
           View team
         </a>
       </span>
@@ -25,38 +25,46 @@
           <tr *ngFor="let session of course.sessions">
             <td>{{ session.name }}</td>
             <td>{{ session.deadline }}</td>
-            <td>{{ session.isOpened | sessionSubmissionStatus:
-                    session.isWaitingToOpen : sessionSubmissionStatusMap.get(session) }}</td>
-            <td>{{ session.isSessionPublished | sessionResponseStatus }}</td>
+            <td>
+              <a style="border-bottom: 1px dashed black;"
+                 [ngbTooltip]="getSubmissionStatusTooltip(session.isOpened, session.isWaitingToOpen, sessionSubmissionStatusMap.get(session))">
+                {{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : sessionSubmissionStatusMap.get(session) }}
+              </a>
+            </td>
+            <td>
+              <a style="border-bottom: 1px dashed black;"
+                 [ngbTooltip]="getResponseStatusTooltip(session.isSessionPublished)">
+                {{ session.isSessionPublished | sessionResponseStatus }}
+              </a>
+            </td>
             <td>
               <a *ngIf="session.isSessionPublished"
-                 routerLink="../sessions/result"
-                 [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
-                 class="btn btn-light btn-sm btn-left button">
+                 routerLink="../sessions/result" [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
+                 class="btn btn-light btn-sm btn-left button" [ngbTooltip]=this.feedbackSessionResults>
                 View Responses
               </a>
               <a *ngIf="!session.isSessionPublished" class="btn btn-light btn-sm btn-left disabled button" type="button">
                 View Responses
               </a>
+              <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled button">
+                Start Submission
+              </a>
               <a *ngIf="session.isOpened && !sessionSubmissionStatusMap.get(session)"
                  routerLink="../sessions/submission"
                  [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
-                 class="btn btn-light btn-sm button">
-                Start Submission
-              </a>
-              <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled button">
+                 class="btn btn-light btn-sm button" [ngbTooltip]=this.feedbackSessionSubmit>
                 Start Submission
               </a>
               <a *ngIf="session.isOpened && sessionSubmissionStatusMap.get(session)"
                  routerLink="../sessions/submission"
                  [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
-                 class="btn btn-light btn-sm button">
+                 class="btn btn-light btn-sm button" [ngbTooltip]=this.feedbackSessionEditSubmittedResponse>
                 Edit Submission
               </a>
               <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
                  routerLink="../sessions/submission"
                  [queryParams]="{courseid: course.id, fsname: session.name, user: this.user}"
-                 class="btn btn-light btn-sm button">
+                 class="btn btn-light btn-sm button" [ngbTooltip]=this.feedbackSessionViewSubmittedResponse>
                 View Submission
               </a>
             </td>

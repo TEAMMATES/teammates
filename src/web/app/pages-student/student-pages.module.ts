@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
@@ -68,12 +69,13 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     PageNotFoundModule,
+    Pipes,
     StudentHelpPageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
-    Pipes,
   ],
   declarations: [
     StudentHomePageComponent,
