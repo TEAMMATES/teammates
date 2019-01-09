@@ -1,0 +1,72 @@
+<table class="table table-bordered table-striped m-0">
+  <thead [ngClass]="{'thead-gray': useGrayHeading, 'text-white bg-primary font-weight-bold': !useGrayHeading}">
+    <tr>
+      <th>Photo</th>
+      <th *ngIf="hasSection()">
+        Section <span class="fas fa-sort float-right"></span>
+      </th>
+      <th>
+        Team <span class="fas fa-sort float-right"></span>
+      </th>
+      <th>
+        Student Name <span class="fas fa-sort float-right"></span>
+      </th>
+      <th>
+        Status <span class="fas fa-sort float-right"></span>
+      </th>
+      <th>
+        Email <span class="fas fa-sort float-right"></span>
+      </th>
+      <th>Action(s)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let section of sections"> <tr *ngFor="let student of section.students">
+      <td>View Photo</td>
+      <td *ngIf="hasSection()">{{section.sectionName}}</td>
+      <td>{{student.team}}</td>
+      <td>{{student.name}}</td>
+      <td class="align-center">{{student.status}}</td>
+      <td>{{student.email}}</td>
+      <td class="no-print align-center">
+        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
+          let-routerLink="routerLink" let-queryParams="queryParams">
+          <a class="btn btn-secondary btn-sm mr-2"
+            [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
+            [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
+            [routerLink]="routerLink"
+            [queryParams]="queryParams">
+            {{name}}</a>
+        </ng-template>
+        <ng-container *ngTemplateOutlet="actionButton; context: {
+          isEnabled: section.isAllowedToViewStudentInSection,
+          tooltip: 'View the details of the student',
+          name: 'View',
+          routerLink: '/web/instructor/courses/student/details',
+          queryParams: {courseid: courseId, studentemail: student.email}
+        }"></ng-container>
+        <ng-container *ngTemplateOutlet="actionButton; context: {
+          isEnabled: section.isAllowedToModifyStudent,
+          tooltip: 'Use this to edit the details of this student. To edit multiple students'
+            + ' in one go, you can use the enroll page: '
+            + 'Simply enroll students using the updated data and existing data will be updated accordingly',
+          name: 'Edit',
+          routerLink: '/web/instructor/courses/student/edit',
+          queryParams: {courseid: courseId, studentemail: student.email}
+        }"></ng-container>
+        <ng-container *ngTemplateOutlet="actionButton; context: {
+          isEnabled: section.isAllowedToModifyStudent,
+          tooltip: 'Delete the student and the corresponding submissions from the course',
+          name: 'Delete'
+        }"></ng-container>
+        <ng-container *ngTemplateOutlet="actionButton; context: {
+          isEnabled: true,
+          tooltip: 'View all data about this student',
+          name: 'All Records',
+          routerLink: '/web/instructor/students/records',
+          queryParams: {studentemail: student.email}
+        }"></ng-container>
+      </td>
+    </tr></ng-container>
+  </tbody>
+</table>

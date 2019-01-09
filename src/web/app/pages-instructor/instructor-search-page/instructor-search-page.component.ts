@@ -3,24 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
+import { StudentListSectionData } from '../student-list/student-list-section-data';
 
 interface SearchResult {
-  studentResults: StudentAttributes[][];
-  feedbackSessionDataResults: FeedbackSessionDataResultRow[];
+  searchFeedbackSessionDataTables: SearchFeedbackSessionDataTable[];
+  searchStudentsTables: SearchStudentsTable[];
 }
 
-interface StudentAttributes {
-  email: string;
-  course: string;
-  name: string;
-  lastName: string;
-  comments: string;
-  team: string;
-  section: string;
+interface SearchFeedbackSessionDataTable {
+
 }
 
-interface FeedbackSessionDataResultRow {
-
+interface SearchStudentsTable {
+  courseId: string;
+  sections: StudentListSectionData[];
 }
 
 /**
@@ -37,8 +33,8 @@ export class InstructorSearchPageComponent implements OnInit {
   searchQuery: string = '';
   searchStudents: boolean = true;
   searchFeedbackSessionData: boolean = false;
-  students: StudentAttributes[][] = [];
-  fbSessionData: FeedbackSessionDataResultRow[] = [];
+  studentTables: SearchStudentsTable[] = [];
+  fbSessionDataTables: SearchFeedbackSessionDataTable[] = [];
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
     private statusMessageService: StatusMessageService) { }
@@ -56,10 +52,10 @@ export class InstructorSearchPageComponent implements OnInit {
       searchfeedbacksessiondata: this.searchFeedbackSessionData.toString(),
     };
     this.httpRequestService.get('/studentsAndSessionData/search', paramMap).subscribe((resp: SearchResult) => {
-      this.students = resp.studentResults;
-      this.fbSessionData = resp.feedbackSessionDataResults;
-      let hasStudents = this.students && this.students.length;
-      let hasFbSessionData = this.fbSessionData && this.fbSessionData.length;
+      this.studentTables = resp.searchStudentsTables;
+      this.fbSessionDataTables = resp.searchFeedbackSessionDataTables;
+      let hasStudents = this.studentTables && this.studentTables.length;
+      let hasFbSessionData = this.fbSessionDataTables && this.fbSessionDataTables.length;
       if (!hasStudents && !hasFbSessionData) {
         this.statusMessageService.showWarningMessage('No results found.');
       }

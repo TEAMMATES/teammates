@@ -40,6 +40,7 @@ import {
 import {
   InstructorStudentRecordsPageComponent,
 } from './instructor-student-records-page/instructor-student-records-page.component';
+import { StudentListComponent } from './student-list/student-list.component';
 
 const routes: Routes = [
   {
@@ -164,6 +165,7 @@ const routes: Routes = [
     InstructorCourseEnrollPageComponent,
     InstructorCourseStudentEditPageComponent,
     InstructorCourseStudentDetailsPageComponent,
+    StudentListComponent,
   ],
 })
 export class InstructorPagesModule {}
