@@ -468,6 +468,7 @@
       "section": "None"
     },
     "student1InUnregisteredCourse": {
+      "googleId": "",
       "email": "student1InUnregisteredCourse@gmail.tmt",
       "course": "idOfUnregisteredCourse.access",
       "name": "student1 In unregisteredCourse",
@@ -633,7 +634,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -653,7 +653,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -675,7 +674,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -704,7 +702,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Instructor comments on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -733,7 +730,6 @@
     "team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Give feedback to 2 other teams.",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -753,7 +749,6 @@
     "team.members.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Give feedback to 1 of your team mates",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -773,7 +768,6 @@
     "graceperiod.session.feedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Give feedback to 2 other teams.",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -793,7 +787,6 @@
     "graceperiod.session.feedback2": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Give feedback to yourself.",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -813,7 +806,6 @@
     "closed.session.feedback": {
       "feedbackSessionName": "Closed Session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Give feedback to yourself.",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -833,7 +825,6 @@
     "qn1InSession4InCourse1": {
       "feedbackSessionName": "non visible session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Give feedback to 4 other students",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -853,7 +844,6 @@
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2.access",
-      "creatorEmail": "instructor1@course2.tmt",
       "questionMetaData": "Please rate the following teams",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -867,7 +857,6 @@
     "qn2InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2.access",
-      "creatorEmail": "instructor1@course2.tmt",
       "questionMetaData": "Please rate your fellow instructors",
       "questionNumber": 2,
       "questionType": "TEXT",

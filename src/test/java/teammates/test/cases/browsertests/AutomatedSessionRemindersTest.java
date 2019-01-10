@@ -38,9 +38,6 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
-        testData.feedbackQuestions.get("questionForOpeningSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackQuestions.get("questionForClosingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackQuestions.get("questionForPublishedSession").creatorEmail = Config.SUPPORT_EMAIL;
 
         // Set closing time of one feedback session to tomorrow
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");

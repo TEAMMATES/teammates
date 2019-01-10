@@ -237,7 +237,6 @@
     "qn1InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "What general mistakes did the students in the class make?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -260,7 +259,6 @@
     "qn2InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "What has been a highlight for you working on this project?",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -284,7 +282,6 @@
     "qn3InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":1}",
       "questionNumber": 3,
       "questionType": "NUMSCALE",
@@ -307,7 +304,6 @@
     "qn4InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"questionText\":\"Which team do you think has the best feature?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
       "questionNumber": 4,
       "questionType": "MCQ",
@@ -327,7 +323,6 @@
     "qn5InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Give feedback to three other students.",
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -349,7 +344,6 @@
     "qn6InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"msqChoices\":[\"C\",\"C++\",\"Java\",\"Python\"],\"questionText\":\"Which programming languages do you know?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 6,
       "questionType": "MSQ",
@@ -369,7 +363,6 @@
     "qn7InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"Group 1\",\"Group 2\"],\"questionText\":\"Give feedback indicating which group they are in.\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 7,
       "questionType": "MCQ",
@@ -392,7 +385,6 @@
     "qn8InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "What did you learn from working with your team members?",
       "questionNumber": 8,
       "questionType": "TEXT",
@@ -414,7 +406,6 @@
     "qn9InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
       "questionNumber": 9,
       "questionType": "CONSTSUM",
@@ -437,7 +428,6 @@
     "qn10InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 10,
       "questionType": "CONSTSUM",
@@ -460,7 +450,6 @@
     "qn11InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 11,
       "questionType": "CONTRIB",
@@ -484,7 +473,6 @@
     "qn12InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 12,
       "questionType": "RUBRIC",
@@ -507,7 +495,6 @@
     "qn13InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the other teams, you can give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 13,
       "questionType": "RANK_RECIPIENTS",
@@ -530,7 +517,6 @@
     "qn14InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think you should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"]}",
       "questionNumber": 14,
       "questionType": "RANK_OPTIONS",
@@ -553,7 +539,6 @@
     "qn1InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"questionText\":\"Please rate the estimated contribution of your team members and yourself.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
@@ -577,7 +562,6 @@
     "qn2InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Comments about your contribution (shown to other teammates)",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -606,7 +590,6 @@
     "qn3InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Your comments about this teammate (confidential and only shown to instructor)",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -626,7 +609,6 @@
     "qn4InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Comments about team dynamics (confidential and only shown to instructor)",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -646,7 +628,6 @@
     "qn5InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Your feedback to this teammate (shown anonymously to the teammate)",
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -668,7 +649,6 @@
     "qn1InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "{\"questionText\":\"Please rate the estimated contribution of your team members and yourself.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
@@ -692,7 +672,6 @@
     "qn2InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Comments about your contribution (shown to other teammates)",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -721,7 +700,6 @@
     "qn3InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Your comments about this teammate (confidential and only shown to instructor)",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -741,7 +719,6 @@
     "qn4InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Comments about team dynamics (confidential and only shown to instructor)",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -761,7 +738,6 @@
     "qn5InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": "Your feedback to this teammate (shown anonymously to the teammate)",
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -2388,11 +2364,13 @@
         "RECEIVER_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:17:00Z",
-      "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:17:00Z"
+      "lastEditedAt": "2012-04-30T21:17:00Z",
+      "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
@@ -2412,11 +2390,13 @@
         "RECEIVER",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:20:00Z",
-      "commentText": "<p>Completely agree, the application does look pretty.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:20:00Z"
+      "lastEditedAt": "2012-04-30T21:20:00Z",
+      "commentText": "<p>Completely agree, the application does look pretty.</p>"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
@@ -2436,11 +2416,13 @@
         "RECEIVER",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:23:00Z",
-      "commentText": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:23:00Z"
+      "lastEditedAt": "2012-04-30T21:23:00Z",
+      "commentText": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "courseId": "demo.course",
@@ -2460,11 +2442,13 @@
         "RECEIVER",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:26:00Z",
-      "commentText": "<p>Hoping you keep using them on future projects.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:26:00Z"
+      "lastEditedAt": "2012-04-30T21:26:00Z",
+      "commentText": "<p>Hoping you keep using them on future projects.</p>"
     },
     "comment1FromT1C1ToR1Q2S2C1": {
       "courseId": "demo.course",
@@ -2488,11 +2472,13 @@
         "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:29:00Z",
-      "commentText": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:29:00Z"
+      "lastEditedAt": "2012-04-30T21:29:00Z",
+      "commentText": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>"
     },
     "comment1FromT1C1ToR2Q2S2C1": {
       "courseId": "demo.course",
@@ -2516,11 +2502,13 @@
         "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:33:00Z",
-      "commentText": "<p>Although there are some loopholes in UI, But overall looks good.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:33:00Z"
+      "lastEditedAt": "2012-04-30T21:33:00Z",
+      "commentText": "<p>Although there are some loopholes in UI, But overall looks good.</p>"
     },
     "comment1FromT1C1ToR5Q2S2C1": {
       "courseId": "demo.course",
@@ -2544,11 +2532,13 @@
         "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:36:00Z",
-      "commentText": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:36:00Z"
+      "lastEditedAt": "2012-04-30T21:36:00Z",
+      "commentText": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>"
     },
     "comment1FromT1C1ToR6Q2S2C1": {
       "courseId": "demo.course",
@@ -2572,11 +2562,13 @@
         "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:39:00Z",
-      "commentText": "<p>Design could have been more interactive.</p>",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:39:00Z"
+      "lastEditedAt": "2012-04-30T21:39:00Z",
+      "commentText": "<p>Design could have been more interactive.</p>"
     }
   },
   "profiles": {

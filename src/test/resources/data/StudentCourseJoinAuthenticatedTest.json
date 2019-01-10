@@ -213,7 +213,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -233,7 +232,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -255,7 +253,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -284,7 +281,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "Instructor comments on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -313,7 +309,6 @@
     "qnInUnviewableSession": {
       "feedbackSessionName": "Nonviewable feedback session",
       "courseId": "idOfCourseNoEvals",
-      "creatorEmail": "instructor1@course2.tmt",
       "questionMetaData": "Please rate your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",

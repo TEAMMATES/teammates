@@ -265,7 +265,8 @@
       "course": "FSQTT.idOfTypicalCourse1",
       "name": "student1 In Course1</td></div>'\"",
       "comments": "comment for student1InCourse1</td></div>'\"",
-      "team": "Team 1.1</td></div>'\""
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     },
     "student2InCourse1": {
       "googleId": "FSQTT.student2InCourse1",
@@ -273,7 +274,8 @@
       "course": "FSQTT.idOfTypicalCourse1",
       "name": "student2 In Course1",
       "comments": "",
-      "team": "Team 1.1</td></div>'\""
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     },
     "student3InCourse1": {
       "googleId": "FSQTT.student3InCourse1",
@@ -281,7 +283,8 @@
       "course": "FSQTT.idOfTypicalCourse1",
       "name": "student3 In Course1",
       "comments": "",
-      "team": "Team 1.1</td></div>'\""
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     },
     "student4InCourse1": {
       "googleId": "FSQTT.student4InCourse1",
@@ -289,7 +292,8 @@
       "course": "FSQTT.idOfTypicalCourse1",
       "name": "student4 In Course1",
       "comments": "",
-      "team": "Team 1.1</td></div>'\""
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     },
     "student5InCourse1": {
       "googleId": "FSQTT.student5InCourse1",
@@ -297,7 +301,8 @@
       "course": "FSQTT.idOfTypicalCourse1",
       "name": "student5 In Course1",
       "comments": "",
-      "team": "Team 1.2"
+      "team": "Team 1.2",
+      "section": "None"
     },
     "student1InCourse2": {
       "googleId": "FSQTT.student1InCourse2",
@@ -305,7 +310,8 @@
       "course": "FSQTT.idOfTypicalCourse2",
       "name": "student1 In Course2",
       "comments": "",
-      "team": "Team 2.1"
+      "team": "Team 2.1",
+      "section": "None"
     },
     "student2InCourse2": {
       "googleId": "FSQTT.student2InCourse1",
@@ -313,7 +319,8 @@
       "course": "FSQTT.idOfTypicalCourse2",
       "name": "student2 In Course2",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
-      "team": "Team 2.1"
+      "team": "Team 2.1",
+      "section": "None"
     },
     "student1InCourseWithSections": {
       "googleId": "FSQTT.student1InCourseWithSections",
@@ -352,11 +359,13 @@
       "section": "Section 3"
     },
     "unregisteredStudentInCourse1": {
+      "googleId": "",
       "email": "unregisteredStudentInCourse2@gmail.tmt",
       "course": "FSQTT.idOfTypicalCourse2",
       "name": "unregistered Student In Course2",
       "comments": "This is an unregistered student in Course 2",
-      "team": "Team Unregistered"
+      "team": "Team Unregistered",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -585,7 +594,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}",
       "questionNumber": 1,
       "questionType": "MCQ",
@@ -605,7 +613,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}",
       "questionNumber": 2,
       "questionType": "MCQ",
@@ -625,7 +632,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What can be improved for this class?\"}",
       "questionNumber": 3,
       "questionType": "MCQ",
@@ -645,7 +651,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.25,1.7],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"What do you like best about our product?\"}",
       "questionNumber": 4,
       "questionType": "MCQ",
@@ -665,7 +670,6 @@
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 1,
       "questionType": "MSQ",
@@ -685,7 +689,6 @@
     "qn2InSession2InCourse1": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MSQ",
@@ -705,7 +708,6 @@
     "qn3InSession2InCourse1": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0,0.0],\"msqOtherWeight\":3.0}",
       "questionNumber": 3,
       "questionType": "MSQ",
@@ -725,7 +727,6 @@
     "qn1InSession3InCourse1": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 1,
       "questionType": "NUMSCALE",
@@ -745,7 +746,6 @@
     "qn2InSession3InCourse1": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 2,
       "questionType": "NUMSCALE",
@@ -765,7 +765,6 @@
     "qn1InSession4InCourse1": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
       "questionNumber": 1,
       "questionType": "CONSTSUM",
@@ -785,7 +784,6 @@
     "qn2InSession4InCourse1": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 2,
       "questionType": "CONSTSUM",
@@ -805,7 +803,6 @@
     "qn3InSession4InCourse1": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"How much has each student worked?\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 3,
       "questionType": "CONSTSUM",
@@ -825,7 +822,6 @@
     "qn1InSession5InCourse1": {
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
@@ -845,7 +841,6 @@
     "qn1InSession6InCourse1": {
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,-1.7],[1.25,-1.7]],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -865,7 +860,6 @@
     "qn2InSession6InCourse1": {
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.25,1],[1.25,1]],\"questionText\":\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 2,
       "questionType": "RUBRIC",
@@ -885,7 +879,6 @@
     "qn1InSession7InCourse1": {
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
@@ -903,7 +896,6 @@
     "qn1InContribSession2InCourse2": {
       "feedbackSessionName": "CONTRIB Session 2",
       "courseId": "FSQTT.idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
@@ -923,7 +915,6 @@
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Unregistered Student Session",
       "courseId": "FSQTT.idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 1,
       "questionType": "NUMSCALE",
@@ -943,7 +934,6 @@
     "qn1InSession1InCourseWithSections": {
       "feedbackSessionName": "CONTRIB Session Section Restricted",
       "courseId": "FSQTT.idOfCourseWithSections",
-      "creatorEmail": "instructor1@coursewithsections.tmt",
       "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
       "questionNumber": 1,
       "questionType": "CONTRIB",
@@ -963,7 +953,6 @@
     "qn1InRANKSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank the other students.\",\"questionType\":\"RANK_RECIPIENTS\"}",
       "questionNumber": 1,
       "questionType": "RANK_RECIPIENTS",
@@ -983,7 +972,6 @@
     "qn2InRANKSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",\"Friendliness of teammates\"]}",
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
