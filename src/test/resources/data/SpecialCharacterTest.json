@@ -82,7 +82,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Alice Betsy</td></div>'\"",
       "comments": "This student's name is Alice Betsy</td></div>'\"",
-      "team": "Team 1\"><'"
+      "team": "Team 1\"><'",
+      "section": "None"
     },
     "Benny": {
       "googleId": "FQLogicPCT.benny.c",
@@ -90,7 +91,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1\"><'"
+      "team": "Team 1\"><'",
+      "section": "None"
     },
     "ExtraGuy": {
       "googleId": "extra.guy",
@@ -98,7 +100,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Extra guy",
       "comments": "This student will move to a new team after evaluation created",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "DropOut": {
       "googleId": "",
@@ -106,7 +109,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Drop out",
       "comments": "This student will drop out after evaluation created",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "Charlie": {
       "googleId": "FQLogicPCT.charlie.d",
@@ -114,7 +118,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "Danny": {
       "googleId": "FQLogicPCT.danny.e",
@@ -122,7 +127,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "Emily": {
       "googleId": "FQLogicPCT.emily.f",
@@ -130,7 +136,8 @@
       "course": "FQLogicPCT.CS2104",
       "name": "Emily",
       "comments": "This student's name is Emily",
-      "team": "Team 3"
+      "team": "Team 3",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -159,7 +166,6 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
-      "creatorEmail": "FQLogicPCT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to 3 other teams.",
       "questionNumber": 1,
       "questionType": "TEXT",

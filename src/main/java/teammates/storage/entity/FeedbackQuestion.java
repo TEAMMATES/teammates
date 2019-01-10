@@ -33,9 +33,6 @@ public class FeedbackQuestion extends BaseEntity {
 
     private String courseId;
 
-    // TODO: Do we need this field since creator of FS = creator of qn? (can be removed -damith)
-    private String creatorEmail;
-
     /**
      * Serialized {@link teammates.common.datatransfer.questions.FeedbackQuestionDetails} stored as a string.
      *
@@ -77,7 +74,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public FeedbackQuestion(
-            String feedbackSessionName, String courseId, String creatorEmail,
+            String feedbackSessionName, String courseId,
             String questionText, String questionDescription, int questionNumber, FeedbackQuestionType questionType,
             FeedbackParticipantType giverType,
             FeedbackParticipantType recipientType,
@@ -89,7 +86,6 @@ public class FeedbackQuestion extends BaseEntity {
         this.feedbackQuestionId = null; // Allow GAE to generate key.
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
-        this.creatorEmail = creatorEmail;
         setQuestionText(questionText);
         setQuestionDescription(questionDescription);
         this.questionNumber = questionNumber;
@@ -139,14 +135,6 @@ public class FeedbackQuestion extends BaseEntity {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
-    }
-
-    public String getCreatorEmail() {
-        return creatorEmail;
-    }
-
-    public void setCreatorEmail(String creatorEmail) {
-        this.creatorEmail = creatorEmail;
     }
 
     public String getQuestionMetaData() {

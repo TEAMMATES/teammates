@@ -14,6 +14,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -25,8 +26,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
-                                       EntityDoesNotExistException {
+    public void testTimestamp() throws Exception {
 
         ______TS("success : created");
 
@@ -63,7 +63,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateDeleteFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDeleteFeedbackQuestion() throws Exception {
 
         ______TS("standard success case");
 
@@ -95,9 +95,14 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("invalid params");
 
-        fqa.creatorEmail = "invalidemail";
+        fqa.courseId = "there is space";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class, () -> fqDb.createEntity(fqa));
-        AssertHelper.assertContains("Invalid creator's email", ipe.getLocalizedMessage());
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, fqa.courseId,
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                ipe.getMessage());
     }
 
     @Test
@@ -254,11 +259,16 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.createEntity(invalidFqa);
         invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId,
                                                   invalidFqa.questionNumber).getId());
-        invalidFqa.creatorEmail = "haha";
+        invalidFqa.courseId = "there is space";
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> fqDb.updateFeedbackQuestion(invalidFqa));
-        AssertHelper.assertContains("Invalid creator's email", ipe.getLocalizedMessage());
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidFqa.courseId,
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                ipe.getMessage());
 
         ______TS("feedback session does not exist");
 
@@ -298,7 +308,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         return FeedbackQuestionAttributes.builder()
                 .withCourseId("testCourse")
-                .withCreatorEmail("instructor@email.com")
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)

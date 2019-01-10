@@ -47,7 +47,8 @@
       "course": "AutSessRem.course",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "dummy comment</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -136,7 +137,6 @@
     "questionForOpeningSession": {
       "feedbackSessionName": "AutSessRem Opening Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
       "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -156,7 +156,6 @@
     "questionForClosingSession": {
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
       "questionMetaData": "This question is so that closing reminders will be sent to students as it is unanswered.",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -176,7 +175,6 @@
     "questionForPublishedSession": {
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
       "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
       "questionNumber": 1,
       "questionType": "TEXT",
