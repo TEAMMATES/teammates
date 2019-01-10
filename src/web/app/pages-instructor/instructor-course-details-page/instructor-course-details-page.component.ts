@@ -75,11 +75,31 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
+              private statusMessageService: StatusMessageService, private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+      this.loadCourseDetails(queryParams.courseid);
+    });
+  }
+  /**
+   * Loads the course's details based on the given course ID and email.
+   */
+  loadCourseDetails(courseid: string): void {
+    const paramMap: { [key: string]: string } = { courseid };
+    this.httpRequestService.get('/courses/details', paramMap).subscribe((resp: CourseInfo) => {
+      this.courseDetails = resp.courseDetails;
+      this.currentInstructor = resp.currentInstructor;
+      this.instructors = resp.instructors;
+      this.sections = resp.sections;
+
+      if (!this.courseDetails) {
+        this.statusMessageService.showErrorMessage('Error retrieving course details');
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
