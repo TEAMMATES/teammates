@@ -89,7 +89,11 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         // recreate account and student profile
 
         oldAccount.setGoogleId(newGoogleId);
-        ofy().save().entity(oldAccount).now();
+        if (ofy().load().type(Account.class).id(newGoogleId) == null) {
+            ofy().save().entity(oldAccount).now();
+        } else {
+            println(String.format("Skip creation of new account as account (%s) already exists", newGoogleId));
+        }
         ofy().delete().type(Account.class).id(oldGoogleId).now();
 
         if (oldStudentProfile != null) {
