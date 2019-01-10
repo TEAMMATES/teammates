@@ -69,7 +69,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         testAdjustFeedbackResponseForEnrollments();
 
         testValidateSections();
-        testupdateStudentCascadeWithoutDocument();
+        testupdateStudentCascade();
         testEnrollLinesChecking();
         testEnrollStudents();
 
@@ -247,7 +247,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 ee.getMessage());
     }
 
-    private void testupdateStudentCascadeWithoutDocument() throws Exception {
+    private void testupdateStudentCascade() throws Exception {
 
         ______TS("typical edit");
 

@@ -894,15 +894,6 @@ public class Logic {
         studentsLogic.updateStudentCascade(originalEmail, student);
     }
 
-    public void updateStudentWithoutDocument(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(student);
-
-        studentsLogic.updateStudentCascade(originalEmail, student);
-    }
-
     /**
      * Make the student join the course, i.e. associate the Google ID to the student.<br>
      * Create an account for the student if there is no account exist for him.

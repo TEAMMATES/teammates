@@ -157,7 +157,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testUpdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateStudent() throws InvalidParametersException, EntityDoesNotExistException {
 
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
