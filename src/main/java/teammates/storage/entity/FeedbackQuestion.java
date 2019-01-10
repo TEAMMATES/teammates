@@ -8,7 +8,6 @@ import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
@@ -26,14 +25,6 @@ import teammates.common.util.Const;
 public class FeedbackQuestion extends BaseEntity {
 
     // TODO: where applicable, we should specify fields as @Unindex to prevent GAE from building unnecessary indexes.
-
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp. Set
-     * to true when using scripts to update entities when you want to preserve
-     * the lastUpdate time stamp.
-     **/
-    @Ignore
-    public boolean keepUpdateTimestamp;
 
     @Id
     private Long feedbackQuestionId;
@@ -127,9 +118,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public void setLastUpdate(Instant newDate) {
-        if (!keepUpdateTimestamp) {
-            this.updatedAt = newDate;
-        }
+        this.updatedAt = newDate;
     }
 
     public String getId() {
