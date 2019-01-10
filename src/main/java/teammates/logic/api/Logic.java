@@ -494,7 +494,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public CourseDetailsBundle getCourseDetails(String courseId) throws EntityDoesNotExistException {
+    public CourseDetailsBundle getCourseDetails(String courseId) {
         Assumption.assertNotNull(courseId);
         return coursesLogic.getCourseSummary(courseId);
     }
@@ -1043,7 +1043,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
+    public String getCourseStudentListAsCsv(String courseId, String googleId) {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(googleId);

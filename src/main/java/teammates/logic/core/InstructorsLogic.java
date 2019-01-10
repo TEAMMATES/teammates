@@ -7,6 +7,7 @@ import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
@@ -156,12 +157,11 @@ public final class InstructorsLogic {
                || instructorList.size() == 1 && coursesLogic.isSampleCourse(instructorList.get(0).courseId);
     }
 
-    public void verifyInstructorExists(String instructorId)
-            throws EntityDoesNotExistException {
+    public void verifyInstructorExists(String instructorId) {
 
         if (!accountsLogic.isAccountAnInstructor(instructorId)) {
-            throw new EntityDoesNotExistException("Instructor does not exist :"
-                    + instructorId);
+            throw new EntityNotFoundException(
+                    new EntityDoesNotExistException("Instructor does not exist :" + instructorId));
         }
     }
 

@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
@@ -111,7 +112,7 @@ public class StudentHomePageAction extends Action {
             addPlaceholderFeedbackSessions(course, sessionSubmissionStatusMap);
             FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
 
-        } catch (EntityDoesNotExistException e) {
+        } catch (EntityNotFoundException e) {
             showEventualConsistencyMessage(courseId);
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
         }

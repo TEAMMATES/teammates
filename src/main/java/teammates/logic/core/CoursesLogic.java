@@ -23,6 +23,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
@@ -136,9 +137,10 @@ public final class CoursesLogic {
     /**
      * Used to trigger an {@link EntityDoesNotExistException} if the course is not present.
      */
-    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
+    public void verifyCourseIsPresent(String courseId) {
         if (!isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
+            throw new EntityNotFoundException(
+                    new EntityDoesNotExistException("Course does not exist: " + courseId));
         }
     }
 
@@ -417,11 +419,12 @@ public final class CoursesLogic {
     /**
      * Returns the {@link CourseDetailsBundle} course details for a course using courseId.
      */
-    public CourseDetailsBundle getCourseSummary(String courseId) throws EntityDoesNotExistException {
+    public CourseDetailsBundle getCourseSummary(String courseId) {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
         if (cd == null) {
-            throw new EntityDoesNotExistException("The course does not exist: " + courseId);
+            throw new EntityNotFoundException(
+                new EntityDoesNotExistException("The course does not exist: " + courseId));
         }
 
         return getCourseSummary(cd);
@@ -567,8 +570,7 @@ public final class CoursesLogic {
      * @return Map with courseId as key, and CourseDetailsBundle as value.
      *         Does not include details within the course, such as feedback sessions.
      */
-    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived)
-            throws EntityDoesNotExistException {
+    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived) {
 
         instructorsLogic.verifyInstructorExists(googleId);
 
@@ -746,7 +748,7 @@ public final class CoursesLogic {
     /**
      * Returns a CSV for the details (name, email, status) of all students belonging to a given course.
      */
-    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
+    public String getCourseStudentListAsCsv(String courseId, String googleId) {
 
         Map<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
         CourseDetailsBundle course = courses.get(courseId);
@@ -786,7 +788,7 @@ public final class CoursesLogic {
         return export.toString();
     }
 
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
+    public boolean hasIndicatedSections(String courseId) {
         verifyCourseIsPresent(courseId);
 
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
