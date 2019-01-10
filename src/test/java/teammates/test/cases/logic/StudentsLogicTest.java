@@ -1067,8 +1067,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     private static StudentEnrollDetails enrollStudent(StudentAttributes student) throws Exception {
         return (StudentEnrollDetails) invokeMethod(StudentsLogic.class, "enrollStudent",
-                                                   new Class<?>[] { StudentAttributes.class, Boolean.class },
-                                                   StudentsLogic.inst(), new Object[] { student, false });
+                                                   new Class<?>[] { StudentAttributes.class},
+                                                   StudentsLogic.inst(), new Object[] { student });
     }
 
     @AfterClass
