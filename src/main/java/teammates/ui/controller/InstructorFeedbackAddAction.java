@@ -47,8 +47,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
             logic.createFeedbackSession(fs);
 
             try {
-                createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                fs.getCreatorEmail(), sessionTemplateType);
+                createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(), sessionTemplateType);
             } catch (InvalidParametersException e) {
                 // Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -98,14 +97,13 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
     }
 
     private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
-            String creatorEmail, String sessionTemplateType) throws InvalidParametersException {
+            String sessionTemplateType) throws InvalidParametersException {
         if (sessionTemplateType == null) {
             return;
         }
 
         List<FeedbackQuestionAttributes> questions =
-                logic.populateFeedbackSessionTemplateQuestions(sessionTemplateType, courseId,
-                        feedbackSessionName, creatorEmail);
+                logic.populateFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName);
 
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {

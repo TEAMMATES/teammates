@@ -189,7 +189,8 @@
       "course": "CHomeUiT.CS2104",
       "name": "Alice Betsy</td></div>'\"",
       "comments": "This student's name is Alice Betsy</td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "CHomeUiT.benny.c.tmms@CHomeUiT.CS2104": {
       "googleId": "CHomeUiT.benny.c.tmms",
@@ -197,7 +198,8 @@
       "course": "CHomeUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "CHomeUiT.charlie.d.tmms@CHomeUiT.CS2104": {
       "googleId": "CHomeUiT.charlie.d.tmms",
@@ -205,7 +207,8 @@
       "course": "CHomeUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "CHomeUiT.danny.e.tmms@CHomeUiT.CS2104": {
       "googleId": "CHomeUiT.danny.e.tmms",
@@ -213,7 +216,8 @@
       "course": "CHomeUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "CHomeUiT.alice.b.tmms@CHomeUiT.CS1101": {
       "googleId": "CHomeUiT.alice.b.tmms",
@@ -221,7 +225,8 @@
       "course": "CHomeUiT.CS1101",
       "name": "Alice Betsy</td></div>'\"",
       "comments": "This student's name is Alice Betsy</td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "CHomeUiT.benny.c.tmms@CHomeUiT.CS1101": {
       "googleId": "CHomeUiT.benny.c.tmms",
@@ -229,7 +234,8 @@
       "course": "CHomeUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "CHomeUiT.charlie.d.tmms@CHomeUiT.CS1101": {
       "googleId": "CHomeUiT.charlie.d.tmms",
@@ -237,7 +243,8 @@
       "course": "CHomeUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "CHomeUiT.danny.e.tmms@CHomeUiT.CS1101": {
       "googleId": "CHomeUiT.danny.e.tmms",
@@ -245,7 +252,8 @@
       "course": "CHomeUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -334,7 +342,6 @@
     "CHomeUiT.CS2104:First Feedback Session:Q1": {
       "feedbackSessionName": "First Feedback Session",
       "courseId": "CHomeUiT.CS2104",
-      "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
       "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -356,7 +363,6 @@
     "CHomeUiT.CS2104:Third Feedback Session:Q1": {
       "feedbackSessionName": "Third Feedback Session",
       "courseId": "CHomeUiT.CS2104",
-      "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
       "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",

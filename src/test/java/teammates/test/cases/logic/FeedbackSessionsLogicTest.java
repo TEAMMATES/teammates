@@ -450,7 +450,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withFeedbackSessionName(fs.getFeedbackSessionName())
                 .withCourseId(fs.getCourseId())
                 .withQuestionNumber(1)
-                .withCreatorEmail(fs.getCreatorEmail())
                 .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)

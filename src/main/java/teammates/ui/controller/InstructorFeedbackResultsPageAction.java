@@ -23,7 +23,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        boolean showStats = getRequestParamAsOnOffBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
 
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -34,9 +34,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        boolean isCreatorOnly = true;
 
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
+        gateKeeper.verifyAccessible(instructor, session);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
@@ -60,7 +59,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
 
-        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        boolean groupByTeam = getRequestParamAsOnOffBoolean(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
 
@@ -70,8 +69,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         if (sortType == null) {
             // default view: sort by question, statistics shown, grouped by team.
-            showStats = "on";
-            groupByTeam = "on";
+            showStats = true;
+            groupByTeam = true;
             sortType = Const.FeedbackSessionResults.QUESTION_SORT_TYPE;
             isMissingResponsesShown = true;
         }
