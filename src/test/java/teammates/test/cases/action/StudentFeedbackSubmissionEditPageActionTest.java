@@ -286,7 +286,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         student1InCourse1.googleId = null;
 
         new StudentsDb()
-                .updateStudentWithoutSearchability(student1InCourse1.course, student1InCourse1.email,
+                .updateStudent(student1InCourse1.course, student1InCourse1.email,
                                                    student1InCourse1.name, student1InCourse1.team,
                                                    student1InCourse1.section, student1InCourse1.email,
                                                    student1InCourse1.googleId, student1InCourse1.comments);

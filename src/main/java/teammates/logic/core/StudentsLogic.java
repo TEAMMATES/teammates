@@ -201,7 +201,7 @@ public final class StudentsLogic {
         }
 
         studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
-                                 student.email, student.googleId, student.comments, false);
+                                 student.email, student.googleId, student.comments);
 
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -226,7 +226,7 @@ public final class StudentsLogic {
         }
         studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name,
                                  originalStudent.team, originalStudent.section, originalStudent.email,
-                                 originalStudent.googleId, originalStudent.comments, false);
+                                 originalStudent.googleId, originalStudent.comments);
     }
 
     public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
