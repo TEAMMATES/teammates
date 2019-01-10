@@ -872,7 +872,7 @@ public class Logic {
                                                                                    EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
-        studentsLogic.resetStudentGoogleId(originalEmail, courseId, true);
+        studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
     /**
@@ -900,7 +900,7 @@ public class Logic {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(student);
 
-        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
+        studentsLogic.updateStudentCascade(originalEmail, student);
     }
 
     /**

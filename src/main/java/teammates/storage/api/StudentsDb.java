@@ -237,7 +237,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             boolean keepUpdateTimestamp) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                                        newEmail, newGoogleId, newComments, false, keepUpdateTimestamp);
+                                        newEmail, newGoogleId, newComments, keepUpdateTimestamp);
     }
 
     public void updateStudentWithoutSearchability(String courseId, String email,
@@ -247,12 +247,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleId, newComments, false, false);
+                newEmail, newGoogleId, newComments, false);
     }
 
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
-            String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
+            String newComments, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -272,7 +272,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                         courseId, email);
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
-                                     newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
+                                     newComments, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
     }
@@ -301,7 +301,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
-            String newGoogleId, String newComments, boolean hasDocument,
+            String newGoogleId, String newComments,
             boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
         courseStudent.setName(newName);
         courseStudent.setLastName(lastName);
@@ -311,10 +311,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         courseStudent.setSectionName(newSectionName);
 
         StudentAttributes attributes = makeAttributes(courseStudent);
-
-        if (hasDocument) {
-            putDocument(attributes);
-        }
+        putDocument(attributes);
 
         // Set true to prevent changes to last update timestamp
         courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
