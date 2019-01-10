@@ -48,7 +48,6 @@ public final class StudentsLogic {
         return instance;
     }
 
-
     public void createStudentCascade(StudentAttributes studentData)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         studentsDb.createStudent(studentData);
