@@ -256,7 +256,6 @@
     "qn1.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.tmt",
       "questionMetaData": "student self feedback",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -276,7 +275,6 @@
     "qn2.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.tmt",
       "questionMetaData": "student feedback to team members. only recipient can see names.",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -297,7 +295,6 @@
     "qn3.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instructor1@course1.tmt",
       "questionMetaData": "student to instructors. recipient name protected.",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -317,7 +314,6 @@
     "qn4.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instructor1@course1.tmt",
       "questionMetaData": "student to 2 teams with extra responses. only instructor can see giver name.",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -341,7 +337,6 @@
     "qn5.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instructor1@course1.tmt",
       "questionMetaData": "student to students. only giver team + receiver can see giver name",
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -367,7 +362,6 @@
     "qn6.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instructor1@course1.tmt",
       "questionMetaData": "instructor to none. only instructors can see.",
       "questionNumber": 6,
       "questionType": "TEXT",
@@ -387,7 +381,6 @@
     "qn7.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instructor1@course1.tmt",
       "questionMetaData": "teams to students. all students can see everything, but not instr inc creator.",
       "questionNumber": 7,
       "questionType": "TEXT",
@@ -407,7 +400,6 @@
     "qn8.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instructor1@course1.tmt",
       "questionMetaData": "teams to teams test.",
       "questionNumber": 8,
       "questionType": "TEXT",

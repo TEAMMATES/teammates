@@ -1484,16 +1484,14 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
-                                                           String courseId, String instructorEmail)
+                                                           String courseId)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(feedbackQuestionId);
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(instructorEmail);
 
-        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName,
-                                                           courseId, instructorEmail);
+        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
     }
 
     /**
@@ -1567,13 +1565,11 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<FeedbackQuestionAttributes> populateFeedbackSessionTemplateQuestions(String templateType, String courseId,
-            String feedbackSessionName, String creatorEmail) {
+            String feedbackSessionName) {
         Assumption.assertNotNull(templateType);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(creatorEmail);
-        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(
-                templateType, courseId, feedbackSessionName, creatorEmail);
+        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(templateType, courseId, feedbackSessionName);
     }
 
     /**

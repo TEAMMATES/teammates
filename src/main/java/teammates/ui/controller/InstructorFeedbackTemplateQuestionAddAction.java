@@ -39,7 +39,7 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
         }
 
         List<FeedbackQuestionAttributes> templateQuestions = logic.populateFeedbackSessionTemplateQuestions("TEAMEVALUATION",
-                courseId, feedbackSessionName, account.getEmail());
+                courseId, feedbackSessionName);
 
         try {
             for (String questionNumber : feedbackQuestionNumbers) {
