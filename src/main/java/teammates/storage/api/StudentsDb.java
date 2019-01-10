@@ -95,13 +95,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
     }
 
-    public void createStudent(StudentAttributes student, boolean hasDocument)
+    public void createStudent(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         CourseStudent createdStudent = createEntity(student);
-        if (hasDocument) {
-            putDocument(makeAttributes(createdStudent));
-        }
+        putDocument(makeAttributes(createdStudent));
+
     }
 
     /**
@@ -291,7 +290,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         StudentAttributes newCourseStudentAttributes = makeAttributes(newCourseStudent);
         try {
-            createStudent(newCourseStudentAttributes, hasDocument);
+            createStudent(newCourseStudentAttributes);
         } catch (EntityAlreadyExistsException e) {
             CourseStudent existingStudent = getEntity(newCourseStudentAttributes);
             String error = ERROR_UPDATE_EMAIL_ALREADY_USED + existingStudent.getName() + "/" + existingStudent.getEmail();

@@ -214,7 +214,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         // for unregistered student
 
         StudentsDb stDb = new StudentsDb();
-        stDb.createStudent(unregStudent, false);
+        stDb.createStudent(unregStudent);
         unregStudent = stDb.getStudentForEmail("idOfTypicalCourse1", "unreg@stud.ent");
         gaeSimulation.logoutUser();
 

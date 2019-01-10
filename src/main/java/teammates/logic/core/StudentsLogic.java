@@ -48,21 +48,10 @@ public final class StudentsLogic {
         return instance;
     }
 
+
     public void createStudentCascade(StudentAttributes studentData)
-            throws InvalidParametersException, EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        createStudentCascade(studentData, true);
-    }
-
-    public void createStudentCascadeWithoutDocument(
-            StudentAttributes studentData) throws InvalidParametersException,
-            EntityAlreadyExistsException, EntityDoesNotExistException {
-        createStudentCascade(studentData, false);
-    }
-
-    public void createStudentCascade(StudentAttributes studentData, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        studentsDb.createStudent(studentData, hasDocument);
+        studentsDb.createStudent(studentData);
 
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
@@ -522,7 +511,7 @@ public final class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascade(validStudentAttributes, hasDocument);
+            createStudentCascade(validStudentAttributes);
             enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 

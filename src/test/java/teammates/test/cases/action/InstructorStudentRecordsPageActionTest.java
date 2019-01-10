@@ -217,7 +217,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 .withComments("No comment")
                 .build();
 
-        logic.createStudentWithoutDocument(student);
+        logic.createStudent(student);
         return student;
     }
 

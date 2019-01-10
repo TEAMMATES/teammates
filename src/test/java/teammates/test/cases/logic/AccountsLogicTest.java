@@ -181,7 +181,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withTeam("teamName")
                 .withComments("")
                 .build();
-        studentsLogic.createStudentCascadeWithoutDocument(studentData);
+        studentsLogic.createStudentCascade(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
         StudentAttributes finalStudent = studentData;
@@ -210,7 +210,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withComments("")
                 .withGoogleId(existingId)
                 .build();
-        studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
+        studentsLogic.createStudentCascade(existingStudent);
 
         jce = assertThrows(JoinCourseException.class,
                 () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), existingId));
@@ -268,7 +268,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withTeam("teamName")
                 .withComments("")
                 .build();
-        studentsLogic.createStudentCascadeWithoutDocument(studentData);
+        studentsLogic.createStudentCascade(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
 
@@ -461,7 +461,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withComments("")
                 .withGoogleId(instructor.googleId)
                 .build();
-        studentsLogic.createStudentCascadeWithoutDocument(student);
+        studentsLogic.createStudentCascade(student);
         verifyPresentInDatastore(account);
         verifyPresentInDatastore(studentProfile);
         verifyPresentInDatastore(instructor);
