@@ -22,7 +22,6 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);

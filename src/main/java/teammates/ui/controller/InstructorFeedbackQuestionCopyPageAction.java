@@ -22,7 +22,7 @@ public class InstructorFeedbackQuestionCopyPageAction extends Action {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                feedbackSession, false,
+                feedbackSession,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         List<FeedbackQuestionAttributes> copiableQuestions = null;

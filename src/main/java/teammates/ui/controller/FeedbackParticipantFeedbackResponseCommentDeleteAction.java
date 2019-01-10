@@ -60,9 +60,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             FeedbackResponseAttributes response, Long commentId) {
         if (isModeration) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
+            gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
+            gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             return;
         }
