@@ -104,29 +104,13 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
     /**
      * Updates the feedback question identified by `{@code newAttributes.getId()}
-     *   and changes the {@code updatedAt} timestamp to be the time of update.
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
-     *
-     * <p>Preconditions:
-     * {@code newAttributes.getId()} is non-null and correspond to an existing feedback question.
-     */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        updateFeedbackQuestion(newAttributes, false);
-    }
-
-    /**
-     * Updates the feedback question identified by `{@code newAttributes.getId()}
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}
-     *   and depends on the value of {@code keepUpdateTimestamp}
-     * Preconditions: <br>
+     * The timestamp for {@code updatedAt} will be updated
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp)
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
 
@@ -152,9 +136,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
         fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
-
-        //set true to prevent changes to last update timestamp
-        fq.keepUpdateTimestamp = keepUpdateTimestamp;
 
         saveEntity(fq, newAttributes);
     }
