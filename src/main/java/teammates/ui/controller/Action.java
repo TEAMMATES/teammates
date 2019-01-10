@@ -593,6 +593,13 @@ public abstract class Action {
     }
 
     /**
+     * Returns true if the specified parameter value is "on", return false otherwise.
+     */
+    public boolean getRequestParamAsOnOffBoolean(String paramName) {
+        return "on".equals(getRequestParamValue(paramName));
+    }
+
+    /**
      * Generates a {@link ShowPageResult} with the information in this object.
      */
     public ShowPageResult createShowPageResult(String destination, PageData pageData) {
