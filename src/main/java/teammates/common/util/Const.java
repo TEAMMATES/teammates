@@ -965,6 +965,8 @@ public final class Const {
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
 
+        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
+
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
     }
@@ -988,7 +990,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE = "/page/instructorCourseDeleteCourse";
         public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL =
                 "/page/instructorCourseDeleteAllCourses";
-        public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
         public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = "/page/instructorCourseStudentDetailsPage";
