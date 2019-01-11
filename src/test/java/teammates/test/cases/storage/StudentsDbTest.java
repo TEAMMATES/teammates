@@ -46,16 +46,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Assert lastUpdate has changed, and is now.
         assertFalse(student.getUpdatedAt().equals(updatedStudent.getUpdatedAt()));
         AssertHelper.assertInstantIsNow(updatedStudent.getUpdatedAt());
-
-        ______TS("success : keep lastUpdated");
-
-        s.name = "new-name-2";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team,
-                                                     s.section, s.email, s.googleId, s.comments, true);
-        StudentAttributes updatedStudent2 = studentsDb.getStudentForGoogleId(s.course, s.googleId);
-
-        // Assert lastUpdate has NOT changed.
-        assertEquals(updatedStudent.getUpdatedAt(), updatedStudent2.getUpdatedAt());
     }
 
     @Test
