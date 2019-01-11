@@ -231,12 +231,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleId, newComments, false);
+                                        newEmail, newGoogleId, newComments);
     }
 
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
-            String newComments, boolean keepUpdateTimestamp)
+            String newComments)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -252,11 +252,11 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             if (isEmailChanged) {
                 CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
                                                                    courseId, newTeamName, newSectionName);
-                recreateStudentWithNewEmail(newCourseStudent, lastName, courseStudent, keepUpdateTimestamp,
-                        courseId, email);
+                recreateStudentWithNewEmail(newCourseStudent, lastName, courseStudent,
+                                            courseId, email);
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
-                                     newComments, keepUpdateTimestamp, courseStudent, lastName);
+                                     newComments, courseStudent, lastName);
             }
         }
     }
@@ -264,13 +264,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     @SuppressWarnings("PMD.PreserveStackTrace")
     private void recreateStudentWithNewEmail(
             CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
-            boolean keepUpdateTimestamp, String courseId, String email)
+            String courseId, String email)
             throws InvalidParametersException {
         newCourseStudent.setLastName(lastName);
         newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
-        if (keepUpdateTimestamp) {
-            newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
-        }
 
         StudentAttributes newCourseStudentAttributes = makeAttributes(newCourseStudent);
         try {
@@ -286,7 +283,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
             String newGoogleId, String newComments,
-            boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
+            CourseStudent courseStudent, String lastName) {
         courseStudent.setName(newName);
         courseStudent.setLastName(lastName);
         courseStudent.setComments(newComments);
@@ -297,8 +294,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         StudentAttributes attributes = makeAttributes(courseStudent);
         putDocument(attributes);
 
-        // Set true to prevent changes to last update timestamp
-        courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
         saveEntity(courseStudent, attributes);
     }
 
