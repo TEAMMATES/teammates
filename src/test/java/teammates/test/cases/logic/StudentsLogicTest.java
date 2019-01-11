@@ -69,7 +69,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         testAdjustFeedbackResponseForEnrollments();
 
         testValidateSections();
-        testupdateStudentCascade();
+        testUpdateStudentCascade();
         testEnrollLinesChecking();
         testEnrollStudents();
 
@@ -247,7 +247,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 ee.getMessage());
     }
 
-    private void testupdateStudentCascade() throws Exception {
+    private void testUpdateStudentCascade() throws Exception {
 
         ______TS("typical edit");
 
@@ -590,7 +590,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     *  ()}.
+     * {@link #signalFailureToDetectException(String...)} ()}.
      *
      * @param invalidEnrollLines is assumed to be invalid
      */
