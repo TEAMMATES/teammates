@@ -24,6 +24,41 @@ public class StudentsDbTest extends BaseComponentTestCase {
     private StudentsDb studentsDb = new StudentsDb();
 
     @Test
+    public void testTimestamp() throws InvalidParametersException, EntityDoesNotExistException {
+        ______TS("success : created");
+
+        StudentAttributes s = createNewStudent();
+
+        StudentAttributes student = studentsDb.getStudentForEmail(s.course, s.email);
+        assertNotNull(student);
+
+        // Assert dates are now.
+        AssertHelper.assertInstantIsNow(student.getCreatedAt());
+        AssertHelper.assertInstantIsNow(student.getUpdatedAt());
+
+        ______TS("success : update lastUpdated");
+
+        s.name = "new-name";
+        studentsDb.updateStudent(s.course, s.email, s.name, s.team,
+                                                     s.section, s.email, s.googleId, s.comments);
+        StudentAttributes updatedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+
+        // Assert lastUpdate has changed, and is now.
+        assertFalse(student.getUpdatedAt().equals(updatedStudent.getUpdatedAt()));
+        AssertHelper.assertInstantIsNow(updatedStudent.getUpdatedAt());
+
+        ______TS("success : keep lastUpdated");
+
+        s.name = "new-name-2";
+        studentsDb.updateStudent(s.course, s.email, s.name, s.team,
+                                                     s.section, s.email, s.googleId, s.comments, true);
+        StudentAttributes updatedStudent2 = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+
+        // Assert lastUpdate has NOT changed.
+        assertEquals(updatedStudent.getUpdatedAt(), updatedStudent2.getUpdatedAt());
+    }
+
+    @Test
     public void testCreateStudent() throws Exception {
 
         StudentAttributes s = StudentAttributes
