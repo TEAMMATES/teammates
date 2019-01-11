@@ -224,16 +224,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         return unregistered;
     }
 
-    public void updateStudent(String courseId, String email,
-            String newName,
-            String newTeamName, String newSectionName, String newEmail,
-            String newGoogleId,
-            String newComments) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                                        newEmail, newGoogleId, newComments);
-    }
-
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments)
