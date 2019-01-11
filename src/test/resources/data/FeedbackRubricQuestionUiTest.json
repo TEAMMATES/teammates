@@ -61,7 +61,8 @@
       "course": "FRubricQnUiT.CS2104",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "section": "None"
     },
     "benny.tmms@FRubricQnUiT.CS2104": {
       "googleId": "CFeedbackEditUiT.benny.tmms",
@@ -69,7 +70,8 @@
       "course": "FRubricQnUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "section": "None"
     },
     "colin.tmms@FRubricQnUiT.CS2104": {
       "googleId": "CFeedbackEditUiT.colin.tmms",
@@ -77,7 +79,8 @@
       "course": "FRubricQnUiT.CS2104",
       "name": "Colin Daniels",
       "comments": "This student's name is Colin Daniels",
-      "team": "Team 2</option><option value=\"dump\"></td><td>'\""
+      "team": "Team 2</option><option value=\"dump\"></td><td>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -186,7 +189,6 @@
     "qn1InClosedSessionInCourse": {
       "feedbackSessionName": "Closed Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -209,7 +211,6 @@
     "qn2InClosedSessionInCourse": {
       "feedbackSessionName": "Closed Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -231,7 +232,6 @@
     "qn1InOpenSession2InCourse": {
       "feedbackSessionName": "Second Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.01,-0.99],[1.5,1]],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -254,7 +254,6 @@
     "qn1InOpenSession3InCourse": {
       "feedbackSessionName": "Third Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"You have done a good job.\",\"You have tried your best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -277,7 +276,6 @@
     "qn1InOpenSession4InCourse": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"You have done a good job.\",\"You have tried your best.\"],\"questionText\":\"Recipient: None. See responses: students, instructor. \",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 1,
       "questionType": "RUBRIC",
@@ -296,7 +294,6 @@
     "qn2InOpenSession4InCourse": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[1.01,-0.99],[1.01,-0.99]],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS_INCLUDING_SELF. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 2,
       "questionType": "RUBRIC",
@@ -316,7 +313,6 @@
     "qn3InOpenSession4InCourse": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[2,0],[2,0]],\"questionText\":\"Recipient: TEAMS. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 3,
       "questionType": "RUBRIC",
@@ -336,7 +332,6 @@
     "qn4InOpenSession4InCourse": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeightsForEachCell\":[[0.01,-0.01],[0.01,-0.01]],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS. See responses: recipients, instructor. No received responses.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
       "questionNumber": 4,
       "questionType": "RUBRIC",

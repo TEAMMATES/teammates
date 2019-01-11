@@ -21,8 +21,6 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        String instructorEmail = instructorDetailForCourse.email;
-
         try {
             int index = 0;
             String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
@@ -30,7 +28,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
             while (feedbackQuestionId != null) {
                 FeedbackQuestionAttributes feedbackQuestion =
-                        logic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId, instructorEmail);
+                        logic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
 
                 index++;
 

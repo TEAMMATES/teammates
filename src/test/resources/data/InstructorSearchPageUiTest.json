@@ -298,7 +298,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "creatorEmail": "searchUI.instructor1@course1.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -318,7 +317,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "creatorEmail": "searchUI.instructor1@course1.tmt",
       "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -342,7 +340,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "creatorEmail": "searchUI.instructor1@course1.tmt",
       "questionMetaData": "My searchUI on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -371,7 +368,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "creatorEmail": "searchUI.instructor1@course1.tmt",
       "questionMetaData": "Instructor searchUI on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -400,7 +396,6 @@
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "searchUI.idOfTestingSanitizationCourse",
-      "creatorEmail": "searchUI.instructor1@sanitization.tmt",
       "questionMetaData": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -591,9 +586,9 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-04T23:59:00Z",
-      "commentText": "Instructor 3 edited comment to feedback Question 2",
       "lastEditorEmail": "searchUI.instructor3@course1.tmt",
-      "lastEditedAt": "2015-02-05T23:59:00Z"
+      "lastEditedAt": "2015-02-05T23:59:00Z",
+      "commentText": "Instructor 3 edited comment to feedback Question 2"
     },
     "comment1ForR1S1TSC": {
       "courseId": "searchUI.idOfTestingSanitizationCourse",
@@ -609,9 +604,9 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "lastEditorEmail": "searchUI.instructor1@sanitization.tmt",
-      "lastEditedAt": "2026-03-03T23:59:00Z"
+      "lastEditedAt": "2026-03-03T23:59:00Z",
+      "commentText": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
     }
   },
   "profiles": {
