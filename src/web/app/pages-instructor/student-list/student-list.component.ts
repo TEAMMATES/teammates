@@ -46,7 +46,7 @@ export class StudentListComponent implements OnInit {
   /**
    * Function to be passed to ngFor, so that students in the list is tracked by email
    */
-  trackByFn(index: number, item: StudentListStudentData): any {
+  trackByFn(_index: number, item: StudentListStudentData): any {
     return item.email;
   }
 
