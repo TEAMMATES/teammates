@@ -21,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let section of sections"> <tr *ngFor="let student of section.students">
+    <ng-container *ngFor="let section of sections"> <tr *ngFor="let student of section.students; trackBy: trackByFn">
       <td>View Photo</td>
       <td *ngIf="hasSection()">{{section.sectionName}}</td>
       <td>{{student.team}}</td>
@@ -54,11 +54,28 @@
           routerLink: '/web/instructor/courses/student/edit',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
-        <ng-container *ngTemplateOutlet="actionButton; context: {
-          isEnabled: section.isAllowedToModifyStudent,
-          tooltip: 'Delete the student and the corresponding submissions from the course',
-          name: 'Delete'
-        }"></ng-container>
+        <button class="btn btn-secondary btn-sm mr-2"
+          [ngClass]="{'disabled mouse-hover-only': !section.isAllowedToModifyStudent}"
+          [ngbTooltip]="section.isAllowedToModifyStudent
+            ? 'Delete the student and the corresponding submissions from the course'
+            : 'You do not have the permissions to access this feature'"
+          (click)="openModal(deleteModal)">Delete</button>
+        <ng-template #deleteModal let-modal>
+          <div class="modal-header text-danger">
+            <h4 class="modal-title"><span class="fas fa-times-circle"></span> Confirm deletion</h4>
+            <button type="button" class="close" aria-hidden="true" (click)="modal.dismiss()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p class="font-weight-bold">Are you sure you want to remove 
+              <span class="text-primary">"{{student.name}}"</span> from the course 
+              <span class="text-primary">"{{courseId}}"</span>?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close(student.email)">Ok</button>
+          </div>
+        </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
           isEnabled: true,
           tooltip: 'View all data about this student',

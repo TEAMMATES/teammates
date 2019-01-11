@@ -5,7 +5,7 @@ export interface StudentListSectionData {
   students: StudentListStudentData[];
 }
 
-interface StudentListStudentData {
+export interface StudentListStudentData {
   name: string;
   email: string;
   status: string;
