@@ -1,3 +1,6 @@
+/**
+ * Contains a list of students in a section.
+ */
 export interface StudentListSectionData {
   sectionName: string;
   isAllowedToViewStudentInSection: boolean;
@@ -5,6 +8,9 @@ export interface StudentListSectionData {
   students: StudentListStudentData[];
 }
 
+/**
+ * Contains details about a student to be displayed in the list.
+ */
 export interface StudentListStudentData {
   name: string;
   email: string;

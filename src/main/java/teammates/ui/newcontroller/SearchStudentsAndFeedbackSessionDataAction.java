@@ -41,7 +41,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
         if (isSearchFeedbackSessionData) {
             FeedbackResponseCommentSearchResultBundle frCommentSearchResults =
-                logic.searchFeedbackResponseComments(searchKey, instructors);
+                    logic.searchFeedbackResponseComments(searchKey, instructors);
             setSearchFeedbackSessionDataTables(output, frCommentSearchResults);
         }
         if (isSearchForStudents) {
@@ -52,16 +52,17 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
         return new JsonResult(output);
     }
 
-    public void setSearchStudentsTables(SearchResult output, StudentSearchResultBundle studentSearchResultBundle) {
-        Stream<String> distinctCourseIds = 
-            studentSearchResultBundle.studentList.stream().map(student -> student.course).distinct();
+    private void setSearchStudentsTables(SearchResult output, StudentSearchResultBundle studentSearchResultBundle) {
+        Stream<String> distinctCourseIds =
+                studentSearchResultBundle.studentList.stream().map(student -> student.course).distinct();
         output.searchStudentsTables = distinctCourseIds
             .map(courseId -> new SearchStudentsTable(
                 courseId, createStudentRows(courseId, studentSearchResultBundle)))
             .collect(Collectors.toList());
     }
 
-    public void setSearchFeedbackSessionDataTables(SearchResult output,
+    @SuppressWarnings("PMD.UnusedFormalParameter")
+    private void setSearchFeedbackSessionDataTables(SearchResult output,
             FeedbackResponseCommentSearchResultBundle resultBundle) {
         /*
         this.feedbackSessionDataResults = resultBundle.questions.keySet().stream()
@@ -75,7 +76,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
     private List<StudentListSectionData> createStudentRows(String courseId,
             StudentSearchResultBundle studentSearchResultBundle) {
         List<StudentAttributes> studentsInCourse = studentSearchResultBundle.studentList.stream()
-            .filter(student -> student.course.equals(courseId)).collect(Collectors.toList());
+                .filter(student -> student.course.equals(courseId)).collect(Collectors.toList());
         Stream<String> distinctSectionName = studentsInCourse.stream().map(student -> student.section).distinct();
         InstructorAttributes instructor = studentSearchResultBundle.courseIdInstructorMap.get(courseId);
         return distinctSectionName
@@ -90,7 +91,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
     }
 
     private List<StudentListStudentData> createStudentDataInSection(String sectionName,
-        List<StudentAttributes> studentsInCourse) {
+            List<StudentAttributes> studentsInCourse) {
         return studentsInCourse.stream().filter(student -> student.section.equals(sectionName))
             .map(student -> new StudentListStudentData(
                 student.name, student.email, student.getStudentStatus(), student.team))
@@ -115,7 +116,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
         public String courseId;
         public List<StudentListSectionData> sections;
 
-        public SearchStudentsTable(String courseId, List<StudentListSectionData> sections) {
+        SearchStudentsTable(String courseId, List<StudentListSectionData> sections) {
             this.courseId = courseId;
             this.sections = sections;
         }
@@ -127,7 +128,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
         public boolean isAllowedToModifyStudent;
         public List<StudentListStudentData> students;
 
-        public StudentListSectionData(String sectionName, boolean isAllowedToViewStudentInSection,
+        StudentListSectionData(String sectionName, boolean isAllowedToViewStudentInSection,
                                     boolean isAllowedToModifyStudent, List<StudentListStudentData> students) {
             this.sectionName = sectionName;
             this.isAllowedToViewStudentInSection = isAllowedToViewStudentInSection;
@@ -143,7 +144,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
         public String status;
         public String team;
 
-        public StudentListStudentData(String studentName, String studentEmail, String studentStatus, String teamName) {
+        StudentListStudentData(String studentName, String studentEmail, String studentStatus, String teamName) {
             this.name = studentName;
             this.email = studentEmail;
             this.status = studentStatus;

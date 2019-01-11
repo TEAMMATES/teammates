@@ -25,7 +25,7 @@
       <td class="align-center">
         <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
         <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
-          [ngbPopover]="popContent" triggers="mouseenter:mouseleave"> 
+          [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
         <ng-template #viewPhotoBtn>
           <a href="#" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
         </ng-template>
@@ -73,8 +73,8 @@
             <button type="button" class="close" aria-hidden="true" (click)="modal.dismiss()">&times;</button>
           </div>
           <div class="modal-body">
-            <p class="font-weight-bold">Are you sure you want to remove 
-              <span class="text-primary">"{{student.name}}"</span> from the course 
+            <p class="font-weight-bold">Are you sure you want to remove
+              <span class="text-primary">"{{student.name}}"</span> from the course
               <span class="text-primary">"{{courseId}}"</span>?
             </p>
           </div>

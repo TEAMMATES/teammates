@@ -1,10 +1,10 @@
 .align-center {
-    text-align: center;
+  text-align: center;
 }
 
 .table .thead-gray th {
-    color: #495057;
-    background-color: #dadada;
+  color: #495057;
+  background-color: #DADADA;
 }
 
 /*
@@ -13,19 +13,19 @@ Allow only mouse hover events for the element.
 which usually match 2 classes (eg .btn.disabled)
 */
 .mouse-hover-only {
-    pointer-events: auto !important;
+  pointer-events: auto !important;
 }
 
 .mouse-hover-only:active {
-    pointer-events: none !important;
+  pointer-events: none !important;
 }
 
 img.profile-pic-icon {
-    height: 40px;
-    width: 40px;
+  height: 40px;
+  width: 40px;
 }
 
 .profile-pic {
-    height: 130px;
-    width: 130px;
+  height: 130px;
+  width: 130px;
 }

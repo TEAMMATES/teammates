@@ -3,8 +3,6 @@ package teammates.ui.newcontroller;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -40,7 +38,7 @@ public class DeleteStudentAction extends Action {
         String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
         // studentId takes precedence
         String studentEmail = studentId == null ? getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL)
-            : logic.getStudentForGoogleId(courseId, studentId).email;
+                : logic.getStudentForGoogleId(courseId, studentId).email;
         logic.deleteStudent(courseId, studentEmail);
 
         return new JsonResult("Student is successfully deleted.", HttpStatus.SC_OK);
