@@ -950,6 +950,7 @@ public final class Const {
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
+        public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
@@ -991,6 +992,7 @@ public final class Const {
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
 
+        public static final String INSTRUCTOR_COURSES = "/instructor/courses";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
         public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";

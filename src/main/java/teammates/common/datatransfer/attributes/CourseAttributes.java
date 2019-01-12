@@ -22,7 +22,13 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Instant createdAt;
+    private String createdAtDateString;
+    private String createdAtDateStamp;
+    private String createdAtFullDateTimeString;
     public Instant deletedAt;
+    private String deletedAtDateString;
+    private String deletedAtDateStamp;
+    private String deletedAtFullDateTimeString;
     private String id;
     private String name;
     private ZoneId timeZone;
@@ -32,7 +38,13 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.name = SanitizationHelper.sanitizeTitle(name);
         this.timeZone = timeZone;
         this.createdAt = Instant.now();
+        this.createdAtDateString = getCreatedAtDateString();
+        this.createdAtDateStamp = getCreatedAtDateStamp();
+        this.createdAtFullDateTimeString = getCreatedAtFullDateTimeString();
         this.deletedAt = null;
+        this.deletedAtDateString = getDeletedAtDateString();
+        this.deletedAtDateStamp = getDeletedAtDateStamp();
+        this.deletedAtFullDateTimeString = getDeletedAtFullDateTimeString();
     }
 
     /**
