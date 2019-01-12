@@ -292,6 +292,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotAccess(submissionParams);
     }
 
+    protected void verifyInaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Student privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     // 'Low-level' access control tests: here it tests an action once with the given parameters.
     // These methods are not aware of the user type.
 
