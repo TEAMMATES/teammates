@@ -5,92 +5,38 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
 
-/**
- * Mock feedback sessions to test the UI.
- */
-const sessionA: StudentFeedbackSession = {
-  name: 'A - awaiting, not published, not submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: false, isWaitingToOpen: true, isSessionVisible: true, isSessionPublished: false };
-
-const sessionB: StudentFeedbackSession = {
-  name: 'B - open, published, submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: true, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: true };
-
-const sessionC: StudentFeedbackSession = {
-  name: 'C - open, published, not submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: true, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: true };
-
-const sessionD: StudentFeedbackSession = {
-  name: 'D - open, not published, submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: true, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: false };
-
-const sessionE: StudentFeedbackSession = {
-  name: 'E - open, not published, not submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: true, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: false };
-
-const sessionF: StudentFeedbackSession = {
-  name: 'F - closed, published, submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: false, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: true };
-
-const sessionG: StudentFeedbackSession = {
-  name: 'G - closed, published, not submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: false, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: true };
-
-const sessionH: StudentFeedbackSession = {
-  name: 'H - closed, not published, submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: false, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: false };
-
-const sessionI: StudentFeedbackSession = {
-  name: 'I - closed, not published, not submitted', deadline: 'Mon, 02 Apr 2012, 11:59 PM SGT',
-  isOpened: false, isWaitingToOpen: false, isSessionVisible: true, isSessionPublished: false };
-
-/**
- * Mock courses to test the UI.
- */
-const COURSES: StudentCourse[] = [
-  { id: 'test.exa-demo', name: 'Course without sessions', sessions: [] },
-  { id: 'test.exa-demo1', name: 'Sample Course 101',
-    sessions: [sessionA, sessionB, sessionC, sessionD, sessionE] },
-  { id: 'test.exa-demo2', name: 'Sample Course 101',
-    sessions: [sessionF, sessionG, sessionH, sessionI] },
-];
-
-/**
- * Mock submission statuses for each mock feedback session.
- */
-const SESSION_SUBMISSION_STATUS_MAP: Map<StudentFeedbackSession, Boolean> = new Map();
-SESSION_SUBMISSION_STATUS_MAP.set(sessionA, false);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionB, true);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionC, false);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionD, true);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionE, false);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionF, true);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionG, false);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionH, true);
-SESSION_SUBMISSION_STATUS_MAP.set(sessionI, false);
-
-interface StudentFeedbackSession {
-  name: string;
-  deadline: string;
-
+interface SessionInfoMap {
+  endTime: string;
   isOpened: boolean;
   isWaitingToOpen: boolean;
-  isSessionVisible: boolean;
-  isSessionPublished: boolean;
+  isPublished: boolean;
+  isSubmitted: boolean;
+}
+
+interface FeedbackSessionAttributes {
+  feedbackSessionName: string;
+  courseId: string;
+}
+
+interface FeedbackSessionDetailsBundle {
+  feedbackSession: FeedbackSessionAttributes;
+}
+
+interface StudentCourseAttributes {
+  id: string;
+  name: string;
 }
 
 interface StudentCourse {
-  id: string;
-  name: string;
-
-  sessions: StudentFeedbackSession[];
+  course: StudentCourseAttributes;
+  feedbackSessions: FeedbackSessionDetailsBundle[];
 }
 
 interface StudentCourses {
   recentlyJoinedCourseId: string;
   hasEventualConsistencyMsg: boolean;
   courses: StudentCourse[];
-  sessionSubmissionStatusMap: Map<StudentFeedbackSession, Boolean>;
+  sessionsInfoMap: Map<String, SessionInfoMap>;
 }
 
 /**
@@ -123,10 +69,10 @@ export class StudentHomePageComponent implements OnInit {
 
   user: string = '';
 
-  recentlyJoinedCourseId: string = '';
+  recentlyJoinedCourseId?: string = '';
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
-  sessionSubmissionStatusMap: Map<StudentFeedbackSession, Boolean> = new Map();
+  sessionsInfoMap: Map<String, SessionInfoMap> = new Map();
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
@@ -134,18 +80,8 @@ export class StudentHomePageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      // this.getStudentCourses(queryParams.persistencecourse);
+      this.getStudentCourses(queryParams.persistencecourse);
     });
-
-    this.getMockCourses();
-  }
-
-  /**
-   * Gets mock data (for TEMPORARY use only).
-   */
-  getMockCourses(): void {
-    this.courses = COURSES;
-    this.sessionSubmissionStatusMap = SESSION_SUBMISSION_STATUS_MAP;
   }
 
   /**
@@ -157,14 +93,14 @@ export class StudentHomePageComponent implements OnInit {
       this.recentlyJoinedCourseId = resp.recentlyJoinedCourseId;
       this.hasEventualConsistencyMsg = resp.hasEventualConsistencyMsg;
       this.courses = resp.courses;
-      this.sessionSubmissionStatusMap = resp.sessionSubmissionStatusMap;
+      this.sessionsInfoMap = resp.sessionsInfoMap;
 
       if (this.hasEventualConsistencyMsg) {
         this.statusMessageService.showWarningMessage(
             'You have successfully joined the course ' + `${this.recentlyJoinedCourseId}` + '. '
-            + '<br>Updating of the course data on our servers is currently in progress '
+            + 'Updating of the course data on our servers is currently in progress '
             + 'and will be completed in a few minutes. '
-            + '<br>Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
+            + 'Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
             + ' in the list below.');
       }
 
@@ -174,19 +110,26 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   /**
+   * Gets the identifier for a session by combining the course id and the session name with a % delimiter.
+   */
+  getSessionId(session: FeedbackSessionAttributes): string {
+    return session.courseId + '%' + session.feedbackSessionName;
+  }
+
+  /**
    * Gets the tooltip message for the submission status.
    */
-  getSubmissionStatusTooltip(isOpened: boolean, isWaitingToOpen: boolean, hasSubmitted: boolean): string {
+  getSubmissionStatusTooltip(sessionInfoMap: SessionInfoMap): string {
     let msg: string = '';
 
-    if (isWaitingToOpen) {
+    if (sessionInfoMap.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
-    } else if (hasSubmitted) {
+    } else if (sessionInfoMap.isSubmitted) {
       msg += this.studentFeedbackSessionStatusSubmitted;
     } else {
       msg += this.studentFeedbackSessionStatusPending;
     }
-    if (!isOpened && !isWaitingToOpen) {
+    if (!sessionInfoMap.isOpened && !sessionInfoMap.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;

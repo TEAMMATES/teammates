@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Action: gets the courses and feedback sessions which a student is enrolled in.
@@ -36,18 +37,18 @@ public class GetStudentCoursesAction extends Action {
         boolean hasEventualConsistencyMsg = false;
 
         List<CourseDetailsBundle> courses = new ArrayList<>();
-        Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
+        Map<String, SessionInfoMap> sessionsInfoMap = new HashMap<>();
 
         try {
             courses = logic.getCourseDetailsListForStudent(userInfo.id);
-            sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(courses);
+            sessionsInfoMap = generateFeedbackSessionsInfoMap(courses);
 
             CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
 
             boolean isDataConsistent = isCourseIncluded(recentlyJoinedCourseId, courses);
             if (!isDataConsistent) {
                 hasEventualConsistencyMsg = addPlaceholderCourse(courses, recentlyJoinedCourseId,
-                        sessionSubmissionStatusMap);
+                        sessionsInfoMap);
             }
 
             for (CourseDetailsBundle course : courses) {
@@ -60,12 +61,12 @@ public class GetStudentCoursesAction extends Action {
                         HttpStatus.SC_NOT_FOUND);
             } else {
                 hasEventualConsistencyMsg = addPlaceholderCourse(courses, recentlyJoinedCourseId,
-                        sessionSubmissionStatusMap);
+                        sessionsInfoMap);
             }
         }
 
-        StudentCourses data = new StudentCourses(recentlyJoinedCourseId, hasEventualConsistencyMsg, courses,
-                sessionSubmissionStatusMap);
+        StudentCourses data = new StudentCourses(recentlyJoinedCourseId, hasEventualConsistencyMsg,
+                courses, sessionsInfoMap);
 
         return new JsonResult(data);
     }
@@ -78,16 +79,16 @@ public class GetStudentCoursesAction extends Action {
         private final String recentlyJoinedCourseId;
         private final boolean hasEventualConsistencyMsg;
         private final List<CourseDetailsBundle> courses;
-        private final Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap;
+        private final Map<String, SessionInfoMap> sessionsInfoMap;
 
         public StudentCourses(String recentlyJoinedCourseId,
                               boolean hasEventualConsistencyMsg,
                               List<CourseDetailsBundle> courses,
-                              Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
+                              Map<String, SessionInfoMap> sessionsInfoMap) {
             this.recentlyJoinedCourseId = recentlyJoinedCourseId;
             this.hasEventualConsistencyMsg = hasEventualConsistencyMsg;
             this.courses = courses;
-            this.sessionSubmissionStatusMap = sessionSubmissionStatusMap;
+            this.sessionsInfoMap = sessionsInfoMap;
         }
 
         public String getRecentlyJoinedCourseId() {
@@ -102,20 +103,28 @@ public class GetStudentCoursesAction extends Action {
             return courses;
         }
 
-        public Map<FeedbackSessionAttributes, Boolean> getSessionSubmissionStatusMap() {
-            return sessionSubmissionStatusMap;
+        public Map<String, SessionInfoMap> getSessionsInfoMap() {
+            return sessionsInfoMap;
         }
 
     }
 
-    private Map<FeedbackSessionAttributes, Boolean> generateFeedbackSessionSubmissionStatusMap(
+    private Map<String, SessionInfoMap> generateFeedbackSessionsInfoMap(
             List<CourseDetailsBundle> courses) {
-        Map<FeedbackSessionAttributes, Boolean> returnValue = new HashMap<>();
+        Map<String, SessionInfoMap> returnValue = new HashMap<>();
 
         for (CourseDetailsBundle c : courses) {
             for (FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
                 FeedbackSessionAttributes f = fsb.feedbackSession;
-                returnValue.put(f, getStudentStatusForSession(f));
+                String fId = f.getCourseId() + '%' + f.getFeedbackSessionName();
+
+                String endTime = TimeHelper.formatDateTimeForDisplay(f.getEndTime(), f.getTimeZone());
+                boolean isOpened = f.isOpened();
+                boolean isWaitingToOpen = f.isWaitingToOpen();
+                boolean isPublished = f.isPublished();
+                boolean isSubmitted = getStudentStatusForSession(f);
+
+                returnValue.put(fId, new SessionInfoMap(endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted));
             }
         }
         return returnValue;
@@ -150,12 +159,12 @@ public class GetStudentCoursesAction extends Action {
      * message needs to be shown to the user.
      */
     private boolean addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId,
-                                      Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
+                                         Map<String, SessionInfoMap> sessionsInfoMap) {
         try {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
             courses.add(course);
 
-            addPlaceholderFeedbackSessions(course, sessionSubmissionStatusMap);
+            addPlaceholderFeedbackSessions(course, sessionsInfoMap);
             FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
 
             return false;
@@ -166,9 +175,58 @@ public class GetStudentCoursesAction extends Action {
     }
 
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
-                                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
+                                                Map<String, SessionInfoMap> sessionsInfoMap) {
         for (FeedbackSessionDetailsBundle fsb : course.feedbackSessions) {
-            sessionSubmissionStatusMap.put(fsb.feedbackSession, true);
+            FeedbackSessionAttributes fsbFeedbackSession = fsb.feedbackSession;
+            String fsbId = fsbFeedbackSession.getCourseId() + '%' + fsbFeedbackSession.getFeedbackSessionName();
+
+            String endTime = TimeHelper.formatDateTimeForDisplay(fsbFeedbackSession.getEndTime(),
+                    fsbFeedbackSession.getTimeZone());
+            boolean isOpened = fsbFeedbackSession.isOpened();
+            boolean isWaitingToOpen = fsbFeedbackSession.isWaitingToOpen();
+            boolean isPublished = fsbFeedbackSession.isPublished();
+            boolean isSubmitted = true;
+            SessionInfoMap map = new SessionInfoMap(endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted);
+
+            sessionsInfoMap.put(fsbId, map);
+        }
+    }
+
+    private class SessionInfoMap {
+        String endTime;
+
+        boolean isOpened;
+        boolean isWaitingToOpen;
+        boolean isPublished;
+        boolean isSubmitted;
+
+        SessionInfoMap(String endTime, boolean isOpened, boolean isWaitingToOpen,
+                              boolean isPublished, boolean isSubmitted) {
+            this.endTime = endTime;
+            this.isOpened = isOpened;
+            this.isWaitingToOpen = isWaitingToOpen;
+            this.isPublished = isPublished;
+            this.isSubmitted = isSubmitted;
+        }
+
+        public String getEndTime() {
+            return this.endTime;
+        }
+
+        public boolean getIsOpened() {
+            return this.isOpened;
+        }
+
+        public boolean getIsWaitingToOpen() {
+            return this.isWaitingToOpen;
+        }
+
+        public boolean getIsPublished() {
+            return this.isPublished;
+        }
+
+        public boolean getIsSubmitted() {
+            return this.isSubmitted;
         }
     }
 
