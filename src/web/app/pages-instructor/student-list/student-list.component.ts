@@ -1,0 +1,103 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
+import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { ErrorMessageOutput } from '../../message-output';
+import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
+
+interface StudentDetails {
+  studentProfile: StudentProfile;
+}
+
+interface StudentProfile {
+  pictureKey: string;
+}
+
+/**
+ * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
+ */
+@Component({
+  selector: 'tm-student-list',
+  templateUrl: './student-list.component.html',
+  styleUrls: ['./student-list.component.scss'],
+})
+export class StudentListComponent implements OnInit {
+
+  @Input() courseId: string = '';
+  @Input() sections: StudentListSectionData[] = [];
+  @Input() useGrayHeading: boolean = true;
+
+  private backendUrl: string = environment.backendUrl;
+
+  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService,
+    private ngbModal: NgbModal) { }
+
+  ngOnInit(): void {
+  }
+
+  /**
+   * Returns whether this course are divided into sections
+   */
+  hasSection(): boolean {
+    return !((this.sections.length === 1) && (this.sections[0].sectionName === 'None'));
+  }
+
+  /**
+   * Function to be passed to ngFor, so that students in the list is tracked by email
+   */
+  trackByFn(_index: number, item: StudentListStudentData): any {
+    return item.email;
+  }
+
+  /**
+   * Load the profile picture of a student
+   */
+  loadPhoto(student: StudentListStudentData): void {
+    const paramMap: { [key: string]: string } = { courseid: this.courseId, studentemail: student.email };
+    this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
+      student.photoUrl = resp.studentProfile ? this.getPictureUrl(resp.studentProfile.pictureKey)
+        : '/assets/images/profile_picture_default.png';
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(`Error retrieving student photo: ${resp.error.message}`);
+    });
+  }
+
+  /**
+   * Construct the url for the profile picture from the given key.
+   */
+  getPictureUrl(pictureKey: string): string {
+    if (!pictureKey) {
+      return '/assets/images/profile_picture_default.png';
+    }
+    return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
+  }
+
+  /**
+   * Open the student delete confirmation modal.
+   */
+  openModal(content: any): void {
+    this.ngbModal.open(content).result.then((studentEmail: string) => this.removeStudentFromCourse(studentEmail));
+  }
+
+  /**
+   * Removes the student from course.
+   */
+  removeStudentFromCourse(studentEmail: string): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseId,
+      studentemail: studentEmail,
+    };
+    this.httpRequestService.delete('/students', paramMap).subscribe(() => {
+      this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
+      this.sections.forEach(
+        (section: StudentListSectionData) => {
+          section.students = section.students.filter(
+            (student: StudentListStudentData) => student.email !== studentEmail);
+        });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+}
