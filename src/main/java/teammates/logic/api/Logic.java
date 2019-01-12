@@ -717,13 +717,6 @@ public class Logic {
         studentsLogic.createStudentCascade(student);
     }
 
-    public void createStudentWithoutDocument(StudentAttributes student) throws EntityAlreadyExistsException,
-                                                                               InvalidParametersException,
-                                                                               EntityDoesNotExistException {
-        Assumption.assertNotNull(student);
-        studentsLogic.createStudentCascadeWithoutDocument(student);
-    }
-
     /**
      * Search for students. Preconditions: all parameters are non-null.
      * @param instructors   a list of InstructorAttributes associated to a googleId,
@@ -879,7 +872,7 @@ public class Logic {
                                                                                    EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
-        studentsLogic.resetStudentGoogleId(originalEmail, courseId, true);
+        studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
     /**
@@ -899,15 +892,6 @@ public class Logic {
         Assumption.assertNotNull(student);
 
         studentsLogic.updateStudentCascade(originalEmail, student);
-    }
-
-    public void updateStudentWithoutDocument(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(student);
-
-        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
     }
 
     /**

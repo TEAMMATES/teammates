@@ -49,20 +49,8 @@ public final class StudentsLogic {
     }
 
     public void createStudentCascade(StudentAttributes studentData)
-            throws InvalidParametersException, EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        createStudentCascade(studentData, true);
-    }
-
-    public void createStudentCascadeWithoutDocument(
-            StudentAttributes studentData) throws InvalidParametersException,
-            EntityAlreadyExistsException, EntityDoesNotExistException {
-        createStudentCascade(studentData, false);
-    }
-
-    public void createStudentCascade(StudentAttributes studentData, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        studentsDb.createStudent(studentData, hasDocument);
+        studentsDb.createStudent(studentData);
 
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
@@ -160,22 +148,10 @@ public final class StudentsLogic {
         return isStudentInTeam(courseId, student1.team, student2Email);
     }
 
-    public void updateStudentCascade(String originalEmail,
-            StudentAttributes student) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, true);
-    }
-
-    public void updateStudentCascadeWithoutDocument(String originalEmail,
-            StudentAttributes student) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, false);
-    }
-
-    public void updateStudentCascade(String originalEmail, StudentAttributes student, boolean hasDocument)
+    public void updateStudentCascade(String originalEmail, StudentAttributes student)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-        updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student, hasDocument);
+        updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student);
 
         /* finalEmail is the string to be used to represent a student's email.
          * This is because:
@@ -205,7 +181,7 @@ public final class StudentsLogic {
     }
 
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail,
-            StudentAttributes student, boolean hasDocument)
+            StudentAttributes student)
             throws EntityDoesNotExistException, InvalidParametersException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
@@ -225,7 +201,7 @@ public final class StudentsLogic {
         }
 
         studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
-                                 student.email, student.googleId, student.comments, hasDocument);
+                                 student.email, student.googleId, student.comments);
 
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -234,7 +210,7 @@ public final class StudentsLogic {
         }
     }
 
-    public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
+    public void resetStudentGoogleId(String originalEmail, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
@@ -250,20 +226,10 @@ public final class StudentsLogic {
         }
         studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name,
                                  originalStudent.team, originalStudent.section, originalStudent.email,
-                                 originalStudent.googleId, originalStudent.comments, hasDocument);
+                                 originalStudent.googleId, originalStudent.comments);
     }
 
     public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-        return enrollStudents(enrollLines, courseId, true);
-    }
-
-    public CourseEnrollmentResult enrollStudentsWithoutDocument(String enrollLines, String courseId)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-        return enrollStudents(enrollLines, courseId, false);
-    }
-
-    private CourseEnrollmentResult enrollStudents(String enrollLines, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
 
         if (!coursesLogic.isCoursePresent(courseId)) {
@@ -287,7 +253,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : studentList) {
             StudentEnrollDetails enrollmentDetails;
 
-            enrollmentDetails = enrollStudent(student, hasDocument);
+            enrollmentDetails = enrollStudent(student);
             student.updateStatus = enrollmentDetails.updateStatus;
 
             enrollmentList.add(enrollmentDetails);
@@ -443,18 +409,10 @@ public final class StudentsLogic {
     }
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        deleteStudentCascade(courseId, studentEmail, true);
-    }
-
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
-        deleteStudentCascade(courseId, studentEmail, false);
-    }
-
-    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
-        studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
+        studentsDb.deleteStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -463,14 +421,6 @@ public final class StudentsLogic {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
-    }
-
-    public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
-        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondentsList(student);
-        }
-        studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
 
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
@@ -484,10 +434,6 @@ public final class StudentsLogic {
 
     public void deleteStudentsForCourse(String courseId) {
         studentsDb.deleteStudentsForCourse(courseId);
-    }
-
-    public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        studentsDb.deleteStudentsForCourseWithoutDocument(courseId);
     }
 
     public void adjustFeedbackResponseForEnrollments(
@@ -516,7 +462,7 @@ public final class StudentsLogic {
         studentsDb.putDocuments(students);
     }
 
-    private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument)
+    private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         StudentAttributes originalStudentAttributes = getStudentForEmail(
                 validStudentAttributes.course, validStudentAttributes.email);
@@ -532,7 +478,7 @@ public final class StudentsLogic {
             enrollmentDetails.updateStatus = StudentUpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
-                                                                  validStudentAttributes, true);
+                                                                  validStudentAttributes);
             enrollmentDetails.updateStatus = StudentUpdateStatus.MODIFIED;
 
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
@@ -542,7 +488,7 @@ public final class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascade(validStudentAttributes, hasDocument);
+            createStudentCascade(validStudentAttributes);
             enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 
