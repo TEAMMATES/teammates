@@ -965,6 +965,7 @@ public final class Const {
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
 
+        public static final String STUDENT_COURSE_DETAILS = "students/course/details";
     }
 
     @Deprecated

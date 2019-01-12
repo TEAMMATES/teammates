@@ -46,6 +46,8 @@ public class ActionFactory {
         map(ResourceURIs.SESSIONS_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
+
+        map(ResourceURIs.STUDENT_COURSE_DETAILS, GET, StudentGetCourseDetailsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {
