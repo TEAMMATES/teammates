@@ -50,8 +50,6 @@ interface StudentCourses {
 export class StudentHomePageComponent implements OnInit {
 
   // Tooltip messages
-  studentCourseDetails: string = 'View and edit information regarding your team';
-
   studentFeedbackSessionStatusPublished: string =
       'The responses for the session have been published and can now be viewed.';
   studentFeedbackSessionStatusNotPublished: string =
@@ -61,11 +59,6 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusPending: string = 'The feedback session is yet to be completed by you.';
   studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
-
-  feedbackSessionEditSubmittedResponse: string = 'Edit submitted feedback';
-  feedbackSessionViewSubmittedResponse: string = 'View submitted feedback';
-  feedbackSessionSubmit: string = 'Start submitting feedback';
-  feedbackSessionResults: string = 'View the submitted responses for this feedback session';
 
   user: string = '';
 
