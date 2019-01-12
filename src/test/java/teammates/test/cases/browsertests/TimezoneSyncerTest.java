@@ -61,9 +61,9 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
             LocalDate nowDate = Instant.now().atZone(Const.DEFAULT_TIME_ZONE).toLocalDate();
 
             assertTrue(
-                    "The timezone database version is not up-to-date for more than 20 days,"
+                    "The timezone database version is not up-to-date for more than 60 days,"
                             + " please update them according to the maintenance guide.",
-                    releaseDate.plusDays(20).isAfter(nowDate));
+                    releaseDate.plusDays(60).isAfter(nowDate));
 
         }
     }
