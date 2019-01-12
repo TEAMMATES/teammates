@@ -366,7 +366,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                          + "to</span> 2026-04-30T21:59:00Z<br><span class=\"bold\">Session visible from:</span> "
                          + "2012-04-01T21:59:00Z<br><span class=\"bold\">Results visible from:</span> "
                          + "2026-05-01T21:59:00Z<br><br><span class=\"bold\">Instructions:</span> "
-                         + "<Text: Instructions for first session><br>Copied from "
+                         + "Instructions for first session<br>Copied from "
                          + "<span class=\"bold\">(First Session)</span> "
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
                          + "/page/instructorFeedbackEditCopy";

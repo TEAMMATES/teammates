@@ -56,20 +56,15 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
 
-        boolean hasThrownUnauthorizedAccessException = false;
-        String exceptionMessage = "";
-
         a = getAction(addUserIdToParams(instructorId, submissionParams));
 
         try {
-            r = getAjaxResult(a);
+            getAjaxResult(a);
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
-            hasThrownUnauthorizedAccessException = true;
-            exceptionMessage = e.getMessage();
+            assertEquals("Trying to access system using a non-existent feedback session entity", e.getMessage());
         }
 
-        assertTrue(hasThrownUnauthorizedAccessException);
-        assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
         assertEquals("", r.getStatusMessage());
     }
 

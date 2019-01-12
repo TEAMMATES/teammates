@@ -3,8 +3,6 @@ package teammates.ui.controller;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -40,11 +38,10 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-        boolean isCreatorOnly = true;
 
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
+        gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
+        gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
         FeedbackResponseCommentAjaxPageData data =
@@ -73,7 +70,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .builder(courseId, feedbackSessionName, instructor.email, commentText)
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
                 .withCreatedAt(Instant.now())
@@ -119,7 +116,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.commentGiver + " at "
                            + feedbackResponseComment.createdAt + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "comment text: " + feedbackResponseComment.commentText;
         }
 
         if (createdComment == null) {

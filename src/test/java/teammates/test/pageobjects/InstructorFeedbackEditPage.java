@@ -1,8 +1,8 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -21,8 +21,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
@@ -809,7 +807,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // If the other option is selected, no AJAX request is made
         if (!optionValue.equals(customVisibilityOptionsValue)) {
-            getjQueryAjaxHandler().registerHandlers();
+            getjQueryAjaxHandler().waitForAjaxIfPresentThenRegisterHandlers();
         }
 
         WebElement visibilityOptionsDropdown =
@@ -1023,7 +1021,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Checks if alert class is enabled on the visibility options div for the specified question number.
      */
     public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
-        final String visibilityOptionsDivXPath =
+        String visibilityOptionsDivXPath =
                 "//div[@id='questionTable-" + questionNo + "']//div[@class='visibility-checkbox-delegate panel-body']"
                 + "//b[@class='visibility-title']/../..";
         return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
@@ -1185,8 +1183,8 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Selects the recipient type in the feedback path and waits for the corresponding visibility message to load.
      */
     public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
-        final WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(selectElement, recipientType);
+        WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
+        selectDropdownByVisibleValueAndHandleAjaxRequests(selectElement, recipientType);
     }
 
     public void clickNewQuestionButton() {
@@ -1244,12 +1242,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
-        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, giverType.toString());
+        selectDropdownByActualValueAndHandleAjaxRequests(giverDropdown, giverType.toString());
     }
 
     public void selectRecipientToBe(FeedbackParticipantType recipientType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + questionNumber));
-        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, recipientType.toString());
+        selectDropdownByActualValueAndHandleAjaxRequests(giverDropdown, recipientType.toString());
     }
 
     /**
@@ -1257,7 +1255,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * to load.
      */
     public void selectGiverToBeStudentsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Students in this course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(giverDropdownForNewQuestion, "Students in this course");
     }
 
     /**
@@ -1265,7 +1263,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * message to load.
      */
     public void selectGiverToBeInstructorsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Instructors in this course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(giverDropdownForNewQuestion, "Instructors in this course");
     }
 
     /**
@@ -1273,7 +1271,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Other students in the course");
     }
 
@@ -1282,7 +1280,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeGiverTeamMembersAndGiverAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Giver's team members and Giver");
     }
 
@@ -1291,7 +1289,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeInstructorsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Instructors in the course");
     }
 
@@ -1301,7 +1299,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(recipientDropdown, "Other students in the course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(recipientDropdown, "Other students in the course");
     }
 
     public void enableOtherFeedbackPathOptions(int qnNumber) {
@@ -1317,7 +1315,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, String instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");
@@ -1331,7 +1329,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
         // Fill in instructions
-        fillRichTextEditor("instructions", instructions.getValue());
+        fillRichTextEditor("instructions", instructions);
 
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
@@ -1475,8 +1473,11 @@ public class InstructorFeedbackEditPage extends AppPage {
                 + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
 
         Actions builder = new Actions(browser.driver);
-        // drag option 10 units above target and release
+        // drag option to target, move 10 units above target and release
+        // multiple movements are used to slow down drag movement and provide
+        // enough time for the grid to create empty slots
         builder.clickAndHold(draggedOptionElement)
+                .moveToElement(targetElement)
                 .moveToElement(targetElement, 0, -10)
                 .release()
                 .build()
@@ -1896,9 +1897,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
 
-    public String getQuestionType(int qnNumber) {
+    private String getQuestionType(int qnNumber) {
         return browser.driver.findElement(By.cssSelector("#form_editquestion-" + qnNumber + " input[name='questiontype']"))
-                .getAttribute("value").toString();
+                .getAttribute("value");
     }
 
     private boolean isRankOptionsQuestion(int qnIndex) {
@@ -1921,7 +1922,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         case "INSTRUCTORS":
         case "TEAMS":
             return Integer.parseInt(browser.driver.findElement(By.id("num-" + recipient.toLowerCase()))
-                    .getAttribute("value").toString());
+                    .getAttribute("value"));
         case "OWN_TEAM_MEMBERS":
         case "OWN_TEAM_MEMBERS_INCLUDING_SELF":
             return Integer.MAX_VALUE;

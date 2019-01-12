@@ -20,7 +20,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MSQ, msqDetails.getQuestionType());
-        assertTrue(msqDetails instanceof FeedbackMsqQuestionDetails);
         assertFalse(msqDetails.hasAssignedWeights());
         assertTrue(msqDetails.getMsqWeights().isEmpty());
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
@@ -40,7 +39,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
         assertEquals(msqDetails.getQuestionType(), FeedbackQuestionType.MSQ);
-        assertTrue(msqDetails instanceof FeedbackMsqQuestionDetails);
         assertTrue(msqDetails.hasAssignedWeights());
         assertTrue(msqDetails.getMsqChoices().isEmpty());
         // getMsqWeight() returns empty list as there are no msq choices set.
@@ -257,7 +255,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testGetMsqOtherWeight_nullOtherWeight_exceptionThrown() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
@@ -275,7 +273,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         // The following line is commented out, so otherWeight parameter is missing from the requestParams.
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, new String[] { "" });
 
-        msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ);
+        assertThrows(AssertionError.class, () -> msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
     }
 
     @Test

@@ -108,7 +108,7 @@ public final class InstructorsLogic {
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
-        instructorReturnList.sort(InstructorAttributes.compareByName);
+        instructorReturnList.sort(InstructorAttributes.COMPARE_BY_NAME);
 
         return instructorReturnList;
     }

@@ -67,8 +67,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
         List<FeedbackQuestionAttributes> templateQuestions = FeedbackQuestionsLogic.inst()
-                .getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "typicalCourse1",
-                        "session1InCourse1", "instructor1OfCourse1");
+                .getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "typicalCourse1", "session1InCourse1");
 
         data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor,
                 true, instructorList.size(), courseDetails);
@@ -95,7 +94,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertEquals(fs.getFeedbackSessionName(), fsForm.getFsName());
         assertEquals(TimeHelper.formatDateForSessionsForm(fs.getStartTimeLocal()), fsForm.getFsStartDate());
 
-        assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
+        assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
 
         assertFalse(fsForm.isCourseIdEditable());

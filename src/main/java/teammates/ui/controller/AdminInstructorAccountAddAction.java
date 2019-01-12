@@ -218,21 +218,21 @@ public class AdminInstructorAccountAddAction extends Action {
      *         </ul>
      */
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
-        final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
+        boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId),
                                              maximumIdLength);
         }
 
-        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo");
+        boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo");
         if (isFirstTimeDuplicate) {
             return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
                                              maximumIdLength);
         }
 
-        final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-        final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-        final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+        int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+        String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+        int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }

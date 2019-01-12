@@ -21,8 +21,6 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        String[] submissionParams = new String[] {};
-
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -36,7 +34,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Typical case: archive a course, redirect to homepage");
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE

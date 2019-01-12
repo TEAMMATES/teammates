@@ -191,7 +191,8 @@
       "course": "CFeedbackEditUiT.CS2104",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "benny.tmms@CFeedbackEditUiT.CS2104": {
       "googleId": "CFeedbackEditUiT.benny.tmms",
@@ -199,7 +200,8 @@
       "course": "CFeedbackEditUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "charlie.tmms@CFeedbackEditUiT.CS1101": {
       "googleId": "charlie.tmms",
@@ -207,7 +209,8 @@
       "course": "CFeedbackEditUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "danny.tmms@CFeedbackEditUiT.CS1101": {
       "googleId": "danny.tmms",
@@ -215,7 +218,8 @@
       "course": "CFeedbackEditUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -223,9 +227,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "CFeedbackEditUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -245,9 +247,7 @@
       "feedbackSessionName": "Second Session",
       "courseId": "CFeedbackEditUiT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for Second session"
-      },
+      "instructions": "Instructions for Second session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -267,9 +267,7 @@
       "feedbackSessionName": "Third Session",
       "courseId": "CFeedbackEditUiT.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for Third session"
-      },
+      "instructions": "Instructions for Third session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -289,9 +287,7 @@
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "CFeedbackEditUiT.idOfTSCourse",
       "creatorEmail": "CFeedbackEditUiT.instructor1@sanitization.tmt",
-      "instructions": {
-        "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
-      },
+      "instructions": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -311,9 +307,7 @@
       "feedbackSessionName": "DST Session",
       "courseId": "CFeedbackEditUiT.idOfDstCourse",
       "creatorEmail": "tmms.test@gmail.tmt",
-      "instructions": {
-        "value": "Instructions for DST session"
-      },
+      "instructions": "Instructions for DST session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2026-04-30T21:59:00Z",
@@ -334,10 +328,7 @@
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "CFeedbackEditUiT.idOfTSCourse",
-      "creatorEmail": "CFeedbackEditUiT.instructor1@sanitization.tmt",
-      "questionMetaData": {
-        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-      },
+      "questionMetaData": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",

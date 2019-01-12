@@ -15,110 +15,102 @@ import teammates.test.cases.BaseTestCase;
 public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @Test
-    public void testConstructor() throws Exception {
+    public void testConstructor_nullParameter_fail() throws Exception {
 
         ______TS("Failure case: null parameter");
-        try {
-            new StudentAttributesFactory(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> new StudentAttributesFactory(null));
+    }
+
+    @Test
+    public void testConstructor_tooFewColumns_fail() throws Exception {
 
         ______TS("Failure case: not satisfy the minimum requirement of fields");
         String headerRow = "name \t email";
-        try {
-            new StudentAttributesFactory(headerRow);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
-                         e.getMessage());
-        }
+        EnrollException ee = assertThrows(EnrollException.class, () -> new StudentAttributesFactory(headerRow));
+        assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
+                ee.getMessage());
+    }
+
+    @Test
+    public void testConstructor_missingNameField_fail() throws Exception {
 
         ______TS("Failure case: missing 'Name' field");
-        headerRow = "section \t team \t email";
-        try {
-            new StudentAttributesFactory(headerRow);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Name</mark>",
-                         e.getMessage());
-        }
+        String headerRow = "section \t team \t email";
+        EnrollException ee = assertThrows(EnrollException.class, () -> new StudentAttributesFactory(headerRow));
+        assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Name</mark>",
+                ee.getMessage());
+    }
+
+    @Test
+    public void testConstructor_missingTeamField_fail() throws Exception {
 
         ______TS("Failure case: missing 'Team' field");
-        headerRow = "section \t name \t email";
-        try {
-            new StudentAttributesFactory(headerRow);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
-                         e.getMessage());
-        }
+        String headerRow = "section \t name \t email";
+        EnrollException ee = assertThrows(EnrollException.class, () -> new StudentAttributesFactory(headerRow));
+        assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
+                ee.getMessage());
+    }
+
+    @Test
+    public void testConstructor_missingEmailField_fail() throws Exception {
 
         ______TS("Failure case: missing 'Email' field");
-        headerRow = "section \t team \t name";
-        try {
-            new StudentAttributesFactory(headerRow);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Email</mark>",
-                         e.getMessage());
-        }
+        String headerRow = "section \t team \t name";
+        EnrollException ee = assertThrows(EnrollException.class, () -> new StudentAttributesFactory(headerRow));
+        assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Email</mark>",
+                ee.getMessage());
+    }
+
+    @Test
+    public void testConstructor_repeatedSingleColumn_fail() throws Exception {
 
         ______TS("Failure case: repeated required columns");
-        headerRow = "name \t email \t team \t comments \t name";
-        try {
-            new StudentAttributesFactory(headerRow);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
-        }
+        String headerRow = "name \t email \t team \t comments \t name";
+        EnrollException ee = assertThrows(EnrollException.class, () -> new StudentAttributesFactory(headerRow));
+        assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, ee.getMessage());
+    }
+
+    @Test
+    public void testConstructor_repeatedMultipleColumns_fail() throws Exception {
 
         // adding this for complete coverage
         ______TS("Failure case: repeated required columns");
-        headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";
-        try {
-            new StudentAttributesFactory(headerRow);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
-        }
+        String headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";
+        EnrollException ee = assertThrows(EnrollException.class, () -> new StudentAttributesFactory(headerRow));
+        assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, ee.getMessage());
 
         // remaining cases have been implicitly tested in testMakeStudent()
     }
 
     @Test
-    public void testMakeStudent() throws EnrollException {
-        StudentAttributesFactory saf = new StudentAttributesFactory();
-        String line = null;
-        String courseId = null;
-
-        StudentAttributes studentCreated;
-
+    public void testMakeStudent_emptyRow_fail() throws EnrollException {
         ______TS("Failure case: empty row");
-        line = "";
-        courseId = "SAFT.courseId";
-        try {
-            saf.makeStudent(line, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_ENROLL_LINE_EMPTY, e.getMessage());
-        }
+        StudentAttributesFactory saf = new StudentAttributesFactory();
+        String line = "";
+        String courseId = "SAFT.courseId";
+        EnrollException ee = assertThrows(EnrollException.class, () -> saf.makeStudent(line, courseId));
+        assertEquals(StudentAttributesFactory.ERROR_ENROLL_LINE_EMPTY, ee.getMessage());
+    }
 
+    @Test
+    public void testMakeStudent_tooFewColumns_fail() throws EnrollException {
         ______TS("Failure case: too few columns");
-        line = "name|email";
-        try {
-            saf.makeStudent(line, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS, e.getMessage());
-        }
+        StudentAttributesFactory saf = new StudentAttributesFactory();
+        String line = "name|email";
+        String courseId = "SAFT.courseId";
+        EnrollException ee = assertThrows(EnrollException.class, () -> saf.makeStudent(line, courseId));
+        assertEquals(StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS, ee.getMessage());
+    }
+
+    @Test
+    public void testMakeStudent() throws EnrollException {
+        String courseId = "SAFT.courseId";
 
         ______TS("Typical case: normal column order with comment");
-        saf = new StudentAttributesFactory("TEAMS|Names|Email|comments");
-        line = "team 1|SAFT.name|SAFT@email.com|some comment...";
+        StudentAttributesFactory saf = new StudentAttributesFactory("TEAMS|Names|Email|comments");
+        String line = "team 1|SAFT.name|SAFT@email.com|some comment...";
 
-        studentCreated = saf.makeStudent(line, courseId);
+        StudentAttributes studentCreated = saf.makeStudent(line, courseId);
         assertEquals(studentCreated.team, "team 1");
         assertEquals(studentCreated.name, "SAFT.name");
         assertEquals(studentCreated.email, "SAFT@email.com");
@@ -193,12 +185,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
     public void testSplitLineIntoColumns() throws Exception {
 
         ______TS("Failure case: null parameter");
-        try {
-            splitLineIntoColumns(null);
-            signalFailureToDetectException();
-        } catch (InvocationTargetException e) {
-            ignoreExpectedException();
-        }
+        assertThrows(InvocationTargetException.class, () -> splitLineIntoColumns(null));
 
         ______TS("Typical case: line with pipe symbol as separators");
         String line = "name | email |  | team";

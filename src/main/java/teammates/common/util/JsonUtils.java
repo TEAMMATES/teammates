@@ -79,39 +79,51 @@ public final class JsonUtils {
     private static class TeammatesInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
         @Override
-        public synchronized JsonElement serialize(Instant instant, Type type, JsonSerializationContext context) {
-            return new JsonPrimitive(DateTimeFormatter.ISO_INSTANT.format(instant));
+        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext context) {
+            synchronized (this) {
+                return new JsonPrimitive(DateTimeFormatter.ISO_INSTANT.format(instant));
+            }
         }
 
         @Override
-        public synchronized Instant deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-            return Instant.parse(element.getAsString());
+        public Instant deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            synchronized (this) {
+                return Instant.parse(element.getAsString());
+            }
         }
     }
 
     private static class TeammatesZoneIdAdapter implements JsonSerializer<ZoneId>, JsonDeserializer<ZoneId> {
 
         @Override
-        public synchronized JsonElement serialize(ZoneId zoneId, Type type, JsonSerializationContext context) {
-            return new JsonPrimitive(zoneId.getId());
+        public JsonElement serialize(ZoneId zoneId, Type type, JsonSerializationContext context) {
+            synchronized (this) {
+                return new JsonPrimitive(zoneId.getId());
+            }
         }
 
         @Override
-        public synchronized ZoneId deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-            return ZoneId.of(element.getAsString());
+        public ZoneId deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            synchronized (this) {
+                return ZoneId.of(element.getAsString());
+            }
         }
     }
 
     private static class TeammatesDurationMinutesAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
 
         @Override
-        public synchronized JsonElement serialize(Duration duration, Type type, JsonSerializationContext context) {
-            return new JsonPrimitive(duration.toMinutes());
+        public JsonElement serialize(Duration duration, Type type, JsonSerializationContext context) {
+            synchronized (this) {
+                return new JsonPrimitive(duration.toMinutes());
+            }
         }
 
         @Override
-        public synchronized Duration deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-            return Duration.ofMinutes(element.getAsLong());
+        public Duration deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            synchronized (this) {
+                return Duration.ofMinutes(element.getAsLong());
+            }
         }
     }
 }

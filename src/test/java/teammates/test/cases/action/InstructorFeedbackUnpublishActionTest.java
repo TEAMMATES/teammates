@@ -60,7 +60,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         TaskWrapper taskAdded = unpublishAction.getTaskQueuer().getTasksAdded().get(0);
         Map<String, String[]> paramMap = taskAdded.getParamMap();
         assertEquals(session.getCourseId(), paramMap.get(ParamsNames.EMAIL_COURSE)[0]);
-        assertEquals(session.getSessionName(), paramMap.get(ParamsNames.EMAIL_FEEDBACK)[0]);
+        assertEquals(session.getFeedbackSessionName(), paramMap.get(ParamsNames.EMAIL_FEEDBACK)[0]);
 
         ______TS("Unsuccessful case 1: params with null course id");
 

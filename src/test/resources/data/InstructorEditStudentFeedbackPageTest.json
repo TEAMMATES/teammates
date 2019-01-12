@@ -33,17 +33,7 @@
       "name": "Student 1 in course IESFPTCourse",
       "isInstructor": false,
       "email": "student1InIESFPTCourse@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "student1InIESFPTCourse",
-        "shortName": "Stud1",
-        "email": "i.m.stud1@gmail.tmt",
-        "institute": "TEAMMATES Test Institute 3",
-        "nationality": "American",
-        "gender": "male",
-        "moreInfo": "I am just a student :P",
-        "pictureKey": "asdf34&hfn3!@"
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "student2InIESFPTCourse": {
       "googleId": "student2InIESFPTCourse",
@@ -218,9 +208,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -240,9 +228,7 @@
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -262,9 +248,7 @@
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2012-04-30T21:59:00Z",
@@ -285,10 +269,7 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -307,10 +288,7 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"minScale\":1,\"questionText\":\"Rate your product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
-      },
+      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate your product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 2,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -331,10 +309,7 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which giver gave responses for this question"
-      },
+      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which giver gave responses for this question",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -353,10 +328,7 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question"
-      },
+      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -376,10 +348,7 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "This question should NOT appear when moderated by an instructor, as instructors are unable to see responses for this question"
-      },
+      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see responses for this question",
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -398,10 +367,7 @@
     "qn6InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
-      },
+      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 6,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -423,10 +389,7 @@
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "Talk about your contributions"
-      },
+      "questionMetaData": "Talk about your contributions",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -447,10 +410,7 @@
     "qn1InClosedsession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "Talk about your contributions"
-      },
+      "questionMetaData": "Talk about your contributions",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -471,10 +431,7 @@
     "qn2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
-      },
+      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -502,9 +459,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "Student 1 self feedback."
-      },
+      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -515,9 +470,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InIESFPTCourse@gmail.tmt",
       "recipient": "student2InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "Student 2 self feedback."
-      },
+      "responseMetaData": "Student 2 self feedback.",
       "giverSection": "Section 2",
       "recipientSection": "Section 2"
     },
@@ -528,9 +481,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "response whereby giver should not be seen by instructors"
-      },
+      "responseMetaData": "response whereby giver should not be seen by instructors",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -541,9 +492,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "response whereby receipient should not be seen by instructors"
-      },
+      "responseMetaData": "response whereby receipient should not be seen by instructors",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -554,9 +503,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "response with everything should not be seen by instructors"
-      },
+      "responseMetaData": "response with everything should not be seen by instructors",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -567,9 +514,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      },
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -580,9 +525,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "Session 2 Question 1 Response 1"
-      },
+      "responseMetaData": "Session 2 Question 1 Response 1",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -593,9 +536,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InIESFPTCourse@gmail.tmt",
       "recipient": "student2InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "Session 2 Question 1 Response 2"
-      },
+      "responseMetaData": "Session 2 Question 1 Response 2",
       "giverSection": "Section 2",
       "recipientSection": "Section 2"
     },
@@ -606,9 +547,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "Closed session response"
-      },
+      "responseMetaData": "Closed session response",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
@@ -619,13 +558,22 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      },
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     }
   },
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {
+    "student1InIESFPTCourse": {
+      "googleId": "student1InIESFPTCourse",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 3",
+      "nationality": "American",
+      "gender": "male",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": "asdf34&hfn3!@"
+    }
+  }
 }

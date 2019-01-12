@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.fail;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,8 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -206,7 +204,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             LocalDateTime endTime,
             LocalDateTime visibleTime,
             LocalDateTime publishTime,
-            Text instructions,
+            String instructions,
             long gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
@@ -222,7 +220,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         // Fill in instructions
         if (instructions != null) {
-            fillRichTextEditor("instructions", instructions.getValue());
+            fillRichTextEditor("instructions", instructions);
         }
 
         // Select grace period
@@ -571,6 +569,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     private int getFeedbackSessionsCount() {
+        // wait for the async fetch before counting the number of feedback session
+        waitForElementPresence(By.id("table-sessions"));
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
 

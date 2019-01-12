@@ -6,8 +6,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -34,7 +32,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
-                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String editType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
 
@@ -71,10 +69,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String questionNumber = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
 
-        String instructorEmail = logic.getInstructorForGoogleId(courseId, account.googleId).email;
-
         FeedbackQuestionAttributes feedbackQuestion =
-                logic.copyFeedbackQuestion(questionId, feedbackSessionName, courseId, instructorEmail);
+                logic.copyFeedbackQuestion(questionId, feedbackSessionName, courseId);
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DUPLICATED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question " + questionNumber + " for session: <span class=\"bold\">("
                 + feedbackSessionName + ")</span> for Course <span class\"bold\">["
@@ -246,7 +242,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 .withShowRecipientNameTo(showRecipientNameTo)
                 .withQuestionType(questionType)
                 .withQuestionMetaData(questionDetails)
-                .withQuestionDescription(new Text(questionDescription))
+                .withQuestionDescription(questionDescription)
                 .build();
     }
 

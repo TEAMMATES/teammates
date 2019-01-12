@@ -295,6 +295,7 @@
                         <allow>
                             <from>
                                 <include class="${testCases}.datatransfer.**" />
+                                <include class="${testCases}.storage.**" />
                             </from>
                         </allow>
                     </deny>
@@ -454,6 +455,17 @@
                                 <include class="${client}.remoteapi.**" />
                                 <include class="${client}.scripts.**" />
                             </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Google Cloud Datastore specific data type can only be accessed in storage::entity">
+                <!-- Remove the rule after Objectify V6 as V6 does not have Text data type anymore -->
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.api.datastore.Text" />
+                        <allow>
+                            <from class="${storage}.entity.**" />
                         </allow>
                     </deny>
                 </access-rule>

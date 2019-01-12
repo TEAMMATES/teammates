@@ -19,7 +19,7 @@ import teammates.test.driver.TestProperties;
 public abstract class RemoteApiClient {
 
     protected Objectify ofy() {
-        return com.googlecode.objectify.ObjectifyService.ofy();
+        return ObjectifyService.ofy();
     }
 
     protected void doOperationRemotely() throws IOException {

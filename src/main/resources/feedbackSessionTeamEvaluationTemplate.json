@@ -2,10 +2,7 @@
   {
     "feedbackSessionName": "${feedbackSessionName}",
     "courseId": "${courseId}",
-    "creatorEmail": "${creatorEmail}",
-    "questionMetaData": {
-      "value": "{\"questionText\":\"Your estimate of how much each team member has contributed.\",\"questionType\":\"CONTRIB\"}"
-    },
+    "questionMetaData": "{\"questionText\":\"Your estimate of how much each team member has contributed.\",\"questionType\":\"CONTRIB\"}",
     "questionNumber": 1,
     "questionType": "CONTRIB",
     "giverType": "STUDENTS",
@@ -28,10 +25,7 @@
   {
     "feedbackSessionName": "${feedbackSessionName}",
     "courseId": "${courseId}",
-    "creatorEmail": "${creatorEmail}",
-    "questionMetaData": {
-      "value": "Comments about your contribution (shown to other teammates)"
-    },
+    "questionMetaData": "Comments about your contribution (shown to other teammates)",
     "questionNumber": 2,
     "questionType": "TEXT",
     "giverType": "STUDENTS",
@@ -59,10 +53,7 @@
   {
     "feedbackSessionName": "${feedbackSessionName}",
     "courseId": "${courseId}",
-    "creatorEmail": "${creatorEmail}",
-    "questionMetaData": {
-      "value": "Your comments about this teammate (confidential and only shown to instructor)"
-    },
+    "questionMetaData": "Your comments about this teammate (confidential and only shown to instructor)",
     "questionNumber": 3,
     "questionType": "TEXT",
     "giverType": "STUDENTS",
@@ -81,10 +72,7 @@
   {
     "feedbackSessionName": "${feedbackSessionName}",
     "courseId": "${courseId}",
-    "creatorEmail": "${creatorEmail}",
-    "questionMetaData": {
-      "value": "Comments about team dynamics (confidential and only shown to instructor)"
-    },
+    "questionMetaData": "Comments about team dynamics (confidential and only shown to instructor)",
     "questionNumber": 4,
     "questionType": "TEXT",
     "giverType": "STUDENTS",
@@ -103,10 +91,7 @@
   {
     "feedbackSessionName": "${feedbackSessionName}",
     "courseId": "${courseId}",
-    "creatorEmail": "${creatorEmail}",
-    "questionMetaData": {
-      "value": "Your feedback to this teammate (shown anonymously to the teammate)"
-    },
+    "questionMetaData": "Your feedback to this teammate (shown anonymously to the teammate)",
     "questionNumber": 5,
     "questionType": "TEXT",
     "giverType": "STUDENTS",

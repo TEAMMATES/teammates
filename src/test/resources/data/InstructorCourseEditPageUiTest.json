@@ -283,9 +283,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "InsCrsEdit.CS2104",
       "creatorEmail": "InsCrsEdit.test@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",

@@ -14,6 +14,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -25,8 +26,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
-                                       EntityDoesNotExistException {
+    public void testTimestamp() throws Exception {
 
         ______TS("success : created");
 
@@ -60,21 +60,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
         AssertHelper.assertInstantIsNow(updatedFq.getUpdatedAt());
-
-        ______TS("success : keep lastUpdated");
-
-        feedbackQuestion.questionNumber++;
-        fqDb.updateFeedbackQuestion(feedbackQuestion, true);
-
-        FeedbackQuestionAttributes updatedFqTwo =
-                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
-
-        // Assert lastUpdate has NOT changed.
-        assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
     }
 
     @Test
-    public void testCreateDeleteFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDeleteFeedbackQuestion() throws Exception {
 
         ______TS("standard success case");
 
@@ -88,14 +77,11 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("duplicate - with same id.");
 
-        try {
-            fqDb.createEntity(fqa);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                                                      fqa.getEntityTypeAsString()) + fqa.getIdentificationString(),
-                                                      e.getMessage());
-        }
+        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fqDb.createEntity(fqa));
+        AssertHelper.assertContains(
+                String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                        fqa.getEntityTypeAsString()) + fqa.getIdentificationString(),
+                eaee.getMessage());
 
         ______TS("delete - with id specified");
 
@@ -104,22 +90,19 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        try {
-            fqDb.createEntity(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fqDb.createEntity(null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("invalid params");
 
-        try {
-            fqa.creatorEmail = "haha";
-            fqDb.createEntity(fqa);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("Invalid creator's email", e.getLocalizedMessage());
-        }
+        fqa.courseId = "there is space";
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class, () -> fqDb.createEntity(fqa));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, fqa.courseId,
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                ipe.getMessage());
     }
 
     @Test
@@ -145,21 +128,14 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null fsName");
 
-        try {
-            fqDb.getFeedbackQuestion(null, expected.courseId, 1);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestion(null, expected.courseId, 1));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("null courseId");
 
-        try {
-            fqDb.getFeedbackQuestion(expected.feedbackSessionName, null, 1);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        ae = assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(expected.feedbackSessionName, null, 1));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("get by id");
 
@@ -193,19 +169,13 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        try {
-            fqDb.getFeedbackQuestionsForSession(null, expected.get(0).courseId);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionsForSession(null, expected.get(0).courseId));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        try {
-            fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent session");
 
@@ -248,26 +218,18 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        try {
-            fqDb.getFeedbackQuestionsForGiverType(null, fqa.courseId, FeedbackParticipantType.STUDENTS);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionsForGiverType(null, fqa.courseId, FeedbackParticipantType.STUDENTS));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        try {
-            fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, null, FeedbackParticipantType.STUDENTS);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionsForGiverType(
+                        fqa.feedbackSessionName, null, FeedbackParticipantType.STUDENTS));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        try {
-            fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        ae = assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId, null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existant session");
 
@@ -287,12 +249,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        try {
-            fqDb.updateFeedbackQuestion(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> fqDb.updateFeedbackQuestion(null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("invalid feedback question attributes");
 
@@ -301,26 +259,25 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.createEntity(invalidFqa);
         invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId,
                                                   invalidFqa.questionNumber).getId());
-        invalidFqa.creatorEmail = "haha";
+        invalidFqa.courseId = "there is space";
 
-        try {
-            fqDb.updateFeedbackQuestion(invalidFqa);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("Invalid creator's email", e.getLocalizedMessage());
-        }
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> fqDb.updateFeedbackQuestion(invalidFqa));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidFqa.courseId,
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                ipe.getMessage());
 
         ______TS("feedback session does not exist");
 
         FeedbackQuestionAttributes nonexistantFq = getNewFeedbackQuestionAttributes();
         nonexistantFq.setId("non-existent fq id");
 
-        try {
-            fqDb.updateFeedbackQuestion(nonexistantFq);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(FeedbackQuestionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fqDb.updateFeedbackQuestion(nonexistantFq));
+        AssertHelper.assertContains(FeedbackQuestionsDb.ERROR_UPDATE_NON_EXISTENT, ednee.getLocalizedMessage());
 
         ______TS("standard success case");
 
@@ -351,7 +308,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         return FeedbackQuestionAttributes.builder()
                 .withCourseId("testCourse")
-                .withCreatorEmail("instructor@email.com")
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)

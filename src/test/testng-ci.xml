@@ -19,6 +19,7 @@
         </packages>
         <classes>
             <class name="teammates.test.cases.testdriver.AssertHelperTest" />
+            <class name="teammates.test.cases.testdriver.CsvCheckerTest" />
             <class name="teammates.test.cases.testdriver.EmailCheckerTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestNgTest" />

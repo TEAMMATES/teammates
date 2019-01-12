@@ -35,9 +35,9 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
 
         ______TS("Typical Success Case");
 
-        final String testErrorReportSubject = "Test Error Subject";
-        final String testErrorReportContent = "This is a test user-submitted error report.";
-        final String testErrorReportRequestedUrl = "/page/testurl";
+        String testErrorReportSubject = "Test Error Subject";
+        String testErrorReportContent = "This is a test user-submitted error report.";
+        String testErrorReportRequestedUrl = "/page/testurl";
 
         String[] params = new String[] {
                 Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, testErrorReportRequestedUrl,
@@ -52,9 +52,9 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
 
         // getting basic AccountAttributes because ErrorUserReportLogAction only logs this.
         AccountAttributes instructor1ofCourse1AccountAttributes = accountsLogic
-                .getAccount(instructor1ofCourse1.googleId, false);
+                .getAccount(instructor1ofCourse1.googleId);
 
-        final String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ====== \n"
+        String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ====== \n"
                 + "REQUESTED URL: " + testErrorReportRequestedUrl + "\n"
                 + "ACCOUNT DETAILS: " + instructor1ofCourse1AccountAttributes.toString() + "\n"
                 + "SUBJECT: " + testErrorReportSubject + "\n"

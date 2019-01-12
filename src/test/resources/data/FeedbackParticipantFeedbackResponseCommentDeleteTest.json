@@ -128,7 +128,8 @@
       "course": "idOfCourse1",
       "name": "student1 In Course1</td></div>'\"",
       "comments": "comment for student1InCourse1</td></div>'\"",
-      "team": "Team 1.1</td></div>'\""
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
@@ -136,7 +137,8 @@
       "course": "idOfCourse1",
       "name": "student2 In Course1</td></div>'\"",
       "comments": "comment for student2InCourse1</td></div>'\"",
-      "team": "Team 1.1</td></div>'\""
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
@@ -144,7 +146,8 @@
       "course": "idOfCourse1",
       "name": "student3 In Course1</td></div>'\"",
       "comments": "comment for student3InCourse1</td></div>'\"",
-      "team": "Team 2.1</td></div>'\""
+      "team": "Team 2.1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -152,9 +155,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Instructions for first session"
-      },
+      "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
       "endTime": "2026-04-30T15:59:00Z",
@@ -175,10 +176,7 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}"
-      },
+      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}",
       "questionNumber": 1,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -197,10 +195,7 @@
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Rate 3 students' products"
-      },
+      "questionMetaData": "Rate 3 students' products",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -221,10 +216,7 @@
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}"
-      },
+      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}",
       "questionNumber": 3,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -252,10 +244,7 @@
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
-      },
+      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "TEAMS",
@@ -280,9 +269,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response2ForQ1": {
       "feedbackSessionName": "First Session",
@@ -291,9 +278,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "instructor2@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      }
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
     },
     "response1ForQ2": {
       "feedbackSessionName": "First Session",
@@ -302,9 +287,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Instructor feedback to student 1."
-      }
+      "responseMetaData": "Instructor feedback to student 1."
     },
     "response1ForQ3": {
       "feedbackSessionName": "First Session",
@@ -313,9 +296,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      },
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A"
     },
@@ -326,9 +307,7 @@
       "feedbackQuestionType": "MCQ",
       "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 2.1</td></div>'\"",
-      "responseMetaData": {
-        "value": "{\"answer\":\"Algo\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
-      },
+      "responseMetaData": "{\"answer\":\"Algo\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A"
     }
@@ -341,18 +320,16 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "commentGiverType": "INSTRUCTORS",
       "feedbackResponseId": "1%instructor1@course1.tmt%GENERAL",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 1 comment"
-      },
       "lastEditorEmail": "instructor1@course1.tmt",
-      "lastEditedAt": "2012-04-02T23:59:00Z"
+      "lastEditedAt": "2012-04-02T23:59:00Z",
+      "commentText": "Instructor 1 comment"
     },
     "comment2FromInstructor2": {
       "courseId": "idOfCourse1",
@@ -361,18 +338,16 @@
       "commentGiver": "instructor2@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "commentGiverType": "INSTRUCTORS",
       "feedbackResponseId": "1%instructor2@course1.tmt%GENERAL",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 2 comment"
-      },
       "lastEditorEmail": "instructor1@course1.tmt",
-      "lastEditedAt": "2012-04-02T23:59:00Z"
+      "lastEditedAt": "2012-04-02T23:59:00Z",
+      "commentText": "Instructor 2 comment"
     },
     "comment1FromStudent1": {
       "courseId": "idOfCourse1",
@@ -381,16 +356,14 @@
       "commentGiver": "student1InCourse1@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "commentGiverType": "STUDENTS",
       "feedbackResponseId": "3%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Student 1 comment"
-      }
+      "commentText": "Student 1 comment"
     },
     "comment1FromTeam1": {
       "courseId": "idOfCourse1",
@@ -399,16 +372,14 @@
       "commentGiver": "Team 1.1</td></div>'\"",
       "giverSection": "None",
       "receiverSection": "None",
-      "commentGiverType": "TEAMS",
       "feedbackResponseId": "4%Team 1.1</td></div>'\"%Team 2.1</td></div>'\"",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "TEAMS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Team 1 comment"
-      }
+      "commentText": "Team 1 comment"
     }
   },
   "profiles": {}

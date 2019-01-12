@@ -17,7 +17,7 @@ public class InstructorFeedbackResendPublishedEmailPageAction extends Action {
 
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        gateKeeper.verifyAccessible(instructor, fsa, false);
+        gateKeeper.verifyAccessible(instructor, fsa);
 
         FeedbackSessionResponseStatus fsResponseStatus =
                 logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
