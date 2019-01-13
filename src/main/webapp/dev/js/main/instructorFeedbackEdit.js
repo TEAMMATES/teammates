@@ -322,7 +322,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 for (let i = 0; i < resolvedTimeInputIds.length; i += 1) {
                     const resolvedTimeInputId = resolvedTimeInputIds[i];
                     const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
-                    $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                    $(`#${resolvedTimeInputId}`).addClass('alert-warning').val(resolvedTimeInputValue);
                 }
 
                 removeLoadingIndicator($('#button_submit'), 'Save Changes');
