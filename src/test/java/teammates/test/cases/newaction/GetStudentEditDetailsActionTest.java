@@ -102,6 +102,6 @@ public class GetStudentEditDetailsActionTest extends BaseActionTest<GetStudentEd
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
     }
 }
