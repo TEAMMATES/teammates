@@ -27,6 +27,17 @@ import teammates.test.driver.TestProperties;
  *
  * <p>The change of googleId is not atomic due to the constrains imposed by the Datastore.
  *
+ * <p>Instructions to use the script:
+ *
+ * <ul>
+ * <li>The script scans all {@code Account} entities and checks each accordingly.
+ * To limit the query range, override {@link GoogleIdMigrationBaseScript#getFilterQuery()}.</li>
+ * <li>Implement {@link GoogleIdMigrationBaseScript#isMigrationOfGoogleIdNeeded(Account)}
+ * to check whether the googleId migration is needed for the account.</li>
+ * <li>Implement {@link GoogleIdMigrationBaseScript#generateNewGoogleId(Account)}
+ * to generate the new googleId for the account.</li>
+ * </ul>
+ *
  * @see GoogleIdMigrationBaseScript#shouldUseTransaction()
  */
 public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesBaseScript<Account> {
