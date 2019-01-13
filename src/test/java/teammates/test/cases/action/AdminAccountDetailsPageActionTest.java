@@ -30,7 +30,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.googleId
         };
 
-        final String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         AdminAccountDetailsPageAction action = getAction(submissionParams);

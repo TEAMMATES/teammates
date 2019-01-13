@@ -105,7 +105,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2012-03-28T21:59:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 2027-05-01T21:59:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
+                + "Please please fill in the following questions.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         sessionTimeZone = FeedbackSessionsLogic.inst().getFeedbackSession("Copied Session",
@@ -206,7 +206,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Session visible from:</span> 2013-03-20T21:59:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 2026-04-29T21:59:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
+                + "Please please fill in the following questions.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
     }
 

@@ -19,34 +19,14 @@
       "name": "Benny C",
       "isInstructor": false,
       "email": "${value.injected.in.testfile}",
-      "institute": "TEAMMATES Test Institute 7",
-      "studentProfile": {
-        "googleId": "${value.injected.in.testfile}",
-        "shortName": "Ben",
-        "email": "i.m.benny@gmail.tmt",
-        "institute": "TEAMMATES Test Institute 4",
-        "nationality": "Singaporean",
-        "gender": "male",
-        "moreInfo": "I am just another student :P",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 7"
     },
     "studentForHelperCourse": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Ash Ketchum",
       "isInstructor": false,
       "email": "${value.injected.in.testfile}",
-      "institute": "TEAMMATES Test Institute 7",
-      "studentProfile": {
-        "googleId": "${value.injected.in.testfile}",
-        "shortName": "Ash",
-        "email": "ash.ketchum@pokemon.com",
-        "institute": "TEAMMATES Test Institute 4",
-        "nationality": "Singaporean",
-        "gender": "male",
-        "moreInfo": "Gotta catch 'em all!",
-        "pictureKey": ""
-      }
+      "institute": "TEAMMATES Test Institute 7"
     },
     "studentWithEmptyProfile": {
       "googleId": "SProfileUiT.benny.c",
@@ -67,17 +47,7 @@
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
       "email": "SProfileUiT.stud@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
-      "studentProfile": {
-        "googleId": "SProfileUiT.sanitizationStud",
-        "shortName": "name\"/><script>alert('hi!');</script>",
-        "email": "weird&'@gmail.tmt",
-        "institute": "school'/><script> alert('hi!'); </script>",
-        "nationality": "American",
-        "gender": "other",
-        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-        "pictureKey": ""
-      }
+      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -159,7 +129,8 @@
       "course": "SProfileUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "studentForHelperCourse": {
       "googleId": "${value.injected.in.testfile}",
@@ -167,7 +138,8 @@
       "course": "SProfileUiT.CS2103",
       "name": "Ash Ketchum",
       "comments": "This student's name is AK",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "SProfileUiT.benny.c@SProfileUiT.CS2104": {
       "googleId": "SProfileUiT.benny.c",
@@ -175,7 +147,8 @@
       "course": "SProfileUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "SProfileUiT.sanitizationStud",
@@ -191,5 +164,36 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {
+    "studentWithExistingProfile": {
+      "googleId": "${value.injected.in.testfile}",
+      "shortName": "Ben",
+      "email": "i.m.benny@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 4",
+      "nationality": "Singaporean",
+      "gender": "male",
+      "moreInfo": "I am just another student :P",
+      "pictureKey": ""
+    },
+    "studentForHelperCourse": {
+      "googleId": "${value.injected.in.testfile}",
+      "shortName": "Ash",
+      "email": "ash.ketchum@pokemon.com",
+      "institute": "TEAMMATES Test Institute 4",
+      "nationality": "Singaporean",
+      "gender": "male",
+      "moreInfo": "Gotta catch 'em all!",
+      "pictureKey": ""
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "SProfileUiT.sanitizationStud",
+      "shortName": "name\"/><script>alert('hi!');</script>",
+      "email": "weird&'@gmail.tmt",
+      "institute": "school'/><script> alert('hi!'); </script>",
+      "nationality": "American",
+      "gender": "other",
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "pictureKey": ""
+    }
+  }
 }

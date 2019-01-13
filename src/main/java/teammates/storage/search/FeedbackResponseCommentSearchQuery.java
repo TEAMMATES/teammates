@@ -2,6 +2,8 @@ package teammates.storage.search;
 
 import java.util.List;
 
+import com.google.appengine.api.search.QueryOptions;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 
@@ -13,6 +15,13 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
 
     public FeedbackResponseCommentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
         super(instructors, queryString);
+        options = QueryOptions.newBuilder()
+                .setLimit(20)
+                .setFieldsToReturn(Const.SearchDocumentField.COURSE_ID,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME)
+                .build();
     }
 
     @Override

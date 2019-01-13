@@ -1,11 +1,11 @@
 package teammates.test.driver;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -21,7 +21,7 @@ public final class FileHelper {
      * Reads the file with the specified path as a String.
      */
     public static String readFile(String filePath) throws IOException {
-        try (Scanner sc = new Scanner(new BufferedReader(new FileReader(filePath)))) {
+        try (Scanner sc = new Scanner(Files.newBufferedReader(Paths.get(filePath)))) {
             return sc.useDelimiter("\\Z").next();
         }
     }
@@ -31,7 +31,7 @@ public final class FileHelper {
      */
     public static byte[] readFileAsBytes(String filePath) throws IOException {
         byte[] buffer = new byte[1024 * 300];
-        try (FileInputStream fis = new FileInputStream(filePath);) {
+        try (InputStream fis = Files.newInputStream(Paths.get(filePath))) {
             fis.read(buffer);
         }
         return buffer;
@@ -41,7 +41,7 @@ public final class FileHelper {
      * Saves the supplied content to the specified file path.
      */
     public static void saveFile(String filePath, String content) throws IOException {
-        try (FileWriter fw = new FileWriter(new File(filePath))) {
+        try (BufferedWriter fw = Files.newBufferedWriter(Paths.get(filePath))) {
             fw.write(content);
         }
 

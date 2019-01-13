@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -60,6 +61,11 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return backDoorLogic.getAccount(account.googleId);
+    }
+
+    @Override
+    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
+        return backDoorLogic.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     @Override
@@ -139,12 +145,10 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
         FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
                                                                      .toArray(new FeedbackResponseCommentAttributes[2]);
-        int i = 0;
-        for (String key : actual.comments.keySet()) {
-            for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
-                assertEquals(sortedComments[i].commentText, comment.commentText);
-                i++;
-            }
-        }
+        int[] i = new int[] { 0 };
+        actual.comments.forEach((key, comments) -> comments.forEach(comment -> {
+            assertEquals(sortedComments[i[0]].commentText, comment.commentText);
+            i[0]++;
+        }));
     }
 }

@@ -45,7 +45,7 @@ public class FeedbackSessionPublishedEmailWorkerActionTest extends BaseAutomated
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
             assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
-                                       session1.getSessionName()),
+                                       session1.getFeedbackSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
         }
     }

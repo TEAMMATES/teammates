@@ -3,11 +3,11 @@ package teammates.test.pageobjects;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -232,7 +231,7 @@ public abstract class AppPage {
         waitFor(driver -> {
             // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
             // to understand more on a web document's readyState
-            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) Preconditions.checkNotNull(driver);
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
             return "complete".equals(javascriptExecutor.executeScript("return document.readyState"));
         });
     }
@@ -240,10 +239,10 @@ public abstract class AppPage {
     /**
      * Waits until TinyMCE editor is fully loaded.
      */
-    public void waitForRichTextEditorToLoad(final String id) {
+    public void waitForRichTextEditorToLoad(String id) {
         waitFor(driver -> {
             String script = "return tinymce.get('" + id + "') !== null";
-            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) Preconditions.checkNotNull(driver);
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
             return (Boolean) javascriptExecutor.executeScript(script);
         });
     }
@@ -251,7 +250,7 @@ public abstract class AppPage {
     /**
      * Waits until the element is not covered by any other element.
      */
-    public void waitForElementNotCovered(final WebElement element) {
+    public void waitForElementNotCovered(WebElement element) {
         waitFor(d -> !isElementCovered(element));
     }
 
@@ -358,8 +357,8 @@ public abstract class AppPage {
             }
 
             private Boolean isCurrentScrollingPositionSameAsPrevious() {
-                final String currentHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
-                final String currentBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
+                String currentHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
+                String currentBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
 
                 if (currentHtmlScrollPosition.equals(prevHtmlScrollPosition)
                         && currentBodyScrollPosition.equals(prevBodyScrollPosition)) {
@@ -602,7 +601,7 @@ public abstract class AppPage {
     private void clearAndSendKeys(WebElement element, CharSequence... keysToSend) {
         Map<String, Object> result = clearWithoutEvents(element);
         @SuppressWarnings("unchecked")
-        final Map<String, String> errors = (Map<String, String>) result.get("errors");
+        Map<String, String> errors = (Map<String, String>) result.get("errors");
         if (errors != null) {
             throw new InvalidElementStateException(errors.get("detail"));
         }
@@ -632,7 +631,7 @@ public abstract class AppPage {
         }
 
         @SuppressWarnings("unchecked")
-        final Map<String, Object> result = (Map<String, Object>) executeScript(
+        Map<String, Object> result = (Map<String, Object>) executeScript(
                 "const element = arguments[0];"
                         + "if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {"
                         + "   if (element.readOnly) {"
@@ -814,12 +813,13 @@ public abstract class AppPage {
     }
 
     /**
-     * Selects the option by visible text and waits for the associated AJAX request to complete.
+     * Waits for all ongoing AJAX requests to complete if any before selecting the option by visible text, then
+     * waits for the associated AJAX request to complete.
      *
      * @see AppPage#selectDropdownByVisibleValue(WebElement, String)
      */
-    void selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(WebElement element, String text) {
-        jQueryAjaxHandler.registerHandlers();
+    void selectDropdownByVisibleValueAndHandleAjaxRequests(WebElement element, String text) {
+        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
 
         if (selectDropdownByVisibleValue(element, text)) {
             jQueryAjaxHandler.waitForRequestComplete();
@@ -851,12 +851,13 @@ public abstract class AppPage {
     }
 
     /**
-     * Selects the option by value and waits for the associated AJAX request to complete.
+     * Waits for all ongoing AJAX requests to complete if any before selecting the option by actual value, then
+     * waits for the associated AJAX request to complete.
      *
      * @see AppPage#selectDropdownByActualValue(WebElement, String)
      */
-    void selectDropdownByActualValueAndWaitForAjaxRequestComplete(WebElement element, String value) {
-        jQueryAjaxHandler.registerHandlers();
+    void selectDropdownByActualValueAndHandleAjaxRequests(WebElement element, String value) {
+        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
 
         if (selectDropdownByActualValue(element, value)) {
             jQueryAjaxHandler.waitForRequestComplete();
@@ -1163,7 +1164,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
-        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
+        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
@@ -1231,7 +1232,7 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
-    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath)
+    public AppPage verifyHtmlMainContentWithReloadRetry(String filePath)
             throws IOException, MaximumRetriesExceededException {
         return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
                 "HTML verification") {
@@ -1464,12 +1465,25 @@ public abstract class AppPage {
         private static final String START_OCCURRED_ATTRIBUTE = "__ajaxStartOccurred__";
 
         /**
-         * Registers `ajaxStart` and `ajaxStop` handlers to track the state of an AJAX request.
+         * Waits until there is no ongoing jQuery AJAX requests.
+         */
+        void waitForNoActiveAjaxRequests() {
+            // `$.active` is a counter for holding the number of active AJAX requests
+            // but is not documented because it is used by JQuery internally.
+            // see https://stackoverflow.com/questions/3148225/jquery-active-function/3148506#3148506
+            waitFor(driver -> (Boolean) ((JavascriptExecutor) driver).executeScript("return $.active === 0"));
+        }
+
+        /**
+         * Waits for all AJAX requests to complete if any is present and registers `ajaxStart` and `ajaxStop` handlers to
+         * track the state of an AJAX request.
          *
          * @throws IllegalStateException if the handlers are already registered in the document
          */
-        void registerHandlers() {
+        void waitForAjaxIfPresentThenRegisterHandlers() {
             checkState(!hasHandlers(), "`ajaxStart` and `ajaxStop` handlers need only be added once to the document.");
+
+            waitForNoActiveAjaxRequests();
 
             executeScript("const seleniumArguments = arguments;"
                             + "$(document).ajaxStart(function() {"

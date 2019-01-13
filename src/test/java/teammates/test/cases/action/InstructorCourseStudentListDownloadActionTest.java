@@ -1,12 +1,12 @@
 package teammates.test.cases.action;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
+import teammates.test.driver.CsvChecker;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorCourseStudentListDownloadAction;
 
@@ -42,26 +42,9 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
         String expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
-        // look at LogicTest.testGetCourseStudentListAsCsv. the logic api to generate Csv file content is tested in LogicTest
         String fileContent = r.getFileContent();
 
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID," + "\"" + course.getId() + "\"",
-                "Course Name," + "\"" + course.getName() + "\"",
-                "",
-                "",
-                "Section,Team,Full Name,Last Name,Status,Email",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
+        CsvChecker.verifyCsvContent(fileContent, "/courseStudentList_actionTest.csv");
         assertEquals("", r.getStatusMessage());
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
@@ -75,26 +58,9 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
-        // look at LogicTest.testGetCourseStudentListAsCsv. the logic api to generate Csv file content is tested in LogicTest
         fileContent = r.getFileContent();
 
-        expected = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID," + "\"" + course.getId() + "\"",
-                "Course Name," + "\"" + course.getName() + "\"",
-                "",
-                "",
-                "Section,Team,Full Name,Last Name,Status,Email",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"Joined\",\"student1InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
+        CsvChecker.verifyCsvContent(fileContent, "/courseStudentListStudentLastName_actionTest.csv");
         assertEquals("", r.getStatusMessage());
 
         removeAndRestoreTypicalDataBundle();
@@ -110,26 +76,9 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
-        // look at LogicTest.testGetCourseStudentListAsCsv. the logic api to generate Csv file content is tested in LogicTest
         fileContent = r.getFileContent();
 
-        expected = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course ID," + "\"" + course.getId() + "\"",
-                "Course Name," + "\"" + course.getName() + "\"",
-                "",
-                "",
-                "Section,Team,Full Name,Last Name,Status,Email",
-                "\"Section 1\",\"N/A\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
+        CsvChecker.verifyCsvContent(fileContent, "/courseStudentListSpecialTeamName_actionTest.csv");
         assertEquals("", r.getStatusMessage());
 
     }

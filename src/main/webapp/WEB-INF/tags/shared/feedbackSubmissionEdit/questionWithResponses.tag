@@ -23,9 +23,8 @@
 <div class="form-horizontal">
   <div class="panel panel-primary"<c:if test="${questionWithResponses.question.moderatedQuestion}"> id="moderated-question"</c:if>>
 
-    <div class="panel-heading text-wrap">
-      Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber : questionWithResponses.question.qnIndx}:
-      <br>
+    <div class="panel-heading">
+      <b>Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber : questionWithResponses.question.qnIndx}:</b>
       <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
       <span class="text-preserve-space"><c:out value="${questionWithResponses.question.questionText}"/></span>
     </div>
@@ -34,7 +33,7 @@
       <c:if test="${not empty questionWithResponses.question.questionDescription}">
         <div class="panel panel-default">
           <div class="panel-body">
-            <b>More details:</b><br><hr>${questionWithResponses.question.questionDescription}
+            <b>More details:</b>${questionWithResponses.question.questionDescription}
           </div>
         </div>
 

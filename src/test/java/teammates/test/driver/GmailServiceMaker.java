@@ -1,11 +1,12 @@
 package teammates.test.driver;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +86,7 @@ final class GmailServiceMaker {
     }
 
     private GoogleClientSecrets loadClientSecretFromJson() throws IOException {
-        try (InputStream in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"))) {
+        try (InputStream in = Files.newInputStream(Paths.get(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"))) {
             return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("You need to set up your Gmail API credentials." + System.lineSeparator()
@@ -96,7 +97,7 @@ final class GmailServiceMaker {
     private GoogleAuthorizationCodeFlow buildFlow(GoogleClientSecrets clientSecrets) throws IOException {
         // if the scopes need to change, the user will need to manually delete
         // <TestProperties.TEST_GMAIL_API_FOLDER>/StoredCredential
-        final List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
+        List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
         FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(new File(TestProperties.TEST_GMAIL_API_FOLDER));
         return new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)

@@ -12,17 +12,7 @@
       "name": "Student 1 in course 1",
       "isInstructor": false,
       "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "studentProfile": {
-        "googleId": "student1InCourse1",
-        "shortName": "Stud1",
-        "email": "i.m.stud1@gmail.tmt",
-        "institute": "TEAMMATES Test Institute 1",
-        "nationality": "American",
-        "gender": "male",
-        "moreInfo": "I am just a student :P",
-        "pictureKey": "asdf34&hfn3!@"
-      }
+      "institute": "TEAMMATES Test Institute 1"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
@@ -33,12 +23,9 @@
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
-      "email": "student3InCourse1@gmail.tmt",
-      "course": "idOfTypicalCourse1",
       "name": "student3 In Course1",
-      "comments": "",
-      "team": "Team 1.1</td></div>'\"",
-      "section": "Section 1"
+      "isInstructor": false,
+      "email": "student3InCourse1@gmail.tmt"
     }
   },
   "courses": {
@@ -75,14 +62,13 @@
       }
     }
   },
+  "students": {},
   "feedbackSessions": {
     "session1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
+      "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
       "endTime": "2027-04-30T21:59:00Z",
@@ -104,10 +90,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn1InSession1InCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "What is the best selling point of your product?"
-      },
+      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -127,10 +110,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn2InSession1InCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "Rate 1 other student's product"
-      },
+      "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -152,10 +132,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn3InSession1InCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "My comments on the class"
-      },
+      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -186,71 +163,61 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn1InSession1InCourse1",
-      "feedbackResponseId": "response1ForQ1S1C1",
       "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Student 1 self feedback."
-      },
+      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "feedbackResponseId": "response1ForQ1S1C1"
     },
     "response2ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn1InSession1InCourse1",
-      "feedbackResponseId": "response1ForQ1S1C1",
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "I'm cool'"
-      },
+      "responseMetaData": "I'm cool'",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "feedbackResponseId": "response1ForQ1S1C1"
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn2InSession1InCourse1",
-      "feedbackResponseId": "response1ForQ2S1C1",
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 2 to student 1."
-      },
+      "responseMetaData": "Response from student 2 to student 1.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "feedbackResponseId": "response1ForQ2S1C1"
     },
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn2InSession1InCourse1",
-      "feedbackResponseId": "response2ForQ2S1C1",
       "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 1 to student 2."
-      },
+      "responseMetaData": "Response from student 1 to student 2.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "feedbackResponseId": "response2ForQ2S1C1"
     },
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn2InSession1InCourse1",
-      "feedbackResponseId": "response3ForQ2S1C1",
       "feedbackQuestionType": "TEXT",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from student 3 \"to\" student 2.\r\nMultiline test."
-      },
+      "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "feedbackResponseId": "response3ForQ2S1C1"
     }
   },
   "feedbackResponseComments": {
@@ -261,18 +228,16 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "commentGiverType": "INSTRUCTORS",
       "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": {
-        "value": "Instructor 1 comment to student 1 self feedback"
-      },
       "lastEditorEmail": "instructor1@course1.tmt",
-      "lastEditedAt": "2012-04-02T23:59:00Z"
+      "lastEditedAt": "2012-04-02T23:59:00Z",
+      "commentText": "Instructor 1 comment to student 1 self feedback"
     },
     "comment2FromT1C1ToR1Q1S1C1": {
       "courseId": "idOfTypicalCourse1",
@@ -281,17 +246,26 @@
       "commentGiver": "student1InCourse1@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "commentGiverType": "STUDENTS",
       "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-02-01T23:59:00Z",
-      "commentText": {
-        "value": "Student 1 comment to student 1 self feedback"
-      }
+      "commentText": "Student 1 comment to student 1 self feedback"
     }
   },
-  "profiles": {}
+  "profiles": {
+    "student1InCourse1": {
+      "googleId": "student1InCourse1",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "nationality": "American",
+      "gender": "male",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": "asdf34&hfn3!@"
+    }
+  }
 }

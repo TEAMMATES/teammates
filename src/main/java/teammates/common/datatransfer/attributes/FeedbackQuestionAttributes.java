@@ -7,8 +7,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -23,15 +21,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
     public String courseId;
-    public String creatorEmail;
     /**
      * Contains the JSON formatted string that holds the information of the question details.
      *
      * <p>Don't use directly unless for storing/loading from data store.<br>
      * To get the question text use {@code getQuestionDetails().questionText}
      */
-    public Text questionMetaData;
-    public Text questionDescription;
+    public String questionMetaData;
+    public String questionDescription;
     public int questionNumber;
     public FeedbackQuestionType questionType;
     public FeedbackParticipantType giverType;
@@ -56,7 +53,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return builder()
                 .withFeedbackSessionName(fq.getFeedbackSessionName())
                 .withCourseId(fq.getCourseId())
-                .withCreatorEmail(fq.getCreatorEmail())
                 .withQuestionMetaData(fq.getQuestionMetaData())
                 .withQuestionDescription(fq.getQuestionDescription())
                 .withQuestionNumber(fq.getQuestionNumber())
@@ -98,14 +94,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
-        public Builder withCreatorEmail(String creatorEmail) {
-            if (creatorEmail != null) {
-                feedbackQuestionAttributes.creatorEmail = creatorEmail;
-            }
-            return this;
-        }
-
-        public Builder withQuestionMetaData(Text questionMetaData) {
+        public Builder withQuestionMetaData(String questionMetaData) {
             if (questionMetaData != null) {
                 feedbackQuestionAttributes.questionMetaData = questionMetaData;
             }
@@ -119,7 +108,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
-        public Builder withQuestionDescription(Text questionDescription) {
+        public Builder withQuestionDescription(String questionDescription) {
             if (questionDescription != null) {
                 feedbackQuestionAttributes.setQuestionDescription(questionDescription);
             }
@@ -227,7 +216,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public FeedbackQuestion toEntity() {
-        return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
+        return new FeedbackQuestion(feedbackSessionName, courseId,
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
@@ -237,7 +226,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public String toString() {
         return "FeedbackQuestionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
-               + ", creatorEmail=" + creatorEmail + ", questionText="
+               + ", questionText="
                + questionMetaData + ", questionDescription=" + questionDescription
                + ", questionNumber=" + questionNumber
                + ", questionType=" + questionType + ", giverType=" + giverType
@@ -250,7 +239,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getIdentificationString() {
-        return this.questionNumber + ". " + this.questionMetaData.toString() + "/"
+        return this.questionNumber + ". " + this.questionMetaData + "/"
                + this.feedbackSessionName + "/" + this.courseId;
     }
 
@@ -277,16 +266,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
-
-        // special case when additional text should be added to error text
-        String error = validator.getInvalidityInfoForEmail(creatorEmail);
-        if (!error.isEmpty()) {
-            error = new StringBuffer()
-                    .append("Invalid creator's email: ")
-                    .append(error)
-                    .toString();
-        }
-        addNonEmptyError(error, errors);
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
@@ -435,12 +414,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public int hashCode() {
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
 
         result = prime * result + (courseId == null ? 0 : courseId.hashCode());
-
-        result = prime * result + (creatorEmail == null ? 0 : creatorEmail.hashCode());
 
         result = prime * result + (feedbackSessionName == null ? 0 : feedbackSessionName.hashCode());
 
@@ -488,14 +465,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 return false;
             }
         } else if (!courseId.equals(other.courseId)) {
-            return false;
-        }
-
-        if (creatorEmail == null) {
-            if (other.creatorEmail != null) {
-                return false;
-            }
-        } else if (!creatorEmail.equals(other.creatorEmail)) {
             return false;
         }
 
@@ -574,7 +543,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         // These can't be changed anyway. Copy values to defensively avoid invalid parameters.
         newAttributes.feedbackSessionName = this.feedbackSessionName;
         newAttributes.courseId = this.courseId;
-        newAttributes.creatorEmail = this.creatorEmail;
 
         if (newAttributes.questionMetaData == null) {
             newAttributes.questionMetaData = this.questionMetaData;
@@ -675,7 +643,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      * Converts the given Feedback*QuestionDetails object to JSON for storing.
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        questionMetaData = new Text(JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+        questionMetaData = JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass());
     }
 
     /**
@@ -684,12 +652,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
-        final String questionMetaDataValue = questionMetaData.getValue();
         // For old Text questions, the questionText simply contains the question, not a JSON
-        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
-            return new FeedbackTextQuestionDetails(questionMetaDataValue);
+        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaData)) {
+            return new FeedbackTextQuestionDetails(questionMetaData);
         }
-        return JsonUtils.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
+        return JsonUtils.fromJson(questionMetaData, getFeedbackQuestionDetailsClass());
     }
 
     /**
@@ -713,19 +680,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return courseId;
     }
 
-    public String getCreatorEmail() {
-        return creatorEmail;
-    }
-
-    public Text getQuestionMetaData() {
+    public String getQuestionMetaData() {
         return questionMetaData;
     }
 
-    public Text getQuestionDescription() {
+    public String getQuestionDescription() {
         return questionDescription;
     }
 
-    public void setQuestionDescription(Text questionDescription) {
+    public void setQuestionDescription(String questionDescription) {
         this.questionDescription = questionDescription;
     }
 

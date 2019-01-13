@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,7 +28,7 @@ import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
 import teammates.common.util.Const;
-import teammates.common.util.CryptoHelper;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
@@ -66,27 +66,29 @@ public class GaeSimulation {
     /**
      * Sets up the GAE simulation.
      */
-    public synchronized void setup() {
-        System.out.println("Setting up GAE simulation");
+    public void setup() {
+        synchronized (this) {
+            System.out.println("Setting up GAE simulation");
 
-        LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-        localTasks.setQueueXmlPath(QUEUE_XML_PATH);
+            LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
+            localTasks.setQueueXmlPath(QUEUE_XML_PATH);
 
-        LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-        LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-        LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-        LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
-        localSearch.setPersistent(false);
-        LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-        LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
-                                            localTasks, localSearch, localModules, localLog);
+            LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
+            LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
+            LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
+            LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
+            localSearch.setPersistent(false);
+            LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
+            LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
+                                                localTasks, localSearch, localModules, localLog);
 
-        helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
-        helper.setUp();
+            helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
+            helper.setUp();
 
-        sc = new ServletRunner().newClient();
-        localLogService = LocalLogServiceTestConfig.getLocalLogService();
+            sc = new ServletRunner().newClient();
+            localLogService = LocalLogServiceTestConfig.getLocalLogService();
+        }
     }
 
     /**
@@ -211,7 +213,7 @@ public class GaeSimulation {
             request.setHeaderField("referer", "http://localhost");
 
             String sessionId = sc.getSession(true).getId();
-            String token = CryptoHelper.computeSessionToken(sessionId);
+            String token = StringHelper.encrypt(sessionId);
             request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
         }
 

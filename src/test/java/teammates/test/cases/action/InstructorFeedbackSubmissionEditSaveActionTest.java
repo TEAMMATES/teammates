@@ -859,7 +859,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 "FSQTT.idOfInstructor1OfCourse1"), result.getDestinationWithParams());
 
         FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals("New comment", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
@@ -895,7 +895,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 "FSQTT.idOfInstructor1OfCourse1"), result.getDestinationWithParams());
 
         frc = getFeedbackParticipantComment(fr.getId());
-        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals("Edited comment", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);

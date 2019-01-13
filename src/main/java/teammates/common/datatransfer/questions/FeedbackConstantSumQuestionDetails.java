@@ -758,63 +758,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         int numOptions = distributeToRecipients ? numOfResponseSpecific : constSumOptions.size();
         int totalPoints = pointsPerOption ? points * numOptions : points;
-        int sum = 0;
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
 
-            //Check that all response points are >= 0
-            for (Integer i : frd.getAnswerList()) {
-                if (i < 0) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
-                    return errors;
-                }
-            }
-
-            //Check that points sum up properly
-            if (distributeToRecipients) {
-                sum += frd.getAnswerList().get(0);
-            } else {
-                sum = 0;
-                for (Integer i : frd.getAnswerList()) {
-                    sum += i;
-                }
-                if (sum != totalPoints || frd.getAnswerList().size() != constSumOptions.size()) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
-                    return errors;
-                }
-            }
-
-            //Check that points are given unevenly for all/at least some options as per the question settings
-            Set<Integer> answerSet = new HashSet<>();
-            if (distributePointsFor.equals(
-                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
-                boolean hasDifferentPoints = false;
-                for (int i : frd.getAnswerList()) {
-                    if (!answerSet.isEmpty() && !answerSet.contains(i)) {
-                        hasDifferentPoints = true;
-                        break;
-                    }
-                    answerSet.add(i);
-                }
-
-                if (!hasDifferentPoints) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
-                    return errors;
-                }
-            } else if (forceUnevenDistribution || distributePointsFor.equals(
-                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
-                for (int i : frd.getAnswerList()) {
-                    if (answerSet.contains(i)) {
-                        errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
-                        return errors;
-                    }
-                    answerSet.add(i);
-                }
-            }
-        }
-        if (distributeToRecipients && sum != totalPoints) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH + sum + "/" + totalPoints);
-            return errors;
+        if (distributeToRecipients) {
+            errors = getErrorsForConstSumRecipients(responses, totalPoints);
+        } else {
+            errors = getErrorsForConstSumOptions(responses, totalPoints);
         }
 
         return errors;
@@ -855,4 +803,83 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return points;
     }
 
+    private List<String> getErrorsForConstSumOptions(List<FeedbackResponseAttributes> responses, int totalPoints) {
+        List<String> errors = new ArrayList<>();
+
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
+            List<Integer> givenPoints = frd.getAnswerList();
+
+            errors = getErrors(givenPoints, totalPoints);
+
+            //Return an error if any response is erroneous
+            if (!errors.isEmpty()) {
+                return errors;
+            }
+        }
+        return errors;
+    }
+
+    private List<String> getErrorsForConstSumRecipients(List<FeedbackResponseAttributes> responses, int totalPoints) {
+        List<Integer> givenPoints = new ArrayList<>();
+
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
+
+            int givenPoint = frd.getAnswerList().get(0);
+            givenPoints.add(givenPoint);
+        }
+
+        return getErrors(givenPoints, totalPoints);
+    }
+
+    private List<String> getErrors(List<Integer> givenPoints, int totalPoints) {
+        List<String> errors = new ArrayList<>();
+
+        //Check that all points are >= 0
+        int sum = 0;
+        for (int i : givenPoints) {
+            if (i < 0) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
+                return errors;
+            }
+
+            sum += i;
+        }
+
+        //Check that points sum up properly
+        if (sum != totalPoints) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
+            return errors;
+        }
+
+        //Check that points are given unevenly for all/at least some options as per the question settings
+        Set<Integer> answerSet = new HashSet<>();
+        if (givenPoints.size() > 1 && distributePointsFor.equals(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
+            boolean hasDifferentPoints = false;
+            for (int i : givenPoints) {
+                if (!answerSet.isEmpty() && !answerSet.contains(i)) {
+                    hasDifferentPoints = true;
+                    break;
+                }
+                answerSet.add(i);
+            }
+
+            if (!hasDifferentPoints) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
+                return errors;
+            }
+        } else if (givenPoints.size() > 1 && (forceUnevenDistribution || distributePointsFor.equals(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()))) {
+            for (int i : givenPoints) {
+                if (answerSet.contains(i)) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
+                    return errors;
+                }
+                answerSet.add(i);
+            }
+        }
+        return errors;
+    }
 }

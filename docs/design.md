@@ -141,7 +141,6 @@ API for retrieving entities:
 + Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
 + Entity not found:
   - Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
-  - Throws `EntityDoesNotExistsExeption` if a parent entity of a target entity is not found e.g., trying to list students of a non-existent course.
 
 API for updating entities:
 + Primary keys cannot be edited except: `Student.email`.
@@ -163,9 +162,8 @@ It contains minimal logic beyond what is directly relevant to CRUD operations.
 In particular, it is reponsible for:
 - Validating data inside entities before creating/updating them, to ensure they are in a valid state.
 - Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
-- Protecting persistable objects: Classes in the `storage::entity` package are not visible outside this component to prevent accidental modification to the entity's attributes (these classes have been marked as "persistence capable" and changes to their attributes are automatically persisted to the Datastore by default).
-  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned, where values can be modified easily without any impact on the persistent data copy. These datatransfer classes are in `common::datatransfer` package, to be explained later.
-  - Note: This decision was taken before GAE started supporting [the ability to "detach" entities](https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata) to prevent accidental modifications to persistable data. The decision to use data transfer objects is to be reconsidered in the future.
+- Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
+  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
 
 The `Storage` component does not perform any cascade delete/create operations. Cascade logic is handled by the `Logic` component.
 
@@ -190,7 +188,7 @@ Represented by the `*Db` classes. These classes act as the bridge to the GAE Dat
 Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
 Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
 
-Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Please see [TEAMMATES Decision Analysis](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true) document for more information.
+Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Note that this decision was taken before 2014 and if the circumstances leading to that decision have changed, it may be reconsidered.
 
 General:
 + If `Null` is passed as a parameter, the corresponding value is **NOT** modified, as per the KeepExistingPolicy that was previously mentioned.
