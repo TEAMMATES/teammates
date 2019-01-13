@@ -23,6 +23,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.SectionDetail;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -77,7 +78,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.alice.b@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
         // Benny will see 4 responses
         assertEquals(4,
@@ -85,7 +86,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.benny.c@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
         // Charlie will see 3 responses
         assertEquals(3,
@@ -93,7 +94,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.charlie.d@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
         // Danny will see 3 responses
         assertEquals(3,
@@ -101,7 +102,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.danny.e@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
         // Emily will see 1 response
         assertEquals(1,
@@ -109,7 +110,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 question,
                 "FQLogicPCT.emily.f@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size());
+                "First Session", null).size());
 
     }
 
@@ -369,7 +370,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     private void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
 
-        // Student 1 currently has 2 responses to him and 2 from himself.
+        // Student 1 currently has 1 response to him and 2 from himself.
         // Student 1 currently has 2 response comment for responses to him
         // and 1 response comment from responses from himself.
         StudentAttributes studentToUpdate = dataBundle.students.get("student1InCourse1");
@@ -386,7 +387,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
         assertEquals(2, responsesForReceiver.size());
-        assertEquals(2, responsesFromGiver.size());
+        assertEquals(1, responsesFromGiver.size());
         assertEquals(3, responseCommentsForStudent.size());
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -417,7 +418,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
         assertEquals(2, responsesForReceiver.size());
-        assertEquals(2, responsesFromGiver.size());
+        assertEquals(1, responsesFromGiver.size());
         assertEquals(3, responseCommentsForStudent.size());
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -432,20 +433,21 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
         List<FeedbackResponseAttributes> responses =
                 frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email,
-                                                                         UserRole.INSTRUCTOR, null);
+                                                                         UserRole.INSTRUCTOR, null, null);
 
         assertEquals(1, responses.size());
 
         ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
 
+        // other more in-depth sectionDetail types are tested in FeedbackResponsesDbTest.java
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1");
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1", SectionDetail.EITHER);
 
         assertEquals(3, responses.size());
 
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2");
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2", SectionDetail.BOTH);
 
         assertEquals(0, responses.size());
 
@@ -453,12 +455,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
 
-        assertEquals(2, responses.size());
+        assertEquals(0, responses.size());
 
         fq = getQuestionFromDatastore("qn3InSession1InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
 
         assertEquals(1, responses.size());
 
@@ -470,7 +474,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fr.recipient = student.email;
         frLogic.updateFeedbackResponse(fr);
 
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
 
         assertEquals(1, responses.size());
 
@@ -495,7 +500,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
         assertEquals(4, responses.size());
 
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
@@ -503,7 +509,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes finalFq = fq;
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                        finalFq, instructor.email, UserRole.ADMIN, null));
+                        finalFq, instructor.email, UserRole.ADMIN, null, null));
         assertEquals("The role of the requesting use has to be Student or Instructor", ae.getMessage());
     }
 
@@ -557,7 +563,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq.recipientType = FeedbackParticipantType.STUDENTS;
         fr.recipient = student.email;
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student2.email, UserRole.STUDENT, false, roster));
+        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
 
         ______TS("test anonymous team recipients");

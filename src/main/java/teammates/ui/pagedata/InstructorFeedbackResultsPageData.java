@@ -24,6 +24,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
@@ -60,6 +61,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorAttributes instructor;
     private List<String> sections;
     private String selectedSection;
+    private SectionDetail selectedSectionDetail;
     private String sortType;
     private boolean groupByTeam;
     private boolean showStats;
@@ -99,11 +101,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
-                                      String selectedSection, boolean showStats,
+                                      String selectedSection, SectionDetail selectedSectionDetail, boolean showStats,
                                       boolean groupByTeam, boolean isMissingResponsesShown) {
         this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
         this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
+        initCommonVariables(instructor, selectedSection, selectedSectionDetail, showStats,
+                groupByTeam, isMissingResponsesShown);
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap =
                 bundle.getQuestionResponseMap();
@@ -127,11 +130,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
-                                     boolean showStats, boolean groupByTeam, boolean isMissingResponsesShown) {
+                                     SectionDetail selectedSectionDetail, boolean showStats, boolean groupByTeam,
+                                     boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
 
         this.instructor = instructor;
         this.selectedSection = selectedSection;
+        this.selectedSectionDetail = selectedSectionDetail;
         this.showStats = showStats;
         this.groupByTeam = groupByTeam;
         this.isMissingResponsesShown = isMissingResponsesShown;
@@ -176,7 +181,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
         this.sortType = view.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam,
+        initCommonVariables(instructor, selectedSection, null, showStats, groupByTeam,
                             isMissingResponsesShown);
 
         // results page to be loaded by ajax
@@ -1657,6 +1662,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return selectedSection;
     }
 
+    public SectionDetail getSelectedSectionDetail() {
+        return selectedSectionDetail;
+    }
+
     public String getSortType() {
         return sortType;
     }
@@ -1731,14 +1740,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection,
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection, selectedSectionDetail,
                 isMissingResponsesShown, isStatsShown());
     }
 
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
-                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
+                selectedSectionDetail, isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
                 getSections(), isMissingResponsesShown);
     }
 

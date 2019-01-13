@@ -45,7 +45,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
                 getPageResultDestination("", false, "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
         assertEquals(10, data.sessionDetails.stats.expectedTotal);
-        assertEquals(4, data.sessionDetails.stats.submittedTotal);
+        assertEquals(5, data.sessionDetails.stats.submittedTotal);
         assertEquals("", r.getStatusMessage());
 
         ______TS("fail: instructor accesses stats of non-existent feedback session");

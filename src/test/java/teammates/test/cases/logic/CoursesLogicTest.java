@@ -637,6 +637,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         String courseId = instructor1OfCourse1.courseId;
 
         String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
+
         CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithSection.csv");
 
         ______TS("Typical case: course without sections");

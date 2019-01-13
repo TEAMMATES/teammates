@@ -63,6 +63,7 @@
               <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
               <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
               <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${fn:escapeXml(sessionPanel.selectedSection)}">
+              <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME_DETAIL %>" value="${fn:escapeXml(sessionPanel.selectedSectionDetail)}">
               <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
               <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
             </form>
@@ -97,4 +98,5 @@
 
 <r:copyPasteModal courseId="${sessionPanel.courseId}"
     feedbackSession="${sessionPanel.feedbackSessionName}"
-    selectedSection="${sessionPanel.selectedSection}" />
+    selectedSection="${sessionPanel.selectedSection}"
+    selectedSectionDetail="${sessionPanel.selectedSectionDetail}"/>
