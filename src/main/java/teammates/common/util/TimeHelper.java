@@ -489,7 +489,6 @@ public final class TimeHelper {
     /**
      * Parses a {@code LocalDate} object from a date string.
      * Example: date "Tue, 01 Apr, 2014"
-     *
      * If the date string is incorrect as it's day of week is wrong, then it will attempt to correct it
      * if possible.
      *

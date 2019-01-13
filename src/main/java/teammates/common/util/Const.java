@@ -1458,9 +1458,13 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STARTDATE_MODIFIED =
                 "The start date was found to have an incorrect day of week for the date entered. "
                 + "It has been corrected to fit the entered date. It was originally: ";
+        public static final String FEEDBACK_SESSION_STARTDATE_PARSE_FAILURE =
+                "The start date could not be parsed. It has been reset. It was originally: ";
         public static final String FEEDBACK_SESSION_ENDDATE_MODIFIED =
                 "The end date was found to have an incorrect day of week for the date entered. "
                 + "It has been corrected to fit the entered date. It was originally: ";
+        public static final String FEEDBACK_SESSION_ENDDATE_PARSE_FAILURE =
+                "The end date could not be parsed. It has been reset. It was originally: ";
 
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
         public static final String FEEDBACK_QUESTION_ADDED_MULTIPLE =
