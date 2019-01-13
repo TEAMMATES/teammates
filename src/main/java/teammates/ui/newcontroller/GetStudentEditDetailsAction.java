@@ -10,7 +10,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: fetches relevant details needed for the instructor student details edit page.
+ * Action: fetches student edit details.
  */
 public class GetStudentEditDetailsAction extends Action {
     @Override
@@ -45,9 +45,6 @@ public class GetStudentEditDetailsAction extends Action {
         if (student == null) {
             return new JsonResult("No student with given email in given course.", HttpStatus.SC_NOT_FOUND);
         }
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
 
         boolean isOpenOrPublishedEmailSentForTheCourse =
                 logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
