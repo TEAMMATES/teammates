@@ -490,11 +490,20 @@ public final class TimeHelper {
      * Parses a {@code LocalDate} object from a date string.
      * Example: date "Tue, 01 Apr, 2014"
      *
+     * If the date string is incorrect as it's day of week is wrong, then it will attempt to correct it
+     * if possible.
+     *
      * @param date date in format "EEE, dd MMM, yyyy"
      * @return the parsed {@code LocalDate} object, or {@code null} if there are errors
      */
     public static LocalDate parseDateFromSessionsForm(String date) {
-        return parseLocalDate(date, "EEE, dd MMM, yyyy");
+        LocalDate parseResult = parseLocalDate(date, "EEE, dd MMM, yyyy");
+        if (parseResult != null) {
+            return parseResult;
+        }
+        //If it's null (invalid), check for error correction and apply if appropriate
+        String remainingValues = date.substring(5);
+        return parseLocalDate(remainingValues, "dd MMM, yyyy");
     }
 
     /**
