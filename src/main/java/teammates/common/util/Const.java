@@ -1455,6 +1455,12 @@ public final class Const {
                 "A feedback session by this name already exists under this course";
         public static final String FEEDBACK_SESSION_EMPTY =
                 "You have not created any sessions yet. Use the form above to create a session.";
+        public static final String FEEDBACK_SESSION_STARTDATE_MODIFIED =
+                "The start date was found to have an incorrect day of week for the date entered. "
+                + "It has been corrected to fit the entered date. It was originally: ";
+        public static final String FEEDBACK_SESSION_ENDDATE_MODIFIED =
+                "The end date was found to have an incorrect day of week for the date entered. "
+                + "It has been corrected to fit the entered date. It was originally: ";
 
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
         public static final String FEEDBACK_QUESTION_ADDED_MULTIPLE =

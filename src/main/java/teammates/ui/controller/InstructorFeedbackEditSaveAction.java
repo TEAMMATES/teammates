@@ -61,18 +61,18 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
                 Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
 
         if (!isAdded) {
-            addResolvedDateFieldToDataIfRequired(getNonNullRequestParamValue(
+            checkForDateUpdate(getNonNullRequestParamValue(
                     Const.ParamsNames.FEEDBACK_SESSION_STARTDATE), session.getStartTimeLocal(), data,
-                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
+                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.StatusMessages.FEEDBACK_SESSION_STARTDATE_MODIFIED);
         }
 
         isAdded = addResolvedTimeFieldToDataIfRequired(inputEndTimeLocal, session.getEndTimeLocal(), data,
                 Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
 
         if (!isAdded) {
-            addResolvedDateFieldToDataIfRequired(getNonNullRequestParamValue(
+            checkForDateUpdate(getNonNullRequestParamValue(
                     Const.ParamsNames.FEEDBACK_SESSION_ENDDATE), session.getEndTimeLocal(), data,
-                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
+                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.StatusMessages.FEEDBACK_SESSION_ENDDATE_MODIFIED);
         }
 
         addResolvedTimeFieldToDataIfRequired(inputVisibleTimeLocal, session.getSessionVisibleFromTimeLocal(), data,
@@ -92,9 +92,17 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         return true;
     }
 
+    private boolean checkForDateUpdate(String input, LocalDateTime resolved, InstructorFeedbackEditPageData data,
+                                       String dateInputId, String message) {
+        boolean isAdded = addResolvedDateFieldToDataIfRequired(input, resolved, data, dateInputId);
+        if (isAdded) {
+            statusToUser.add(new StatusMessage(message + input, StatusMessageColor.WARNING));
+        }
+        return isAdded;
+    }
 
     private boolean addResolvedDateFieldToDataIfRequired(String input, LocalDateTime resolved,
-            InstructorFeedbackEditPageData data, String dateInputId, String timeInputId) {
+            InstructorFeedbackEditPageData data, String dateInputId) {
         if (input == null || input.equals(TimeHelper.formatDateForSessionsForm(resolved))) {
             return false;
         }
