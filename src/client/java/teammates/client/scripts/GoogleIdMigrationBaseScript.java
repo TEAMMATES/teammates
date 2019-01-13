@@ -1,6 +1,7 @@
 package teammates.client.scripts;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
@@ -12,7 +13,9 @@ import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
+import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
@@ -27,6 +30,8 @@ import teammates.test.driver.TestProperties;
  * @see GoogleIdMigrationBaseScript#shouldUseTransaction()
  */
 public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesBaseScript<Account> {
+
+    private static InstructorsDb instructorsDb = new InstructorsDb();
 
     @Override
     protected Query<Account> getFilterQuery() {
@@ -84,6 +89,8 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         if (!oldInstructors.isEmpty()) {
             oldInstructors.forEach(instructor -> instructor.setGoogleId(newGoogleId));
             ofy().save().entities(oldInstructors);
+            instructorsDb.putDocuments(
+                    oldInstructors.stream().map(InstructorAttributes::valueOf).collect(Collectors.toList()));
         }
 
         // recreate account and student profile
