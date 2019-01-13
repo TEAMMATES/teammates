@@ -163,6 +163,13 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER"
         };
+        String[] paramsWithInvalidSectionDetail = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "ALL"
+        };
 
         ______TS("Failure case: no params");
 
@@ -170,6 +177,10 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         this.verifyAssumptionFailure(new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         });
+
+        ______TS("Failure case: params with invalid feedback section detail");
+
+        this.verifyAssumptionFailure(paramsWithInvalidSectionDetail);
 
         ______TS("Typical case: no sortType param");
 

@@ -19,4 +19,13 @@ public enum SectionDetail {
     public String getSectionDetail() {
         return sectionDetail;
     }
+
+    public static SectionDetail containsSectionDetail(String selectedSectionDetail) {
+        for (SectionDetail sectionDetail : SectionDetail.values()) {
+            if (sectionDetail.name().equals(selectedSectionDetail)) {
+                return sectionDetail;
+            }
+        }
+        return null;
+    }
 }

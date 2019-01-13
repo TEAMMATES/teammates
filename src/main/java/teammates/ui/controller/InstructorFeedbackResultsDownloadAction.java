@@ -40,6 +40,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         // initialize SectionDetail correctly
         if (section != null && sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
+            Assumption.assertNotNull(SectionDetail.containsSectionDetail(sectionDetailValue));
             sectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 

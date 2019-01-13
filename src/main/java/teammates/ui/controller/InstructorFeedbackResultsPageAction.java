@@ -46,6 +46,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
         } else if (sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
+            Assumption.assertNotNull(SectionDetail.containsSectionDetail(sectionDetailValue));
             selectedSectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 

@@ -61,6 +61,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH"
         };
+        String[] paramsWithInvalidSectionDetail = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "ALL"
+        };
 
         String[] paramsWithLargeData = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -214,6 +220,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
+
+        ______TS("Failure case: params with invalid feedback section detail");
+        this.verifyAssumptionFailure(paramsWithInvalidSectionDetail);
 
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
