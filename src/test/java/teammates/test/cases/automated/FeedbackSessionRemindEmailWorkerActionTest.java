@@ -54,8 +54,8 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        // 2 students and 4 instructors sent reminder, 1 instructor notified
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 7);
+        // 1 student and 4 instructors sent reminder, 1 instructor notified
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
 
         List<String> studentRecipientList = new ArrayList<>();
         for (StudentAttributes student : studentsLogic.getStudentsForCourse(session1.getCourseId())) {

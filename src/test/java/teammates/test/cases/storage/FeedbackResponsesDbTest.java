@@ -20,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SectionDetail;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -220,31 +221,45 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
 
-        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
+        String questionId = fras.get("response1ForQ2S1C1").feedbackQuestionId;
 
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1");
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
+                SectionDetail.EITHER);
+        assertEquals(3, responses.size());
 
+        ______TS("show response after filtering by giver from section 1");
+
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", SectionDetail.GIVER);
         assertEquals(2, responses.size());
 
-        ______TS("No responses as they are filtered out");
+        ______TS("show response after filtering by recipient from section 2");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2");
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.EVALUEE);
+        assertEquals(1, responses.size());
 
+        ______TS("no responses as they are filtered by both giver and recipient from section 2");
+
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", SectionDetail.BOTH);
         assertEquals(0, responses.size());
 
         ______TS("null params");
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1"));
+                () -> frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1", SectionDetail.EITHER));
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ae = assertThrows(AssertionError.class,
-                () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, null));
+                () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, null, SectionDetail.EITHER));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+
+        ae = assertThrows(AssertionError.class,
+                () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", null));
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent feedback question");
 
-        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1",
+                SectionDetail.EITHER).isEmpty());
     }
 
     @Test
@@ -372,7 +387,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesForReceiverForCourse(courseId,
                         "student1InCourse1@gmail.tmt");
 
-        assertEquals(2, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("null params");
 
@@ -487,7 +502,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesFromGiverForCourse(courseId,
                         "student1InCourse1@gmail.tmt");
 
-        assertEquals(3, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("null params");
 
@@ -588,7 +603,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
 
-        assertEquals(0, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("null params");
 
@@ -627,7 +642,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
 
-        assertEquals(5, responses.size());
+        assertEquals(4, responses.size());
 
         ______TS("null params");
 

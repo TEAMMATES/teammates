@@ -108,11 +108,34 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1"
         };
-        String[] paramsSectionOneByQuestion = {
+        // either will be chosen by default when a section is selected
+        String[] paramsEitherSectionOneByQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER"
+        };
+        String[] paramsFromSectionOneByQuestion = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "GIVER"
+        };
+        String[] paramsToSectionOneByQuestion = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EVALUEE"
+        };
+        String[] paramsBothSectionOneByQuestion = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "BOTH"
         };
         String[] paramsSectionOneByGrq = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -137,7 +160,15 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER"
+        };
+        String[] paramsWithInvalidSectionDetail = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "ALL"
         };
 
         ______TS("Failure case: no params");
@@ -146,6 +177,10 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         this.verifyAssumptionFailure(new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         });
+
+        ______TS("Failure case: params with invalid feedback section detail");
+
+        this.verifyAssumptionFailure(paramsWithInvalidSectionDetail);
 
         ______TS("Typical case: no sortType param");
 
@@ -283,8 +318,47 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
-        ______TS("Typical case: view section 1 sortType question");
-        action = getAction(paramsSectionOneByQuestion);
+        ______TS("Typical case: view default / either recipient or giver in section 1 sortType question");
+        action = getAction(paramsEitherSectionOneByQuestion);
+        result = getShowPageResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+
+        ______TS("Typical case: view giver from section 1 sortType question");
+        action = getAction(paramsFromSectionOneByQuestion);
+        result = getShowPageResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+
+        ______TS("Typical case: view recipient to section 1 sortType question");
+        action = getAction(paramsToSectionOneByQuestion);
+        result = getShowPageResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+
+        ______TS("Typical case: view both recipient and section from section 1 sortType question");
+        action = getAction(paramsBothSectionOneByQuestion);
         result = getShowPageResult(action);
 
         assertEquals(
@@ -332,7 +406,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
 
-        ______TS("Typical case: view HTML table section 1");
+        ______TS("Typical case: view HTML table either giver or recipient in section 1");
         action = getAction(paramsNeedHtmlTableSectionOne);
         ajaxResult = getAjaxResult(action);
 

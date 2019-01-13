@@ -45,6 +45,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         String fileContent = r.getFileContent();
 
         CsvChecker.verifyCsvContent(fileContent, "/courseStudentList_actionTest.csv");
+
         assertEquals("", r.getStatusMessage());
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
@@ -61,6 +62,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         fileContent = r.getFileContent();
 
         CsvChecker.verifyCsvContent(fileContent, "/courseStudentListStudentLastName_actionTest.csv");
+
         assertEquals("", r.getStatusMessage());
 
         removeAndRestoreTypicalDataBundle();
@@ -79,6 +81,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         fileContent = r.getFileContent();
 
         CsvChecker.verifyCsvContent(fileContent, "/courseStudentListSpecialTeamName_actionTest.csv");
+
         assertEquals("", r.getStatusMessage());
 
     }

@@ -71,7 +71,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments in instructor's course; confirms query string is case insensitive");
 
-        bundle = commentsDb.search("\"Instructor 1 COMMENT to student 1 self feedback Question 2\"", instructors);
+        bundle = commentsDb.search("\"Instructor 1 COMMENT to student 2 self feedback Question 2\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1C1);
 
         ______TS("success: search for comments using feedbackSessionName");
@@ -119,7 +119,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         // session soft-deleted
         feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
         assertNotNull(feedbackSessionsLogic
-                        .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
+                .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         assertEquals(0, bundle.comments.size());
         assertEquals(0, bundle.responses.size());
@@ -129,7 +129,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         // session deleted completely
         feedbackSessionsLogic.deleteFeedbackSessionCascade(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
         assertNull(feedbackSessionsLogic
-                        .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
+                .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         assertEquals(0, bundle.comments.size());
         assertEquals(0, bundle.responses.size());
