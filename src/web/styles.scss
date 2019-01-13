@@ -68,3 +68,9 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
