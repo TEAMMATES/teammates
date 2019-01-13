@@ -57,11 +57,23 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
 
     private void addResolvedTimeFieldsToDataIfRequired(
             FeedbackSessionAttributes session, InstructorFeedbackEditPageData data) {
-        addResolvedTimeFieldToDataIfRequired(inputStartTimeLocal, session.getStartTimeLocal(), data,
+        boolean isAdded = addResolvedTimeFieldToDataIfRequired(inputStartTimeLocal, session.getStartTimeLocal(), data,
                 Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
 
-        addResolvedTimeFieldToDataIfRequired(inputEndTimeLocal, session.getEndTimeLocal(), data,
+        if (!isAdded) {
+            addResolvedDateFieldToDataIfRequired(getNonNullRequestParamValue(
+                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE), session.getStartTimeLocal(), data,
+                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
+        }
+
+        isAdded = addResolvedTimeFieldToDataIfRequired(inputEndTimeLocal, session.getEndTimeLocal(), data,
                 Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
+
+        if (!isAdded) {
+            addResolvedDateFieldToDataIfRequired(getNonNullRequestParamValue(
+                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE), session.getEndTimeLocal(), data,
+                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
+        }
 
         addResolvedTimeFieldToDataIfRequired(inputVisibleTimeLocal, session.getSessionVisibleFromTimeLocal(), data,
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
@@ -70,12 +82,24 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
     }
 
-    private void addResolvedTimeFieldToDataIfRequired(LocalDateTime input, LocalDateTime resolved,
+    private boolean addResolvedTimeFieldToDataIfRequired(LocalDateTime input, LocalDateTime resolved,
             InstructorFeedbackEditPageData data, String dateInputId, String timeInputId) {
         if (input == null || input.isEqual(resolved)) {
-            return;
+            return false;
         }
         data.putResolvedTimeField(dateInputId, TimeHelper.formatDateForSessionsForm(resolved));
         data.putResolvedTimeField(timeInputId, String.valueOf(resolved.getMinute() == 59 ? 23 : resolved.getHour()));
+        return true;
+    }
+
+
+    private boolean addResolvedDateFieldToDataIfRequired(String input, LocalDateTime resolved,
+            InstructorFeedbackEditPageData data, String dateInputId, String timeInputId) {
+        if (input == null || input.equals(TimeHelper.formatDateForSessionsForm(resolved))) {
+            return false;
+        }
+        data.putResolvedTimeField(dateInputId, TimeHelper.formatDateForSessionsForm(resolved));
+
+        return true;
     }
 }
