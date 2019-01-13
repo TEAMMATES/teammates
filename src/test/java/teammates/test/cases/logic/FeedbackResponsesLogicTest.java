@@ -439,7 +439,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
 
-        // other more in-dept sectionDetail types are tested in FeedbackResponsesDbTest.java
+        // other more in-depth sectionDetail types are tested in FeedbackResponsesDbTest.java
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
                 fq, instructor.email, UserRole.INSTRUCTOR, "Section 1", SectionDetail.EITHER);

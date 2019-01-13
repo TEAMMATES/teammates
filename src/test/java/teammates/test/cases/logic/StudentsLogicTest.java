@@ -1029,6 +1029,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
                                                       student1InCourse1.email));
 
+        StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
+        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
+                                                        student5InCourse1.email));
     }
 
     private void testDeleteStudent() {
