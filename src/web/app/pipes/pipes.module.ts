@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ResponseStatusPipe } from './sessionResponseStatus.pipe';
-import { SubmissionStatusPipe } from './sessionSubmissionStatus.pipe';
+import { ResponseStatusPipe } from './session-response-status.pipe';
+import { SubmissionStatusPipe } from './session-submission-status.pipe';
 
 /**
  * Module for common pipes.
