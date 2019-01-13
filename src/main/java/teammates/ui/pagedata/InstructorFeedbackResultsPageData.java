@@ -101,8 +101,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
-                                      String selectedSection, SectionDetail selectedSectionDetail, String showStats,
-                                      String groupByTeam, boolean isMissingResponsesShown) {
+                                      String selectedSection, SectionDetail selectedSectionDetail, boolean showStats,
+                                      boolean groupByTeam, boolean isMissingResponsesShown) {
         this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
         this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
         initCommonVariables(instructor, selectedSection, selectedSectionDetail, showStats,
@@ -130,7 +130,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
-                                     SectionDetail selectedSectionDetail, String showStats, String groupByTeam,
+                                     SectionDetail selectedSectionDetail, boolean showStats, boolean groupByTeam,
                                      boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
 
