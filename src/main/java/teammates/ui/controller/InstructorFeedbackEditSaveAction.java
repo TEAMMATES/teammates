@@ -32,9 +32,11 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         FeedbackSessionAttributes feedbackSession =
                 extractFeedbackSessionData(feedbackSessionName, logic.getCourse(courseId), dummyCreatorEmail);
 
+        FeedbackSessionAttributes oldFeedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+
         try {
             validateTimeData(feedbackSession);
-            addResolvedTimeFieldsToDataIfRequired(feedbackSession, data);
+            addResolvedTimeFieldsToDataIfRequired(feedbackSession, data, oldFeedbackSession);
             logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin =
@@ -56,14 +58,15 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
     }
 
     private void addResolvedTimeFieldsToDataIfRequired(
-            FeedbackSessionAttributes session, InstructorFeedbackEditPageData data) {
+            FeedbackSessionAttributes session, InstructorFeedbackEditPageData data,
+            FeedbackSessionAttributes oldFeedbackSession) {
         boolean isAdded = addResolvedTimeFieldToDataIfRequired(inputStartTimeLocal, session.getStartTimeLocal(), data,
                 Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
 
         if (!isAdded) {
             checkForDateUpdate(getNonNullRequestParamValue(
-                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE), session.getStartTimeLocal(), data,
-                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE,
+                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE), session.getStartTimeLocal(),
+                    oldFeedbackSession.getEndTimeLocal(), data, Const.ParamsNames.FEEDBACK_SESSION_STARTDATE,
                     Const.StatusMessages.FEEDBACK_SESSION_STARTDATE_MODIFIED,
                     Const.StatusMessages.FEEDBACK_SESSION_STARTDATE_PARSE_FAILURE);
         }
@@ -73,8 +76,9 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
 
         if (!isAdded) {
             checkForDateUpdate(getNonNullRequestParamValue(
-                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE), session.getEndTimeLocal(), data,
-                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.StatusMessages.FEEDBACK_SESSION_ENDDATE_MODIFIED,
+                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE), session.getEndTimeLocal(),
+                    oldFeedbackSession.getEndTimeLocal(), data, Const.ParamsNames.FEEDBACK_SESSION_ENDDATE,
+                    Const.StatusMessages.FEEDBACK_SESSION_ENDDATE_MODIFIED,
                     Const.StatusMessages.FEEDBACK_SESSION_ENDDATE_PARSE_FAILURE);
         }
 
@@ -95,24 +99,37 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         return true;
     }
 
-    private boolean checkForDateUpdate(String input, LocalDateTime resolved, InstructorFeedbackEditPageData data,
-                                       String dateInputId, String modifiedMessage, String failureMessage) {
-        boolean isAdded = addResolvedDateFieldToDataIfRequired(input, resolved, data, dateInputId);
-        if (isAdded) {
-            statusToUser.add(new StatusMessage(modifiedMessage + input, StatusMessageColor.WARNING));
-        } else if (input != null && resolved == null) {
-            statusToUser.add(new StatusMessage(failureMessage + input, StatusMessageColor.DANGER));
+    private boolean checkForDateUpdate(String input, LocalDateTime resolved, LocalDateTime oldTime,
+            InstructorFeedbackEditPageData data, String dateInputId, String modifiedMessage, String failureMessage) {
+        boolean isAdded;
+        if (resolved == null) {
+            isAdded = addResolvedDateFieldToDataIfRequired(input, oldTime, data, dateInputId);
+        } else {
+            isAdded = addResolvedDateFieldToDataIfRequired(input, resolved, data, dateInputId);
         }
+        addStatusMessageForModifiedDateFieldIfRequired(input, resolved, modifiedMessage, failureMessage, isAdded);
         return isAdded;
     }
 
     private boolean addResolvedDateFieldToDataIfRequired(String input, LocalDateTime resolved,
             InstructorFeedbackEditPageData data, String dateInputId) {
-        if (input == null || resolved == null || input.equals(TimeHelper.formatDateForSessionsForm(resolved))) {
+        if (input == null || input.equals(TimeHelper.formatDateForSessionsForm(resolved))) {
             return false;
         }
         data.putResolvedTimeField(dateInputId, TimeHelper.formatDateForSessionsForm(resolved));
 
         return true;
+    }
+
+    private void addStatusMessageForModifiedDateFieldIfRequired(String input, LocalDateTime resolved,
+            String modifiedMessage, String failureMessage, boolean isAdded) {
+        if (isAdded) {
+            //failed to parse
+            if (resolved == null) {
+                statusToUser.add(new StatusMessage(failureMessage + input, StatusMessageColor.DANGER));
+            } else {
+                statusToUser.add(new StatusMessage(modifiedMessage + input, StatusMessageColor.WARNING));
+            }
+        }
     }
 }
