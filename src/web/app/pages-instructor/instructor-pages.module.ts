@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
@@ -146,6 +146,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     NgbModule,
+    ReactiveFormsModule,
     PageNotFoundModule,
     InstructorHelpPageModule,
     SessionSubmissionPageModule,
