@@ -4,8 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
 interface StudentAttributes {
   email: string;
@@ -51,7 +52,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
               private router: Router,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private ngbModal: NgbModal) { }
+              private ngbModal: NgbModal,
+              private navigationService: NavigationService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -162,12 +164,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     };
 
     this.httpRequestService.put('/courses/students/details/edit', paramsMap)
-        .subscribe(() => {
-          // Routes to instructor course details page if the edit is successful
-          this.router.navigate(['../../', 'details'],
-              { relativeTo: this.route },
-          );
-          // TODO: Show success status message in courses/details page after successful edit
+        .subscribe((resp: MessageOutput) => {
+          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
+              resp.message);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });

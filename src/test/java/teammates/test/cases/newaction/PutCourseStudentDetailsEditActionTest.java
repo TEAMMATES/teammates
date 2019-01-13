@@ -79,7 +79,7 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         MessageOutput msgOutput = (MessageOutput) r.getOutput();
-        assertEquals("Student has been edited successfully.",
+        assertEquals(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT,
                 msgOutput.getMessage());
         verifyNumberOfEmailsSent(a, 1);
 
@@ -110,7 +110,7 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
 
         assertEquals(HttpStatus.SC_OK, rToBeTrimmed.getStatusCode());
         MessageOutput msgTrimmedOutput = (MessageOutput) rToBeTrimmed.getOutput();
-        assertEquals("Student has been edited successfully.",
+        assertEquals(Const.StatusMessages.STUDENT_EDITED,
                 msgTrimmedOutput.getMessage());
         verifyNoEmailsSent(aToBeTrimmed);
 

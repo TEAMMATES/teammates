@@ -105,7 +105,9 @@ public class PutCourseStudentDetailsEditAction extends Action {
                     }
                 }
             }
-            return new JsonResult("Student has been edited successfully.");
+            return new JsonResult(isSessionSummarySendEmail && isEmailChanged
+                    ? Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT
+                    : Const.StatusMessages.STUDENT_EDITED);
 
         } catch (EnrollException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);

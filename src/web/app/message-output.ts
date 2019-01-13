@@ -6,7 +6,10 @@ export interface ErrorMessageOutput {
   status: number;
 }
 
-interface MessageOutput {
+/**
+ * Encapsulates messages from back-end API endpoints.
+ */
+export interface MessageOutput {
   message: string;
   requestId?: string;
 }
