@@ -1,3 +1,58 @@
-<p>
-  instructor-course-edit-page works!
-</p>
+<div class="card bg-light top-padded">
+  <div class="card-header bg-primary text-white">
+    <strong>Course:</strong>
+    <span class="float-sm-right">
+      <a class="btn btn-light btn-sm button btn-left" ngbTooltip='Edit course name'>
+        <i class="fa fa-pen" aria-hidden="true"></i>
+        Edit
+      </a>
+      <a class="btn btn-light btn-sm button" ngbTooltip='Delete the course and its corresponding students and sessions'>
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete
+      </a>
+    </span>
+  </div>
+  <div class="card-body fill-plain">
+    <form class="form form-horizontal">
+      <div>
+        <div class="form-row form-group">
+          <label class="col-sm-3">Course ID:</label>
+          <div class="col-sm-3">
+            <input class="col-xs-12 form-control" maxlength="40" tabindex="1" disabled>
+          </div>
+        </div>
+        <div class="form-row form-group">
+          <label class="col-sm-3">Course Name:</label>
+          <div class="col-sm-9">
+            <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering." maxlength="64" tabindex="2">
+          </div>
+        </div>
+        <div class="form-row form-group">
+          <label class="col-xs-12 col-sm-3">Time Zone:</label>
+          <div class="col-xs-12 col-sm-9">
+            <div class="input-group">
+              <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                including clock changes due to daylight saving time.">
+              </select>
+              <span class="input-group-btn">
+                <button class="btn btn-primary">Auto-Detect</button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class=" col-sm-12 align-center">
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="float-sm-right top-padded-sm">
+  <i class="fa fa-info-circle" aria-hidden="true"></i>
+  <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
+    More about configuring access permissions
+  </a>
+</div>

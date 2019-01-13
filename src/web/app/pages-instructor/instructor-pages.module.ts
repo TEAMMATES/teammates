@@ -59,6 +59,9 @@ const routes: Routes = [
       {
         path: 'edit',
         component: InstructorCourseEditPageComponent,
+        data: {
+          pageTitle: 'Edit Course Details',
+        },
       },
       {
         path: 'details',
