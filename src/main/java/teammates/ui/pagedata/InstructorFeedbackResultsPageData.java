@@ -63,8 +63,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String selectedSection;
     private SectionDetail selectedSectionDetail;
     private String sortType;
-    private String groupByTeam;
-    private String showStats;
+    private boolean groupByTeam;
+    private boolean showStats;
     private boolean isMissingResponsesShown;
     private int startIndex = -1;
 
@@ -175,8 +175,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * TODO: simplify the logic in this method
      */
     public void initForSectionPanelViews(InstructorAttributes instructor,
-                                    String selectedSection, String showStats,
-                                    String groupByTeam, InstructorFeedbackResultsPageViewType view,
+                                    String selectedSection, boolean showStats,
+                                    boolean groupByTeam, InstructorFeedbackResultsPageViewType view,
                                     boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
@@ -1672,17 +1672,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Deprecated
     public String getGroupByTeam() {
-        return groupByTeam == null ? "null" : groupByTeam;
+        return groupByTeam ? "on" : "null";
     }
 
-    // TODO: swap groupByTeam to a normal boolean
     public boolean isGroupedByTeam() {
-        return "on".equals(groupByTeam);
+        return groupByTeam;
     }
 
-    // TODO: swap showStats to a normal boolean
     private boolean isStatsShown() {
-        return showStats != null;
+        return showStats;
     }
 
     public boolean isMissingResponsesShown() {

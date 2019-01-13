@@ -229,7 +229,8 @@
       "course": "CS1101",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "benny.c.tmms@CS1101": {
       "googleId": "benny.c.tmms",
@@ -237,7 +238,8 @@
       "course": "CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "charlie.d.tmms@CS1101": {
       "googleId": "charlie.d.tmms",
@@ -245,7 +247,8 @@
       "course": "CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "danny.e.tmms@CS1101": {
       "googleId": "danny.e.tmms",
@@ -253,14 +256,17 @@
       "course": "CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "teammates.test@CS4215": {
+      "googleId": "",
       "email": "teammates.test@gmail.tmt",
       "course": "CS4215",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -349,7 +355,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -369,7 +374,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "Comment about 5 other students",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -391,7 +395,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -420,7 +423,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}",
       "questionNumber": 4,
       "questionType": "MCQ",
@@ -449,7 +451,6 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "{\"numOfMcqChoices\":0,\"mcqChoices\":[],\"questionText\":\"Who is the best coder?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
       "questionNumber": 5,
       "questionType": "MCQ",
@@ -478,7 +479,6 @@
     "qn6InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like about our product?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}",
       "questionNumber": 6,
       "questionType": "MSQ",
@@ -507,7 +507,6 @@
     "qn7InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "{\"msqChoices\":[],\"questionText\":\"Which team is good?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
       "questionNumber": 7,
       "questionType": "MSQ",
@@ -536,7 +535,6 @@
     "qn8InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 8,
       "questionType": "NUMSCALE",
@@ -565,7 +563,6 @@
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "Give feedback to 2 other teams.",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -585,7 +582,6 @@
     "qn2InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "CS2104",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "Give feedback to 1 of your team mates",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -605,7 +601,6 @@
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "CS1101",
-      "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": "Please rate the following teams",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -751,6 +746,7 @@
       "feedbackResponseId": "1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
@@ -766,6 +762,7 @@
       "feedbackResponseId": "1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-02T23:59:00Z",

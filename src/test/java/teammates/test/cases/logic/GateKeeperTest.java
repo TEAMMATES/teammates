@@ -46,7 +46,7 @@ public class GateKeeperTest extends BaseLogicTest {
                 .withComments("")
                 .build();
         instructorAsStudent.googleId = instructor.googleId;
-        new Logic().createStudentWithoutDocument(instructorAsStudent);
+        new Logic().createStudent(instructorAsStudent);
 
         UserType user = gateKeeper.getCurrentUser();
         assertEquals(instructor.googleId, user.id);

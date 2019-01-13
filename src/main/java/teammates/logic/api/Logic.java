@@ -718,13 +718,6 @@ public class Logic {
         studentsLogic.createStudentCascade(student);
     }
 
-    public void createStudentWithoutDocument(StudentAttributes student) throws EntityAlreadyExistsException,
-                                                                               InvalidParametersException,
-                                                                               EntityDoesNotExistException {
-        Assumption.assertNotNull(student);
-        studentsLogic.createStudentCascadeWithoutDocument(student);
-    }
-
     /**
      * Search for students. Preconditions: all parameters are non-null.
      * @param instructors   a list of InstructorAttributes associated to a googleId,
@@ -880,7 +873,7 @@ public class Logic {
                                                                                    EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
-        studentsLogic.resetStudentGoogleId(originalEmail, courseId, true);
+        studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
     /**
@@ -900,15 +893,6 @@ public class Logic {
         Assumption.assertNotNull(student);
 
         studentsLogic.updateStudentCascade(originalEmail, student);
-    }
-
-    public void updateStudentWithoutDocument(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(student);
-
-        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
     }
 
     /**
@@ -1493,16 +1477,14 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
-                                                           String courseId, String instructorEmail)
+                                                           String courseId)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(feedbackQuestionId);
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(instructorEmail);
 
-        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName,
-                                                           courseId, instructorEmail);
+        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
     }
 
     /**
@@ -1576,13 +1558,11 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<FeedbackQuestionAttributes> populateFeedbackSessionTemplateQuestions(String templateType, String courseId,
-            String feedbackSessionName, String creatorEmail) {
+            String feedbackSessionName) {
         Assumption.assertNotNull(templateType);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(creatorEmail);
-        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(
-                templateType, courseId, feedbackSessionName, creatorEmail);
+        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(templateType, courseId, feedbackSessionName);
     }
 
     /**

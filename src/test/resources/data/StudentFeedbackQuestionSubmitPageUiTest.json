@@ -54,7 +54,8 @@
       "course": "SFQSubmitUiT.CS2104",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "Unregistered": {
       "googleId": "",
@@ -62,7 +63,8 @@
       "course": "SFQSubmitUiT.CS2104",
       "name": "Unregistered Charles",
       "comments": "This student's name is Unreg Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -131,7 +133,6 @@
     "qn1InSession1": {
       "feedbackSessionName": "Open Session",
       "courseId": "SFQSubmitUiT.CS2104",
-      "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -154,7 +155,6 @@
     "qn1InSession2": {
       "feedbackSessionName": "Closed Session",
       "courseId": "SFQSubmitUiT.CS2104",
-      "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -174,7 +174,6 @@
     "qn1InSession3": {
       "feedbackSessionName": "Awaiting Session",
       "courseId": "SFQSubmitUiT.CS2104",
-      "creatorEmail": "SFQSubmitUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",

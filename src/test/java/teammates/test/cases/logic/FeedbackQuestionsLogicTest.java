@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -113,14 +112,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         List<FeedbackQuestionAttributes> actualTemplateQuestions =
                 fqLogic.getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "idOfTypicalCourse1",
-                        "First feedback session", "instructor1@course1.tmt");
+                        "First feedback session");
 
         assertEquals(actualTemplateQuestions.size(), 5);
 
         ______TS("Get questions created for instructors by the creating instructor");
 
         actualTemplateQuestions = fqLogic.getFeedbackSessionTemplateQuestions("NIL", "idOfTypicalCourse1",
-                "First feedback session", "instructor1@course1.tmt");
+                "First feedback session");
 
         assertEquals(actualTemplateQuestions.size(), 0);
     }
@@ -366,15 +365,13 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     private void testCopyQuestion() throws Exception {
 
-        InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         ______TS("Typical case: copy question successfully");
 
         FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
 
         FeedbackQuestionAttributes copiedQuestion =
-                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId,
-                                             instructor2OfCourse1.email);
+                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId);
 
         FeedbackQuestionDetails question1Details = question1.getQuestionDetails();
         FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
