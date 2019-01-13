@@ -22,7 +22,7 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.STUDENT_COURSE_DETAILS;
+        return Const.ResourceURIs.STUDENT_COURSE;
     }
 
     @Override
@@ -56,7 +56,11 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
 
         StudentGetCourseDetailsResult output = (StudentGetCourseDetailsResult) r.getOutput();
 
-        assertEquals(student1InCourse1.toString(), output.getStudent().toString());
+        StudentAttributes expectedStudent = output.getStudent();
+        expectedStudent.lastName = null;
+        expectedStudent.comments = null;
+        expectedStudent.key = null;
+        assertEquals(student1InCourse1.toString(), expectedStudent.toString());
 
         assertEquals(student1InCourse1.course, output.getCourse().getId());
 
@@ -146,5 +150,8 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForInstructors(submissionParams);
+        verifyInaccessibleForAdmin(submissionParams);
+
+        verifyCanMasquerade("student1InCourse1", submissionParams);
     }
 }

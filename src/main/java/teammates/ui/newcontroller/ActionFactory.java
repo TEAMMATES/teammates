@@ -48,7 +48,7 @@ public class ActionFactory {
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
 
         map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
-        map(ResourceURIs.STUDENT_COURSE_DETAILS, GET, StudentGetCourseDetailsAction.class);
+        map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
     }
 

@@ -51,6 +51,9 @@ public class StudentGetCourseDetailsAction extends Action {
             return new JsonResult(String.format("Student with id (%s) cannot be found.", userInfo.id),
                     HttpStatus.SC_NOT_FOUND);
         }
+        student.lastName = null;
+        student.comments = null;
+        student.key = null;
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         List<String> instructorNames = new LinkedList<>();
