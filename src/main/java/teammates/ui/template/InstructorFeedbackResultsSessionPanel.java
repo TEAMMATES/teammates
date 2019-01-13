@@ -3,6 +3,7 @@ package teammates.ui.template;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbackResultsSessionPanel {
@@ -14,13 +15,14 @@ public class InstructorFeedbackResultsSessionPanel {
     private String resultsVisibleFrom;
     private FeedbackSessionPublishButton feedbackSessionPublishButton;
     private String selectedSection;
+    private SectionDetail selectedSectionDetail;
     private boolean isStatsShown;
     private boolean isMissingResponsesShown;
 
     public InstructorFeedbackResultsSessionPanel(FeedbackSessionAttributes session,
                                                  String editLink,
                                                  FeedbackSessionPublishButton feedbackSessionPublishButton,
-                                                 String selectedSection,
+                                                 String selectedSection, SectionDetail selectedSectionDetail,
                                                  boolean isMissingResponsesShown,
                                                  boolean isStatsShown) {
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
@@ -31,6 +33,7 @@ public class InstructorFeedbackResultsSessionPanel {
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
+        this.selectedSectionDetail = selectedSectionDetail;
         this.isStatsShown = isStatsShown;
         this.isMissingResponsesShown = isMissingResponsesShown;
     }
@@ -65,6 +68,10 @@ public class InstructorFeedbackResultsSessionPanel {
 
     public String getSelectedSection() {
         return selectedSection;
+    }
+
+    public SectionDetail getSelectedSectionDetail() {
+        return selectedSectionDetail;
     }
 
     public boolean getIsStatsShown() {

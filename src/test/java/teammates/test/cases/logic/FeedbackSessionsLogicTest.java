@@ -33,6 +33,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
@@ -1044,11 +1045,15 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         /*** Test result bundle for instructor1 within a section ***/
 
+        ______TS("standard case to view by Section A with default section detail");
+
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A");
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.EITHER);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
+        // after filtering by section, the number of responses seen by instructor will differ.
+        // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
         assertEquals(7, results.responses.size());
         //Instructor should still see all questions
         assertEquals(8, results.questions.size());
@@ -1097,6 +1102,36 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(7, results.visibilityTable.size());
         // TODO: test student2 too.
 
+        ______TS("standard case to view by receiver in Section A");
+
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.EVALUEE);
+
+        // Responses viewed by instructor after filtering: q1r1, q2r1, q4r3
+        assertEquals(3, results.responses.size());
+        assertEquals(8, results.questions.size());
+
+        ______TS("standard case to view by giver in Section A");
+
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.GIVER);
+
+        // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
+        assertEquals(7, results.responses.size());
+        assertEquals(8, results.questions.size());
+
+        ______TS("standard case to view by both giver and receiver in Section A");
+
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A", SectionDetail.BOTH);
+
+        // Responses viewed by instructor after filtering: q2r1, q2r3, q3r1, q4r3
+        assertEquals(4, results.responses.size());
+        assertEquals(8, results.questions.size());
+
         ______TS("failure: no session");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
@@ -1130,6 +1165,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         CsvChecker.verifyCsvContent(export, "/feedbackSessionResultsHideMissingResponses.csv");
 
         ______TS("typical case: get results for single question");
+
+        // results for single question with sectionDetail is tested in InstructorFeedbackResultsDownloadActionTest.java
         int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
         String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum).getId();

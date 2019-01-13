@@ -1962,7 +1962,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        int numStudentRespondents = 3;
+        int numStudentRespondents = 4; // student1, student2, student3, student5
         int numInstructorRespondents = 1;
 
         int totalStudents = 5;
@@ -1998,7 +1998,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(params1);
         a.executeAndPostProcess();
 
-        // Response rate should not change because other questions have the same respondents
+        // Response rate should decrease by 1 as response from student1 in qn1 is changed
+        numStudentRespondents--;
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);

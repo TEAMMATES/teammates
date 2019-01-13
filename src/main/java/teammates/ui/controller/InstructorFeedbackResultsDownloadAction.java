@@ -6,6 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SectionDetail;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -16,6 +17,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
+        String sectionDetailValue = getRequestParamValue(Const.ParamsNames.SECTION_NAME_DETAIL);
+        SectionDetail sectionDetail = SectionDetail.NOT_APPLICABLE;
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
@@ -34,6 +37,12 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         String fileContent;
         String fileName;
+
+        // initialize SectionDetail correctly
+        if (section != null && sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
+            Assumption.assertNotNull(SectionDetail.containsSectionDetail(sectionDetailValue));
+            sectionDetail = SectionDetail.valueOf(sectionDetailValue);
+        }
 
         try {
             if ("true".equals(simulateExcessDataForTesting)) {
@@ -55,11 +64,12 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                        courseId, feedbackSessionName, instructor.email, section,
+                        courseId, feedbackSessionName, instructor.email, section, sectionDetail,
                         questionId, isMissingResponsesShown, isStatsShown);
-                fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
-                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
-                              + " in Course " + courseId + " within " + section + " was downloaded";
+                fileName = courseId + "_" + feedbackSessionName + "_" + section + "_"
+                            + sectionDetail.getSectionDetail() + questionName;
+                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId
+                                + " within " + section + " in " + sectionDetail + " was downloaded";
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
