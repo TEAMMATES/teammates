@@ -160,6 +160,6 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
                 Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
         };
 
-        verifyAccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
     }
 }

@@ -12,6 +12,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
@@ -27,7 +28,9 @@ public class GetStudentCoursesAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        // Unregistered users may also be able to access
+        if (!userInfo.isStudent) {
+            throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
+        }
     }
 
     @Override
