@@ -23,52 +23,53 @@
         </thead>
         <tbody>
         <tr *ngFor="let session of studentCourse.feedbackSessions">
-          <td>{{ session.feedbackSession.feedbackSessionName }}</td>
-          <td>{{ sessionsInfoMap[getSessionId(session.feedbackSession)].endTime }}</td>
-          <td>
-            <a style="border-bottom: 1px dashed black;"
-               [ngbTooltip]="getSubmissionStatusTooltip(sessionsInfoMap[getSessionId(session.feedbackSession)])">
-              {{ sessionsInfoMap[getSessionId(session.feedbackSession)].isOpened | sessionSubmissionStatus:
-                  sessionsInfoMap[getSessionId(session.feedbackSession)].isWaitingToOpen : sessionsInfoMap[getSessionId(session.feedbackSession)].isSubmitted }}
-            </a>
-          </td>
-          <td>
-            <a style="border-bottom: 1px dashed black;"
-               [ngbTooltip]="getResponseStatusTooltip(sessionsInfoMap[getSessionId(session.feedbackSession)].isPublished)">
-              {{ sessionsInfoMap[getSessionId(session.feedbackSession)].isPublished | sessionResponseStatus }}
-            </a>
-          </td>
-          <td>
-            <a *ngIf="sessionsInfoMap[getSessionId(session.feedbackSession)].isPublished"
-               routerLink="../sessions/result" [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
-               class="btn btn-light btn-sm btn-left button" ngbTooltip='View the submitted responses for this feedback session'>
-              View Responses
-            </a>
-            <a *ngIf="!sessionsInfoMap[getSessionId(session.feedbackSession)].isPublished" class="btn btn-light btn-sm btn-left disabled button" type="button">
-              View Responses
-            </a>
-            <a *ngIf="sessionsInfoMap[getSessionId(session.feedbackSession)].isWaitingToOpen" class="btn btn-light btn-sm disabled button">
-              Start Submission
-            </a>
-            <a *ngIf="sessionsInfoMap[getSessionId(session.feedbackSession)].isOpened && !sessionsInfoMap[getSessionId(session.feedbackSession)].isSubmitted"
-               routerLink="../sessions/submission"
-               [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
-               class="btn btn-light btn-sm button" ngbTooltip='Start submitting feedback'>
-              Start Submission
-            </a>
-            <a *ngIf="sessionsInfoMap[getSessionId(session.feedbackSession)].isOpened && sessionsInfoMap[getSessionId(session.feedbackSession)].isSubmitted"
-               routerLink="../sessions/submission"
-               [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
-               class="btn btn-light btn-sm button" ngbTooltip='Edit submitted feedback'>
-              Edit Submission
-            </a>
-            <a *ngIf="!sessionsInfoMap[getSessionId(session.feedbackSession)].isOpened && !sessionsInfoMap[getSessionId(session.feedbackSession)].isWaitingToOpen"
-               routerLink="../sessions/submission"
-               [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
-               class="btn btn-light btn-sm button" ngbTooltip='View submitted feedback'>
-              View Submission
-            </a>
-          </td>
+          <ng-container *ngIf="sessionsInfoMap[session.feedbackSession.courseId + '%' + session.feedbackSession.feedbackSessionName] as sessionInfo">
+            <td>{{ session.feedbackSession.feedbackSessionName }}</td>
+            <td>{{ sessionInfo.endTime }}</td>
+            <td>
+              <a style="border-bottom: 1px dashed black;"
+                 [ngbTooltip]="getSubmissionStatusTooltip(sessionInfo)">
+                {{ sessionInfo.isOpened | sessionSubmissionStatus: sessionInfo.isWaitingToOpen : sessionInfo.isSubmitted }}
+              </a>
+            </td>
+            <td>
+              <a style="border-bottom: 1px dashed black;"
+                 [ngbTooltip]="getResponseStatusTooltip(sessionInfo.isPublished)">
+                {{ sessionInfo.isPublished | sessionResponseStatus }}
+              </a>
+            </td>
+            <td>
+              <a *ngIf="sessionInfo.isPublished"
+                 routerLink="../sessions/result" [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 class="btn btn-light btn-sm btn-left button" ngbTooltip='View the submitted responses for this feedback session'>
+                View Responses
+              </a>
+              <a *ngIf="!sessionInfo.isPublished" class="btn btn-light btn-sm btn-left disabled button" type="button">
+                View Responses
+              </a>
+              <a *ngIf="sessionInfo.isWaitingToOpen" class="btn btn-light btn-sm disabled button">
+                Start Submission
+              </a>
+              <a *ngIf="sessionInfo.isOpened && !sessionInfo.isSubmitted"
+                 routerLink="../sessions/submission"
+                 [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 class="btn btn-light btn-sm button" ngbTooltip='Start submitting feedback'>
+                Start Submission
+              </a>
+              <a *ngIf="sessionInfo.isOpened && sessionInfo.isSubmitted"
+                 routerLink="../sessions/submission"
+                 [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 class="btn btn-light btn-sm button" ngbTooltip='Edit submitted feedback'>
+                Edit Submission
+              </a>
+              <a *ngIf="!sessionInfo.isOpened && !sessionInfo.isWaitingToOpen"
+                 routerLink="../sessions/submission"
+                 [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 class="btn btn-light btn-sm button" ngbTooltip='View submitted feedback'>
+                View Submission
+              </a>
+            </td>
+          </ng-container>
         </tr>
         </tbody>
       </table>

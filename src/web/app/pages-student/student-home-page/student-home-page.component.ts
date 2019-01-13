@@ -103,13 +103,6 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   /**
-   * Gets the identifier for a session by combining the course id and the session name with a % delimiter.
-   */
-  getSessionId(session: FeedbackSessionAttributes): string {
-    return session.courseId + '%' + session.feedbackSessionName;
-  }
-
-  /**
    * Gets the tooltip message for the submission status.
    */
   getSubmissionStatusTooltip(sessionInfoMap: SessionInfoMap): string {

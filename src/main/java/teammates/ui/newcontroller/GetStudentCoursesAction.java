@@ -192,7 +192,7 @@ public class GetStudentCoursesAction extends Action {
         }
     }
 
-    private class SessionInfoMap {
+    private static class SessionInfoMap {
         String endTime;
 
         boolean isOpened;
