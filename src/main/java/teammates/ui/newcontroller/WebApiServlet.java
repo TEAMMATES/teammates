@@ -63,19 +63,14 @@ public class WebApiServlet extends HttpServlet {
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
                 + ", Request ID: " + Config.getRequestId());
 
-        Action action;
         try {
-            action = new ActionFactory().getAction(req, req.getMethod(), resp);
-        } catch (ActionMappingException e) {
-            throwError(resp, e.getStatusCode(), e.getMessage());
-            return;
-        }
-
-        try {
+            Action action = new ActionFactory().getAction(req, req.getMethod(), resp);
             action.checkAccessControl();
 
             ActionResult result = action.execute();
             result.send(resp);
+        } catch (ActionMappingException e) {
+            throwError(resp, e.getStatusCode(), e.getMessage());
         } catch (InvalidHttpParameterException ihpe) {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
         } catch (UnauthorizedAccessException uae) {

@@ -28,6 +28,7 @@ before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -rf $HOME/.gradle/caches/*/workerMain/
   - rm -rf node_modules/.cache/uglifyjs-webpack-plugin/
 
 cache:
@@ -72,10 +73,11 @@ jobs:
         - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
         - gcloud -q components install app-engine-java
-      script:
-        - ./gradlew createConfigs testClasses
         - npm run build -- --progress=false
+        - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
+        - ./gradlew createConfigs testClasses
         - ./gradlew appengineStart
+      script:
         - ./gradlew e2eTests
     - name: "E2E Tests - Chrome"
       addons:
@@ -97,9 +99,9 @@ jobs:
         - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
         - gcloud -q components install app-engine-java
-      script:
-        - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.travis.properties
-        - ./gradlew createConfigs testClasses
         - npm run build -- --progress=false
+        - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
+        - ./gradlew createConfigs testClasses
         - ./gradlew appengineStart
+      script:
         - ./gradlew e2eTests
