@@ -14,6 +14,11 @@ interface StudentAttributes {
   section: string;
 }
 
+interface InstructorDetails {
+  name: string;
+  email: string;
+}
+
 interface CourseAttributes {
   createdAt: string;
   id: string;
@@ -23,6 +28,7 @@ interface CourseAttributes {
 
 interface TeammateProfile {
   shortName: string;
+  email: string;
   institute: string;
   nationality: string;
   gender: string;
@@ -32,7 +38,7 @@ interface TeammateProfile {
 interface StudentCourseDetails {
   student: StudentAttributes;
   course: CourseAttributes;
-  instructorNames: string[];
+  instructorDetails: InstructorDetails[];
   teammateProfiles?: TeammateProfile[];
 }
 
@@ -49,7 +55,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   user: string = '';
   student?: StudentAttributes;
   course?: CourseAttributes;
-  instructorNames?: string;
+  instructorDetails?: InstructorDetails[];
   teammateProfiles?: TeammateProfile[];
 
   private backendUrl: string = environment.backendUrl;
@@ -73,6 +79,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = { courseid, user };
     this.httpRequestService.get('/student/course', paramMap).subscribe((resp: StudentCourseDetails) => {
       this.student = resp.student;
+      this.instructorDetails = resp.instructorDetails;
       this.course = resp.course;
       this.teammateProfiles = resp.teammateProfiles;
 
@@ -84,10 +91,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         this.statusMessageService.showErrorMessage('Error retrieving course details');
       }
 
-      if (!resp.instructorNames) {
+      if (!resp.instructorDetails) {
         this.statusMessageService.showErrorMessage('Error retrieving instructor details');
-      } else {
-        this.instructorNames = resp.instructorNames.join(', ');
       }
 
       if (!this.teammateProfiles) {

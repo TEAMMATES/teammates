@@ -2,6 +2,7 @@ package teammates.ui.newcontroller;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.http.HttpStatus;
 
@@ -56,9 +57,11 @@ public class StudentGetCourseDetailsAction extends Action {
         student.key = null;
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        List<String> instructorNames = new LinkedList<>();
+        List<InstructorDetails> instructorDetailss = new LinkedList<>();
         if (instructors != null) {
-            instructors.forEach(instructor -> instructorNames.add(instructor.getName()));
+            instructors.forEach(
+                    instructor -> instructorDetailss.add(
+                            new InstructorDetails(instructor.getName(), instructor.getEmail())));
         }
 
         TeamDetailsBundle teamDetails = logic.getTeamDetailsForStudent(student);
@@ -75,7 +78,6 @@ public class StudentGetCourseDetailsAction extends Action {
                 StudentProfileAttributes teammateProfile = logic.getStudentProfile(teammate.googleId);
                 if (teammateProfile != null) {
                     teammateProfile.googleId = null;
-                    teammateProfile.email = null;
                     teammateProfile.modifiedDate = null;
 
                     teammateProfiles.add(teammateProfile);
@@ -84,7 +86,7 @@ public class StudentGetCourseDetailsAction extends Action {
         }
 
         StudentGetCourseDetailsResult result = new StudentGetCourseDetailsResult(
-                student, course, instructorNames, teammateProfiles);
+                student, course, instructorDetailss, teammateProfiles);
 
         return new JsonResult(result);
     }
@@ -97,21 +99,61 @@ public class StudentGetCourseDetailsAction extends Action {
     }
 
     /**
+     * A data model to contain details of an instructor.
+     */
+    public static class InstructorDetails {
+
+        private final String name;
+        private final String email;
+
+        public InstructorDetails(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            InstructorDetails that = (InstructorDetails) o;
+            return Objects.equals(name, that.name)
+                    && Objects.equals(email, that.email);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, email);
+        }
+    }
+
+    /**
      * Output format for {@link StudentGetCourseDetailsAction}.
      */
     public static class StudentGetCourseDetailsResult extends ActionResult.ActionOutput {
 
         private final StudentAttributes student;
         private final CourseAttributes course;
-        private final List<String> instructorNames;
+        private final List<InstructorDetails> instructorDetails;
         private final List<StudentProfileAttributes> teammateProfiles;
 
         public StudentGetCourseDetailsResult(StudentAttributes student, CourseAttributes course,
-                                             List<String> instructorNames,
+                                             List<InstructorDetails> instructorDetails,
                                              List<StudentProfileAttributes> teammateProfiles) {
             this.student = student;
             this.course = course;
-            this.instructorNames = instructorNames;
+            this.instructorDetails = instructorDetails;
             this.teammateProfiles = teammateProfiles;
         }
 
@@ -123,8 +165,8 @@ public class StudentGetCourseDetailsAction extends Action {
             return course;
         }
 
-        public List<String> getInstructorNames() {
-            return instructorNames;
+        public List<InstructorDetails> getInstructorDetails() {
+            return instructorDetails;
         }
 
         public List<StudentProfileAttributes> getTeammateProfiles() {

@@ -39,13 +39,36 @@
             <span>{{course.createdAt}}</span>
           </div>
         </div>
-        <div class="form-group row" *ngIf="instructorNames">
-          <div class="col-4 text-right">
-            <label>instructors</label>
-          </div>
-          <div class="col-8">
-            <span>{{instructorNames}}</span>
-          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<div *ngIf="instructorDetails">
+  <div class="col-sm-12">
+    <h4 class="font-weight-bold">Instructors</h4>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th class="font-weight-bold">Name</th>
+              <th class="font-weight-bold">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let instructorDetail of instructorDetails">
+              <td>{{instructorDetail.name}}</td>
+              <td>{{instructorDetail.email}}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -127,6 +150,12 @@
               <td class="font-weight-bold">Name</td>
               <td>
                 <span>{{teammateProfile.shortName}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold">Email</td>
+              <td>
+                <span>{{teammateProfile.email}}</span>
               </td>
             </tr>
             <tr>

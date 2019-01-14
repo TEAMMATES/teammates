@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.StudentGetCourseDetailsAction;
+import teammates.ui.newcontroller.StudentGetCourseDetailsAction.InstructorDetails;
 import teammates.ui.newcontroller.StudentGetCourseDetailsAction.StudentGetCourseDetailsResult;
 
 /**
@@ -70,14 +71,19 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
         InstructorAttributes instructorNotYetJoinCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
 
-        List<String> expectedInstructorNameList = new LinkedList<>();
-        expectedInstructorNameList.add(instructor1OfCourse1.getName());
-        expectedInstructorNameList.add(instructor2OfCourse1.getName());
-        expectedInstructorNameList.add(instructor3OfCourse1.getName());
-        expectedInstructorNameList.add(helperOfCourse1.getName());
-        expectedInstructorNameList.add(instructorNotYetJoinCourse1.getName());
+        List<InstructorDetails> expectedInstructorNameList = new LinkedList<>();
+        expectedInstructorNameList.add(
+                new InstructorDetails(instructor1OfCourse1.getName(), instructor1OfCourse1.getEmail()));
+        expectedInstructorNameList.add(
+                new InstructorDetails(instructor2OfCourse1.getName(), instructor2OfCourse1.getEmail()));
+        expectedInstructorNameList.add(
+                new InstructorDetails(instructor3OfCourse1.getName(), instructor3OfCourse1.getEmail()));
+        expectedInstructorNameList.add(
+                new InstructorDetails(helperOfCourse1.getName(), helperOfCourse1.getEmail()));
+        expectedInstructorNameList.add(
+                new InstructorDetails(instructorNotYetJoinCourse1.getName(), instructorNotYetJoinCourse1.getEmail()));
 
-        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorNameList, output.getInstructorNames());
+        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorNameList, output.getInstructorDetails());
 
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         StudentAttributes student3InCourse1 = typicalBundle.students.get("student3InCourse1");
@@ -95,7 +101,6 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
             StudentProfileAttributes teammateProfile = logic.getStudentProfile(teammate.googleId);
             if (teammateProfile != null) {
                 teammateProfile.googleId = null;
-                teammateProfile.email = null;
                 teammateProfile.modifiedDate = null;
 
                 expectedTeammateProfiles.add(teammateProfile);
@@ -128,11 +133,12 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
         assertEquals(student1InArchivedCourse.course, outputForArchivedCourse.getCourse().getId());
 
         InstructorAttributes instructorOfArchivedCourse = typicalBundle.instructors.get("instructorOfArchivedCourse");
-        List<String> expectedInstructorNamesForArchivedCourse = new LinkedList<>();
-        expectedInstructorNamesForArchivedCourse.add(instructorOfArchivedCourse.getName());
+        List<InstructorDetails> expectedInstructorNamesForArchivedCourse = new LinkedList<>();
+        expectedInstructorNamesForArchivedCourse.add(
+                new InstructorDetails(instructorOfArchivedCourse.getName(), instructorOfArchivedCourse.getEmail()));
 
         AssertHelper.assertSameContentIgnoreOrder(expectedInstructorNamesForArchivedCourse,
-                outputForArchivedCourse.getInstructorNames());
+                outputForArchivedCourse.getInstructorDetails());
 
         AssertHelper.assertSameContentIgnoreOrder(new LinkedList<StudentProfileAttributes>(),
                 outputForArchivedCourse.getTeammateProfiles());
