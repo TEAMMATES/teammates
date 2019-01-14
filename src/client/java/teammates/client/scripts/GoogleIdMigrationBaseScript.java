@@ -94,12 +94,12 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
 
         if (!oldStudents.isEmpty()) {
             oldStudents.forEach(student -> student.setGoogleId(newGoogleId));
-            ofy().save().entities(oldStudents);
+            ofy().save().entities(oldStudents).now();
         }
 
         if (!oldInstructors.isEmpty()) {
             oldInstructors.forEach(instructor -> instructor.setGoogleId(newGoogleId));
-            ofy().save().entities(oldInstructors);
+            ofy().save().entities(oldInstructors).now();
             instructorsDb.putDocuments(
                     oldInstructors.stream().map(InstructorAttributes::valueOf).collect(Collectors.toList()));
         }
@@ -107,7 +107,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         // recreate account and student profile
 
         oldAccount.setGoogleId(newGoogleId);
-        if (ofy().load().type(Account.class).id(newGoogleId) == null) {
+        if (ofy().load().type(Account.class).id(newGoogleId).now() == null) {
             ofy().save().entity(oldAccount).now();
         } else {
             println(String.format("Skip creation of new account as account (%s) already exists", newGoogleId));
@@ -135,7 +135,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
             oldStudentProfile.setGoogleId(newGoogleId);
             oldStudentProfile.setPictureKey(oldPictureKey);
             ofy().save().entity(oldStudentProfile).now();
-            ofy().delete().keys(oldStudentProfileKey).now();
+            ofy().delete().key(oldStudentProfileKey).now();
         }
 
         println(String.format("Complete migration for account with googleId %s. The new googleId is %s",
