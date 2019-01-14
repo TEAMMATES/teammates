@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
@@ -40,6 +42,7 @@ import {
 import {
   InstructorStudentRecordsPageComponent,
 } from './instructor-student-records-page/instructor-student-records-page.component';
+import { StudentListComponent } from './student-list/student-list.component';
 
 const routes: Routes = [
   {
@@ -120,6 +123,9 @@ const routes: Routes = [
   {
     path: 'search',
     component: InstructorSearchPageComponent,
+    data: {
+      pageTitle: 'Search',
+    },
   },
   {
     path: 'help',
@@ -143,6 +149,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    NgbModule,
+    ReactiveFormsModule,
     PageNotFoundModule,
     InstructorSessionEditPageModule,
     InstructorSessionsPageModule,
@@ -162,6 +171,7 @@ const routes: Routes = [
     InstructorCourseEnrollPageComponent,
     InstructorCourseStudentEditPageComponent,
     InstructorCourseStudentDetailsPageComponent,
+    StudentListComponent,
   ],
 })
 export class InstructorPagesModule {}

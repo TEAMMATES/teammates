@@ -60,3 +60,17 @@ body {
   opacity: .9;
   position: absolute;
 }
+
+.text-preserve-space {
+  white-space: pre-wrap;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}

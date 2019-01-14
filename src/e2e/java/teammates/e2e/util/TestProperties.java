@@ -96,15 +96,7 @@ public final class TestProperties {
     static {
         Properties prop = new Properties();
         try {
-            String propertiesFilename;
-            if (isTravis()) {
-                propertiesFilename = "test.travis.properties";
-            } else if (isAppveyor()) {
-                propertiesFilename = "test.appveyor.properties";
-            } else {
-                propertiesFilename = "test.properties";
-            }
-            try (InputStream testPropStream = Files.newInputStream(Paths.get("src/e2e/resources/" + propertiesFilename))) {
+            try (InputStream testPropStream = Files.newInputStream(Paths.get("src/e2e/resources/test.properties"))) {
                 prop.load(testPropStream);
             }
 
