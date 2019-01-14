@@ -617,6 +617,14 @@ export class InstructorSessionEditPageComponent implements OnInit {
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
+  /**
+   * Handles 'Done Editing' click event.
+   */
+  doneEditingHandler(): void {
+    this.router.navigateByUrl('/web/instructor/sessions');
+    // TODO focus on the row of current feedback session in the sessions page
+  }
+
   private deepCopy<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
   }
