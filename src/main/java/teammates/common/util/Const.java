@@ -195,8 +195,7 @@ public final class Const {
 
         @Deprecated
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
-                Arrays.asList(
-                        ActionURIs.STUDENT_HOME_PAGE));
+                Arrays.asList(ActionURIs.STUDENT_HOME_PAGE));
 
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
 
@@ -969,6 +968,7 @@ public final class Const {
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
+        public static final String STUDENT_COURSES = "/student/courses";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
@@ -1077,6 +1077,7 @@ public final class Const {
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
 
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
+
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
@@ -1201,7 +1202,6 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
-        public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT =
@@ -1221,40 +1221,6 @@ public final class Const {
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
         public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
-
-        public static final String STUDENT_FIRST_TIME =
-                "<div class=\"align-left\">"
-                    + "<div class=\"align-center text-color-red text-bold\">"
-                        + "Ooops! Your Google account is not known to TEAMMATES"
-                    + "</div>"
-                    + "<br>"
-                    + "To access a course on TEAMMATES, you need to wait until an instructor adds you to "
-                    + "that course. As a confirmation, TEAMMATES will send you instructions on how to access "
-                    + "that particular course."
-                    + "<br><br>"
-                    + "If you 'joined' the course in TEAMMATES using a Google account before, but cannot login "
-                    + "anymore, these are the possible reasons:"
-                    + "<ol>"
-                        + "<li>"
-                            + "You used a different Google account to access TEAMMATES in the past. "
-                            + "In that case, you need to use the same Google account to access TEAMMATES again. "
-                            + "Logout and re-login using the other Google account. "
-                            + "If you don't remember which Google account you used previously, "
-                            + "email us from the same email account to which you receive TEAMMATES emails."
-                        + "</li>"
-                        + "<li>"
-                            + "You changed the primary email from a non-Gmail address to a Gmail address recently. "
-                            + "In that case, <a href=\"/contact.jsp\">email us</a> "
-                            + "so that we can reconfigure your account to use the new Gmail address."
-                        + "</li>"
-                        + "<li>"
-                            + "You joined this course just a few seconds ago and your data "
-                            + "may be still in the process of propagating through our servers. "
-                            + "In that case, please click on the "
-                            + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
-                        + "</li>"
-                    + "</ol>"
-                + "</div>";
 
         public static final String COURSE_ADDED =
                 "The course has been added. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
