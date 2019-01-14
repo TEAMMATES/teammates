@@ -117,17 +117,18 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         // test that others response table for question one does not contain any responses
         assertEquals(0, questionBundle1.getOthersResponseTables().size());
 
-        // test that self response table for question two contains exactly one response
-        assertFalse(questionBundle2.getIsSelfResponseTablesEmpty());
-        assertEquals(1, questionBundle2.getSelfResponseTables().size());
+        // test that self response table for question two contains no response
+        assertTrue(questionBundle2.getIsSelfResponseTablesEmpty());
+        assertEquals(0, questionBundle2.getSelfResponseTables().size());
 
         // test that others response table for question two contains correct names & responses
+        // names will be unknown as student1 is not involved in the responses and has no access to view the users
         assertFalse(questionBundle2.getOthersResponseTables().get(0).isGiverNameYou());
-        assertEquals("You", questionBundle2.getOthersResponseTables().get(0).getRecipientName());
+        assertEquals("Unknown user", questionBundle2.getOthersResponseTables().get(0).getRecipientName());
         assertNotNull(questionBundle2.getOthersResponseTables().get(0).getResponses());
-        assertEquals("student2 In Course1", questionBundle2.getOthersResponseTables().get(0).getResponses()
+        assertEquals("Unknown user", questionBundle2.getOthersResponseTables().get(0).getResponses()
                 .get(0).getGiverName());
-        assertEquals("Response from student 2 to student 1.", questionBundle2.getOthersResponseTables().get(0)
+        assertEquals("Response from student 2 to student 5.", questionBundle2.getOthersResponseTables().get(0)
                 .getResponses().get(0).getAnswer());
 
         ______TS("student in unregistered course");
