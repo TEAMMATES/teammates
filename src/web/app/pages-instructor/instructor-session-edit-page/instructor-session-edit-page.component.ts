@@ -516,7 +516,8 @@ export class InstructorSessionEditPageComponent implements OnInit {
         )
         .subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
-          this.statusMessageService.showSuccessMessage(' The question has been duplicated below.');
+          this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
+          this.statusMessageService.showSuccessMessage('The question has been duplicated below.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
