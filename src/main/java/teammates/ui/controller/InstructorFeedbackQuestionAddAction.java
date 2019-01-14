@@ -28,7 +28,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(instructorDetailForCourse.email);
+        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData();
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails(courseId);
 
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<>();
@@ -76,7 +76,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
 
-    private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
+    private FeedbackQuestionAttributes extractFeedbackQuestionData() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -122,7 +122,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         String questionDescription = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION);
 
         return FeedbackQuestionAttributes.builder()
-                .withCreatorEmail(creatorEmail)
                 .withCourseId(courseId)
                 .withFeedbackSessionName(feedbackSessionName)
                 .withGiverType(giverType)

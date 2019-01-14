@@ -61,7 +61,7 @@ public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedAct
         List<StudentEnrollDetails> enrollList = new ArrayList<>();
         enrollList.add(enrollDetails);
 
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student);
 
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, student.course,

@@ -128,7 +128,8 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "unregisteredStudent": {
       "googleId": "",
@@ -136,7 +137,8 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "CCSDetailsUiT.sanitizationStud",

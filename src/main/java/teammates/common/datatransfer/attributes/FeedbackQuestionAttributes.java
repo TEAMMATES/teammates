@@ -21,7 +21,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
     public String courseId;
-    public String creatorEmail;
     /**
      * Contains the JSON formatted string that holds the information of the question details.
      *
@@ -54,7 +53,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return builder()
                 .withFeedbackSessionName(fq.getFeedbackSessionName())
                 .withCourseId(fq.getCourseId())
-                .withCreatorEmail(fq.getCreatorEmail())
                 .withQuestionMetaData(fq.getQuestionMetaData())
                 .withQuestionDescription(fq.getQuestionDescription())
                 .withQuestionNumber(fq.getQuestionNumber())
@@ -92,13 +90,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         public Builder withCourseId(String courseId) {
             if (courseId != null) {
                 feedbackQuestionAttributes.courseId = courseId;
-            }
-            return this;
-        }
-
-        public Builder withCreatorEmail(String creatorEmail) {
-            if (creatorEmail != null) {
-                feedbackQuestionAttributes.creatorEmail = creatorEmail;
             }
             return this;
         }
@@ -225,7 +216,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public FeedbackQuestion toEntity() {
-        return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
+        return new FeedbackQuestion(feedbackSessionName, courseId,
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
@@ -235,7 +226,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public String toString() {
         return "FeedbackQuestionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
-               + ", creatorEmail=" + creatorEmail + ", questionText="
+               + ", questionText="
                + questionMetaData + ", questionDescription=" + questionDescription
                + ", questionNumber=" + questionNumber
                + ", questionType=" + questionType + ", giverType=" + giverType
@@ -275,16 +266,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
-
-        // special case when additional text should be added to error text
-        String error = validator.getInvalidityInfoForEmail(creatorEmail);
-        if (!error.isEmpty()) {
-            error = new StringBuffer()
-                    .append("Invalid creator's email: ")
-                    .append(error)
-                    .toString();
-        }
-        addNonEmptyError(error, errors);
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
@@ -438,8 +419,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         result = prime * result + (courseId == null ? 0 : courseId.hashCode());
 
-        result = prime * result + (creatorEmail == null ? 0 : creatorEmail.hashCode());
-
         result = prime * result + (feedbackSessionName == null ? 0 : feedbackSessionName.hashCode());
 
         result = prime * result + (giverType == null ? 0 : giverType.hashCode());
@@ -486,14 +465,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 return false;
             }
         } else if (!courseId.equals(other.courseId)) {
-            return false;
-        }
-
-        if (creatorEmail == null) {
-            if (other.creatorEmail != null) {
-                return false;
-            }
-        } else if (!creatorEmail.equals(other.creatorEmail)) {
             return false;
         }
 
@@ -572,7 +543,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         // These can't be changed anyway. Copy values to defensively avoid invalid parameters.
         newAttributes.feedbackSessionName = this.feedbackSessionName;
         newAttributes.courseId = this.courseId;
-        newAttributes.creatorEmail = this.creatorEmail;
 
         if (newAttributes.questionMetaData == null) {
             newAttributes.questionMetaData = this.questionMetaData;
@@ -708,10 +678,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public String getCourseId() {
         return courseId;
-    }
-
-    public String getCreatorEmail() {
-        return creatorEmail;
     }
 
     public String getQuestionMetaData() {

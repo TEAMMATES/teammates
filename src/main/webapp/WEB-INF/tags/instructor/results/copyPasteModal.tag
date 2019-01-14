@@ -7,11 +7,13 @@
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="feedbackSession" required="true" %>
 <%@ attribute name="selectedSection" required="true" %>
+<%@ attribute name="selectedSectionDetail" required="true" %>
 <form id="csvToHtmlForm">
   <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
   <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${feedbackSession}">
   <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
   <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${fn:escapeXml(selectedSection)}">
+  <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL%>" value="${fn:escapeXml(selectedSectionDetail)}">
   <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value="true">
 </form>
 <div class="modal fade align-center" id="fsResultsTableWindow">
@@ -26,7 +28,7 @@
           then <kbd>Ctrl + C</kbd> or <kbd>⌘ + C</kbd> to COPY and <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
         </span>
       </div>
-      <div class="modal-body">
+      <div class="modal-body horizontal-scrollbar">
         <div class="table-responsive">
           <div id="fsModalTable"></div>
           <br>

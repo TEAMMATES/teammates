@@ -269,7 +269,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -289,7 +288,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate your product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 2,
       "questionType": "NUMSCALE",
@@ -311,7 +309,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which giver gave responses for this question",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -331,7 +328,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -352,7 +348,6 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see responses for this question",
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -372,7 +367,6 @@
     "qn6InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 6,
       "questionType": "MCQ",
@@ -395,7 +389,6 @@
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "Talk about your contributions",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -417,7 +410,6 @@
     "qn1InClosedsession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "Talk about your contributions",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -439,7 +431,6 @@
     "qn2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
-      "creatorEmail": "IESFPTCourseintr@course1.tmt",
       "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MCQ",

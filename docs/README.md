@@ -20,19 +20,17 @@ Here are some documents important for TEAMMATES developers.
   [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
   [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true),
   [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
-  [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub),
+  [CSS](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html),
   [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
 
-* [**Archived Documentation**](archived): documentations written in the past and are no longer maintained.
+* **Best practices** for:
+  * [UI design](best-practices/ui-design.md)
+  * [Coding](best-practices/coding.md)
+  * [Testing](best-practices/testing.md)
+  * [Data migration](best-practices/data-migration.md)
 
 ## How-to documents
 
 * [Static analysis](static-analysis.md): Performing code quality check.
 * [Setting up third-party email providers](emails.md).
 * ["GodMode"](godmode.md)
-
-## Technical Reports
-
-> These are the in-depth descriptions about various aspects of the project.
-
-* [Measuring the scalability and performance of TEAMMATES](techReports/Measuring-scalability-and-performance.md) - by Samson Tan Min Rong

@@ -339,7 +339,8 @@
       "course": "IFRResponseCommentUiT.NoSections",
       "name": "Benn'y Charle's",
       "comments": "This student's name is Benn'y Charle's</td></div>'\"",
-      "team": "Team '1</td></div>'\""
+      "team": "Team '1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -488,7 +489,6 @@
     "qn1InNoSectionsSession": {
       "feedbackSessionName": "NoSections Session",
       "courseId": "IFRResponseCommentUiT.NoSections",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Dummy question for NoSections course session",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -513,7 +513,6 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Rate 3 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -538,7 +537,6 @@
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -561,7 +559,6 @@
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -575,7 +572,6 @@
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to 3 other teams.",
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -598,7 +594,6 @@
     "qn5InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to your team mates",
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -619,7 +614,6 @@
     "qn6InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "This question should be hidden.",
       "questionNumber": 6,
       "questionType": "TEXT",
@@ -639,7 +633,6 @@
     "qn7InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"numOfMcqChoices\":4,\"mcqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 7,
       "questionType": "MCQ",
@@ -662,7 +655,6 @@
     "qn8InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 8,
       "questionType": "MSQ",
@@ -685,7 +677,6 @@
     "qn9InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"questionText\":\"Who do you think is the most hardworking student?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
       "questionNumber": 9,
       "questionType": "MCQ",
@@ -708,7 +699,6 @@
     "qn10InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"questionText\":\"Which team do you think has the best feature?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
       "questionNumber": 10,
       "questionType": "MCQ",
@@ -731,7 +721,6 @@
     "qn2InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"questionText\":\"Who are your teammates?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MSQ",
@@ -754,7 +743,6 @@
     "qn3InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"questionText\":\"Which teams do you like?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
       "questionNumber": 3,
       "questionType": "MSQ",
@@ -777,7 +765,6 @@
     "qn4InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 4,
       "questionType": "NUMSCALE",
@@ -797,7 +784,6 @@
     "qn5InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
       "questionNumber": 5,
       "questionType": "CONSTSUM",
@@ -820,7 +806,6 @@
     "qn6InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 6,
       "questionType": "CONSTSUM",
@@ -843,7 +828,6 @@
     "qn7InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 7,
       "questionType": "CONTRIB",
@@ -867,7 +851,6 @@
     "qn8InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate you and your team members work.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 8,
       "questionType": "NUMSCALE",
@@ -885,7 +868,6 @@
     "qn9InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate the class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.25}",
       "questionNumber": 9,
       "questionType": "NUMSCALE",
@@ -903,7 +885,6 @@
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -921,7 +902,6 @@
     "qn10InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"questionText\":\"Rate the contribution of ideas from yourself and your team members in the last meeting.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 10,
       "questionType": "CONTRIB",
@@ -942,7 +922,6 @@
     "qn11InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "As a team, what do you think could have been done differently?",
       "questionNumber": 11,
       "questionType": "TEXT",
@@ -963,7 +942,6 @@
     "qn12InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"minScale\":0,\"questionText\":\"Rate the class as a team\",\"questionType\":\"NUMSCALE\",\"maxScale\":1000,\"step\":5}",
       "questionNumber": 12,
       "questionType": "NUMSCALE",
@@ -985,7 +963,6 @@
     "qn1InSession4": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "As a team, what do you think could have been done differently?",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -1007,7 +984,6 @@
     "qn2InSession4": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 2,
       "questionType": "CONSTSUM",
@@ -1027,7 +1003,6 @@
     "qn1InSanitizedSession": {
       "feedbackSessionName": "Sanitized Session",
       "courseId": "IFRResponseCommentUiT.SanitizedTeam",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Some question text. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "questionDescription": "<p> Some  question description. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>",
       "questionNumber": 1,
@@ -1051,7 +1026,6 @@
     "qn1InInstructorsAsGivers": {
       "feedbackSessionName": "Instructors as Givers",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "Rate 3 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -1077,7 +1051,6 @@
     "qn11InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "creatorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
       "questionMetaData": "This is a dummy question to test default sort",
       "questionNumber": 11,
       "questionType": "TEXT",
@@ -1622,26 +1595,24 @@
       "feedbackSessionName": "Sanitized Session",
       "feedbackQuestionId": "1",
       "commentGiver": "IFRResponseCommentUiT.instr@gmail.tmt",
-      "commentGiverType": "INSTRUCTORS",
-      "isCommentFromFeedbackParticipant": false,
       "giverSection": "None",
       "receiverSection": "Section A</td></div>'\"",
       "feedbackResponseId": "1%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.benny.c@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "commentText": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>",
       "lastEditorEmail": "IFRResponseCommentUiT.instr@gmail.tmt",
-      "lastEditedAt": "2026-03-02T23:59:00Z"
+      "lastEditedAt": "2026-03-02T23:59:00Z",
+      "commentText": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
     },
     "comment2ToBeEditedByDifferentInstructor": {
       "courseId": "IFRResponseCommentUiT.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "2",
       "commentGiver": "IFRResponseCommentUiT.instr2@gmail.tmt",
-      "commentGiverType": "INSTRUCTORS",
-      "isCommentFromFeedbackParticipant": false,
       "giverSection": "Section A",
       "receiverSection": "Section A",
       "feedbackResponseId": "2%IFRResponseCommentUiT.alice.b@gmail.tmt%IFRResponseCommentUiT.alice.b@gmail.tmt",
@@ -1659,11 +1630,13 @@
         "STUDENTS",
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-02T23:59:00Z",
-      "commentText": "Comment to be edited by different instructor.",
       "lastEditorEmail": "IFRResponseCommentUiT.instr2@gmail.tmt",
-      "lastEditedAt": "2012-04-02T23:59:00Z"
+      "lastEditedAt": "2012-04-02T23:59:00Z",
+      "commentText": "Comment to be edited by different instructor."
     }
   },
   "profiles": {}
