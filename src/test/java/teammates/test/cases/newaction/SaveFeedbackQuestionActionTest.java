@@ -15,6 +15,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -437,16 +438,15 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
 
         ______TS("non-existent feedback question");
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"
-        };
-
         loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            getAction(new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"}).checkSpecificAccessControl();
+        });
 
         ______TS("inaccessible without ModifySessionPrivilege");
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
 

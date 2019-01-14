@@ -1,5 +1,7 @@
 package teammates.ui.newcontroller;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -52,8 +54,10 @@ public class SaveFeedbackSessionAction extends Action {
 
         try {
             logic.updateFeedbackSession(feedbackSession);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
+        } catch (EntityDoesNotExistException ednee) {
+            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(feedbackSession));

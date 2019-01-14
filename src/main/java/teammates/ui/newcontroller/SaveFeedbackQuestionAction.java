@@ -2,12 +2,13 @@ package teammates.ui.newcontroller;
 
 import java.util.List;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -26,7 +27,7 @@ public class SaveFeedbackQuestionAction extends Action {
         FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (questionAttributes == null) {
-            throw new UnauthorizedAccessException("Unknown question id");
+            throw new EntityNotFoundException(new EntityDoesNotExistException("Unknown question id"));
         }
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(questionAttributes.getCourseId(), userInfo.getId()),
@@ -75,7 +76,7 @@ public class SaveFeedbackQuestionAction extends Action {
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         return new JsonResult(new FeedbackQuestionInfo.FeedbackQuestionResponse(oldQuestion));
