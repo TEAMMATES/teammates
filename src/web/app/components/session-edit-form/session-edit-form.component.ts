@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import {
@@ -87,7 +87,7 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   copyOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -119,8 +119,10 @@ export class SessionEditFormComponent implements OnInit {
   /**
    * Handles delete current feedback session button click event.
    */
-  deleteHandler(): void {
-    this.deleteExistingSessionEvent.emit();
+  deleteHandler(modal: any): void {
+    this.modalService.open(modal).result.then(() => {
+      this.deleteExistingSessionEvent.emit();
+    }, () => {});
   }
 
   /**
