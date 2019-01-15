@@ -44,6 +44,8 @@ import {
 } from './instructor-student-records-page/instructor-student-records-page.component';
 import { StudentListComponent } from './student-list/student-list.component';
 
+import { StatusMessageModule } from '../status-message/status-message.module';
+
 const routes: Routes = [
   {
     path: 'home',
@@ -157,6 +159,7 @@ const routes: Routes = [
     InstructorSessionsPageModule,
     InstructorHelpPageModule,
     SessionSubmissionPageModule,
+    StatusMessageModule,
     RouterModule.forChild(routes),
   ],
   declarations: [

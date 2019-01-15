@@ -4,18 +4,19 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.newcontroller.GetCoursePresentAction;
-import teammates.ui.newcontroller.GetCoursePresentAction.CourseInfo;
+import teammates.common.util.StatusMessageColor;
+import teammates.ui.newcontroller.GetCourseEnrollPageDataAction;
+import teammates.ui.newcontroller.GetCourseEnrollPageDataAction.CourseEnrollPageData;
 import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.JsonResult.MessageOutput;
 
 /**
- * SUT: {@link GetCoursePresentAction}.
+ * SUT: {@link GetCourseEnrollPageDataAction}.
  */
-public class GetCoursePresentActionTest extends BaseActionTest<GetCoursePresentAction> {
+public class GetCourseEnrollPageDataActionTest extends BaseActionTest<GetCourseEnrollPageDataAction> {
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_PRESENT;
+        return Const.ResourceURIs.COURSE_ENROLL_PAGE_DATA;
     }
 
     @Override
@@ -35,18 +36,22 @@ public class GetCoursePresentActionTest extends BaseActionTest<GetCoursePresentA
         String[] invalidParams = new String[] {};
         verifyHttpParameterFailure(invalidParams);
 
-        ______TS("Course is present");
+        ______TS("Course is present and has existing responses");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
 
-        GetCoursePresentAction a = getAction(submissionParams);
+        GetCourseEnrollPageDataAction a = getAction(submissionParams);
         JsonResult result = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        CourseInfo output = (CourseInfo) result.getOutput();
+        CourseEnrollPageData output = (CourseEnrollPageData) result.getOutput();
 
         assertTrue(output.isCoursePresent());
+        assertEquals(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS,
+                output.getStatusMessage().getText());
+        assertEquals(StatusMessageColor.WARNING.name().toLowerCase(),
+                output.getStatusMessage().getColor());
 
         ______TS("Course is not present");
         submissionParams = new String[] {
