@@ -50,13 +50,13 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
         //no parameters
         verifyHttpParameterFailure();
 
-        //null student email
+        //null course id
         String[] invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         verifyHttpParameterFailure(invalidParams);
 
-        //null course id
+        //null student email
         invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
