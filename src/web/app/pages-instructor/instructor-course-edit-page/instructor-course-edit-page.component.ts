@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { HttpRequestService } from '../../../services/http-request.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 import { TimezoneService } from "../../../services/timezone.service";
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
 interface CourseAttributes {
   id: string;
@@ -55,8 +56,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   sectionNames: string[] = [];
   feedbackNames: string[] = [];
 
-  constructor(private route: ActivatedRoute, private timezoneService: TimezoneService,
-              private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private navigationService: NavigationService,
+              private timezoneService: TimezoneService, private httpRequestService: HttpRequestService,
+              private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -114,6 +116,22 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
+   * Deletes the current course and redirects to 'Courses' page if action is successful.
+   */
+  deleteCourse(): void {
+    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id, next:'/web/instructor/courses' };
+
+    console.log(paramsMap);
+
+    this.httpRequestService.delete('/instructors/course/delete', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
    * Saves the updated course details.
    */
   onSubmitEditCourse(editedCourseDetails: CourseAttributes): void {
@@ -122,8 +140,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
       coursename: editedCourseDetails.name,
       coursetimezone: editedCourseDetails.timeZone,
     };
-
-    console.log(paramsMap);
 
     this.httpRequestService.put('/instructors/course/details/save', paramsMap)
         .subscribe((resp: MessageOutput) => {

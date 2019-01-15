@@ -9,7 +9,7 @@
         Edit
       </button>
       <button class="btn btn-light btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions"
-              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']">
+              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']" (click)="deleteCourse()">
         <i class="fa fa-trash" aria-hidden="true"></i>
         Delete
       </button>
@@ -41,7 +41,7 @@
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
               <span class="input-group-btn">
-                <button class="btn btn-primary">Auto-Detect</button>
+                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse">Auto-Detect</button>
               </span>
             </div>
           </div>
