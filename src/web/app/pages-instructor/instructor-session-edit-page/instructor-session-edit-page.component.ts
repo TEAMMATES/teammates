@@ -3,9 +3,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -35,6 +36,7 @@ import {
 } from '../../feedback-question';
 import { FeedbackSession, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { ErrorMessageOutput } from '../../message-output';
+import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -130,7 +132,8 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService, private navigationService: NavigationService,
-              private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService) {
+              private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -538,6 +541,48 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
           this.statusMessageService.showSuccessMessage('The question has been deleted.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
+   * Handles display of template question modal.
+   */
+  templateQuestionModalHandler(): void {
+    this.modalService.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
+      let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
+      of(...questions).pipe(
+          concatMap((question: FeedbackQuestion) => {
+            questionNumber += 1;
+            const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+            return this.httpRequestService.post('/question', paramMap, {
+              questionNumber,
+              questionBrief: question.questionBrief,
+              questionDescription: question.questionDescription,
+
+              questionDetails: question.questionDetails,
+              questionType: question.questionType,
+
+              giverType: question.giverType,
+              recipientType: question.recipientType,
+
+              numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
+              customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
+
+              showResponsesTo: question.showResponsesTo,
+              showGiverNameTo: question.showGiverNameTo,
+              showRecipientNameTo: question.showRecipientNameTo,
+            });
+          }),
+      ).subscribe((newQuestion: FeedbackQuestion) => {
+        this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
+        this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); }, () => {
+        if (questions.length === 1) {
+          this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
+        } else {
+          this.statusMessageService.showSuccessMessage('The questions have been added to this feedback session.');
+        }
+      });
+    });
   }
 
   /**

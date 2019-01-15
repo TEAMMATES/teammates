@@ -1,4 +1,4 @@
-<div class="card margin-top-30px" xmlns="http://www.w3.org/1999/html">
+<div class="card" xmlns="http://www.w3.org/1999/html">
   <div class="card-header text-white question-header">
     <div class="row align-items-center">
       <div class="col-5">
@@ -8,7 +8,7 @@
         </select>
         {{ model.questionType | questionTypeName }}
       </div>
-      <div class="col-7 text-right">
+      <div class="col-7 text-right" *ngIf="!isDisplayOnly">
         <div *ngIf="formMode === QuestionEditFormMode.EDIT">
           <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)"
                   ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
@@ -76,10 +76,10 @@
     <div class="background-color-light-blue">
       <div class="row">
         <div class="col-12">
-          <div class="form-group row padding-15px align-items-center">
-            <label class="col-2 col-form-label">
-              <span class="question-basic-info-label">Question</span>
-            </label>
+          <div class="row padding-15px align-items-center">
+            <div class="col-2">
+              <div class="question-basic-info">Question</div>
+            </div>
             <div class="col-10">
               <textarea class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
                         placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
@@ -87,10 +87,10 @@
               ></textarea>
             </div>
           </div>
-          <div class="form-group row padding-15px align-items-center">
-            <label class="col-2 col-form-label">
-              <span class="question-basic-info-label">[Optional]<br>Description</span>
-            </label>
+          <div class="row padding-15px align-items-center">
+            <div class="col-2">
+              <div class="question-basic-info">[Optional]<br/>Description</div>
+            </div>
             <div class="col-10">
               <textarea class="form-control" [ngModel]="model.questionDescription" (ngModelChange)="triggerModelChange('questionDescription', $event)" [disabled]="!model.isEditable"
                         placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
@@ -247,7 +247,7 @@
         </ul>
       </div>
     </div>
-    <div class="row margin-top-15px">
+    <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
       <div class="col-12 text-right">
         <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler(saveModal)">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>

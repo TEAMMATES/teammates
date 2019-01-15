@@ -1,15 +1,15 @@
 <tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()"></tm-session-edit-form>
 
-<tm-question-edit-form *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn"
-                       [formMode]="QuestionEditFormMode.EDIT"
-                       [numOfQuestions]="questionEditFormModels.length"
-                       (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
-                       (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
-                       (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
-                       (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
-                       [(formModel)]="questionEditFormModels[i]"
-></tm-question-edit-form>
+<div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" class="margin-top-30px">
+  <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
+                         [numOfQuestions]="questionEditFormModels.length"
+                         (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
+                         (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
+                         (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
+                         (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
+                         [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
+</div>
 
 <br/>
 <div class="card" *ngIf="!isAddingQuestionPanelExpanded">
@@ -17,7 +17,7 @@
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
       <div ngbDropdownMenu>
-        <button class="dropdown-item">Choose from template questions</button>
+        <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
         <button class="dropdown-item" *ngFor="let questionType of FeedbackQuestionType | enumToArray"
                 (click)="populateAndShowNewQuestionForm(questionType)">
           {{ questionType | questionTypeName }}

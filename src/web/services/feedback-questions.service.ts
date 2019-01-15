@@ -6,6 +6,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../app/feedback-question';
 import { FeedbackVisibilityType, VisibilityControl } from '../app/feedback-visibility';
+import { TemplateQuestion, templateQuestions } from './template-questions';
 import { VisibilityStateMachine } from './visibility-state-machine';
 
 /**
@@ -248,6 +249,13 @@ export class FeedbackQuestionsService {
       default:
         throw new Error(`Unsupported question type ${type}`);
     }
+  }
+
+  /**
+   * Gets template questions.
+   */
+  getTemplateQuestions(): TemplateQuestion[] {
+    return templateQuestions;
   }
 }
 
