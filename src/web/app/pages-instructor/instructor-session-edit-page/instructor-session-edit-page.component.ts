@@ -620,7 +620,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
       numberOfEntitiesToGiveFeedbackToSetting: newQuestionModel.numberOfEntitiesToGiveFeedbackToSetting,
       customNumberOfEntitiesToGiveFeedbackTo: newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo
-          ? newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo : 0,
+          ? newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo : 1,
 
       showResponsesTo: newQuestionModel.showResponsesTo,
       showGiverNameTo: newQuestionModel.showGiverNameTo,
