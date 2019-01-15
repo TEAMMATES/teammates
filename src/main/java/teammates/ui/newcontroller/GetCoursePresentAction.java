@@ -1,5 +1,6 @@
 package teammates.ui.newcontroller;
 
+import org.apache.http.HttpStatus;
 import teammates.common.util.Const;
 
 /**
@@ -21,6 +22,9 @@ public class GetCoursePresentAction extends Action {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseInfo dataFormat = new CourseInfo(logic.isCoursePresent(courseId));
+        if (!dataFormat.isCoursePresent) {
+            return new JsonResult("Invalid course", HttpStatus.SC_NOT_FOUND);
+        }
         return new JsonResult(dataFormat);
     }
 

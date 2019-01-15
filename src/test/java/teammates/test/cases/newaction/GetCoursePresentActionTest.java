@@ -7,6 +7,7 @@ import teammates.common.util.Const;
 import teammates.ui.newcontroller.GetCoursePresentAction;
 import teammates.ui.newcontroller.GetCoursePresentAction.CourseInfo;
 import teammates.ui.newcontroller.JsonResult;
+import teammates.ui.newcontroller.JsonResult.MessageOutput;
 
 /**
  * SUT: {@link GetCoursePresentAction}.
@@ -55,10 +56,10 @@ public class GetCoursePresentActionTest extends BaseActionTest<GetCoursePresentA
         a = getAction(submissionParams);
         result = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        output = (CourseInfo) result.getOutput();
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        MessageOutput msgOutput = (MessageOutput) result.getOutput();
 
-        assertFalse(output.isCoursePresent());
+        assertEquals("Invalid course", msgOutput.getMessage());
     }
 
     @Test
