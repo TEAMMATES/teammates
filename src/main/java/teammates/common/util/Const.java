@@ -956,6 +956,7 @@ public final class Const {
 
         public static final String URI_PREFIX = "/webapi";
 
+        public static final String COURSE_PRESENT = "/course/present";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
