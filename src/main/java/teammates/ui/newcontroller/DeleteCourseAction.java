@@ -37,11 +37,11 @@ public class DeleteCourseAction extends Action {
             logic.moveCourseToRecycleBin(idOfCourseToDelete);
 
             if (isRedirectedToHomePage()) {
-                return new JsonResult("The course " + idOfCourseToDelete +
-                        " has been deleted. You can restore it from the 'Courses' tab.");
+                return new JsonResult("The course " + idOfCourseToDelete
+                        + " has been deleted. You can restore it from the 'Courses' tab.");
             } else {
-                return new JsonResult("The course " + idOfCourseToDelete +
-                        " has been deleted. You can restore it from the deleted courses table below.");
+                return new JsonResult("The course " + idOfCourseToDelete
+                        + " has been deleted. You can restore it from the deleted courses table below.");
             }
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);

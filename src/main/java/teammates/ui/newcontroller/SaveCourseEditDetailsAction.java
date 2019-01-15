@@ -45,7 +45,7 @@ public class SaveCourseEditDetailsAction extends Action {
             return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult("Updated course [" + courseId + "] details: Name: " + courseName +
-                ", Time zone: " + courseTimeZone, HttpStatus.SC_OK);
+        return new JsonResult("Updated course [" + courseId + "] details: Name: " + courseName
+                + ", Time zone: " + courseTimeZone, HttpStatus.SC_OK);
     }
 }

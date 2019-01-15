@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from "../../../services/timezone.service";
+import { TimezoneService } from '../../../services/timezone.service';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
 interface CourseAttributes {
@@ -106,12 +106,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
   toggleIsEditingCourse(): void {
     this.isEditingCourse = !this.isEditingCourse;
 
+    const name: string = 'name';
+    const timeZone: string = 'timeZone';
+
     if (!this.isEditingCourse) {
-      this.formEditCourse.controls['name'].disable();
-      this.formEditCourse.controls['timeZone'].disable();
+      this.formEditCourse.controls[name].disable();
+      this.formEditCourse.controls[timeZone].disable();
     } else {
-      this.formEditCourse.controls['name'].enable();
-      this.formEditCourse.controls['timeZone'].enable();
+      this.formEditCourse.controls[name].enable();
+      this.formEditCourse.controls[timeZone].enable();
     }
   }
 
@@ -119,9 +122,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id, next:'/web/instructor/courses' };
-
-    console.log(paramsMap);
+    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id, next: '/web/instructor/courses' };
 
     this.httpRequestService.delete('/instructors/course/delete', paramsMap)
         .subscribe((resp: MessageOutput) => {

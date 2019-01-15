@@ -51,9 +51,6 @@ public class GetCourseEditDetailsAction extends Action {
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String index = getRequestParamValue(Const.ParamsNames.COURSE_EDIT_MAIN_INDEX);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        CourseAttributes courseToEdit = logic.getCourse(courseId);
-
         List<InstructorAttributes> instructorList = new ArrayList<>();
         int instructorToShowIndex = -1; // -1 means showing all instructors
 
@@ -76,6 +73,9 @@ public class GetCourseEditDetailsAction extends Action {
         for (FeedbackSessionAttributes feedback : feedbacks) {
             feedbackNames.add(feedback.getFeedbackSessionName());
         }
+
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        CourseAttributes courseToEdit = logic.getCourse(courseId);
 
         CourseEditDetails data = new CourseEditDetails(courseToEdit, instructorList, instructor,
                 instructorToShowIndex, sectionNames, feedbackNames);
