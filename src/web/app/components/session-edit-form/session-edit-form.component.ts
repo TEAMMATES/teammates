@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 import { ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import {
@@ -137,5 +138,13 @@ export class SessionEditFormComponent implements OnInit {
    */
   copyOthersHandler(): void {
     this.copyOtherSessionsEvent.emit();
+  }
+
+  /**
+   * Handles session 'Help' link click event.
+   */
+  sessionHelpHandler(): void {
+    window.open(`${environment.frontendUrl}/web/instructor/help`);
+    // TODO scroll down to the session setup specific section in the help page
   }
 }

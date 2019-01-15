@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -624,6 +625,14 @@ export class InstructorSessionEditPageComponent implements OnInit {
   doneEditingHandler(): void {
     this.router.navigateByUrl('/web/instructor/sessions');
     // TODO focus on the row of current feedback session in the sessions page
+  }
+
+  /**
+   * Handles question 'Help' link click event.
+   */
+  questionsHelpHandler(): void {
+    window.open(`${environment.frontendUrl}/web/instructor/help`);
+    // TODO scroll down to the question specific section in the help page
   }
 
   private deepCopy<T>(obj: T): T {
