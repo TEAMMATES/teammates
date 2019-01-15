@@ -4,13 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from "../../../services/http-request.service";
 import { StatusMessageService } from "../../../services/status-message.service";
 import { ErrorMessageOutput } from "../../message-output";
+import {environment} from "../../../environments/environment";
 
 interface ActiveCourse {
   id: string;
   name: string;
-  createdAtDateString: string;
-  createdAtDateStamp: string;
-  createdAtFullDateTimeString: string;
+  createdAt: string;
   teamLink: string;
 }
 
@@ -21,9 +20,7 @@ interface ActiveCourses {
 interface ArchivedCourse {
   id: string;
   name: string;
-  createdAtDateString: string;
-  createdAtDateStamp: string;
-  createdAtFullDateTimeString: string;
+  createdAt: string;
 }
 
 interface ArchivedCourses {
@@ -33,12 +30,8 @@ interface ArchivedCourses {
 interface SoftDeletedCourse {
   id: string;
   name: string;
-  createdAtDateString: string;
-  createdAtDateStamp: string;
-  createdAtFullDateTimeString: string;
-  deletedAtDateString: string;
-  deletedAtDateStamp: string;
-  deletedAtFullDateTimeString: string;
+  createdAt:string;
+  deletedAt: string;
 }
 
 interface SoftDeletedCourses {
@@ -67,6 +60,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   archivedCourses?: ArchivedCourses;
   softDeletedCourses?: SoftDeletedCourses;
 
+  private backendUrl: string = environment.backendUrl;
+
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
 
@@ -89,6 +84,13 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Constructs the url for course stats from the given course id.
+   */
+  getCourseStatsUrl(user: string, courseId: string): string {
+    return `${this.backendUrl}/course/stats?courseid=${courseId}&user=${user}`;
   }
 
 }

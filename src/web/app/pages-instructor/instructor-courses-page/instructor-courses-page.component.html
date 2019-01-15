@@ -59,7 +59,7 @@
         <tr *ngFor="let course of activeCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td>{{course.createdAtDateString}}</td>
+          <td>{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
@@ -97,7 +97,7 @@
         <tr *ngFor="let course of archivedCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td>{{course.createdAtDateString}}</td>
+          <td>{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button">Unarchive</a>
             <a class="btn btn-light btn-sm" type="button">Delete</a>
@@ -147,8 +147,8 @@
         <tr *ngFor="let course of softDeletedCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td>{{course.createdAtDateString}}</td>
-          <td>{{course.deletedAtDateString}}</td>
+          <td>{{course.createdAt | date:'d MMM yyyy'}}</td>
+          <td>{{course.deletedAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button">Restore</a>
             <a class="btn btn-light btn-sm" type="button" style="color: red">Delete Permanently</a>
