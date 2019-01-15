@@ -19,8 +19,16 @@
   background-color: #EAEFF5;
 }
 
+.float-right {
+  float: right;
+}
+
 .form-group {
   margin-bottom: 15px;
+}
+
+.full-width {
+  width: 100%;
 }
 
 label {
@@ -28,10 +36,14 @@ label {
   text-align: right;
 }
 
-.top-padded-sm {
-  margin-top: 1.2em;
+.bottom-padded {
+  margin-bottom: 2.4em;
 }
 
 .top-padded {
   margin-top: 2.4em;
+}
+
+.top-padded-sm {
+  margin-top: 1.2em;
 }
