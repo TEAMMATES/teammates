@@ -961,6 +961,7 @@ public final class Const {
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String COURSE = "/course";
         public static final String INSTRUCTORS = "/instructors";
         public static final String STUDENTS = "/students";
         public static final String SESSIONS_ADMIN = "/sessions/admin";

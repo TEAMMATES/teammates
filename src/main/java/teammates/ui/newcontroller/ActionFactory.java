@@ -40,6 +40,7 @@ public class ActionFactory {
         map(ResourceURIs.ACCOUNTS, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNTS_DOWNGRADE, PUT, DowngradeAccountAction.class);
         map(ResourceURIs.ACCOUNTS_RESET, PUT, ResetAccountAction.class);
+        map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);

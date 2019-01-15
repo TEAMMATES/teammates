@@ -28,6 +28,7 @@ import {
   SessionEditFormModel,
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { Course } from '../../course';
 import { FeedbackParticipantType } from '../../feedback-participant-type';
 import {
   FeedbackQuestion,
@@ -61,6 +62,8 @@ export class InstructorSessionEditPageComponent implements OnInit {
   user: string = '';
   courseId: string = '';
   feedbackSessionName: string = '';
+
+  courseName: string = '';
 
   // models
   sessionEditFormModel: SessionEditFormModel = {
@@ -151,12 +154,19 @@ export class InstructorSessionEditPageComponent implements OnInit {
    * Loads a feedback session.
    */
   loadFeedbackSession(): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-    this.httpRequestService.get('/session', paramMap)
-        .subscribe((feedbackSession: FeedbackSession) => {
-          this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+    // load the course of the feedback session first
+    this.httpRequestService.get('/course', { courseid: this.courseId })
+        .subscribe((course: Course) => {
+          this.courseName = course.courseName;
+
+          // load feedback session
+          const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+          this.httpRequestService.get('/session', paramMap)
+              .subscribe((feedbackSession: FeedbackSession) => {
+                this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+              }, (resp: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorMessage(resp.error.message);
+              });
         });
   }
 
@@ -173,7 +183,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
     const model: SessionEditFormModel = {
       courseId: feedbackSession.courseId,
       timeZone: feedbackSession.timeZone,
-      courseName: 'USE COURSE API',
+      courseName: this.courseName,
       feedbackSessionName: feedbackSession.feedbackSessionName,
       instructions: feedbackSession.instructions,
 
