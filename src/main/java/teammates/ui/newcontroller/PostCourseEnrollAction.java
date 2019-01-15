@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -55,6 +56,9 @@ public class PostCourseEnrollAction extends Action {
             EnrollResults dataFormat = new EnrollResults(getInstructorCourseEnrollResult(students));
             return new JsonResult(dataFormat);
 
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(new EntityDoesNotExistException(e));
+
         } catch (EnrollException | InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
 
@@ -69,7 +73,7 @@ public class PostCourseEnrollAction extends Action {
     }
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
-            throws EnrollException, EntityNotFoundException, InvalidParametersException, EntityAlreadyExistsException {
+            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         CourseEnrollmentResult enrollResult = logic.enrollStudents(studentsInfo, courseId);
         List<StudentAttributes> students = enrollResult.studentList;
 
