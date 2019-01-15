@@ -32,8 +32,7 @@ public class GetCourseEditDetailsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         if (instructor == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("No instructor " + userInfo.id + " with access to given course"));
+            throw new UnauthorizedAccessException("No instructor " + userInfo.id + " with access to given course");
         }
 
         CourseAttributes courseToEdit = logic.getCourse(courseId);
