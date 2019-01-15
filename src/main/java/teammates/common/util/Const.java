@@ -984,6 +984,7 @@ public final class Const {
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
+        public static final String COURSE_EDIT_DETAILS_SAVE = "/instructors/course/details/save";
     }
 
     @Deprecated

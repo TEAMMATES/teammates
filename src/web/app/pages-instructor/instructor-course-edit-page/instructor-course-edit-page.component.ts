@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
-import {TimezoneService} from "../../../services/timezone.service";
-
-import moment from 'moment-timezone';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { TimezoneService } from "../../../services/timezone.service";
 
 interface CourseAttributes {
   id: string;
@@ -21,6 +19,7 @@ interface InstructorAttributes {
   email: string;
   role: string;
   displayedname: string;
+  privileges: { [key: string]: { [key: string]: boolean} };
 }
 
 interface CourseEditDetails {
@@ -44,6 +43,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   user: string = '';
   timezones: string[] = [];
+
+  isEditingCourse: boolean = false;
 
   formEditCourse!: FormGroup;
 
@@ -91,10 +92,45 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   private initEditCourseForm(): void {
     this.formEditCourse = new FormGroup({
-      courseid: new FormControl(this.courseToEdit.id),
-      coursename: new FormControl(this.courseToEdit.name),
-      coursetimezone: new FormControl(this.courseToEdit.timeZone)
+      id: new FormControl({ value: this.courseToEdit.id, disabled: true }),
+      name: new FormControl({ value: this.courseToEdit.name, disabled: true }),
+      timeZone: new FormControl({ value: this.courseToEdit.timeZone, disabled: true }),
     });
   }
 
+  /**
+   * Toggles the edit course form depending on whether the edit button is clicked.
+   */
+  toggleIsEditingCourse(): void {
+    this.isEditingCourse = !this.isEditingCourse;
+
+    if (!this.isEditingCourse) {
+      this.formEditCourse.controls['name'].disable();
+      this.formEditCourse.controls['timeZone'].disable();
+    } else {
+      this.formEditCourse.controls['name'].enable();
+      this.formEditCourse.controls['timeZone'].enable();
+    }
+  }
+
+  /**
+   * Saves the updated course details.
+   */
+  onSubmitEditCourse(editedCourseDetails: CourseAttributes): void {
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseToEdit.id,
+      coursename: editedCourseDetails.name,
+      coursetimezone: editedCourseDetails.timeZone,
+    };
+
+    console.log(paramsMap);
+
+    this.httpRequestService.put('/instructors/course/details/save', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+          this.toggleIsEditingCourse();
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
 }

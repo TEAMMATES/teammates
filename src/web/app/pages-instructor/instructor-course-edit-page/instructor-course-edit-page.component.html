@@ -1,30 +1,34 @@
-<div class="card bg-light top-padded">
+<div class="card bg-light top-padded" *ngIf="this.instructorList.length">
   <div class="card-header bg-primary text-white">
     <strong>Course:</strong>
     <span class="float-sm-right">
-      <a class="btn btn-light btn-sm button btn-left" ngbTooltip="Edit course name">
+      <button class="btn btn-light btn-sm btn-left" ngbTooltip="Edit course name"
+              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']"
+              *ngIf="!isEditingCourse" (click)="toggleIsEditingCourse()">
         <i class="fa fa-pen" aria-hidden="true"></i>
         Edit
-      </a>
-      <a class="btn btn-light btn-sm button" ngbTooltip="Delete the course and its corresponding students and sessions">
+      </button>
+      <button class="btn btn-light btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions"
+              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']">
         <i class="fa fa-trash" aria-hidden="true"></i>
         Delete
-      </a>
+      </button>
     </span>
   </div>
   <div class="card-body fill-plain">
-    <form class="form form-horizontal" [formGroup]="formEditCourse">
+    <form class="form form-horizontal" [formGroup]="formEditCourse" (ngSubmit)="onSubmitEditCourse(formEditCourse.value)">
       <div>
         <div class="form-row form-group">
           <label class="col-sm-3">Course ID:</label>
           <div class="col-sm-3">
-            <input class="col-xs-12 form-control" maxlength="40" tabindex="1" disabled formControlName="courseid">
+            <input class="col-xs-12 form-control" maxlength="40" tabindex="1" formControlName="id">
           </div>
         </div>
         <div class="form-row form-group">
           <label class="col-sm-3">Course Name:</label>
           <div class="col-sm-9">
-            <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering." maxlength="64" tabindex="2" formControlName="coursename">
+            <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering."
+                   maxlength="64" tabindex="2" formControlName="name">
           </div>
         </div>
         <div class="form-row form-group">
@@ -33,7 +37,7 @@
             <div class="input-group">
               <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
                 device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
-                formControlName="coursetimezone">
+                formControlName="timeZone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
               <span class="input-group-btn">
@@ -44,7 +48,9 @@
         </div>
         <div class="form-group">
           <div class=" col-sm-12 align-center">
-            <button class="btn btn-primary">Save Changes</button>
+            <button class="btn btn-primary" type="submit" *ngIf="isEditingCourse">
+              Save Changes
+            </button>
           </div>
         </div>
       </div>
