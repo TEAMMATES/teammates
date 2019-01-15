@@ -18,18 +18,18 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.JsonResult.MessageOutput;
-import teammates.ui.newcontroller.PostCourseEnrollAction;
-import teammates.ui.newcontroller.PostCourseEnrollAction.EnrollResults;
+import teammates.ui.newcontroller.PostCourseEnrollSaveAction;
+import teammates.ui.newcontroller.PostCourseEnrollSaveAction.EnrollResults;
 import teammates.ui.template.EnrollResultPanel;
 
 /**
- * SUT: {@link PostCourseEnrollAction}.
+ * SUT: {@link PostCourseEnrollSaveAction}.
  */
-public class PostCourseEnrollActionTest extends BaseActionTest<PostCourseEnrollAction> {
+public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnrollSaveAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_ENROLL;
+        return Const.ResourceURIs.COURSE_ENROLL_SAVE;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class PostCourseEnrollActionTest extends BaseActionTest<PostCourseEnrollA
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        PostCourseEnrollAction a = getAction(submissionParams);
+        PostCourseEnrollSaveAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());

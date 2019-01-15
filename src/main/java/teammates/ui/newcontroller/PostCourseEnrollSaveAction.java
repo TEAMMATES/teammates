@@ -24,7 +24,7 @@ import teammates.ui.template.EnrollResultPanel;
 /**
  * Action: saving the list of enrolled students for a course of an instructor.
  */
-public class PostCourseEnrollAction extends Action {
+public class PostCourseEnrollSaveAction extends Action {
     private static final Logger log = Logger.getLogger();
 
     @Override
