@@ -48,7 +48,7 @@ public class PostCourseEnrollSaveAction extends Action {
     public ActionResult execute() throws EntityNotFoundException {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentsInfo = getNonNullRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
+        String studentsInfo = getRequestBody();
 
         /* Process enrollment list and setup data for page result */
         try {

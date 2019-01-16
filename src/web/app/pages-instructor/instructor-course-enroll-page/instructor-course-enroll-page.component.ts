@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -6,6 +6,7 @@ import { ErrorMessageOutput } from '../../message-output';
 import { StatusMessage } from '../../status-message/status-message';
 
 import { HotTableRegisterer } from '@handsontable/angular';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Colors representing the server side status message
@@ -46,27 +47,108 @@ interface CourseEnrollPageData {
 export class InstructorCourseEnrollPageComponent implements OnInit {
 
   user: string = '';
-  courseid?: string;
+  courseid: string = '';
   coursePresent?: boolean;
   statusMessage: StatusMessage[] = [];
   @ViewChild('moreInfo') moreInfo?: ElementRef;
+  @ContentChild('pasteModalBox') pasteModalBox?: NgbModal;
 
   @Input() isCollapsed: boolean = false;
   colHeaders: String[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
+  contextMenuOptions: String[] | Object[] =
+    ['row_above',
+      'row_below',
+      'remove_row',
+      'undo',
+      'redo',
+      {
+        key: 'paste',
+        name: 'Paste',
+        callback: this.pasteClick,
+      },
+      'make_read_only',
+      'alignment'];
+
   targetElement!: Element;
 
   hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
   newStudentsHOT: string = 'newStudentsHOT';
 
+  enrollData?: string;
+
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService) { }
+              private statusMessageService: StatusMessageService,
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
+  }
+
+  /**
+   * Retrieves updated column header order and generates a header string.
+   *
+   * Example: Changes this array ['Section', 'Team', 'Name', 'Email', 'Comments']
+   * into a string = "Section|Team|Name|Email|Comments\n"
+   *
+   */
+  getUpdatedHeaderString(handsontableColHeader: string[]): string {
+    const colHeaders: string = handsontableColHeader.join('|');
+    return colHeaders.concat('\n');
+  }
+
+  /**
+   * Retrieves user data rows in the spreadsheet interface and transforms it into a string.
+   *
+   * Null value from cell is changed to empty string after .join(). Filters empty rows in the process.
+   *
+   * Example:
+   * 2 by 5 spreadsheetData (before)
+   * ['TestSection1', 'Team1', 'null', 'test1@xample.com', 'test1comments']
+   * ['TestSection2', null, 'TestName2', 'test2@example.com', null]
+   *
+   * 2 by 5 spreadsheetData (after)
+   * "TestSection1|Team1||test1@xample.com|test1comments\n
+   *  TestSection2||TestName2|test2@example.com|\n"
+   */
+  getUserDataRows(spreadsheetData: string[][]): string {
+    // needs to check for '' as an initial empty row with null values will be converted to e.g. "||||" after .map
+    return spreadsheetData.filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
+        .map((row: string[]) => row.join('|'))
+        .map((row: string) => row.replace(/\n|\r/g, ''))
+        .join('\n');
+  }
+
+  /**
+   * Submits enroll data
+   */
+  submitEnrollData(): void {
+    const newStudentsHOTInstance: Handsontable =
+        this.hotRegisterer.getInstance(this.newStudentsHOT);
+    const spreadsheetData: string[][] = newStudentsHOTInstance.getData();
+
+    const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
+    const dataPushToTextarea: string =
+        this.getUpdatedHeaderString(hotInstanceColHeaders);
+    const userDataRows: string = this.getUserDataRows(spreadsheetData);
+
+    this.enrollData = (userDataRows === ''
+        ? '' : dataPushToTextarea + userDataRows); // only include header string if userDataRows is not empty
+
+    const paramMap: { [key: string]: string } = { courseid: this.courseid };
+    this.httpRequestService.post('/courses/enrollSave', paramMap, this.enrollData)
+        .subscribe(() => {
+          // TODO
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessage.pop(); // removes any existing status message
+          this.statusMessage.push({
+            message: resp.error.message,
+            color: 'danger',
+          });
+        });
   }
 
   /**
@@ -102,6 +184,23 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.targetElement.classList.add('fa-chevron-up');
       this.targetElement.classList.remove('fa-chevron-down');
     }
+  }
+
+  /**
+   * Trigger click button
+   */
+  pasteClick(): void {
+    const element: HTMLElement =
+        (document.getElementById('paste') as HTMLElement);
+    element.click();
+  }
+
+  /**
+   * Shows modal box when user clicks on the 'paste' option in the
+   * Handsontable context menu.
+   */
+  showPasteModalBox(pasteModalBox: any): void {
+    this.ngbModal.open(pasteModalBox);
   }
 
   /**

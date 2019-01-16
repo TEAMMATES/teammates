@@ -52,3 +52,11 @@
 #number-of-rows {
   margin-left: 10px;
 }
+
+/deep/.modal-content {
+  padding: 0 !important;
+}
+
+/deep/.close:focus {
+  outline: 0;
+}
