@@ -71,19 +71,19 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
         InstructorAttributes instructorNotYetJoinCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
 
-        List<InstructorDetails> expectedInstructorNameList = new LinkedList<>();
-        expectedInstructorNameList.add(
+        List<InstructorDetails> expectedInstructorDetailsList = new LinkedList<>();
+        expectedInstructorDetailsList.add(
                 new InstructorDetails(instructor1OfCourse1.getName(), instructor1OfCourse1.getEmail()));
-        expectedInstructorNameList.add(
+        expectedInstructorDetailsList.add(
                 new InstructorDetails(instructor2OfCourse1.getName(), instructor2OfCourse1.getEmail()));
-        expectedInstructorNameList.add(
+        expectedInstructorDetailsList.add(
                 new InstructorDetails(instructor3OfCourse1.getName(), instructor3OfCourse1.getEmail()));
-        expectedInstructorNameList.add(
+        expectedInstructorDetailsList.add(
                 new InstructorDetails(helperOfCourse1.getName(), helperOfCourse1.getEmail()));
-        expectedInstructorNameList.add(
+        expectedInstructorDetailsList.add(
                 new InstructorDetails(instructorNotYetJoinCourse1.getName(), instructorNotYetJoinCourse1.getEmail()));
 
-        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorNameList, output.getInstructorDetails());
+        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorDetailsList, output.getInstructorDetails());
 
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         StudentAttributes student3InCourse1 = typicalBundle.students.get("student3InCourse1");
@@ -109,39 +109,6 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
 
         AssertHelper.assertSameContentIgnoreOrder(expectedTeammateProfiles, output.getTeammateProfiles());
 
-        ______TS("using a registered student in an archived course");
-
-        StudentAttributes student1InArchivedCourse = typicalBundle.students.get("student1InArchivedCourse");
-
-        String studentIdForstudent1InArchivedCourse = student1InArchivedCourse.googleId;
-        loginAsStudent(studentIdForstudent1InArchivedCourse);
-
-        // accessible course
-        String[] submissionParamsForArchivedCourse = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InArchivedCourse.course
-        };
-
-        StudentGetCourseDetailsAction action = getAction(submissionParamsForArchivedCourse);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        StudentGetCourseDetailsResult outputForArchivedCourse = (StudentGetCourseDetailsResult) result.getOutput();
-
-        assertEquals(student1InArchivedCourse.toString(), outputForArchivedCourse.getStudent().toString());
-
-        assertEquals(student1InArchivedCourse.course, outputForArchivedCourse.getCourse().getId());
-
-        InstructorAttributes instructorOfArchivedCourse = typicalBundle.instructors.get("instructorOfArchivedCourse");
-        List<InstructorDetails> expectedInstructorNamesForArchivedCourse = new LinkedList<>();
-        expectedInstructorNamesForArchivedCourse.add(
-                new InstructorDetails(instructorOfArchivedCourse.getName(), instructorOfArchivedCourse.getEmail()));
-
-        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorNamesForArchivedCourse,
-                outputForArchivedCourse.getInstructorDetails());
-
-        AssertHelper.assertSameContentIgnoreOrder(new LinkedList<StudentProfileAttributes>(),
-                outputForArchivedCourse.getTeammateProfiles());
     }
 
     @Override

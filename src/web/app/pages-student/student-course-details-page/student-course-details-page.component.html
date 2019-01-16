@@ -1,6 +1,6 @@
-<div *ngIf="course">
-  <h1> {{course.name}}</h1>
-  <br/>
+<h1 class="page-title" *ngIf="course"> {{course.name}}</h1>
+
+<div class="section" *ngIf="course">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Course</h4>
   </div>
@@ -44,10 +44,7 @@
   </div>
 </div>
 
-<br/>
-<br/>
-
-<div *ngIf="instructorDetails">
+<div class="section" *ngIf="instructorDetails">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Instructors</h4>
   </div>
@@ -75,10 +72,7 @@
   </div>
 </div>
 
-<br/>
-<br/>
-
-<div *ngIf="student">
+<div class="section" *ngIf="student">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Self</h4>
   </div>
@@ -130,10 +124,7 @@
   </div>
 </div>
 
-<br/>
-<br/>
-
-<div *ngIf="teammateProfiles">
+<div class="section" *ngIf="teammateProfiles">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Teammates</h4>
   </div>

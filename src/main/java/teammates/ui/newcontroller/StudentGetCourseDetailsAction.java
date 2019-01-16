@@ -29,10 +29,6 @@ public class StudentGetCourseDetailsAction extends Action {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("An student account is required to access this resource.");
         }
-    }
-
-    @Override
-    public ActionResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
@@ -41,11 +37,14 @@ public class StudentGetCourseDetailsAction extends Action {
         }
 
         CourseAttributes course = logic.getCourse(courseId);
-        if (course == null) {
-            return new JsonResult(String.format("Course with the given course id (%s) cannot be found.",
-                    courseId), HttpStatus.SC_NOT_FOUND);
-        }
         gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.id), course);
+
+    }
+
+    @Override
+    public ActionResult execute() {
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.id);
         if (student == null) {
@@ -57,12 +56,10 @@ public class StudentGetCourseDetailsAction extends Action {
         student.key = null;
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        List<InstructorDetails> instructorDetailss = new LinkedList<>();
-        if (instructors != null) {
-            instructors.forEach(
-                    instructor -> instructorDetailss.add(
-                            new InstructorDetails(instructor.getName(), instructor.getEmail())));
-        }
+        List<InstructorDetails> instructorDetails = new LinkedList<>();
+        instructors.forEach(
+                instructor -> instructorDetails.add(
+                        new InstructorDetails(instructor.getName(), instructor.getEmail())));
 
         TeamDetailsBundle teamDetails = logic.getTeamDetailsForStudent(student);
         if (teamDetails == null) {
@@ -86,7 +83,7 @@ public class StudentGetCourseDetailsAction extends Action {
         }
 
         StudentGetCourseDetailsResult result = new StudentGetCourseDetailsResult(
-                student, course, instructorDetailss, teammateProfiles);
+                student, logic.getCourse(courseId), instructorDetails, teammateProfiles);
 
         return new JsonResult(result);
     }
