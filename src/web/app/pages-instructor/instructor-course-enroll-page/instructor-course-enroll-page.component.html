@@ -1,5 +1,5 @@
 <div *ngIf="coursePresent">
-  <h1>Enroll Students for courseid</h1>
+  <h1>Enroll Students for {{ courseid }}</h1>
   <div class="card card-primary">
     <div class="card-body fill-plain">
       <p class="text-muted">
@@ -12,12 +12,56 @@
         <i class="fas fa-info-circle"></i> If you want to enroll more than
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.<br>
-        <span class="status-message">
-          <tm-status-message
-              [messages]="statusMessage">
-          </tm-status-message>
-        </span>
       </p>
+      <div class="col-md-12">
+        <tm-status-message
+            [messages]="statusMessage">
+        </tm-status-message>
+        <div class="card card-default"
+             (click)="togglePanel($event)">
+          <div class="card-header">
+            <div class="float-right margin-left-7px">
+              <i class="fas fa-chevron-up"></i>
+            </div>
+            <div class='float-right'></div>
+            <strong>New students</strong>
+          </div>
+          <hot-table
+              [height]="500"
+              [autoWrapRow]="true"
+              [preventOverflow]="'horizontal'"
+              [manualColumnResize]="true"
+              [manualRowResize]="true"
+              [manualColumnMove]="true"
+              [rowHeaders]="true"
+              [colHeaders]="colHeaders"
+              [columnSorting]="true"
+              [minRows]="20"
+              [maxCols]="5"
+              [maxRows]="100"
+              [stretchH]="'all'"
+              [minSpareRows]="1"
+              [hidden]="isCollapsed">
+          </hot-table>
+        </div>
+        <div class="row enroll-students-spreadsheet-buttons" [hidden]="isCollapsed">
+          <div class="col-md-6">
+            <div class="input-group">
+              <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary">
+                Add row(s)
+              </button>
+              <div class="col-xs-4">
+                <input type="number" id="number-of-rows" class="form-control" value="1" min="0">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary float-right">
+              Enroll students
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="more-info" #moreInfo>

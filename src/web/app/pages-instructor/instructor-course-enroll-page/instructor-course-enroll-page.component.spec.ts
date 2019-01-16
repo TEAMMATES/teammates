@@ -5,7 +5,7 @@ import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-
 
 import { StatusMessageModule } from '../../status-message/status-message.module';
 
-describe('InstructorCourseEnrollPageComponent', () => {
+xdescribe('InstructorCourseEnrollPageComponent', () => {
   let component: InstructorCourseEnrollPageComponent;
   let fixture: ComponentFixture<InstructorCourseEnrollPageComponent>;
 

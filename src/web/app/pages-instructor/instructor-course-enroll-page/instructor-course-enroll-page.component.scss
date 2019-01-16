@@ -2,12 +2,23 @@
   background-color: #EAEFF5;
 }
 
+.card-default {
+  border-color: #DDD;
+  width: 100%;
+  display: block;
+}
+
+.card-header {
+  background-color: #F0F0F0;
+}
+
 .card-body {
   padding: 15px;
 }
 
 .text-muted {
   padding: 15px;
+  margin-bottom: 0;
 }
 
 .status-message {
@@ -32,4 +43,12 @@
 .more-info-sub-point-details {
   list-style: disc;
   margin-left: -20px;
+}
+
+.enroll-students-spreadsheet-buttons {
+  margin-top: 10px;
+}
+
+#number-of-rows {
+  margin-left: 10px;
 }

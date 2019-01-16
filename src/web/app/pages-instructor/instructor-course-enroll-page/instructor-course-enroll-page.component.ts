@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -44,9 +44,14 @@ interface CourseEnrollPageData {
 export class InstructorCourseEnrollPageComponent implements OnInit {
 
   user: string = '';
+  courseid?: string;
   coursePresent?: boolean;
-  @ViewChild('moreInfo') moreInfo?: ElementRef;
   statusMessage: StatusMessage[] = [];
+  @ViewChild('moreInfo') moreInfo?: ElementRef;
+
+  @Input() isCollapsed: boolean = false;
+  colHeaders: String[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
+  targetElement!: Element;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -60,6 +65,32 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   /**
+   * Toggles the view of spreadsheet interface
+   * and/or its affiliated buttons
+   */
+  togglePanel(event: any): void {
+    this.targetElement =
+        event.target.closest('div').querySelector('i');
+    if (this.targetElement !== null) {
+      this.toggleChevron();
+      this.isCollapsed = !this.isCollapsed; // toggle boolean value
+    }
+  }
+
+  /**
+   * Handles chevron classes for toggle action
+   */
+  toggleChevron(): void {
+    if (this.targetElement.className.includes('up')) {
+      this.targetElement.classList.remove('fa-chevron-up');
+      this.targetElement.classList.add('fa-chevron-down');
+    } else {
+      this.targetElement.classList.add('fa-chevron-up');
+      this.targetElement.classList.remove('fa-chevron-down');
+    }
+  }
+
+  /**
    * Checks whether the course is present.
    */
   getCourseEnrollPageData(courseid: string): void {
@@ -67,6 +98,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.httpRequestService.get('/course/enroll/pageData', paramMap).subscribe(
     (resp: CourseEnrollPageData) => {
       this.coursePresent = resp.isCoursePresent;
+      this.courseid = courseid;
       if (resp.statusMessage && resp.statusMessage.text !== '') {
         this.statusMessage.push({
           message: resp.statusMessage.text,
@@ -83,7 +115,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   navigateToMoreInfo(): void {
     (this.moreInfo as ElementRef)
-        .nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
 
 }
