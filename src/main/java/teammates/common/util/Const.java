@@ -671,6 +671,9 @@ public final class Const {
 
         public static final String ADMIN_SEARCH_KEY = "searchkey";
 
+        public static final String LOCAL_DATE_TIME = "localdatetime";
+        public static final String TIME_ZONE = "timezone";
+
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
@@ -694,6 +697,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
         public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
+        @Deprecated
         public static final String FEEDBACK_SESSION_ENABLE_EDIT = "editsessiondetails";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
@@ -959,12 +963,18 @@ public final class Const {
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String COURSE = "/course";
         public static final String INSTRUCTORS = "/instructors";
         public static final String STUDENTS = "/students";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
+        public static final String SESSION = "/session";
+        public static final String BIN_SESSION = "/bin/session";
+        public static final String QUESTIONS = "/questions";
+        public static final String QUESTION = "/question";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
+        public static final String LOCAL_DATE_TIME = "/localdatetime";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";

@@ -18,6 +18,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.newcontroller.Action;
 import teammates.ui.newcontroller.ImageResult;
@@ -41,8 +42,18 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     protected abstract String getRequestMethod();
 
+    /**
+     * Gets an action with empty request body sent.
+     */
     protected T getAction(String... params) {
         return getAction(null, params);
+    }
+
+    /**
+     * Gets an action with request body sent.
+     */
+    protected T getAction(Object requestBody, String... params) {
+        return getAction(JsonUtils.toJson(requestBody), params);
     }
 
     @SuppressWarnings("unchecked")
@@ -256,6 +267,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Session privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyInaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) {
 
         ______TS("without View-Student-In-Sections privilege cannot access");
@@ -308,7 +329,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Verifies that the {@link Action} matching the {@code params} is accessible to the logged in user.
      */
-    private void verifyCanAccess(String... params) {
+    protected void verifyCanAccess(String... params) {
         Action c = getAction(params);
         c.checkAccessControl();
     }
@@ -316,7 +337,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
-    private void verifyCannotAccess(String... params) {
+    protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
         assertThrows(UnauthorizedAccessException.class, () -> c.checkAccessControl());
     }

@@ -38,6 +38,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      * @return feedback session attributes object.
      * @throws InvalidHttpParameterException if any of the request parameters are not in the expected format.
      */
+    @Deprecated
     protected FeedbackSessionAttributes extractFeedbackSessionData(
             String fsName, CourseAttributes course, String creatorEmail) {
         Assumption.assertNotNull(fsName);
