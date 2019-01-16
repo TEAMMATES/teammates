@@ -109,4 +109,21 @@
       <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">OK</button>
     </div>
   </ng-template>
+  <ng-template #studentTableModal let-modal>
+    <div class="modal-header">
+      <span class="help-block">
+      Tips: <span class="btn-link">Click here</span> to select the table,
+      then <kbd>Ctrl + C</kbd> or <kbd>⌘ + C</kbd> to COPY and <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
+      </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="table-responsive">
+        <div [innerHTML]="studentListHtmlTableAsString"></div>
+        <br>
+      </div>
+    </div>
+  </ng-template>
 </div>
