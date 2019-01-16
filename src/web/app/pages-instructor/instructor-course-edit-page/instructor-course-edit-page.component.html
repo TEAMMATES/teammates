@@ -57,3 +57,97 @@
     </form>
   </div>
 </div>
+<div class="right top-padded">
+  <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
+    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    More about configuring access permissions
+  </a>
+</div>
+<div [formGroup]="formEditInstructors" *ngIf="this.instructorList.length">
+  <div formArrayName="formInstructors">
+    <ng-container *ngFor="let instr of instructorList; let i=index">
+      <div class="card bg-light top-padded-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>Instructor {{ i + 1 }}:</strong>
+          <span class="float-sm-right">
+          <a class="btn btn-light btn-sm button btn-left" ngbTooltip="Edit instructor details">
+            <i class="fa fa-pen" aria-hidden="true"></i>
+            Edit
+          </a>
+          <a class="btn btn-light btn-sm button btn-left" ngbTooltip="Cancel editing instructor details">
+            <i class="fa fa-close" aria-hidden="true"></i>
+            Cancel
+          </a>
+          <a class="btn btn-light btn-sm button" ngbTooltip="Delete the instructor from the course">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            Delete
+          </a>
+        </span>
+        </div>
+        <div class="card-body">
+          <form class="form form-horizontal" [formGroupName]="i">
+            <div class="form-row form-group">
+              <label class="col-sm-3 control-label">
+                Google ID:
+              </label>
+              <div class="col-sm-9">
+                <input class="form-control immutable" maxlength="254" tabindex="3" formControlName="googleId">
+              </div>
+            </div>
+            <div class="form-row form-group">
+              <label class="col-sm-3 control-label">
+                Name:
+              </label>
+              <div class="col-sm-9">
+                <input class="form-control" ngbTooltip="Enter the name of the instructor." maxlength="100" tabindex="4" formControlName="name">
+              </div>
+            </div>
+            <div class="form-row form-group">
+              <label class="col-sm-3 control-label">
+                Email:
+              </label>
+              <div class="col-sm-9">
+                <input class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5" formControlName="email">
+              </div>
+            </div>
+            <div class="form-row form-group">
+              <label class="col-sm-3 control-label">
+                <input checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+                       type="checkbox" formControlName="isDisplayedToStudents">
+                Display to students as:
+              </label>
+              <div class="col-sm-9">
+                <input class="form-control" ngbTooltip="Specify the role of this instructor in this course as shown to the students" placeholder="E.g.Co-lecturer, Teaching Assistant"
+                       type="text" formControlName="displayedName">
+              </div>
+            </div>
+            <div>
+              <div class="form-row form-group">
+                <label class="col-sm-3 control-label">
+                  Access Level:
+                </label>
+                <div class="col-sm-9">
+                  <p class="form-control-static">
+                    {{ instr. role }}
+                    <a class="view-role-details" href="#">
+                       View Details
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="align-center">
+                  <button class="btn btn-primary" disabled="" style="display:none;" tabindex="6">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </ng-container>
+    <div class="top-padded bottom-padded align-center">
+      <button class="btn btn-primary">Add New Instructor</button>
+    </div>
+  </div>
+</div>
+

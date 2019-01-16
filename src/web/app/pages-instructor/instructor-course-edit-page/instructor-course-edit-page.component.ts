@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -15,11 +15,12 @@ interface CourseAttributes {
 }
 
 interface InstructorAttributes {
-  googleid: string;
+  googleId: string;
   name: string;
   email: string;
   role: string;
-  displayedname: string;
+  isDisplayedToStudents: boolean;
+  displayedName: string;
   privileges: { [key: string]: { [key: string]: boolean} };
 }
 
@@ -46,8 +47,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
   timezones: string[] = [];
 
   isEditingCourse: boolean = false;
-
   formEditCourse!: FormGroup;
+
+  isAddingInstructor: boolean = false;
+  formEditInstructors!: FormGroup;
+  formInstructors!: FormArray;
 
   courseToEdit!: CourseAttributes;
   instructorList: InstructorAttributes[] = [];
@@ -58,7 +62,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private navigationService: NavigationService,
               private timezoneService: TimezoneService, private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService) { }
+              private statusMessageService: StatusMessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -84,6 +88,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.feedbackNames = resp.feedbackNames;
 
           this.initEditCourseForm();
+          this.initEditInstructorsForm();
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -93,11 +98,31 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Initialises the instructor course edit form with fields from the backend.
    */
   private initEditCourseForm(): void {
-    this.formEditCourse = new FormGroup({
-      id: new FormControl({ value: this.courseToEdit.id, disabled: true }),
-      name: new FormControl({ value: this.courseToEdit.name, disabled: true }),
-      timeZone: new FormControl({ value: this.courseToEdit.timeZone, disabled: true }),
+    this.formEditCourse = this.fb.group({
+      id: [{ value: this.courseToEdit.id, disabled: true }],
+      name: [{ value: this.courseToEdit.name, disabled: true }],
+      timeZone: [{ value: this.courseToEdit.timeZone, disabled: true }],
     });
+  }
+
+  /**
+   * Initialise the details panels with data from the backend for all instructors.
+   */
+  private initEditInstructorsForm(): void {
+    this.formEditInstructors = this.fb.group({ formInstructors: [] });
+
+    let control = this.fb.array([]);
+    this.instructorList.forEach(instructor => {
+      control.push(this.fb.group({
+        googleId: [{ value: instructor.googleId, disabled: true }],
+        name: [{ value: instructor.name, disabled: true }],
+        email: [{ value: instructor.email, disabled: true }],
+        isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
+        displayedName: [{ value: instructor.displayedName, disabled: true }],
+      }));
+    });
+
+    this.formEditInstructors.controls.formInstructors = control;
   }
 
   /**
