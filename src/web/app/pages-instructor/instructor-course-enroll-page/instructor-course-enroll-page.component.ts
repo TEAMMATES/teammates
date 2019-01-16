@@ -5,6 +5,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
 import { StatusMessage } from '../../status-message/status-message';
 
+import { HotTableRegisterer } from '@handsontable/angular';
+
 /**
  * Colors representing the server side status message
  */
@@ -53,6 +55,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   colHeaders: String[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   targetElement!: Element;
 
+  hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
+  newStudentsHOT: string = 'newStudentsHOT';
+
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
@@ -62,6 +67,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.user = queryParams.user;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
+  }
+
+  /**
+   * Adds new rows to the 'New students' spreadsheet interface
+   * according to user input
+   */
+  addRows(numOfRows: number): void {
+    this.hotRegisterer.getInstance(this.newStudentsHOT).alter(
+        'insert_row', [], numOfRows);
   }
 
   /**
