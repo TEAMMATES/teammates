@@ -65,27 +65,33 @@
 </div>
 <div [formGroup]="formEditInstructors" *ngIf="this.instructorList.length">
   <div formArrayName="formInstructors">
-    <ng-container *ngFor="let instr of instructorList; let i=index">
+    <ng-container *ngFor="let instr of formEditInstructors.get('formInstructors').controls; let i=index">
       <div class="card bg-light top-padded-sm">
         <div class="card-header bg-primary text-white">
           <strong>Instructor {{ i + 1 }}:</strong>
           <span class="float-sm-right">
-          <a class="btn btn-light btn-sm button btn-left" ngbTooltip="Edit instructor details">
-            <i class="fa fa-pen" aria-hidden="true"></i>
-            Edit
-          </a>
-          <a class="btn btn-light btn-sm button btn-left" ngbTooltip="Cancel editing instructor details">
-            <i class="fa fa-close" aria-hidden="true"></i>
-            Cancel
-          </a>
-          <a class="btn btn-light btn-sm button" ngbTooltip="Delete the instructor from the course">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-            Delete
-          </a>
-        </span>
+            <button class="btn btn-light btn-sm btn-left" id="btn-edit-{{ i }}" ngbTooltip="Edit instructor details"
+                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
+                    (click)="toggleIsEditingInstructor(instr, i)" style="display:inline-block">
+              <i class="fa fa-pen" aria-hidden="true"></i>
+              Edit
+            </button>
+            <button class="btn btn-light btn-sm btn-left" style="display:none;" id="btn-cancel-{{ i }}"
+                    ngbTooltip="Cancel editing instructor details"
+                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
+                    (click)="toggleIsEditingInstructor(instr, i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+              Cancel
+            </button>
+            <button class="btn btn-light btn-sm" ngbTooltip="Delete the instructor from the course"
+                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+              Delete
+            </button>
+          </span>
         </div>
         <div class="card-body">
-          <form class="form form-horizontal" [formGroupName]="i">
+          <form class="form form-horizontal" [formGroupName]="i" (ngSubmit)="onSubmitEditInstructor(instr, i)">
             <div class="form-row form-group">
               <label class="col-sm-3 control-label">
                 Google ID:
@@ -127,17 +133,51 @@
                   Access Level:
                 </label>
                 <div class="col-sm-9">
-                  <p class="form-control-static">
-                    {{ instr. role }}
+                  <p class="form-control-static" id="role-view-{{ i }}">
+                    {{ instructorList[i].role }}
                     <a class="view-role-details" href="#">
                        View Details
                     </a>
                   </p>
+                  <div style="display:none;" id="role-edit-{{ i }}">
+                    <div>
+                      <input type="radio" value="Co-owner" formControlName="role">
+                       Co-owner: Can do everything
+                      <a class="view-role-details" data-role="Co-owner">
+                        View Details
+                      </a>
+                    </div>
+                    <div>
+                      <input type="radio" value="Manager" formControlName="role">
+                       Manager: Can do everything except for deleting/restoring the course
+                      <a class="view-role-details" data-role="Manager">
+                        View Details
+                      </a>
+                    </div>
+                    <div>
+                      <input type="radio" value="Observer" formControlName="role">
+                       Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
+                      <a class="view-role-details" data-role="Observer">
+                        View Details
+                      </a>
+                    </div>
+                    <div>
+                      <input type="radio" class="top-padded-sm" value="Tutor" formControlName="role">
+                       Tutor: Can view student details, give/view comments, submit/view responses for sessions
+                      <a class="view-role-details" data-role="Tutor">
+                        View Details
+                      </a>
+                    </div>
+                    <input type="radio" class="top-padded-sm" value="Custom" formControlName="role">
+                     Custom: No access by default. Any access needs to be granted explicitly.
+                  </div>
                 </div>
               </div>
               <div class="form-group">
                 <div class="align-center">
-                  <button class="btn btn-primary" disabled="" style="display:none;" tabindex="6">Save changes</button>
+                  <button class="btn btn-primary" tabindex="6" id="btn-save-{{ i }}" style="display:none;" type="submit">
+                    Save changes
+                  </button>
                 </div>
               </div>
             </div>

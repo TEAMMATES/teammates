@@ -49,7 +49,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isEditingCourse: boolean = false;
   formEditCourse!: FormGroup;
 
-  isAddingInstructor: boolean = false;
   formEditInstructors!: FormGroup;
   formInstructors!: FormArray;
 
@@ -119,6 +118,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         email: [{ value: instructor.email, disabled: true }],
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
         displayedName: [{ value: instructor.displayedName, disabled: true }],
+        role: [{ value: instructor.role }]
       }));
     });
 
@@ -175,4 +175,70 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
   }
+
+  /**
+   * Toggles the edit instructor panel for a given instructor.
+   */
+  toggleIsEditingInstructor(control: FormGroup, index: number): void {
+    const editBtnId: string = 'btn-edit-' + index;
+    const cancelBtnId: string = 'btn-cancel-' + index;
+    const saveBtnId: string = 'btn-save-' + index;
+    const isEditBtnVisible: boolean = document!.getElementById(editBtnId)!.style!.display == 'inline-block';
+
+    const viewRoleId: string = 'role-view-' + index;
+    const editRoleId: string = 'role-edit-' + index;
+
+    const googleId: string = 'googleId';
+    const role: string = 'role';
+
+    if (isEditBtnVisible) {
+      document!.getElementById(editBtnId)!.style!.display = 'none';
+      document!.getElementById(cancelBtnId)!.style!.display = 'inline-block';
+      document!.getElementById(saveBtnId)!.style!.display = 'inline-block';
+
+      document!.getElementById(viewRoleId)!.style!.display = 'none';
+      document!.getElementById(editRoleId)!.style!.display = 'block';
+
+      // Enable all form control elements except for the google id
+      control!.enable();
+      control!.get(googleId)!.disable();
+      control!.get(role)!.setValue(this.instructorList[index].role);
+
+    } else {
+      document!.getElementById(editBtnId)!.style!.display = 'inline-block';
+      document!.getElementById(cancelBtnId)!.style!.display = 'none';
+      document!.getElementById(saveBtnId)!.style!.display = 'none';
+
+      document!.getElementById(viewRoleId)!.style!.display = 'inline-block';
+      document!.getElementById(editRoleId)!.style!.display = 'none';
+
+      control!.disable();
+      this.instructorList[index].role = control!.get(role)!.value;
+    }
+  }
+
+  /**
+   * Saves the updated instructor details.
+   */
+  onSubmitEditInstructor(instr: FormGroup, index: number): void {
+    const instructor: InstructorAttributes = instr.value;
+
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseToEdit.id,
+      instructorname: instructor.name,
+      instructoremail: instructor.email,
+      instructorrole: instructor.role,
+      instructorisdisplayed: String(instructor.isDisplayedToStudents),
+      instructordisplayname: instructor.displayedName,
+    };
+
+    this.httpRequestService.put('/instructors/course/details/editInstructor', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+          this.toggleIsEditingInstructor(instr, index);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
 }
