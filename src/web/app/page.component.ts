@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import uaParser from 'ua-parser-js';
 import { StatusMessageService } from '../services/status-message.service';
-import { StatusMessage } from './status-message/status-message';
+import { StatusMessage } from './components/status-message/status-message';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 

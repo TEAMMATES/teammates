@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TimezoneService } from './timezone.service';
 
@@ -8,7 +9,11 @@ describe('TimezoneService', () => {
   let service: TimezoneService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+      ],
+    });
     service = TestBed.get(TimezoneService);
   });
 

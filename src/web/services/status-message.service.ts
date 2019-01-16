@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { StatusMessage } from '../app/status-message/status-message';
+import { StatusMessage } from '../app/components/status-message/status-message';
 
 /**
  * Handles operations related to status message provision.

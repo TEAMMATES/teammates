@@ -14,6 +14,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
@@ -73,8 +74,8 @@ public class WebApiServlet extends HttpServlet {
             result.send(resp);
         } catch (ActionMappingException e) {
             throwError(resp, e.getStatusCode(), e.getMessage());
-        } catch (InvalidHttpParameterException ihpe) {
-            throwError(resp, HttpStatus.SC_BAD_REQUEST, ihpe.getMessage());
+        } catch (InvalidHttpParameterException | InvalidHttpRequestBodyException e) {
+            throwError(resp, HttpStatus.SC_BAD_REQUEST, e.getMessage());
         } catch (UnauthorizedAccessException uae) {
             throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
         } catch (EntityNotFoundException enfe) {

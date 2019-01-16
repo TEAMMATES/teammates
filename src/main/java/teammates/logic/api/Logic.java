@@ -1441,12 +1441,14 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Creates a new feedback question.
+     *
+     * @return the created question
      */
-    public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) throws InvalidParametersException {
+    public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
+            throws InvalidParametersException {
         Assumption.assertNotNull(feedbackQuestion);
-        feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
 
     /**
@@ -1566,8 +1568,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 

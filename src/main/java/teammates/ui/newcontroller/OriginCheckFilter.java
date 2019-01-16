@@ -42,6 +42,11 @@ public class OriginCheckFilter implements Filter {
             HttpOptions.METHOD_NAME
     ));
 
+    private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
+            Const.CsrfConfig.TOKEN_HEADER_NAME,
+            "Content-Type"
+    ));
+
     @Override
     public void init(FilterConfig filterConfig) {
         // nothing to do
@@ -55,7 +60,7 @@ public class OriginCheckFilter implements Filter {
         if (Config.isDevServer()) {
             response.setHeader("Access-Control-Allow-Origin", Config.APP_FRONTENDDEV_URL);
             response.setHeader("Access-Control-Allow-Methods", ALLOWED_HTTP_METHODS);
-            response.setHeader("Access-Control-Allow-Headers", Const.CsrfConfig.TOKEN_HEADER_NAME);
+            response.setHeader("Access-Control-Allow-Headers", ALLOWED_HEADERS);
             response.setHeader("Access-Control-Allow-Credentials", "true");
         }
 
