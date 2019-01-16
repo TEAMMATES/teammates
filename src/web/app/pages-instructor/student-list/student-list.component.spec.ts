@@ -2,33 +2,26 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { StudentHomePageComponent } from './student-home-page.component';
+import { StudentListComponent } from './student-list.component';
 
-import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
-import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
-
-describe('StudentHomePageComponent', () => {
-  let component: StudentHomePageComponent;
-  let fixture: ComponentFixture<StudentHomePageComponent>;
+describe('StudentListComponent', () => {
+  let component: StudentListComponent;
+  let fixture: ComponentFixture<StudentListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StudentHomePageComponent,
-        ResponseStatusPipe,
-        SubmissionStatusPipe,
-      ],
+      declarations: [StudentListComponent],
       imports: [
         HttpClientTestingModule,
-        NgbModule,
         RouterTestingModule,
+        NgbModule,
       ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudentHomePageComponent);
+    fixture = TestBed.createComponent(StudentListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
@@ -15,10 +16,15 @@ import { StudentCourseDetailsPageComponent } from './student-course-details-page
 import { StudentHomePageComponent } from './student-home-page/student-home-page.component';
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
 
+import { Pipes } from '../pipes/pipes.module';
+
 const routes: Routes = [
   {
     path: 'home',
     component: StudentHomePageComponent,
+    data: {
+      pageTitle: 'Student Home',
+    },
   },
   {
     path: 'profile',
@@ -63,7 +69,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     PageNotFoundModule,
+    Pipes,
     StudentHelpPageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,

@@ -2,7 +2,7 @@ package teammates.ui.newcontroller;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -21,17 +21,25 @@ public class DeleteStudentAction extends Action {
         if (userInfo.isAdmin) {
             return;
         }
-        // TODO allow access to instructors with modify permission
-        throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+
+        if (userInfo.isInstructor) {
+            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            return;
+        }
+        throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
     }
 
     @Override
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-
-        StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
-        logic.deleteStudent(courseId, student.email);
+        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        // studentId takes precedence
+        String studentEmail = studentId == null ? getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL)
+                : logic.getStudentForGoogleId(courseId, studentId).email;
+        logic.deleteStudent(courseId, studentEmail);
 
         return new JsonResult("Student is successfully deleted.", HttpStatus.SC_OK);
     }
