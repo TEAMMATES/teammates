@@ -22,7 +22,7 @@ import teammates.common.util.Url;
 import teammates.ui.template.StudentListSectionData;
 
 /**
- * Action: gets details of a course in instructor.
+ * Action: gets details of a course in from an instructor.
  */
 public class GetInstructorCourseDetailsAction extends Action {
 
@@ -37,7 +37,7 @@ public class GetInstructorCourseDetailsAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException(
@@ -51,7 +51,7 @@ public class GetInstructorCourseDetailsAction extends Action {
     @Override
     public ActionResult execute() {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseDetailsBundle courseDetails;
         CourseInfo output;
