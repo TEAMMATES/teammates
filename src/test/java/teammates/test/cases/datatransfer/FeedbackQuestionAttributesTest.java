@@ -43,7 +43,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         FeedbackQuestion expectedQuestion = new FeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(),
-                fqa.getCreatorEmail(), fqa.getQuestionMetaData(), fqa.getQuestionDescription(), fqa.getQuestionNumber(),
+                fqa.getQuestionMetaData(), fqa.getQuestionDescription(), fqa.getQuestionNumber(),
                 fqa.getQuestionType(), fqa.getGiverType(), fqa.getRecipientType(), fqa.getNumberOfEntitiesToGiveFeedbackTo(),
                 fqa.getShowResponsesTo(), fqa.showGiverNameTo, fqa.showRecipientNameTo);
 
@@ -51,7 +51,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(expectedQuestion.getFeedbackSessionName(), actualQuestion.getFeedbackSessionName());
         assertEquals(expectedQuestion.getCourseId(), actualQuestion.getCourseId());
-        assertEquals(expectedQuestion.getCreatorEmail(), actualQuestion.getCreatorEmail());
         assertEquals(expectedQuestion.getQuestionDescription(), actualQuestion.getQuestionDescription());
         assertEquals(expectedQuestion.getQuestionNumber(), actualQuestion.getQuestionNumber());
         assertEquals(expectedQuestion.getQuestionType(), actualQuestion.getQuestionType());
@@ -86,7 +85,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getCreatorEmail(), feedbackQuestionAttributes.getCreatorEmail());
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
@@ -113,7 +111,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     public void testBuilderWithPopulatedFieldValues() {
         String feedbackSession = "test session";
         String courseId = "some course";
-        String creatorEmail = "test@case.com";
         String questionMetaData = "test qn from teams->none.";
         String questionDescription = "some description";
         int questionNumber = 1;
@@ -131,7 +128,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName(feedbackSession)
                 .withCourseId(courseId)
-                .withCreatorEmail(creatorEmail)
                 .withQuestionMetaData(questionMetaData)
                 .withQuestionDescription(questionDescription)
                 .withQuestionNumber(questionNumber)
@@ -149,7 +145,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
-        assertEquals(creatorEmail, feedbackQuestionAttributes.getCreatorEmail());
         assertEquals(questionMetaData, feedbackQuestionAttributes.getQuestionMetaData());
         assertEquals(questionDescription, feedbackQuestionAttributes.questionDescription);
         assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
@@ -196,7 +191,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertNull(observedFeedbackQuestionAttributes.questionDescription);
         assertNull(observedFeedbackQuestionAttributes.questionType);
         assertNull(observedFeedbackQuestionAttributes.questionMetaData);
-        assertNull(observedFeedbackQuestionAttributes.creatorEmail);
         assertEquals(0, observedFeedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
     }
 
@@ -238,7 +232,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes fq = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName("")
                 .withCourseId("")
-                .withCreatorEmail("")
                 .withQuestionType(FeedbackQuestionType.TEXT)
                 .withGiverType(FeedbackParticipantType.NONE)
                 .withRecipientType(FeedbackParticipantType.RECEIVER)
@@ -256,11 +249,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                               + getPopulatedEmptyStringErrorMessage(
                                     FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH)
-                              + System.lineSeparator()
-                              + "Invalid creator's email: "
-                              + getPopulatedEmptyStringErrorMessage(
-                                    FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING,
-                                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.EMAIL_MAX_LENGTH)
                               + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + System.lineSeparator()
@@ -287,7 +275,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         fq.feedbackSessionName = "First Feedback Session";
         fq.courseId = "CS1101";
-        fq.creatorEmail = "instructor1@course1.com";
         fq.giverType = FeedbackParticipantType.TEAMS;
         fq.recipientType = FeedbackParticipantType.OWN_TEAM;
 
@@ -380,7 +367,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName("test session")
                 .withCourseId("some course")
-                .withCreatorEmail("test@case.com")
                 .withQuestionMetaData("test qn from teams->none.")
                 .withQuestionNumber(1)
                 .withQuestionType(FeedbackQuestionType.TEXT)
@@ -526,7 +512,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         return FeedbackQuestionAttributes.builder()
                 .withCourseId("testingCourse")
-                .withCreatorEmail("instructor@email.com")
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)

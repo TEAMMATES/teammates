@@ -156,7 +156,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         ______TS("Typical case: student has profile but no records");
 
         testStudent.googleId = "valid.no.sessions";
-        StudentsLogic.inst().updateStudentCascadeWithoutDocument(testStudent.email, testStudent);
+        StudentsLogic.inst().updateStudentCascade(testStudent.email, testStudent);
         AccountsLogic.inst().createAccount(
                 AccountAttributes.builder()
                         .withGoogleId(testStudent.googleId)
@@ -217,7 +217,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 .withComments("No comment")
                 .build();
 
-        logic.createStudentWithoutDocument(student);
+        logic.createStudent(student);
         return student;
     }
 

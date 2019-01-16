@@ -72,12 +72,19 @@
       "username": "The-Lady"
     },
     {
+      "name": "Akash Deep",
+      "username": "akash1994deep"
+    },
+    {
       "name": "Akshat Jain",
       "username": "dabbler011"
     },
     {
       "name": "Akshay Vijayvergia",
       "username": "slidego"
+    },
+    {
+      "username": "Alessandra-Rossaro"
     },
     {
       "multiple": true,
@@ -263,6 +270,10 @@
     {
       "name": "Chao Song",
       "username": "songchoa"
+    },
+    {
+      "name": "Chattoraj Ayush",
+      "username": "AyushChatto"
     },
     {
       "multiple": true,
@@ -882,6 +893,10 @@
       "name": "Mohit Singh Kanwal"
     },
     {
+      "name": "Monika Manuela Hengki",
+      "username": "monmanuela"
+    },
+    {
       "name": "Muhammad Shehroz Sajjad",
       "username": "mshehrozsajjad"
     },
@@ -971,6 +986,10 @@
       "username": "nockc"
     },
     {
+      "name": "Oh Han Gyeol",
+      "username": "han-gyeol"
+    },
+    {
       "name": "Olha Hnatik",
       "username": "OlhaHn"
     },
@@ -1052,6 +1071,11 @@
       "name": "Prithviraj Billa"
     },
     {
+      "multiple": true,
+      "name": "Priyamal Madushanka",
+      "username": "priyamalM"
+    },
+    {
       "name": "Progyan Bhattacharya",
       "username": "Progyan1997"
     },
@@ -1080,6 +1104,7 @@
       "username": "petgoldfish"
     },
     {
+      "multiple": true,
       "name": "Rahul Rajesh",
       "username": "rrtheonlyone"
     },
@@ -1125,6 +1150,9 @@
       "multiple": true,
       "name": "Ruchir Sharma",
       "username": "ruchirsharma1993"
+    },
+    {
+      "username": "ryanrowse"
     },
     {
       "multiple": true,
@@ -1525,6 +1553,10 @@
       "username": "swxsw"
     },
     {
+      "name": "Yaroslav Gnatyuk",
+      "username": "YaroslavGnatyuk"
+    },
+    {
       "name": "Yash Patel",
       "username": "yash2o1o"
     },
@@ -1587,72 +1619,10 @@
   ],
   "committers": [
     {
-      "name": "Cara Leong",
-      "username": "craaaa",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Darren Wee",
-      "username": "darrenwee",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Jacob Li",
-      "username": "jacoblipech",
-      "image": "images/teammembers/jacob.png",
-      "startPeriod": "May 2018"
-    },
-    {
       "name": "Joanne Ong",
       "username": "joanneong",
       "image": "images/teammembers/joanne.png",
       "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Lu Lechuan",
-      "username": "LuLechuan",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Mudit Gupta",
-      "username": "mg14777",
-      "image": "images/teammembers/mudit.png",
-      "startPeriod": "May 2018"
-    },
-    {
-      "name": "Nguyen Quoc Bao",
-      "username": "bqnguyen94",
-      "image": "images/teammembers/bao.png",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Nidhi Gupta",
-      "username": "nidhi98gupta",
-      "image": "images/teammembers/nidhi.png",
-      "startPeriod": "May 2018"
-    },
-    {
-      "name": "Pan Haozhe",
-      "username": "Haozhe321",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Phang Chun Rong",
-      "username": "Crphang",
-      "image": "images/teammembers/chunrong.png",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Shradheya Thakre",
-      "username": "tshradheya",
-      "image": "images/teammembers/shradheya.png",
-      "startPeriod": "Jan 2018"
-    },
-    {
-      "name": "Sukanta Roy",
-      "username": "sukanta-27",
-      "image": "images/teammembers/sukanta.png",
-      "startPeriod": "May 2018"
     },
     {
       "name": "Sun Shengran",
@@ -1661,22 +1631,64 @@
       "startPeriod": "May 2018"
     },
     {
-      "name": "Tan Heng Yeow",
-      "username": "tanhengyeow",
-      "image": "images/teammembers/hengyeow.png",
-      "startPeriod": "May 2018"
+      "name": "Cara Leong",
+      "username": "craaaa",
+      "startPeriod": "Jan 2018",
+      "endPeriod": "Dec 2018"
     },
     {
-      "name": "Tran Tien Dat",
-      "username": "tran-tien-dat",
-      "image": "images/teammembers/dat.png",
-      "startPeriod": "Jan 2018"
+      "name": "Lu Lechuan",
+      "username": "LuLechuan",
+      "startPeriod": "Jan 2018",
+      "endPeriod": "Dec 2018"
     },
     {
-      "name": "Wen Xin",
-      "username": "wenmogu",
-      "image": "images/teammembers/wenxin.png",
-      "startPeriod": "Jan 2018"
+      "name": "Mudit Gupta",
+      "username": "mg14777",
+      "image": "images/teammembers/mudit.png",
+      "startPeriod": "May 2018",
+      "endPeriod": "Dec 2018"
+    },
+    {
+      "name": "Nguyen Quoc Bao",
+      "username": "bqnguyen94",
+      "image": "images/teammembers/bao.png",
+      "startPeriod": "Jan 2018",
+      "endPeriod": "Dec 2018"
+    },
+    {
+      "name": "Nidhi Gupta",
+      "username": "nidhi98gupta",
+      "image": "images/teammembers/nidhi.png",
+      "startPeriod": "May 2018",
+      "endPeriod": "Dec 2018"
+    },
+    {
+      "name": "Pan Haozhe",
+      "username": "Haozhe321",
+      "startPeriod": "Jan 2018",
+      "endPeriod": "Apr 2018"
+    },
+    {
+      "name": "Phang Chun Rong",
+      "username": "Crphang",
+      "image": "images/teammembers/chunrong.png",
+      "startPeriod": "Jan 2018",
+      "endPeriod": "Dec 2018"
+    },
+    {
+      "name": "Shradheya Thakre",
+      "username": "tshradheya",
+      "image": "images/teammembers/shradheya.png",
+      "startPeriod": "Jan 2018",
+      "endPeriod": "Dec 2018"
+    },
+    {
+      "name": "Sukanta Roy",
+      "username": "sukanta-27",
+      "image": "images/teammembers/sukanta.png",
+      "startPeriod": "May 2018",
+      "endPeriod": "Dec 2018"
     },
     {
       "name": "Ch'ng Ming Shin",
@@ -1769,13 +1781,47 @@
       ]
     },
     {
-      "name": "Tan Li Hao",
-      "username": "LiHaoTan",
-      "image": "images/teammembers/lihao.png",
-      "currentPosition": "Area Lead (Jan 2018 - )",
+      "name": "Darren Wee",
+      "username": "darrenwee",
+      "currentPosition": "Snr Developer (Jan 2019 - )",
       "pastPositions": [
-        "Snr Developer (Aug 2017 - Dec 2017)",
-        "Committer (May 2017 - Jul 2017)"
+        "Committer (Jan 2018 - Dec 2018)"
+      ]
+    },
+    {
+      "name": "Tan Heng Yeow",
+      "username": "tanhengyeow",
+      "image": "images/teammembers/hengyeow.png",
+      "currentPosition": "Snr Developer (Jan 2019 - )",
+      "pastPositions": [
+        "Committer (May 2018 - Dec 2018)"
+      ]
+    },
+    {
+      "name": "Jacob Li",
+      "username": "jacoblipech",
+      "image": "images/teammembers/jacob.png",
+      "currentPosition": "Snr Developer (Jan 2019 - )",
+      "pastPositions": [
+        "Committer (May 2018 - Dec 2018)"
+      ]
+    },
+    {
+      "name": "Tran Tien Dat",
+      "username": "tran-tien-dat",
+      "image": "images/teammembers/dat.png",
+      "currentPosition": "Snr Developer (Jan 2019 - )",
+      "pastPositions": [
+        "Committer (Jan 2018 - Dec 2018)"
+      ]
+    },
+    {
+      "name": "Wen Xin",
+      "username": "wenmogu",
+      "image": "images/teammembers/wenxin.png",
+      "currentPosition": "Snr Developer (Jan 2019 - )",
+      "pastPositions": [
+        "Committer (Jan 2018 - Dec 2018)"
       ]
     },
     {
@@ -1798,6 +1844,16 @@
         "Area Lead (Jan 2017 - May 2017)",
         "Snr Developer (Aug 2016 - Dec 2016)",
         "Committer (May 2016 - Jul 2016)"
+      ]
+    },
+    {
+      "name": "Tan Li Hao",
+      "username": "LiHaoTan",
+      "image": "images/teammembers/lihao.png",
+      "pastPositions": [
+        "Area Lead (Jan 2018 - Dec 2018)",
+        "Snr Developer (Aug 2017 - Dec 2017)",
+        "Committer (May 2017 - Jul 2017)"
       ]
     },
     {

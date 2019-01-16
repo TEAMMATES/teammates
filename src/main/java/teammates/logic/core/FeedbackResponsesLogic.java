@@ -18,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
+import teammates.common.util.SectionDetail;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
@@ -76,6 +77,22 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
     }
 
+    /**
+     * Retrieves the list of feedback responses for the section selected.
+     *
+     * @param feedbackSessionName       Feedback session name
+     * @param courseId                  Course ID
+     * @param section                   Name of the section selected, null if all section is selected
+     * @return                          List of feedback response attributes that matches the section selected
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInGiverAndRecipientSection(
+            String feedbackSessionName, String courseId, String section) {
+        if (section == null) {
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        }
+        return frDb.getFeedbackResponsesForSessionInGiverAndRecipientSection(feedbackSessionName, courseId, section);
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSection(
             String feedbackSessionName, String courseId, String section) {
         if (section == null) {
@@ -131,11 +148,11 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, SectionDetail sectionDetail) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
-        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
+        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section, sectionDetail);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
@@ -203,7 +220,7 @@ public final class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserRole role, String section) {
+            UserRole role, String section, SectionDetail sectionDetail) {
 
         List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
@@ -231,7 +248,7 @@ public final class FeedbackResponsesLogic {
         case INSTRUCTOR:
             if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
                 addNewResponses(viewableResponses,
-                                getFeedbackResponsesForQuestionInSection(question.getId(), section));
+                                getFeedbackResponsesForQuestionInSection(question.getId(), section, sectionDetail));
             }
             break;
         default:
