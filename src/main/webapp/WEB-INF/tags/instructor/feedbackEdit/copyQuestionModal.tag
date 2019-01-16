@@ -15,7 +15,7 @@
         </button>
         <h4 class="modal-title" id="copyModalTitle">Copy Questions</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body horizontal-scrollbar">
         <form class="form" id="copyModalForm" role="form" method="post"
             action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY %>">
 

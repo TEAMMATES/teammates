@@ -972,6 +972,11 @@ Prevents content overflow in navbar. */
     min-width: 280px;
 }
 
+.text-wrap {
+    overflow-wrap: break-word;
+    table-layout: fixed;
+}
+
 .tt-dropdown-menu {
     background-color: #FFF;
     border: 1px solid #CCC;
@@ -1337,6 +1342,10 @@ Default to alert color for visibility titles used within an alert context.
 /* /////////////////////////////////////////////////////////
 /////////////////////// Modal Dialogs //////////////////////
 ///////////////////////////////////////////////////////// */
+
+.horizontal-scrollbar {
+    overflow: scroll;
+}
 
 .modal-header {
     border-top-left-radius: 5px;
