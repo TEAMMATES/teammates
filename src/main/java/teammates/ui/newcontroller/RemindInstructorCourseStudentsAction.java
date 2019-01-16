@@ -25,7 +25,7 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
