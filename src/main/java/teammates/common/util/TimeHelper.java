@@ -500,6 +500,9 @@ public final class TimeHelper {
         if (parseResult != null) {
             return parseResult;
         }
+        if (date == null) {
+            return null;
+        }
         //If it's null (invalid), check for error correction and apply if appropriate
         String remainingValues = date.substring(5);
         return parseLocalDate(remainingValues, "dd MMM, yyyy");

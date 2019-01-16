@@ -30,6 +30,10 @@ public class TimeHelperTest extends BaseTestCase {
         expectedOutput = LocalDateTime.of(2013, Month.FEBRUARY, 1, 23, 59);
         assertEquals(expectedOutput, TimeHelper.parseDateTimeFromSessionsForm(testDate, testTime));
 
+        ______TS("wrong day of week");
+        String modifiedDate = "Mon" + testDate.substring(3);
+        assertEquals(expectedOutput, TimeHelper.parseDateTimeFromSessionsForm(testDate, testTime));
+
         ______TS("negative time");
         assertNull(TimeHelper.parseDateTimeFromSessionsForm(testDate, "-5"));
 
