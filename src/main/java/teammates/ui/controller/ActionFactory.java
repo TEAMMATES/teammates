@@ -92,7 +92,6 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
 
-        map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);

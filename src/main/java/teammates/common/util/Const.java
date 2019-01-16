@@ -967,6 +967,7 @@ public final class Const {
         public static final String TIMEZONE = "/timezone";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
+        public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
         public static final String STUDENT_COURSES = "/student/courses";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
