@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -145,10 +145,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
   private initEditInstructorsForm(): void {
     this.formEditInstructors = this.fb.group({ formInstructors: [] });
 
-    let control = this.fb.array([]);
-    this.instructorList.forEach(instructor => {
+    const control: FormArray = this.fb.array([]);
+    this.instructorList.forEach((instructor: InstructorAttributes) => {
 
-      const googleid: string = instructor.googleId ? instructor.googleId
+      const googleid: string = instructor.googleId != null ? instructor.googleId
           : 'Not available. Instructor is yet to join this course.';
 
       control.push(this.fb.group({
@@ -157,7 +157,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         email: [{ value: instructor.email, disabled: true }],
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
         displayedName: [{ value: instructor.displayedName, disabled: true }],
-        role: [{ value: instructor.role }]
+        role: [{ value: instructor.role }],
       }));
     });
 
@@ -219,7 +219,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Updates the stored course attributes entity.
    */
-  updateCourseDetails(editedCourseName: string, editedCourseTimezone: string) {
+  updateCourseDetails(editedCourseName: string, editedCourseTimezone: string): void {
     this.courseToEdit.name = editedCourseName;
     this.courseToEdit.timeZone = editedCourseTimezone;
   }
@@ -228,40 +228,57 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Toggles the edit instructor panel for a given instructor.
    */
   toggleIsEditingInstructor(control: FormGroup, index: number): void {
-    const editBtnId: string = 'btn-edit-' + index;
-    const cancelBtnId: string = 'btn-cancel-' + index;
-    const saveBtnId: string = 'btn-save-' + index;
-    const isEditBtnVisible: boolean = document!.getElementById(editBtnId)!.style!.display == 'inline-block';
+    const editBtnId: string = `btn-edit-${index}`;
+    const cancelBtnId: string = `btn-cancel-${index}`;
+    const saveBtnId: string = `btn-save-${index}`;
 
-    const viewRoleId: string = 'role-view-' + index;
-    const editRoleId: string = 'role-edit-' + index;
+    const editBtn: (HTMLElement | null) = document.getElementById(editBtnId);
+    const cancelBtn: (HTMLElement | null) = document.getElementById(cancelBtnId);
+    const saveBtn: (HTMLElement | null) = document.getElementById(saveBtnId);
+
+    let isEditBtnVisible: boolean = true;
+    if (editBtn != null) {
+      isEditBtnVisible = editBtn.style.display === 'inline-block';
+    }
+
+    const viewRoleId: string = `role-view-${index}`;
+    const editRoleId: string = `role-edit-${index}`;
+
+    const viewRole: (HTMLElement | null) = document.getElementById(viewRoleId);
+    const editRole: (HTMLElement | null) = document.getElementById(editRoleId);
 
     const googleId: string = 'googleId';
     const role: string = 'role';
 
-    if (isEditBtnVisible) {
-      document!.getElementById(editBtnId)!.style!.display = 'none';
-      document!.getElementById(cancelBtnId)!.style!.display = 'inline-block';
-      document!.getElementById(saveBtnId)!.style!.display = 'inline-block';
+    const idControl: (AbstractControl | null) = control.get(googleId);
+    const roleControl: (AbstractControl | null) = control.get(role);
 
-      document!.getElementById(viewRoleId)!.style!.display = 'none';
-      document!.getElementById(editRoleId)!.style!.display = 'block';
+    if (editBtn != null && cancelBtn != null && saveBtn != null && viewRole != null && editRole != null
+        && idControl != null && roleControl != null) {
+      if (isEditBtnVisible) {
+        editBtn.style.display = 'none';
+        cancelBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'inline-block';
 
-      // Enable all form control elements except for the google id
-      control!.enable();
-      control!.get(googleId)!.disable();
-      control!.get(role)!.setValue(this.instructorList[index].role);
+        viewRole.style.display = 'none';
+        editRole.style.display = 'block';
 
-    } else {
-      document!.getElementById(editBtnId)!.style!.display = 'inline-block';
-      document!.getElementById(cancelBtnId)!.style!.display = 'none';
-      document!.getElementById(saveBtnId)!.style!.display = 'none';
+        // Enable all form control elements except for the google id
+        control.enable();
+        idControl.disable();
+        roleControl.setValue(this.instructorList[index].role);
 
-      document!.getElementById(viewRoleId)!.style!.display = 'inline-block';
-      document!.getElementById(editRoleId)!.style!.display = 'none';
+      } else {
+        editBtn.style.display = 'inline-block';
+        cancelBtn.style.display = 'none';
+        saveBtn.style.display = 'none';
 
-      control!.disable();
-      this.instructorList[index].role = control!.get(role)!.value;
+        viewRole.style.display = 'inline-block';
+        editRole.style.display = 'none';
+
+        control.disable();
+        this.instructorList[index].role = roleControl.value;
+      }
     }
   }
 
@@ -298,11 +315,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const newPrivileges: Privileges = this.getPrivilegesForRole(editedRole);
 
     // Update stored instructor entity if necessary
-    if (this.instructor.googleId == editedInstructor.googleId) {
+    if (this.instructor.googleId === editedInstructor.googleId) {
       this.instructor.privileges = newPrivileges;
 
       // If there is only one instructor, the instructor can modify instructors by default
-      if (this.instructorList.length == 1) {
+      if (this.instructorList.length === 1) {
         this.instructor.privileges.courseLevel.canmodifyinstructor = true;
       }
       this.updateElementsForPrivileges();
@@ -315,31 +332,37 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Gets the privileges for a particular role.
    */
   private getPrivilegesForRole(role: string): Privileges {
-    if (role == 'Co-owner') {
+    if (role === 'Co-owner') {
       return this.instructorPrivileges.coowner;
-    } else if (role == 'Manager') {
+    }
+
+    if (role === 'Manager') {
       return this.instructorPrivileges.manager;
-    } else if (role == 'Observer') {
+    }
+
+    if (role === 'Observer') {
       return this.instructorPrivileges.observer;
-    } else if (role == 'Tutor') {
+    }
+
+    if (role === 'Tutor') {
       return this.instructorPrivileges.tutor;
     }
 
-      return this.instructorPrivileges.custom;
+    return this.instructorPrivileges.custom;
   }
 
   /**
    * Updates elements and buttons related to the current instructor's privileges.
    */
   private updateElementsForPrivileges(): void {
-    const courseBtns = document!.getElementsByClassName('btn-course');
-    for (let i = 0; i < courseBtns.length; i++) {
-      (<HTMLInputElement> courseBtns[i])!.disabled = !this.instructor.privileges.courseLevel.canmodifycourse;
+    const courseBtns: HTMLCollectionOf<Element> = document.getElementsByClassName('btn-course');
+    for (const courseBtn of courseBtns as any) {
+      (courseBtn as HTMLInputElement).disabled = !this.instructor.privileges.courseLevel.canmodifycourse;
     }
 
-    const instrBtns = document!.getElementsByClassName('btn-instr');
-    for (let i = 0; i < instrBtns.length; i++) {
-      (<HTMLInputElement> instrBtns[i])!.disabled = !this.instructor.privileges.courseLevel.canmodifyinstructor;
+    const instrBtns: HTMLCollectionOf<Element> = document.getElementsByClassName('btn-instr');
+    for (const instrBtn of instrBtns as any) {
+      (instrBtn as HTMLInputElement).disabled = !this.instructor.privileges.courseLevel.canmodifyinstructor;
     }
   }
 
@@ -398,14 +421,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorList.push(instructor);
 
     const defaultId: string = 'Not available. Instructor is yet to join this course.';
+    const formInstructors: string = 'formInstructors';
 
-    (<FormArray>this.formEditInstructors.controls['formInstructors']).push(this.fb.group({
-      googleId: [{ value: defaultId }],
+    (this.formEditInstructors.controls[formInstructors] as FormArray).push(this.fb.group({
+      googleId: [{ value: defaultId, disabled: true }],
       name: [{ value: instructor.name, disabled: true }],
       email: [{ value: instructor.email, disabled: true }],
       isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
       displayedName: [{ value: instructor.displayedName, disabled: true }],
-      role: [{ value: instructor.role }]
+      role: [{ value: instructor.role }],
     }));
   }
 
@@ -420,15 +444,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const courseId: string = this.courseToEdit.id;
     let modalContent: string = '';
 
+    const modal: (HTMLElement | null) = document.getElementById(modalId);
+
     // Display different text depending on who is being deleted
-    if (instructorToDelete.googleId == this.instructor.googleId) {
-      modalContent = 'Are you sure you want to delete your instructor role from the'
-          + ' course ' + courseId + '? You will not be able to access the course anymore.';
+    if (instructorToDelete.googleId === this.instructor.googleId) {
+      modalContent = 'Are you sure you want to delete your instructor role from the '
+      + `course ${courseId}? You will not be able to access the course anymore.`;
     } else {
-      modalContent = 'Are you sure you want to delete the instructor ' + instructorToDelete.name + ' from the course '
-          + courseId + '? He/she will not be able to access the course anymore.';
+      modalContent = `Are you sure you want to delete the instructor ${instructorToDelete.name} from the course `
+          + `${courseId}? He/she will not be able to access the course anymore.`;
     }
-    document!.getElementById(modalId)!.innerText = modalContent;
+
+    if (modal != null) {
+      modal.innerText = modalContent;
+    }
   }
 
   /**
@@ -439,12 +468,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
       instructorid: this.instructor.googleId,
-      instructoremail: instructorToDelete.email
+      instructoremail: instructorToDelete.email,
     };
 
     this.httpRequestService.delete('/instructors', paramsMap)
         .subscribe((resp: MessageOutput) => {
-          if (instructorToDelete.googleId == this.instructor.googleId) {
+          if (instructorToDelete.googleId === this.instructor.googleId) {
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
           } else {
             this.removeFromInstructorList(index);
@@ -459,8 +488,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Removes a deleted instructor from the stored instructor lists.
    */
   private removeFromInstructorList(index: number): void {
+    const formInstructors: string = 'formInstructors';
+
     this.instructorList.splice(index, 1);
-    (<FormArray>this.formEditInstructors.controls['formInstructors']).removeAt(index);
+    (this.formEditInstructors.controls[formInstructors] as FormArray).removeAt(index);
   }
 
 }

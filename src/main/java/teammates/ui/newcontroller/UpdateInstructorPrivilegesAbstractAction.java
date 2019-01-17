@@ -10,6 +10,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
+/**
+ * Abstract action: updates an instructor's privileges.
+ */
 public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
 
     /**
@@ -150,9 +153,8 @@ public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
      * @param specialSectionsInSectionGroups Mapping of section group names to the special sections that they contain.
      *                                           This will be modified within the method.
      */
-    protected void getSectionsWithSpecialPrivilegesForCustomInstructor(List<String> sectionNames,
-                                                                       Map<String, Boolean> isSectionSpecialMappings,
-                                                                       Map<String, List<String>> specialSectionsInSectionGroups) {
+    protected void getSectionsWithSpecialPrivilegesForCustomInstructor(List<String> sectionNames, Map<String,
+            Boolean> isSectionSpecialMappings, Map<String, List<String>> specialSectionsInSectionGroups) {
         for (int i = 0; i < sectionNames.size(); i++) {
             String sectionGroupIsSetStr =
                     getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
@@ -205,7 +207,8 @@ public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
      *                                          This will be modified within the method.
      */
     protected void updateInstructorPrivilegesForSectionInSectionLevel(String sectionGroupName,
-                                                                      List<String> specialSectionsInSectionGroup, InstructorAttributes instructor) {
+                                                                      List<String> specialSectionsInSectionGroup,
+                                                                      InstructorAttributes instructor) {
         boolean isViewStudentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS
                         + sectionGroupName) != null;
@@ -247,7 +250,8 @@ public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
      *                                          This will be modified within the method.
      */
     protected void updateInstructorPrivilegesForSectionInSessionLevel(String sectionGroupName,
-                                                                      List<String> specialSectionsInSectionGroup, List<String> feedbackNames,
+                                                                      List<String> specialSectionsInSectionGroup,
+                                                                      List<String> feedbackNames,
                                                                       InstructorAttributes instructor) {
         for (String feedbackName : feedbackNames) {
             boolean isViewSessionInSectionsChecked =

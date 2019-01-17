@@ -5,7 +5,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 
 /**
  * Action: deletes an instructor from a course.

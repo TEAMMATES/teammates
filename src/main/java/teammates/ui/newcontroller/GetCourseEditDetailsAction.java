@@ -3,6 +3,7 @@ package teammates.ui.newcontroller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
@@ -20,7 +21,8 @@ import teammates.common.util.Const;
  */
 public class GetCourseEditDetailsAction extends Action {
 
-    static final HashMap<String, InstructorPrivileges> INSTRUCTOR_PRIVILEGES = new HashMap<>();
+    static final Map<String, InstructorPrivileges> INSTRUCTOR_PRIVILEGES = new HashMap<>();
+
     static {
         InstructorPrivileges coOwnerPrivileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -116,7 +118,7 @@ public class GetCourseEditDetailsAction extends Action {
         int instructorToShowIndex;
         List<String> sectionNames;
         List<String> feedbackNames;
-        HashMap<String, InstructorPrivileges> instructorPrivileges;
+        Map<String, InstructorPrivileges> instructorPrivileges;
 
         public CourseEditDetails(CourseAttributes courseToEdit, List<InstructorAttributes> instructorList,
                                  InstructorAttributes instructor, int instructorToShowIndex,
@@ -154,7 +156,7 @@ public class GetCourseEditDetailsAction extends Action {
             return feedbackNames;
         }
 
-        public HashMap<String, InstructorPrivileges> getInstructorPrivileges() {
+        public Map<String, InstructorPrivileges> getInstructorPrivileges() {
             return instructorPrivileges;
         }
     }

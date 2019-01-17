@@ -78,7 +78,7 @@
             </button>
             <button class="btn btn-light btn-sm btn-left" style="display:none;" id="btn-cancel-{{ i }}"
                     ngbTooltip="Cancel editing instructor details"
-                    (click)="toggleIsEditingInstructor(i)">
+                    (click)="toggleIsEditingInstructor(instr, i)">
               <i class="fa fa-times" aria-hidden="true"></i>
               Cancel
             </button>
@@ -147,43 +147,43 @@
                   Access Level:
                 </label>
                 <div class="col-sm-9">
-                  <p class="form-control-static" id="role-view-{{ i }}">
+                  <span class="form-control-static" id="role-view-{{ i }}">
                     {{ instructorList[i].role }}
                     <a class="view-role-details" href="#">
-                       View Details
+                      View Details
                     </a>
-                  </p>
+                  </span>
                   <div style="display:none;" id="role-edit-{{ i }}">
                     <div>
                       <input type="radio" value="Co-owner" formControlName="role">
-                       Co-owner: Can do everything
+                      Co-owner: Can do everything
                       <a class="view-role-details" data-role="Co-owner">
                         View Details
                       </a>
                     </div>
                     <div>
                       <input type="radio" value="Manager" formControlName="role">
-                       Manager: Can do everything except for deleting/restoring the course
+                      Manager: Can do everything except for deleting/restoring the course
                       <a class="view-role-details" data-role="Manager">
                         View Details
                       </a>
                     </div>
                     <div>
                       <input type="radio" value="Observer" formControlName="role">
-                       Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
+                      Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
                       <a class="view-role-details" data-role="Observer">
                         View Details
                       </a>
                     </div>
                     <div>
-                      <input type="radio" class="top-padded-sm" value="Tutor" formControlName="role">
-                       Tutor: Can view student details, give/view comments, submit/view responses for sessions
+                      <input type="radio" value="Tutor" formControlName="role">
+                      Tutor: Can view student details, give/view comments, submit/view responses for sessions
                       <a class="view-role-details" data-role="Tutor">
                         View Details
                       </a>
                     </div>
-                    <input type="radio" class="top-padded-sm" value="Custom" formControlName="role">
-                     Custom: No access by default. Any access needs to be granted explicitly.
+                    <input type="radio" value="Custom" formControlName="role">
+                    Custom: No access by default. Any access needs to be granted explicitly.
                   </div>
                 </div>
               </div>
@@ -256,34 +256,34 @@
             <div>
               <div>
                 <input type="radio" value="Co-owner" formControlName="role">
-                 Co-owner: Can do everything
+                Co-owner: Can do everything
                 <a class="view-role-details" data-role="Co-owner">
                   View Details
                 </a>
               </div>
               <div>
                 <input type="radio" value="Manager" formControlName="role">
-                 Manager: Can do everything except for deleting/restoring the course
+                Manager: Can do everything except for deleting/restoring the course
                 <a class="view-role-details" data-role="Manager">
                   View Details
                 </a>
               </div>
               <div>
                 <input type="radio" value="Observer" formControlName="role">
-                 Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
+                Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
                 <a class="view-role-details" data-role="Observer">
                   View Details
                 </a>
               </div>
               <div>
-                <input type="radio" class="top-padded-sm" value="Tutor" formControlName="role">
-                 Tutor: Can view student details, give/view comments, submit/view responses for sessions
+                <input type="radio" value="Tutor" formControlName="role">
+                Tutor: Can view student details, give/view comments, submit/view responses for sessions
                 <a class="view-role-details" data-role="Tutor">
                   View Details
                 </a>
               </div>
-              <input type="radio" class="top-padded-sm" value="Custom" formControlName="role">
-               Custom: No access by default. Any access needs to be granted explicitly.
+              <input type="radio" value="Custom" formControlName="role">
+              Custom: No access by default. Any access needs to be granted explicitly.
             </div>
           </div>
         </div>
@@ -298,4 +298,3 @@
     </form>
   </div>
 </div>
-

@@ -12,6 +12,9 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 
+/**
+ * Edits an instructor in a course.
+ */
 public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
@@ -140,8 +143,9 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
      * @return The edited instructor with updated basic info, and its old custom privileges (if applicable)
      */
     private InstructorAttributes updateBasicInstructorAttributes(String courseId,
-                                                                 String instructorId, String instructorName, String instructorEmail,
-                                                                 String instructorRole, boolean isDisplayedToStudents, String displayedName) {
+                                                                 String instructorId, String instructorName,
+                                                                 String instructorEmail, String instructorRole,
+                                                                 boolean isDisplayedToStudents, String displayedName) {
         InstructorAttributes instructorToEdit = null;
         if (instructorId == null) {
             instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);
