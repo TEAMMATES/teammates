@@ -78,15 +78,30 @@
             </button>
             <button class="btn btn-light btn-sm btn-left" style="display:none;" id="btn-cancel-{{ i }}"
                     ngbTooltip="Cancel editing instructor details"
-                    (click)="toggleIsEditingInstructor(instr, i)">
+                    (click)="toggleIsEditingInstructor(i)">
               <i class="fa fa-times" aria-hidden="true"></i>
               Cancel
             </button>
             <button class="btn btn-light btn-sm btn-instr" ngbTooltip="Delete the instructor from the course"
-                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']">
+                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
+                    (click)="onSubmitDeleteInstructor(deleteInstructorModal, i)">
               <i class="fa fa-trash" aria-hidden="true"></i>
               Delete
             </button>
+            <ng-template #deleteInstructorModal let-modal>
+              <div class="modal-header alert-warning">
+                <h4 class="modal-title icon-warning">Confirm deleting instructor</h4>
+                <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
+              </div>
+              <div class="modal-body" id="delete-instr-modal"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+                <button type="button" class="btn btn-warning"
+                        (click)="deleteInstructor(i); modal.dismiss()">
+                  OK
+                </button>
+              </div>
+            </ng-template>
           </span>
         </div>
         <div class="card-body">

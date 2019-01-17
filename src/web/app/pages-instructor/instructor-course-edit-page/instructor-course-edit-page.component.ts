@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -87,9 +88,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isAddingInstructor: boolean = false;
   formAddInstructor!: FormGroup;
 
-  constructor(private route: ActivatedRoute, private router: Router, private navigationService: NavigationService,
-              private timezoneService: TimezoneService, private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private navigationService: NavigationService,
+              private timezoneService: TimezoneService,
+              private httpRequestService: HttpRequestService,
+              private statusMessageService: StatusMessageService,
+              private fb: FormBuilder,
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -377,7 +383,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateInstructorList(addedInstructor);
+          this.addToInstructorList(addedInstructor);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -388,7 +394,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Updates the stored instructor list and forms.
    */
-  private updateInstructorList(instructor: InstructorAttributes): void {
+  private addToInstructorList(instructor: InstructorAttributes): void {
     this.instructorList.push(instructor);
 
     const defaultId: string = 'Not available. Instructor is yet to join this course.';
@@ -401,6 +407,60 @@ export class InstructorCourseEditPageComponent implements OnInit {
       displayedName: [{ value: instructor.displayedName, disabled: true }],
       role: [{ value: instructor.role }]
     }));
+  }
+
+  /**
+   * Opens a modal to confirm deleting an instructor.
+   */
+  onSubmitDeleteInstructor(deleteInstructorModal: NgbModal, index: number): void {
+    this.ngbModal.open(deleteInstructorModal);
+
+    const instructorToDelete: InstructorAttributes = this.instructorList[index];
+    const modalId: string = 'delete-instr-modal';
+    const courseId: string = this.courseToEdit.id;
+    let modalContent: string = '';
+
+    // Display different text depending on who is being deleted
+    if (instructorToDelete.googleId == this.instructor.googleId) {
+      modalContent = 'Are you sure you want to delete your instructor role from the'
+          + ' course ' + courseId + '? You will not be able to access the course anymore.';
+    } else {
+      modalContent = 'Are you sure you want to delete the instructor ' + instructorToDelete.name + ' from the course '
+          + courseId + '? He/she will not be able to access the course anymore.';
+    }
+    document!.getElementById(modalId)!.innerText = modalContent;
+  }
+
+  /**
+   * Deletes an instructor from the given course.
+   */
+  deleteInstructor(index: number): void {
+    const instructorToDelete: InstructorAttributes = this.instructorList[index];
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseToEdit.id,
+      instructorid: this.instructor.googleId,
+      instructoremail: instructorToDelete.email
+    };
+
+    this.httpRequestService.delete('/instructors', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          if (instructorToDelete.googleId == this.instructor.googleId) {
+            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+          } else {
+            this.removeFromInstructorList(index);
+            this.statusMessageService.showSuccessMessage(resp.message);
+          }
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Removes a deleted instructor from the stored instructor lists.
+   */
+  private removeFromInstructorList(index: number): void {
+    this.instructorList.splice(index, 1);
+    (<FormArray>this.formEditInstructors.controls['formInstructors']).removeAt(index);
   }
 
 }
