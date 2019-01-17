@@ -66,7 +66,7 @@
 <div [formGroup]="formEditInstructors" *ngIf="this.instructorList.length">
   <div formArrayName="formInstructors">
     <ng-container *ngFor="let instr of formEditInstructors.get('formInstructors').controls; let i=index">
-      <div class="card bg-light top-padded-sm">
+      <div class="card bg-light top-padded">
         <div class="card-header bg-primary text-white">
           <strong>Instructor {{ i + 1 }}:</strong>
           <span class="float-sm-right">
@@ -184,9 +184,103 @@
         </div>
       </div>
     </ng-container>
-    <div class="top-padded bottom-padded align-center">
-      <button class="btn btn-primary">Add New Instructor</button>
-    </div>
+  </div>
+</div>
+<div class="top-padded bottom-padded align-center" *ngIf="this.instructorList.length">
+  <button class="btn btn-primary btn-instr" *ngIf="!isAddingInstructor"
+          [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
+          (click)="toggleIsAddingInstructor()">
+    Add New Instructor
+  </button>
+</div>
+<div class="card bg-light top-padded-sm bottom-padded" *ngIf="this.instructorList.length && isAddingInstructor">
+  <div class="card-header bg-primary text-white">
+    <strong>Instructor {{ this.instructorList.length + 1 }}:</strong>
+    <span class="float-sm-right">
+        <button class="btn btn-light btn-sm btn-left" ngbTooltip="Cancel adding an instructor"
+                (click)="toggleIsAddingInstructor()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>
+      </span>
+  </div>
+  <div class="card-body">
+    <form class="form form-horizontal" [formGroup]="formAddInstructor" (ngSubmit)="onSubmitAddInstructor(formAddInstructor.value)">
+      <div class="form-row form-group">
+        <label class="col-sm-3 control-label">
+          Name:
+        </label>
+        <div class="col-sm-9">
+          <input class="form-control" ngbTooltip="Enter the name of the instructor." maxlength="100" tabindex="4" formControlName="name">
+        </div>
+      </div>
+      <div class="form-row form-group">
+        <label class="col-sm-3 control-label">
+          Email:
+        </label>
+        <div class="col-sm-9">
+          <input class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5" formControlName="email">
+        </div>
+      </div>
+      <div class="form-row form-group">
+        <label class="col-sm-3 control-label">
+          <input checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+                 type="checkbox" formControlName="isDisplayedToStudents">
+          Display to students as:
+        </label>
+        <div class="col-sm-9">
+          <input class="form-control" ngbTooltip="Specify the role of this instructor in this course as shown to the students" type="text" formControlName="displayedName">
+        </div>
+      </div>
+      <div>
+        <div class="form-row form-group">
+          <label class="col-sm-3 control-label">
+            Access Level:
+          </label>
+          <div class="col-sm-9">
+            <div>
+              <div>
+                <input type="radio" value="Co-owner" formControlName="role">
+                 Co-owner: Can do everything
+                <a class="view-role-details" data-role="Co-owner">
+                  View Details
+                </a>
+              </div>
+              <div>
+                <input type="radio" value="Manager" formControlName="role">
+                 Manager: Can do everything except for deleting/restoring the course
+                <a class="view-role-details" data-role="Manager">
+                  View Details
+                </a>
+              </div>
+              <div>
+                <input type="radio" value="Observer" formControlName="role">
+                 Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
+                <a class="view-role-details" data-role="Observer">
+                  View Details
+                </a>
+              </div>
+              <div>
+                <input type="radio" class="top-padded-sm" value="Tutor" formControlName="role">
+                 Tutor: Can view student details, give/view comments, submit/view responses for sessions
+                <a class="view-role-details" data-role="Tutor">
+                  View Details
+                </a>
+              </div>
+              <input type="radio" class="top-padded-sm" value="Custom" formControlName="role">
+               Custom: No access by default. Any access needs to be granted explicitly.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="align-center">
+            <button class="btn btn-primary" tabindex="6" type="submit">
+              Add Instructor
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
 

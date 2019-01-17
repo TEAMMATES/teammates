@@ -84,6 +84,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   feedbackNames: string[] = [];
   instructorPrivileges!: InstructorPrivileges;
 
+  isAddingInstructor: boolean = false;
+  formAddInstructor!: FormGroup;
+
   constructor(private route: ActivatedRoute, private router: Router, private navigationService: NavigationService,
               private timezoneService: TimezoneService, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService, private fb: FormBuilder) { }
@@ -138,8 +141,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     let control = this.fb.array([]);
     this.instructorList.forEach(instructor => {
+
+      const googleid: string = instructor.googleId ? instructor.googleId
+          : 'Not available. Instructor is yet to join this course.';
+
       control.push(this.fb.group({
-        googleId: [{ value: instructor.googleId, disabled: true }],
+        googleId: [{ value: googleid, disabled: true }],
         name: [{ value: instructor.name, disabled: true }],
         email: [{ value: instructor.email, disabled: true }],
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
@@ -328,6 +335,72 @@ export class InstructorCourseEditPageComponent implements OnInit {
     for (let i = 0; i < instrBtns.length; i++) {
       (<HTMLInputElement> instrBtns[i])!.disabled = !this.instructor.privileges.courseLevel.canmodifyinstructor;
     }
+  }
+
+  /**
+   * Toggles the add instructor form.
+   */
+  toggleIsAddingInstructor(): void {
+    this.isAddingInstructor = !this.isAddingInstructor;
+
+    if (this.isAddingInstructor) {
+      this.initAddInstructorForm();
+    }
+  }
+
+  /**
+   * Initialises a new form for adding an instructor to the current course.
+   */
+  private initAddInstructorForm(): void {
+    this.formAddInstructor = this.fb.group({
+      name: [''],
+      email: [''],
+      isDisplayedToStudents: [{ value: true }],
+      displayedName: ['Instructor'],
+      role: ['Co-owner'],
+    });
+  }
+
+  /**
+   * Adds a new instructor to the current course.
+   */
+  onSubmitAddInstructor(addedInstructor: InstructorAttributes): void {
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseToEdit.id,
+      instructorname: addedInstructor.name,
+      instructoremail: addedInstructor.email,
+      instructorrole: addedInstructor.role,
+      instructorisdisplayed: addedInstructor.isDisplayedToStudents ? 'true' : '',
+      instructordisplayname: addedInstructor.displayedName,
+    };
+
+    this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+          this.updateInstructorList(addedInstructor);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+
+    this.toggleIsAddingInstructor();
+  }
+
+  /**
+   * Updates the stored instructor list and forms.
+   */
+  private updateInstructorList(instructor: InstructorAttributes): void {
+    this.instructorList.push(instructor);
+
+    const defaultId: string = 'Not available. Instructor is yet to join this course.';
+
+    (<FormArray>this.formEditInstructors.controls['formInstructors']).push(this.fb.group({
+      googleId: [{ value: defaultId }],
+      name: [{ value: instructor.name, disabled: true }],
+      email: [{ value: instructor.email, disabled: true }],
+      isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
+      displayedName: [{ value: instructor.displayedName, disabled: true }],
+      role: [{ value: instructor.role }]
+    }));
   }
 
 }
