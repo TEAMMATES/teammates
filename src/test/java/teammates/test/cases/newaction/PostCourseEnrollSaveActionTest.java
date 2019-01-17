@@ -54,9 +54,7 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         verifyHttpParameterFailure();
 
         //null course id
-        String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
-        };
+        String[] invalidParams = new String[] {};
         verifyHttpParameterFailure(invalidParams);
 
         ______TS("Typical case: add and edit students for non-empty course");
@@ -77,10 +75,9 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
                 + "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
+                Const.ParamsNames.COURSE_ID, courseId
         };
-        PostCourseEnrollSaveAction a = getAction(submissionParams);
+        PostCourseEnrollSaveAction a = getAction(enrollString, submissionParams);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -150,9 +147,8 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        a = getAction(submissionParams);
+        a = getAction(enrollString, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -192,9 +188,8 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        a = getAction(submissionParams);
+        a = getAction(enrollString, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -243,9 +238,8 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         }
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
-        a = getAction(submissionParams);
+        a = getAction(enrollStringBuilder.toString(), submissionParams);
         r = getJsonResult(a);
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         verifyNoTasksAdded(a);
@@ -257,9 +251,8 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
                         + "@nonexistemail.nonexist");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
-        a = getAction(submissionParams);
+        a = getAction(enrollStringBuilder.toString(), submissionParams);
         r = getJsonResult(a);
         MessageOutput msgOutput = (MessageOutput) r.getOutput();
 
@@ -281,7 +274,7 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         verifyNoTasksAdded(a);
 
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        StudentsLogic.inst().deleteStudentsForCourseWithoutDocument(instructor1OfCourse1.courseId);
+        StudentsLogic.inst().deleteStudentsForCourse(instructor1OfCourse1.courseId);
     }
 
     /**

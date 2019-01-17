@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
-import { StatusMessage } from '../../status-message/status-message';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { StatusMessage } from '../../components/status-message/status-message';
 
 /**
  * Colors representing the server side status message
@@ -36,6 +36,26 @@ interface CourseEnrollPageData {
   statusMessage: ServerStatusMessage;
 }
 
+interface StudentAttributes {
+  email: string;
+  course: string;
+  name: string;
+  lastName: string;
+  comments: string;
+  team: string;
+  section: string;
+}
+
+interface EnrollResultPanel {
+  panelClass: string;
+  messageForEnrollmentStatus: string;
+  studentList: StudentAttributes[];
+}
+
+interface EnrollResultPanelList {
+  enrollResultPanelList: EnrollResultPanel[];
+}
+
 /**
  * Instructor course enroll page.
  */
@@ -49,7 +69,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   user: string = '';
   courseid: string = '';
   coursePresent?: boolean;
+  showEnrollResults?: boolean = false;
   statusMessage: StatusMessage[] = [];
+
   @ViewChild('moreInfo') moreInfo?: ElementRef;
   @ContentChild('pasteModalBox') pasteModalBox?: NgbModal;
 
@@ -75,6 +97,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   newStudentsHOT: string = 'newStudentsHOT';
 
   enrollData?: string;
+  enrollResultPanelList?: EnrollResultPanel[];
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -140,8 +163,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const paramMap: { [key: string]: string } = { courseid: this.courseid };
     this.httpRequestService.post('/courses/enrollSave', paramMap, this.enrollData)
-        .subscribe(() => {
-          // TODO
+        .subscribe((resp: EnrollResultPanelList) => {
+          this.showEnrollResults = true;
+          this.statusMessage.pop(); // removes any existing status message
+          this.statusMessage.push({
+            message: 'Enrollment Successful. Summary given below',
+            color: 'success',
+          });
+          this.enrollResultPanelList = resp.enrollResultPanelList;
         }, (resp: ErrorMessageOutput) => {
           this.statusMessage.pop(); // removes any existing status message
           this.statusMessage.push({
@@ -197,14 +226,22 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   /**
    * Shows modal box when user clicks on the 'paste' option in the
-   * Handsontable context menu.
+   * Handsontable context menu
    */
   showPasteModalBox(pasteModalBox: any): void {
     this.ngbModal.open(pasteModalBox);
   }
 
   /**
-   * Checks whether the course is present.
+   * Shows the main enroll page again
+   */
+  backToEnrollPage(): void {
+    this.showEnrollResults = false;
+    this.statusMessage.pop();
+  }
+
+  /**
+   * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
     const paramMap: { [key: string]: string } = { courseid };

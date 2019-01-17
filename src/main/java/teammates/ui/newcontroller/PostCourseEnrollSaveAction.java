@@ -124,22 +124,22 @@ public class PostCourseEnrollSaveAction extends Action {
 
             switch (StudentUpdateStatus.enumRepresentation(i)) {
             case ERROR :
-                panelClass = "panel-danger";
+                panelClass = "bg-danger";
                 break;
             case NEW :
-                panelClass = "panel-primary";
+                panelClass = "bg-primary";
                 break;
             case MODIFIED :
-                panelClass = "panel-warning";
+                panelClass = "bg-warning";
                 break;
             case UNMODIFIED :
-                panelClass = "panel-info";
+                panelClass = "bg-info";
                 break;
             case NOT_IN_ENROLL_LIST :
-                panelClass = "panel-default";
+                panelClass = "bg-default";
                 break;
             case UNKNOWN :
-                panelClass = "panel-danger";
+                panelClass = "bg-danger";
                 break;
             default :
                 log.severe("Unknown Enrollment status " + i);
@@ -183,7 +183,7 @@ public class PostCourseEnrollSaveAction extends Action {
     }
 
     /**
-     * Data format for {@link PostCourseEnrollAction}.
+     * Data format for {@link PostCourseEnrollSaveAction}.
      */
     public static class EnrollResults extends ActionResult.ActionOutput {
         private final List<EnrollResultPanel> enrollResultPanelList;
