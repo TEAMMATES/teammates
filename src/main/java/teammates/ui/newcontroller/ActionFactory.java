@@ -64,6 +64,7 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
         map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
+        map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

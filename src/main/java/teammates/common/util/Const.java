@@ -985,6 +985,7 @@ public final class Const {
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_ENROLL_SAVE = "/courses/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
+        public static final String STUDENT_RECORDS = "/students/records";
     }
 
     @Deprecated
