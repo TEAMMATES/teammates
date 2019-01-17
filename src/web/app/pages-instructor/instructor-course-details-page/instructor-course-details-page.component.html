@@ -1,3 +1,81 @@
-<p>
-  instructor-course-details-page works!
-</p>
+<div *ngIf="courseDetails">
+  <h1>Course Details</h1>
+  <div class="card">
+    <div class="card-body fill-plain">
+      <div class="form">
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Course ID:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.course.id}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Course name:</label>
+          <div class="col-sm-6" id="coursename">
+            <p class="form-control-static">{{courseDetails.course.name}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Sections:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Teams:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Total students:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 control-label text-right">Instructors:</label>
+        <div class="col-sm-6">
+          <div *ngIf="instructors">
+            <div *ngFor="let instructor of instructors">
+              <ng-container *ngIf="instructor.role; else showRole">
+                Co-owner: {{instructor.name}} ({{instructor.email}})
+              </ng-container>
+              <ng-template #showRole >
+                <p>
+                  {{instructor.role}} {{instructor.name}} ({{instructor.email}})
+                </p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="courseDetails.stats.studentsTotal;">
+        <div class="form-group">
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
+              <i class="fa fa-envelope"></i>
+              Remind Students to Join
+            </button>
+            <button type="submit" class="btn btn-primary" name="fruploaddownloadbtn">
+              <i class="fa fa-download"></i>
+              Download Student List
+            </button>
+            <button type="button" class="btn btn-danger" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
+              <i class="fa fa-trash"></i>
+              Delete All Students
+            </button>
+            <div>
+              <span>Non-English characters not displayed properly in the downloaded file?
+                <span class="btn-link" (click)="openModal(studentTableModal)">
+                  Click here.
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

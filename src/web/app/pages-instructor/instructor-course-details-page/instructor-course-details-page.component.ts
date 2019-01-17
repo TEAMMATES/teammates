@@ -1,5 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'; // this module becomes a component through this
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { NavigationService } from '../../../services/navigation.service';
+
+interface StudentListStudentData {
+  studentName: string;
+  studentEmail: string;
+  studentStatus: string;
+  photoUrl: string;
+}
+
+interface StudentListTeamData {
+  teamName: string;
+  students: StudentListStudentData[];
+}
+
+interface StudentListSectionData {
+  sectionName: string;
+  teams: StudentListTeamData[];
+}
+
+interface CourseAttributes {
+  id: string;
+  name: string;
+}
+
+interface CourseStats {
+  sectionsTotal: string;
+  teamsTotal: string;
+  studentsTotal: string;
+}
+
+interface CourseDetailsBundle {
+  course: CourseAttributes;
+  stats: CourseStats;
+}
+
+interface InstructorAttributes {
+  googleId: string;
+  // courseId: string;
+  name: string;
+  email: string;
+  /** Optional fields. */
+  key: string;
+  role: string;
+  displayedName: string;
+  isArchived: boolean;
+  isDisplayedToStudents: boolean;
+}
+
+interface CourseInfo {
+  courseDetails: CourseDetailsBundle;
+  currentInstructor: InstructorAttributes;
+  instructors: InstructorAttributes[];
+  sections: StudentListSectionData[];
+  hasSection: boolean;
+  studentListHtmlTableAsString: string;
+}
 
 /**
  * Instructor course details page.
@@ -12,13 +72,48 @@ import { ActivatedRoute } from '@angular/router';
 export class InstructorCourseDetailsPageComponent implements OnInit {
 
   user: string = '';
+  courseDetails? : CourseDetailsBundle;
+  currentInstructor? : InstructorAttributes;
+  instructors? : InstructorAttributes[] = [];
+  sections? : StudentListSectionData[] = [];
+  studentListHtmlTableAsString? : String = '';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+              private httpRequestService: HttpRequestService,
+              private statusMessageService: StatusMessageService,
+              private ngbModal: NgbModal, private navigationService: NavigationService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+      this.loadCourseDetails(queryParams.courseid);
     });
   }
 
+  /**
+   * Loads the course's details based on the given course ID and email.
+   */
+  loadCourseDetails(courseid: string): void {
+    const paramMap: { [key: string]: string } = { courseid };
+    this.httpRequestService.get('/courses/details', paramMap).subscribe((resp: CourseInfo) => {
+      this.courseDetails = resp.courseDetails;
+      this.currentInstructor = resp.currentInstructor;
+      this.instructors = resp.instructors;
+      this.sections = resp.sections;
+      this.studentListHtmlTableAsString = resp.studentListHtmlTableAsString;
+
+      if (!this.courseDetails) {
+        this.statusMessageService.showErrorMessage('Error retrieving course details');
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Open the modal for different buttons and link.
+   */
+  openModal(content: any): void {
+    this.ngbModal.open(content);
+  }
 }
