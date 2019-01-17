@@ -22,6 +22,10 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -46,7 +50,8 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
                     userInfo.id, instructorToAdd.email, instructorToAdd.courseId, null, false);
 
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult("An instructor with the same email address already exists in the course.",
+                    HttpStatus.SC_BAD_REQUEST);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

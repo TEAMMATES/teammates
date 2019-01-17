@@ -29,7 +29,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        verifyAccessibleForAdmin();
     }
 
 }

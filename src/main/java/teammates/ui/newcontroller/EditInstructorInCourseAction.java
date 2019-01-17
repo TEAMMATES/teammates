@@ -22,7 +22,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
     @Override
     public void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

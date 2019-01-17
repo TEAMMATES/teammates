@@ -280,7 +280,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructordisplayname: instructor.displayedName,
     };
 
-    this.httpRequestService.put('/instructors/course/details/editInstructor', paramsMap)
+    this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.updateInstructorPrivileges(index, instructor.role);

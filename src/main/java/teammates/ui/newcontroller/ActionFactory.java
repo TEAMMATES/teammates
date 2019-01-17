@@ -66,7 +66,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS_SAVE, PUT, SaveCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);
-        map(ResourceURIs.COURSE_EDIT_INSTRUCTOR_DETAILS, PUT, EditInstructorInCourseAction.class);
+        map(ResourceURIs.COURSE_EDIT_INSTRUCTOR_DETAILS, POST, EditInstructorInCourseAction.class);
         map(ResourceURIs.COURSE_ADD_INSTRUCTOR, PUT, CreateInstructorInCourseAction.class);
     }
 
