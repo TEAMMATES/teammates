@@ -78,4 +78,19 @@
       </div>
     </div>
   </div>
+  <ng-template #deleteAllStudentsModal let-modal>
+    <div class="modal-header alert-danger">
+      <i class="fa fa-times-circle fa-2x"></i>
+      <h4 class="modal-title">Confirm Deletion</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
+    </div>
+    <div class="modal-body">
+      Are you sure you want to remove all students from the course {{ courseDetails.course.id }}?
+      <br>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id)">OK</button>
+    </div>
+  </ng-template>
 </div>

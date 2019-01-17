@@ -116,4 +116,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   openModal(content: any): void {
     this.ngbModal.open(content);
   }
+
+  deleteAllStudentsFromCourse(courseId: string): void {
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+      courseid: courseId,
+    };
+
+    this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details?courseid='+ courseId,
+            resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
 }
