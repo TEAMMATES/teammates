@@ -114,8 +114,8 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
                 .withComments("")
                 .build();
 
-        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
-        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
+        StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
+        StudentsLogic.inst().createStudentCascade(unregisteredStudent2);
 
         /* Reassign the attributes to retrieve their keys */
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
@@ -141,8 +141,8 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
             assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
         }
 
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent2.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
 
         ______TS("Typical case: no unregistered students in course");
 

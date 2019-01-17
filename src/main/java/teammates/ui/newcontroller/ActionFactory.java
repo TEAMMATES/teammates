@@ -63,6 +63,10 @@ public class ActionFactory {
         map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
+
+        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
+        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS , DELETE, DeleteInstructorCourseAllStudentsAction.class);
+        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND_ALL_STUDENTS, POST, RemindInstructorCourseStudentsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

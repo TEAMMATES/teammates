@@ -78,6 +78,10 @@
       </div>
     </div>
   </div>
+  <div *ngIf="courseDetails.stats.studentsTotal == 0" class="alert alert-warning">
+    <i class="fa fa-exclamation-circle text-muted"> There are no students in this course. Click <a href="">here</a> to enroll students.</i>
+  </div>
+
   <ng-template #remindStudentsModal let-modal>
     <div class="modal-header alert-info">
       <i class="fa fa-info-circle fa-2x"></i>

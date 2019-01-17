@@ -111,13 +111,6 @@ public abstract class Action {
     }
 
     /**
-     * Returns false if the specified parameter was not found in the request.
-     */
-    protected boolean getRequestParamAsBoolean(String paramName) {
-        return Boolean.parseBoolean(getRequestParamValue(paramName));
-    }
-
-    /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request.
      */
     protected String getNonNullRequestParamValue(String paramName) {

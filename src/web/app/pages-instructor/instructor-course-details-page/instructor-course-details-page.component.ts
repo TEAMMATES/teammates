@@ -41,10 +41,8 @@ interface CourseDetailsBundle {
 
 interface InstructorAttributes {
   googleId: string;
-  // courseId: string;
   name: string;
   email: string;
-  /** Optional fields. */
   key: string;
   role: string;
   displayedName: string;
