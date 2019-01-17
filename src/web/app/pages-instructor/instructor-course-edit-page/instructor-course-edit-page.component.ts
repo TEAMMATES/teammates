@@ -14,6 +14,21 @@ interface CourseAttributes {
   timeZone: string;
 }
 
+interface CourseLevelPrivileges {
+  canmodifycourse: boolean;
+  canmodifyinstructor: boolean;
+  canmodifysession: boolean;
+  canmodifystudent: boolean;
+  canviewstudentinsection: boolean;
+  canviewsessioninsection: boolean;
+  cansubmitsessioninsection: boolean;
+  canmodifysessioncommentinsection: boolean;
+}
+
+interface Privileges {
+  courseLevel: CourseLevelPrivileges;
+}
+
 interface InstructorAttributes {
   googleId: string;
   name: string;
@@ -21,7 +36,15 @@ interface InstructorAttributes {
   role: string;
   isDisplayedToStudents: boolean;
   displayedName: string;
-  privileges: { [key: string]: { [key: string]: boolean} };
+  privileges: Privileges;
+}
+
+interface InstructorPrivileges {
+  coowner: Privileges;
+  manager: Privileges;
+  observer: Privileges;
+  tutor: Privileges;
+  custom: Privileges;
 }
 
 interface CourseEditDetails {
@@ -31,6 +54,7 @@ interface CourseEditDetails {
   instructorToShowIndex: number;
   sectionNames: string[];
   feedbackNames: string[];
+  instructorPrivileges: InstructorPrivileges;
 }
 
 /**
@@ -58,6 +82,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   instructorToShowIndex: number = -1;
   sectionNames: string[] = [];
   feedbackNames: string[] = [];
+  instructorPrivileges!: InstructorPrivileges;
 
   constructor(private route: ActivatedRoute, private router: Router, private navigationService: NavigationService,
               private timezoneService: TimezoneService, private httpRequestService: HttpRequestService,
@@ -85,6 +110,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorToShowIndex = resp.instructorToShowIndex;
           this.sectionNames = resp.sectionNames;
           this.feedbackNames = resp.feedbackNames;
+          this.instructorPrivileges = resp.instructorPrivileges;
 
           this.initEditCourseForm();
           this.initEditInstructorsForm();
@@ -105,7 +131,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
-   * Initialise the details panels with data from the backend for all instructors.
+   * Initialises the details panels with data from the backend for all instructors.
    */
   private initEditInstructorsForm(): void {
     this.formEditInstructors = this.fb.group({ formInstructors: [] });
@@ -170,10 +196,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.httpRequestService.put('/instructors/course/details/save', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
+          this.updateCourseDetails(editedCourseDetails.name, editedCourseDetails.timeZone);
           this.toggleIsEditingCourse();
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
+  }
+
+  /**
+   * Updates the stored course attributes entity.
+   */
+  updateCourseDetails(editedCourseName: string, editedCourseTimezone: string) {
+    this.courseToEdit.name = editedCourseName;
+    this.courseToEdit.timeZone = editedCourseTimezone;
   }
 
   /**
@@ -235,10 +270,64 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.httpRequestService.put('/instructors/course/details/editInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
+          this.updateInstructorPrivileges(index, instructor.role);
           this.toggleIsEditingInstructor(instr, index);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
+  }
+
+  /**
+   * Updates the stored instructor and instructor list entities.
+   */
+  updateInstructorPrivileges(index: number, editedRole: string): void {
+    const editedInstructor: InstructorAttributes = this.instructorList[index];
+    const newPrivileges: Privileges = this.getPrivilegesForRole(editedRole);
+
+    // Update stored instructor entity if necessary
+    if (this.instructor.googleId == editedInstructor.googleId) {
+      this.instructor.privileges = newPrivileges;
+
+      // If there is only one instructor, the instructor can modify instructors by default
+      if (this.instructorList.length == 1) {
+        this.instructor.privileges.courseLevel.canmodifyinstructor = true;
+      }
+      this.updateElementsForPrivileges();
+    } else {
+      editedInstructor.privileges = newPrivileges;
+    }
+  }
+
+  /**
+   * Gets the privileges for a particular role.
+   */
+  private getPrivilegesForRole(role: string): Privileges {
+    if (role == 'Co-owner') {
+      return this.instructorPrivileges.coowner;
+    } else if (role == 'Manager') {
+      return this.instructorPrivileges.manager;
+    } else if (role == 'Observer') {
+      return this.instructorPrivileges.observer;
+    } else if (role == 'Tutor') {
+      return this.instructorPrivileges.tutor;
+    }
+
+      return this.instructorPrivileges.custom;
+  }
+
+  /**
+   * Updates elements and buttons related to the current instructor's privileges.
+   */
+  private updateElementsForPrivileges(): void {
+    const courseBtns = document!.getElementsByClassName('btn-course');
+    for (let i = 0; i < courseBtns.length; i++) {
+      (<HTMLInputElement> courseBtns[i])!.disabled = !this.instructor.privileges.courseLevel.canmodifycourse;
+    }
+
+    const instrBtns = document!.getElementsByClassName('btn-instr');
+    for (let i = 0; i < instrBtns.length; i++) {
+      (<HTMLInputElement> instrBtns[i])!.disabled = !this.instructor.privileges.courseLevel.canmodifyinstructor;
+    }
   }
 
 }

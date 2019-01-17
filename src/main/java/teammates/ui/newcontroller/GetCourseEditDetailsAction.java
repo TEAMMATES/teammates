@@ -1,10 +1,12 @@
 package teammates.ui.newcontroller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -17,6 +19,26 @@ import teammates.common.util.Const;
  * Action: Gets information related to a specific course for instructor course edit page.
  */
 public class GetCourseEditDetailsAction extends Action {
+
+    static final HashMap<String, InstructorPrivileges> INSTRUCTOR_PRIVILEGES = new HashMap<>();
+    static {
+        InstructorPrivileges coOwnerPrivileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPrivileges managerPrivileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorPrivileges observerPrivileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+        InstructorPrivileges tutorPrivileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
+        InstructorPrivileges customPrivileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+
+        INSTRUCTOR_PRIVILEGES.put("coowner", coOwnerPrivileges);
+        INSTRUCTOR_PRIVILEGES.put("manager", managerPrivileges);
+        INSTRUCTOR_PRIVILEGES.put("observer", observerPrivileges);
+        INSTRUCTOR_PRIVILEGES.put("tutor", tutorPrivileges);
+        INSTRUCTOR_PRIVILEGES.put("custom", customPrivileges);
+    }
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -94,6 +116,7 @@ public class GetCourseEditDetailsAction extends Action {
         int instructorToShowIndex;
         List<String> sectionNames;
         List<String> feedbackNames;
+        HashMap<String, InstructorPrivileges> instructorPrivileges;
 
         public CourseEditDetails(CourseAttributes courseToEdit, List<InstructorAttributes> instructorList,
                                  InstructorAttributes instructor, int instructorToShowIndex,
@@ -104,6 +127,7 @@ public class GetCourseEditDetailsAction extends Action {
             this.instructorToShowIndex = instructorToShowIndex;
             this.sectionNames = sectionNames;
             this.feedbackNames = feedbackNames;
+            this.instructorPrivileges = INSTRUCTOR_PRIVILEGES;
         }
 
         public CourseAttributes getCourseToEdit() {
@@ -128,6 +152,10 @@ public class GetCourseEditDetailsAction extends Action {
 
         public List<String> getFeedbackNames() {
             return feedbackNames;
+        }
+
+        public HashMap<String, InstructorPrivileges> getInstructorPrivileges() {
+            return instructorPrivileges;
         }
     }
 

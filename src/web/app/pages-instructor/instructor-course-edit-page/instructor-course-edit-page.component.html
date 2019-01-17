@@ -2,13 +2,13 @@
   <div class="card-header bg-primary text-white">
     <strong>Course:</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm btn-left" ngbTooltip="Edit course name"
+      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name"
               [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']"
               *ngIf="!isEditingCourse" (click)="toggleIsEditingCourse()">
         <i class="fa fa-pen" aria-hidden="true"></i>
         Edit
       </button>
-      <button class="btn btn-light btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions"
+      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
               [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']" (click)="deleteCourse()">
         <i class="fa fa-trash" aria-hidden="true"></i>
         Delete
@@ -70,7 +70,7 @@
         <div class="card-header bg-primary text-white">
           <strong>Instructor {{ i + 1 }}:</strong>
           <span class="float-sm-right">
-            <button class="btn btn-light btn-sm btn-left" id="btn-edit-{{ i }}" ngbTooltip="Edit instructor details"
+            <button class="btn btn-light btn-sm btn-left btn-instr" id="btn-edit-{{ i }}" ngbTooltip="Edit instructor details"
                     [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
                     (click)="toggleIsEditingInstructor(instr, i)" style="display:inline-block">
               <i class="fa fa-pen" aria-hidden="true"></i>
@@ -78,12 +78,11 @@
             </button>
             <button class="btn btn-light btn-sm btn-left" style="display:none;" id="btn-cancel-{{ i }}"
                     ngbTooltip="Cancel editing instructor details"
-                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
                     (click)="toggleIsEditingInstructor(instr, i)">
               <i class="fa fa-times" aria-hidden="true"></i>
               Cancel
             </button>
-            <button class="btn btn-light btn-sm" ngbTooltip="Delete the instructor from the course"
+            <button class="btn btn-light btn-sm btn-instr" ngbTooltip="Delete the instructor from the course"
                     [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']">
               <i class="fa fa-trash" aria-hidden="true"></i>
               Delete
