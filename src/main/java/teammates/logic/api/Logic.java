@@ -1200,6 +1200,32 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
     }
 
+    /**
+     * Gets the recipients of a feedback question for student.
+     *
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForStudent(FeedbackQuestionAttributes, String, String)
+     */
+    public Map<String, String> getRecipientsOfQuestionForStudent(
+            FeedbackQuestionAttributes question, String giverEmail, String giverTeam) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(giverEmail);
+        Assumption.assertNotNull(giverTeam);
+
+        return feedbackQuestionsLogic.getRecipientsOfQuestionForStudent(question, giverEmail, giverTeam);
+    }
+
+    /**
+     * Gets the recipients of a feedback question for instructor.
+     *
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes, String)
+     */
+    public Map<String, String> getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes question, String giverEmail) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(giverEmail);
+
+        return feedbackQuestionsLogic.getRecipientsOfQuestionForInstructor(question, giverEmail);
+    }
+
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
                                                           String courseId,
                                                           int questionNumber) {

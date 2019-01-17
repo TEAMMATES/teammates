@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -27,6 +28,19 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
                 feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
+
+    /**
+     * Verifies that instructor can see the moderated question in moderation request.
+     */
+    protected void verifyInstructorCanSeeQuestionIfInModeration(FeedbackQuestionAttributes feedbackQuestion) {
+        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+
+        if (!StringHelper.isEmpty(moderatedPerson) && !canInstructorSeeQuestion(feedbackQuestion)) {
+            // should not moderate question which instructors cannot see
+            throw new UnauthorizedAccessException("The question is not applicable for moderation");
+        }
+    }
+
 
     /**
      * Gets the student involved in the submission process.
