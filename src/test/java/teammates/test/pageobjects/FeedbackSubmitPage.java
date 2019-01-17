@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.e2e.pageobjects.Browser;
 
 public class FeedbackSubmitPage extends AppPage {
 

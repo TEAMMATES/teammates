@@ -7,7 +7,8 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.test.driver.Priority;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.Priority;
 import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.GenericAppPage;
 
@@ -18,7 +19,7 @@ import teammates.test.pageobjects.GenericAppPage;
  *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
  */
 @Priority(5)
-public class AutomatedSessionRemindersTest extends BaseUiTestCase {
+public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
@@ -38,9 +39,6 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
-        testData.feedbackQuestions.get("questionForOpeningSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackQuestions.get("questionForClosingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackQuestions.get("questionForPublishedSession").creatorEmail = Config.SUPPORT_EMAIL;
 
         // Set closing time of one feedback session to tomorrow
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");

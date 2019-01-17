@@ -11,7 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -219,7 +219,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         try {
             getAction(submissionParams).executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
@@ -235,7 +235,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         try {
             getAction(submissionParams).executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
@@ -256,7 +256,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         try {
             getAction(submissionParams).executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON), e.getMessage());
         }
@@ -294,6 +294,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -321,6 +322,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -392,6 +394,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                              + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
@@ -502,6 +505,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         try {
             getAction(submissionParams).executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Another feedback session] is not accessible to instructor ["
                              + instructorHelper3.email + "] for privilege ["

@@ -32,7 +32,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
-                instructor, session, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                instructor, session, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
 
     /**

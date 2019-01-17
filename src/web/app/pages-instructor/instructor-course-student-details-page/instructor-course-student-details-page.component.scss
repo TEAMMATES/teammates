@@ -1,0 +1,28 @@
+.profile-pic {
+  height: 130px;
+  width: 130px;
+}
+
+.form-group.student-info-row {
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 1px solid #CCC;
+}
+
+.fill-plain {
+  background-color: #EAEFF5;
+}
+
+label {
+  font-weight: bold;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.height-fixed-md {
+  max-height: 250px;
+  min-height: 150px;
+  overflow: auto;
+}

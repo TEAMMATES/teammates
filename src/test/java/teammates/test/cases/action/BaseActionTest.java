@@ -13,9 +13,8 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidPostParametersException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
@@ -65,6 +64,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
+    }
+
+    @Deprecated
+    protected void signalFailureToDetectException(String... messages) {
+        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
+    }
+
+    @Deprecated
+    protected void ignoreExpectedException() {
+        assertTrue(true);
     }
 
     /** Executes the action and returns the result.
@@ -186,7 +195,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionInstructionsValue] = "";
             break;
         default:
-            Assumption.fail("Incorrect order");
+            fail("Incorrect order");
             break;
         }
 
@@ -269,7 +278,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(getActionUri(), parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (AssertionError | InvalidPostParametersException e) {
+        } catch (AssertionError | InvalidHttpParameterException e) {
             ignoreExpectedException();
         }
     }
@@ -347,7 +356,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        gaeSimulation.loginUser(unregUserId);
+        gaeSimulation.loginAsUnregistered(unregUserId);
         verifyCanAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
@@ -459,7 +468,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(getActionUri(), params);
             assertFalse(c.isValidUser());
         } catch (UnauthorizedAccessException ue) {
-            ignoreExpectedException();
+            ignorePossibleException();
         }
     }
 
@@ -472,7 +481,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        gaeSimulation.loginUser(unregUserId);
+        gaeSimulation.loginAsUnregistered(unregUserId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
@@ -665,7 +674,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             assertEquals(classNameOfResult, result.getClass().getName());
             AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage());
         } catch (UnauthorizedAccessException e) {
-            ignoreExpectedException();
+            ignorePossibleException();
         }
     }
 

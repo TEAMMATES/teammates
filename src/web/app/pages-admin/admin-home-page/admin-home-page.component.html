@@ -1,0 +1,85 @@
+<div class="card bg-light top-padded">
+  <div class="card-body">
+    <div>
+      <strong>Adding Multiple Instructors</strong>
+      <p class="text-muted">
+        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
+      </p>
+      <textarea class="form-control" [(ngModel)]="instructorDetails"></textarea>
+    </div>
+
+    <div class="top-padded">
+      <button class="btn btn-primary" (click)="validateAndAddInstructorDetails()">Add Instructors</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-light top-padded">
+  <div class="card-body">
+    <div>
+      <strong>Adding a Single Instructor</strong>
+    </div>
+
+    <div class="top-padded">
+      <strong>Name:</strong>
+      <input class="form-control" type="text" [(ngModel)]="instructorName">
+    </div>
+
+    <div class="top-padded">
+      <strong>Email: </strong>
+      <input class="form-control" type="text" [(ngModel)]="instructorEmail">
+    </div>
+
+    <div class="top-padded">
+      <strong>Institution: </strong>
+      <input class="form-control" type="text" [(ngModel)]="instructorInstitution">
+    </div>
+
+    <div class="top-padded">
+      <button class="btn btn-primary" (click)="validateAndAddInstructorDetail()">Add Instructor</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-light top-padded" *ngIf="instructorsConsolidated.length">
+  <div class="card-header bg-primary text-white">
+    <strong>Result</strong>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Institution</th>
+            <th>Action</th>
+            <th>Status</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let instructor of instructorsConsolidated; let i = index">
+            <td>{{ instructor.name }}</td>
+            <td>{{ instructor.email }}</td>
+            <td>{{ instructor.institution }}</td>
+            <td>
+              <div *ngIf="instructor.status === 'PENDING' || instructor.status === 'FAIL'">
+                <button class="btn btn-sm btn-primary" style="margin-right: 10px;" (click)="addInstructor(i)" [disabled]="activeRequests > 0">Add Instructor</button>
+                <button class="btn btn-sm btn-danger" (click)="cancelInstructor(i)">Cancel</button>
+              </div>
+            </td>
+            <td>{{ instructor.status }}</td>
+            <td style="width: 500px;">
+              <span *ngIf="instructor.status === 'SUCCESS'">
+                Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
+              </span>
+              <span *ngIf="instructor.status !== 'SUCCESS'">{{ instructor.message }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-primary" (click)="addAllInstructors()" [disabled]="activeRequests > 0">Add All Instructors</button>
+    </div>
+  </div>
+</div>

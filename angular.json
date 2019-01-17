@@ -1,0 +1,114 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "teammates": {
+      "root": "",
+      "sourceRoot": "src/web",
+      "projectType": "application",
+      "prefix": "tm",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "src/main/webapp",
+            "index": "src/web/index.html",
+            "main": "src/web/main.ts",
+            "polyfills": "src/web/polyfills.ts",
+            "tsConfig": "src/web/tsconfig.app.json",
+            "assets": [
+              "src/web/assets/"
+            ],
+            "styles": [
+              "src/web/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/web/environments/environment.ts",
+                  "with": "src/web/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/web/index.html",
+                  "with": "src/web/index.prod.html"
+                }
+              ],
+              "assets": [
+                "src/web/assets/",
+                "src/web/BingSiteAuth.xml",
+                "src/web/google8c7ef1e995031e09.html",
+                "src/web/pulse.html",
+                "src/web/robots.txt",
+                "src/web/sitemap.xml",
+                "src/web/manifest.json"
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "subresourceIntegrity": true,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "teammates:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "teammates:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "teammates:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "no-cache": true
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/web/tsconfig.app.json",
+              "src/web/tsconfig.tslint-spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "teammates"
+}

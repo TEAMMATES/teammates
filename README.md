@@ -8,7 +8,7 @@
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
 
-<img src="src/main/webapp/images/overview.png" width="600">
+<img src="src/web/assets/images/overview.png" width="600">
 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
@@ -20,8 +20,7 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 
 We welcome contributions from developers, especially students. Here are some resources:
 * [**Contributor Orientation Guide**](docs/CONTRIBUTING.md): This document describes what you need to know/do to become a contributor.
-* [**Project ideas page**](https://docs.google.com/document/d/1fAvYvQr0E93OsZgyneaXGX0jaMA-zptTIxqLn83xwN0/pub?embedded=true): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
-* [**Instructions for Google Summer of Code applicants**](https://docs.google.com/document/d/1Iu63WRIw8uz8liEW089IQHDQTRbh-QoOLMyfTPXNOa0/pub?embedded=true): Read this before you apply to work for TEAMMATES under GSoC.
+* [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
 
 ## Acknowledgements
 
@@ -32,7 +31,8 @@ TEAMMATES team wishes to thank the following invaluable contributions:
 * **Google Summer of Code** Program, for including TEAMMATES as a mentor organization in *GSoC2014*, *GSoC2015*, *GSoC2016*, *GSoC2017* and *GSoC2018* editions.
 * **Facebook Open Academy** Program, for including TEAMMATES as a mentor organization in FBOA 2016.
 * **Jet Brains**, for the [Intellij IDEA](https://www.jetbrains.com/idea/) licences
-* [**YourKit LLC**](ttps://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler <img src="https://www.yourkit.com/images/yklogo.png" width="70">](https://www.yourkit.com/java/profiler/index.jsp) (an industry leading profiler tool for Java applications).
+* <img src="src/web/assets/images/yklogo.png" width="100"> [**YourKit LLC**](https://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler](https://www.yourkit.com/java/profiler) (an industry leading profiler tool for Java applications).
+* <img src="src/web/assets/images/saucelabs.png" width="100"> [**SauceLabs**](https://saucelabs.com), for providing us with a free [Open Sauce account](https://saucelabs.com/open-source) for cross-browser testing.
 
 ## Contacting us
 

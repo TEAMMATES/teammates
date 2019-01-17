@@ -8,15 +8,16 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.HtmlHelper;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.HtmlHelper;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 
 /**
  * Verifies that God mode is working properly.
  */
-public class GodModeTest extends BaseUiTestCase {
+public class GodModeTest extends BaseE2ETestCase {
 
     private static final String PLACEHOLDER_CONTENT = "<div id=\"mainContent\">test</div>";
     private static final String OUTPUT_FILENAME = "/godmodeOutput.html";
@@ -62,26 +63,16 @@ public class GodModeTest extends BaseUiTestCase {
 
     private void testGodMode(boolean isPart) throws Exception {
 
-        try {
-            // should fail as the expected output file does not exist
-            verifyHtml(OUTPUT_FILENAME, isPart);
-            signalFailureToDetectException();
-        } catch (IOException e) {
-            ignoreExpectedException();
-        }
+        // Should fail as the expected output file does not exist
+        assertThrows(IOException.class, () -> verifyHtml(OUTPUT_FILENAME, isPart));
 
         // run the God mode with non-existent expected file
         runGodModeRoutine(isPart);
 
         FileHelper.saveFile(OUTPUT_FILEPATH, PLACEHOLDER_CONTENT);
 
-        try {
-            // should fail as the expected output file has the wrong content
-            verifyHtml(OUTPUT_FILENAME, isPart);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            ignoreExpectedException();
-        }
+        // Should fail as the expected output file has the wrong content
+        assertThrows(AssertionError.class, () -> verifyHtml(OUTPUT_FILENAME, isPart));
 
         // run the God mode with wrong content in expected file
         runGodModeRoutine(isPart);

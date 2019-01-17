@@ -2,12 +2,11 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 /**
  * SUT: {@link GateKeeper}.
@@ -24,7 +23,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
     @Test
     public void testGetLogoutUrl() {
-        gaeSimulation.loginUser("any.user");
+        gaeSimulation.loginAsUnregistered("any.user");
         assertEquals("/_ah/logout?continue=www.def.com", gateKeeper.getLogoutUrl("www.def.com"));
     }
 
@@ -46,9 +45,9 @@ public class GateKeeperTest extends BaseLogicTest {
                 .withComments("")
                 .build();
         instructorAsStudent.googleId = instructor.googleId;
-        new Logic().createStudentWithoutDocument(instructorAsStudent);
+        logic.createStudent(instructorAsStudent);
 
-        UserType user = gateKeeper.getCurrentUser();
+        UserInfo user = gateKeeper.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
         assertTrue(user.isAdmin);
         assertTrue(user.isInstructor);
@@ -56,7 +55,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
         ______TS("unregistered");
 
-        gaeSimulation.loginUser("unknown");
+        gaeSimulation.loginAsUnregistered("unknown");
 
         user = gateKeeper.getCurrentUser();
         assertEquals("unknown", user.id);

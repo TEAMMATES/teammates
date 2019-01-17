@@ -27,10 +27,8 @@
 *.pptx binary
 *.gif binary
 
-# Ignore certain files from language statistics
+# Ignore test resource files from language statistics
+src/e2e/resources/data/*            linguist-vendored
+src/test/resources/data/*           linguist-vendored
 src/test/resources/emails/*         linguist-vendored
 src/test/resources/pages/*          linguist-vendored
-
-# JSP and tag files are more HTML-like than Java-like
-*.jsp   linguist-language=html
-*.tag   linguist-language=html

@@ -13,7 +13,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.FieldValidatorExtension;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -23,58 +22,6 @@ import teammates.test.driver.TimeHelperExtension;
 public class FieldValidatorTest extends BaseTestCase {
 
     private FieldValidator validator = new FieldValidator();
-
-    @Test
-    public void testGetValidityInfoForSizeCappedNonEmptyString() {
-
-        String typicalFieldName = "my field";
-        int typicalLength = 25;
-
-        try {
-            FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                    typicalLength, null);
-            signalFailureToDetectException("not expected to be null");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
-
-        int maxLength = 50;
-        assertEquals("valid: typical value",
-                "",
-                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
-
-        assertEquals("valid: max length",
-                "",
-                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        StringHelperExtension.generateStringOfLength(maxLength)));
-
-        String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
-        assertEquals("invalid: too long",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
-                         + "as a/an my field because it is too long. The value of a/an my field should be no "
-                         + "longer than 50 characters. It should not be empty.",
-                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                             maxLength, tooLongName));
-
-        String emptyValue = "";
-        assertEquals("invalid: empty",
-                     "The field 'my field' is empty. The value of a/an my field should be no longer "
-                         + "than 50 characters. It should not be empty.",
-                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                             maxLength, emptyValue));
-
-        String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed",
-                     "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
-                         + "contains extra spaces at the beginning or at the end of the text.",
-                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                             maxLength, untrimmedValue));
-    }
 
     @Test
     public void testGetValidityInfoForNonHtmlField_cleanInput_returnEmptyString() {
@@ -109,16 +56,6 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {
 
         String typicalFieldName = "my field";
-        int typicalLength = 25;
-
-        try {
-            FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                    typicalLength, null);
-            signalFailureToDetectException("not expected to be null");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
-
         int maxLength = 50;
         assertEquals("valid: typical value",
                 "",
@@ -166,12 +103,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String typicalFieldName = "name field";
         int typicalLength = 25;
 
-        try {
-            validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null);
-            signalFailureToDetectException("not expected to be null");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () ->
+                validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null));
 
         ______TS("typical success case");
 
@@ -390,13 +323,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForRole_null_throwException() {
-        String errorMessageForNullRole = "Did not throw the expected AssertionError for null value";
-        try {
-            validator.getInvalidityInfoForRole(null);
-            signalFailureToDetectException(errorMessageForNullRole);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForRole(null));
     }
 
     @Test
@@ -423,25 +350,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForGoogleId_null_throwException() {
-        String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
-        try {
-            validator.getInvalidityInfoForGoogleId(null);
-            signalFailureToDetectException(errorMessageForNullGoogleId);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForGoogleId(null));
     }
 
     @Test
     public void testGetInvalidityInfoForGoogleId_untrimmedGmailDomain_throwException() {
-        String errorMessageForUntrimmedEmailDomain = "Did not throw the expected AssertionError for Google ID "
-                                                     + "with untrimmed GMail domain (i.e., @gmail.com)";
-        try {
-            validator.getInvalidityInfoForGoogleId("abc@GMAIL.com");
-            signalFailureToDetectException(errorMessageForUntrimmedEmailDomain);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForGoogleId("abc@GMAIL.com"));
     }
 
     @Test
@@ -515,13 +429,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForEmail_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null email";
-        try {
-            validator.getInvalidityInfoForEmail(null);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForEmail(null));
     }
 
     @Test
@@ -596,13 +504,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
-        try {
-            validator.getInvalidityInfoForEmailContent(null);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForEmailContent(null));
     }
 
     @Test
@@ -622,13 +524,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForCourseId_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null Course ID";
-        try {
-            validator.getInvalidityInfoForCourseId(null);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        assertThrows(AssertionError.class, () -> validator.getInvalidityInfoForCourseId(null));
     }
 
     @Test

@@ -151,6 +151,11 @@ public final class CoursesLogic {
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
                 throws EntityDoesNotExistException {
 
+        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
+        if (studentDataList.isEmpty()) {
+            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
+        }
+
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
         CourseAttributes.sortById(courseList);
         List<CourseDetailsBundle> courseDetailsList = new ArrayList<>();
@@ -194,32 +199,13 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of section names for the course with ID courseId.
-     */
-    public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
-        return getSectionsNameForCourse(courseId, false);
-    }
-
-    /**
-     * Returns a list of section names for the specified course.
-     */
-    public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
-        Assumption.assertNotNull("Course is null", course);
-        return getSectionsNameForCourse(course.getId(), true);
-    }
-
-    /**
-     * Returns a list of section names for a course with or without a need to
-     * check if the course is existent.
+     * Returns a list of section names for the course with valid ID courseId.
      *
      * @param courseId Course ID of the course
-     * @param isCourseVerified Determine whether it is necessary to check if the course exists
      */
-    private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified)
-            throws EntityDoesNotExistException {
-        if (!isCourseVerified) {
-            verifyCourseIsPresent(courseId);
-        }
+    public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
+
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
         Set<String> sectionNameSet = new HashSet<>();
@@ -468,12 +454,8 @@ public final class CoursesLogic {
      *
      * @param googleId The Google ID of the student
      */
-    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
+    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
-
-        if (studentDataList.isEmpty()) {
-            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
-        }
 
         List<String> courseIds = studentDataList.stream()
                 .filter(student -> !getCourse(student.course).isCourseDeleted())

@@ -74,53 +74,40 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: create a duplicate instructor");
 
-        try {
-            instructorsDb.createEntity(i);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(InstructorsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Instructor"),
-                                        e.getMessage());
-        }
+        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
+                () -> instructorsDb.createEntity(i));
+        AssertHelper.assertContains(String.format(InstructorsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Instructor"),
+                eaee.getMessage());
 
         ______TS("Failure: create an instructor with invalid parameters");
 
         i.googleId = "invalid id with spaces";
-        try {
-            instructorsDb.createEntity(i);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> instructorsDb.createEntity(i));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
                         FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
                         FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.GOOGLE_ID_MAX_LENGTH),
-                    e.getMessage());
-        }
+                ipe.getMessage());
 
         i.googleId = "valid.fresh.id";
         i.email = "invalid.email.tmt";
         i.role = "role invalid";
-        try {
-            instructorsDb.createEntity(i);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
+        ipe = assertThrows(InvalidParametersException.class, () -> instructorsDb.createEntity(i));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
-                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role),
-                    e.getMessage());
-        }
+                        + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role),
+                ipe.getMessage());
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.createEntity(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.createEntity(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -140,12 +127,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.getInstructorForEmail(null, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.getInstructorForEmail(null, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -165,12 +150,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.getInstructorForGoogleId(null, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.getInstructorForGoogleId(null, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -195,12 +177,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.getInstructorForRegistrationKey(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.getInstructorForRegistrationKey(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -233,12 +213,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.getInstructorsForGoogleId(null, false);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.getInstructorsForGoogleId(null, false));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -270,12 +248,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.getInstructorsForCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.getInstructorsForCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -312,22 +286,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.name = "";
         instructorToEdit.email = "aaa";
         instructorToEdit.role = "invalid role";
-        try {
-            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    getPopulatedEmptyStringErrorMessage(
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> instructorsDb.updateInstructorByGoogleId(instructorToEdit));
+        AssertHelper.assertContains(
+                getPopulatedEmptyStringErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                         FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH)
-                    + System.lineSeparator()
-                    + getPopulatedErrorMessage(
-                          FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
-                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                          FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
-                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
-                    e.getMessage());
-        }
+                        + System.lineSeparator()
+                        + getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
+                        + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
+                ipe.getMessage());
 
         ______TS("Failure: non-existent entity");
 
@@ -335,23 +306,15 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.name = "New Name 2";
         instructorToEdit.email = "InstrDbT.new-email2@email.tmt";
         instructorToEdit.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
-        try {
-            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(
-                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
-                        e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> instructorsDb.updateInstructorByGoogleId(instructorToEdit));
+        AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ednee.getMessage());
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.updateInstructorByGoogleId(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.updateInstructorByGoogleId(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -389,22 +352,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.googleId = "invalid id";
         instructorToEdit.name = "";
         instructorToEdit.role = "invalid role";
-        try {
-            instructorsDb.updateInstructorByEmail(instructorToEdit);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> instructorsDb.updateInstructorByEmail(instructorToEdit));
+        AssertHelper.assertContains(
+                getPopulatedErrorMessage(
                         FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
                         FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.GOOGLE_ID_MAX_LENGTH) + System.lineSeparator()
-                    + getPopulatedEmptyStringErrorMessage(
-                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH)
-                    + System.lineSeparator()
-                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
-                    e.getMessage());
-        }
+                        + getPopulatedEmptyStringErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH)
+                        + System.lineSeparator()
+                        + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
+                ipe.getMessage());
 
         ______TS("Failure: non-existent entity");
 
@@ -412,23 +372,18 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.name = "New Name 2";
         instructorToEdit.email = "newEmail@email.tmt";
         instructorToEdit.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
-        try {
-            instructorsDb.updateInstructorByEmail(instructorToEdit);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(
-                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
-                        e.getMessage());
-        }
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> instructorsDb.updateInstructorByEmail(instructorToEdit));
+        AssertHelper.assertContains(
+                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
+                ednee.getMessage());
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.updateInstructorByEmail(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.updateInstructorByEmail(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -448,12 +403,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.deleteInstructor(null, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructor(null, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -473,12 +425,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.deleteInstructorsForGoogleId(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.deleteInstructorsForGoogleId(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @Test
@@ -498,12 +448,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        try {
-            instructorsDb.deleteInstructorsForCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructorsForCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
     }
 
     @AfterClass

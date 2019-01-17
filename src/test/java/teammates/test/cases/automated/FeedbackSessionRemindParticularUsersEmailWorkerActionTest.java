@@ -18,7 +18,8 @@ import teammates.ui.automated.FeedbackSessionRemindParticularUsersEmailWorkerAct
 /**
  * SUT: {@link FeedbackSessionRemindParticularUsersEmailWorkerAction}.
  */
-public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionRemindParticularUsersEmailWorkerAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
@@ -56,17 +57,11 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends B
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
             assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                       session1.getSessionName()),
+                                       session1.getFeedbackSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
             assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
         }
-    }
-
-    @Override
-    protected FeedbackSessionRemindParticularUsersEmailWorkerAction getAction(String... params) {
-        return (FeedbackSessionRemindParticularUsersEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
 }

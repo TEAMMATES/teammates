@@ -1,0 +1,116 @@
+<div *ngIf="student">
+  <h1>Edit Student Details</h1>
+  <div class="card border-primary">
+    <div class="card-body fill-plain">
+      <form
+        id="instructor-student-edit-form"
+        class="form form-horizontal"
+        (ngSubmit)="onSubmit(confirmDelModal, resendPastLinksModal)" [formGroup]="editForm">
+        <div class="form-row">
+          <label class="col-sm-1">Student Name:</label>
+          <div class="col-sm-11">
+            <input
+              class="form-control"
+              id="studentname"
+              formControlName="studentname">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="col-sm-1">Section Name:</label>
+          <div class="col-sm-11">
+            <input
+              class="form-control"
+              id="sectionname"
+              formControlName="sectionname">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="col-sm-1">Team<br>Name:</label>
+          <div class="col-sm-11">
+            <input
+              class="form-control col-form-label"
+              name="teamname"
+              id="teamname"
+              formControlName="teamname">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="col-sm-1">E-mail Address:</label>
+          <div class="col-sm-11">
+            <input
+              class="form-control"
+              id="newstudentemail"
+              formControlName="newstudentemail">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="col-sm-1">Comments:</label>
+          <div class="col-sm-11">
+            <textarea
+              class="form-control"
+              rows="6"
+              id="comments"
+              formControlName="comments">
+            </textarea>
+          </div>
+        </div>
+        <br>
+        <div class="text-center">
+          <input type="submit" class="btn btn-primary" id="button_submit" value="Save Changes">
+        </div>
+        <br>
+        <br>
+        <ng-template #confirmDelModal let-modal>
+          <div class="modal-header alert-warning">
+            <h4 class="modal-title icon-warning">Confirm Deletion</h4>
+            <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+                (click)="modal.dismiss()">×</button>
+          </div>
+          <div class="modal-body">
+            Editing these fields will result in some existing responses from this student to be deleted.
+            You may download the data before you make the changes. Are you sure you want to continue?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn btn-warning"
+                    (click)="deleteExistingResponses(resendPastLinksModal); modal.dismiss()">
+              OK
+            </button>
+          </div>
+        </ng-template>
+        <ng-template #resendPastLinksModal let-modal>
+          <div class="modal-header alert-primary">
+            <h4 class="modal-title icon-primary">Resend past links to the new email?</h4>
+            <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+                (click)="modal.dismiss()">×</button>
+          </div>
+          <div class="modal-body">
+            Do you want to resend past session links of this course to the new email {{ editForm.get('newstudentemail').value }}?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary"
+                    (click)="resendPastSessionLinks(true); modal.dismiss()">
+              Yes, save changes and resend links
+            </button>
+            <button type="button" class="btn btn-primary"
+                    (click)="resendPastSessionLinks(false); modal.dismiss()">
+              No, just save the changes
+            </button>
+            <button type="button" class="btn btn-outline-secondary"
+                    (click)="modal.dismiss()">
+              Cancel
+            </button>
+          </div>
+        </ng-template>
+      </form>
+    </div>
+  </div>
+</div>

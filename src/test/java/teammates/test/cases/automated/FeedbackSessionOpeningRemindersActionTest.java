@@ -19,7 +19,8 @@ import teammates.ui.automated.FeedbackSessionOpeningRemindersAction;
 /**
  * SUT: {@link FeedbackSessionOpeningRemindersAction}.
  */
-public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionOpeningRemindersActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionOpeningRemindersAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -72,11 +73,11 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
             Map<String, String[]> paramMap = task.getParamMap();
             try {
                 assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
-                                           session1.getSessionName()),
+                                           session1.getFeedbackSessionName()),
                              paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
             } catch (AssertionError ae) {
                 assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
-                                           session2.getSessionName()),
+                                           session2.getFeedbackSessionName()),
                              paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
             }
         }
@@ -93,11 +94,6 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
 
         verifyNoTasksAdded(action);
 
-    }
-
-    @Override
-    protected FeedbackSessionOpeningRemindersAction getAction(String... params) {
-        return (FeedbackSessionOpeningRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
 
 }

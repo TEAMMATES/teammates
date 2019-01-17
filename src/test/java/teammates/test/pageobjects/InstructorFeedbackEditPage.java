@@ -1,8 +1,8 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -23,11 +23,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
@@ -578,7 +578,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     public void fillAllRubricColumns(int qnNumber, int[] colIndexes, String[]... colValues) {
-        Assumption.assertEquals(colIndexes.length, colValues.length);
+        assertEquals(colIndexes.length, colValues.length);
 
         for (int i = 0; i < colIndexes.length; i++) {
             fillRubricColumn(qnNumber, colIndexes[i], colValues[i]);
@@ -807,7 +807,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // If the other option is selected, no AJAX request is made
         if (!optionValue.equals(customVisibilityOptionsValue)) {
-            getjQueryAjaxHandler().registerHandlers();
+            getjQueryAjaxHandler().waitForAjaxIfPresentThenRegisterHandlers();
         }
 
         WebElement visibilityOptionsDropdown =
@@ -1184,7 +1184,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
         WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(selectElement, recipientType);
+        selectDropdownByVisibleValueAndHandleAjaxRequests(selectElement, recipientType);
     }
 
     public void clickNewQuestionButton() {
@@ -1242,12 +1242,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
-        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, giverType.toString());
+        selectDropdownByActualValueAndHandleAjaxRequests(giverDropdown, giverType.toString());
     }
 
     public void selectRecipientToBe(FeedbackParticipantType recipientType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + questionNumber));
-        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, recipientType.toString());
+        selectDropdownByActualValueAndHandleAjaxRequests(giverDropdown, recipientType.toString());
     }
 
     /**
@@ -1255,7 +1255,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * to load.
      */
     public void selectGiverToBeStudentsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Students in this course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(giverDropdownForNewQuestion, "Students in this course");
     }
 
     /**
@@ -1263,7 +1263,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * message to load.
      */
     public void selectGiverToBeInstructorsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Instructors in this course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(giverDropdownForNewQuestion, "Instructors in this course");
     }
 
     /**
@@ -1271,7 +1271,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Other students in the course");
     }
 
@@ -1280,7 +1280,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeGiverTeamMembersAndGiverAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Giver's team members and Giver");
     }
 
@@ -1289,7 +1289,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * visibility message to load.
      */
     public void selectRecipientsToBeInstructorsAndWaitForVisibilityMessageToLoad() {
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+        selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Instructors in the course");
     }
 
@@ -1299,7 +1299,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(recipientDropdown, "Other students in the course");
+        selectDropdownByVisibleValueAndHandleAjaxRequests(recipientDropdown, "Other students in the course");
     }
 
     public void enableOtherFeedbackPathOptions(int qnNumber) {

@@ -2,16 +2,16 @@ package teammates.test.cases.action;
 
 import java.net.URL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.test.driver.CsvChecker;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 import teammates.ui.controller.RedirectResult;
@@ -37,10 +37,35 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        String[] paramsNormalWithinSection = {
+        String[] paramsNormalEitherSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.SECTION_NAME, "Section 1"
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER"
+        };
+        String[] paramsNormalFromGiverSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER"
+        };
+        String[] paramsNormalToRecipientSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EVALUEE"
+        };
+        String[] paramsNormalBothGiverAndRecipientInSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH"
+        };
+        String[] paramsWithInvalidSectionDetail = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "ALL"
         };
 
         String[] paramsWithLargeData = {
@@ -80,7 +105,63 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section from giver or recipient");
+
+        action = getAction(paramsNormalEitherSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if either the giver or evaluee is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Either_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section from giver");
+
+        action = getAction(paramsNormalFromGiverSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the giver is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Giver_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section to recipient");
+
+        action = getAction(paramsNormalToRecipientSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the evaluee is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Recipient_actionTest.csv");
+
+        ______TS("Typical case: results downloadable showing section from both giver and recipient");
+
+        action = getAction(paramsNormalBothGiverAndRecipientInSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response only if both are in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Both_actionTest.csv");
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
 
@@ -99,22 +180,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1WithNewLastName(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1NewLastName_actionTest.csv");
 
         removeAndRestoreTypicalDataBundle();
-
-        ______TS("Typical case: results within section downloadable");
-
-        action = getAction(paramsNormalWithinSection);
-        result = getFileDownloadResult(action);
-
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1";
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
 
         ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
 
@@ -122,7 +190,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         RedirectResult r = getRedirectResult(action);
 
         expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE, true, "");
-        expectedDestination = Config.getAppUrl(expectedDestination)
+        expectedDestination = Config.getFrontEndAppUrl(expectedDestination)
                 .withCourseId(session.getCourseId()).withUserId("idOfInstructor1OfCourse1")
                 .withSessionName(session.getFeedbackSessionName()).toAbsoluteString();
         assertEquals(new URL(expectedDestination).getFile(), r.getDestinationWithParams());
@@ -136,7 +204,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             action = getAction(paramsWithNullCourseId);
             result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.COURSE_ID),
                          e.getMessage());
@@ -148,10 +216,13 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             action = getAction(paramsWithNullFeedbackSessionName);
             result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
+
+        ______TS("Failure case: params with invalid feedback section detail");
+        this.verifyAssumptionFailure(paramsWithInvalidSectionDetail);
 
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
@@ -162,7 +233,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForDownloadWithMissingResponsesShown(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsMissingResponsesShown_actionTest.csv");
 
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
@@ -173,238 +244,126 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForDownloadWithMissingResponsesHidden(result.getFileContent(), session);
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsMissingResponsesHidden_actionTest.csv");
 
         ______TS("Typical case: results downloadable by question");
-
-        int questionNum2 = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
-        String question2Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
-                session.getCourseId(), questionNum2).getId();
-        String[] paramsQuestion2 = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
-        };
-
-        action = getAction(paramsQuestion2);
-        result = getFileDownloadResult(action);
-
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-        assertEquals("", result.getStatusMessage());
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_question2";
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForQuestion2Session1InCourse1(result.getFileContent(), session);
-
-        ______TS("Typical case: results within section downloadable by question");
 
         int questionNum1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
         String question1Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum1).getId();
-
-        String[] paramsQuestion1WithinSection = {
+        String[] paramsQuestion1 = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question1Id
         };
 
-        action = getAction(paramsQuestion1WithinSection);
+        action = getAction(paramsQuestion1);
         result = getFileDownloadResult(action);
 
         expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1" + "_question1";
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_question1";
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
-    }
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1Q1_actionTest.csv");
 
-    private void verifyFileContentForDownloadWithMissingResponsesShown(String fileContent,
-            FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
+        ______TS("Typical case: results downloadable by question showing section from giver or recipient");
 
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 1,\"What is the best selling point of your product?\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\""
-                // CHECKSTYLE.ON:LineLength
+        int questionNum2 = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        String question2Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
+                session.getCourseId(), questionNum2).getId();
+
+        String[] paramsQuestion2InSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+        action = getAction(paramsQuestion2InSection);
+        result = getFileDownloadResult(action);
 
-    }
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
 
-    private void verifyFileContentForDownloadWithMissingResponsesHidden(String fileContent,
-            FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if either the giver or evaluee is in the selected section" + "_question2";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Q2Either_actionTest.csv");
 
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 1,\"What is the best selling point of your product?\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
-                // CHECKSTYLE.ON:LineLength
-        };
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+        ______TS("Typical case: results downloadable by question showing section from giver");
 
-    }
-
-    private void verifyFileContentForSession1InCourse1(String fileContent,
-                                                       FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
-
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 1,\"What is the best selling point of your product?\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
-                // CHECKSTYLE.ON:LineLength
+        String[] paramsQuestion2FromSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+        action = getAction(paramsQuestion2FromSection);
+        result = getFileDownloadResult(action);
 
-    }
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
 
-    private void verifyFileContentForSession1InCourse1WithNewLastName(String fileContent,
-                                                                      FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 1,\"What is the best selling point of your product?\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
-                "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
-                // CHECKSTYLE.ON:LineLength
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the giver is in the selected section" + "_question2";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Q2Giver_actionTest.csv");
+
+        ______TS("Typical case: results downloadable by question showing section to recipient");
+
+        String[] paramsQuestion2ToSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EVALUEE",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+        action = getAction(paramsQuestion2ToSection);
+        result = getFileDownloadResult(action);
 
-    }
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
 
-    private void verifyFileContentForSession1InCourse1WithinSection1(String fileContent,
-                                                                     FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the evaluee is in the selected section" + "_question2";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Q2Recipient_actionTest.csv");
 
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "Section Name,\"Section 1\"",
-                "",
-                "",
-                "Question 1,\"What is the best selling point of your product?\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
-                // CHECKSTYLE.ON:LineLength
+        ______TS("Typical case: results downloadable by question showing both giver and recipient");
+
+        String[] paramsQuestion2BothGiverAndRecipientSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+        action = getAction(paramsQuestion2BothGiverAndRecipientSection);
+        result = getFileDownloadResult(action);
 
-    }
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
 
-    private void verifyFileContentForQuestion2Session1InCourse1(String fileContent,
-            FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
-
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 2,\"Rate 1 other student's product\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback Question 2\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
-                "",
-                "",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
-    }
-
-    private void verifyFileContentForQuestion1Session1InCourse1WithinSection1(String fileContent,
-                              FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
-
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "Section Name,\"Section 1\"",
-                "",
-                "",
-                "Question 1,\"What is the best selling point of your product?\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
-                "",
-                "",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response only if both are in the selected section" + "_question2";
+        assertEquals(expectedFileName, result.getFileName());
+        CsvChecker.verifyCsvContent(result.getFileContent(), "/feedbackSessionResultsC1S1S1Q2Both_actionTest.csv");
 
     }
 

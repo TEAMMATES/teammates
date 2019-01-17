@@ -3,7 +3,7 @@ package teammates.test.cases.action;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
@@ -177,7 +177,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         try {
             saveAction = getAction(submissionParams);
             getRedirectResult(saveAction);
-        } catch (NullPostParameterException e) {
+            signalFailureToDetectException();
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
@@ -203,7 +204,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         try {
             saveAction = getAction(submissionParams);
             getRedirectResult(saveAction);
-        } catch (NullPostParameterException e) {
+            signalFailureToDetectException();
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
         }
@@ -229,7 +231,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         try {
             saveAction = getAction(submissionParams);
             getRedirectResult(saveAction);
-        } catch (NullPostParameterException e) {
+            signalFailureToDetectException();
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_EMAIL), e.getMessage());
         }

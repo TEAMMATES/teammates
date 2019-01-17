@@ -1,0 +1,10 @@
+<select class="form-control" [ngModel]="time"
+        (ngModelChange)="triggerTimeChange($event)" [disabled]="isDisabled"
+        [compareWith]="timeCompareFn"
+>
+  <option *ngFor="let i of range(23)" [ngValue]="{ hour: i, minute: 0 }">
+    {{ addLeadingZeros(2, i) }}:00H
+  </option>
+  <option [ngValue]="{ hour: 23, minute: 59 }">23:59H</option>
+  <option *ngIf="!isInFixedList(time)" [ngValue]="time">{{ addLeadingZeros(2, time.hour) }}:{{ addLeadingZeros(2, time.minute) }}H</option>
+</select>

@@ -1,9 +1,11 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import teammates.e2e.pageobjects.Browser;
 
 public class InstructorCourseEnrollPage extends AppPage {
 
