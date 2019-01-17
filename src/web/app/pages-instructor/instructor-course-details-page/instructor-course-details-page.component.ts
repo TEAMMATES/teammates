@@ -61,6 +61,11 @@ interface CourseInfo {
   studentListHtmlTableAsString: string;
 }
 
+interface RemindRedirectInfo {
+  redirectUrl: string;
+  statusMessage: string;
+}
+
 /**
  * Instructor course details page.
  */
@@ -139,9 +144,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     };
 
     this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
-      .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details?courseid='+ courseId,
-            resp.message);
+      .subscribe((resp: RemindRedirectInfo) => {
+        this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl,
+            resp.statusMessage);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });

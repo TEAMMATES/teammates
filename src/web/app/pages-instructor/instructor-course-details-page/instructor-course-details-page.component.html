@@ -91,7 +91,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">Cancel</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id)">OK</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">OK</button>
     </div>
   </ng-template>
   <ng-template #deleteAllStudentsModal let-modal>
