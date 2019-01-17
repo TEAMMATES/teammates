@@ -131,4 +131,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
   }
+
+  remindAllStudentsFromCourse(courseId: string): void {
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+      courseid: courseId,
+    };
+
+    this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details?courseid='+ courseId,
+            resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
 }
