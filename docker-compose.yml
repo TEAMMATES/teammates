@@ -1,9 +1,0 @@
-version: "3"
-services:
-  webapp:
-    container_name: teammates
-    build: .
-    command: "/app/gradlew appengineRun"
-    hostname: teammatescontainer
-    ports:
-      - "8080:8080"

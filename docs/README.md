@@ -7,7 +7,7 @@ Here are some documents important for TEAMMATES developers.
 * The project [**vision, challenges, and principles**](overview.md) from a developer's perspective.
 * The [**glossary**](glossary.md) of terms used in the project.
 * Software [**Design**](design.md) - Architecture, APIs, etc.
-* How to [**set up the developer environment**](setting-up.md) or [**set up with docker**](setting-up-with-docker.md).
+* How to [**set up the developer environment**](setting-up.md).
   * How to [**set up some IDEs for development**](ide-setup.md).
 * [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
