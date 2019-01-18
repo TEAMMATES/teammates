@@ -52,8 +52,6 @@ public class SendReminderEmailAction extends Action {
     @Override
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
@@ -61,6 +59,8 @@ public class SendReminderEmailAction extends Action {
                     new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!"));
         }
 
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
 

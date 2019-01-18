@@ -187,7 +187,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   hasGoogleId(index: number): boolean {
     const googleId: string = this.instructorList[index].googleId;
-    return googleId != null && googleId != '';
+    return googleId !== null && googleId !== '';
   }
 
   /**
@@ -517,7 +517,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Opens a modal to show the privileges for a given role.
    */
-  viewRolePrivileges(viewInstructorRoleModal: NgbModal, role: string) {
+  viewRolePrivileges(viewInstructorRoleModal: NgbModal, role: string): boolean {
     this.ngbModal.open(viewInstructorRoleModal);
 
     const privileges: Privileges = this.getPrivilegesForRole(role);
@@ -541,12 +541,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const modalTitle: (HTMLElement | null) = document.getElementById(modalTitleId);
     const canModifyCourse: (HTMLInputElement | null) = document.getElementById(modifyCourseId) as HTMLInputElement;
-    const canModifyInstructor: (HTMLInputElement | null) = document.getElementById(modifyInstructorId) as HTMLInputElement;
+    const canModifyInstructor: (HTMLInputElement | null) =
+        document.getElementById(modifyInstructorId) as HTMLInputElement;
     const canModifySession: (HTMLInputElement | null) = document.getElementById(modifySessionId) as HTMLInputElement;
     const canModifyStudent: (HTMLInputElement | null) = document.getElementById(modifyStudentId) as HTMLInputElement;
-    const canViewStudentInSection: (HTMLInputElement | null) = document.getElementById(viewStudentInSectionId) as HTMLInputElement;
-    const canSubmitSessionInSection: (HTMLInputElement | null) = document.getElementById(submitSessionInSectionId) as HTMLInputElement;
-    const canViewSessionInSection: (HTMLInputElement | null) = document.getElementById(viewSessionInSectionId) as HTMLInputElement;
+    const canViewStudentInSection: (HTMLInputElement | null) =
+        document.getElementById(viewStudentInSectionId) as HTMLInputElement;
+    const canSubmitSessionInSection: (HTMLInputElement | null) =
+        document.getElementById(submitSessionInSectionId) as HTMLInputElement;
+    const canViewSessionInSection: (HTMLInputElement | null) =
+        document.getElementById(viewSessionInSectionId) as HTMLInputElement;
     const canModifySessionCommentInSection: (HTMLInputElement | null) =
         document.getElementById(modifySessionCommentInSectionId) as HTMLInputElement;
 
@@ -596,7 +600,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
         .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessMessage(resp.message);
+          this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
