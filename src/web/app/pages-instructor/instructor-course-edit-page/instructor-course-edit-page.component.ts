@@ -147,6 +147,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const control: FormArray = this.fb.array([]);
     this.instructorList.forEach((instructor: InstructorAttributes) => {
+
+      const instructorPrivileges: Privileges = this.getPrivilegesForRole(instructor.role);
+
       control.push(this.fb.group({
         googleId: [{ value: instructor.googleId, disabled: true }],
         name: [{ value: instructor.name, disabled: true }],
@@ -154,6 +157,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
         displayedName: [{ value: instructor.displayedName, disabled: true }],
         role: [{ value: instructor.role }],
+        privileges: [{ value: instructorPrivileges }],
       }));
     });
 
@@ -318,18 +322,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const editedInstructor: InstructorAttributes = this.instructorList[index];
     const newPrivileges: Privileges = this.getPrivilegesForRole(editedRole);
 
+    // If there is only one instructor, the instructor can modify instructors by default
+    if (this.instructorList.length === 1) {
+      newPrivileges.courseLevel.canmodifyinstructor = true;
+    }
+
     // Update stored instructor entity if necessary
     if (this.instructor.googleId === editedInstructor.googleId) {
       this.instructor.privileges = newPrivileges;
-
-      // If there is only one instructor, the instructor can modify instructors by default
-      if (this.instructorList.length === 1) {
-        this.instructor.privileges.courseLevel.canmodifyinstructor = true;
-      }
       this.updateElementsForPrivileges();
-    } else {
-      editedInstructor.privileges = newPrivileges;
     }
+
+    this.instructorList[index].privileges = newPrivileges;
   }
 
   /**
@@ -422,9 +426,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Updates the stored instructor list and forms.
    */
   private addToInstructorList(instructor: InstructorAttributes): void {
-    this.instructorList.push(instructor);
-
     const formInstructors: string = 'formInstructors';
+    const newPrivileges: Privileges = this.getPrivilegesForRole(instructor.role);
+    instructor.privileges = newPrivileges;
+
+    this.instructorList.push(instructor);
 
     (this.formEditInstructors.controls[formInstructors] as FormArray).push(this.fb.group({
       googleId: [{ value: '', disabled: true }],
@@ -505,6 +511,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const instructorToView: InstructorAttributes =  this.instructorList[index];
     this.initViewInstructorRole(instructorToView.role, instructorToView.privileges.courseLevel);
+    return false;
+  }
+
+  /**
+   * Opens a modal to show the privileges for a given role.
+   */
+  viewRolePrivileges(viewInstructorRoleModal: NgbModal, role: string) {
+    this.ngbModal.open(viewInstructorRoleModal);
+
+    const privileges: Privileges = this.getPrivilegesForRole(role);
+    this.initViewInstructorRole(role, privileges.courseLevel);
     return false;
   }
 

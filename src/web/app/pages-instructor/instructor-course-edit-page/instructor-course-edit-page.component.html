@@ -146,28 +146,28 @@
                     <div>
                       <input type="radio" value="Co-owner" formControlName="role">
                       Co-owner: Can do everything
-                      <a class="view-role-details" data-role="Co-owner">
+                      <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Co-owner')">
                         View Details
                       </a>
                     </div>
                     <div>
                       <input type="radio" value="Manager" formControlName="role">
                       Manager: Can do everything except for deleting/restoring the course
-                      <a class="view-role-details" data-role="Manager">
+                      <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Manager')">
                         View Details
                       </a>
                     </div>
                     <div>
                       <input type="radio" value="Observer" formControlName="role">
                       Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-                      <a class="view-role-details" data-role="Observer">
+                      <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Observer')">
                         View Details
                       </a>
                     </div>
                     <div>
                       <input type="radio" value="Tutor" formControlName="role">
                       Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                      <a class="view-role-details" data-role="Tutor">
+                      <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Tutor')">
                         View Details
                       </a>
                     </div>
@@ -187,6 +187,20 @@
           </form>
         </div>
       </div>
+      <ng-template #deleteInstructorModal let-modal>
+        <div class="modal-header alert-danger">
+          <h4 class="modal-title icon-danger">Confirm deleting instructor</h4>
+          <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
+        </div>
+        <div class="modal-body" id="delete-instr-modal"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+          <button type="button" class="btn btn-danger"
+                  (click)="deleteInstructor(i); modal.dismiss()">
+            OK
+          </button>
+        </div>
+      </ng-template>
     </ng-container>
   </div>
 </div>
@@ -246,28 +260,28 @@
               <div>
                 <input type="radio" value="Co-owner" formControlName="role">
                 Co-owner: Can do everything
-                <a class="view-role-details" data-role="Co-owner">
+                <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Co-owner')">
                   View Details
                 </a>
               </div>
               <div>
                 <input type="radio" value="Manager" formControlName="role">
                 Manager: Can do everything except for deleting/restoring the course
-                <a class="view-role-details" data-role="Manager">
+                <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Manager')">
                   View Details
                 </a>
               </div>
               <div>
                 <input type="radio" value="Observer" formControlName="role">
                 Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-                <a class="view-role-details" data-role="Observer">
+                <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Observer')">
                   View Details
                 </a>
               </div>
               <div>
                 <input type="radio" value="Tutor" formControlName="role">
                 Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                <a class="view-role-details" data-role="Tutor">
+                <a class="view-role-details" href="#" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Tutor')">
                   View Details
                 </a>
               </div>
@@ -287,21 +301,6 @@
     </form>
   </div>
 </div>
-<!-- Modals here -->
-<ng-template #deleteInstructorModal let-modal>
-  <div class="modal-header alert-danger">
-    <h4 class="modal-title icon-danger">Confirm deleting instructor</h4>
-    <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
-  </div>
-  <div class="modal-body" id="delete-instr-modal"></div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
-    <button type="button" class="btn btn-danger"
-            (click)="deleteInstructor(i); modal.dismiss()">
-      OK
-    </button>
-  </div>
-</ng-template>
 <ng-template #viewInstructorRoleModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="role-title"></h4>
