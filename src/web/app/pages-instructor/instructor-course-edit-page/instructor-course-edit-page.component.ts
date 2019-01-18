@@ -565,7 +565,41 @@ export class InstructorCourseEditPageComponent implements OnInit {
       canViewSessionInSection.checked = courseLevelPrivileges.canviewsessioninsection;
       canModifySessionCommentInSection.checked = courseLevelPrivileges.canmodifysessioncommentinsection;
     }
+  }
 
+  /**
+   * Opens a modal to confirm resending an invitation email to an instructor.
+   */
+  onSubmitResendEmail(resendEmailModal: NgbModal, index: number): void {
+    this.ngbModal.open(resendEmailModal);
+
+    const instructorToResend: InstructorAttributes = this.instructorList[index];
+    const modalId: string = 'resend-email-modal';
+    const courseId: string = this.courseToEdit.id;
+
+    const modal: (HTMLElement | null) = document.getElementById(modalId);
+    if (modal != null) {
+      modal.innerText = `Do you wish to re-send the invitation email to instructor ${instructorToResend.name} `
+          + `from course ${courseId}?`;
+    }
+  }
+
+  /**
+   * Re-sends an invitation email to an instructor in the course.
+   */
+  resendReminderEmail(index: number): void {
+    const instructorToResend: InstructorAttributes = this.instructorList[index];
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseToEdit.id,
+      instructoremail: instructorToResend.email,
+    };
+
+    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+            this.statusMessageService.showSuccessMessage(resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
 }

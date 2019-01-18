@@ -68,6 +68,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE_EDIT_INSTRUCTOR_DETAILS, POST, EditInstructorInCourseAction.class);
         map(ResourceURIs.COURSE_ADD_INSTRUCTOR, PUT, CreateInstructorInCourseAction.class);
+        map(ResourceURIs.COURSE_SEND_REMINDER_EMAILS, POST, SendReminderEmailAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {
