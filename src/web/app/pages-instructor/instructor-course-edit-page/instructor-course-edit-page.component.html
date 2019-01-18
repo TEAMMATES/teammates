@@ -138,7 +138,7 @@
                 <div class="col-sm-9">
                   <span class="form-control-static" id="role-view-{{ i }}">
                     {{ instructorList[i].role }}
-                    <a class="view-role-details" href="#">
+                    <a class="view-role-details" href="#" (click)="viewInstructorRole(viewInstructorRoleModal, i)">
                       View Details
                     </a>
                   </span>
@@ -287,6 +287,7 @@
     </form>
   </div>
 </div>
+<!-- Modals here -->
 <ng-template #deleteInstructorModal let-modal>
   <div class="modal-header alert-danger">
     <h4 class="modal-title icon-danger">Confirm deleting instructor</h4>
@@ -299,5 +300,47 @@
             (click)="deleteInstructor(i); modal.dismiss()">
       OK
     </button>
+  </div>
+</ng-template>
+<ng-template #viewInstructorRoleModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="role-title"></h4>
+    <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">x</button>
+  </div>
+  <div class="modal-body" id="view-instr-role-modal">
+    <div class="row">
+      <div class="col-sm-6">
+        <input disabled id="canmodifycourse" type="checkbox">
+        Edit/Delete/Restore Course
+      </div>
+      <div class="col-sm-6">
+        <input disabled id="canmodifyinstructor" type="checkbox">
+        Add/Edit/Delete Instructors
+      </div>
+      <div class="col-sm-6">
+        <input disabled id="canmodifysession" type="checkbox">
+        Create/Edit/Delete/Restore Sessions
+      </div>
+      <div class="col-sm-6">
+        <input disabled id="canmodifystudent" type="checkbox">
+        Enroll/Edit/Delete Students
+      </div>
+      <div class="col-sm-6">
+        <input disabled id="canviewstudentinsection" type="checkbox">
+        View Students' Details
+        <br>
+      </div>
+      <div class="col-sm-6">
+        <input disabled id="cansubmitsessioninsection" type="checkbox">
+        Sessions: Submit Responses and Add Comments
+        <br>
+        <input disabled id="canviewsessioninsection" type="checkbox">
+        Sessions: View Responses and Comments
+        <br>
+        <input disabled id="canmodifysessioncommentinsection" type="checkbox">
+        Sessions: Edit/Delete Responses/Comments by others
+        <br>
+      </div>
+    </div>
   </div>
 </ng-template>

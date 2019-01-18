@@ -497,4 +497,58 @@ export class InstructorCourseEditPageComponent implements OnInit {
     (this.formEditInstructors.controls[formInstructors] as FormArray).removeAt(index);
   }
 
+  /**
+   * Opens a modal to show the privileges for a given instructor.
+   */
+  viewInstructorRole(viewInstructorRoleModal: NgbModal, index: number): boolean {
+    this.ngbModal.open(viewInstructorRoleModal);
+
+    const instructorToView: InstructorAttributes =  this.instructorList[index];
+    this.initViewInstructorRole(instructorToView.role, instructorToView.privileges.courseLevel);
+    return false;
+  }
+
+  /**
+   * Initialises the modal showing privileges for given privileges.
+   */
+  initViewInstructorRole(role: string, courseLevelPrivileges: CourseLevelPrivileges): void {
+    const modalTitleId: string = 'role-title';
+    const modifyCourseId: string = 'canmodifycourse';
+    const modifyInstructorId: string = 'canmodifyinstructor';
+    const modifySessionId: string = 'canmodifysession';
+    const modifyStudentId: string = 'canmodifystudent';
+    const viewStudentInSectionId: string = 'canviewstudentinsection';
+    const submitSessionInSectionId: string = 'cansubmitsessioninsection';
+    const viewSessionInSectionId: string = 'canviewsessioninsection';
+    const modifySessionCommentInSectionId: string = 'canmodifysessioncommentinsection';
+
+    const modalTitle: (HTMLElement | null) = document.getElementById(modalTitleId);
+    const canModifyCourse: (HTMLInputElement | null) = document.getElementById(modifyCourseId) as HTMLInputElement;
+    const canModifyInstructor: (HTMLInputElement | null) = document.getElementById(modifyInstructorId) as HTMLInputElement;
+    const canModifySession: (HTMLInputElement | null) = document.getElementById(modifySessionId) as HTMLInputElement;
+    const canModifyStudent: (HTMLInputElement | null) = document.getElementById(modifyStudentId) as HTMLInputElement;
+    const canViewStudentInSection: (HTMLInputElement | null) = document.getElementById(viewStudentInSectionId) as HTMLInputElement;
+    const canSubmitSessionInSection: (HTMLInputElement | null) = document.getElementById(submitSessionInSectionId) as HTMLInputElement;
+    const canViewSessionInSection: (HTMLInputElement | null) = document.getElementById(viewSessionInSectionId) as HTMLInputElement;
+    const canModifySessionCommentInSection: (HTMLInputElement | null) =
+        document.getElementById(modifySessionCommentInSectionId) as HTMLInputElement;
+
+    if (modalTitle != null && canModifyCourse != null && canModifyInstructor != null && canModifySession != null
+        && canModifyStudent != null && canViewStudentInSection != null && canSubmitSessionInSection != null
+        && canViewSessionInSection != null && canModifySessionCommentInSection != null) {
+
+      modalTitle.innerText = `Permissions for ${role}`;
+
+      canModifyCourse.checked = courseLevelPrivileges.canmodifycourse;
+      canModifyInstructor.checked = courseLevelPrivileges.canmodifyinstructor;
+      canModifySession.checked = courseLevelPrivileges.canmodifysession;
+      canModifyStudent.checked = courseLevelPrivileges.canmodifystudent;
+      canViewStudentInSection.checked = courseLevelPrivileges.canviewstudentinsection;
+      canSubmitSessionInSection.checked = courseLevelPrivileges.cansubmitsessioninsection;
+      canViewSessionInSection.checked = courseLevelPrivileges.canviewsessioninsection;
+      canModifySessionCommentInSection.checked = courseLevelPrivileges.canmodifysessioncommentinsection;
+    }
+
+  }
+
 }
