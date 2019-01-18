@@ -29,7 +29,7 @@ public class FeedbackSessionClosedRemindersActionTest
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
+        return Const.CronJob.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
     }
 
     @Test

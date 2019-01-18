@@ -23,7 +23,7 @@ public class InstructorHelpPageUiTest extends BaseE2ETestCase {
 
     @BeforeClass
     public void classSetup() {
-        helpPage = AppPage.getNewPageInstance(browser, createUrl(Const.ActionURIs.INSTRUCTOR_HELP_PAGE + ".jsp"),
+        helpPage = AppPage.getNewPageInstance(browser, createUrl(Const.WebPageURIs.INSTRUCTOR_HELP_PAGE + ".jsp"),
                                                 InstructorHelpPage.class);
     }
 

@@ -46,7 +46,7 @@ public class StudentCourseDetailsPageUiTest extends BaseE2ETestCase {
 
     private void verifyContent(String courseObjectId, String studentObjectId, String filePath,
                                boolean isFullPageChecked) throws Exception {
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                                 .withUserId(testData.students.get(studentObjectId).googleId)
                                 .withCourseId(testData.courses.get(courseObjectId).getId());
         StudentCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, StudentCourseDetailsPage.class);

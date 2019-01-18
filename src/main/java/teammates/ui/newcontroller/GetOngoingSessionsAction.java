@@ -139,7 +139,7 @@ public class GetOngoingSessionsAction extends Action {
 
             String instructorHomePageLink = "";
             if (account != null) {
-                instructorHomePageLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                         .withUserId(account.googleId)
                         .toString();
             }

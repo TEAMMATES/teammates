@@ -175,7 +175,7 @@ public class SearchAccountsAction extends Action {
 
             if (student.email != null && student.course != null
                     && !StringHelper.isEmpty(courseIdToInstructorGoogleIdMap.get(student.course))) {
-                sb.recordsPageLink = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+                sb.recordsPageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                         .withCourseId(student.course)
                         .withStudentEmail(student.email)
                         .withUserId(courseIdToInstructorGoogleIdMap.get(student.course))
@@ -210,7 +210,7 @@ public class SearchAccountsAction extends Action {
     }
 
     private String generateSubmitUrl(StudentAttributes student, String fsName) {
-        return Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.course)
                 .withSessionName(fsName)
                 .withRegistrationKey(StringHelper.encrypt(student.key))

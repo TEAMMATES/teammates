@@ -68,7 +68,6 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
-                Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE
         };
 
         remindAction = getAction(submissionParams);
@@ -78,8 +77,6 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         assertEquals("An email has been sent to " + student1InCourse1.email, msg.getMessage());
 
         ______TS("Typical case: Send email to remind a student to register for the course from student list page");
-
-        submissionParams[5] = Const.PageNames.INSTRUCTOR_STUDENT_LIST_PAGE;
 
         remindAction = getAction(submissionParams);
         r = getJsonResult(remindAction);

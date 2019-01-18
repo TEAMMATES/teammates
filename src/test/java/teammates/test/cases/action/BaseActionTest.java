@@ -28,7 +28,6 @@ import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FileDownloadResult;
-import teammates.ui.controller.ImageResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -102,13 +101,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected FileDownloadResult getFileDownloadResult(Action a) {
         return (FileDownloadResult) a.executeAndPostProcess();
-    }
-
-    /** Executes the action and returns the result.
-     * Assumption: The action returns an ImageResult.
-     */
-    protected ImageResult getImageResult(Action a) {
-        return (ImageResult) a.executeAndPostProcess();
     }
 
     /**

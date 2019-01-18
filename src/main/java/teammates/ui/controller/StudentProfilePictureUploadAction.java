@@ -35,7 +35,7 @@ public class StudentProfilePictureUploadAction extends Action {
 
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");
-        RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
+        RedirectResult r = createRedirectResult(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
 
         try {
             BlobInfo blobInfo = extractProfilePictureKey();
