@@ -40,6 +40,9 @@ public abstract class Action {
     protected UserInfo userInfo;
     protected AuthType authType;
 
+    // buffer to store the request body
+    private String requestBody;
+
     /**
      * Initializes the action object based on the HTTP request.
      */
@@ -155,7 +158,10 @@ public abstract class Action {
      * Returns the request body payload.
      */
     protected String getRequestBody() {
-        return HttpRequestHelper.getRequestBody(req);
+        if (requestBody == null) {
+            requestBody = HttpRequestHelper.getRequestBody(req);
+        }
+        return requestBody;
     }
 
     /**
@@ -184,8 +190,6 @@ public abstract class Action {
         }
         return Optional.empty();
     }
-
-
 
     /**
      * Gets the minimum access control level required to access the resource.

@@ -1,6 +1,8 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -211,5 +213,25 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         }
 
         return contribQnStats;
+    }
+
+    @Override
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        List<String> errors = new ArrayList<>();
+        boolean validAnswer = false;
+
+        // Valid answers: 0, 10, 20, .... 190, 200
+        boolean isValidRange = answer >= 0 && answer <= 200;
+        boolean isMultipleOf10 = answer % 10 == 0;
+        if (isValidRange && isMultipleOf10) {
+            validAnswer = true;
+        }
+        if (answer == Const.POINTS_NOT_SURE || answer == Const.POINTS_NOT_SUBMITTED) {
+            validAnswer = true;
+        }
+        if (!validAnswer) {
+            errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
+        }
+        return errors;
     }
 }

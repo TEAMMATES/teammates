@@ -1017,6 +1017,16 @@ public class Logic {
     }
 
     /**
+     * Gets all students of a team.
+     */
+    public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
+        Assumption.assertNotNull(teamName);
+        Assumption.assertNotNull(courseId);
+
+        return studentsLogic.getStudentsForTeam(teamName, courseId);
+    }
+
+    /**
      * Batch creates or updates search documents for the given students.
      */
     public void putStudentDocuments(List<StudentAttributes> students) {

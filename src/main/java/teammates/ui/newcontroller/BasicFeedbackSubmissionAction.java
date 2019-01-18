@@ -1,13 +1,18 @@
 package teammates.ui.newcontroller;
 
+import java.util.List;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -128,6 +133,60 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
             // should not view response under preview mode
             throw new UnauthorizedAccessException("Cannot get responses in preview request");
         }
+    }
+
+    /**
+     * Verifies that the session is open for submission.
+     *
+     * <p>If it is moderation request, omit the check.
+     */
+    protected void verifySessionOpenExceptForModeration(FeedbackSessionAttributes feedbackSession) {
+        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+
+        if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+            throw new UnauthorizedAccessException("The feedback session is not available for submission");
+        }
+    }
+
+    /**
+     * Gets the section of a recipient.
+     */
+    protected String getRecipientSection(
+            String courseId, FeedbackParticipantType recipientType, String recipientIdentifier) {
+        switch (recipientType) {
+        case INSTRUCTORS:
+        case SELF:
+        case NONE:
+            return Const.DEFAULT_SECTION;
+        case TEAMS:
+        case OWN_TEAM:
+            return logic.getSectionForTeam(courseId, recipientIdentifier);
+        case STUDENTS:
+        case OWN_TEAM_MEMBERS:
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
+            return student == null ? Const.DEFAULT_SECTION : student.section;
+        default:
+            Assumption.fail("Unknown recipient type " + recipientType);
+            return null;
+        }
+    }
+
+    /**
+     * Validates the response of the corresponding question.
+     */
+    protected void validResponseOfQuestion(FeedbackQuestionAttributes questionAttributes,
+                                           FeedbackResponseAttributes responseToValidate) {
+        List<String> questionSpecificErrors =
+                responseToValidate.getResponseDetails().validateResponseDetails(questionAttributes);
+
+        // validate the response itself
+        if (!questionSpecificErrors.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
+        }
+
+        // validate responses of the question
+        // TODO: implement this when other type of questions are integrated
     }
 
 }
