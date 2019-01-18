@@ -615,9 +615,7 @@ public class FeedbackSessionResultsBundle {
             case INSTRUCTORS:
                 return getSortedListOfInstructorEmails();
             case SELF:
-                List<String> creatorEmail = new ArrayList<>();
-                creatorEmail.add(fqa.creatorEmail);
-                return creatorEmail;
+                return getCreatorEmail();
             default:
                 log.severe("Invalid giver type specified");
                 return new ArrayList<>();
@@ -650,7 +648,7 @@ public class FeedbackSessionResultsBundle {
                 possibleGivers = getSortedListOfInstructorEmails();
                 break;
             case SELF:
-                possibleGivers.add(fqa.creatorEmail);
+                possibleGivers = getCreatorEmail();
                 break;
             default:
                 log.severe("Invalid giver type specified");
@@ -689,7 +687,7 @@ public class FeedbackSessionResultsBundle {
             possibleGivers = getSortedListOfTeams();
             break;
         case SELF:
-            possibleGivers.add(fqa.creatorEmail);
+            possibleGivers = getCreatorEmail();
             break;
         default:
             log.severe("Invalid giver type specified");
@@ -754,8 +752,7 @@ public class FeedbackSessionResultsBundle {
             possibleGivers = getSortedListOfTeams();
             break;
         case SELF:
-            possibleGivers = new ArrayList<>();
-            possibleGivers.add(fqa.creatorEmail);
+            possibleGivers = getCreatorEmail();
             break;
         default:
             log.severe("Invalid giver type specified");
@@ -963,6 +960,12 @@ public class FeedbackSessionResultsBundle {
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
         teams.sort(null);
         return teams;
+    }
+
+    private List<String> getCreatorEmail() {
+        List<String> creatorEmail = new ArrayList<>();
+        creatorEmail.add(feedbackSession.getCreatorEmail());
+        return creatorEmail;
     }
 
     /**

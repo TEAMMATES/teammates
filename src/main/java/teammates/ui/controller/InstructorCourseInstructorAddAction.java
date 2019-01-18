@@ -31,7 +31,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         try {
             logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                    loggedInUser.googleId, instructorToAdd.email, instructorToAdd.courseId);
+                    loggedInUser.googleId, instructorToAdd.email, instructorToAdd.courseId, null, false);
 
             statusToUser.add(new StatusMessage(
                     String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, instructorToAdd.name, instructorToAdd.email),

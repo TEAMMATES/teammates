@@ -128,8 +128,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 .withTeam("Team Unregistered")
                 .withComments("")
                 .build();
-        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
-        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
+        StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
+        StudentsLogic.inst().createStudentCascade(unregisteredStudent2);
 
         /* Reassign the attributes to retrieve their keys */
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
@@ -159,15 +159,15 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + unregisteredStudent1.name + "<span class=\"bold\"> ("
                 + unregisteredStudent1.email + ")" + "</span>.<br>"
                 + StringHelper.encrypt(unregisteredStudent1.key)
-                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br>"
+                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1&entitytype=student<br>"
                 + unregisteredStudent2.name + "<span class=\"bold\"> ("
                 + unregisteredStudent2.email + ")" + "</span>.<br>"
                 + StringHelper.encrypt(unregisteredStudent2.key)
-                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br>";
+                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1&entitytype=student<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent2.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
 
         ______TS("Typical case: no unregistered students in course");
 

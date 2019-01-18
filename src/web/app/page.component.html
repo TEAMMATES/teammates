@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <a routerLink="/web">
+    <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
+  </a>
+  <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+    <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
+      <ng-template ngFor let-navItem [ngForOf]="navItems">
+        <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url">{{ childItem.display}}</a>
+          </div>
+        </li>
+        <li *ngIf="!navItem.children" class="nav-item">
+          <a class="nav-link" [routerLink]="navItem.url">{{ navItem.display }}</a>
+        </li>
+      </ng-template>
+    </ul>
+    <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
+    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo">
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" [href]="studentLoginUrl">Student Login</a>
+          <a class="dropdown-item" [href]="instructorLoginUrl">Instructor Login</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent">To student pages</a>
+          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
+          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
+          <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
+          <a class="dropdown-item" [href]="logoutUrl">Log Out</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div id="main-content" class="container main-content">
+  <div *ngIf="isUnsupportedBrowser">
+    You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.
+    In case this web browser does not display the webpage correctly you may wish to view it in the following supported browsers:
+    <ol>
+      <li>Microsoft Internet Explorer {{ minimumVersions['IE'] }}+</li>
+      <li>Chrome {{ minimumVersions['Chrome'] }}+</li>
+      <li>Firefox {{ minimumVersions['Firefox'] }}+</li>
+      <li>Safari {{ minimumVersions['Safari'] }}+</li>
+    </ol>
+    <br>
+  </div>
+  <div *ngIf="isCookieDisabled">
+    You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
+  </div>
+  <div *ngIf="!isValidUser">
+    Invalid user!
+  </div>
+  <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
+  <tm-status-message [messages]="messageList"></tm-status-message>
+  <router-outlet *ngIf="isValidUser"></router-outlet>
+</div>
+<div>
+  <footer>
+    <div class="container footer text-nowrap">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4 offset-sm-8 col-md-3 offset-md-9">
+          Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

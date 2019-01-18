@@ -23,11 +23,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
@@ -578,7 +578,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     public void fillAllRubricColumns(int qnNumber, int[] colIndexes, String[]... colValues) {
-        Assumption.assertEquals(colIndexes.length, colValues.length);
+        assertEquals(colIndexes.length, colValues.length);
 
         for (int i = 0; i < colIndexes.length; i++) {
             fillRubricColumn(qnNumber, colIndexes[i], colValues[i]);

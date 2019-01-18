@@ -13,10 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
@@ -25,58 +22,8 @@ import teammates.common.util.Const.SystemParams;
  * Time zone is assumed as UTC unless specifically mentioned.
  */
 public final class TimeHelper {
+
     private static final Logger log = Logger.getLogger();
-    private static final Map<ZoneId, String> TIME_ZONE_CITIES_MAP = new LinkedHashMap<>();
-
-    /*
-     *This time zone - city map was created by selecting major cities from each time zone.
-     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets
-     *The map was verified by comparing with world clock from http://www.timeanddate.com/worldclock/
-     *Note: No DST is handled here.
-     */
-
-    static {
-        map("UTC-12:00", "Baker Island, Howland Island");
-        map("UTC-11:00", "American Samoa, Niue");
-        map("UTC-10:00", "Hawaii, Cook Islands");
-        map("UTC-09:30", "Marquesas Islands");
-        map("UTC-09:00", "Gambier Islands, Alaska");
-        map("UTC-08:00", "Los Angeles, Vancouver, Tijuana");
-        map("UTC-07:00", "Phoenix, Calgary, Ciudad Juárez");
-        map("UTC-06:00", "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
-        map("UTC-05:00", "New York, Lima, Toronto, Bogotá, Havana, Kingston");
-        map("UTC-04:30", "Caracas");
-        map("UTC-04:00", "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
-        map("UTC-03:30", "St. John's");
-        map("UTC-03:00", "Buenos Aires, Montevideo, São Paulo");
-        map("UTC-02:00", "Fernando de Noronha, South Georgia and the South Sandwich Islands");
-        map("UTC-01:00", "Cape Verde, Greenland, Azores islands");
-        map("UTC", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
-        map("UTC+01:00", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
-        map("UTC+02:00", "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
-        map("UTC+03:00", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
-        map("UTC+03:30", "Tehran");
-        map("UTC+04:00", "Baku, Dubai, Moscow");
-        map("UTC+04:30", "Kabul");
-        map("UTC+05:00", "Karachi, Tashkent");
-        map("UTC+05:30", "Colombo, Delhi");
-        map("UTC+05:45", "Kathmandu");
-        map("UTC+06:00", "Almaty, Dhaka, Yekaterinburg");
-        map("UTC+06:30", "Yangon");
-        map("UTC+07:00", "Jakarta, Bangkok, Novosibirsk, Hanoi");
-        map("UTC+08:00", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
-        map("UTC+08:45", "Eucla");
-        map("UTC+09:00", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
-        map("UTC+09:30", "Adelaide");
-        map("UTC+10:00", "Canberra, Yakutsk, Port Moresby");
-        map("UTC+10:30", "Lord Howe Islands");
-        map("UTC+11:00", "Vladivostok, Noumea");
-        map("UTC+12:00", "Auckland, Suva");
-        map("UTC+12:45", "Chatham Islands");
-        map("UTC+13:00", "Phoenix Islands, Tokelau, Tonga");
-        map("UTC+14:00", "Line Islands");
-
-    }
 
     /**
      * Represents the ambiguity status for a {@link LocalDateTime} at a given time {@code zone},
@@ -124,10 +71,6 @@ public final class TimeHelper {
         // utility class
     }
 
-    private static void map(String timeZone, String cities) {
-        TIME_ZONE_CITIES_MAP.put(ZoneId.of(timeZone), cities);
-    }
-
     /**
      * Registers the zone rules loaded from resources via {@link TzdbResourceZoneRulesProvider}.
      * Some manipulation of the system class loader is required to enable loading of a custom
@@ -160,14 +103,6 @@ public final class TimeHelper {
         } catch (ReflectiveOperationException | Error e) {
             log.severe("Failed to register zone rules: " + TeammatesException.toStringWithStackTrace(e));
         }
-    }
-
-    public static String getCitiesForTimeZone(ZoneId zone) {
-        return TIME_ZONE_CITIES_MAP.get(zone);
-    }
-
-    public static List<ZoneId> getTimeZoneValues() {
-        return new ArrayList<>(TIME_ZONE_CITIES_MAP.keySet());
     }
 
     /**
@@ -368,20 +303,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats {@code instant} for the admin's activity log page.
-     * Example: 01/04/2018 12:00:01.481
-     *
-     * <p>Timestamp precision to millisecond. Used for dev/admin-facing pages only.</p>
-     *
-     * @param instant the instant to be formatted
-     * @param zoneId  the time zone to calculate local date and time
-     * @return the formatted timestamp string
-     */
-    public static String formatDateTimeForAdminLog(Instant instant, ZoneId zoneId) {
-        return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
-    }
-
-    /**
      * Formats {@code instant} using the ISO8601 format in UTC.
      * Example: 2011-12-03T10:15:30Z
      *
@@ -416,20 +337,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns Duration in format m:s:ms.
-     *
-     * <p>Example: 1200 milliseconds ---> 0:1:200.
-     */
-    public static String convertToStandardDuration(Long timeInMilliseconds) {
-        return timeInMilliseconds == null
-             ? ""
-             : String.format("%d:%d:%d",
-                timeInMilliseconds / 60000,
-                (timeInMilliseconds % 60000) / 1000,
-                timeInMilliseconds % 1000);
-    }
-
-    /**
      * Parses an {@code Instant} object from a datetime string in the {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.
      *
      * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
@@ -442,26 +349,6 @@ public final class TimeHelper {
             return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
         } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
-            return null;
-        }
-    }
-
-    /**
-     * Parses a {@code LocalDateTime} object from a datetime string and parsing pattern.
-     *
-     * @param dateTimeString the string containing the datetime
-     * @param pattern        the parsing pattern of the datetime string
-     * @return the parsed {@code LocalDateTime} object, or {@code null} if there are errors
-     */
-    public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
-        if (dateTimeString == null || pattern == null) {
-            return null;
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        try {
-            return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (DateTimeParseException e) {
             return null;
         }
     }
@@ -536,22 +423,4 @@ public final class TimeHelper {
         return parseDateTimeFromSessionsForm(inputDate, inputTimeHours, "0");
     }
 
-    /**
-     * Parses a {@code ZoneId} object from a string.
-     * Example: "Asia/Singapore" or "UTC+04:00".
-     *
-     * @param timeZone a string containing the zone ID
-     * @return {@code ZoneId.of(timeZone)}, or {@code null} if {@code timeZone} is invalid.
-     */
-    public static ZoneId parseZoneId(String timeZone) {
-        if (timeZone == null) {
-            return null;
-        }
-
-        try {
-            return ZoneId.of(timeZone);
-        } catch (DateTimeException dte) {
-            return null;
-        }
-    }
 }

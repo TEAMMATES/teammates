@@ -19,7 +19,7 @@ import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -361,7 +361,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
             a = getAction(submissionParams);
             getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                          Const.ParamsNames.COURSE_ID), e.getMessage());
         }
@@ -388,7 +388,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
             a = getAction(submissionParams);
             getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                          Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
@@ -1962,7 +1962,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        int numStudentRespondents = 3;
+        int numStudentRespondents = 4; // student1, student2, student3, student5
         int numInstructorRespondents = 1;
 
         int totalStudents = 5;
@@ -1998,7 +1998,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(params1);
         a.executeAndPostProcess();
 
-        // Response rate should not change because other questions have the same respondents
+        // Response rate should decrease by 1 as response from student1 in qn1 is changed
+        numStudentRespondents--;
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);

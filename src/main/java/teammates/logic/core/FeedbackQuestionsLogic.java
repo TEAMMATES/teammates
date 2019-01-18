@@ -55,7 +55,12 @@ public final class FeedbackQuestionsLogic {
         return instance;
     }
 
-    public void createFeedbackQuestion(FeedbackQuestionAttributes fqa)
+    /**
+     * Creates a new feedback question.
+     *
+     * @return the created question
+     */
+    public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException {
 
         String feedbackSessionName = fqa.feedbackSessionName;
@@ -68,7 +73,7 @@ public final class FeedbackQuestionsLogic {
             fqa.questionNumber = questions.size() + 1;
         }
         adjustQuestionNumbers(questions.size() + 1, fqa.questionNumber, questions);
-        createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
+        return createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
     }
 
     /**
@@ -84,13 +89,12 @@ public final class FeedbackQuestionsLogic {
     }
 
     public FeedbackQuestionAttributes copyFeedbackQuestion(
-            String feedbackQuestionId, String feedbackSessionName, String courseId, String instructorEmail)
+            String feedbackQuestionId, String feedbackSessionName, String courseId)
             throws InvalidParametersException {
 
         FeedbackQuestionAttributes question = getFeedbackQuestion(feedbackQuestionId);
         question.feedbackSessionName = feedbackSessionName;
         question.courseId = courseId;
-        question.creatorEmail = instructorEmail;
         question.questionNumber = -1;
         question.setId(null);
 
@@ -159,13 +163,12 @@ public final class FeedbackQuestionsLogic {
      * Gets the list of questions for the specified feedback session template.
      */
     public List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
-            String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
+            String templateType, String courseId, String feedbackSessionName) {
 
         if ("TEAMEVALUATION".equals(templateType)) {
             String jsonString = Templates.populateTemplate(Templates.FeedbackSessionTemplates.TEAM_EVALUATION,
                     "${courseId}", courseId,
-                    "${feedbackSessionName}", feedbackSessionName,
-                    "${creatorEmail}", creatorEmail);
+                    "${feedbackSessionName}", feedbackSessionName);
 
             Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
             // obtained a Json String but deserialized everything

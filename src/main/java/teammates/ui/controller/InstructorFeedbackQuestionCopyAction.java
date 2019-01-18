@@ -19,9 +19,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
-                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-
-        String instructorEmail = instructorDetailForCourse.email;
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
             int index = 0;
@@ -30,7 +28,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
             while (feedbackQuestionId != null) {
                 FeedbackQuestionAttributes feedbackQuestion =
-                        logic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId, instructorEmail);
+                        logic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
 
                 index++;
 

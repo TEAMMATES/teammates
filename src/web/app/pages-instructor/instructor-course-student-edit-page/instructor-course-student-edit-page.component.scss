@@ -1,0 +1,19 @@
+.fill-plain {
+  background-color: #EAEFF5;
+}
+
+label {
+  font-weight: bold;
+}
+
+.form-row {
+  margin-bottom: 15px;
+}
+
+/deep/.modal-content {
+  padding: 0 !important;
+}
+
+/deep/.close:focus {
+  outline: 0;
+}

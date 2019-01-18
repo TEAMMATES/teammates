@@ -45,7 +45,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
         gateKeeper.verifyAccessible(instructor, logic.getCourse(originalCourseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, fsa, false);
+        gateKeeper.verifyAccessible(instructor, fsa);
 
         try {
             // Check if there are no conflicting feedback sessions in all the courses
@@ -95,7 +95,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account, sessionToken,
-                                                          Config.getAppUrl(nextUrl)
+                                                          Config.getFrontEndAppUrl(nextUrl)
                                                                 .withParam(Const.ParamsNames.ERROR,
                                                                            Boolean.FALSE.toString())
                                                                 .withParam(Const.ParamsNames.USER_ID,
