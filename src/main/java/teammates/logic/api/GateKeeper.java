@@ -163,6 +163,28 @@ public class GateKeeper {
     }
 
     /**
+     * Verifies that a instructor has submission privilege of a feedback session.
+     */
+    public void verifySessionSubmissionPrivilegeForInstructor(
+            FeedbackSessionAttributes session, InstructorAttributes instructor) {
+        verifyNotNull(session, "feedback session");
+        verifyNotNull(instructor, "instructor");
+
+        boolean shouldEnableSubmit =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+
+        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+            shouldEnableSubmit = true;
+        }
+
+        if (!shouldEnableSubmit) {
+            throw new UnauthorizedAccessException("You don't have submission privilege");
+        }
+    }
+
+
+    /**
      * Verifies that comment is created by feedback participant.
      *
      * @param frc comment to be accessed

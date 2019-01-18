@@ -1210,6 +1210,31 @@ public class Logic {
     }
 
     /**
+     * Gets a list of all questions for the given session that
+     * students can view/submit.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
+            String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a {@code List} of all questions for the given session that
+     * instructor can view/submit.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
+            String feedbackSessionName, String courseId, String instructorEmail) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, instructorEmail);
+    }
+
+
+    /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      *

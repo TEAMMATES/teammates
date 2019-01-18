@@ -890,6 +890,8 @@ public final class Const {
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
         public static final String ERROR_FEEDBACK_REQUEST_ID = "errorfeedbackrequestid";
         public static final String ENTITY_TYPE = "entitytype";
+
+        public static final String INTENT = "intent";
     }
 
     public static class SearchIndex {
