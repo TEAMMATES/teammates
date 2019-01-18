@@ -187,7 +187,7 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 * You need to use geckodriver for testing with Firefox.
   * Download the latest stable geckodriver from [here](https://github.com/mozilla/geckodriver/releases).
     The site will also inform the versions of Firefox that can be used with the driver.
-  * Specify the path to the chromedriver executable in `test.geckodriver.path` value in `test.properties`.
+  * Specify the path to the geckodriver executable in `test.geckodriver.path` value in `test.properties`.
 
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
