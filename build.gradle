@@ -275,7 +275,7 @@ appengine {
         }
     }
     run {
-        host = "localhost"
+        host = project.hasProperty("appengine_host") ? project.getProperty("appengine_host") : "localhost"
         port = 8080
         jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
                 // Absolute paths are not supported, the following is relative to the project directory
