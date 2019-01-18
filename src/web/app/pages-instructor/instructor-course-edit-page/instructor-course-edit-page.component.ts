@@ -147,12 +147,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const control: FormArray = this.fb.array([]);
     this.instructorList.forEach((instructor: InstructorAttributes) => {
-
-      const googleid: string = instructor.googleId != null ? instructor.googleId
-          : 'Not available. Instructor is yet to join this course.';
-
       control.push(this.fb.group({
-        googleId: [{ value: googleid, disabled: true }],
+        googleId: [{ value: instructor.googleId, disabled: true }],
         name: [{ value: instructor.name, disabled: true }],
         email: [{ value: instructor.email, disabled: true }],
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
@@ -180,6 +176,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.formEditCourse.controls[name].enable();
       this.formEditCourse.controls[timeZone].enable();
     }
+  }
+
+  /**
+   * Checks if the current instructor has a valid google id.
+   */
+  hasGoogleId(index: number): boolean {
+    const googleId: string = this.instructorList[index].googleId;
+    return googleId != null && googleId != '';
   }
 
   /**
@@ -420,11 +424,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
   private addToInstructorList(instructor: InstructorAttributes): void {
     this.instructorList.push(instructor);
 
-    const defaultId: string = 'Not available. Instructor is yet to join this course.';
     const formInstructors: string = 'formInstructors';
 
     (this.formEditInstructors.controls[formInstructors] as FormArray).push(this.fb.group({
-      googleId: [{ value: defaultId, disabled: true }],
+      googleId: [{ value: '', disabled: true }],
       name: [{ value: instructor.name, disabled: true }],
       email: [{ value: instructor.email, disabled: true }],
       isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],

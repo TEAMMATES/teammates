@@ -88,20 +88,6 @@
               <i class="fa fa-trash" aria-hidden="true"></i>
               Delete
             </button>
-            <ng-template #deleteInstructorModal let-modal>
-              <div class="modal-header alert-warning">
-                <h4 class="modal-title icon-warning">Confirm deleting instructor</h4>
-                <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
-              </div>
-              <div class="modal-body" id="delete-instr-modal"></div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
-                <button type="button" class="btn btn-warning"
-                        (click)="deleteInstructor(i); modal.dismiss()">
-                  OK
-                </button>
-              </div>
-            </ng-template>
           </span>
         </div>
         <div class="card-body">
@@ -110,9 +96,12 @@
               <label class="col-sm-3 control-label">
                 Google ID:
               </label>
-              <div class="col-sm-9">
+              <div class="col-sm-9" *ngIf="hasGoogleId(i)">
                 <input class="form-control immutable" maxlength="254" tabindex="3" formControlName="googleId">
               </div>
+              <span class="text-warning" *ngIf="!hasGoogleId(i)">
+                Not available. Instructor is yet to join this course.
+              </span>
             </div>
             <div class="form-row form-group">
               <label class="col-sm-3 control-label">
@@ -298,3 +287,17 @@
     </form>
   </div>
 </div>
+<ng-template #deleteInstructorModal let-modal>
+  <div class="modal-header alert-danger">
+    <h4 class="modal-title icon-danger">Confirm deleting instructor</h4>
+    <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
+  </div>
+  <div class="modal-body" id="delete-instr-modal"></div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-danger"
+            (click)="deleteInstructor(i); modal.dismiss()">
+      OK
+    </button>
+  </div>
+</ng-template>
