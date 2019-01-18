@@ -19,6 +19,10 @@ public abstract class FeedbackResponseDetails {
         this.questionType = questionType;
     }
 
+    public void setQuestionType(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
+    }
+
     /**
      * Extract response details and sets details accordingly.
      */
@@ -55,7 +59,7 @@ public abstract class FeedbackResponseDetails {
      * override in child class if necessary.
      */
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                    FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+                               FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
     }
 

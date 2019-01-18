@@ -118,4 +118,16 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }
     }
+
+    /**
+     * Verifies that it is not a preview request.
+     */
+    protected void verifyNotPreview() {
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        if (!StringHelper.isEmpty(previewAsPerson)) {
+            // should not view response under preview mode
+            throw new UnauthorizedAccessException("Cannot get responses in preview request");
+        }
+    }
+
 }

@@ -1795,6 +1795,29 @@ public class Logic {
                                                                                      userEmail, section, sectionDetail);
     }
 
+    /**
+     * Get existing feedback responses from student or his team for the given question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
+            FeedbackQuestionAttributes question, StudentAttributes student) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(student);
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);
+    }
+
+    /**
+     * Get existing feedback responses from instructor for the given question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromInstructorForQuestion(
+            FeedbackQuestionAttributes question, InstructorAttributes instructorAttributes) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(instructorAttributes);
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForQuestion(
+                question.getFeedbackQuestionId(), instructorAttributes.getEmail());
+    }
+
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
         Assumption.assertNotNull(feedbackResponseId);
         return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);

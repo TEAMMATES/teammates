@@ -975,6 +975,7 @@ public final class Const {
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
+        public static final String RESPONSES = "/responses";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
