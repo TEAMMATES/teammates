@@ -21,6 +21,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.newcontroller.Action;
+import teammates.ui.newcontroller.DownloadFileResult;
 import teammates.ui.newcontroller.ImageResult;
 import teammates.ui.newcontroller.JsonResult;
 
@@ -367,6 +368,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected JsonResult getJsonResult(Action a) {
         return (JsonResult) a.execute();
+    }
+
+    /**
+     * Executes the action and returns the downloadable text file.
+     *
+     * <p>Assumption: The action returns a {@link DownloadFileResult}.
+     */
+    protected DownloadFileResult getDownloadFileResult(Action a) {
+        return (DownloadFileResult) a.execute();
     }
 
     /**
