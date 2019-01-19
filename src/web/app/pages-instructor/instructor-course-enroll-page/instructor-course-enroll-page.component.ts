@@ -161,7 +161,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.enrollData = (userDataRows === ''
         ? '' : dataPushToTextarea + userDataRows); // only include header string if userDataRows is not empty
 
-    const paramMap: { [key: string]: string } = { courseid: this.courseid };
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseid,
+      user: this.user,
+    };
     this.httpRequestService.post('/courses/enrollSave', paramMap, this.enrollData)
         .subscribe((resp: EnrollResultPanelList) => {
           this.showEnrollResults = true;

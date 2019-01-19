@@ -57,7 +57,7 @@ public class PostCourseEnrollSaveAction extends Action {
             return new JsonResult(dataFormat);
 
         } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException(e));
+            throw new EntityNotFoundException(e);
 
         } catch (EnrollException | InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
@@ -68,7 +68,7 @@ public class PostCourseEnrollSaveAction extends Action {
             return new JsonResult("The enrollment failed, possibly because some students were re-enrolled before "
                             + "the previous enrollment action was still being processed by TEAMMATES database "
                             + "servers. Please try again after about 10 minutes. If the problem persists, "
-                            + "please contact TEAMMATES support", HttpStatus.SC_NOT_FOUND);
+                            + "please contact TEAMMATES support", HttpStatus.SC_CONFLICT);
         }
     }
 

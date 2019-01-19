@@ -2,7 +2,5 @@
   <button class="close" (click)="dismiss(statusMessage)">
     <span aria-hidden="true">&times;</span>
   </button>
-
-  <!--TODO: Change this behavior when no status messages are returned in raw HTML-->
   <div style="padding-right: 30px;" [innerHtml]="statusMessage.message"></div>
 </div>
