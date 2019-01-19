@@ -172,7 +172,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       courseid: this.courseid,
       user: this.user,
     };
-    this.httpRequestService.post('/courses/enrollSave', paramMap, this.enrollData)
+    this.httpRequestService.post('/course/enrollSave', paramMap, this.enrollData)
         .subscribe((resp: EnrollResultPanelList) => {
           this.showEnrollResults = true;
           this.statusMessage.pop(); // removes any existing status message
