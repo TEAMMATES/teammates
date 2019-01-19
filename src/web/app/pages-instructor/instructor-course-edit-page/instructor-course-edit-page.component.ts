@@ -3,6 +3,8 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import moment from 'moment-timezone';
+
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -69,6 +71,7 @@ interface CourseEditDetails {
 export class InstructorCourseEditPageComponent implements OnInit {
 
   user: string = '';
+  timezone: string = '';
   timezones: string[] = [];
 
   isEditingCourse: boolean = false;
@@ -104,6 +107,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
     });
 
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
+    this.timezone = moment.tz.guess();
+  }
+
+  /**
+   * Replaces the timezone value with the detected timezone.
+   */
+  detectTimezone(): void {
+    const timeZone: string = 'timeZone';
+    this.formEditCourse.controls[timeZone].setValue(this.timezone);
   }
 
   /**
@@ -187,7 +199,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   hasGoogleId(index: number): boolean {
     const googleId: string = this.instructorList[index].googleId;
-    return googleId !== null && googleId !== '';
+    return googleId != null && googleId !== '';
   }
 
   /**

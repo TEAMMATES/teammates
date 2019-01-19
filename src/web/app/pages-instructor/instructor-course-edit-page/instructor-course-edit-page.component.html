@@ -41,7 +41,9 @@
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
               <span class="input-group-btn">
-                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse">Auto-Detect</button>
+                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
+                  Auto-Detect
+                </button>
               </span>
             </div>
           </div>
