@@ -6,6 +6,7 @@
   border-color: #DDD;
   width: 100%;
   display: block;
+  margin-bottom: 20px;
 }
 
 .card-header {
@@ -46,7 +47,7 @@
 }
 
 .enroll-students-spreadsheet-buttons {
-  margin-top: 10px;
+  margin-top: -15px;
 }
 
 #number-of-rows {
@@ -63,4 +64,10 @@
 
 .enroll-results-panel {
   margin-bottom: 15px;
+}
+
+.existing-students-status-message {
+  font-weight: bold;
+  margin-left: 1em;
+  margin-right: 1em;
 }
