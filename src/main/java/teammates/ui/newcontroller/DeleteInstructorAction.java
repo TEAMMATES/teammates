@@ -18,7 +18,14 @@ public class DeleteInstructorAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         if (userInfo.isAdmin) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+            gateKeeper.verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+
             return;
         }
 
@@ -26,10 +33,7 @@ public class DeleteInstructorAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
     }
