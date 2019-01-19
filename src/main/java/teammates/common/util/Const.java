@@ -967,7 +967,9 @@ public final class Const {
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
         public static final String COURSE = "/course";
         public static final String INSTRUCTORS = "/instructors";
+        public static final String INSTRUCTOR = "/instructor";
         public static final String STUDENTS = "/students";
+        public static final String STUDENT = "/student";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";

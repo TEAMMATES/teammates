@@ -114,11 +114,11 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyAccessible(instructor, feedbackSession,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(instructor, feedbackSession,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }

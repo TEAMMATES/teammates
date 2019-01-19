@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -18,8 +18,10 @@ import { FeedbackParticipantType } from '../../feedback-participant-type';
 import { FeedbackQuestion, NumberOfEntitiesToGiveFeedbackToSetting } from '../../feedback-question';
 import { FeedbackResponse } from '../../feedback-response';
 import { FeedbackSession, FeedbackSessionSubmissionStatus } from '../../feedback-session';
+import { Instructor } from '../../Instructor';
 import { Intent } from '../../Intent';
 import { ErrorMessageOutput } from '../../message-output';
+import { Student } from '../../student';
 import {
   FeedbackSessionClosedModalComponent,
 } from './feedback-session-closed-modal/feedback-session-closed-modal.component';
@@ -91,6 +93,9 @@ export class SessionSubmissionPageComponent implements OnInit {
 
   moderatedPerson: string = '';
   previewAsPerson: string = '';
+  // the name of the person involved
+  // (e.g. the student name for unregistered student, the name of instructor being moderated)
+  personName: string = '';
 
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
@@ -108,7 +113,7 @@ export class SessionSubmissionPageComponent implements OnInit {
 
   isModerationHintExpanded: boolean = false;
 
-  constructor(private route: ActivatedRoute, private statusMessageService: StatusMessageService,
+  constructor(private route: ActivatedRoute, private router: Router, private statusMessageService: StatusMessageService,
               private httpRequestService: HttpRequestService, private timezoneService: TimezoneService,
               private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
@@ -131,8 +136,49 @@ export class SessionSubmissionPageComponent implements OnInit {
         // disable submission in the preview mode
         this.isSubmissionFormsDisabled = true;
       }
+      this.loadPersonName();
       this.loadFeedbackSession();
     });
+  }
+
+  /**
+   * Loads the name of the person invovled in the submission.
+   */
+  loadPersonName(): void {
+    switch (this.intent) {
+      case Intent.STUDENT_SUBMISSION:
+        this.httpRequestService.get('/student', {
+          courseid: this.courseId,
+          fsname: this.feedbackSessionName,
+          intent: this.intent,
+          key: this.regKey,
+          moderatedperson: this.moderatedPerson,
+          previewas: this.previewAsPerson,
+        }).subscribe((student: Student) => {
+          this.personName = student.name;
+        });
+        break;
+      case Intent.INSTRUCTOR_SUBMISSION:
+        this.httpRequestService.get('/instructor', {
+          courseid: this.courseId,
+          fsname: this.feedbackSessionName,
+          intent: this.intent,
+          key: this.regKey,
+          moderatedperson: this.moderatedPerson,
+          previewas: this.previewAsPerson,
+        }).subscribe((instructor: Instructor) => {
+          this.personName = instructor.name;
+        });
+        break;
+      default:
+    }
+  }
+
+  /**
+   * Redirects to join course link for unregistered student.
+   */
+  joinCourseForUnregisteredStudent(): void {
+    this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
   }
 
   /**

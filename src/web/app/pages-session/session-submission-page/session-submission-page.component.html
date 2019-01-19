@@ -3,13 +3,13 @@
     <h5>You are moderating responses for
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
-      // TODO GET NAME ({{ moderatedPerson }})
+      {{ personName }} ({{ moderatedPerson }})
       <button type="button" class="btn btn-link" *ngIf="!isModerationHintExpanded" (click)="isModerationHintExpanded = true">[More]</button>
       <button type="button" class="btn btn-link" *ngIf="isModerationHintExpanded" (click)="isModerationHintExpanded = false">[Less]</button>
     </h5>
     <div *ngIf="isModerationHintExpanded" class="text-left">
       <p>
-        The page below resembles the submission page as seen by the respondent // TODO GET NAME ({{ moderatedPerson }}).
+        The page below resembles the submission page as seen by the respondent {{ personName }} ({{ moderatedPerson }}).
         You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
       </p>
       <p>
@@ -23,14 +23,15 @@
     <h4>Previewing Session as
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
-      // TODO GET NAME ({{ previewAsPerson }})
+      {{ personName }} ({{ previewAsPerson }})
     </h4>
   </div>
 </nav>
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
-      You are submitting feedback as // TODO get name. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to <a href="">login using a Google account //TODO</a> (recommended).
+      You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to
+      <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
     </div>
   </div>
 </div>
