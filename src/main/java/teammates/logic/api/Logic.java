@@ -669,6 +669,13 @@ public class Logic {
     }
 
     /**
+     * Checks if the course is present in the system based on its courseid.
+     */
+    public boolean isCoursePresent(String courseid) {
+        return coursesLogic.isCoursePresent(courseid);
+    }
+
+    /**
      * Moves a course to Recycle Bin by its given corresponding ID.
      * All data related will not be deleted.
      */

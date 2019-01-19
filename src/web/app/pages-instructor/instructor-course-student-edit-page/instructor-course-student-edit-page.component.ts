@@ -141,7 +141,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   /**
    * Sets the boolean value of `isSessionSummarySendEmail` to true if
    * user chooses to resend past session link to the new email.
-   * Submits the form otherwise.
    */
   resendPastSessionLinks(isResend: boolean): any {
     if (isResend) {
