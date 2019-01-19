@@ -992,6 +992,8 @@ public final class Const {
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
         public static final String COURSE_SEND_REMINDER_EMAILS = "/instructors/course/details/sendReminders";
+        public static final String COURSE_ENROLL_SAVE = "/courses/enrollSave";
+        public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
     }
 
     @Deprecated
