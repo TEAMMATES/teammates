@@ -58,9 +58,9 @@
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
-            <button type="submit" class="btn btn-primary" name="fruploaddownloadbtn">
-              <i class="fa fa-download"></i>
-              Download Student List
+            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.id)">
+                <i class="fa fa-download"></i>
+                Download Student List
             </button>
             <button type="button" class="btn btn-danger" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
               <i class="fa fa-trash"></i>
