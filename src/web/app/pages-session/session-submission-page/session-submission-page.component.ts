@@ -44,6 +44,26 @@ interface FeedbackResponsesResponse {
 }
 
 /**
+ * The result of the confirmation.
+ */
+enum ConfirmationResult {
+  /**
+   * The submission has been confirmed successfully.
+   */
+  SUCCESS = 'SUCCESS',
+
+  /**
+   * The submission has been confirmed but the confirmation email failed to send.
+   */
+  SUCCESS_BUT_EMAIL_FAIL_TO_SEND = 'SUCCESS_BUT_EMAIL_FAIL_TO_SEND',
+}
+
+interface ConfirmationResponse {
+  result: ConfirmationResult;
+  message: string;
+}
+
+/**
  * Feedback session submission page.
  */
 @Component({
@@ -129,7 +149,7 @@ export class SessionSubmissionPageComponent implements OnInit {
 
           const submissionEndTime: any = moment(feedbackSession.submissionEndTimestamp);
           this.formattedSessionClosingTime = submissionEndTime
-                  .tz(feedbackSession.timeZone).format(TIME_FORMAT);
+              .tz(feedbackSession.timeZone).format(TIME_FORMAT);
 
           this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
 
@@ -243,8 +263,8 @@ export class SessionSubmissionPageComponent implements OnInit {
             model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
               model.recipientSubmissionForms.push({
                 recipientIdentifier:
-                this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT
-                    ? '' : recipient.recipientIdentifier,
+                    this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT
+                        ? '' : recipient.recipientIdentifier,
                 responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: '',
               });
@@ -351,7 +371,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
             const isFeedbackResponseDetailsEmpty: boolean =
                 this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
-            questionSubmissionFormModel.questionType, recipientSubmissionFormModel.responseDetails);
+                    questionSubmissionFormModel.questionType, recipientSubmissionFormModel.responseDetails);
             isQuestionFullyAnswered = isQuestionFullyAnswered && !isFeedbackResponseDetailsEmpty;
 
             if (recipientSubmissionFormModel.responseId !== '' && isFeedbackResponseDetailsEmpty) {
@@ -464,7 +484,17 @@ export class SessionSubmissionPageComponent implements OnInit {
           modalRef.componentInstance.failToSaveQuestions = Array.from(failToSaveQuestions.values()).join(', ');
           modalRef.componentInstance.hasSubmissionConfirmationError = hasSubmissionConfirmationError;
         }),
-    ).subscribe(() => {
+    ).subscribe((response: ConfirmationResponse) => {
+      switch (response.result) {
+        case ConfirmationResult.SUCCESS:
+          break;
+        case ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND:
+          this.statusMessageService.showErrorMessage(
+              `Submission confirmation email failed to send: ${response.message}`);
+          break;
+        default:
+          this.statusMessageService.showErrorMessage(`Unknown result ${response.result}`);
+      }
       hasSubmissionConfirmationError = false;
       this.shouldSendConfirmationEmail = false;
     }, (resp: ErrorMessageOutput) => {

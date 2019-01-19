@@ -2,8 +2,6 @@ package teammates.ui.newcontroller;
 
 import java.time.Instant;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -104,12 +102,40 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
             } catch (EmailSendingException e) {
                 log.severe("Submission confirmation email failed to send: "
                         + TeammatesException.toStringWithStackTrace(e));
-                return new JsonResult("Submission confirmation email failed to send",
-                        HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                return new JsonResult(new ConfirmationResponse(ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND,
+                        "Submission confirmation email failed to send"));
             }
         }
 
-        return new JsonResult("Submission confirmed");
+        return new JsonResult(new ConfirmationResponse(ConfirmationResult.SUCCESS, "Submission confirmed"));
     }
 
+    /**
+     * The result of the confirmation.
+     */
+    enum ConfirmationResult {
+        SUCCESS,
+        SUCCESS_BUT_EMAIL_FAIL_TO_SEND
+    }
+
+    /**
+     * The output format of {@link ConfirmFeedbackSessionSubmissionAction}.
+     */
+    public static class ConfirmationResponse extends ActionResult.ActionOutput {
+        private final ConfirmationResult result;
+        private final String message;
+
+        public ConfirmationResponse(ConfirmationResult result, String message) {
+            this.result = result;
+            this.message = message;
+        }
+
+        public ConfirmationResult getResult() {
+            return result;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
 }
