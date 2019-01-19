@@ -466,7 +466,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
             this.normalizeQuestionNumberInQuestionForms();
           }
 
-          this.statusMessageService.showSuccessMessage('The changes to the question have been updated.');
+          this.showSuccessMessage('The changes to the question have been updated.',  index);
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -535,7 +535,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
         .subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
-          this.statusMessageService.showSuccessMessage('The question has been duplicated below.');
+          this.showSuccessMessage('The question has been duplicated below.', index);
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -553,7 +553,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
           this.questionEditFormModels.splice(index, 1);
           this.normalizeQuestionNumberInQuestionForms();
 
-          this.statusMessageService.showSuccessMessage('The question has been deleted.');
+          this.showSuccessMessage('The question has been deleted.', index);
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -684,6 +684,13 @@ export class InstructorSessionEditPageComponent implements OnInit {
   doneEditingHandler(): void {
     this.router.navigateByUrl('/web/instructor/sessions');
     // TODO focus on the row of current feedback session in the sessions page
+  }
+
+  showSuccessMessage(msg: string, id: number): void {
+    this.messages[id].push({
+      message: msg,
+      color: "success"
+    });
   }
 
   /**
