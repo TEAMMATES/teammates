@@ -139,13 +139,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   downloadAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = { courseid: courseId };
     this.httpRequestService.get('/courses/details/downloadAllStudents', paramsMap, 'text')
-        .subscribe((resp) => {
-          const filename = `${courseId.concat('_studentList')}.csv`;
-          const blob = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      .subscribe((resp) => {
+        const filename = `${courseId.concat('_studentList')}.csv`;
+        const blob = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   remindAllStudentsFromCourse(courseId: string): void {
