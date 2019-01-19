@@ -218,11 +218,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   /**
-   * Shows the main enroll page again
+   * Reset page to default view
    */
-  backToEnrollPage(): void {
+  hideEnrollResults(): void {
     this.showEnrollResults = false;
     this.statusMessage.pop();
+    window.scroll(0, 0);
   }
 
   /**
