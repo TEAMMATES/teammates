@@ -159,32 +159,6 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         // no unregistered students, thus no emails sent
         verifyNoTasksAdded(remindAction);
-
-        ______TS("Failure case: Invalid email parameter");
-
-        String invalidEmail = "invalidEmail.com";
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
-        };
-
-        verifyHttpParameterFailure();
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, invalidEmail
-        };
-
-        verifyHttpParameterFailure();
-
-        ______TS("Failure case: Invalid course id parameter");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "invalidCourseId",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
-        };
-
-        verifyHttpParameterFailure();
     }
 
     @Override

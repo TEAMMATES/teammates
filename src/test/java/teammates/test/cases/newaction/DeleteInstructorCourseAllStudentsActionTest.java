@@ -25,11 +25,11 @@ public class DeleteInstructorCourseAllStudentsActionTest extends BaseActionTest<
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("success: delete all students");
-        gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.googleId);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
