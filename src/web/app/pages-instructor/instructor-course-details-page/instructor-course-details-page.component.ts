@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'; // this module becomes a component through this
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { saveAs } from 'file-saver';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
