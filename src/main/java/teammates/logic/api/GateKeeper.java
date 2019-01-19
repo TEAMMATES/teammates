@@ -168,7 +168,7 @@ public class GateKeeper {
      * Verifies that the feedback question is for student to answer.
      */
     public void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        verifyNotNull(feedbackQuestionAttributes, "feedback session's course ID");
+        verifyNotNull(feedbackQuestionAttributes, "feedback question");
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
@@ -180,7 +180,7 @@ public class GateKeeper {
      * Verifies that the feedback question is for instructor to answer.
      */
     public void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        verifyNotNull(feedbackQuestionAttributes, "feedback session's course ID");
+        verifyNotNull(feedbackQuestionAttributes, "feedback question");
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
@@ -190,7 +190,7 @@ public class GateKeeper {
 
 
     /**
-     * Verifies that a instructor has submission privilege of a feedback session.
+     * Verifies that an instructor has submission privilege of a feedback session.
      */
     public void verifySessionSubmissionPrivilegeForInstructor(
             FeedbackSessionAttributes session, InstructorAttributes instructor) {
