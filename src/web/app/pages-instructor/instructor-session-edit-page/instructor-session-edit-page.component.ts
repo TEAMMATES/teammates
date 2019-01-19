@@ -66,7 +66,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
   courseName: string = '';
 
-  messages: StatusMessage[] = [];
+  messages: StatusMessage[][] = [];
 
   // models
   sessionEditFormModel: SessionEditFormModel = {
@@ -374,6 +374,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             this.questionEditFormModels.push(this.getQuestionEditFormModel(feedbackQuestion));
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
+            this.messages.push([]);
           });
         }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
   }

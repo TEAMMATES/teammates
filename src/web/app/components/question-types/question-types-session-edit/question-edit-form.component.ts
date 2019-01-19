@@ -6,6 +6,7 @@ import { FeedbackParticipantType } from '../../../feedback-participant-type';
 import { FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../feedback-question';
 import { FeedbackVisibilityType, VisibilityControl } from '../../../feedback-visibility';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
+import {StatusMessage} from "../../status-message/status-message";
 
 /**
  * The question edit form component.
@@ -85,7 +86,7 @@ export class QuestionEditFormComponent implements OnInit {
   formMode: QuestionEditFormMode = QuestionEditFormMode.EDIT;
 
   @Input()
-  messageResult: String = "";
+  messageResult: StatusMessage[] = [];
 
   // if true, the question edit form is used for displaying of the question edit form only
   // no editing function will be available; the edit button will be hidden
