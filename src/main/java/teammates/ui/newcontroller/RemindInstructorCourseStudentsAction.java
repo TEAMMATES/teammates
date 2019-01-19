@@ -109,7 +109,7 @@ public class RemindInstructorCourseStudentsAction extends Action {
         }
 
         redirectUrl.append('?').append(Const.ParamsNames.COURSE_ID).append('=').append(courseId);
-        RemindRedirectInfo output = new RemindRedirectInfo(redirectUrl.toString(), statusMessage.toString());
+        RedirectInfo output = new RedirectInfo(redirectUrl.toString(), statusMessage.toString());
 
         return new JsonResult(output);
     }
@@ -117,11 +117,11 @@ public class RemindInstructorCourseStudentsAction extends Action {
     /**
      * Data format for {@link RemindInstructorCourseStudentsAction}.
      */
-    public static class RemindRedirectInfo extends ActionResult.ActionOutput {
+    public class RedirectInfo extends ActionResult.ActionOutput {
         private final String redirectUrl;
         private final String statusMessage;
 
-        public RemindRedirectInfo(String redirectUrl, String statusMessage) {
+        public RedirectInfo(String redirectUrl, String statusMessage) {
             this.redirectUrl = redirectUrl;
             this.statusMessage = statusMessage;
         }

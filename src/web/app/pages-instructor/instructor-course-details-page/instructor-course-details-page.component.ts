@@ -116,7 +116,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
     this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details?courseid='+ courseId,
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            '/web/instructor/courses/details?courseid='+ courseId,
             resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
@@ -149,8 +150,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
     this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
       .subscribe((resp: RemindRedirectInfo) => {
-        this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl,
-            resp.statusMessage);
+        this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.statusMessage);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });

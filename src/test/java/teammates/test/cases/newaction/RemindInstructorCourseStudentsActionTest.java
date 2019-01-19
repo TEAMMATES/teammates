@@ -13,7 +13,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction;
-import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction.RemindRedirectInfo;
+import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction.RedirectInfo;
 
 /**
  * SUT: {@link RemindInstructorCourseStudentsAction}.
@@ -51,7 +51,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        RemindRedirectInfo output = (RemindRedirectInfo) result.getOutput();
+        RedirectInfo output = (RedirectInfo) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + anotherInstructorOfCourse1.email,
                 output.getStatusMessage());
 
@@ -76,7 +76,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RemindRedirectInfo) result.getOutput();
+        output = (RedirectInfo) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
                 output.getStatusMessage());
 
@@ -89,7 +89,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RemindRedirectInfo) result.getOutput();
+        output = (RedirectInfo) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
                 output.getStatusMessage());
 
@@ -130,7 +130,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RemindRedirectInfo) result.getOutput();
+        output = (RedirectInfo) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, output.getStatusMessage());
 
         // 2 unregistered students, thus 2 emails queued to be sent
@@ -155,7 +155,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RemindRedirectInfo) result.getOutput();
+        output = (RedirectInfo) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, output.getStatusMessage());
 
         // no unregistered students, thus no emails sent
