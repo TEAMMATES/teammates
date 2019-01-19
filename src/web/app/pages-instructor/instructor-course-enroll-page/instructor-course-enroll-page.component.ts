@@ -106,6 +106,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
   loading: boolean = false;
+  isAjaxSuccess: boolean = true;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -256,6 +257,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.loading = false;
       return;
     }
+
     const paramMap: { [key: string]: string } = {
       courseid: this.courseid,
     };
@@ -269,6 +271,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           }
         }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
+      this.isAjaxSuccess = false;
+      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // collapse the panel again
     });
     this.loading = false;
   }

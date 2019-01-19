@@ -23,6 +23,7 @@
             <div class="float-right margin-left-7px">
               <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
               <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
+              <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
               <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>
             <strong>Existing Students</strong>
