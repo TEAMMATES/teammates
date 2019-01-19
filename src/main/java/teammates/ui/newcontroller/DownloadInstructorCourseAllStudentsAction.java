@@ -1,9 +1,13 @@
 package teammates.ui.newcontroller;
 
 import org.apache.http.HttpStatus;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
+/**
+ * Action: download all students from a course.
+ */
 public class DownloadInstructorCourseAllStudentsAction extends Action {
 
     @Override

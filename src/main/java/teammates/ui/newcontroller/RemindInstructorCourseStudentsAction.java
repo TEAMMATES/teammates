@@ -83,7 +83,8 @@ public class RemindInstructorCourseStudentsAction extends Action {
                 );
             }
             emailDataMap.put(studentEmail,
-                    new RemindInstructorCourseStudentsAction.JoinEmailData(studentData.getName(), extractStudentRegistrationKey(studentData)));
+                    new RemindInstructorCourseStudentsAction.JoinEmailData(studentData.getName(),
+                            extractStudentRegistrationKey(studentData)));
 
             statusMessage += Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail;
 
@@ -104,7 +105,8 @@ public class RemindInstructorCourseStudentsAction extends Action {
             }
 
             emailDataMap.put(instructorEmail,
-                    new RemindInstructorCourseStudentsAction.JoinEmailData(instructorData.getName(), StringHelper.encrypt(instructorData.key)));
+                    new RemindInstructorCourseStudentsAction.JoinEmailData(instructorData.getName(),
+                            StringHelper.encrypt(instructorData.key)));
 
             statusMessage += Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail;
             redirectUrl += Const.ResourceURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
@@ -113,7 +115,8 @@ public class RemindInstructorCourseStudentsAction extends Action {
             for (StudentAttributes student : studentDataList) {
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
                 emailDataMap.put(student.getEmail(),
-                        new RemindInstructorCourseStudentsAction.JoinEmailData(student.getName(), extractStudentRegistrationKey(student)));
+                        new RemindInstructorCourseStudentsAction.JoinEmailData(student.getName(),
+                                extractStudentRegistrationKey(student)));
             }
 
             statusMessage += Const.StatusMessages.COURSE_REMINDERS_SENT;

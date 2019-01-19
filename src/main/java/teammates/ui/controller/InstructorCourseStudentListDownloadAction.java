@@ -4,6 +4,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
+/**
+ * Action: download the list of students in a course.
+ */
 public class InstructorCourseStudentListDownloadAction extends Action {
 
     @Override

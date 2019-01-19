@@ -1,25 +1,28 @@
 package teammates.ui.newcontroller;
 
 import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.UserInfo;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action result in the form of csv text.
+ */
 public class DownloadFileResult extends ActionResult {
 
-    private String destination = "";
     private UserInfo userInfo;
+    private String destination = "";
     private String fileContent = "";
 
     public DownloadFileResult(
-            String destination, UserInfo userInfo,
-            String fileContent) {
+            String destination, UserInfo userInfo, String fileContent) {
         super(HttpStatus.SC_OK);
 
-        this.destination = destination;
         this.userInfo = userInfo;
+        this.destination = destination;
         this.fileContent = fileContent;
     }
 
@@ -33,7 +36,6 @@ public class DownloadFileResult extends ActionResult {
         PrintWriter writer = resp.getWriter();
         writer.write("\uFEFF");
         writer.append(fileContent);
-        System.out.println("supposed writer is: " + writer);
     }
 
     public String getFileContent() {

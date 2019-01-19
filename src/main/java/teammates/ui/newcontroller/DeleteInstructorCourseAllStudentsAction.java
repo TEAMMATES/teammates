@@ -1,12 +1,13 @@
 package teammates.ui.newcontroller;
 
 import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: deletes all students from a course.
+ * Action: deletes all students in a course.
  */
 public class DeleteInstructorCourseAllStudentsAction extends Action {
 

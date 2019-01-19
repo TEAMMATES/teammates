@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core'; // this module becomes a component through this
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { saveAs } from 'file-saver';
-import { HttpRequestService } from '../../../services/http-request.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { saveAs } from 'file-saver';
 
 interface StudentListStudentData {
   studentName: string;
@@ -76,11 +76,11 @@ interface RemindRedirectInfo {
 export class InstructorCourseDetailsPageComponent implements OnInit {
 
   user: string = '';
-  courseDetails? : CourseDetailsBundle;
-  currentInstructor? : InstructorAttributes;
-  instructors? : InstructorAttributes[] = [];
-  sections? : StudentListSectionData[] = [];
-  studentListHtmlTableAsString? : String = '';
+  courseDetails?: CourseDetailsBundle;
+  currentInstructor?: InstructorAttributes;
+  instructors?: InstructorAttributes[] = [];
+  sections?: StudentListSectionData[] = [];
+  studentListHtmlTableAsString?: String = '';
 
   constructor(private route: ActivatedRoute, private router: Router,
               private httpRequestService: HttpRequestService,
@@ -121,6 +121,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.ngbModal.open(content);
   }
 
+  /**
+   * Delete all the students in a course.
+   */
   deleteAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = {
       user: this.user,
@@ -136,6 +139,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       });
   }
 
+  /**
+   * Download all the students from a course.
+   */
   downloadAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = { courseid: courseId };
     this.httpRequestService.get('/courses/details/downloadAllStudents', paramsMap, 'text')
@@ -148,6 +154,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       });
   }
 
+  /**
+   * Remind all unjoined students in a course.
+   */
   remindAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = {
       user: this.user,
