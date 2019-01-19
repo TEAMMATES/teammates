@@ -1,12 +1,13 @@
 package teammates.ui.newcontroller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.UserInfo;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Action result in the form of csv text.

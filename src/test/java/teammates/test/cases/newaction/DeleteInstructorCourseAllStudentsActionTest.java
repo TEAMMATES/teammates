@@ -2,9 +2,9 @@ package teammates.test.cases.newaction;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.CoursesLogic;
 import teammates.ui.newcontroller.DeleteInstructorCourseAllStudentsAction;
 import teammates.ui.newcontroller.JsonResult;
 

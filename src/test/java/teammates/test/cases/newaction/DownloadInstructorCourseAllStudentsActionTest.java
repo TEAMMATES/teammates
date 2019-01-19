@@ -1,6 +1,7 @@
 package teammates.test.cases.newaction;
 
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -12,7 +13,8 @@ import teammates.ui.newcontroller.DownloadInstructorCourseAllStudentsAction;
 /**
  * SUT: {@link DownloadInstructorCourseAllStudentsAction}.
  */
-public class DownloadInstructorCourseAllStudentsActionTest extends BaseActionTest<DownloadInstructorCourseAllStudentsAction>  {
+public class DownloadInstructorCourseAllStudentsActionTest extends
+        BaseActionTest<DownloadInstructorCourseAllStudentsAction> {
 
     @Override
     protected String getActionUri() {

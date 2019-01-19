@@ -1,5 +1,9 @@
 package teammates.ui.newcontroller;
 
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -8,10 +12,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Action: reminds all students in a course who have not joined.
@@ -54,9 +54,6 @@ public class RemindInstructorCourseStudentsAction extends Action {
     @Override
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String previousPage = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM);
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
@@ -65,13 +62,17 @@ public class RemindInstructorCourseStudentsAction extends Action {
             );
         }
 
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        String previousPage = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM);
+
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
         // this may not be necessary
         Map<String, RemindInstructorCourseStudentsAction.JoinEmailData> emailDataMap = new TreeMap<>();
 
-        String statusMessage = "";
-        String redirectUrl = "/web/instructor";
+        StringBuilder statusMessage = new StringBuilder();
+        StringBuilder redirectUrl = new StringBuilder("/web/instructor");
 
         if (isSendingToStudent) {
             taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
@@ -86,13 +87,13 @@ public class RemindInstructorCourseStudentsAction extends Action {
                     new RemindInstructorCourseStudentsAction.JoinEmailData(studentData.getName(),
                             extractStudentRegistrationKey(studentData)));
 
-            statusMessage += Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail;
+            statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(studentEmail);
 
             boolean isRequestedFromCourseDetailsPage = Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE.equals(previousPage);
 
-            redirectUrl += isRequestedFromCourseDetailsPage
+            redirectUrl.append(isRequestedFromCourseDetailsPage
                     ? Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS
-                    : Const.ResourceURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
+                    : Const.ResourceURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id, instructorEmail, courseId, null, false);
 
@@ -108,8 +109,8 @@ public class RemindInstructorCourseStudentsAction extends Action {
                     new RemindInstructorCourseStudentsAction.JoinEmailData(instructorData.getName(),
                             StringHelper.encrypt(instructorData.key)));
 
-            statusMessage += Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail;
-            redirectUrl += Const.ResourceURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
+            statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(instructorEmail);
+            redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
@@ -119,12 +120,12 @@ public class RemindInstructorCourseStudentsAction extends Action {
                                 extractStudentRegistrationKey(student)));
             }
 
-            statusMessage += Const.StatusMessages.COURSE_REMINDERS_SENT;
-            redirectUrl += Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS;
+            statusMessage.append(Const.StatusMessages.COURSE_REMINDERS_SENT);
+            redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS);
         }
-
-        redirectUrl += "?" + Const.ParamsNames.COURSE_ID + "=" + courseId;
-        RemindRedirectInfo output = new RemindRedirectInfo(redirectUrl, statusMessage);
+        
+        redirectUrl.append('?').append(Const.ParamsNames.COURSE_ID).append('=').append(courseId);
+        RemindRedirectInfo output = new RemindRedirectInfo(redirectUrl.toString(), statusMessage.toString());
 
         return new JsonResult(output);
     }

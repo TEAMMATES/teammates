@@ -12,7 +12,7 @@ import teammates.ui.newcontroller.JsonResult;
 /**
  * SUT: {@link GetInstructorCourseDetailsAction}.
  */
-public class GetInstructorCourseDetailsActionTest extends BaseActionTest<GetInstructorCourseDetailsAction>  {
+public class GetInstructorCourseDetailsActionTest extends BaseActionTest<GetInstructorCourseDetailsAction> {
 
     @Override
     protected String getActionUri() {

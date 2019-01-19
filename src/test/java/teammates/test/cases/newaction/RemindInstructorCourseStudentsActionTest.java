@@ -1,18 +1,19 @@
 package teammates.test.cases.newaction;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction;
 import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction.RemindRedirectInfo;
-import teammates.ui.newcontroller.JsonResult;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * SUT: {@link RemindInstructorCourseStudentsAction}.
