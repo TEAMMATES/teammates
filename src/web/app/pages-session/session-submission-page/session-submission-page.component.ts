@@ -22,11 +22,19 @@ import { Intent } from '../../Intent';
 import { ErrorMessageOutput } from '../../message-output';
 import {
   FeedbackSessionClosedModalComponent,
+} from './feedback-session-closed-modal/feedback-session-closed-modal.component';
+import {
   FeedbackSessionClosingSoonModalComponent,
+} from './feedback-session-closing-soon-modal/feedback-session-closing-soon-modal.component';
+import {
   FeedbackSessionDeletedModalComponent,
+} from './feedback-session-deleted-modal/feedback-session-deleted-modal.component';
+import {
   FeedbackSessionNotOpenModalComponent,
+} from './feedback-session-not-open-modal/feedback-session-not-open-modal.component';
+import {
   SavingCompleteModalComponent,
-} from './session-submission-modals.component';
+} from './saving-complete-modal/saving-complete-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
