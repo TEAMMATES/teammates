@@ -21,6 +21,7 @@
           <div class="card-header"
                (click)="toggleExistingStudentsPanel()">
             <div class="float-right margin-left-7px">
+              <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
               <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
               <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>

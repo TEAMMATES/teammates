@@ -105,6 +105,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
+  loading: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -246,13 +247,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   toggleExistingStudentsPanel(): void {
     this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
+    this.loading = true;
     const existingStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.existingStudentsHOT);
 
     // Calling REST API only the first time when spreadsheet has no data
     if (this.getSpreadsheetLength(existingStudentsHOTInstance.getData()) !== 0) {
+      this.loading = false;
       return;
-      existingStudentsHOTInstance.render();
     }
     const paramMap: { [key: string]: string } = {
       courseid: this.courseid,
@@ -268,6 +270,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+    this.loading = false;
   }
 
   /**
