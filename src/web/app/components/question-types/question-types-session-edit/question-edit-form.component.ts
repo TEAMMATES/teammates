@@ -84,6 +84,9 @@ export class QuestionEditFormComponent implements OnInit {
   @Input()
   formMode: QuestionEditFormMode = QuestionEditFormMode.EDIT;
 
+  @Input()
+  messageResult: String = "";
+
   // if true, the question edit form is used for displaying of the question edit form only
   // no editing function will be available; the edit button will be hidden
   @Input()

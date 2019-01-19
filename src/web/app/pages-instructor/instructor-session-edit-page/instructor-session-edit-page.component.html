@@ -4,6 +4,7 @@
 <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" class="margin-top-30px">
   <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
                          [numOfQuestions]="questionEditFormModels.length"
+                         [messageResult]="messages[i]"
                          (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
                          (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
                          (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"

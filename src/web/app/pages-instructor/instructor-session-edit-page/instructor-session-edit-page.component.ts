@@ -38,6 +38,7 @@ import {
 import { FeedbackSession, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { ErrorMessageOutput } from '../../message-output';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
+import {StatusMessage} from "../../components/status-message/status-message";
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -64,6 +65,8 @@ export class InstructorSessionEditPageComponent implements OnInit {
   feedbackSessionName: string = '';
 
   courseName: string = '';
+
+  messages: StatusMessage[] = [];
 
   // models
   sessionEditFormModel: SessionEditFormModel = {
