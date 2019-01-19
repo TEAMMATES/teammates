@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "End of April 2018",
+  "lastUpdated": "End of January 2019",
   "institutes": {
     "Argentina": [
       "Southworks",
@@ -23,6 +23,7 @@
       "Charles Sturt University",
       "Curtin University of Technology",
       "Deakin University",
+      "Dungog High School",
       "Edith Cowan University",
       "Federation University",
       "Flinders University of South Australia",
@@ -85,6 +86,9 @@
       "Uni Salzburg",
       "Wirtschaftsuniversität Wien"
     ],
+    "Bangladesh": [
+      "American International University-Bangladesh"
+    ],
     "Belgium": [
       "Annuntia",
       "AP hogeschool Antwerpen",
@@ -123,6 +127,7 @@
       "Talentenschool Turnhout",
       "Thomas More Vorselaar",
       "Universiteit Gent",
+      "Universiteit Hasselt",
       "University College Artevelde Ghent",
       "University College Leuven-Limburg",
       "University of Antwerp",
@@ -166,13 +171,16 @@
       "Unicesumar",
       "Unificados AEDB 2016",
       "UniFOA",
+      "Universidade Anhembi Morumbi",
       "Universidade Católica de Brasília",
       "Universidade de São Paulo",
       "Universidade do Vale do Rio dos Sinos",
       "Universidade Estadual de Maringá",
+      "Universidade Federal da Bahia",
       "Universidade Federal do Rio de Janeiro",
       "Universidade Federal do Rio Grande do Norte",
       "Universidade Federal do Rio Grande do Sul",
+      "Universidade Federal de São João del-Rei",
       "University of Brasilia"
     ],
     "Brunei Darussalam": [
@@ -185,6 +193,7 @@
     "Canada": [
       "Algonquin College",
       "Appleby College",
+      "Argyle School",
       "Aussie Pet Mobile Groomer Training",
       "Balmoral Drive Senior Public School",
       "British Columbia Institute of Technology",
@@ -226,6 +235,7 @@
       "Kelowna Secondary School",
       "Kwantlen Polytechnic University",
       "Langara College",
+      "Laval University",
       "Luther College",
       "MacEwan University",
       "Marianopolis College",
@@ -247,6 +257,7 @@
       "Royal St. George's College",
       "Ryerson University",
       "SAIT Polytechnic",
+      "Schulich School of Business, York University",
       "Seneca College",
       "Sheridan College",
       "Simon Fraser University",
@@ -293,8 +304,10 @@
     ],
     "Chile": [
       "Pontificia Universidad Católica de Chile",
+      "Universidad Adolfo Ibañez",
       "Universidad De Chile",
-      "Universidad de Los Andes"
+      "Universidad de Los Andes",
+      "USM"
     ],
     "China": [
       "Clark University",
@@ -305,6 +318,7 @@
       "Shanghai University of Int. Business and Economics",
       "Tianfu University Chengdu China",
       "Tianjin University of Technology",
+      "TsingHua Universtiy High School International",
       "Xi'an Jiaotong-Liverpool University",
       "Yi Dian Zi Xun"
     ],
@@ -324,6 +338,9 @@
     ],
     "Croatia": [
       "University of Zagreb"
+    ],
+    "Cyprus": [
+      "University of Cyprus"
     ],
     "Czech Republic": [
       "Charles University in Prague",
@@ -460,13 +477,14 @@
       "Education University of Hong Kong",
       "Elsa High School",
       "HKU",
+      "HKU School of Professional and Continuing Education",
       "HKU SPACE Community College",
       "HKUST",
       "Queen Elizabeth School",
       "The Chinese University of Hong Kong",
       "The Hong Kong Polytechnic University",
       "The ISF Academy",
-      "University of Hong Kong",
+      "The University of Hong Kong",
       "YOT Chan Wong Shuk Fong Memorial Secondary School"
     ],
     "Hungary": [
@@ -499,6 +517,7 @@
       "IMT Ghaziabad",
       "Indian Institute of Technology",
       "Jadavpur University",
+      "JK Lakshmipat University",
       "JUIT",
       "Karmaveer Bhaurao Patil College Of Engineering, Satara",
       "Keshav Memorial Institute of Technology",
@@ -537,6 +556,7 @@
       "Tarumanagara University",
       "Universitas Indonesia",
       "Universitas Padjadjaran",
+      "Universitas Pendidikan Indonesia",
       "Universitas Pelita Harapan"
     ],
     "Iran": [
