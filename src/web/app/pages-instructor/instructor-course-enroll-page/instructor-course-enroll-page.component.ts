@@ -196,26 +196,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Toggles the view of spreadsheet interface
    * and/or its affiliated buttons
    */
-  togglePanel(event: any): void {
-    this.targetElement =
-        event.target.closest('div').querySelector('i');
-    if (this.targetElement !== null) {
-      this.toggleChevron();
-      this.isCollapsed = !this.isCollapsed; // toggle boolean value
-    }
-  }
-
-  /**
-   * Handles chevron classes for toggle action
-   */
-  toggleChevron(): void {
-    if (this.targetElement.className.includes('up')) {
-      this.targetElement.classList.remove('fa-chevron-up');
-      this.targetElement.classList.add('fa-chevron-down');
-    } else {
-      this.targetElement.classList.add('fa-chevron-up');
-      this.targetElement.classList.remove('fa-chevron-down');
-    }
+  togglePanel(): void {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   /**

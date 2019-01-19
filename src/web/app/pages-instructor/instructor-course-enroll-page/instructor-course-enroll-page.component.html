@@ -17,11 +17,10 @@
         <tm-status-message
             [messages]="statusMessage">
         </tm-status-message>
-        <div class="card card-default"
-             (click)="togglePanel($event)">
-          <div class="card-header">
+        <div class="card card-default">
+          <div class="card-header" (click)="togglePanel()">
             <div class="float-right margin-left-7px">
-              <i class="fas fa-chevron-up"></i>
+              <i class="fas fa-chevron-{{ isCollapsed ? 'up' : 'down' }}"></i>
             </div>
             <div class='float-right'></div>
             <strong>New students</strong>
@@ -233,7 +232,7 @@
     </div>
   </div>
   <div *ngFor="let enrollResultPanel of enrollResultPanelList">
-    <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 1">
+    <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
       <div class="card-header {{ enrollResultPanel.panelClass }}">
         {{ enrollResultPanel.messageForEnrollmentStatus }}
       </div>
