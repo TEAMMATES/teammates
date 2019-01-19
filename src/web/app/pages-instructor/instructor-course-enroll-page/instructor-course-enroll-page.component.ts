@@ -91,8 +91,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       'make_read_only',
       'alignment'];
 
-  targetElement!: Element;
-
   hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
   newStudentsHOT: string = 'newStudentsHOT';
 
