@@ -1,11 +1,12 @@
 package teammates.ui.newcontroller;
 
+import java.util.List;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
-import java.util.List;
 
 /**
  * Action: Fetches existing students of a course.
