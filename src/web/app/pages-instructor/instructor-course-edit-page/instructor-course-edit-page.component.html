@@ -16,7 +16,7 @@
     </span>
   </div>
   <div class="card-body fill-plain">
-    <form class="form form-horizontal" [formGroup]="formEditCourse" (ngSubmit)="onSubmitEditCourse(formEditCourse.value)">
+    <form class="form form-horizontal" [formGroup]="formEditCourse" (ngSubmit)="onSubmitEditCourse(formEditCourse)">
       <div>
         <div class="form-row form-group">
           <label class="col-sm-3">Course ID:</label>
@@ -131,12 +131,12 @@
             <div class="form-row form-group">
               <label class="col-sm-3 control-label">
                 <input checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
-                       type="checkbox" formControlName="isDisplayedToStudents">
+                       type="checkbox" formControlName="isDisplayedToStudents" (change)="onChangeIsDisplayedToStudents($event, instr, i)">
                 Display to students as:
               </label>
               <div class="col-sm-9">
-                <input class="form-control" ngbTooltip="Specify the role of this instructor in this course as shown to the students" placeholder="E.g.Co-lecturer, Teaching Assistant"
-                       type="text" formControlName="displayedName">
+                <input class="form-control" id="name-display-{{ i }}" ngbTooltip="Specify the role of this instructor in this course as shown to the students"
+                       type="text" formControlName="displayedName" [placeholder]="getPlaceholderForDisplayedName(instr.controls.isDisplayedToStudents.value)">
               </div>
             </div>
             <div>
@@ -246,7 +246,7 @@
       </span>
   </div>
   <div class="card-body">
-    <form class="form form-horizontal" [formGroup]="formAddInstructor" (ngSubmit)="onSubmitAddInstructor(formAddInstructor.value)">
+    <form class="form form-horizontal" [formGroup]="formAddInstructor" (ngSubmit)="onSubmitAddInstructor(formAddInstructor)">
       <div class="form-row form-group">
         <label class="col-sm-3 control-label">
           Name:

@@ -114,8 +114,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Replaces the timezone value with the detected timezone.
    */
   detectTimezone(): void {
-    const timeZone: string = 'timeZone';
-    this.formEditCourse.controls[timeZone].setValue(this.timezone);
+    this.formEditCourse.controls.timeZone.setValue(this.timezone);
+  }
+
+  /**
+   * Gets the placeholder content for displayed name when it is not displayed to students.
+   */
+  getPlaceholderForDisplayedName(isDisplayed: boolean): string {
+    return isDisplayed ? 'E.g.Co-lecturer, Teaching Assistant'
+        : '(This instructor will NOT be displayed to students)';
   }
 
   /**
@@ -161,13 +168,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorList.forEach((instructor: InstructorAttributes) => {
 
       const instructorPrivileges: Privileges = this.getPrivilegesForRole(instructor.role);
+      const instructorEmail: string = instructor.email ? instructor.email : '';
+      const instructorDisplayedName: string = instructor.isDisplayedToStudents ? instructor.displayedName : '';
 
       control.push(this.fb.group({
         googleId: [{ value: instructor.googleId, disabled: true }],
         name: [{ value: instructor.name, disabled: true }],
-        email: [{ value: instructor.email, disabled: true }],
+        email: [{ value: instructorEmail, disabled: true }],
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
-        displayedName: [{ value: instructor.displayedName, disabled: true }],
+        displayedName: [{ value: instructorDisplayedName, disabled: true }],
         role: [{ value: instructor.role }],
         privileges: [{ value: instructorPrivileges }],
       }));
@@ -182,31 +191,23 @@ export class InstructorCourseEditPageComponent implements OnInit {
   toggleIsEditingCourse(): void {
     this.isEditingCourse = !this.isEditingCourse;
 
-    const name: string = 'name';
-    const timeZone: string = 'timeZone';
-
     if (!this.isEditingCourse) {
-      this.formEditCourse.controls[name].disable();
-      this.formEditCourse.controls[timeZone].disable();
+      this.formEditCourse.controls.name.disable();
+      this.formEditCourse.controls.timeZone.disable();
     } else {
-      this.formEditCourse.controls[name].enable();
-      this.formEditCourse.controls[timeZone].enable();
+      this.formEditCourse.controls.name.enable();
+      this.formEditCourse.controls.timeZone.enable();
     }
-  }
-
-  /**
-   * Checks if the current instructor has a valid google id.
-   */
-  hasGoogleId(index: number): boolean {
-    const googleId: string = this.instructorList[index].googleId;
-    return googleId != null && googleId !== '';
   }
 
   /**
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id, next: '/web/instructor/courses' };
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseToEdit.id,
+      next: '/web/instructor/courses',
+    };
 
     this.httpRequestService.delete('/instructors/course/delete', paramsMap)
         .subscribe((resp: MessageOutput) => {
@@ -219,17 +220,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Saves the updated course details.
    */
-  onSubmitEditCourse(editedCourseDetails: CourseAttributes): void {
+  onSubmitEditCourse(formEditCourse: FormGroup): void {
+    const newName: string = formEditCourse.controls.name.value;
+    const newTimeZone: string = formEditCourse.controls.timeZone.value;
+
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
-      coursename: editedCourseDetails.name,
-      coursetimezone: editedCourseDetails.timeZone,
+      coursename: newName,
+      coursetimezone: newTimeZone,
     };
 
     this.httpRequestService.put('/instructors/course/details/save', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateCourseDetails(editedCourseDetails.name, editedCourseDetails.timeZone);
+          this.updateCourseDetails(newName, newTimeZone);
           this.toggleIsEditingCourse();
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -245,7 +249,38 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
+   * Checks if the current instructor has a valid google id.
+   */
+  hasGoogleId(index: number): boolean {
+    const googleId: string = this.instructorList[index].googleId;
+    return googleId != null && googleId !== '';
+  }
+
+  /**
+   * Enables/disables editing the displayed instructor name if it is/is not displayed to other students.
+   */
+  onChangeIsDisplayedToStudents(evt: any, instr: FormGroup, index: number): void {
+    const displayedNameControl: (AbstractControl | null) = instr.controls.displayedName;
+    const nameDisplayId: string = `name-display-${index}`;
+    const displayedNameField: (HTMLInputElement | null) = document.getElementById(nameDisplayId) as HTMLInputElement;
+
+    const isDisplayedToStudents: boolean = evt.target.checked;
+    if (displayedNameControl != null) {
+      if (isDisplayedToStudents) {
+        displayedNameControl.enable();
+        displayedNameControl.setValue('Instructor');
+        displayedNameField.placeholder = this.getPlaceholderForDisplayedName(true);
+      } else {
+        displayedNameControl.disable();
+        displayedNameControl.setValue('');
+        displayedNameField.placeholder = this.getPlaceholderForDisplayedName(false);
+      }
+    }
+  }
+
+  /**
    * Toggles the edit instructor panel for a given instructor.
+   * Instructor email cannot be edited when editing a yet-to-join instructor.
    */
   toggleIsEditingInstructor(control: FormGroup, index: number): void {
     const editBtnId: string = `btn-edit-${index}`;
@@ -267,14 +302,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const viewRole: (HTMLElement | null) = document.getElementById(viewRoleId);
     const editRole: (HTMLElement | null) = document.getElementById(editRoleId);
 
-    const googleId: string = 'googleId';
-    const role: string = 'role';
-
-    const idControl: (AbstractControl | null) = control.get(googleId);
-    const roleControl: (AbstractControl | null) = control.get(role);
+    const idControl: (AbstractControl | null) = control.controls.googleId;
+    const roleControl: (AbstractControl | null) = control.controls.role;
+    const displayNameControl: (AbstractControl | null) = control.controls.displayedName;
+    const nameDisplayId: string = `name-display-${index}`;
+    const displayedNameField: (HTMLInputElement | null) = document.getElementById(nameDisplayId) as HTMLInputElement;
 
     if (editBtn != null && cancelBtn != null && saveBtn != null && viewRole != null && editRole != null
-        && idControl != null && roleControl != null) {
+        && idControl != null && roleControl != null && displayNameControl != null && displayedNameField != null) {
+
+      // If the instructor is currently being edited
       if (isEditBtnVisible) {
         editBtn.style.display = 'none';
         cancelBtn.style.display = 'inline-block';
@@ -283,10 +320,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
         viewRole.style.display = 'none';
         editRole.style.display = 'block';
 
-        // Enable all form control elements except for the google id
+        // Enable all form control elements except for the google id and possibly the displayed name
         control.enable();
         idControl.disable();
         roleControl.setValue(this.instructorList[index].role);
+
+        if (!this.instructorList[index].isDisplayedToStudents) {
+          displayNameControl.disable();
+        }
 
       } else {
         editBtn.style.display = 'inline-block';
@@ -297,8 +338,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
         editRole.style.display = 'none';
 
         control.disable();
-        this.instructorList[index].role = roleControl.value;
+        control.reset(this.instructorList[index]);
+        if (!this.instructorList[index].isDisplayedToStudents) {
+          displayNameControl.setValue('');
+          displayedNameField.placeholder = this.getPlaceholderForDisplayedName(false);
+        }
       }
+    }
+
+    // Disable editing email for yet-to-join instructor
+    const email: string = 'email';
+    const emailControl: (AbstractControl | null) = control.get(email);
+    if (emailControl != null && !this.hasGoogleId(index)) {
+      emailControl.disable();
     }
   }
 
@@ -306,21 +358,35 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Saves the updated instructor details.
    */
   onSubmitEditInstructor(instr: FormGroup, index: number): void {
-    const instructor: InstructorAttributes = instr.value;
+
+    // Make a copy of the edited instructor
+    const editedInstructor: InstructorAttributes =  {
+      googleId: instr.controls.googleId.value,
+      name: instr.controls.name.value,
+      email: instr.controls.email.value,
+      role: instr.controls.role.value,
+      isDisplayedToStudents: instr.controls.isDisplayedToStudents.value,
+      displayedName: instr.controls.displayedName.value,
+      privileges: this.getPrivilegesForRole(instr.controls.role.value),
+    };
 
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
-      instructorname: instructor.name,
-      instructoremail: instructor.email,
-      instructorrole: instructor.role,
-      instructorisdisplayed: String(instructor.isDisplayedToStudents),
-      instructordisplayname: instructor.displayedName,
+      instructorname: editedInstructor.name,
+      instructoremail: editedInstructor.email,
+      instructorrole: editedInstructor.role,
+      instructordisplayname: editedInstructor.displayedName,
     };
+
+    const instructorIsDisplayed: string = 'instructorisdisplayed';
+    if (editedInstructor.isDisplayedToStudents) {
+      paramsMap[instructorIsDisplayed] = 'true';
+    }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateInstructorPrivileges(index, instructor.role);
+          this.updateInstructorDetails(index, editedInstructor);
           this.toggleIsEditingInstructor(instr, index);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -330,22 +396,23 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Updates the stored instructor and instructor list entities.
    */
-  updateInstructorPrivileges(index: number, editedRole: string): void {
-    const editedInstructor: InstructorAttributes = this.instructorList[index];
-    const newPrivileges: Privileges = this.getPrivilegesForRole(editedRole);
+  updateInstructorDetails(index: number, instr: InstructorAttributes): void {
+    const newPrivileges: Privileges = instr.privileges;
 
-    // If there is only one instructor, the instructor can modify instructors by default
+    // Update the stored instructor
     if (this.instructorList.length === 1) {
+      // If there is only one instructor, the instructor can modify instructors by default
       newPrivileges.courseLevel.canmodifyinstructor = true;
+      this.instructor = instr;
     }
 
-    // Update stored instructor entity if necessary
-    if (this.instructor.googleId === editedInstructor.googleId) {
-      this.instructor.privileges = newPrivileges;
+    // Update elements for privileges if needed
+    if (this.instructor.googleId === instr.googleId) {
       this.updateElementsForPrivileges();
     }
 
-    this.instructorList[index].privileges = newPrivileges;
+    // Update the stored instructor list
+    this.instructorList[index] = instr;
   }
 
   /**
@@ -413,15 +480,30 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Adds a new instructor to the current course.
    */
-  onSubmitAddInstructor(addedInstructor: InstructorAttributes): void {
+  onSubmitAddInstructor(formAddInstructor: FormGroup): void {
+    // Create a copy of the added instructor
+    const addedInstructor: InstructorAttributes = {
+      googleId: formAddInstructor.controls.googleId.value,
+      name: formAddInstructor.controls.name.value,
+      email: formAddInstructor.controls.email.value,
+      role: formAddInstructor.controls.role.value,
+      isDisplayedToStudents: formAddInstructor.controls.isDisplayedToStudents.value,
+      displayedName: formAddInstructor.controls.displayedName.value,
+      privileges: this.getPrivilegesForRole(formAddInstructor.controls.role.value),
+    };
+
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
       instructorname: addedInstructor.name,
       instructoremail: addedInstructor.email,
       instructorrole: addedInstructor.role,
-      instructorisdisplayed: addedInstructor.isDisplayedToStudents ? 'true' : '',
       instructordisplayname: addedInstructor.displayedName,
     };
+
+    const instructorIsDisplayed: string = 'instructorisdisplayed';
+    if (addedInstructor.isDisplayedToStudents) {
+      paramsMap[instructorIsDisplayed] = 'true';
+    }
 
     this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
@@ -438,13 +520,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Updates the stored instructor list and forms.
    */
   private addToInstructorList(instructor: InstructorAttributes): void {
-    const formInstructors: string = 'formInstructors';
-    const newPrivileges: Privileges = this.getPrivilegesForRole(instructor.role);
-    instructor.privileges = newPrivileges;
-
     this.instructorList.push(instructor);
 
-    (this.formEditInstructors.controls[formInstructors] as FormArray).push(this.fb.group({
+    (this.formEditInstructors.controls.formInstructors as FormArray).push(this.fb.group({
       googleId: [{ value: '', disabled: true }],
       name: [{ value: instructor.name, disabled: true }],
       email: [{ value: instructor.email, disabled: true }],
@@ -509,10 +587,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Removes a deleted instructor from the stored instructor lists.
    */
   private removeFromInstructorList(index: number): void {
-    const formInstructors: string = 'formInstructors';
-
     this.instructorList.splice(index, 1);
-    (this.formEditInstructors.controls[formInstructors] as FormArray).removeAt(index);
+    (this.formEditInstructors.controls.formInstructors as FormArray).removeAt(index);
   }
 
   /**
