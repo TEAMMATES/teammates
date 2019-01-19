@@ -1,28 +1,12 @@
-import { Component, OnInit } from '@angular/core'; // this module becomes a component through this
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentListSectionData } from '../student-list/student-list-section-data';
 import { saveAs } from 'file-saver';
-
-interface StudentListStudentData {
-  studentName: string;
-  studentEmail: string;
-  studentStatus: string;
-  photoUrl: string;
-}
-
-interface StudentListTeamData {
-  teamName: string;
-  students: StudentListStudentData[];
-}
-
-interface StudentListSectionData {
-  sectionName: string;
-  teams: StudentListTeamData[];
-}
 
 interface CourseAttributes {
   id: string;

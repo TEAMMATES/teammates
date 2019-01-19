@@ -1,9 +1,8 @@
 package teammates.ui.newcontroller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -18,8 +17,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
-import teammates.ui.template.StudentListSectionData;
 
 /**
  * Action: gets details of a course in from an instructor.
@@ -61,7 +58,7 @@ public class GetInstructorCourseDetailsAction extends Action {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-            output = new CourseInfo(instructor, courseDetails, instructors, userInfo.id);
+            output = new CourseInfo(instructor, courseDetails, instructors);
 
             String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, userInfo.id);
             output.setStudentListHtmlTableAsString(StringHelper.csvToHtmlTable(courseStudentListAsCsv));
@@ -85,40 +82,72 @@ public class GetInstructorCourseDetailsAction extends Action {
         private String studentListHtmlTableAsString;
 
         public CourseInfo(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
-                          List<InstructorAttributes> instructors, String userId) {
+                          List<InstructorAttributes> instructors) {
             this.currentInstructor = currentInstructor;
             this.courseDetails = courseDetails;
             this.instructors = instructors;
 
             this.sections = new ArrayList<>();
             for (SectionDetailsBundle section : courseDetails.sections) {
-                Map<String, String> emailPhotoUrlMapping = new HashMap<>();
-                for (TeamDetailsBundle teamDetails : section.teams) {
-                    for (StudentAttributes student : teamDetails.students) {
-                        String studentPhotoUrl = student.getPublicProfilePictureUrl();
-                        studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, Const.ParamsNames.USER_ID, userId);
-                        emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
-                    }
-                }
                 boolean isAllowedToViewStudentInSection = currentInstructor.isAllowedForPrivilege(section.name,
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
                 boolean isAllowedToModifyStudent = currentInstructor.isAllowedForPrivilege(section.name,
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-                sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                        isAllowedToModifyStudent, emailPhotoUrlMapping, userId, "",
-                        Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE));
+
+                for (TeamDetailsBundle teamDetails : section.teams) {
+                    sections.add(new StudentListSectionData(section.name, isAllowedToViewStudentInSection,
+                            isAllowedToModifyStudent, createStudentDataInSection(section.name, teamDetails.students)));
+                }
             }
 
             if (sections.size() == 1) {
                 StudentListSectionData section = sections.get(0);
-                this.hasSection = !"None".equals(section.getSectionName());
+                this.hasSection = !"None".equals(section.sectionName);
             } else {
                 this.hasSection = true;
             }
         }
 
+        private List<StudentListStudentData> createStudentDataInSection(String sectionName,
+                                                                        List<StudentAttributes> studentsInCourse) {
+            return studentsInCourse.stream().filter(student -> student.section.equals(sectionName))
+                    .map(student -> new StudentListStudentData(
+                            student.name, student.email, student.getStudentStatus(), student.team))
+                    .collect(Collectors.toList());
+        }
+
         private void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {
             this.studentListHtmlTableAsString = studentListHtmlTableAsString;
+        }
+
+        private static class StudentListSectionData {
+            public String sectionName;
+            public boolean isAllowedToViewStudentInSection;
+            public boolean isAllowedToModifyStudent;
+            public List<StudentListStudentData> students;
+
+            StudentListSectionData(String sectionName, boolean isAllowedToViewStudentInSection,
+                                   boolean isAllowedToModifyStudent, List<StudentListStudentData> students) {
+                this.sectionName = sectionName;
+                this.isAllowedToViewStudentInSection = isAllowedToViewStudentInSection;
+                this.isAllowedToModifyStudent = isAllowedToModifyStudent;
+                this.students = students;
+            }
+        }
+
+        private static class StudentListStudentData {
+
+            public String name;
+            public String email;
+            public String status;
+            public String team;
+
+            StudentListStudentData(String studentName, String studentEmail, String studentStatus, String teamName) {
+                this.name = studentName;
+                this.email = studentEmail;
+                this.status = studentStatus;
+                this.team = teamName;
+            }
         }
 
         public CourseDetailsBundle getCourseDetails() {

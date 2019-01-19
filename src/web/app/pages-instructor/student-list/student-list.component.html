@@ -61,6 +61,35 @@
           routerLink: '/web/instructor/courses/student/edit',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
+        <ng-container *ngIf="fromCourseDetailsPage==true">
+          <ng-container *ngIf="student.status == 'Yet to join'">
+            <ng-container *ngTemplateOutlet="actionButton; context: {
+            isEnabled: section.isAllowedToModifyStudent,
+            tooltip: 'Email an invitation to the student requesting him/her to join the course using his/her'
+              + ' Google Account. Note: Students can use TEAMMATES without ‘joining’,'
+              + ' but a joined student can access extra features e.g. set up a user profile',
+            name: 'Send Invite',
+            routerLink: '/web/instructor/courses/details/remindAllStudents',
+            queryParams: {courseid: courseId}
+            }"></ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-template #remindModal let-modal>
+          <div class="modal-header alert-info">
+            <i class="fa fa-info-circle fa-2x"></i>
+            <h4 class="modal-title">Confirm sending join requests</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
+          </div>
+          <div class="modal-body">
+            Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
+            time of each session. Send a join request to all yet-to-join students in {{courseDetails.course.id}} anyway?
+            <br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">OK</button>
+          </div>
+        </ng-template>
         <button class="btn btn-secondary btn-sm mr-2"
           [ngClass]="{'disabled mouse-hover-only': !section.isAllowedToModifyStudent}"
           [ngbTooltip]="section.isAllowedToModifyStudent
