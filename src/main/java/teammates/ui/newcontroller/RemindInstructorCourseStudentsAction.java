@@ -1,17 +1,13 @@
 package teammates.ui.newcontroller;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 
 /**
  * Action: reminds all students in a course who have not joined.
@@ -68,8 +64,6 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
-        // this may not be necessary
-        Map<String, RemindInstructorCourseStudentsAction.JoinEmailData> emailDataMap = new TreeMap<>();
 
         StringBuilder statusMessage = new StringBuilder();
         StringBuilder redirectUrl = new StringBuilder("/web/instructor");
@@ -83,9 +77,6 @@ public class RemindInstructorCourseStudentsAction extends Action {
                         + "in course " + courseId + "!")
                 );
             }
-            emailDataMap.put(studentEmail,
-                    new RemindInstructorCourseStudentsAction.JoinEmailData(studentData.getName(),
-                            extractStudentRegistrationKey(studentData)));
 
             statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(studentEmail);
 
@@ -105,25 +96,18 @@ public class RemindInstructorCourseStudentsAction extends Action {
                 );
             }
 
-            emailDataMap.put(instructorEmail,
-                    new RemindInstructorCourseStudentsAction.JoinEmailData(instructorData.getName(),
-                            StringHelper.encrypt(instructorData.key)));
-
             statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(instructorEmail);
             redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
-                emailDataMap.put(student.getEmail(),
-                        new RemindInstructorCourseStudentsAction.JoinEmailData(student.getName(),
-                                extractStudentRegistrationKey(student)));
             }
 
             statusMessage.append(Const.StatusMessages.COURSE_REMINDERS_SENT);
             redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS);
         }
-        
+
         redirectUrl.append('?').append(Const.ParamsNames.COURSE_ID).append('=').append(courseId);
         RemindRedirectInfo output = new RemindRedirectInfo(redirectUrl.toString(), statusMessage.toString());
 
@@ -148,23 +132,6 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
         public String getStatusMessage() {
             return statusMessage;
-        }
-    }
-
-    private String extractStudentRegistrationKey(StudentAttributes student) {
-        String joinLink = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-        String keyParam = Const.ParamsNames.REGKEY + "=";
-        int startIndex = joinLink.indexOf(keyParam) + keyParam.length();
-        return joinLink.substring(startIndex);
-    }
-
-    private static class JoinEmailData {
-        String userName;
-        String regKey;
-
-        JoinEmailData(String userName, String regKey) {
-            this.userName = userName;
-            this.regKey = regKey;
         }
     }
 }
