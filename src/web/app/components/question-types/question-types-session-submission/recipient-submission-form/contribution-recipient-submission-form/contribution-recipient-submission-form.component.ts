@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackContributionQuestionDetails } from '../../../../feedback-question';
+import { FeedbackContributionQuestionDetails } from '../../../../../feedback-question';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
-  FeedbackContributionResponseDetails } from '../../../../feedback-response';
+  FeedbackContributionResponseDetails } from '../../../../../feedback-response';
 import { BasicRecipientSubmissionFormComponent } from '../basic-recipient-submission-form';
 
 /**

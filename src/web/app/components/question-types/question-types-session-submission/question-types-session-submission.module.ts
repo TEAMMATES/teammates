@@ -6,15 +6,15 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
 import { VisibilityMessagesModule } from '../../visibility-messages/visibility-messages.module';
 import {
   ContributionPointDescriptionPipe,
-} from './contribution-recipient-submission-form/contribution-point-description.pipe';
+} from './recipient-submission-form/contribution-recipient-submission-form/contribution-point-description.pipe';
 import {
   ContributionRecipientSubmissionFormComponent,
-} from './contribution-recipient-submission-form/contribution-recipient-submission-form.component';
+} from './recipient-submission-form/contribution-recipient-submission-form/contribution-recipient-submission-form.component';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import {
   TextRecipientSubmissionFormComponent,
-} from './text-recipient-submission-form/text-recipient-submission-form.component';
+} from './recipient-submission-form/text-recipient-submission-form/text-recipient-submission-form.component';
 
 /**
  * Module for all question submissions UI in session submissions page.

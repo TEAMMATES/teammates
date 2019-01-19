@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FeedbackTextQuestionDetails } from '../../../../feedback-question';
-import { FeedbackTextResponseDetails } from '../../../../feedback-response';
+import { FeedbackTextQuestionDetails } from '../../../../../feedback-question';
+import { FeedbackTextResponseDetails } from '../../../../../feedback-response';
 import { BasicRecipientSubmissionFormComponent } from '../basic-recipient-submission-form';
 
 /**
