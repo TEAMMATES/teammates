@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
@@ -12,6 +14,11 @@ interface StudentDetails {
 
 interface StudentProfile {
   pictureKey: string;
+}
+
+interface RedirectInfo {
+  redirectUrl: string;
+  message: string;
 }
 
 /**
@@ -27,11 +34,14 @@ export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
+  @Input() fromCourseDetailsPage: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService,
+  constructor(private router: Router, private httpRequestService: HttpRequestService,
+    private statusMessageService: StatusMessageService, private navigationService: NavigationService,
     private ngbModal: NgbModal) { }
+
 
   ngOnInit(): void {
   }
@@ -78,6 +88,21 @@ export class StudentListComponent implements OnInit {
    */
   openModal(content: any): void {
     this.ngbModal.open(content).result.then((studentEmail: string) => this.removeStudentFromCourse(studentEmail));
+  }
+
+  /**
+   * Remind the student from course.
+   */
+  remindStudentFromCourse(studentEmail: string): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseId,
+      studentemail: studentEmail,
+    };
+    this.httpRequestService.post('/courses/details/remind', paramMap).subscribe((resp: RedirectInfo) => {
+      this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
