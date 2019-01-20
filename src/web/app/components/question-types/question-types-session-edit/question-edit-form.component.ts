@@ -5,8 +5,8 @@ import { VisibilityStateMachine } from '../../../../services/visibility-state-ma
 import { FeedbackParticipantType } from '../../../feedback-participant-type';
 import { FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../feedback-question';
 import { FeedbackVisibilityType, VisibilityControl } from '../../../feedback-visibility';
-import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 import { StatusMessage } from '../../status-message/status-message';
+import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
 /**
  * The question edit form component.
