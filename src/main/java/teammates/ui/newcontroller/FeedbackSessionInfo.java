@@ -47,6 +47,37 @@ public class FeedbackSessionInfo {
     }
 
     /**
+     * Represents the submission status of a feedback session.
+     */
+    public enum FeedbackSessionSubmissionStatus {
+
+        /**
+         * Feedback session is not visible.
+         */
+        NOT_VISIBLE,
+
+        /**
+         * Feedback session is visible to view but not open for submission.
+         */
+        VISIBLE_NOT_OPEN,
+
+        /**
+         * Feedback session is open for submission.
+         */
+        OPEN,
+
+        /**
+         * Feedback session is in grace period.
+         */
+        GRACE_PERIOD,
+
+        /**
+         * Feedback session is closed for submission.
+         */
+        CLOSED
+    }
+
+    /**
      * The output format for a feedback session.
      */
     public static class FeedbackSessionResponse extends ActionResult.ActionOutput {
@@ -55,21 +86,21 @@ public class FeedbackSessionInfo {
         private final String feedbackSessionName;
         private final String instructions;
 
-        private final long submissionStartTimestamp;
-        private final long submissionEndTimestamp;
-        private final long gracePeriod;
+        private final Long submissionStartTimestamp;
+        private final Long submissionEndTimestamp;
+        private Long gracePeriod;
 
-        private final SessionVisibleSetting sessionVisibleSetting;
+        private SessionVisibleSetting sessionVisibleSetting;
         private Long customSessionVisibleTimestamp;
 
-        private final ResponseVisibleSetting responseVisibleSetting;
+        private ResponseVisibleSetting responseVisibleSetting;
         private Long customResponseVisibleTimestamp;
 
-        private final String submissionStatus;
-        private final String publishStatus;
+        private FeedbackSessionSubmissionStatus submissionStatus;
+        private String publishStatus;
 
-        private final boolean isClosingEmailEnabled;
-        private final boolean isPublishedEmailEnabled;
+        private Boolean isClosingEmailEnabled;
+        private Boolean isPublishedEmailEnabled;
 
         public FeedbackSessionResponse(FeedbackSessionAttributes feedbackSessionAttributes) {
             this.courseId = feedbackSessionAttributes.getCourseId();
@@ -98,12 +129,20 @@ public class FeedbackSessionInfo {
                 this.customResponseVisibleTimestamp = responseVisibleTime.toEpochMilli();
             }
 
+            if (!feedbackSessionAttributes.isVisible()) {
+                this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+            }
+            if (feedbackSessionAttributes.isVisible() && !feedbackSessionAttributes.isOpened()) {
+                this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+            }
             if (feedbackSessionAttributes.isOpened()) {
-                this.submissionStatus = "Open";
-            } else if (feedbackSessionAttributes.isWaitingToOpen()) {
-                this.submissionStatus = "Awaiting";
-            } else {
-                this.submissionStatus = "Closed";
+                this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
+            }
+            if (feedbackSessionAttributes.isClosed()) {
+                this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
+            }
+            if (feedbackSessionAttributes.isInGracePeriod()) {
+                this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
             }
 
             if (feedbackSessionAttributes.isPublished()) {
@@ -160,7 +199,7 @@ public class FeedbackSessionInfo {
             return customResponseVisibleTimestamp;
         }
 
-        public String getSubmissionStatus() {
+        public FeedbackSessionSubmissionStatus getSubmissionStatus() {
             return submissionStatus;
         }
 
@@ -174,6 +213,38 @@ public class FeedbackSessionInfo {
 
         public boolean isPublishedEmailEnabled() {
             return isPublishedEmailEnabled;
+        }
+
+        public void setGracePeriod(Long gracePeriod) {
+            this.gracePeriod = gracePeriod;
+        }
+
+        public void setSessionVisibleSetting(SessionVisibleSetting sessionVisibleSetting) {
+            this.sessionVisibleSetting = sessionVisibleSetting;
+        }
+
+        public void setCustomSessionVisibleTimestamp(Long customSessionVisibleTimestamp) {
+            this.customSessionVisibleTimestamp = customSessionVisibleTimestamp;
+        }
+
+        public void setResponseVisibleSetting(ResponseVisibleSetting responseVisibleSetting) {
+            this.responseVisibleSetting = responseVisibleSetting;
+        }
+
+        public void setCustomResponseVisibleTimestamp(Long customResponseVisibleTimestamp) {
+            this.customResponseVisibleTimestamp = customResponseVisibleTimestamp;
+        }
+
+        public void setPublishStatus(String publishStatus) {
+            this.publishStatus = publishStatus;
+        }
+
+        public void setClosingEmailEnabled(Boolean closingEmailEnabled) {
+            isClosingEmailEnabled = closingEmailEnabled;
+        }
+
+        public void setPublishedEmailEnabled(Boolean publishedEmailEnabled) {
+            isPublishedEmailEnabled = publishedEmailEnabled;
         }
     }
 
