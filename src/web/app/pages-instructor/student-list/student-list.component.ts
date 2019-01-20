@@ -13,10 +13,6 @@ interface StudentDetails {
   studentProfile: StudentProfile;
 }
 
-interface StudentProfile {
-  pictureKey: string;
-}
-
 interface RedirectInfo {
   redirectUrl: string;
   statusMessage: string;
