@@ -889,6 +889,8 @@ public final class Const {
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
         public static final String ERROR_FEEDBACK_REQUEST_ID = "errorfeedbackrequestid";
         public static final String ENTITY_TYPE = "entitytype";
+
+        public static final String INTENT = "intent";
     }
 
     public static class SearchIndex {
@@ -964,13 +966,19 @@ public final class Const {
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
         public static final String COURSE = "/course";
         public static final String INSTRUCTORS = "/instructors";
+        public static final String INSTRUCTOR = "/instructor";
         public static final String STUDENTS = "/students";
+        public static final String STUDENT = "/student";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
+        public static final String QUESTION_RECIPIENTS = "/question/recipients";
+        public static final String RESPONSE = "/response";
+        public static final String RESPONSES = "/responses";
+        public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";

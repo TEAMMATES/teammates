@@ -1024,6 +1024,16 @@ public class Logic {
     }
 
     /**
+     * Gets all students of a team.
+     */
+    public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
+        Assumption.assertNotNull(teamName);
+        Assumption.assertNotNull(courseId);
+
+        return studentsLogic.getStudentsForTeam(teamName, courseId);
+    }
+
+    /**
      * Batch creates or updates search documents for the given students.
      */
     public void putStudentDocuments(List<StudentAttributes> students) {
@@ -1207,6 +1217,32 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
     }
 
+    /**
+     * Gets the recipients of a feedback question for student.
+     *
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForStudent(FeedbackQuestionAttributes, String, String)
+     */
+    public Map<String, String> getRecipientsOfQuestionForStudent(
+            FeedbackQuestionAttributes question, String giverEmail, String giverTeam) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(giverEmail);
+        Assumption.assertNotNull(giverTeam);
+
+        return feedbackQuestionsLogic.getRecipientsOfQuestionForStudent(question, giverEmail, giverTeam);
+    }
+
+    /**
+     * Gets the recipients of a feedback question for instructor.
+     *
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes, String)
+     */
+    public Map<String, String> getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes question, String giverEmail) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(giverEmail);
+
+        return feedbackQuestionsLogic.getRecipientsOfQuestionForInstructor(question, giverEmail);
+    }
+
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
                                                           String courseId,
                                                           int questionNumber) {
@@ -1215,6 +1251,31 @@ public class Logic {
 
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
     }
+
+    /**
+     * Gets a list of all questions for the given session that
+     * students can view/submit.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
+            String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a {@code List} of all questions for the given session that
+     * instructor can view/submit.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
+            String feedbackSessionName, String courseId, String instructorEmail) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, instructorEmail);
+    }
+
 
     /**
      * Preconditions: <br>
@@ -1749,6 +1810,29 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                      userEmail, section, sectionDetail);
+    }
+
+    /**
+     * Get existing feedback responses from student or his team for the given question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
+            FeedbackQuestionAttributes question, StudentAttributes student) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(student);
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);
+    }
+
+    /**
+     * Get existing feedback responses from instructor for the given question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromInstructorForQuestion(
+            FeedbackQuestionAttributes question, InstructorAttributes instructorAttributes) {
+        Assumption.assertNotNull(question);
+        Assumption.assertNotNull(instructorAttributes);
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForQuestion(
+                question.getFeedbackQuestionId(), instructorAttributes.getEmail());
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
