@@ -10,10 +10,11 @@ import { StatusMessage } from '../app/components/status-message/status-message';
 })
 export class StatusMessageService {
 
-  private alertEvent: Subject<StatusMessage> = new Subject();
   static readonly COLOR_ERROR: string = 'danger';
   static readonly COLOR_WARNING: string = 'warning';
   static readonly COLOR_SUCCESS: string = 'success';
+
+  private alertEvent: Subject<StatusMessage> = new Subject();
 
   constructor() {}
 
