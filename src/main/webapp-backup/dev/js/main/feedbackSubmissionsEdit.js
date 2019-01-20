@@ -63,10 +63,6 @@ function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
 }
 
-function isModeration() {
-    return $('#moderationHintButton').length !== 0;
-}
-
 function updateOtherOptionAttributes(otherOption, indexSuffix) {
     if (otherOption.is(':checked')) {
         $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
@@ -75,31 +71,6 @@ function updateOtherOptionAttributes(otherOption, indexSuffix) {
         $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', true); // disable textbox
         $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('0');
     }
-}
-
-function bindModerationHintButton() {
-    if (!isModeration()) {
-        return;
-    }
-
-    const expandText = '[More]';
-    const closeText = '[Less]';
-    const $moderationHintButton = $('#moderationHintButton');
-    const $moderationHint = $('#moderationHint');
-
-    $moderationHintButton.text(expandText);
-
-    $moderationHintButton.click((event) => {
-        event.preventDefault();
-
-        if ($moderationHint.hasClass('hidden')) {
-            $moderationHintButton.text(closeText);
-            $moderationHint.removeClass('hidden');
-        } else {
-            $moderationHintButton.text(expandText);
-            $moderationHint.addClass('hidden');
-        }
-    });
 }
 
 function getQuestionTypeNumbers(qnType) {
@@ -206,32 +177,6 @@ function prepareMCQQuestions() {
                 event.stopImmediatePropagation();
             });
         }
-    });
-}
-
-function prepareContribQuestions() {
-    const contribQuestionNums = getQuestionTypeNumbers('CONTRIB');
-
-    $.each(contribQuestionNums, (i) => {
-        const qnNum = contribQuestionNums[i];
-
-        // Get options for the specified question number of contribution question type
-        const options = $(`[name^="responsetext-${qnNum}-"]`);
-
-        $.each(options, (k) => {
-            const $dropdown = $(`[name="responsetext-${qnNum}-${k}"]`);
-
-            // Set initial color
-            $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
-
-            $dropdown.on('change', function () {
-                const $self = $(this);
-                $self.removeClass('color-neutral');
-                $self.removeClass('color-positive');
-                $self.removeClass('color-negative');
-                $self.addClass(this.options[this.selectedIndex].className);
-            });
-        });
     });
 }
 
@@ -846,75 +791,6 @@ function validateConstSumQuestions() {
     return true;
 }
 
-/**
- * Removes already selected options for recipients from other select dropdowns within the same question.
- * Binds further changes to show/hide options such that duplicates cannot be selected.
- */
-function formatRecipientLists() {
-    $('select.participantSelect').each(function () {
-        const $self = $(this);
-        if (!$self.hasClass('.newResponse')) {
-            // Remove options from existing responses
-            const questionNumber = $self.attr('name').split('-')[1];
-            let selectedOption = $self.find('option:selected').val();
-
-            if (selectedOption !== '') {
-                selectedOption = sanitizeForJs(selectedOption);
-                $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
-                        .not(this)
-                        // leave this in double quotes and single within, will fail otherwise
-                        .find(`option[value='${selectedOption}']`)
-                        .hide();
-            }
-        }
-
-        // Save initial data.
-        $self.data('previouslySelected', $(this).val());
-    }).change(function () {
-        const $self = $(this);
-        const questionNumber = $self.attr('name').split('-')[1];
-        const lastSelectedOption = $self.data('previouslySelected');
-        let curSelectedOption = $self.find('option:selected').val();
-
-        if (lastSelectedOption !== '') {
-            $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
-                    .not(this)
-                    // leave this in double quotes and single within, will fail otherwise
-                    .find(`option[value='${lastSelectedOption}']`)
-                    .show();
-        }
-
-        if (curSelectedOption !== '') {
-            curSelectedOption = sanitizeForJs(curSelectedOption);
-            $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
-                    .not(this)
-                    // leave this in double quotes and single within, will fail otherwise
-                    .find(`option[value='${curSelectedOption}']`)
-                    .hide();
-        }
-
-        // Save new data
-        $self.data('previouslySelected', $self.val());
-    });
-
-    // Auto-select first valid option.
-    $('select.participantSelect.newResponse').each(function () {
-        let firstUnhidden = '';
-
-        // select the first valid recipient if the dropdown is hidden from the user,
-        // otherwise, leave it as ""
-        if (this.style.display === 'none') {
-            $($(this).children().get().reverse()).each(function () {
-                if (this.style.display !== 'none' && $(this).val() !== '') {
-                    firstUnhidden = this;
-                }
-            });
-        }
-
-        $(this).val($(firstUnhidden).val()).change();
-    });
-}
-
 function reenableFieldsForSubmission() {
     $(':disabled').prop('disabled', false);
 }
@@ -1206,95 +1082,6 @@ function validateRankQuestions() {
     return true;
 }
 
-function hasWarningMessage() {
-    return $(WARNING_STATUS_MESSAGE).length;
-}
-
-function isSessionClosingSoon() {
-    const endTimeData = $(END_TIME).data('end-time');
-    if (!endTimeData) {
-        return false;
-    }
-    const endDate = new Date(endTimeData);
-    const currentDate = new Date();
-    const remainingTime = endDate - currentDate;
-    return remainingTime <= MS_IN_FIFTEEN_MINUTES && remainingTime > 0;
-}
-
-function getWarningMessage() {
-    return $(WARNING_STATUS_MESSAGE).html().trim();
-}
-
-function hasSuccessMessage() {
-    return $(SUCCESS_STATUS_MESSAGE).length;
-}
-
-function getSuccessMessage() {
-    return $(SUCCESS_STATUS_MESSAGE).html().trim();
-}
-
-function hasUnansweredQuestionMessage() {
-    return $(INFO_STATUS_MESSAGE).length;
-}
-
-function getUnansweredQuestionMessage() {
-    if (!hasUnansweredQuestionMessage()) {
-        return '';
-    }
-    return $(INFO_STATUS_MESSAGE).html().trim();
-}
-
-function showModalWarningIfSessionClosed() {
-    if (hasWarningMessage()) {
-        showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, BootstrapContextualColors.WARNING);
-    }
-}
-
-function showModalWarningIfSessionClosingSoon() {
-    if (isSessionClosingSoon()) {
-        showModalAlert(SESSION_CLOSING_HEADER, SESSION_CLOSING_MESSAGE, null, BootstrapContextualColors.WARNING);
-    }
-}
-
-function showModalSuccessIfResponsesSubmitted() {
-    const enlargedImportantIcon = '<span class="unanswered-exclamation-mark"> &#10071; </span>';
-    const unansweredMessage = '<p class="unanswered-message">'.concat(enlargedImportantIcon).concat('<span>')
-            .concat(getUnansweredQuestionMessage()).concat('</span></p>');
-
-    if (hasSuccessMessage()) {
-        showModalAlert(getSuccessMessage(),
-                (hasUnansweredQuestionMessage() ? unansweredMessage : '') + RESPONSES_SUCCESSFULLY_SUBMITTED,
-                null, BootstrapContextualColors.SUCCESS);
-    }
-}
-/**
- * Updates the length of the textArea
- * @param textAreaId - Id of text area for which char are to be counted
- * @param wordsCountId - Id of Label to display length of text area
- */
-function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLength) {
-    const editor = tinymce.get(textAreaId);
-    if (!editor) {
-        return;
-    }
-
-    const response = $(editor.getContent()).text();
-    const $wordsCountElement = $(`#${wordsCountId}`);
-
-    const wordsCount = response.split(/\s/g).filter(item => item.match(/\w/)).length;
-
-    $wordsCountElement.text(wordsCount);
-
-    const upperLimit = recommendedLength + recommendedLength * 0.1;
-    const lowerLimit = recommendedLength - recommendedLength * 0.1;
-
-    if (wordsCount > lowerLimit && wordsCount < upperLimit) {
-        $wordsCountElement.css('color', 'green');
-    } else {
-        $wordsCountElement.css('color', 'gray');
-    }
-}
-
 $(document).ready(() => {
     const textFields = $('div[id^="responsetext-"]');
 
@@ -1350,8 +1137,6 @@ $(document).ready(() => {
         }
     });
 
-    formatRecipientLists();
-
     // Replace hidden dropdowns with text
     $('select.participantSelect:hidden').each(function () {
         $(this).after(`<span>${$(this).find('option:selected').html()}</span>`);
@@ -1383,8 +1168,6 @@ $(document).ready(() => {
 
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
-    prepareContribQuestions();
-
     prepareMSQQuestions();
 
     prepareConstSumQuestions();
@@ -1400,12 +1183,6 @@ $(document).ready(() => {
     focusModeratedQuestion();
 
     bindModerationHintButton();
-
-    showModalWarningIfSessionClosed();
-
-    showModalWarningIfSessionClosingSoon();
-
-    showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 

@@ -67,7 +67,7 @@ public class FeedbackQuestionInfo {
      */
     public static class FeedbackQuestionResponse extends ActionResult.ActionOutput {
         private final String feedbackQuestionId;
-        private final int questionNumber;
+        private int questionNumber;
         private final String questionBrief;
         private final String questionDescription;
 
@@ -159,6 +159,10 @@ public class FeedbackQuestionInfo {
             return questionNumber;
         }
 
+        public void setQuestionNumber(int questionNumber) {
+            this.questionNumber = questionNumber;
+        }
+
         public String getQuestionBrief() {
             return questionBrief;
         }
@@ -208,7 +212,7 @@ public class FeedbackQuestionInfo {
      * The feedback questions response.
      */
     public static class FeedbackQuestionsResponse extends ActionResult.ActionOutput {
-        private final List<FeedbackQuestionResponse> questions;
+        private List<FeedbackQuestionResponse> questions;
 
         public FeedbackQuestionsResponse(List<FeedbackQuestionAttributes> questionAttributesList) {
             questions = questionAttributesList.stream().map(FeedbackQuestionResponse::new).collect(Collectors.toList());
@@ -216,6 +220,15 @@ public class FeedbackQuestionInfo {
 
         public List<FeedbackQuestionResponse> getQuestions() {
             return questions;
+        }
+
+        /**
+         * Normalizes question number in questions by setting question number in sequence (i.e. 1, 2, 3, 4 ...).
+         */
+        public void normalizeQuestionNumber() {
+            for (int i = 1; i <= questions.size(); i++) {
+                questions.get(i - 1).setQuestionNumber(i);
+            }
         }
     }
 

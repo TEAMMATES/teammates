@@ -1,16 +1,19 @@
 package teammates.ui.newcontroller;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 
 /**
  * Get a feedback session.
  */
-public class GetFeedbackSessionAction extends Action {
+public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
     @Override
     protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.PUBLIC;
     }
 
     @Override
@@ -18,10 +21,25 @@ public class GetFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        gateKeeper.verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                feedbackSession);
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+            checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
+            break;
+        case FULL_DETAIL:
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    feedbackSession);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
     }
 
     @Override
@@ -29,7 +47,30 @@ public class GetFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(feedbackSession));
+        FeedbackSessionInfo.FeedbackSessionResponse response =
+                new FeedbackSessionInfo.FeedbackSessionResponse(feedbackSession);
+
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+        case INSTRUCTOR_SUBMISSION:
+            // hide some attributes for submission
+            response.setGracePeriod(null);
+            response.setSessionVisibleSetting(null);
+            response.setCustomSessionVisibleTimestamp(null);
+            response.setResponseVisibleSetting(null);
+            response.setCustomResponseVisibleTimestamp(null);
+            response.setPublishStatus(null);
+            response.setClosingEmailEnabled(null);
+            response.setPublishedEmailEnabled(null);
+            break;
+        case FULL_DETAIL:
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
+
+        return new JsonResult(response);
     }
 }

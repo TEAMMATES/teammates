@@ -1,0 +1,9 @@
+<textarea class="form-control" [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled"></textarea>
+<div class="margin-top-7px text-secondary text-right">
+  <div *ngIf="questionDetails.recommendedLength !== 0">
+    Recommended length for the answer: {{ questionDetails.recommendedLength }} words
+  </div>
+  <div [ngClass]="{'text-success': isWordCountWithinRecommendedBound }">
+    Response length: {{ wordCount }} words
+  </div>
+</div>
