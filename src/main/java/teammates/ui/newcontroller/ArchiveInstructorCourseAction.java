@@ -8,7 +8,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: Archives an active course for instructor.
+ * Action: Archives an active course or unarchives an archived course for instructor.
  */
 public class ArchiveInstructorCourseAction extends Action {
 

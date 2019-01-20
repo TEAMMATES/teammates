@@ -152,7 +152,7 @@
           <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td ngbTooltip="{{course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.deletedAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
-            <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Restore the deleted course and its corresponding students and sessions">Restore</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" (click)="onRestore(course.id)" ngbTooltip="Restore the deleted course and its corresponding students and sessions">Restore</a>
             <a class="btn btn-light btn-sm" type="button" style="color: red" ngbTooltip="Permanently delete the course and its corresponding students and sessions">Delete Permanently</a>
           </td>
         </tr>

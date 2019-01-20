@@ -8,7 +8,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: Moves an active/archived course to Recycle Bin (soft-delete).
+ * Action: Moves a course to Recycle Bin (soft-delete) or restores a soft-deleted course from Recycle Bin.
  */
 public class DeleteInstructorCourseAction extends Action {
 
@@ -34,19 +34,28 @@ public class DeleteInstructorCourseAction extends Action {
     public ActionResult execute() {
 
         idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String deleteStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_DELETE_STATUS);
+        boolean isDelete = Boolean.parseBoolean(deleteStatus);
+        String statusMessage;
 
         try {
-            logic.moveCourseToRecycleBin(idOfCourseToDelete);
+            if (isDelete) {
+                logic.moveCourseToRecycleBin(idOfCourseToDelete);
+
+                if (isRedirectedToHomePage()) {
+                    statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the 'Courses' tab.";
+                } else {
+                    statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the soft-deleted courses table below.";
+                }
+            } else {
+                logic.restoreCourseFromRecycleBin(idOfCourseToDelete);
+
+                statusMessage = "The course " + idOfCourseToDelete + " has been restored.";
+            }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
-        String statusMessage;
-        if (isRedirectedToHomePage()) {
-            statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the 'Courses' tab.";
-        } else {
-            statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the soft-deleted courses table below.";
-        }
         return new JsonResult(statusMessage);
     }
 

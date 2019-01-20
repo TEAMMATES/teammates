@@ -183,6 +183,28 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
+      coursedelete: 'true',
+      next: '/instructor/courses',
+    };
+    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Restores a soft-deleted course from Recycle Bin.
+   */
+  onRestore(courseId: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      coursedelete: 'false',
       next: '/instructor/courses',
     };
     this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {

@@ -667,6 +667,7 @@ public final class Const {
         public static final String COURSE_TO_LOAD = "coursetoload";
 
         public static final String COURSE_ARCHIVE_STATUS = "archive";
+        public static final String COURSE_DELETE_STATUS = "coursedelete";
 
         public static final String IMAGE_TO_UPLOAD = "imagetoupload";
 
