@@ -5,7 +5,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class GetCourseStatsAction extends Action {
@@ -25,8 +24,7 @@ public class GetCourseStatsAction extends Action {
     @Override
     public ActionResult execute() {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseDetailsBundle courseDetails;
         try {
@@ -35,24 +33,46 @@ public class GetCourseStatsAction extends Action {
             return new JsonResult("No course with given id.", HttpStatus.SC_NOT_FOUND);
         }
 
-        CourseDetails output = new CourseDetails(courseDetails);
+        int sections = courseDetails.getStats().getSectionsTotal();
+        int teams = courseDetails.getStats().getTeamsTotal();
+        int students = courseDetails.getStats().getStudentsTotal();
+        int unregistered = courseDetails.getStats().getUnregisteredTotal();
+
+        CourseStats output = new CourseStats(sections, teams, students, unregistered);
         return new JsonResult(output);
     }
 
     /**
      * Output format for {@link GetCourseStatsAction}.
      */
-    public static class CourseDetails extends ActionResult.ActionOutput {
+    public static class CourseStats extends ActionResult.ActionOutput {
 
-        private final CourseDetailsBundle courseDetails;
+        private final int sectionsTotal;
+        private final int teamsTotal;
+        private final int studentsTotal;
+        private final int unregisteredTotal;
 
-        public CourseDetails(CourseDetailsBundle courseDetails) {
-            this.courseDetails = courseDetails;
+        public CourseStats(int sections, int teams, int students, int unregistered) {
+            this.sectionsTotal = sections;
+            this.teamsTotal = teams;
+            this.studentsTotal = students;
+            this.unregisteredTotal = unregistered;
         }
 
-        public CourseDetailsBundle getCourseDetails() {
-            return courseDetails;
+        public int getSectionsTotal() {
+            return sectionsTotal;
+        }
+
+        public int getTeamsTotal() {
+            return teamsTotal;
+        }
+
+        public int getStudentsTotal() {
+            return studentsTotal;
+        }
+
+        public int getUnregisteredTotal() {
+            return unregisteredTotal;
         }
     }
-
 }

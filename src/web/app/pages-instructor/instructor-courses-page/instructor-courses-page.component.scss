@@ -29,3 +29,9 @@
 .text-color-red {
   color: red;
 }
+
+.link-disabled {
+  cursor: default;
+  color: #000;
+  pointer-events: none;
+}

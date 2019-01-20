@@ -5,13 +5,11 @@ import { HttpRequestService } from "../../../services/http-request.service";
 import { StatusMessageService } from "../../../services/status-message.service";
 import { TimezoneService } from "../../../services/timezone.service";
 import {ErrorMessageOutput, MessageOutput} from "../../message-output";
-import { environment } from "../../../environments/environment";
 
 interface ActiveCourse {
   id: string;
   name: string;
   createdAt: string;
-  teamLink: string;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
 }
@@ -29,6 +27,13 @@ interface SoftDeletedCourse {
   createdAt: string;
   deletedAt: string;
   canModifyCourse: boolean;
+}
+
+interface CourseStats {
+  sectionsTotal: number;
+  teamsTotal: number;
+  studentsTotal: number;
+  unregisteredTotal: number;
 }
 
 interface InstructorPrivileges {
@@ -71,8 +76,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
-
-  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -137,8 +140,32 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Constructs the url for course stats from the given course id.
    */
-  getCourseStatsUrl(user: string, courseId: string): string {
-    return `${this.backendUrl}/course/stats?courseid=${courseId}&user=${user}`;
+  getCourseStats(courseId: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    this.httpRequestService.get('/course/stats', paramMap).subscribe((resp: CourseStats) => {
+      const sectionsElement = document.getElementById('course-sections-' + courseId);
+      const teamsElement = document.getElementById('course-teams-' + courseId);
+      const studentsElement = document.getElementById('course-students-' + courseId);
+      const unregisteredElement = document.getElementById('course-unregistered-' + courseId);
+      if (sectionsElement && teamsElement && studentsElement && unregisteredElement) {
+        sectionsElement.innerHTML = String(resp.sectionsTotal);
+        sectionsElement.setAttribute("class", "link-disabled");
+        teamsElement.innerHTML = String(resp.teamsTotal);
+        teamsElement.setAttribute("class", "link-disabled");
+        studentsElement.innerHTML = String(resp.studentsTotal);
+        studentsElement.setAttribute("class", "link-disabled");
+        unregisteredElement.innerHTML = String(resp.unregisteredTotal);
+        unregisteredElement.setAttribute("class", "link-disabled");
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   onAutoDetectTimezone(): void {
