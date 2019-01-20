@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { HotTableModule } from '@handsontable/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
+
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
 import {
@@ -43,6 +45,8 @@ import {
   InstructorStudentRecordsPageComponent,
 } from './instructor-student-records-page/instructor-student-records-page.component';
 import { StudentListComponent } from './student-list/student-list.component';
+
+import { StatusMessageModule } from '../components/status-message/status-message.module';
 
 const routes: Routes = [
   {
@@ -157,6 +161,8 @@ const routes: Routes = [
     InstructorSessionsPageModule,
     InstructorHelpPageModule,
     SessionSubmissionPageModule,
+    StatusMessageModule,
+    HotTableModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
