@@ -119,14 +119,14 @@
     <div class="card-header bg-secondary text-white">
       <strong>Recycle Bin</strong>
       <span class="float-sm-right margin-left-10px">
-        <a class="btn btn-light btn-sm" type="button" ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
+        <a class="btn btn-light btn-sm" type="button" (click)="onDeleteAll()" ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
           <strong class="text-color-red">
             <span class="fa fa-times-circle"></span> Delete All
           </strong>
         </a>
       </span>
       <span class="float-sm-right">
-        <a class="btn btn-light btn-sm" type="button" ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
+        <a class="btn btn-light btn-sm" type="button" (click)="onRestoreAll()" ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
           <strong class="text-color-black">
             <span class="fa fa-check-circle"></span> Restore All
           </strong>
@@ -153,7 +153,7 @@
           <td ngbTooltip="{{course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.deletedAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button" (click)="onRestore(course.id)" ngbTooltip="Restore the deleted course and its corresponding students and sessions">Restore</a>
-            <a class="btn btn-light btn-sm" type="button" style="color: red" ngbTooltip="Permanently delete the course and its corresponding students and sessions">Delete Permanently</a>
+            <a class="btn btn-light btn-sm" type="button" style="color: red" (click)="onDeletePermanently(course.id)" ngbTooltip="Permanently delete the course and its corresponding students and sessions">Delete Permanently</a>
           </td>
         </tr>
       </tbody>

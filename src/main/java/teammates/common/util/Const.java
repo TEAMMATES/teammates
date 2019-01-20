@@ -667,7 +667,6 @@ public final class Const {
         public static final String COURSE_TO_LOAD = "coursetoload";
 
         public static final String COURSE_ARCHIVE_STATUS = "archive";
-        public static final String COURSE_DELETE_STATUS = "coursedelete";
 
         public static final String IMAGE_TO_UPLOAD = "imagetoupload";
 
@@ -995,6 +994,12 @@ public final class Const {
 
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
+        public static final String INSTRUCTOR_COURSES_ARCHIVE = "/instructor/courses/archive";
+        public static final String INSTRUCTOR_COURSES_DELETE = "/instructor/courses/delete";
+        public static final String INSTRUCTOR_COURSES_RESTORE = "/instructor/courses/restore";
+        public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
+        public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL = "/instructor/courses/permanentlyDeleteAll";
+        public static final String INSTRUCTOR_COURSES_RESTORE_ALL = "/instructor/courses/restoreAll";
         public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";

@@ -144,7 +144,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       archive: 'true',
       next: '/instructor/courses',
     };
-    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.put('/instructor/courses/archive', paramMap).subscribe((resp: MessageOutput) => {
           this.loadInstructorCourses(this.user);
           this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {
@@ -163,9 +163,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       archive: 'false',
-      next: '/instructor/courses',
     };
-    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.put('/instructor/courses/archive', paramMap).subscribe((resp: MessageOutput) => {
           this.loadInstructorCourses(this.user);
           this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {
@@ -183,10 +182,28 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
-      coursedelete: 'true',
       next: '/instructor/courses',
     };
-    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.put('/instructor/courses/delete', paramMap).subscribe((resp: MessageOutput) => {
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Permanently deletes a soft-deleted course in Recycle Bin.
+   */
+  onDeletePermanently(courseId: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses(this.user);
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
@@ -204,10 +221,34 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
-      coursedelete: 'false',
-      next: '/instructor/courses',
     };
-    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.put('/instructor/courses/restore', paramMap).subscribe((resp: MessageOutput) => {
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Permanently deletes all soft-deleted courses in Recycle Bin.
+   */
+  onDeleteAll(): void {
+    const paramMap: { [key: string]: string } = {};
+    this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap).subscribe((resp: MessageOutput) => {
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Restores all soft-deleted courses from Recycle Bin.
+   */
+  onRestoreAll(): void {
+    const paramMap: { [key: string]: string } = {};
+    this.httpRequestService.put('/instructor/courses/restoreAll', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses(this.user);
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {

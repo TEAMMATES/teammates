@@ -8,7 +8,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: Moves a course to Recycle Bin (soft-delete) or restores a soft-deleted course from Recycle Bin.
+ * Action: Moves a course to Recycle Bin (soft-delete).
  */
 public class DeleteInstructorCourseAction extends Action {
 
@@ -16,8 +16,8 @@ public class DeleteInstructorCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
+            return AuthType.LOGGED_IN;
+        }
 
     @Override
     public void checkSpecificAccessControl() {
@@ -34,23 +34,15 @@ public class DeleteInstructorCourseAction extends Action {
     public ActionResult execute() {
 
         idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String deleteStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_DELETE_STATUS);
-        boolean isDelete = Boolean.parseBoolean(deleteStatus);
         String statusMessage;
 
         try {
-            if (isDelete) {
-                logic.moveCourseToRecycleBin(idOfCourseToDelete);
+            logic.moveCourseToRecycleBin(idOfCourseToDelete);
 
-                if (isRedirectedToHomePage()) {
-                    statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the 'Courses' tab.";
-                } else {
-                    statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the soft-deleted courses table below.";
-                }
+            if (isRedirectedToHomePage()) {
+                statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the 'Courses' tab.";
             } else {
-                logic.restoreCourseFromRecycleBin(idOfCourseToDelete);
-
-                statusMessage = "The course " + idOfCourseToDelete + " has been restored.";
+                statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the soft-deleted courses table below.";
             }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
