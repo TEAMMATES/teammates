@@ -18,7 +18,7 @@ interface StudentProfile {
 
 interface RedirectInfo {
   redirectUrl: string;
-  message: string;
+  statusMessage: string;
 }
 
 /**
@@ -93,15 +93,18 @@ export class StudentListComponent implements OnInit {
    * Remind the student from course.
    */
   remindStudentFromCourse(studentEmail: string): void {
-    const paramMap: { [key: string]: string } = {
+    const paramsMap: { [key: string]: string } = {
       courseid: this.courseId,
       studentemail: studentEmail,
+      pagenameremindstudentisfrom: '/courses/details',
     };
-    this.httpRequestService.post('/courses/details/remind', paramMap).subscribe((resp: RedirectInfo) => {
-      this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+
+    this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
+      .subscribe((resp: RedirectInfo) => {
+        this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.statusMessage);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**

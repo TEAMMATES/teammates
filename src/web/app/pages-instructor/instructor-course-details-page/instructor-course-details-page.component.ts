@@ -44,7 +44,7 @@ interface CourseInfo {
   studentListHtmlTableAsString: string;
 }
 
-interface RemindRedirectInfo {
+interface RedirectInfo {
   redirectUrl: string;
   statusMessage: string;
 }
@@ -149,7 +149,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     };
 
     this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
-      .subscribe((resp: RemindRedirectInfo) => {
+      .subscribe((resp: RedirectInfo) => {
         this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.statusMessage);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);

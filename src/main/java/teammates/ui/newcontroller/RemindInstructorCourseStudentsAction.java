@@ -1,6 +1,8 @@
 package teammates.ui.newcontroller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -8,6 +10,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 
 /**
  * Action: reminds all students in a course who have not joined.
@@ -80,7 +83,7 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
             statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(studentEmail);
 
-            boolean isRequestedFromCourseDetailsPage = Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE.equals(previousPage);
+            boolean isRequestedFromCourseDetailsPage = Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS.equals(previousPage);
 
             redirectUrl.append(isRequestedFromCourseDetailsPage
                     ? Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS
@@ -108,8 +111,9 @@ public class RemindInstructorCourseStudentsAction extends Action {
             redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS);
         }
 
-        redirectUrl.append('?').append(Const.ParamsNames.COURSE_ID).append('=').append(courseId);
         RedirectInfo output = new RedirectInfo(redirectUrl.toString(), statusMessage.toString());
+        output.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+        output.updateUrl();
 
         return new JsonResult(output);
     }
@@ -118,8 +122,9 @@ public class RemindInstructorCourseStudentsAction extends Action {
      * Data format for {@link RemindInstructorCourseStudentsAction}.
      */
     public class RedirectInfo extends ActionResult.ActionOutput {
-        private final String redirectUrl;
         private final String statusMessage;
+        private Map<String, String> responseParams = new HashMap<>();
+        private String redirectUrl;
 
         public RedirectInfo(String redirectUrl, String statusMessage) {
             this.redirectUrl = redirectUrl;
@@ -132,6 +137,29 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
         public String getStatusMessage() {
             return statusMessage;
+        }
+
+        /**
+         * Returns url of the result, including parameters.
+         *         e.g. {@code /instructorHome?courseid?=abc}
+         */
+        public void addResponseParam(String key, String value) {
+            responseParams.put(key, value);
+        }
+
+        /**
+         * Add a (key,value) pair ot the list of response parameters.
+         */
+        public void updateUrl() {
+            redirectUrl = appendParameters(redirectUrl, responseParams);
+        }
+
+        private String appendParameters(String url, Map<String, String> params) {
+            String returnValue = url;
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                returnValue = Url.addParamToUrl(returnValue, entry.getKey(), entry.getValue());
+            }
+            return returnValue;
         }
     }
 }
