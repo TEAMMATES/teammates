@@ -9,6 +9,8 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
+import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * Action result in form of JSON object.
@@ -17,9 +19,9 @@ import teammates.common.util.JsonUtils;
  */
 public class JsonResult extends ActionResult {
 
-    private final ActionOutput output;
+    private final ApiOutput output;
 
-    public JsonResult(ActionOutput output) {
+    public JsonResult(ApiOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
     }
@@ -33,7 +35,7 @@ public class JsonResult extends ActionResult {
         this.output = new MessageOutput(message);
     }
 
-    public ActionOutput getOutput() {
+    public ApiOutput getOutput() {
         return output;
     }
 
@@ -44,23 +46,6 @@ public class JsonResult extends ActionResult {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
-    }
-
-    /**
-     * Generic output format for message-producing endpoint.
-     */
-    public static class MessageOutput extends ActionOutput {
-
-        private final String message;
-
-        public MessageOutput(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
     }
 
 }

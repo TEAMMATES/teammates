@@ -12,8 +12,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
 import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link RemindInstructorCourseStudentsAction}.

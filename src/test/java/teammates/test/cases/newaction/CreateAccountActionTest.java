@@ -14,7 +14,7 @@ import teammates.test.driver.StringHelperExtension;
 import teammates.ui.newcontroller.CreateAccountAction;
 import teammates.ui.newcontroller.CreateAccountAction.JoinLink;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link CreateAccountAction}.

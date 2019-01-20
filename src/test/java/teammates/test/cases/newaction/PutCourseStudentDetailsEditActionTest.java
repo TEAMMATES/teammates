@@ -13,8 +13,8 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.StringHelperExtension;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
 import teammates.ui.newcontroller.PutCourseStudentDetailsEditAction;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link PutCourseStudentDetailsEditAction}.

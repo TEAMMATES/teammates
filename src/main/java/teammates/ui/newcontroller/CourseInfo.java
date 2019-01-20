@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Data transfer objects for {@link CourseAttributes} between controller and HTTP.
@@ -13,7 +14,7 @@ public class CourseInfo {
     /**
      * The output format of a course.
      */
-    public static class CourseResponse extends ActionResult.ActionOutput {
+    public static class CourseResponse extends ApiOutput {
         private final String courseId;
         private final String courseName;
         private final String creationDate;
@@ -46,7 +47,7 @@ public class CourseInfo {
     /**
      * Response of a list of courses.
      */
-    public static class CoursesResponse extends ActionResult.ActionOutput {
+    public static class CoursesResponse extends ApiOutput {
         private final List<CourseResponse> courses;
 
         public CoursesResponse(List<CourseAttributes> courseAttributesList) {

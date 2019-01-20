@@ -8,8 +8,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.newcontroller.GetAuthInfoAction;
-import teammates.ui.newcontroller.GetAuthInfoAction.AuthInfo;
 import teammates.ui.newcontroller.JsonResult;
+import teammates.ui.webapi.output.AuthInfo;
 
 /**
  * SUT: {@link GetAuthInfoAction}.

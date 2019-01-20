@@ -8,7 +8,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.newcontroller.GetCourseEnrollPageDataAction;
 import teammates.ui.newcontroller.GetCourseEnrollPageDataAction.CourseEnrollPageData;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link GetCourseEnrollPageDataAction}.

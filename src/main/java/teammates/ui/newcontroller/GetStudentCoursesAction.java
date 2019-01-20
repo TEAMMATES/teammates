@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets the courses and feedback sessions which a student is enrolled in.
@@ -77,7 +78,7 @@ public class GetStudentCoursesAction extends Action {
     /**
      * Output format for {@link GetStudentCoursesAction}.
      */
-    public static class StudentCourses extends ActionResult.ActionOutput {
+    public static class StudentCourses extends ApiOutput {
 
         private final String recentlyJoinedCourseId;
         private final boolean hasEventualConsistencyMsg;

@@ -16,7 +16,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.newcontroller.GetStudentRecordsAction;
 import teammates.ui.newcontroller.GetStudentRecordsAction.StudentRecords;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link GetStudentRecrodsAction}.

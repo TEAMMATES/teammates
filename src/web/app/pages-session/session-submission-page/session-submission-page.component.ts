@@ -14,13 +14,13 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-types/question-types-session-submission/question-submission-form-model';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackParticipantType } from '../../feedback-participant-type';
 import { FeedbackQuestion, NumberOfEntitiesToGiveFeedbackToSetting } from '../../feedback-question';
 import { FeedbackResponse } from '../../feedback-response';
 import { FeedbackSession, FeedbackSessionSubmissionStatus } from '../../feedback-session';
 import { Instructor } from '../../Instructor';
 import { Intent } from '../../Intent';
-import { ErrorMessageOutput } from '../../message-output';
 import { Student } from '../../student';
 import {
   FeedbackSessionClosedModalComponent,

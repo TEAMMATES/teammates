@@ -8,6 +8,7 @@ import java.util.Map;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets all courses (active, archived and soft-deleted courses) for the instructor.
@@ -66,7 +67,7 @@ public class GetInstructorCoursesAction extends Action {
     /**
      * Output format for {@link GetInstructorCoursesAction}.
      */
-    public static class InstructorCourses extends ActionResult.ActionOutput {
+    public static class InstructorCourses extends ApiOutput {
 
         private final List<CourseAttributes> activeCourses;
         private final List<CourseAttributes> archivedCourses;

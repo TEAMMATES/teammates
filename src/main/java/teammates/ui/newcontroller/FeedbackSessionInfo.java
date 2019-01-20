@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Data transfer objects for {@link FeedbackSessionAttributes} between controller and HTTP.
@@ -98,7 +99,7 @@ public class FeedbackSessionInfo {
     /**
      * The output format for a list of feedback session.
      */
-    public static class FeedbackSessionsResponse extends ActionResult.ActionOutput {
+    public static class FeedbackSessionsResponse extends ApiOutput {
         private final List<FeedbackSessionResponse> feedbackSessions;
 
         public FeedbackSessionsResponse(List<FeedbackSessionAttributes> feedbackSessionAttributesList) {
@@ -114,7 +115,7 @@ public class FeedbackSessionInfo {
     /**
      * The output format for a feedback session.
      */
-    public static class FeedbackSessionResponse extends ActionResult.ActionOutput {
+    public static class FeedbackSessionResponse extends ApiOutput {
         private final String courseId;
         private final String timeZone;
         private final String feedbackSessionName;
