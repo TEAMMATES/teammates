@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
+import { StudentProfile } from '../student-profile/student-profile';
 
 interface StudentAttributes {
   email: string;
@@ -14,16 +14,6 @@ interface StudentAttributes {
   comments: string;
   team: string;
   section: string;
-}
-
-interface StudentProfile {
-  shortName: string;
-  email: string;
-  institute: string;
-  nationality: string;
-  gender: string;
-  moreInfo: string;
-  pictureKey: string;
 }
 
 interface StudentDetails {
@@ -45,8 +35,6 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   user: string = '';
   student?: StudentAttributes;
   studentProfile?: StudentProfile;
-
-  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
     private statusMessageService: StatusMessageService, private ngbModal: NgbModal) { }
@@ -85,16 +73,6 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
    */
   openModal(content: any): void {
     this.ngbModal.open(content);
-  }
-
-  /**
-   * Construct the url for the profile picture from the given key.
-   */
-  getPictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
   }
 
 }

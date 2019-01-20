@@ -6,7 +6,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../message-output';
-import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
+import { StudentProfile } from '../student-profile/student-profile';
+import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
 interface StudentDetails {
   studentProfile: StudentProfile;
