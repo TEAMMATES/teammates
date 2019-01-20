@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.newcontroller.FeedbackQuestionInfo;
 import teammates.ui.newcontroller.GetFeedbackQuestionsAction;
+import teammates.ui.newcontroller.Intent;
 import teammates.ui.newcontroller.JsonResult;
 
 /**
@@ -44,12 +45,15 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId());
         verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 feedbackSessionAttributes.getFeedbackSessionName());
+        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName());
 
         ______TS("typical success case");
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
         };
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
@@ -103,6 +107,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for a session",
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -113,10 +118,11 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
-
+        verifyAccessibleForInstructorsOfTheSameCourse(params);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(params);
     }
 
 }

@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -35,7 +32,13 @@ import {
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../feedback-question';
-import { FeedbackSession, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
+import {
+  FeedbackSession,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../feedback-session';
+import { Intent } from '../../Intent';
 import { ErrorMessageOutput } from '../../message-output';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
@@ -87,7 +90,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
     customResponseVisibleTime: { hour: 0, minute: 0 },
     customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
-    submissionStatus: '',
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: '',
 
     isClosingEmailEnabled: true,
@@ -160,7 +163,11 @@ export class InstructorSessionEditPageComponent implements OnInit {
           this.courseName = course.courseName;
 
           // load feedback session
-          const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+          const paramMap: { [key: string]: string } = {
+            courseid: this.courseId,
+            fsname: this.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          };
           this.httpRequestService.get('/session', paramMap)
               .subscribe((feedbackSession: FeedbackSession) => {
                 this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
@@ -365,7 +372,11 @@ export class InstructorSessionEditPageComponent implements OnInit {
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseId,
+      fsname: this.feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+    };
     this.httpRequestService.get('/questions', paramMap)
         .subscribe((response: FeedbackQuestionsResponse) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
