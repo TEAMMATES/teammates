@@ -28,6 +28,7 @@ import {
   SessionEditFormModel,
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { StatusMessage } from '../../components/status-message/status-message';
 import { Course } from '../../course';
 import { FeedbackParticipantType } from '../../feedback-participant-type';
 import {
@@ -38,7 +39,6 @@ import {
 import { FeedbackSession, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { ErrorMessageOutput } from '../../message-output';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
-import { StatusMessage } from '../../components/status-message/status-message'  ;
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -546,7 +546,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
 
-    this.httpRequestService.delete('/question', paramMap).subscr  ibe(
+    this.httpRequestService.delete('/question', paramMap).subscribe(
         () => {
           // remove form model
           this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
