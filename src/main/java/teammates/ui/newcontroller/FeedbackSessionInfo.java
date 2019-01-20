@@ -414,10 +414,32 @@ public class FeedbackSessionInfo {
     }
 
     /**
-     * The basic request body format for saving of feedback session.
+     * The request body format for saving of feedback session.
      */
     public static class FeedbackSessionSaveRequest extends FeedbackSessionBasicRequest {
 
     }
 
+    /**
+     * The request body format for creation of feedback session.
+     */
+    public static class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
+        private String feedbackSessionName;
+
+        public String getFeedbackSessionName() {
+            return feedbackSessionName;
+        }
+
+        public void setFeedbackSessionName(String feedbackSessionName) {
+            this.feedbackSessionName = feedbackSessionName;
+        }
+
+        @Override
+        public void validate() {
+            super.validate();
+
+            assertTrue(feedbackSessionName != null, "Session name cannot be null");
+            assertTrue(!feedbackSessionName.isEmpty(), "Session name cannot be empty");
+        }
+    }
 }
