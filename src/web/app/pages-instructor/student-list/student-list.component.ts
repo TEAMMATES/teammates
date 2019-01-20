@@ -42,7 +42,6 @@ export class StudentListComponent implements OnInit {
     private statusMessageService: StatusMessageService, private navigationService: NavigationService,
     private ngbModal: NgbModal) { }
 
-
   ngOnInit(): void {
   }
 

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { saveAs } from 'file-saver';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 import { StudentListSectionData } from '../student-list/student-list-section-data';
-import { saveAs } from 'file-saver';
 
 interface CourseAttributes {
   id: string;
@@ -117,7 +117,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessage(this.router,
-            '/web/instructor/courses/details?courseid='+ courseId,
+            `/web/instructor/courses/details?courseid=${courseId}`,
             resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
@@ -130,9 +130,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   downloadAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = { courseid: courseId };
     this.httpRequestService.get('/courses/details/downloadAllStudents', paramsMap, 'text')
-      .subscribe((resp) => {
-        const filename = `${courseId.concat('_studentList')}.csv`;
-        const blob = new Blob([resp], { type: 'text/csv' });
+      .subscribe((resp: string) => {
+        const filename: string = `${courseId.concat('_studentList')}.csv`;
+        const blob: any = new Blob([resp], { type: 'text/csv' });
         saveAs(blob, filename);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
