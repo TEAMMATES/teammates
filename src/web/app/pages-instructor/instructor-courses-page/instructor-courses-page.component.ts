@@ -200,15 +200,17 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    if (confirm('Are you sure you want to permanently delete the course: ' + courseId + '? This operation will delete all students and sessions in this course. All instructors of this course will not be able to access it hereafter as well.')) {
+      const paramMap: { [key: string]: string } = {
+        courseid: courseId,
+      };
+      this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap).subscribe((resp: MessageOutput) => {
+        this.loadInstructorCourses(this.user);
+        this.statusMessageService.showSuccessMessage(resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }
   }
 
   /**
@@ -234,13 +236,15 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const paramMap: { [key: string]: string } = {};
-    this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    if (confirm('Are you sure you want to permanently delete all the courses in Recycle Bin? This operation will delete all students and sessions in these courses. All instructors of these courses will not be able to access them hereafter as well.')) {
+      const paramMap: { [key: string]: string } = {};
+      this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap).subscribe((resp: MessageOutput) => {
+        this.loadInstructorCourses(this.user);
+        this.statusMessageService.showSuccessMessage(resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }
   }
 
   /**
