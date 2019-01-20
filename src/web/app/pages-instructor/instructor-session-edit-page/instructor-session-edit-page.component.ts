@@ -694,7 +694,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
   showSuccessMessage(msg: string, num: number): void {
     this.messages[num].push({
       message: msg,
-      color: 'success',
+      color: StatusMessageService.COLOR_SUCCESS,
     });
   }
 
@@ -706,7 +706,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
   showErrorMessage(msg: string, num: number): void {
     this.messages[num].push({
       message: msg,
-      color: 'error',
+      color: StatusMessageService.COLOR_ERROR,
     });
   }
 
