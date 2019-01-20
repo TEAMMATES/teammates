@@ -46,6 +46,7 @@ import {
   InstructorStudentRecordsPageComponent,
 } from './instructor-student-records-page/instructor-student-records-page.component';
 import { StudentListComponent } from './student-list/student-list.component';
+import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 import { StatusMessageModule } from '../components/status-message/status-message.module';
 
@@ -183,6 +184,7 @@ const routes: Routes = [
     InstructorCourseStudentEditPageComponent,
     InstructorCourseStudentDetailsPageComponent,
     StudentListComponent,
+    StudentProfileComponent,
   ],
 })
 export class InstructorPagesModule {}
