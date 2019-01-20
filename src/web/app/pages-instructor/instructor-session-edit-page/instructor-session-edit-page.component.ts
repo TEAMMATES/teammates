@@ -38,7 +38,7 @@ import {
 import { FeedbackSession, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
 import { ErrorMessageOutput } from '../../message-output';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
-import {StatusMessage} from "../../components/status-message/status-message";
+import { StatusMessage } from '../../components/status-message/status-message'  ;
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -467,7 +467,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
           }
 
           this.showSuccessMessage('The changes to the question have been updated.',  index);
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.showErrorMessage(resp.error.message, index); });
   }
 
   /**
@@ -536,7 +536,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
           this.showSuccessMessage('The question has been duplicated below.', index);
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.showErrorMessage(resp.error.message, index); });
   }
 
   /**
@@ -546,7 +546,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
 
-    this.httpRequestService.delete('/question', paramMap).subscribe(
+    this.httpRequestService.delete('/question', paramMap).subscr  ibe(
         () => {
           // remove form model
           this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
@@ -554,7 +554,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
           this.normalizeQuestionNumberInQuestionForms();
 
           this.showSuccessMessage('The question has been deleted.', index);
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.showErrorMessage(resp.error.message, index); });
   }
 
   /**
@@ -686,10 +686,27 @@ export class InstructorSessionEditPageComponent implements OnInit {
     // TODO focus on the row of current feedback session in the sessions page
   }
 
-  showSuccessMessage(msg: string, id: number): void {
-    this.messages[id].push({
+  /**
+   * Shows a success message to the user before a specific question number
+   * @param msg The message to be shown
+   * @param num The question number
+   */
+  showSuccessMessage(msg: string, num: number): void {
+    this.messages[num].push({
       message: msg,
-      color: "success"
+      color: 'success',
+    });
+  }
+
+  /**
+   * Shows an error message to the user before a specified question number
+   * @param msg The message to be shown
+   * @param num The question number
+   */
+  showErrorMessage(msg: string, num: number): void {
+    this.messages[num].push({
+      message: msg,
+      color: 'error',
     });
   }
 

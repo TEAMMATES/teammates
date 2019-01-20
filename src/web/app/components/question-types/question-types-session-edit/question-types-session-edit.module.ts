@@ -19,7 +19,7 @@ import {
   VisibilityTypeDescriptionPipe,
   VisibilityTypeNamePipe,
 } from './visibility-setting.pipe';
-import { StatusMessageModule }  from "../../status-message/status-message.module";
+import { StatusMessageModule } from '../../status-message/status-message.module';
 
 /**
  * Module for all question edit UI in session edit page.
