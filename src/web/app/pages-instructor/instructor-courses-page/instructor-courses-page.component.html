@@ -71,7 +71,7 @@
             <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="View, edit and send invitation emails to the students in the course" routerLink="/web/instructor/courses/details">View</a>
             <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Edit Course information and instructor list" routerLink="/web/instructor/courses/edit">Edit</a>
             <a class="btn btn-light btn-sm btn-left" type="button" (click)="onArchive(course.id)" ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">Archive</a>
-            <a class="btn btn-light btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions" type="button">Delete</a>
+            <a class="btn btn-light btn-sm" type="button" (click)="onDelete(course.id)" ngbTooltip="Delete the course and its corresponding students and sessions">Delete</a>
           </td>
         </tr>
       </tbody>
@@ -102,7 +102,7 @@
           <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button" (click)="onUnarchive(course.id)">Unarchive</a>
-            <a class="btn btn-light btn-sm" type="button" ngbTooltip="Delete the course and its corresponding students and sessions">Delete</a>
+            <a class="btn btn-light btn-sm" type="button" (click)="onDelete(course.id)" ngbTooltip="Delete the course and its corresponding students and sessions">Delete</a>
           </td>
         </tr>
       </tbody>

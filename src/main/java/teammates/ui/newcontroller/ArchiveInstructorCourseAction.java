@@ -42,16 +42,14 @@ public class ArchiveInstructorCourseAction extends Action {
                 statusMessage = "The course " + idOfCourseToArchive + " has been archived. "
                         + "It will not appear in the home page any more. You can access archived courses from the 'Courses' tab."
                         + "<br>Go there to undo the archiving and bring the course back to the home page.";
-                return new JsonResult(statusMessage);
             } else {
                 statusMessage = "The course " + idOfCourseToArchive + " has been archived. "
                         + "It will not appear in the home page any more.";
-                return new JsonResult(statusMessage);
             }
         } else {
             statusMessage = "The course " + idOfCourseToArchive + " has been unarchived.";
-            return new JsonResult(statusMessage);
         }
+        return new JsonResult(statusMessage);
     }
 
     /**
