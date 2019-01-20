@@ -73,9 +73,9 @@ jobs:
         - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
         - gcloud -q components install app-engine-java
-        - npm run build -- --progress=false
         - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
-        - ./gradlew createConfigs testClasses
+        - ./gradlew createConfigs testClasses generateTypes
+        - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
         - ./gradlew e2eTests
@@ -99,9 +99,9 @@ jobs:
         - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
         - gcloud -q components install app-engine-java
-        - npm run build -- --progress=false
         - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
-        - ./gradlew createConfigs testClasses
+        - ./gradlew createConfigs testClasses generateTypes
+        - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
         - ./gradlew e2eTests
