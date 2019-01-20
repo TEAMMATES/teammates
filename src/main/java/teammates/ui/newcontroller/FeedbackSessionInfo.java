@@ -1,6 +1,8 @@
 package teammates.ui.newcontroller;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -78,6 +80,38 @@ public class FeedbackSessionInfo {
     }
 
     /**
+     * Represents the publish status of the a feedback session.
+     */
+    public enum FeedbackSessionPublishStatus {
+
+        /**
+         * Feedback session is published.
+         */
+        PUBLISHED,
+
+        /**
+         * Feedback session is not published.
+         */
+        NOT_PUBLISHED,
+    }
+
+    /**
+     * The output format for a list of feedback session.
+     */
+    public static class FeedbackSessionsResponse extends ActionResult.ActionOutput {
+        private final List<FeedbackSessionResponse> feedbackSessions;
+
+        public FeedbackSessionsResponse(List<FeedbackSessionAttributes> feedbackSessionAttributesList) {
+            this.feedbackSessions =
+                    feedbackSessionAttributesList.stream().map(FeedbackSessionResponse::new).collect(Collectors.toList());
+        }
+
+        public List<FeedbackSessionResponse> getFeedbackSessions() {
+            return feedbackSessions;
+        }
+    }
+
+    /**
      * The output format for a feedback session.
      */
     public static class FeedbackSessionResponse extends ActionResult.ActionOutput {
@@ -97,7 +131,7 @@ public class FeedbackSessionInfo {
         private Long customResponseVisibleTimestamp;
 
         private FeedbackSessionSubmissionStatus submissionStatus;
-        private String publishStatus;
+        private FeedbackSessionPublishStatus publishStatus;
 
         private Boolean isClosingEmailEnabled;
         private Boolean isPublishedEmailEnabled;
@@ -146,9 +180,9 @@ public class FeedbackSessionInfo {
             }
 
             if (feedbackSessionAttributes.isPublished()) {
-                this.publishStatus = "Published";
+                this.publishStatus = FeedbackSessionPublishStatus.PUBLISHED;
             } else {
-                this.publishStatus = "Not Published";
+                this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
             }
 
             this.isClosingEmailEnabled = feedbackSessionAttributes.isClosingEmailEnabled();
@@ -203,7 +237,7 @@ public class FeedbackSessionInfo {
             return submissionStatus;
         }
 
-        public String getPublishStatus() {
+        public FeedbackSessionPublishStatus getPublishStatus() {
             return publishStatus;
         }
 
@@ -235,7 +269,7 @@ public class FeedbackSessionInfo {
             this.customResponseVisibleTimestamp = customResponseVisibleTimestamp;
         }
 
-        public void setPublishStatus(String publishStatus) {
+        public void setPublishStatus(FeedbackSessionPublishStatus publishStatus) {
             this.publishStatus = publishStatus;
         }
 
@@ -275,7 +309,7 @@ public class FeedbackSessionInfo {
             return Instant.ofEpochMilli(submissionStartTimestamp);
         }
 
-        public Instant getSubmissionEndTimestamp() {
+        public Instant getSubmissionEndTime() {
             return Instant.ofEpochMilli(submissionEndTimestamp);
         }
 
