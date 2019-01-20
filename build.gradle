@@ -16,7 +16,7 @@ apply plugin: "cz.habarta.typescript-generator"
 def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.10.1"
 def pmdVersion = "6.6.0"
-def spotbugsVersion = "3.1.7"
+def spotbugsVersion = "3.1.10"
 def jacocoVersion = "0.8.1"
 
 buildscript {
@@ -28,7 +28,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.3"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
         classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.11.472"
     }
 }
