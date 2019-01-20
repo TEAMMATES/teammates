@@ -88,7 +88,8 @@ Click the "Terminate" icon on the Eclipse console.
 
 #### Starting the dev server
 
-Go to `Run → Run...` and select `Google App Engine Standard Local Server` in the pop-up box.
+Go to `Run → Run...` and select `Google App Engine Standard Local Server` in the pop-up box.<br>
+Under `Artifact to deploy:` select `Gradle : teammates.war (exploded)` for the first time while starting dev server.
 
 #### Stopping the dev server
 
