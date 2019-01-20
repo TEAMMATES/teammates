@@ -12,37 +12,39 @@ interface ActiveCourse {
   name: string;
   createdAt: string;
   teamLink: string;
-}
-
-interface ActiveCourses {
-  activeCourses: ActiveCourse[];
+  canModifyCourse: boolean;
+  canModifyStudent: boolean;
 }
 
 interface ArchivedCourse {
   id: string;
   name: string;
   createdAt: string;
-}
-
-interface ArchivedCourses {
-  archivedCourses: ArchivedCourse[];
+  canModifyCourse: boolean;
 }
 
 interface SoftDeletedCourse {
   id: string;
   name: string;
-  createdAt:string;
+  createdAt: string;
   deletedAt: string;
+  canModifyCourse: boolean;
 }
 
-interface SoftDeletedCourses {
-  softDeletedCourses: SoftDeletedCourse[];
+interface InstructorPrivileges {
+  courseLevel: { [key: string]: boolean };
+}
+
+interface Instructor {
+  courseId: string;
+  privileges: InstructorPrivileges;
 }
 
 interface InstructorCourses {
-  activeCourses: ActiveCourses;
-  archivedCourses: ArchivedCourses;
-  softDeletedCourses: SoftDeletedCourses;
+  activeCourses: ActiveCourse[];
+  archivedCourses: ArchivedCourse[];
+  softDeletedCourses: SoftDeletedCourse[];
+  instructorList: Instructor[];
 }
 
 /**
@@ -62,9 +64,13 @@ export class InstructorCoursesPageComponent implements OnInit {
   newCourseId: string = '';
   newCourseName: string = '';
 
-  activeCourses?: ActiveCourses;
-  archivedCourses?: ArchivedCourses;
-  softDeletedCourses?: SoftDeletedCourses;
+  activeCourses?: ActiveCourse[];
+  archivedCourses?: ArchivedCourse[];
+  softDeletedCourses?: SoftDeletedCourse[];
+  instructorList?: Instructor[];
+
+  canDeleteAll: boolean = true;
+  canRestoreAll: boolean = true;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -91,6 +97,38 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.activeCourses = resp.activeCourses;
       this.archivedCourses = resp.archivedCourses;
       this.softDeletedCourses = resp.softDeletedCourses;
+      this.instructorList = resp.instructorList;
+
+      for (let course of this.activeCourses) {
+        for (let instructor of this.instructorList) {
+          if (course.id == instructor.courseId) {
+            course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
+            course.canModifyStudent = instructor.privileges.courseLevel['canmodifystudent'];
+            break;
+          }
+        }
+      }
+
+      for (let course of this.archivedCourses) {
+        for (let instructor of this.instructorList) {
+          if (course.id == instructor.courseId) {
+            course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
+            break;
+          }
+        }
+      }
+
+      for (let course of this.softDeletedCourses) {
+        for (let instructor of this.instructorList) {
+          if (course.id == instructor.courseId) {
+            course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
+            if (!course.canModifyCourse) {
+              this.canDeleteAll = this.canRestoreAll = false;
+            }
+            break;
+          }
+        }
+      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

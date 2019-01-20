@@ -58,7 +58,7 @@ public class GetInstructorCoursesAction extends Action {
         CourseAttributes.sortById(archivedCourses);
         CourseAttributes.sortById(softDeletedCourses);
 
-        InstructorCourses output = new InstructorCourses(activeCourses, archivedCourses, softDeletedCourses);
+        InstructorCourses output = new InstructorCourses(activeCourses, archivedCourses, softDeletedCourses, instructorList);
         return new JsonResult(output);
 
     }
@@ -71,12 +71,14 @@ public class GetInstructorCoursesAction extends Action {
         private final List<CourseAttributes> activeCourses;
         private final List<CourseAttributes> archivedCourses;
         private final List<CourseAttributes> softDeletedCourses;
+        private final List<InstructorAttributes> instructorList;
 
         public InstructorCourses(List<CourseAttributes> activeCourses, List<CourseAttributes> archivedCourses,
-                                 List<CourseAttributes> softDeletedCourses) {
+                                 List<CourseAttributes> softDeletedCourses, List<InstructorAttributes> instructorList) {
             this.activeCourses = activeCourses;
             this.archivedCourses = archivedCourses;
             this.softDeletedCourses = softDeletedCourses;
+            this.instructorList = instructorList;
         }
 
         public List<CourseAttributes> getActiveCourses() {
@@ -89,6 +91,10 @@ public class GetInstructorCoursesAction extends Action {
 
         public List<CourseAttributes> getSoftDeletedCourses() {
             return softDeletedCourses;
+        }
+
+        public List<InstructorAttributes> getInstructorList() {
+            return instructorList;
         }
     }
 }
