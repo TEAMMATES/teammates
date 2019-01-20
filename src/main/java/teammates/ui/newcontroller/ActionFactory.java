@@ -52,6 +52,8 @@ public class ActionFactory {
         map(ResourceURIs.SESSION, PUT, SaveFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);

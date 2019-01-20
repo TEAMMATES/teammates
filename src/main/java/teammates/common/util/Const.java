@@ -975,6 +975,7 @@ public final class Const {
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";
+        public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
