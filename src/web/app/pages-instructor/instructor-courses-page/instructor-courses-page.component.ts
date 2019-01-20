@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import moment from 'moment-timezone';
 import { HttpRequestService } from "../../../services/http-request.service";
 import { StatusMessageService } from "../../../services/status-message.service";
 import { TimezoneService } from "../../../services/timezone.service";
-import {ErrorMessageOutput} from "../../message-output";
+import {ErrorMessageOutput, MessageOutput} from "../../message-output";
 import { environment } from "../../../environments/environment";
 
 interface ActiveCourse {
@@ -103,12 +103,16 @@ export class InstructorCoursesPageComponent implements OnInit {
     return `${this.backendUrl}/course/stats?courseid=${courseId}&user=${user}`;
   }
 
+  onAutoDetectTimezone(): void {
+    this.timezone = moment.tz.guess();
+  }
+
   /**
-   * Submits the form data to add the new course.
+   * Submits the data to add the new course.
    */
   onSubmit(): void {
     if (!this.newCourseId || !this.newCourseName) {
-      // TODO handle error
+      this.statusMessageService.showErrorMessage('Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
     const paramMap: { [key: string]: string } = {
@@ -119,11 +123,51 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
-    this.httpRequestService.post('/instructor/courses', paramMap)
-        .subscribe((resp: InstructorCourses) => {
-          this.activeCourses = resp.activeCourses;
-          this.archivedCourses = resp.archivedCourses;
-          this.softDeletedCourses = resp.softDeletedCourses;
+    this.httpRequestService.post('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+          this.loadInstructorCourses(this.user);
+          this.statusMessageService.showSuccessMessage(resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Archives an active course.
+   */
+  onArchive(courseId: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      archive: 'true',
+      next: '/instructor/courses',
+    };
+    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+          this.loadInstructorCourses(this.user);
+          this.statusMessageService.showSuccessMessage(resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Unarchives an archived course.
+   */
+  onUnarchive(courseId: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      archive: 'false',
+      next: '/instructor/courses',
+    };
+    this.httpRequestService.put('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+          this.loadInstructorCourses(this.user);
+          this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });

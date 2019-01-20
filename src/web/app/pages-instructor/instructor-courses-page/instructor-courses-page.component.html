@@ -26,7 +26,7 @@
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
             </select>
             <span class="input-group-btn">
-              <input type="button" class="btn btn-primary" value="Auto-Detect">
+              <input type="button" class="btn btn-primary" value="Auto-Detect" (click)="onAutoDetectTimezone()">
             </span>
           </div>
         </div>
@@ -70,7 +70,7 @@
             <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Enroll student into the course" routerLink="/web/instructor/courses/enroll">Enroll</a>
             <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="View, edit and send invitation emails to the students in the course" routerLink="/web/instructor/courses/details">View</a>
             <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Edit Course information and instructor list" routerLink="/web/instructor/courses/edit">Edit</a>
-            <a class="btn btn-light btn-sm btn-left" type="button"ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">Archive</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" (click)="onArchive(course.id)" ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">Archive</a>
             <a class="btn btn-light btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions" type="button">Delete</a>
           </td>
         </tr>
@@ -101,7 +101,7 @@
           <td>{{course.name}}</td>
           <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
-            <a class="btn btn-light btn-sm btn-left" type="button">Unarchive</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" (click)="onUnarchive(course.id)">Unarchive</a>
             <a class="btn btn-light btn-sm" type="button" ngbTooltip="Delete the course and its corresponding students and sessions">Delete</a>
           </td>
         </tr>
