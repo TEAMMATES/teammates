@@ -247,7 +247,6 @@ public final class Const {
                 + "but a joined student can access extra features e.g. set up a user profile";
         public static final String COURSE_STUDENT_DELETE =
                 "Delete the student and the corresponding submissions from the course";
-        public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
 
         public static final String COURSE_REMIND =
                 "Email an invitation to all students yet to join requesting them to join the course "
@@ -985,6 +984,7 @@ public final class Const {
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_ENROLL_SAVE = "/courses/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
+        public static final String STUDENT_RECORDS = "/students/records";
     }
 
     @Deprecated
@@ -1212,7 +1212,6 @@ public final class Const {
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
-        public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
@@ -1461,7 +1460,6 @@ public final class Const {
         public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS =
                 "There are no course or students information to be displayed";
-        public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
         public static final String INSTRUCTOR_SEARCH_TIPS =
                 "Search Tips:<br>"
