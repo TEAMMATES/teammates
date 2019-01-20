@@ -53,6 +53,7 @@ public class ActionFactory {
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
+        map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
         map(ResourceURIs.QUESTIONS, GET, GetFeedbackQuestionsAction.class);
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, SaveFeedbackQuestionAction.class);

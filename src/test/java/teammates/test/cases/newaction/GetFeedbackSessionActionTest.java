@@ -77,6 +77,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(feedbackSessionAttributes.isClosingEmailEnabled(), response.isClosingEmailEnabled());
         assertEquals(feedbackSessionAttributes.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
+
+        assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
     }
 
     @Override

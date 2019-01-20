@@ -4,13 +4,14 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 
 /**
- * Move the feedback sesion to the recycle bin.
+ * Restore a feedback session from the recycle bin.
  */
-public class BinFeedbackSessionAction extends Action {
+public class RestoreFeedbackSessionAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -21,7 +22,7 @@ public class BinFeedbackSessionAction extends Action {
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, userInfo.getId()),
@@ -31,17 +32,23 @@ public class BinFeedbackSessionAction extends Action {
 
     @Override
     public ActionResult execute() {
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        try {
-            logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not in recycle bin"));
         }
 
-        FeedbackSessionAttributes recycleBinFs = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(recycleBinFs));
+        try {
+            logic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
+
+        FeedbackSessionAttributes restoredFs = logic.getFeedbackSession(feedbackSessionName, courseId);
+        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(restoredFs));
     }
 
 }

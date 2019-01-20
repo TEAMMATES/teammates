@@ -136,6 +136,9 @@ public class FeedbackSessionInfo {
         private Boolean isClosingEmailEnabled;
         private Boolean isPublishedEmailEnabled;
 
+        private final long createdAtTimestamp;
+        private final Long deletedAtTimestamp;
+
         public FeedbackSessionResponse(FeedbackSessionAttributes feedbackSessionAttributes) {
             this.courseId = feedbackSessionAttributes.getCourseId();
             this.timeZone = feedbackSessionAttributes.getTimeZone().getId();
@@ -187,6 +190,13 @@ public class FeedbackSessionInfo {
 
             this.isClosingEmailEnabled = feedbackSessionAttributes.isClosingEmailEnabled();
             this.isPublishedEmailEnabled = feedbackSessionAttributes.isPublishedEmailEnabled();
+
+            this.createdAtTimestamp = feedbackSessionAttributes.getCreatedTime().toEpochMilli();
+            if (feedbackSessionAttributes.getDeletedTime() == null) {
+                this.deletedAtTimestamp = null;
+            } else {
+                this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
+            }
         }
 
         public String getCourseId() {
@@ -279,6 +289,14 @@ public class FeedbackSessionInfo {
 
         public void setPublishedEmailEnabled(Boolean publishedEmailEnabled) {
             isPublishedEmailEnabled = publishedEmailEnabled;
+        }
+
+        public long getCreatedAtTimestamp() {
+            return createdAtTimestamp;
+        }
+
+        public Long getDeletedAtTimestamp() {
+            return deletedAtTimestamp;
         }
     }
 
