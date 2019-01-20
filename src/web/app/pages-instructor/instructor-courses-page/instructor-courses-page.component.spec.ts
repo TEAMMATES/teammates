@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
@@ -12,6 +13,7 @@ describe('InstructorCoursesPageComponent', () => {
       declarations: [InstructorCoursesPageComponent],
       imports: [
         HttpClientTestingModule,
+        ReactiveFormsModule,
         RouterTestingModule,
       ],
     })

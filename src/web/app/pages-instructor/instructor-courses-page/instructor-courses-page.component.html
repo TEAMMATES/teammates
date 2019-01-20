@@ -2,38 +2,40 @@
 <ng-container>
   <div class="card bg-primary">
     <div class="card-body fill-plain">
-      <form class="form">
-        <div class="form-group row">
-          <label class="col-sm-3 control-label bold-label text-right">Course ID:</label>
-          <div class="col-sm-3">
-            <input class="form-control" type="text" placeholder="e.g. CS3215-2013Semester1"/>
+      <div class="form-group row">
+        <label class="col-sm-3 control-label bold-label text-right">Course ID:</label>
+        <div class="col-sm-3">
+          <input class="form-control" type="text" [(ngModel)]="newCourseId" ngbTooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
+                 placeholder="e.g. CS3215-2013Semester1"/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 control-label bold-label text-right">Course Name:</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" [(ngModel)]="newCourseName" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
+                 placeholder="e.g. Software Engineering"/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 control-label bold-label text-right">Time Zone:</label>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <select class="form-control" [(ngModel)]="timezone" ngbTooltip="The time zone for the course. You should not
+                 need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+                 to match the current time offset in your area, including clock changes due to daylight saving time.">
+              <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+            </select>
+            <span class="input-group-btn">
+              <input type="button" class="btn btn-primary" value="Auto-Detect">
+            </span>
           </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-3 control-label bold-label text-right">Course Name:</label>
-          <div class="col-sm-9">
-            <input class="form-control" type="text" placeholder="e.g. Software Engineering"/>
-          </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <input type="button" class="btn btn-primary" (click)="onSubmit()" value="Add Course">
         </div>
-        <div class="form-group row">
-          <label class="col-sm-3 control-label bold-label text-right">Time Zone:</label>
-          <div class="col-sm-9">
-            <div class="input-group">
-              <select class="form-control">
-                <option>Asia/Singapore (UTC+08:00)</option>
-              </select>
-              <span class="input-group-btn">
-                <input type="button" class="btn btn-primary" id="auto-detect-time-zone" value="Auto-Detect">
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="offset-sm-3 col-sm-9">
-            <input id="btnAddCourse" type="submit" class="btn btn-primary" value="Add Course">
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
   <br><br><br><br>
@@ -59,17 +61,17 @@
         <tr *ngFor="let course of activeCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td>{{course.createdAt | date:'d MMM yyyy'}}</td>
+          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
           <td><a routerLink="/web/instructor/courses">show</a></td>
           <td class="text-center">
-            <a class="btn btn-light btn-sm btn-left" type="button" routerLink="/web/instructor/courses/enroll">Enroll</a>
-            <a class="btn btn-light btn-sm btn-left" type="button" routerLink="/web/instructor/courses/details">View</a>
-            <a class="btn btn-light btn-sm btn-left" type="button" routerLink="/web/instructor/courses/edit">Edit</a>
-            <a class="btn btn-light btn-sm btn-left" type="button">Archive</a>
-            <a class="btn btn-light btn-sm" type="button">Delete</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Enroll student into the course" routerLink="/web/instructor/courses/enroll">Enroll</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="View, edit and send invitation emails to the students in the course" routerLink="/web/instructor/courses/details">View</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Edit Course information and instructor list" routerLink="/web/instructor/courses/edit">Edit</a>
+            <a class="btn btn-light btn-sm btn-left" type="button"ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">Archive</a>
+            <a class="btn btn-light btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions" type="button">Delete</a>
           </td>
         </tr>
       </tbody>
@@ -97,10 +99,10 @@
         <tr *ngFor="let course of archivedCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td>{{course.createdAt | date:'d MMM yyyy'}}</td>
+          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.createdAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button">Unarchive</a>
-            <a class="btn btn-light btn-sm" type="button">Delete</a>
+            <a class="btn btn-light btn-sm" type="button" ngbTooltip="Delete the course and its corresponding students and sessions">Delete</a>
           </td>
         </tr>
       </tbody>
@@ -117,14 +119,14 @@
     <div class="card-header bg-secondary text-white">
       <strong>Recycle Bin</strong>
       <span class="float-sm-right margin-left-10px">
-        <a class="btn btn-light btn-sm" type="button">
+        <a class="btn btn-light btn-sm" type="button" ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
           <strong class="text-color-red">
             <span class="fa fa-times-circle"></span> Delete All
           </strong>
         </a>
       </span>
       <span class="float-sm-right">
-        <a class="btn btn-light btn-sm" type="button">
+        <a class="btn btn-light btn-sm" type="button" ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
           <strong class="text-color-black">
             <span class="fa fa-check-circle"></span> Restore All
           </strong>
@@ -147,11 +149,11 @@
         <tr *ngFor="let course of softDeletedCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td>{{course.createdAt | date:'d MMM yyyy'}}</td>
-          <td>{{course.deletedAt | date:'d MMM yyyy'}}</td>
+          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.createdAt | date:'d MMM yyyy'}}</td>
+          <td ngbTooltip="{{course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.deletedAt | date:'d MMM yyyy'}}</td>
           <td class="text-center">
-            <a class="btn btn-light btn-sm btn-left" type="button">Restore</a>
-            <a class="btn btn-light btn-sm" type="button" style="color: red">Delete Permanently</a>
+            <a class="btn btn-light btn-sm btn-left" type="button" ngbTooltip="Restore the deleted course and its corresponding students and sessions">Restore</a>
+            <a class="btn btn-light btn-sm" type="button" style="color: red" ngbTooltip="Permanently delete the course and its corresponding students and sessions">Delete Permanently</a>
           </td>
         </tr>
       </tbody>
