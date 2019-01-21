@@ -119,15 +119,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   deleteAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = {
-      user: this.user,
       courseid: courseId,
     };
 
     this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router,
-            `/web/instructor/courses/details?courseid=${courseId}`,
-            resp.message);
+        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
+            '/web/instructor/courses/details', resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
