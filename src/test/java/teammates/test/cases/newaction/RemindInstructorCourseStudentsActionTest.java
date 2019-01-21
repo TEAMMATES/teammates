@@ -12,8 +12,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.newcontroller.JsonResult;
+import teammates.ui.newcontroller.JsonResult.MessageOutput;
 import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction;
-import teammates.ui.newcontroller.RemindInstructorCourseStudentsAction.RedirectInfo;
 
 /**
  * SUT: {@link RemindInstructorCourseStudentsAction}.
@@ -51,9 +51,9 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        RedirectInfo output = (RedirectInfo) result.getOutput();
+        MessageOutput output = (MessageOutput) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + anotherInstructorOfCourse1.email,
-                output.getStatusMessage());
+                output.getMessage());
 
         verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
@@ -76,9 +76,9 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RedirectInfo) result.getOutput();
+        output = (MessageOutput) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
-                output.getStatusMessage());
+                output.getMessage());
 
         ______TS("Typical case: Send email to remind a student to register for the course from student list page");
 
@@ -89,9 +89,9 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RedirectInfo) result.getOutput();
+        output = (MessageOutput) result.getOutput();
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
-                output.getStatusMessage());
+                output.getMessage());
 
         verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
@@ -130,8 +130,8 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RedirectInfo) result.getOutput();
-        assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, output.getStatusMessage());
+        output = (MessageOutput) result.getOutput();
+        assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, output.getMessage());
 
         // 2 unregistered students, thus 2 emails queued to be sent
         verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 2);
@@ -155,8 +155,8 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        output = (RedirectInfo) result.getOutput();
-        assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, output.getStatusMessage());
+        output = (MessageOutput) result.getOutput();
+        assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, output.getMessage());
 
         // no unregistered students, thus no emails sent
         verifyNoTasksAdded(remindAction);

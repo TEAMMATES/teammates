@@ -1,8 +1,8 @@
 package teammates.ui.newcontroller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 
 /**
  * Action: reminds all students in a course who have not joined.
@@ -63,13 +62,11 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String previousPage = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM);
 
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
 
         StringBuilder statusMessage = new StringBuilder();
-        StringBuilder redirectUrl = new StringBuilder("/web/instructor");
 
         if (isSendingToStudent) {
             taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
@@ -83,11 +80,6 @@ public class RemindInstructorCourseStudentsAction extends Action {
 
             statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(studentEmail);
 
-            boolean isRequestedFromCourseDetailsPage = Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS.equals(previousPage);
-
-            redirectUrl.append(isRequestedFromCourseDetailsPage
-                    ? Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS
-                    : Const.ResourceURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id, instructorEmail, courseId, null, false);
 
@@ -100,7 +92,6 @@ public class RemindInstructorCourseStudentsAction extends Action {
             }
 
             statusMessage.append(Const.StatusMessages.COURSE_REMINDER_SENT_TO).append(instructorEmail);
-            redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
@@ -108,58 +99,8 @@ public class RemindInstructorCourseStudentsAction extends Action {
             }
 
             statusMessage.append(Const.StatusMessages.COURSE_REMINDERS_SENT);
-            redirectUrl.append(Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS);
         }
 
-        RedirectInfo output = new RedirectInfo(redirectUrl.toString(), statusMessage.toString());
-        output.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-        output.updateUrl();
-
-        return new JsonResult(output);
-    }
-
-    /**
-     * Data format for {@link RemindInstructorCourseStudentsAction}.
-     */
-    public class RedirectInfo extends ActionResult.ActionOutput {
-        private final String statusMessage;
-        private Map<String, String> responseParams = new HashMap<>();
-        private String redirectUrl;
-
-        public RedirectInfo(String redirectUrl, String statusMessage) {
-            this.redirectUrl = redirectUrl;
-            this.statusMessage = statusMessage;
-        }
-
-        public String getRedirectUrl() {
-            return redirectUrl;
-        }
-
-        public String getStatusMessage() {
-            return statusMessage;
-        }
-
-        /**
-         * Returns url of the result, including parameters.
-         *         e.g. {@code /instructorHome?courseid?=abc}
-         */
-        public void addResponseParam(String key, String value) {
-            responseParams.put(key, value);
-        }
-
-        /**
-         * Add a (key,value) pair ot the list of response parameters.
-         */
-        public void updateUrl() {
-            redirectUrl = appendParameters(redirectUrl, responseParams);
-        }
-
-        private String appendParameters(String url, Map<String, String> params) {
-            String returnValue = url;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                returnValue = Url.addParamToUrl(returnValue, entry.getKey(), entry.getValue());
-            }
-            return returnValue;
-        }
+        return new JsonResult(statusMessage.toString(), HttpStatus.SC_OK);
     }
 }

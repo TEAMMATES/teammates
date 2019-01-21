@@ -45,11 +45,6 @@ interface CourseInfo {
   courseStudentListAsCsv: string;
 }
 
-interface RedirectInfo {
-  redirectUrl: string;
-  statusMessage: string;
-}
-
 /**
  * Instructor course details page.
  */
@@ -179,10 +174,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Delete all the students in a course.
    */
   deleteAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-
+    const paramsMap: { [key: string]: string } = { courseid: courseId };
     this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
@@ -211,14 +203,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Remind all unjoined students in a course.
    */
   remindAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      courseid: courseId,
-    };
-
+    const paramsMap: { [key: string]: string } = { courseid: courseId };
     this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
-      .subscribe((resp: RedirectInfo) => {
-        this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.statusMessage);
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
+            '/web/instructor/courses/details', resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });

@@ -5,17 +5,12 @@ import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 import { StudentProfile } from '../student-profile/student-profile';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
 interface StudentDetails {
   studentProfile: StudentProfile;
-}
-
-interface RedirectInfo {
-  redirectUrl: string;
-  statusMessage: string;
 }
 
 /**
@@ -93,12 +88,12 @@ export class StudentListComponent implements OnInit {
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseId,
       studentemail: studentEmail,
-      pagenameremindstudentisfrom: '/courses/details',
     };
 
     this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
-      .subscribe((resp: RedirectInfo) => {
-        this.navigationService.navigateWithSuccessMessage(this.router, resp.redirectUrl, resp.statusMessage);
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
+            '/web/instructor/courses/details', resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
