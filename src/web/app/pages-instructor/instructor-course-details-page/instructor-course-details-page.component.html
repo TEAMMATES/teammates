@@ -124,9 +124,9 @@
   </ng-template>
   <ng-template #studentTableModal let-modal>
     <div class="modal-header">
-      <span class="help-block">
-      Tips: <span class="btn-link">Click here</span> to select the table,
-      then <kbd>Ctrl + C</kbd> or <kbd>⌘ + C</kbd> to COPY and <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
+      <span>
+        Tips: <span class="btn-link" (click)="copyContent(studentListHtmlTableAsString)">Click here</span>
+        to copy the table, then <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
       </span>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>

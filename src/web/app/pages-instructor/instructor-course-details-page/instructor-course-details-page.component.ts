@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
+import { ClipboardService } from 'ngx-clipboard';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -67,6 +68,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   studentListHtmlTableAsString?: String = '';
 
   constructor(private route: ActivatedRoute, private router: Router,
+              private clipboardService: ClipboardService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private ngbModal: NgbModal, private navigationService: NavigationService) { }
@@ -96,6 +98,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Automatically copy the text content provided.
+   */
+  copyContent(text: string): void {
+    this.clipboardService.copyFromContent(text);
   }
 
   /**
