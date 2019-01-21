@@ -115,6 +115,67 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
+   * Converts a csv string to a html table string for displaying.
+   */
+  convertToHtmlTable(str: string): string {
+    let result: string = '<table class=\"table table-bordered table-striped table-sm\">';
+    let rowData: string[];
+    const lines: string[] = str.split(/\r?\n/);
+
+    lines.forEach(
+        (line: string) => {
+          rowData = this.getTableData(line);
+
+          if (rowData.filter((s: string) => s !== '').length === 0) {
+            return;
+          }
+          result = result.concat('<tr>');
+          for (const td of rowData) {
+            result = result.concat(`<td>${td}</td>`);
+                // .concat().concat('</td>');
+          }
+          result = result.concat('</tr>');
+        },
+    );
+    return result.concat('</table>');
+  }
+
+  /**
+   * Obtain a string without quotations.
+   */
+  getTableData(line: string): string[] {
+    const output: string[] = [];
+    let inquote: boolean = false;
+
+    let buffer: string = '';
+    const data: string[] = line.split('');
+
+    for (let i: number = 0; i < data.length; i += 1) {
+      if (data[i] === '"') {
+        if (i + 1 < data.length && data[i + 1] === '"') {
+          i += 1;
+        } else {
+          inquote = !inquote;
+          continue;
+        }
+      }
+
+      if (data[i] === ',') {
+        if (inquote) {
+          buffer = buffer.concat(data[i]);
+        } else {
+          output.push(buffer);
+          buffer = '';
+        }
+      } else {
+        buffer = buffer.concat(data[i]);
+      }
+    }
+    output.push(buffer.trim());
+    return output;
+  }
+
+  /**
    * Delete all the students in a course.
    */
   deleteAllStudentsFromCourse(courseId: string): void {

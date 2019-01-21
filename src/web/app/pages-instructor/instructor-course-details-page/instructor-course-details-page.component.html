@@ -125,7 +125,7 @@
   <ng-template #studentTableModal let-modal>
     <div class="modal-header">
       <span>
-        Tips: <span class="btn-link" (click)="copyContent(studentListHtmlTableAsString)">Click here</span>
+        Tips: <span class="btn-link" (click)="copyContent(courseStudentListAsCsv)">Click here</span>
         to copy the table, then <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
       </span>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -133,10 +133,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="table-responsive">
-        <div [innerHTML]="studentListHtmlTableAsString"></div>
-        <br>
-      </div>
+      <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
     </div>
   </ng-template>
 </div>
