@@ -9,7 +9,7 @@ class StudentListStubComponent {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() sections: Object[] = [];
-  @Input() fromCourseDetailsPage: boolean = true;
+  @Input() enableRemindButton: boolean = true;
 }
 
 describe('InstructorCourseDetailsPageComponent', () => {

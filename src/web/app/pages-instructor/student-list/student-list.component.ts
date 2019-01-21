@@ -31,7 +31,7 @@ export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
-  @Input() fromCourseDetailsPage: boolean = false;
+  @Input() enableRemindButton: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -83,7 +83,7 @@ export class StudentListComponent implements OnInit {
    * Open the student delete confirmation modal.
    */
   openModal(content: any): void {
-    this.ngbModal.open(content).result.then((studentEmail: string) => this.removeStudentFromCourse(studentEmail));
+    this.ngbModal.open(content);
   }
 
   /**
