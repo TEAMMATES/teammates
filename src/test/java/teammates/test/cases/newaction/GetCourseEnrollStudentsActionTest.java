@@ -36,10 +36,6 @@ public class GetCourseEnrollStudentsActionTest extends BaseActionTest<GetCourseE
         //no parameters
         verifyHttpParameterFailure();
 
-        //no parameters
-        String[] invalidParams = new String[] {};
-        verifyHttpParameterFailure(invalidParams);
-
         ______TS("Typical successful case");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
