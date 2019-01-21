@@ -7,23 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.UserInfo;
-
 /**
  * Action result in the form of csv text.
  */
-public class DownloadFileResult extends ActionResult {
+public class CsvResult extends ActionResult {
 
-    private UserInfo userInfo;
-    private String destination = "";
-    private String fileContent = "";
+    private String fileContent;
 
-    public DownloadFileResult(
-            String destination, UserInfo userInfo, String fileContent) {
+    public CsvResult(String fileContent) {
+
         super(HttpStatus.SC_OK);
-
-        this.userInfo = userInfo;
-        this.destination = destination;
         this.fileContent = fileContent;
     }
 
@@ -41,14 +34,6 @@ public class DownloadFileResult extends ActionResult {
 
     public String getFileContent() {
         return this.fileContent;
-    }
-
-    public String getDestination() {
-        return this.destination;
-    }
-
-    public UserInfo getUserInfo() {
-        return this.userInfo;
     }
 
 }

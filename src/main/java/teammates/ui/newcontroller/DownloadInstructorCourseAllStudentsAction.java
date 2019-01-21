@@ -33,6 +33,6 @@ public class DownloadInstructorCourseAllStudentsAction extends Action {
         } catch (EntityDoesNotExistException e) {
             return new JsonResult("No course with given instructor is found.", HttpStatus.SC_NOT_FOUND);
         }
-        return createFileDownloadResult(fileContent);
+        return new CsvResult(fileContent);
     }
 }

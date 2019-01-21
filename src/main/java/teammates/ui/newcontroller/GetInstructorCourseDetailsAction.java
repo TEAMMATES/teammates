@@ -102,7 +102,7 @@ public class GetInstructorCourseDetailsAction extends Action {
 
             if (sections.size() == 1) {
                 StudentListSectionData section = sections.get(0);
-                this.hasSection = !"None".equals(section.sectionName);
+                this.hasSection = !Const.DEFAULT_SECTION.equals(section.sectionName);
             } else {
                 this.hasSection = true;
             }

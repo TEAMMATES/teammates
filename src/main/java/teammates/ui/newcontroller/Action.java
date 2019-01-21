@@ -155,15 +155,6 @@ public abstract class Action {
     }
 
     /**
-     * Generates a {@link DownloadFileResult} with the information in this object.
-     */
-    public DownloadFileResult createFileDownloadResult(String fileContent) {
-        return new DownloadFileResult("filedownload",
-                                        userInfo,
-                                        fileContent);
-    }
-
-    /**
      * Returns the request body payload.
      */
     protected String getRequestBody() {

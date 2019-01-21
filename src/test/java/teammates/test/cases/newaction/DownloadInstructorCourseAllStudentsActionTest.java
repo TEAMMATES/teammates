@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.CsvChecker;
-import teammates.ui.newcontroller.DownloadFileResult;
+import teammates.ui.newcontroller.CsvResult;
 import teammates.ui.newcontroller.DownloadInstructorCourseAllStudentsAction;
 
 /**
@@ -44,7 +44,7 @@ public class DownloadInstructorCourseAllStudentsActionTest extends
 
         ______TS("Typical case: student list downloaded successfully");
         DownloadInstructorCourseAllStudentsAction downloadAction = getAction(submissionParams);
-        DownloadFileResult result = getDownloadFileResult(downloadAction);
+        CsvResult result = getDownloadFileResult(downloadAction);
 
         // TODO: fileName and status message moved to front end for future testing
         String fileContent = result.getFileContent();
