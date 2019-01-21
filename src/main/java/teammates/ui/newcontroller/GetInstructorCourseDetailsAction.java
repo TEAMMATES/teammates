@@ -16,7 +16,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 
 /**
  * Action: gets details of a course in from an instructor.
@@ -57,11 +56,9 @@ public class GetInstructorCourseDetailsAction extends Action {
             courseDetails = logic.getCourseDetails(courseId);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-
-            output = new CourseInfo(instructor, courseDetails, instructors);
-
             String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, userInfo.id);
-            output.setStudentListHtmlTableAsString(StringHelper.csvToHtmlTable(courseStudentListAsCsv));
+
+            output = new CourseInfo(instructor, courseDetails, instructors, courseStudentListAsCsv);
 
         } catch (EntityDoesNotExistException e) {
             return new JsonResult("No course with given instructor is found.", HttpStatus.SC_NOT_FOUND);
@@ -79,13 +76,14 @@ public class GetInstructorCourseDetailsAction extends Action {
         private final List<InstructorAttributes> instructors;
         private final List<StudentListSectionData> sections;
         private final boolean hasSection;
-        private String studentListHtmlTableAsString;
+        private String courseStudentListAsCsv;
 
         public CourseInfo(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
-                          List<InstructorAttributes> instructors) {
+                          List<InstructorAttributes> instructors, String courseStudentListAsCsv) {
             this.currentInstructor = currentInstructor;
             this.courseDetails = courseDetails;
             this.instructors = instructors;
+            this.courseStudentListAsCsv = courseStudentListAsCsv;
 
             this.sections = new ArrayList<>();
             for (SectionDetailsBundle section : courseDetails.sections) {
@@ -114,10 +112,6 @@ public class GetInstructorCourseDetailsAction extends Action {
                     .map(student -> new StudentListStudentData(
                             student.name, student.email, student.getStudentStatus(), student.team))
                     .collect(Collectors.toList());
-        }
-
-        private void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {
-            this.studentListHtmlTableAsString = studentListHtmlTableAsString;
         }
 
         private static class StudentListSectionData {
@@ -170,8 +164,8 @@ public class GetInstructorCourseDetailsAction extends Action {
             return hasSection;
         }
 
-        public String getStudentListHtmlTableAsString() {
-            return studentListHtmlTableAsString;
+        public String getCourseStudentListAsCsv() {
+            return courseStudentListAsCsv;
         }
     }
 }

@@ -42,7 +42,7 @@ interface CourseInfo {
   instructors: InstructorAttributes[];
   sections: StudentListSectionData[];
   hasSection: boolean;
-  studentListHtmlTableAsString: string;
+  courseStudentListAsCsv: string;
 }
 
 interface RedirectInfo {
@@ -65,7 +65,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   currentInstructor?: InstructorAttributes;
   instructors?: InstructorAttributes[] = [];
   sections?: StudentListSectionData[] = [];
-  studentListHtmlTableAsString?: String = '';
+  courseStudentListAsCsv?: String = '';
 
   constructor(private route: ActivatedRoute, private router: Router,
               private clipboardService: ClipboardService,
@@ -90,7 +90,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       this.currentInstructor = resp.currentInstructor;
       this.instructors = resp.instructors;
       this.sections = resp.sections;
-      this.studentListHtmlTableAsString = resp.studentListHtmlTableAsString;
+      this.courseStudentListAsCsv = resp.courseStudentListAsCsv;
 
       if (!this.courseDetails) {
         this.statusMessageService.showErrorMessage('Error retrieving course details');
