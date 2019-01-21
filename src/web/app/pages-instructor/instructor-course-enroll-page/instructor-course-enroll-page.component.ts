@@ -260,6 +260,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const paramMap: { [key: string]: string } = {
       courseid: this.courseid,
+      user: this.user,
     };
     this.httpRequestService.get('/course/enroll/students', paramMap).subscribe(
         (resp: StudentListResults) => {
@@ -307,7 +308,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = {
+      courseid,
+      user: this.user,
+    };
     this.httpRequestService.get('/course/enroll/pageData', paramMap).subscribe(
     (resp: CourseEnrollPageData) => {
       this.coursePresent = resp.isCoursePresent;
