@@ -56,6 +56,10 @@ interface EnrollResultPanelList {
   enrollResultPanelList: EnrollResultPanel[];
 }
 
+interface StudentListResults {
+  enrolledStudents: StudentAttributes[];
+}
+
 /**
  * Instructor course enroll page.
  */
@@ -75,7 +79,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   @ViewChild('moreInfo') moreInfo?: ElementRef;
   @ContentChild('pasteModalBox') pasteModalBox?: NgbModal;
 
-  @Input() isCollapsed: boolean = false;
+  @Input() isNewStudentsPanelCollapsed: boolean = false;
+  @Input() isExistingStudentsPanelCollapsed: boolean = true;
+
   colHeaders: String[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   contextMenuOptions: String[] | Object[] =
     ['row_above',
@@ -96,6 +102,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   enrollData?: string;
   enrollResultPanelList?: EnrollResultPanel[];
+
+  existingStudentsHOT: string = 'existingStudentsHOT';
+  isExistingStudentsPresent: boolean = true;
+  loading: boolean = false;
+  isAjaxSuccess: boolean = true;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -163,7 +174,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       courseid: this.courseid,
       user: this.user,
     };
-    this.httpRequestService.post('/courses/enrollSave', paramMap, this.enrollData)
+    this.httpRequestService.post('/course/enrollSave', paramMap, this.enrollData)
         .subscribe((resp: EnrollResultPanelList) => {
           this.showEnrollResults = true;
           this.statusMessage.pop(); // removes any existing status message
@@ -191,11 +202,80 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   /**
-   * Toggles the view of spreadsheet interface
+   * Toggles the view of 'New Students' spreadsheet interface
    * and/or its affiliated buttons
    */
-  togglePanel(): void {
-    this.isCollapsed = !this.isCollapsed;
+  toggleNewStudentsPanel(): void {
+    this.isNewStudentsPanelCollapsed = !this.isNewStudentsPanelCollapsed;
+  }
+
+  /**
+   * Returns the length of the current spreadsheet.
+   * Rows with all null values are filtered.
+   */
+  getSpreadsheetLength(dataHandsontable: string[][]): number {
+    return dataHandsontable
+        .filter((row: string[]) => (!row.every((cell: string) => cell === null)))
+        .length;
+  }
+
+  /**
+   * Transforms the first uppercase letter of a string into a lowercase letter.
+   */
+  unCapitalizeFirstLetter(targetString: string): string {
+    return targetString.charAt(0).toLowerCase() + targetString.slice(1);
+  }
+
+  /**
+   * Converts returned student list to a suitable format required by Handsontable.
+   */
+  studentListDataToHandsontableData(studentsData: StudentAttributes[], handsontableColHeader: any[]): string[][] {
+    const headers: string[] = handsontableColHeader.map(this.unCapitalizeFirstLetter);
+    return studentsData.map((student: StudentAttributes) => (headers.map(
+        (header: string) => (student as any)[header])));
+  }
+
+  /**
+   * Loads existing student data into the spreadsheet interface.
+   */
+  loadExistingStudentsData(existingStudentsHOTInstance: Handsontable, studentsData: StudentAttributes[]): void {
+    existingStudentsHOTInstance.loadData(this.studentListDataToHandsontableData(
+        studentsData, (existingStudentsHOTInstance.getColHeader() as any[])));
+  }
+
+  /**
+   * Toggles the view of 'Existing Students' spreadsheet interface
+   */
+  toggleExistingStudentsPanel(): void {
+    this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
+    this.loading = true;
+    const existingStudentsHOTInstance: Handsontable =
+        this.hotRegisterer.getInstance(this.existingStudentsHOT);
+
+    // Calling REST API only the first time when spreadsheet has no data
+    if (this.getSpreadsheetLength(existingStudentsHOTInstance.getData()) !== 0) {
+      this.loading = false;
+      return;
+    }
+
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseid,
+      user: this.user,
+    };
+    this.httpRequestService.get('/course/enroll/students', paramMap).subscribe(
+        (resp: StudentListResults) => {
+          if (resp.enrolledStudents.length !== 0) {
+            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.enrolledStudents);
+          } else {
+            // Shows a message if there are no existing students. Panel would not be expanded.
+            this.isExistingStudentsPresent = false;
+          }
+        }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.isAjaxSuccess = false;
+      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // collapse the panel again
+    });
+    this.loading = false;
   }
 
   /**
@@ -228,7 +308,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = {
+      courseid,
+      user: this.user,
+    };
     this.httpRequestService.get('/course/enroll/pageData', paramMap).subscribe(
     (resp: CourseEnrollPageData) => {
       this.coursePresent = resp.isCoursePresent;

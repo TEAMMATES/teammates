@@ -1,3 +1,5 @@
+import { AjaxPreloadModule } from '../components/ajax-preload/ajax-preload.module';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -158,6 +160,7 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [
+    AjaxPreloadModule,
     CommonModule,
     FormsModule,
     NgbModule,
