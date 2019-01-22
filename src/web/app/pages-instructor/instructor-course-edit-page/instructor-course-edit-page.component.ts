@@ -469,11 +469,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   private initAddInstructorForm(): void {
     this.formAddInstructor = this.fb.group({
+      googleId: [''],
       name: [''],
       email: [''],
       isDisplayedToStudents: [{ value: true }],
       displayedName: ['Instructor'],
       role: ['Co-owner'],
+      privileges: this.getPrivilegesForRole('Co-owner'),
     });
   }
 
