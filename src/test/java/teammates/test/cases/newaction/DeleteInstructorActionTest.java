@@ -32,15 +32,16 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         verifyHttpParameterFailure();
 
-        ______TS("Typical case: instructor deletes an instructor by google id");
+        ______TS("Typical case: admin deletes an instructor by google id");
 
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        loginAsInstructor(instructorId);
+        loginAsAdmin();
+
+        InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+        String instructorId = instructor1OfCourse2.googleId;
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse2.courseId
         };
 
         DeleteInstructorAction a = getAction(submissionParams);
@@ -51,66 +52,12 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) r.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        ______TS("Typical case: instructor deletes an instructor by email");
-
-        InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        InstructorAttributes instructor3OfCourse1 = typicalBundle.instructors.get("instructor3OfCourse1");
-
-        System.out.println(instructor2OfCourse1 == null);
-        System.out.println(instructor3OfCourse1 == null);
-
-        instructorId = instructor2OfCourse1.googleId;
-        loginAsInstructor(instructorId);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, instructor2OfCourse1.courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor3OfCourse1.email
-        };
-
-        a = getAction(submissionParams);
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        msg = (MessageOutput) r.getOutput();
-        assertEquals("Instructor is successfully deleted.", msg.getMessage());
-
-        ______TS("Typical case: admin deletes an instructor by google id");
-
-        loginAsAdmin();
-
-        InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
-        instructorId = instructor1OfCourse2.googleId;
-
-        submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse2.courseId
-        };
-
-        a = getAction(submissionParams);
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        msg = (MessageOutput) r.getOutput();
-        assertEquals("Instructor is successfully deleted.", msg.getMessage());
-
     }
 
     @Override
     @Test
     protected void testAccessControl() {
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-        };
-
-        verifyAccessibleForAdmin(submissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+        verifyAccessibleForAdmin();
     }
 
 }

@@ -18,38 +18,20 @@ public class DeleteInstructorAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         if (userInfo.isAdmin) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
-            gateKeeper.verifyAccessible(
-                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-
             return;
         }
-
-        if (!userInfo.isInstructor) {
-            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
-        }
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        // TODO allow access to instructors with modify permission
+        throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
     }
 
     @Override
     public ActionResult execute() {
         String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String instructorToDeleteEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
-        if (instructorToDeleteEmail == null) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
-            logic.deleteInstructor(courseId, instructor.email);
-        } else {
-            logic.deleteInstructor(courseId, instructorToDeleteEmail);
-        }
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+        logic.deleteInstructor(courseId, instructor.email);
 
         return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
     }

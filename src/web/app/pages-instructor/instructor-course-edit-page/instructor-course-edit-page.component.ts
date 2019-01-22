@@ -570,7 +570,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructoremail: instructorToDelete.email,
     };
 
-    this.httpRequestService.delete('/instructors', paramsMap)
+    this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
           if (instructorToDelete.googleId === this.instructor.googleId) {
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
