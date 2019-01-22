@@ -371,11 +371,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Executes the action and returns the downloadable text file.
+     * Executes the action and returns the csv content.
      *
      * <p>Assumption: The action returns a {@link CsvResult}.
      */
-    protected CsvResult getDownloadFileResult(Action a) {
+    protected CsvResult getCsvResult(Action a) {
         return (CsvResult) a.execute();
     }
 

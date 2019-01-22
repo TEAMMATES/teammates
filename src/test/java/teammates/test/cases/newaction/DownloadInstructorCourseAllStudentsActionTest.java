@@ -44,11 +44,10 @@ public class DownloadInstructorCourseAllStudentsActionTest extends
 
         ______TS("Typical case: student list downloaded successfully");
         DownloadInstructorCourseAllStudentsAction downloadAction = getAction(submissionParams);
-        CsvResult result = getDownloadFileResult(downloadAction);
+        CsvResult result = getCsvResult(downloadAction);
+        String content = result.getContent();
 
-        // TODO: fileName and status message moved to front end for future testing
-        String fileContent = result.getFileContent();
-        CsvChecker.verifyCsvContent(fileContent, "/courseStudentList_actionTest.csv");
+        CsvChecker.verifyCsvContent(content, "/courseStudentList_actionTest.csv");
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
 
@@ -57,11 +56,10 @@ public class DownloadInstructorCourseAllStudentsActionTest extends
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
 
         downloadAction = getAction(submissionParams);
-        result = getDownloadFileResult(downloadAction);
+        result = getCsvResult(downloadAction);
+        content = result.getContent();
 
-        fileContent = result.getFileContent();
-
-        CsvChecker.verifyCsvContent(fileContent, "/courseStudentListStudentLastName_actionTest.csv");
+        CsvChecker.verifyCsvContent(content, "/courseStudentListStudentLastName_actionTest.csv");
 
         removeAndRestoreTypicalDataBundle();
 
@@ -72,12 +70,10 @@ public class DownloadInstructorCourseAllStudentsActionTest extends
         StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
 
         downloadAction = getAction(submissionParams);
-        result = getDownloadFileResult(downloadAction);
+        result = getCsvResult(downloadAction);
+        content = result.getContent();
 
-        fileContent = result.getFileContent();
-
-        CsvChecker.verifyCsvContent(fileContent, "/courseStudentListSpecialTeamName_actionTest.csv");
-
+        CsvChecker.verifyCsvContent(content, "/courseStudentListSpecialTeamName_actionTest.csv");
     }
 
     @Override

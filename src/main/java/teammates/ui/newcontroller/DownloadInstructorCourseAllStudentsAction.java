@@ -27,12 +27,12 @@ public class DownloadInstructorCourseAllStudentsAction extends Action {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        String fileContent = "";
+        String content = "";
         try {
-            fileContent = logic.getCourseStudentListAsCsv(courseId, userInfo.id);
+            content = logic.getCourseStudentListAsCsv(courseId, userInfo.id);
         } catch (EntityDoesNotExistException e) {
             return new JsonResult("No course with given instructor is found.", HttpStatus.SC_NOT_FOUND);
         }
-        return new CsvResult(fileContent);
+        return new CsvResult(content);
     }
 }

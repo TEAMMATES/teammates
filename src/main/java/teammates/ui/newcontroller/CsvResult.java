@@ -12,12 +12,12 @@ import org.apache.http.HttpStatus;
  */
 public class CsvResult extends ActionResult {
 
-    private String fileContent;
+    private String content;
 
-    public CsvResult(String fileContent) {
+    public CsvResult(String content) {
 
         super(HttpStatus.SC_OK);
-        this.fileContent = fileContent;
+        this.content = content;
     }
 
     @Override
@@ -29,11 +29,11 @@ public class CsvResult extends ActionResult {
         resp.setContentType("text/csv; charset=UTF-8");
         PrintWriter writer = resp.getWriter();
         writer.write("\uFEFF");
-        writer.append(fileContent);
+        writer.append(content);
     }
 
-    public String getFileContent() {
-        return this.fileContent;
+    public String getContent() {
+        return this.content;
     }
 
 }
