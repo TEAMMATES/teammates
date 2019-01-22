@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../course';
+import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../feedback-session';
 
 /**
  * Copy current session modal.
@@ -11,6 +12,9 @@ import { Course } from '../../course';
   styleUrls: ['./copy-session-modal.component.scss'],
 })
 export class CopySessionModalComponent implements OnInit {
+
+  // const
+  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 
   @Input()
   courseCandidates: Course[] = [];

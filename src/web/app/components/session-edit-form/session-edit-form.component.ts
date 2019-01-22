@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/template-sessions';
 import { Course } from '../../course';
 import {
+  FEEDBACK_SESSION_NAME_MAX_LENGTH,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
@@ -28,6 +29,9 @@ export class SessionEditFormComponent implements OnInit {
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
   ResponseVisibleSetting: typeof ResponseVisibleSetting = ResponseVisibleSetting;
+
+  // const
+  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 
   @Input()
   model: SessionEditFormModel = {

@@ -13,7 +13,7 @@
       <div class="form-group">
         <label><b>Name for copied session</b></label>
         <input type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38">
-        <span>{{ 38 - newFeedbackSessionName.length }} characters left</span>
+        <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">
         <input type="radio" name="copySessionChooseCourse" class="form-check-input"

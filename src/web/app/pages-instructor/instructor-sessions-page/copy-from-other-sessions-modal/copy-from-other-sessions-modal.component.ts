@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../../course';
-import { FeedbackSession } from '../../../feedback-session';
+import { FEEDBACK_SESSION_NAME_MAX_LENGTH, FeedbackSession } from '../../../feedback-session';
 
 /**
  * Modal for creating new feedback session by copying from other feedback sessions.
@@ -12,6 +12,9 @@ import { FeedbackSession } from '../../../feedback-session';
   styleUrls: ['./copy-from-other-sessions-modal.component.scss'],
 })
 export class CopyFromOtherSessionsModalComponent implements OnInit {
+
+  // const
+  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 
   @Input()
   courseCandidates: Course[] = [];
