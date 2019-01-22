@@ -1,11 +1,13 @@
 package teammates.ui.newcontroller;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.NullHttpParameterException;
@@ -37,6 +39,9 @@ public abstract class Action {
     protected HttpServletResponse resp;
     protected UserInfo userInfo;
     protected AuthType authType;
+
+    // buffer to store the request body
+    private String requestBody;
 
     /**
      * Initializes the action object based on the HTTP request.
@@ -153,7 +158,10 @@ public abstract class Action {
      * Returns the request body payload.
      */
     protected String getRequestBody() {
-        return HttpRequestHelper.getRequestBody(req);
+        if (requestBody == null) {
+            requestBody = HttpRequestHelper.getRequestBody(req);
+        }
+        return requestBody;
     }
 
     /**
@@ -163,6 +171,24 @@ public abstract class Action {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         requestBody.validate();
         return requestBody;
+    }
+
+    /**
+     * Gets the unregistered student by the HTTP param.
+     *
+     * @throws UnauthorizedAccessException if HTTP param is provided but student cannot be found
+     */
+    protected Optional<StudentAttributes> getUnregisteredStudent() {
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (key != null) {
+            StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
+            if (studentAttributes == null) {
+                throw new UnauthorizedAccessException("RegKey is not valid.");
+            } else {
+                return Optional.of(studentAttributes);
+            }
+        }
+        return Optional.empty();
     }
 
     /**

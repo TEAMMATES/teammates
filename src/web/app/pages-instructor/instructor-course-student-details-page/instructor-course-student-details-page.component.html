@@ -1,45 +1,6 @@
-<ng-template #notSpecified><i class="text-muted">Not Specified</i></ng-template>
 <div *ngIf="student">
   <h1>{{student.name}}</h1>
-  <div class="row" *ngIf="studentProfile">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-md-2 col-3">
-          <img src="{{getPictureUrl(studentProfile.pictureKey)}}" class="profile-pic float-right">
-        </div>
-        <div class="col-md-10 col-sm-9 col-8">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th colspan="2"><h4><span class="font-weight-bold">Profile Details </span>(submitted by student)</h4></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="font-weight-bold">Short Name (Gender)</td>
-                <td><span *ngIf="studentProfile.shortName; else notSpecified">{{studentProfile.shortName}}</span>
-                  (<i *ngIf="studentProfile.gender != 'other'; else notSpecified">{{studentProfile.gender}}</i>)
-                </td>
-              </tr>
-              <tr>
-                <td class="font-weight-bold">Personal Email</td>
-                <td><span *ngIf="studentProfile.email; else notSpecified">{{studentProfile.email}}</span>
-              </tr>
-              <tr>
-                <td class="font-weight-bold">Institution</td>
-                <td><span *ngIf="studentProfile.institute; else notSpecified">{{studentProfile.institute}}</span>
-              </tr>
-              <tr>
-                <td class="font-weight-bold">Nationality</td>
-                <td><span *ngIf="studentProfile.nationality; else notSpecified">{{studentProfile.nationality}}</span>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <tm-student-profile [studentProfile]="studentProfile" [hideMoreInfo]="true"></tm-student-profile>
   <div class="card border-primary">
     <div class="card-body fill-plain">
       <div class="form form-horizontal">
@@ -94,6 +55,7 @@
     </div>
   </div>
   <div *ngIf="studentProfile">
+    <ng-template #notSpecified><i class="text-muted">Not Specified</i></ng-template>
     <ng-template #content let-modal>
       <div class="modal-header">
         <h4 class="modal-title">{{student.name}}'s Profile - More Info</h4>

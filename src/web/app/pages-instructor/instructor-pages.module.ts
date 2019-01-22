@@ -1,9 +1,12 @@
+import { AjaxPreloadModule } from '../components/ajax-preload/ajax-preload.module';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HotTableModule } from '@handsontable/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 
@@ -45,6 +48,7 @@ import {
   InstructorStudentRecordsPageComponent,
 } from './instructor-student-records-page/instructor-student-records-page.component';
 import { StudentListComponent } from './student-list/student-list.component';
+import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 import { StatusMessageModule } from '../components/status-message/status-message.module';
 
@@ -104,6 +108,10 @@ const routes: Routes = [
       {
         path: 'submission',
         component: SessionSubmissionPageComponent,
+        data: {
+          pageTitle: 'Submit Feedback',
+          intent: Intent.INSTRUCTOR_SUBMISSION,
+        },
       },
       {
         path: 'result',
@@ -152,6 +160,7 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [
+    AjaxPreloadModule,
     CommonModule,
     FormsModule,
     NgbModule,
@@ -178,6 +187,7 @@ const routes: Routes = [
     InstructorCourseStudentEditPageComponent,
     InstructorCourseStudentDetailsPageComponent,
     StudentListComponent,
+    StudentProfileComponent,
   ],
 })
 export class InstructorPagesModule {}

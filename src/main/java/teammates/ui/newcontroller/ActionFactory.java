@@ -42,7 +42,9 @@ public class ActionFactory {
         map(ResourceURIs.ACCOUNTS_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
+        map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
+        map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSIONS_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
@@ -52,10 +54,18 @@ public class ActionFactory {
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, SaveFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, DELETE, DeleteFeedbackQuestionAction.class);
+        map(ResourceURIs.QUESTION_RECIPIENTS, GET, GetFeedbackQuestionRecipientsAction.class);
+        map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
+        map(ResourceURIs.RESPONSE, POST, CreateFeedbackResponseAction.class);
+        map(ResourceURIs.RESPONSE, PUT, SaveFeedbackResponseAction.class);
+        map(ResourceURIs.RESPONSE, DELETE, DeleteFeedbackResponseAction.class);
+        map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
+        map(ResourceURIs.SUBMISSION_CONFIRMATION, POST, ConfirmFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.COURSE_ENROLL_PAGE_DATA, GET, GetCourseEnrollPageDataAction.class);
+        map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
         map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
@@ -64,6 +74,7 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
         map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
+        map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

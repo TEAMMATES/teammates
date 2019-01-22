@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { StatusMessageModule } from './components/status-message/status-message.module';
+import { Intent } from './Intent';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'submission',
         component: SessionSubmissionPageComponent,
+        data: {
+          pageTitle: 'Submit Feedback',
+          intent: Intent.STUDENT_SUBMISSION,
+        },
       },
     ],
   },
