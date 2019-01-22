@@ -177,8 +177,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     const paramsMap: { [key: string]: string } = { courseid: courseId };
     this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
-            '/web/instructor/courses/details', resp.message);
+        this.loadCourseDetails(courseId);
+        this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
