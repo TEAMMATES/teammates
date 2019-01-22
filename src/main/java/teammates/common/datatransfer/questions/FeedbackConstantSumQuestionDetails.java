@@ -618,9 +618,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private void updateOptionPointsMapping(
             Map<String, List<Integer>> optionPoints,
             String optionReceivingPoints, int pointsReceived) {
-        List<Integer> points = optionPoints.computeIfAbsent(optionReceivingPoints, key -> new ArrayList<>());
-
-        points.add(pointsReceived);
+        optionPoints.computeIfAbsent(optionReceivingPoints, key -> new ArrayList<>()).add(pointsReceived);
     }
 
     /**
