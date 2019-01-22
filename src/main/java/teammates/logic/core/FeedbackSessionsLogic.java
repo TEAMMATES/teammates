@@ -1608,8 +1608,8 @@ public final class FeedbackSessionsLogic {
                     frc.commentGiver = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
 
-                responseComments.putIfAbsent(frc.feedbackResponseId, new ArrayList<FeedbackResponseCommentAttributes>());
-                responseComments.get(frc.feedbackResponseId).add(frc);
+                responseComments.computeIfAbsent(frc.feedbackResponseId, (String key) -> new ArrayList<>())
+                        .add(frc);
             }
         }
 
