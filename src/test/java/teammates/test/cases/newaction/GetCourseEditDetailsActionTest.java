@@ -31,7 +31,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
 
     @Override
     @Test
-    protected void testExecute() {
+    protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -94,6 +94,25 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
         assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourseToEdit().toString());
         verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorList());
 
+        ______TS("Failure case: edit a soft-deleted course");
+
+        CoursesLogic.inst().moveCourseToRecycleBin(courseId);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId
+        };
+
+        editAction = getAction(submissionParams);
+        r = getJsonResult(editAction);
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+        MessageOutput msg = (MessageOutput) r.getOutput();
+        assertEquals("The course has been deleted. Please restore it from the Recycle Bin first.",
+                msg.getMessage());
+
+        CoursesLogic.inst().restoreCourseFromRecycleBin(courseId);
+
         ______TS("Failure case: edit a non-existing course");
 
         CoursesLogic.inst().deleteCourseCascade(courseId);
@@ -107,7 +126,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
         r = getJsonResult(editAction);
 
         assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-        MessageOutput msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) r.getOutput();
         assertEquals("No sections for given course.", msg.getMessage());
     }
 

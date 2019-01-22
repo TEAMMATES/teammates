@@ -101,6 +101,11 @@ public class GetCourseEditDetailsAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         CourseAttributes courseToEdit = logic.getCourse(courseId);
 
+        if (courseToEdit.isCourseDeleted()) {
+            return new JsonResult("The course has been deleted. Please restore it from the Recycle Bin first.",
+                    HttpStatus.SC_NOT_FOUND);
+        }
+
         CourseEditDetails data = new CourseEditDetails(courseToEdit, instructorList, instructor,
                 instructorToShowIndex, sectionNames, feedbackNames);
 
