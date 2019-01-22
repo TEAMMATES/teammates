@@ -372,6 +372,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
+      instructorid: editedInstructor.googleId,
       instructorname: editedInstructor.name,
       instructoremail: editedInstructor.email,
       instructorrole: editedInstructor.role,
