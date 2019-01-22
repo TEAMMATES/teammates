@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-lg-6">
+    <h2>Java timezones</h2>
+    <strong>Version: <span id="tzversion-java">{{ javaTzVersion }}</span></strong>
+    <table>
+      <thead>
+        <tr>
+          <th>Zone name</th>
+          <th>Zone offset</th>
+        </tr>
+      </thead>
+      <tbody id="tz-java">
+        <tr *ngFor="let tz of javaTimezones | keyvalue">
+          <td>{{ tz.key }}</td>
+          <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 / 60 : '' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-6">
+    <h2>Moment timezones</h2>
+    <strong>Version: <span id="tzversion-moment">{{ momentTzVersion }}</span></strong>
+    <table>
+      <thead>
+        <tr>
+          <th>Zone name</th>
+          <th>Zone offset</th>
+        </tr>
+      </thead>
+      <tbody id="tz-moment">
+        <tr *ngFor="let tz of momentTimezones | keyvalue">
+          <td>{{ tz.key }}</td>
+          <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 : '' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

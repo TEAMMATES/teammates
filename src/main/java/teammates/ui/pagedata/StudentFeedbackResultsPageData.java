@@ -35,10 +35,11 @@ public class StudentFeedbackResultsPageData extends PageData {
 
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
 
-        String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                                                    .withRegistrationKey(StringHelper.encrypt(student.key))
                                                    .withStudentEmail(student.email)
                                                    .withCourseId(student.course)
+                                                   .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
                                                    .toString();
 
         registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS,

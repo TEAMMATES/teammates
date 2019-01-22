@@ -76,7 +76,7 @@ public class InstructorCourseRemindAction extends Action {
                     : Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
-                    instructorEmail, courseId);
+                    instructorEmail, courseId, null, false);
 
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
@@ -126,7 +126,7 @@ public class InstructorCourseRemindAction extends Action {
     }
 
     private String extractStudentRegistrationKey(StudentAttributes student) {
-        String joinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinLink = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         String keyParam = Const.ParamsNames.REGKEY + "=";
         int startIndex = joinLink.indexOf(keyParam) + keyParam.length();
         return joinLink.substring(startIndex);

@@ -35,16 +35,6 @@ public class DatastoreBackupAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionDescription() {
-        return null;
-    }
-
-    @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
         if (Config.isDevServer()) {
             log.info("Skipping backup in dev server.");
@@ -57,7 +47,7 @@ public class DatastoreBackupAction extends AutomatedAction {
         List<String> scopes = new ArrayList<>();
         scopes.add("https://www.googleapis.com/auth/datastore");
         String accessToken = AppIdentityServiceFactory.getAppIdentityService().getAccessToken(scopes).getAccessToken();
-        String appId = Config.getAppId();
+        String appId = Config.APP_ID;
 
         HttpPost post = new HttpPost("https://datastore.googleapis.com/v1/projects/" + appId + ":export");
         post.setHeader("Content-Type", "application/json");

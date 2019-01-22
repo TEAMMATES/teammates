@@ -22,7 +22,8 @@ import teammates.ui.automated.FeedbackSessionRemindEmailWorkerAction;
 /**
  * SUT: {@link FeedbackSessionRemindEmailWorkerAction}.
  */
-public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionRemindEmailWorkerActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionRemindEmailWorkerAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -107,11 +108,6 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         assertTrue(String.valueOf(instructorRecipientList.size()), instructorRecipientList.isEmpty());
         assertTrue(instructorNotifiedList.isEmpty());
 
-    }
-
-    @Override
-    protected FeedbackSessionRemindEmailWorkerAction getAction(String... params) {
-        return (FeedbackSessionRemindEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
 }

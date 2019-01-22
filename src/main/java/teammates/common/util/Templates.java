@@ -40,6 +40,8 @@ public final class Templates {
                 FileHelper.readResourceFile("studentEmailFragment-googleIdReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
+        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
+                FileHelper.readResourceFile("instructorEmailFragment-googleIdReset.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =

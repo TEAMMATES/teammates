@@ -25,7 +25,11 @@ public class EmailCheckerTest {
 
     private String injectContextDependentValuesForTest(String emailContent) {
         return emailContent.replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
-                           .replace("<!-- app.url -->", Config.APP_URL);
+                           .replace("<!-- app.url -->", getAppUrl());
+    }
+
+    private static String getAppUrl() {
+        return Config.isDevServer() ? Config.APP_FRONTENDDEV_URL : Config.APP_URL;
     }
 
 }

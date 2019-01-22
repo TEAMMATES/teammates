@@ -56,7 +56,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get(i);
 
             // Update feedbackQuestionId for response
-            FeedbackQuestionAttributes fqa = backDoorLogic.getFeedbackQuestion(fra.feedbackSessionName,
+            FeedbackQuestionAttributes fqa = logic.getFeedbackQuestion(fra.feedbackSessionName,
                     fra.courseId, Integer.parseInt(fra.feedbackQuestionId));
             fra.feedbackQuestionId = fqa.getId();
             frDb.createEntity(fra);

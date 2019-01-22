@@ -8,14 +8,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.google.common.base.Preconditions;
 
-import teammates.test.driver.TestProperties;
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.util.TestProperties;
 
 public class GoogleLoginPage extends LoginPage {
 
     private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in – Google accounts";
     private static final String EXPECTED_SNIPPET_APPROVAL = "requesting permission to access your Google Account";
 
-    @FindBy(css = "div[role='presentation']")
+    @FindBy(id = "initialView")
     private WebElement loginPanel;
 
     @FindBy(id = "identifierId")
@@ -24,7 +25,7 @@ public class GoogleLoginPage extends LoginPage {
     @FindBy(id = "identifierNext")
     private WebElement identifierNextButton;
 
-    @FindBy(css = "#password input[type=password]")
+    @FindBy(css = "input[type=password]")
     private WebElement passwordTextBox;
 
     @FindBy(id = "passwordNext")
@@ -130,8 +131,8 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void completeFillIdentifierSteps(String identifier) {
-        By switchAccountButtonBy = By.id("profileIdentifier");
-        By useAnotherAccountButtonBy = By.id("identifierLink");
+        By switchAccountButtonBy = By.cssSelector("div[aria-label='Switch account']");
+        By useAnotherAccountButtonBy = By.xpath("//div[contains(text(), 'Use another account')]");
 
         if (isElementPresent(switchAccountButtonBy)) {
             click(switchAccountButtonBy);

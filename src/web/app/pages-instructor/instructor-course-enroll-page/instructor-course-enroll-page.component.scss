@@ -1,0 +1,73 @@
+.fill-plain {
+  background-color: #EAEFF5;
+}
+
+.card-default {
+  border-color: #DDD;
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #F0F0F0;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.text-muted {
+  padding: 15px;
+  margin-bottom: 0;
+}
+
+.status-message {
+  padding: 15px;
+}
+
+.more-info {
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
+
+.more-info-point-title {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.more-info-column-info {
+  list-style: circle;
+}
+
+.more-info-sub-point-details {
+  list-style: disc;
+  margin-left: -20px;
+}
+
+.enroll-students-spreadsheet-buttons {
+  margin-top: -15px;
+}
+
+#number-of-rows {
+  margin-left: 10px;
+}
+
+/deep/.modal-content {
+  padding: 0 !important;
+}
+
+/deep/.close:focus {
+  outline: 0;
+}
+
+.enroll-results-panel {
+  margin-bottom: 15px;
+}
+
+.existing-students-status-message {
+  font-weight: bold;
+  margin-left: 1em;
+  margin-right: 1em;
+}

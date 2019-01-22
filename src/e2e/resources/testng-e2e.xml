@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="e2e-tests" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="teammates.e2e.util.PriorityInterceptor" />
+    </listeners>
+    <test name="e2e-tests">
+        <packages>
+            <package name="teammates.e2e.cases.util" />
+        </packages>
+        <classes>
+            <class name="teammates.e2e.cases.e2e.SystemErrorEmailReportE2ETest" />
+            <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
+        </classes>
+    </test>
+</suite>

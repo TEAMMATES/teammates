@@ -1,0 +1,54 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import {
+  QuestionTypesSessionSubmissionModule,
+} from '../../components/question-types/question-types-session-submission/question-types-session-submission.module';
+import {
+  FeedbackSessionClosedModalComponent,
+} from './feedback-session-closed-modal/feedback-session-closed-modal.component';
+import {
+  FeedbackSessionClosingSoonModalComponent,
+} from './feedback-session-closing-soon-modal/feedback-session-closing-soon-modal.component';
+import {
+  FeedbackSessionDeletedModalComponent,
+} from './feedback-session-deleted-modal/feedback-session-deleted-modal.component';
+import {
+  FeedbackSessionNotOpenModalComponent,
+} from './feedback-session-not-open-modal/feedback-session-not-open-modal.component';
+import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
+import { SessionSubmissionPageComponent } from './session-submission-page.component';
+
+/**
+ * Module for feedback session submission page.
+ */
+@NgModule({
+  imports: [
+    AjaxLoadingModule,
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    QuestionTypesSessionSubmissionModule,
+  ],
+  declarations: [
+    SavingCompleteModalComponent,
+    SessionSubmissionPageComponent,
+    FeedbackSessionClosingSoonModalComponent,
+    FeedbackSessionClosedModalComponent,
+    FeedbackSessionNotOpenModalComponent,
+    FeedbackSessionDeletedModalComponent,
+  ],
+  exports: [
+    SessionSubmissionPageComponent,
+  ],
+  entryComponents: [
+    SavingCompleteModalComponent,
+    FeedbackSessionClosingSoonModalComponent,
+    FeedbackSessionClosedModalComponent,
+    FeedbackSessionNotOpenModalComponent,
+    FeedbackSessionDeletedModalComponent,
+  ],
+})
+export class SessionSubmissionPageModule { }

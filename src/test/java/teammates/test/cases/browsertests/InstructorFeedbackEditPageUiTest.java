@@ -21,8 +21,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.Priority;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.Priority;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -32,7 +33,7 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
+public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
     private InstructorFeedbackEditPage feedbackEditPage;
     private String instructorId;
     private String courseId;
@@ -1049,7 +1050,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
-        expectedRedirectUrl.withParam(Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED,
+        expectedRedirectUrl.withParam("errorfeedbackrequestedurl",
                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT);
 
         assertTrue(browser.driver.getCurrentUrl().contains(expectedRedirectUrl.toAbsoluteString()));

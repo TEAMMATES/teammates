@@ -1,0 +1,12 @@
+<h1>{{studentName}}'s Records<small class="text-muted"> - {{courseId}}</small></h1>
+<tm-student-profile [studentName]="studentName" [studentProfile]="studentProfile"></tm-student-profile>
+<div *ngFor="let session of sessions" class="card card-default mb-4">
+  <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
+    Feedback Session : {{session.name}}
+    <span class="float-right fas"
+      [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
+  </div>
+  <div class="card-body" [ngbCollapse]="session.isCollapsed">
+    TODO
+  </div>
+</div>
