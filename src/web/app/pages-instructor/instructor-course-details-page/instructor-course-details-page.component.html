@@ -59,8 +59,8 @@
               Remind Students to Join
             </button>
             <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.id)">
-                <i class="fa fa-download"></i>
-                Download Student List
+              <i class="fa fa-download"></i>
+              Download Student List
             </button>
             <button type="button" class="btn btn-danger" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
               <i class="fa fa-trash"></i>
@@ -79,7 +79,8 @@
     </div>
   </div>
   <div *ngIf="courseDetails.stats.studentsTotal == 0; else studentListTable" class="alert alert-warning">
-    <i class="fa fa-exclamation-circle text-muted"> There are no students in this course. Click <a href="">here</a> to enroll students.</i>
+    <i class="fa fa-exclamation-circle text-muted"></i>
+    There are no students in this course. Click <a href="">here</a> to enroll students.
   </div>
   <ng-template #studentListTable class="card border border-primary mb-4">
     <div class="card-header text-white bg-primary font-weight-bold">Students</div>
