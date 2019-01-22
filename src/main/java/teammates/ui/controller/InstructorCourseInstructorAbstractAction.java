@@ -188,7 +188,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         // indicate that section group covers the section
         // and mark that this section is special
         String sectionGroupParamName = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex;
-        specialSectionsInSectionGroups.computeIfAbsent(sectionGroupParamName, (String key) -> new ArrayList<String>())
+        specialSectionsInSectionGroups.computeIfAbsent(sectionGroupParamName, (String) -> new ArrayList<>())
                 .add(sectionToMark);
         isSectionSpecialMappings.put(sectionToMark, true);
     }
