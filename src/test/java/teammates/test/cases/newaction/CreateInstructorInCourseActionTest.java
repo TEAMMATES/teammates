@@ -92,7 +92,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
         a = getAction(submissionParams);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
 
         msg = (MessageOutput) r.getOutput();
         assertEquals("An instructor with the same email address already exists in the course.",

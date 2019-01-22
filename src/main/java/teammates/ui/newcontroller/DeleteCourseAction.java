@@ -36,26 +36,13 @@ public class DeleteCourseAction extends Action {
         try {
             logic.moveCourseToRecycleBin(idOfCourseToDelete);
 
-            if (isRedirectedToHomePage()) {
-                return new JsonResult("The course " + idOfCourseToDelete
-                        + " has been deleted. You can restore it from the 'Courses' tab.");
-            } else {
-                return new JsonResult("The course " + idOfCourseToDelete
-                        + " has been deleted. You can restore it from the deleted courses table below.");
-            }
+            return new JsonResult("The course " + idOfCourseToDelete
+                        + " has been deleted. You can restore it from the Recycle Bin manually.");
         } catch (InvalidParametersException ipe) {
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_MULTI_STATUS);
         }
-    }
-
-    /**
-     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection.
-     */
-    private boolean isRedirectedToHomePage() {
-        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        return nextUrl != null && nextUrl.equals(Const.ResourceURIs.INSTRUCTOR_HOME);
     }
 
 }

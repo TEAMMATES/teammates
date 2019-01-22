@@ -51,7 +51,7 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
 
         } catch (EntityAlreadyExistsException e) {
             return new JsonResult("An instructor with the same email address already exists in the course.",
-                    HttpStatus.SC_BAD_REQUEST);
+                    HttpStatus.SC_CONFLICT);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

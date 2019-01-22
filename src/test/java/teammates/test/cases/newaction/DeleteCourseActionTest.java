@@ -40,12 +40,11 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
 
         verifyHttpParameterFailure();
 
-        ______TS("Typical case, 2 courses, redirect to homepage");
+        ______TS("Typical case, 2 courses");
 
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.NEXT_URL, Const.ResourceURIs.INSTRUCTOR_HOME
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
 
         assertTrue(CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
@@ -55,20 +54,19 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         MessageOutput msg = (MessageOutput) r.getOutput();
-        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the 'Courses' tab.",
+        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
         assertEquals("icdct.tpa.id1", courseList.get(0).getId());
 
-        ______TS("Masquerade mode, delete last course, redirect to Courses page");
+        ______TS("Masquerade mode, delete last course");
 
         loginAsAdmin();
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
-                Const.ParamsNames.NEXT_URL, Const.ResourceURIs.INSTRUCTOR_COURSES
         };
 
         deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
@@ -77,26 +75,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         msg = (MessageOutput) r.getOutput();
-        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the deleted courses table below.",
-                msg.getMessage());
-
-        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
-        assertEquals(0, courseList.size());
-
-        ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
-
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course", "UTC");
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
-        };
-
-        deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        r = getJsonResult(deleteAction);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        msg = (MessageOutput) r.getOutput();
-        assertEquals("The course icdct.tpa.id2 has been deleted. You can restore it from the deleted courses table below.",
+        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);

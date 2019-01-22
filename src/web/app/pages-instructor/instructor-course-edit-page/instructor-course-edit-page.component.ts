@@ -204,10 +204,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
-      next: '/web/instructor/courses',
-    };
+    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id };
 
     this.httpRequestService.delete('/instructors/course/delete', paramsMap)
         .subscribe((resp: MessageOutput) => {
