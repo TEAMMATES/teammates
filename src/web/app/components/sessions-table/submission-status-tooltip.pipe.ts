@@ -20,7 +20,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
       case FeedbackSessionSubmissionStatus.OPEN:
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
       case FeedbackSessionSubmissionStatus.CLOSED:
-        msg += 'The feedback session has been created, is visible';
+        msg += ', is visible';
         break;
       default:
     }
@@ -30,13 +30,15 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
         msg += ', and is waiting to open';
         break;
       case FeedbackSessionSubmissionStatus.OPEN:
-        msg += ', and is waiting to open';
+        msg += ', and is open for submissions';
         break;
       case FeedbackSessionSubmissionStatus.CLOSED:
         msg += ', and has ended';
         break;
       default:
     }
+
+    msg += '.';
 
     return msg;
   }
