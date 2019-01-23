@@ -18,14 +18,13 @@ public class DeleteInstructorCourseAllStudentsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (userInfo.isInstructor) {
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(
-                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            return;
+        if (!userInfo.isInstructor) {
+            throw new UnauthorizedAccessException("Instructor privilege is required to delete students from course.");
         }
-        throw new UnauthorizedAccessException("Instructor privilege is required to delete students from course.");
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        gateKeeper.verifyAccessible(
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
     }
 
     @Override

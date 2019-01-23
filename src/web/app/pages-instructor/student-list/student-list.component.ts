@@ -90,7 +90,7 @@ export class StudentListComponent implements OnInit {
       studentemail: studentEmail,
     };
 
-    this.httpRequestService.post('/courses/details/remindAllStudents', paramsMap)
+    this.httpRequestService.post('/courses/details/remind', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
             '/web/instructor/courses/details', resp.message);

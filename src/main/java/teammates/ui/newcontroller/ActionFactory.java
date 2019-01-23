@@ -80,8 +80,7 @@ public class ActionFactory {
                 DeleteInstructorCourseAllStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DOWNLOAD_ALL_STUDENTS, GET,
                 DownloadInstructorCourseAllStudentsAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND_ALL_STUDENTS, POST,
-                RemindInstructorCourseStudentsAction.class);
+        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND, POST, RemindInstructorCourseStudentsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

@@ -61,7 +61,7 @@
           routerLink: '/web/instructor/courses/student/edit',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
-        <ng-container *ngIf="enableRemindButton==true">
+        <ng-container *ngIf="enableRemindButton">
           <ng-container *ngIf="student.status == 'Yet to join'">
             <button class="btn btn-secondary btn-sm mr-2"
               [ngClass]="{'disabled mouse-hover-only': !section.isAllowedToModifyStudent}"

@@ -22,7 +22,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND_ALL_STUDENTS;
+        return Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND;
     }
 
     @Override

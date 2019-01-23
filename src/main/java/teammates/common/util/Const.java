@@ -987,9 +987,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
         public static final String INSTRUCTOR_COURSE_DETAILS_DOWNLOAD_ALL_STUDENTS = "/courses/details/downloadAllStudents";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
-        public static final String INSTRUCTOR_COURSE_DETAILS_REMIND_ALL_STUDENTS = "/courses/details/remindAllStudents";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
-        public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/studentList";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
