@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
-import { TemplateSession } from '../../../services/template-sessions';
+import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { Course } from '../../course';
 import {
   FEEDBACK_SESSION_NAME_MAX_LENGTH,

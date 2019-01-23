@@ -1,0 +1,122 @@
+[
+    {
+        "description": "Use <b>peer estimates</b> to determine the <b>work distribution percentage</b> among team members in <b>a team activity</b>",
+        "question": {
+            "feedbackQuestionId": "",
+            "questionNumber": 1,
+            "questionBrief": "Your estimate of how much each team member has contributed.",
+            "questionDescription": "",
+
+            "questionType": "CONTRIB",
+            "questionDetails": {
+                "isNotSureAllowed": false
+            },
+
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+
+            "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+            "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+            "showResponsesTo": ["INSTRUCTORS", "RECIPIENT", "GIVER_TEAM_MEMBERS"],
+            "showGiverNameTo": ["INSTRUCTORS"],
+            "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"]
+        }
+    },
+    {
+        "description": "Ask each student to describe something related to themselves i.e., <b>self-reflection</b>",
+        "question": {
+            "feedbackQuestionId": "",
+            "questionNumber": 2,
+            "questionBrief": "Comments about your contribution (shown to other teammates).",
+            "questionDescription": "",
+
+            "questionType": "TEXT",
+            "questionDetails": {
+                "recommendedLength": 0
+            },
+
+            "giverType": "STUDENTS",
+            "recipientType": "SELF",
+
+            "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+            "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+            "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+            "showGiverNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+            "showRecipientNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"]
+        }
+    },
+    {
+        "description": "Ask each student to give <b>confidential peer feedback (qualitative)</b> to other <b>team members</b>",
+        "question": {
+            "feedbackQuestionId": "",
+            "questionNumber": 3,
+            "questionBrief": "Your comments about this teammate (confidential and only shown to instructor).",
+            "questionDescription": "",
+
+            "questionType": "TEXT",
+            "questionDetails": {
+                "recommendedLength": 0
+            },
+
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS",
+
+            "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+            "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+            "showResponsesTo": ["INSTRUCTORS"],
+            "showGiverNameTo": ["INSTRUCTORS"],
+            "showRecipientNameTo": ["INSTRUCTORS"]
+        }
+    },
+    {
+        "description": "Ask each student to give <b>confidential feedback (qualitative)</b> about the team behaviour",
+        "question": {
+            "feedbackQuestionId": "",
+            "questionNumber": 4,
+            "questionBrief": "Your comments about this teammate (confidential and only shown to instructor).",
+            "questionDescription": "",
+
+            "questionType": "TEXT",
+            "questionDetails": {
+                "recommendedLength": 0
+            },
+
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM",
+
+            "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+            "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+            "showResponsesTo": ["INSTRUCTORS"],
+            "showGiverNameTo": ["INSTRUCTORS"],
+            "showRecipientNameTo": ["INSTRUCTORS"]
+        }
+    },
+    {
+        "description": "Ask each student to give <b>comments about other team members, in confidence</b>",
+        "question": {
+            "feedbackQuestionId": "",
+            "questionNumber": 5,
+            "questionBrief": "Your feedback to this teammate (shown anonymously to the teammate).",
+            "questionDescription": "",
+
+            "questionType": "TEXT",
+            "questionDetails": {
+                "recommendedLength": 0
+            },
+
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS",
+
+            "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+            "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+            "showResponsesTo": ["RECIPIENT", "INSTRUCTORS"],
+            "showGiverNameTo": ["INSTRUCTORS"],
+            "showRecipientNameTo": ["RECIPIENT", "INSTRUCTORS"]
+        }
+    }
+]

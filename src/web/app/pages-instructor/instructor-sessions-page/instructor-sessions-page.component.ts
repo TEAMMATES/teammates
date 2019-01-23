@@ -4,11 +4,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, map, switchMap, tap } from 'rxjs/operators';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TemplateSession } from '../../../services/template-sessions';
 import {
   LOCAL_DATE_TIME_FORMAT,
   TimeResolvingResult,

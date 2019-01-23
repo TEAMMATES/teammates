@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { TemplateSession, templateSessions } from './template-sessions';
+import { FeedbackQuestion } from '../app/feedback-question';
+import { default as templateSessions } from '../data/template-sessions.json';
+
+/**
+ * A template session.
+ */
+export interface TemplateSession {
+  name: string;
+  questions: FeedbackQuestion[];
+}
 
 /**
  * Handles sessions related logic provision.
