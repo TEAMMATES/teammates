@@ -56,9 +56,8 @@ public class GetInstructorCourseDetailsAction extends Action {
             courseDetails = logic.getCourseDetails(courseId);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, userInfo.id);
 
-            output = new CourseInfo(instructor, courseDetails, instructors, courseStudentListAsCsv);
+            output = new CourseInfo(instructor, courseDetails, instructors);
 
         } catch (EntityDoesNotExistException e) {
             return new JsonResult("No course with given instructor is found.", HttpStatus.SC_NOT_FOUND);
@@ -76,14 +75,12 @@ public class GetInstructorCourseDetailsAction extends Action {
         private final List<InstructorAttributes> instructors;
         private final List<StudentListSectionData> sections;
         private final boolean hasSection;
-        private String courseStudentListAsCsv;
 
         public CourseInfo(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
-                          List<InstructorAttributes> instructors, String courseStudentListAsCsv) {
+                          List<InstructorAttributes> instructors) {
             this.currentInstructor = currentInstructor;
             this.courseDetails = courseDetails;
             this.instructors = instructors;
-            this.courseStudentListAsCsv = courseStudentListAsCsv;
 
             this.sections = new ArrayList<>();
             for (SectionDetailsBundle section : courseDetails.sections) {
@@ -162,10 +159,6 @@ public class GetInstructorCourseDetailsAction extends Action {
 
         public boolean isHasSection() {
             return hasSection;
-        }
-
-        public String getCourseStudentListAsCsv() {
-            return courseStudentListAsCsv;
         }
     }
 }

@@ -78,8 +78,7 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS, DELETE,
                 DeleteInstructorCourseAllStudentsAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DOWNLOAD_ALL_STUDENTS, GET,
-                DownloadInstructorCourseAllStudentsAction.class);
+        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV, GET, GetInstructorCourseAllStudentsInCsvAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND, POST, RemindInstructorCourseStudentsAction.class);
     }
 

@@ -42,7 +42,6 @@ interface CourseInfo {
   instructors: InstructorAttributes[];
   sections: StudentListSectionData[];
   hasSection: boolean;
-  courseStudentListAsCsv: string;
 }
 
 /**
@@ -60,7 +59,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   currentInstructor?: InstructorAttributes;
   instructors?: InstructorAttributes[] = [];
   sections?: StudentListSectionData[] = [];
-  courseStudentListAsCsv?: String = '';
+  courseStudentListAsCsv: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router,
               private clipboardService: ClipboardService,
@@ -85,7 +84,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       this.currentInstructor = resp.currentInstructor;
       this.instructors = resp.instructors;
       this.sections = resp.sections;
-      this.courseStudentListAsCsv = resp.courseStudentListAsCsv;
 
       if (!this.courseDetails) {
         this.statusMessageService.showErrorMessage('Error retrieving course details');
@@ -110,6 +108,44 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
+
+  /**
+   * Download all the students from a course.
+   */
+  downloadAllStudentsFromCourse(courseId: string): void {
+    if (this.courseStudentListAsCsv === '') {
+      this.updateCourseStudentList(courseId);
+    }
+    const filename: string = `${courseId.concat('_studentList')}.csv`;
+    const blob: any = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
+    saveAs(blob, filename);
+  }
+
+  /**
+   * Load the student list in HTML table format
+   */
+  loadHtmlTableStudentsList(courseId: string): string {
+    if (this.courseStudentListAsCsv === '') {
+      this.updateCourseStudentList(courseId);
+    }
+    return this.convertToHtmlTable(this.courseStudentListAsCsv);
+  }
+
+  /**
+   * Retrieve student list of the course in csv form
+   */
+  updateCourseStudentList(courseId: string): void {
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+      courseid: courseId,
+    };
+    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+      .subscribe((resp: string) => {
+        this.courseStudentListAsCsv = resp;
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
    * Converts a csv string to a html table string for displaying.
    */
   convertToHtmlTable(str: string): string {

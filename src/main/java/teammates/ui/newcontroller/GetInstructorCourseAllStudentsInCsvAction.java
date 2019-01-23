@@ -6,9 +6,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
 /**
- * Action: download all students from a course.
+ * Action: get all students list from a course in csv.
  */
-public class DownloadInstructorCourseAllStudentsAction extends Action {
+public class GetInstructorCourseAllStudentsInCsvAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
