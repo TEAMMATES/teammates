@@ -108,6 +108,21 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
+   * Delete all the students in a course.
+   */
+  deleteAllStudentsFromCourse(courseId: string): void {
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+      courseid: courseId,
+    };
+    this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
+      .subscribe((resp: MessageOutput) => {
+        this.loadCourseDetails(courseId);
+        this.statusMessageService.showSuccessMessage(resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
 
   /**
    * Download all the students from a course.
@@ -132,6 +147,20 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
+   * Remind all yet to join students in a course.
+   */
+  remindAllStudentsFromCourse(courseId: string): void {
+    const paramsMap: { [key: string]: string } = { courseid: courseId };
+    this.httpRequestService.post('/courses/details/remind', paramsMap)
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
+            '/web/instructor/courses/details', resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
+
+  /**
    * Retrieve student list of the course in csv form
    */
   updateCourseStudentList(courseId: string): void {
@@ -146,6 +175,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
   }
+
+  /**
    * Converts a csv string to a html table string for displaying.
    */
   convertToHtmlTable(str: string): string {
@@ -203,54 +234,5 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }
     output.push(buffer.trim());
     return output;
-  }
-
-  /**
-   * Delete all the students in a course.
-   */
-  deleteAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
-      .subscribe((resp: MessageOutput) => {
-        this.loadCourseDetails(courseId);
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
-  }
-
-  /**
-   * Download all the students from a course.
-   */
-  downloadAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      courseid: courseId,
-    };
-    this.httpRequestService.get('/courses/details/downloadAllStudents', paramsMap, 'text')
-      .subscribe((resp: string) => {
-        const filename: string = `${courseId.concat('_studentList')}.csv`;
-        const blob: any = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
-  }
-
-  /**
-   * Remind all unjoined students in a course.
-   */
-  remindAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = { courseid: courseId };
-    this.httpRequestService.post('/courses/details/remind', paramsMap)
-      .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
-            '/web/instructor/courses/details', resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
   }
 }

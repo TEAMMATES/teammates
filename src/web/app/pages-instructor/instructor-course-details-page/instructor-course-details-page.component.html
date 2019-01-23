@@ -80,7 +80,8 @@
   </div>
   <div *ngIf="courseDetails.stats.studentsTotal == 0; else studentListTable" class="alert alert-warning">
     <i class="fa fa-exclamation-circle text-muted"></i>
-    There are no students in this course. Click <a href="">here</a> to enroll students.
+    There are no students in this course. Click
+    <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.id}">here</a> to enroll students.
   </div>
   <ng-template #studentListTable class="card border border-primary mb-4">
     <div class="card-header text-white bg-primary font-weight-bold">Students</div>
