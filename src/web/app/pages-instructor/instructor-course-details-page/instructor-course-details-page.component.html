@@ -135,7 +135,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
+      <div [innerHTML]="loadHtmlTableStudentsList(courseDetails.course.id)"></div>
     </div>
   </ng-template>
 </div>

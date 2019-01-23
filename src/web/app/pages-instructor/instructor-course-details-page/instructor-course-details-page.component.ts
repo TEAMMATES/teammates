@@ -128,12 +128,18 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Download all the students from a course.
    */
   downloadAllStudentsFromCourse(courseId: string): void {
-    if (this.courseStudentListAsCsv === '') {
-      this.updateCourseStudentList(courseId);
-    }
-    const filename: string = `${courseId.concat('_studentList')}.csv`;
-    const blob: any = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
-    saveAs(blob, filename);
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+      courseid: courseId,
+    };
+    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+      .subscribe((resp: string) => {
+        const filename: string = `${courseId.concat('_studentList')}.csv`;
+        const blob: any = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
@@ -141,7 +147,16 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   loadHtmlTableStudentsList(courseId: string): string {
     if (this.courseStudentListAsCsv === '') {
-      this.updateCourseStudentList(courseId);
+      const paramsMap: { [key: string]: string } = {
+        user: this.user,
+        courseid: courseId,
+      };
+      this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+        .subscribe((resp: string) => {
+          this.courseStudentListAsCsv = resp;
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
     }
     return this.convertToHtmlTable(this.courseStudentListAsCsv);
   }
@@ -155,22 +170,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
             '/web/instructor/courses/details', resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
-  }
-
-  /**
-   * Retrieve student list of the course in csv form
-   */
-  updateCourseStudentList(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      courseid: courseId,
-    };
-    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
-      .subscribe((resp: string) => {
-        this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
