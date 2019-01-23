@@ -18,9 +18,39 @@
             [messages]="statusMessage">
         </tm-status-message>
         <div class="card card-default">
-          <div class="card-header" (click)="togglePanel()">
+          <div class="card-header"
+               (click)="toggleExistingStudentsPanel()">
             <div class="float-right margin-left-7px">
-              <i class="fas fa-chevron-{{ isCollapsed ? 'up' : 'down' }}"></i>
+              <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
+              <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
+              <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
+              <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+            </div>
+            <strong>Existing Students</strong>
+          </div>
+          <hot-table
+              [hotId]="existingStudentsHOT"
+              [readOnly]="true"
+              [height]="400"
+              [autoWrapRow]="true"
+              [preventOverflow]="'horizontal'"
+              [manualColumnResize]="true"
+              [manualRowResize]="true"
+              [manualColumnMove]="true"
+              [rowHeaders]="true"
+              [colHeaders]="colHeaders"
+              [columnSorting]="true"
+              [minRows]="20"
+              [maxCols]="5"
+              [maxRows]="100"
+              [stretchH]="'all'"
+              [hidden]="isExistingStudentsPanelCollapsed">
+          </hot-table>
+        </div>
+        <div class="card card-default">
+          <div class="card-header" (click)="toggleNewStudentsPanel()">
+            <div class="float-right margin-left-7px">
+              <i class="fas fa-chevron-{{ isNewStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>
             <div class='float-right'></div>
             <strong>New students</strong>
@@ -42,10 +72,10 @@
               [stretchH]="'all'"
               [minSpareRows]="1"
               [contextMenu]="contextMenuOptions"
-              [hidden]="isCollapsed">
+              [hidden]="isNewStudentsPanelCollapsed">
           </hot-table>
         </div>
-        <div class="row enroll-students-spreadsheet-buttons" [hidden]="isCollapsed">
+        <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
           <div class="col-md-6">
             <div class="input-group">
               <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
