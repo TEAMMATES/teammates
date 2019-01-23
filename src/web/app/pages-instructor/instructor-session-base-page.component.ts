@@ -259,7 +259,7 @@ export abstract class InstructorSessionBasePageComponent {
     this.httpRequestService.post('/session/remind/submission', paramMap).subscribe(() => {
       this.statusMessageService.showSuccessMessage(
           'Reminder e-mails have been sent out to those students and instructors. '
-          + 'Please allow up to 1 hour for all the notification emails to be sent out..');
+          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
