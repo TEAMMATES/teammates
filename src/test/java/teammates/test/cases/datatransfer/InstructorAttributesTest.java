@@ -288,4 +288,18 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         // TODO: find ways to test this method more thoroughly
     }
 
+    @Test
+    public void testGetBackUpIdentifier() {
+        String googleId = "valid.googleId";
+        String courseId = "courseId";
+        String name = "name";
+        String email = "valid@email.com";
+        String expectedBackUpMessage = "Recently modified instructor::" + courseId + email;
+
+        InstructorAttributes instructor = InstructorAttributes
+                .builder(googleId, courseId, name, email).build();
+
+        assertEquals(expectedBackUpMessage, instructor.getBackupIdentifier());
+    }
+
 }
