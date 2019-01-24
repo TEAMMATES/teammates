@@ -88,23 +88,6 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
 
-    /**
-     * Updates the response Id of comments associated with a response.
-     */
-    public void updateFeedbackResponseCommentsForChangingResponseId(
-            String oldResponseId, String newResponseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseCommentAttributes> responseComments =
-                getFeedbackResponseCommentForResponse(oldResponseId);
-        for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-            updateFeedbackResponseComment(
-                    FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
-                            .withFeedbackResponseId(newResponseId)
-                            .build()
-            );
-        }
-    }
-
     /*
      * Updates all email fields of feedback response comments with the new email
      */

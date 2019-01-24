@@ -232,22 +232,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         // reset email
         frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, updatedEmail, oldEmail);
-
-        ______TS("typical success case update feedback response comment feedbackResponseId");
-
-        String oldId = frComment.feedbackResponseId;
-        String updatedId = "newResponseId";
-        frcLogic.updateFeedbackResponseCommentsForChangingResponseId(oldId, updatedId);
-
-        actualFrComment = frcLogic.getFeedbackResponseComment(
-                updatedId, frComment.commentGiver, frComment.createdAt);
-
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(updatedId, actualFrComment.feedbackResponseId);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
-
-        // reset id
-        frcLogic.updateFeedbackResponseCommentsForChangingResponseId(updatedId, oldId);
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseRoster;
@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -29,6 +30,7 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.AssertHelper;
@@ -45,8 +47,15 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     private static DataBundle specialCharBundle = loadDataBundle("/SpecialCharacterTest.json");
     private static DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 
-    @BeforeClass
-    public void classSetup() {
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    public void refreshTestData() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
         // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(specialCharBundle);
         removeAndRestoreDataBundle(questionTypeBundle);
@@ -56,7 +65,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void allTests() throws Exception {
         testIsNameVisibleTo();
         testGetViewableResponsesForQuestionInSection();
-        testUpdateFeedbackResponse();
         testUpdateFeedbackResponsesForChangingTeam();
         testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate();
         testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate();
@@ -114,23 +122,24 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     }
 
-    private void testUpdateFeedbackResponse() throws Exception {
+    @Test
+    public void testUpdateFeedbackResponseCascade() throws Exception {
 
-        ______TS("success: standard update with carried params ");
+        ______TS("success: standard update");
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.setResponseDetails(new FeedbackTextResponseDetails("Updated Response"));
-        responseToUpdate.feedbackSessionName = "copy over";
-        responseToUpdate.recipient = null;
 
-        frLogic.updateFeedbackResponse(responseToUpdate);
+        FeedbackResponseDetails frd = new FeedbackTextResponseDetails("Updated Response");
+
+        frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
+                        .withResponseDetails(frd)
+                        .build());
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.setResponseDetails(new FeedbackTextResponseDetails("Updated Response"));
 
         assertEquals(responseToUpdate.toString(),
-                frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-                responseToUpdate.recipient).toString());
+                frLogic.getFeedbackResponse(responseToUpdate.getId()).toString());
 
         ______TS("failure: recipient one that is already exists");
 
@@ -149,18 +158,22 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
 
-        responseToUpdate.recipient = "student3InCourse1@gmail.tmt";
-
         FeedbackResponseAttributes[] finalResponse = new FeedbackResponseAttributes[] { responseToUpdate };
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> frLogic.updateFeedbackResponse(finalResponse[0]));
+                () -> frLogic.updateFeedbackResponseCascade(
+                        FeedbackResponseAttributes.updateOptionsBuilder(finalResponse[0].getId())
+                                .withRecipient("student3InCourse1@gmail.tmt")
+                                .build()));
         AssertHelper.assertContains("Trying to create a Feedback Response that exists", eaee.getMessage());
 
         ______TS("success: recipient changed to something else");
 
         responseToUpdate.recipient = "student5InCourse1@gmail.tmt";
 
-        frLogic.updateFeedbackResponse(responseToUpdate);
+        frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
+                        .withRecipient(responseToUpdate.recipient)
+                        .build());
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
@@ -177,13 +190,41 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertNotNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
 
-        frLogic.updateFeedbackResponse(responseToUpdate);
+        frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
+                        .withGiver(responseToUpdate.giver)
+                        .withRecipient(responseToUpdate.recipient)
+                        .build());
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
                 responseToUpdate.recipient).toString());
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
+
+        ______TS("success: update giver, recipient, giverSection and recipientSection, "
+                + "should do cascade update to comments");
+
+        responseToUpdate = getResponseFromDatastore("response1ForQ1S1C1");
+        assertFalse(frcLogic.getFeedbackResponseCommentForResponse(responseToUpdate.getId()).isEmpty());
+
+        FeedbackResponseAttributes updatedResponse = frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
+                        .withGiver("test@example.com")
+                        .withGiverSection("giverSection")
+                        .withRecipient("test@example.com")
+                        .withRecipientSection("recipientSection")
+                        .build());
+        assertEquals("test@example.com", updatedResponse.giver);
+        assertEquals("giverSection", updatedResponse.giverSection);
+        assertEquals("test@example.com", updatedResponse.recipient);
+        assertEquals("recipientSection", updatedResponse.recipientSection);
+        assertTrue(frcLogic.getFeedbackResponseCommentForResponse(responseToUpdate.getId()).isEmpty());
+        List<FeedbackResponseCommentAttributes> associatedComments =
+                frcLogic.getFeedbackResponseCommentForResponse(updatedResponse.getId());
+        assertFalse(associatedComments.isEmpty());
+        assertTrue(associatedComments.stream()
+                .allMatch(c -> "giverSection".equals(c.giverSection) && "recipientSection".equals(c.receiverSection)));
 
         ______TS("failure: invalid params");
 
@@ -192,13 +233,13 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("failure: no such response");
 
-        responseToUpdate.setId("invalidId");
-
-        finalResponse[0] = responseToUpdate;
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> frLogic.updateFeedbackResponse(finalResponse[0]));
+                () -> frLogic.updateFeedbackResponseCascade(
+                        FeedbackResponseAttributes.updateOptionsBuilder("non-existent")
+                                .withGiver("random")
+                                .build()));
         AssertHelper.assertContains(
-                "Trying to update a feedback response that does not exist.",
+                FeedbackResponsesDb.ERROR_UPDATE_NON_EXISTENT,
                 ednee.getMessage());
     }
 
@@ -362,7 +403,13 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         if (frLogic.getFeedbackResponse(response.getId()) == null) {
             frLogic.createFeedbackResponses(Arrays.asList(response));
         } else {
-            frLogic.updateFeedbackResponse(response);
+            frLogic.updateFeedbackResponseCascade(
+                    FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                            .withGiver(response.giver)
+                            .withGiverSection(response.giverSection)
+                            .withRecipient(response.recipient)
+                            .withRecipientSection(response.recipientSection)
+                            .build());
         }
     }
 
@@ -470,8 +517,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         fq.showResponsesTo.remove(FeedbackParticipantType.STUDENTS);
         FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
-        fr.recipient = student.email;
-        frLogic.updateFeedbackResponse(fr);
+        frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(fr.getId())
+                        .withRecipient(student.email)
+                        .build());
 
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
                 null, null);
