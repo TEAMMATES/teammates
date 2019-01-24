@@ -1,9 +1,10 @@
 package teammates.ui.newcontroller;
 
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -18,11 +19,15 @@ public class GetSessionResponseStatsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (userInfo.isAdmin) {
+        if (userInfo.isAdmin()) {
             return;
         }
-        // TODO allow access to instructors with sufficient permission (for home page)
-        throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        gateKeeper.verifyAccessible(instructor, fsa);
     }
 
     @Override

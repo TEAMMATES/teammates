@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <div>Copy this feedback session to other courses</div>
+    <small class="text-secondary">(Select the course(s) you want to copy this feedback session to)</small>
+  </h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label><b>Name for copied session</b></label>
+        <input type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38">
+        <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
+      </div>
+      <div class="form-check" *ngFor="let course of courseCandidates">
+        <input type="radio" name="copySessionChooseCourse" class="form-check-input"
+               [(ngModel)]="copyToCourseId" [value]="course.courseId">
+        <label class="form-check-label">
+          [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]
+          : {{ course.courseName }}
+        </label>
+        <div *ngIf="sessionToCopyCourseId === course.courseId" class="text-danger">
+          {{ "{Session currently in this course}" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="copy()"
+          [disabled]="!newFeedbackSessionName || !copyToCourseId">Copy</button>
+</div>
