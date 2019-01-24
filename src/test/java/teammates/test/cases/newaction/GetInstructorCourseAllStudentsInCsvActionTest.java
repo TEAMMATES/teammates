@@ -1,4 +1,4 @@
-package teammates.test.cases.action;
+package teammates.test.cases.newaction;
 
 import org.testng.annotations.Test;
 
@@ -7,22 +7,28 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.CsvChecker;
-import teammates.ui.controller.FileDownloadResult;
-import teammates.ui.controller.InstructorCourseStudentListDownloadAction;
+import teammates.ui.newcontroller.CsvResult;
+import teammates.ui.newcontroller.GetInstructorCourseAllStudentsInCsvAction;
 
 /**
- * SUT: {@link InstructorCourseStudentListDownloadAction}.
+ * SUT: {@link GetInstructorCourseAllStudentsInCsvAction}.
  */
-public class InstructorCourseStudentListDownloadActionTest extends BaseActionTest {
+public class GetInstructorCourseAllStudentsInCsvActionTest extends
+        BaseActionTest<GetInstructorCourseAllStudentsInCsvAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
+        return Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return GET;
     }
 
     @Override
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecute() throws Exception {
         String instructorId = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
@@ -30,23 +36,18 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
         ______TS("Invalid params");
         String[] submissionParams = {};
-        verifyAssumptionFailure(submissionParams);
+        verifyHttpParameterFailure(submissionParams);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId()
         };
 
         ______TS("Typical case: student list downloaded successfully");
-        InstructorCourseStudentListDownloadAction a = getAction(submissionParams);
-        FileDownloadResult r = getFileDownloadResult(a);
+        GetInstructorCourseAllStudentsInCsvAction downloadAction = getAction(submissionParams);
+        CsvResult result = getCsvResult(downloadAction);
+        String content = result.getContent();
 
-        String expectedFileName = "idOfTypicalCourse1_studentList";
-        assertEquals(expectedFileName, r.getFileName());
-        String fileContent = r.getFileContent();
-
-        CsvChecker.verifyCsvContent(fileContent, "/courseStudentList_actionTest.csv");
-
-        assertEquals("", r.getStatusMessage());
+        CsvChecker.verifyCsvContent(content, "/courseStudentList_actionTest.csv");
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
 
@@ -54,16 +55,11 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         student1InCourse1.name = "new name {new last name}";
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
 
-        a = getAction(submissionParams);
-        r = getFileDownloadResult(a);
+        downloadAction = getAction(submissionParams);
+        result = getCsvResult(downloadAction);
+        content = result.getContent();
 
-        expectedFileName = "idOfTypicalCourse1_studentList";
-        assertEquals(expectedFileName, r.getFileName());
-        fileContent = r.getFileContent();
-
-        CsvChecker.verifyCsvContent(fileContent, "/courseStudentListStudentLastName_actionTest.csv");
-
-        assertEquals("", r.getStatusMessage());
+        CsvChecker.verifyCsvContent(content, "/courseStudentListStudentLastName_actionTest.csv");
 
         removeAndRestoreTypicalDataBundle();
 
@@ -73,22 +69,11 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         student1InCourse1.team = "N/A";
         StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
 
-        a = getAction(submissionParams);
-        r = getFileDownloadResult(a);
+        downloadAction = getAction(submissionParams);
+        result = getCsvResult(downloadAction);
+        content = result.getContent();
 
-        expectedFileName = "idOfTypicalCourse1_studentList";
-        assertEquals(expectedFileName, r.getFileName());
-        fileContent = r.getFileContent();
-
-        CsvChecker.verifyCsvContent(fileContent, "/courseStudentListSpecialTeamName_actionTest.csv");
-
-        assertEquals("", r.getStatusMessage());
-
-    }
-
-    @Override
-    protected InstructorCourseStudentListDownloadAction getAction(String... params) {
-        return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
+        CsvChecker.verifyCsvContent(content, "/courseStudentListSpecialTeamName_actionTest.csv");
     }
 
     @Override
