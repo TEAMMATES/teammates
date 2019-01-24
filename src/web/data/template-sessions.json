@@ -1,0 +1,116 @@
+[
+    {
+        "name": "session using template: team peer evaluation",
+        "questions": [
+            {
+                "feedbackQuestionId": "",
+                "questionNumber": 1,
+                "questionBrief": "Your estimate of how much each team member has contributed.",
+                "questionDescription": "",
+
+                "questionType": "CONTRIB",
+                "questionDetails": {
+                    "isNotSureAllowed": false
+                },
+
+                "giverType": "STUDENTS",
+                "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+
+                "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+                "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+                "showResponsesTo": ["INSTRUCTORS", "RECIPIENT", "GIVER_TEAM_MEMBERS"],
+                "showGiverNameTo": ["INSTRUCTORS"],
+                "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"]
+            },
+            {
+                "feedbackQuestionId": "",
+                "questionNumber": 2,
+                "questionBrief": "Comments about your contribution (shown to other teammates).",
+                "questionDescription": "",
+
+                "questionType": "TEXT",
+                "questionDetails": {
+                    "recommendedLength": 0
+                },
+
+                "giverType": "STUDENTS",
+                "recipientType": "SELF",
+
+                "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+                "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+                "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+                "showGiverNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+                "showRecipientNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"]
+            },
+            {
+                "feedbackQuestionId": "",
+                "questionNumber": 3,
+                "questionBrief": "Your comments about this teammate (confidential and only shown to instructor).",
+                "questionDescription": "",
+
+                "questionType": "TEXT",
+                "questionDetails": {
+                    "recommendedLength": 0
+                },
+
+                "giverType": "STUDENTS",
+                "recipientType": "OWN_TEAM_MEMBERS",
+
+                "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+                "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+                "showResponsesTo": ["INSTRUCTORS"],
+                "showGiverNameTo": ["INSTRUCTORS"],
+                "showRecipientNameTo": ["INSTRUCTORS"]
+            },
+            {
+                "feedbackQuestionId": "",
+                "questionNumber": 4,
+                "questionBrief": "Comments about team dynamics (confidential and only shown to instructor).",
+                "questionDescription": "",
+
+                "questionType": "TEXT",
+                "questionDetails": {
+                    "recommendedLength": 0
+                },
+
+                "giverType": "STUDENTS",
+                "recipientType": "OWN_TEAM",
+
+                "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+                "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+                "showResponsesTo": ["INSTRUCTORS"],
+                "showGiverNameTo": ["INSTRUCTORS"],
+                "showRecipientNameTo": ["INSTRUCTORS"]
+            },
+            {
+                "feedbackQuestionId": "",
+                "questionNumber": 5,
+                "questionBrief": "Your feedback to this teammate (shown anonymously to the teammate).",
+                "questionDescription": "",
+
+                "questionType": "TEXT",
+                "questionDetails": {
+                    "recommendedLength": 0
+                },
+
+                "giverType": "STUDENTS",
+                "recipientType": "OWN_TEAM_MEMBERS",
+
+                "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+                "customNumberOfEntitiesToGiveFeedbackTo": 1,
+
+                "showResponsesTo": ["RECIPIENT", "INSTRUCTORS"],
+                "showGiverNameTo": ["INSTRUCTORS"],
+                "showRecipientNameTo": ["RECIPIENT", "INSTRUCTORS"]
+            }
+        ]
+    },
+    {
+        "name": "session with my own questions",
+        "questions": []
+    }
+]

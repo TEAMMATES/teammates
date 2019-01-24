@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
@@ -11,10 +11,11 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
   LOCAL_DATE_TIME_FORMAT,
-  LocalDateTimeAmbiguityStatus,
-  LocalDateTimeInfo,
+  TimeResolvingResult,
   TimezoneService,
 } from '../../../services/timezone.service';
+import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
+import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
@@ -25,26 +26,24 @@ import {
   SessionEditFormModel,
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
-import { Course } from '../../course';
+import { Course, Courses } from '../../course';
 import { FeedbackParticipantType } from '../../feedback-participant-type';
 import {
-  FeedbackQuestion,
+  FeedbackQuestion, FeedbackQuestions,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../feedback-question';
 import {
   FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../feedback-session';
 import { Intent } from '../../Intent';
 import { ErrorMessageOutput } from '../../message-output';
+import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
-
-interface FeedbackQuestionsResponse {
-  questions: FeedbackQuestion[];
-}
 
 /**
  * Instructor feedback session edit page.
@@ -54,7 +53,7 @@ interface FeedbackQuestionsResponse {
   templateUrl: './instructor-session-edit-page.component.html',
   styleUrls: ['./instructor-session-edit-page.component.scss'],
 })
-export class InstructorSessionEditPageComponent implements OnInit {
+export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
@@ -91,10 +90,12 @@ export class InstructorSessionEditPageComponent implements OnInit {
     customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: '',
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+
+    templateSessionName: '',
 
     isSaving: false,
     isEditable: false,
@@ -136,10 +137,12 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
   isAddingQuestionPanelExpanded: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService, private navigationService: NavigationService,
+  constructor(router: Router, httpRequestService: HttpRequestService,
+              statusMessageService: StatusMessageService, navigationService: NavigationService,
+              private route: ActivatedRoute,
               private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService,
               private modalService: NgbModal) {
+    super(router, httpRequestService, statusMessageService, navigationService);
   }
 
   ngOnInit(): void {
@@ -178,6 +181,36 @@ export class InstructorSessionEditPageComponent implements OnInit {
   }
 
   /**
+   * Copies the feedback session.
+   */
+  copyCurrentSession(): void {
+    // load course candidates first
+    this.httpRequestService.get('/courses').subscribe((courses: Courses) => {
+      const modalRef: NgbModalRef = this.modalService.open(CopySessionModalComponent);
+      modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
+      modalRef.componentInstance.courseCandidates = courses.courses;
+      modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
+
+      modalRef.result.then((result: CopySessionModalResult) => {
+        const paramMap: { [key: string]: string } = {
+          courseid: this.courseId,
+          fsname: this.feedbackSessionName,
+          intent: Intent.FULL_DETAIL,
+        };
+
+        this.httpRequestService.get('/session', paramMap).pipe(
+            switchMap((feedbackSession: FeedbackSession) =>
+                this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)),
+        ).subscribe((createdSession: FeedbackSession) => {
+          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit'
+              + `?courseid=${createdSession.courseId}&fsname=${createdSession.feedbackSessionName}`,
+              'The feedback session has been copied. Please modify settings/questions as necessary.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+      }, () => {});
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession): SessionEditFormModel {
@@ -210,6 +243,8 @@ export class InstructorSessionEditPageComponent implements OnInit {
 
       submissionStatus: feedbackSession.submissionStatus,
       publishStatus: feedbackSession.publishStatus,
+
+      templateSessionName: '',
 
       isClosingEmailEnabled: feedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
@@ -326,33 +361,13 @@ export class InstructorSessionEditPageComponent implements OnInit {
     inst.set('minute', time.minute);
 
     const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-    return this.timezoneService.getResolveLocalDateTime(localDateTime, timeZone).pipe(
-        tap((info: LocalDateTimeInfo) => {
-          const DATE_FORMAT_WITHOUT_ZONE_INFO: any = 'ddd, DD MMM, YYYY hh:mm A';
-          const DATE_FORMAT_WITH_ZONE_INFO: any = "ddd, DD MMM, YYYY hh:mm A z ('UTC'Z)";
-
-          switch (info.resolvedStatus) {
-            case LocalDateTimeAmbiguityStatus.UNAMBIGUOUS:
-              break;
-            case LocalDateTimeAmbiguityStatus.GAP:
-              this.statusMessageService.showWarningMessage(
-                  `The ${fieldName}, ${moment.format(DATE_FORMAT_WITHOUT_ZONE_INFO)},
-                   falls within the gap period when clocks spring forward at the start of DST.
-                   It was resolved to ${moment(info.resolvedTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO)}.`);
-              break;
-            case LocalDateTimeAmbiguityStatus.OVERLAP:
-              this.statusMessageService.showWarningMessage(
-                  `The ${fieldName}, ${moment.format(DATE_FORMAT_WITHOUT_ZONE_INFO)},
-                   falls within the overlap period when clocks fall back at the end of DST.
-                   It can refer to ${moment(info.earlierInterpretationTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO)}
-                   or ${moment(info.laterInterpretationTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO)} .
-                   It was resolved to %s.`,
-              );
-              break;
-            default:
+    return this.timezoneService.getResolvedTimestamp(localDateTime, timeZone, fieldName).pipe(
+        tap((result: TimeResolvingResult) => {
+          if (result.message.length !== 0) {
+            this.statusMessageService.showWarningMessage(result.message);
           }
         }),
-        map((info: LocalDateTimeInfo) => info.resolvedTimestamp));
+        map((result: TimeResolvingResult) => result.timestamp));
   }
 
   /**
@@ -378,7 +393,7 @@ export class InstructorSessionEditPageComponent implements OnInit {
       intent: Intent.FULL_DETAIL,
     };
     this.httpRequestService.get('/questions', paramMap)
-        .subscribe((response: FeedbackQuestionsResponse) => {
+        .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             this.questionEditFormModels.push(this.getQuestionEditFormModel(feedbackQuestion));
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);

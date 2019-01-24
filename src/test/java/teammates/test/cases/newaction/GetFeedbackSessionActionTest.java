@@ -73,10 +73,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 response.getCustomResponseVisibleTimestamp().longValue());
 
         assertEquals(FeedbackSessionInfo.FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
-        assertEquals("Not Published", response.getPublishStatus());
+        assertEquals(FeedbackSessionInfo.FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
 
         assertEquals(feedbackSessionAttributes.isClosingEmailEnabled(), response.isClosingEmailEnabled());
         assertEquals(feedbackSessionAttributes.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
+
+        assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
     }
 
     @Override
