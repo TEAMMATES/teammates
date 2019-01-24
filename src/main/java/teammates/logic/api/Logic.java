@@ -1544,30 +1544,24 @@ public class Logic {
     }
 
     /**
-     * Updates the question number of a Feedback Question.<br>
-     * Preconditions: <br>
+     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     *
+     * <p>Cascade adjust the question number of questions in the same session.
+     *
+     * <p>Cascade adjust the existing response of the question.
+     *
+     * <br/> Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
      */
-    public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes updatedQuestion)
+    public FeedbackQuestionAttributes updateFeedbackQuestionCascade(FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionNumber(updatedQuestion);
-    }
-
-    /**
-     * Updates the details of a Feedback Question.<br>
-     * The FeedbackQuestionAttributes should have the updated attributes
-     * together with the original ID of the question. Preserves null
-     * attributes.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
+        return feedbackQuestionsLogic.updateFeedbackQuestionCascade(updateOptions);
     }
 
     /**
