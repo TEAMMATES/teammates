@@ -144,7 +144,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "Instructor";
+        return DEFAULT_DISPLAY_NAME;
     }
 
     @Override
