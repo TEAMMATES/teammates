@@ -1,6 +1,8 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
+import { InstructorHomePageModule } from './instructor-home-page.module';
 
 describe('InstructorHomePageComponent', () => {
   let component: InstructorHomePageComponent;
@@ -8,8 +10,11 @@ describe('InstructorHomePageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHomePageComponent],
-      imports: [RouterTestingModule],
+      imports: [
+        InstructorHomePageModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
     })
     .compileComponents();
   }));

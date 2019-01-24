@@ -51,6 +51,7 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 import { StatusMessageModule } from '../components/status-message/status-message.module';
+import { InstructorHomePageModule } from './instructor-home-page/instructor-home-page.module';
 
 const routes: Routes = [
   {
@@ -97,6 +98,9 @@ const routes: Routes = [
       {
         path: '',
         component: InstructorSessionsPageComponent,
+        data: {
+          pageTitle: 'Add New Feedback Session',
+        },
       },
       {
         path: 'edit',
@@ -166,6 +170,7 @@ const routes: Routes = [
     NgbModule,
     ReactiveFormsModule,
     PageNotFoundModule,
+    InstructorHomePageModule,
     InstructorSessionEditPageModule,
     InstructorSessionsPageModule,
     InstructorHelpPageModule,
@@ -175,7 +180,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [
-    InstructorHomePageComponent,
     InstructorSearchPageComponent,
     InstructorSessionsResultPageComponent,
     InstructorStudentListPageComponent,

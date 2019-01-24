@@ -1,6 +1,8 @@
 package teammates.ui.newcontroller;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -78,6 +80,38 @@ public class FeedbackSessionInfo {
     }
 
     /**
+     * Represents the publish status of the a feedback session.
+     */
+    public enum FeedbackSessionPublishStatus {
+
+        /**
+         * Feedback session is published.
+         */
+        PUBLISHED,
+
+        /**
+         * Feedback session is not published.
+         */
+        NOT_PUBLISHED,
+    }
+
+    /**
+     * The output format for a list of feedback session.
+     */
+    public static class FeedbackSessionsResponse extends ActionResult.ActionOutput {
+        private final List<FeedbackSessionResponse> feedbackSessions;
+
+        public FeedbackSessionsResponse(List<FeedbackSessionAttributes> feedbackSessionAttributesList) {
+            this.feedbackSessions =
+                    feedbackSessionAttributesList.stream().map(FeedbackSessionResponse::new).collect(Collectors.toList());
+        }
+
+        public List<FeedbackSessionResponse> getFeedbackSessions() {
+            return feedbackSessions;
+        }
+    }
+
+    /**
      * The output format for a feedback session.
      */
     public static class FeedbackSessionResponse extends ActionResult.ActionOutput {
@@ -97,10 +131,13 @@ public class FeedbackSessionInfo {
         private Long customResponseVisibleTimestamp;
 
         private FeedbackSessionSubmissionStatus submissionStatus;
-        private String publishStatus;
+        private FeedbackSessionPublishStatus publishStatus;
 
         private Boolean isClosingEmailEnabled;
         private Boolean isPublishedEmailEnabled;
+
+        private final long createdAtTimestamp;
+        private final Long deletedAtTimestamp;
 
         public FeedbackSessionResponse(FeedbackSessionAttributes feedbackSessionAttributes) {
             this.courseId = feedbackSessionAttributes.getCourseId();
@@ -146,13 +183,20 @@ public class FeedbackSessionInfo {
             }
 
             if (feedbackSessionAttributes.isPublished()) {
-                this.publishStatus = "Published";
+                this.publishStatus = FeedbackSessionPublishStatus.PUBLISHED;
             } else {
-                this.publishStatus = "Not Published";
+                this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
             }
 
             this.isClosingEmailEnabled = feedbackSessionAttributes.isClosingEmailEnabled();
             this.isPublishedEmailEnabled = feedbackSessionAttributes.isPublishedEmailEnabled();
+
+            this.createdAtTimestamp = feedbackSessionAttributes.getCreatedTime().toEpochMilli();
+            if (feedbackSessionAttributes.getDeletedTime() == null) {
+                this.deletedAtTimestamp = null;
+            } else {
+                this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
+            }
         }
 
         public String getCourseId() {
@@ -203,7 +247,7 @@ public class FeedbackSessionInfo {
             return submissionStatus;
         }
 
-        public String getPublishStatus() {
+        public FeedbackSessionPublishStatus getPublishStatus() {
             return publishStatus;
         }
 
@@ -235,7 +279,7 @@ public class FeedbackSessionInfo {
             this.customResponseVisibleTimestamp = customResponseVisibleTimestamp;
         }
 
-        public void setPublishStatus(String publishStatus) {
+        public void setPublishStatus(FeedbackSessionPublishStatus publishStatus) {
             this.publishStatus = publishStatus;
         }
 
@@ -245,6 +289,14 @@ public class FeedbackSessionInfo {
 
         public void setPublishedEmailEnabled(Boolean publishedEmailEnabled) {
             isPublishedEmailEnabled = publishedEmailEnabled;
+        }
+
+        public long getCreatedAtTimestamp() {
+            return createdAtTimestamp;
+        }
+
+        public Long getDeletedAtTimestamp() {
+            return deletedAtTimestamp;
         }
     }
 
@@ -275,7 +327,7 @@ public class FeedbackSessionInfo {
             return Instant.ofEpochMilli(submissionStartTimestamp);
         }
 
-        public Instant getSubmissionEndTimestamp() {
+        public Instant getSubmissionEndTime() {
             return Instant.ofEpochMilli(submissionEndTimestamp);
         }
 
@@ -380,10 +432,32 @@ public class FeedbackSessionInfo {
     }
 
     /**
-     * The basic request body format for saving of feedback session.
+     * The request body format for saving of feedback session.
      */
     public static class FeedbackSessionSaveRequest extends FeedbackSessionBasicRequest {
 
     }
 
+    /**
+     * The request body format for creation of feedback session.
+     */
+    public static class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
+        private String feedbackSessionName;
+
+        public String getFeedbackSessionName() {
+            return feedbackSessionName;
+        }
+
+        public void setFeedbackSessionName(String feedbackSessionName) {
+            this.feedbackSessionName = feedbackSessionName;
+        }
+
+        @Override
+        public void validate() {
+            super.validate();
+
+            assertTrue(feedbackSessionName != null, "Session name cannot be null");
+            assertTrue(!feedbackSessionName.isEmpty(), "Session name cannot be empty");
+        }
+    }
 }
