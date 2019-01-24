@@ -34,10 +34,11 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get(endpoint: string, paramsMap: { [key: string]: string } = {}): Observable<any> {
+  get(endpoint: string, paramsMap: { [key: string]: string } = {},
+      responseType: any = 'json' as 'text'): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, withCredentials });
+    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials });
   }
 
   /**
