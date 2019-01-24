@@ -61,6 +61,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   sections?: StudentListSectionData[] = [];
   courseStudentListAsCsv: string = '';
 
+  loading: boolean = false;
+  isAjaxSuccess: boolean = true;
+
   constructor(private route: ActivatedRoute, private router: Router,
               private clipboardService: ClipboardService,
               private httpRequestService: HttpRequestService,
@@ -128,37 +131,55 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Download all the students from a course.
    */
   downloadAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      courseid: courseId,
-    };
-    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
-      .subscribe((resp: string) => {
-        const filename: string = `${courseId.concat('_studentList')}.csv`;
-        const blob: any = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
-  }
+    const filename: string = `${courseId.concat('_studentList')}.csv`;
+    let blob: any;
 
-  /**
-   * Load the student list in HTML table format
-   */
-  loadHtmlTableStudentsList(courseId: string): string {
-    if (this.courseStudentListAsCsv === '') {
+    // Calling REST API only the first time to laod the downloadable data
+    if (this.loading) {
+      blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
+      saveAs(blob, filename);
+    } else {
+
       const paramsMap: { [key: string]: string } = {
         user: this.user,
         courseid: courseId,
       };
       this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
         .subscribe((resp: string) => {
+          blob = new Blob([resp], { type: 'text/csv' });
+          saveAs(blob, filename);
           this.courseStudentListAsCsv = resp;
+          this.loading = false;
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
     }
-    return this.convertToHtmlTable(this.courseStudentListAsCsv);
+  }
+
+  /**
+   * Load the student list in csv table format
+   */
+  loadStudentsListCsv(courseId: string): void {
+    this.loading = true;
+
+    // Calls the REST API once only when student list is not loaded
+    if (this.courseStudentListAsCsv !== '') {
+      this.loading = false;
+      return;
+    }
+
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+      courseid: courseId,
+    };
+    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+      .subscribe((resp: string) => {
+        this.courseStudentListAsCsv = resp;
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.isAjaxSuccess = false;
+      });
+    this.loading = false;
   }
 
   /**

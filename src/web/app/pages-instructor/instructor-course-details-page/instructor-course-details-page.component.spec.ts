@@ -12,6 +12,8 @@ class StudentListStubComponent {
   @Input() sections: Object[] = [];
   @Input() enableRemindButton: boolean = true;
 }
+@Component({ selector: 'tm-ajax-preload', template: '' })
+class AjaxPreloadComponent {}
 
 describe('InstructorCourseDetailsPageComponent', () => {
   let component: InstructorCourseDetailsPageComponent;
@@ -22,6 +24,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       declarations: [
         InstructorCourseDetailsPageComponent,
         StudentListStubComponent,
+        AjaxPreloadComponent,
       ],
       imports: [
         HttpClientTestingModule,

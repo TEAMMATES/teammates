@@ -68,7 +68,7 @@
             </button>
             <div>
               <span>Non-English characters not displayed properly in the downloaded file?
-                <span class="btn-link" (click)="openModal(studentTableModal)">
+                <span class="btn-link" (click)="openModal(studentTableModal); loadStudentsListCsv(courseDetails.course.id)">
                   Click here.
                 </span>
               </span>
@@ -135,7 +135,9 @@
       </button>
     </div>
     <div class="modal-body">
-      <div [innerHTML]="loadHtmlTableStudentsList(courseDetails.course.id)"></div>
+      <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
+      <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
+      <b>{{ isAjaxSuccess ? '' : 'Failed to load. Please reopen modal.' }}</b>
     </div>
   </ng-template>
 </div>
