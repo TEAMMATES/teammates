@@ -294,7 +294,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         String courseId = "courseId";
         String name = "name";
         String email = "valid@email.com";
-        String expectedBackUpMessage = "Recently modified instructor::" + courseId + email;
+        String expectedBackUpMessage = "Recently modified instructor::" + courseId + "::" + email;
 
         InstructorAttributes instructor = InstructorAttributes
                 .builder(googleId, courseId, name, email).build();
