@@ -1,3 +1,25 @@
-<p>
-  instructor-home-page works!
-</p>
+<div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
+  <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = !courseTabModel.isTabExpanded">
+    <div class="row">
+      <div class="col-6">
+        <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
+      </div>
+      <div class="col-6 text-right">
+        <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
+        <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
+      </div>
+    </div>
+  </div>
+  <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
+    <tm-sessions-table [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
+                       [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
+                       [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"
+                       [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+                       (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+                       (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
+                       (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
+                       (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler()"
+                       (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+                       (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
+  </div>
+</div>

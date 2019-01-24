@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 import { StudentProfile } from '../student-profile/student-profile';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
@@ -24,10 +26,12 @@ export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
+  @Input() enableRemindButton: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService,
+  constructor(private router: Router, private httpRequestService: HttpRequestService,
+    private statusMessageService: StatusMessageService, private navigationService: NavigationService,
     private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
@@ -74,7 +78,25 @@ export class StudentListComponent implements OnInit {
    * Open the student delete confirmation modal.
    */
   openModal(content: any): void {
-    this.ngbModal.open(content).result.then((studentEmail: string) => this.removeStudentFromCourse(studentEmail));
+    this.ngbModal.open(content);
+  }
+
+  /**
+   * Remind the student from course.
+   */
+  remindStudentFromCourse(studentEmail: string): void {
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseId,
+      studentemail: studentEmail,
+    };
+
+    this.httpRequestService.post('/courses/details/remind', paramsMap)
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
+            '/web/instructor/courses/details', resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
