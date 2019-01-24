@@ -17,6 +17,13 @@ export enum FeedbackQuestionType {
 }
 
 /**
+ * A list of feedback question.
+ */
+export interface FeedbackQuestions {
+  questions: FeedbackQuestion[];
+}
+
+/**
  * The feedback question.
  */
 export interface FeedbackQuestion {
