@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HotTableModule } from '@handsontable/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClipboardModule } from 'ngx-clipboard';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -178,6 +179,7 @@ const routes: Routes = [
     StatusMessageModule,
     HotTableModule,
     RouterModule.forChild(routes),
+    ClipboardModule,
   ],
   declarations: [
     InstructorSearchPageComponent,
