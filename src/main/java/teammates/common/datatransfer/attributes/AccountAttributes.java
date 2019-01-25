@@ -84,10 +84,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public AccountAttributes build() {
-            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
-            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
-            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
-            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
+            accountAttributes.googleId = accountAttributes.googleId;
+            accountAttributes.name = accountAttributes.name;
+            accountAttributes.email = accountAttributes.email;
+            accountAttributes.institute = accountAttributes.institute;
 
             return accountAttributes;
         }
@@ -181,9 +181,9 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public void sanitizeForSaving() {
-        this.googleId = SanitizationHelper.sanitizeForHtml(googleId);
-        this.name = SanitizationHelper.sanitizeForHtml(name);
-        this.institute = SanitizationHelper.sanitizeForHtml(institute);
+        this.googleId = googleId;
+        this.name = name;
+        this.institute = institute;
     }
 
     public boolean isUserRegistered() {
