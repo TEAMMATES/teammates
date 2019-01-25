@@ -10,6 +10,7 @@ class StudentListStubComponent {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() sections: Object[] = [];
+  @Input() enableRemindButton: boolean = false;
 }
 
 describe('InstructorSearchPageComponent', () => {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
-import { TemplateQuestion } from '../../../../services/template-questions';
+import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
 import {
   QuestionEditFormModel,
 } from '../../../components/question-types/question-types-session-edit/question-edit-form-model';

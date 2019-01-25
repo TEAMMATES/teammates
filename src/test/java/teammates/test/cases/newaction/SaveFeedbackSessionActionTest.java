@@ -77,6 +77,9 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         assertEquals(session.isClosingEmailEnabled(), response.isClosingEmailEnabled());
         assertEquals(session.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
 
+        assertEquals(session.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
+        assertNull(session.getDeletedTime());
+
         assertEquals("instructions", response.getInstructions());
         assertEquals(1444003051000L, response.getSubmissionStartTimestamp());
         assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
@@ -90,6 +93,9 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         assertFalse(response.isClosingEmailEnabled());
         assertFalse(response.isPublishedEmailEnabled());
+
+        assertNotNull(response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
     }
 
     @Test
