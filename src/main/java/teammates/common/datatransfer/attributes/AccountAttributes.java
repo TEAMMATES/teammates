@@ -6,6 +6,7 @@ import java.util.List;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 
@@ -83,6 +84,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public AccountAttributes build() {
+            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
+            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
+            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
+            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
+
             return accountAttributes;
         }
 
