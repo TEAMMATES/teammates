@@ -1,0 +1,49 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+            How do I view a student's profile?
+        </button>
+    </p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <p>To view the profile of Student A from Course B:</p>
+                <ol>
+                    <li>
+                        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+                    </li>
+                    <li>
+                        Click the
+                        <button class="btn btn-default btn-xs">View</button> button in the last column of the row corresponding to Student A. A new page will open displaying the student's profile, similar to the sample profile below.
+                    </li>
+                </ol>
+
+                <p>
+                    The student's profile page displays the student's details and course-related information, such as:
+                </p>
+
+                <ul>
+                    <li>
+                        <b>Section name</b>: the name of the section you enrolled the student in. This only appears if sections are created for the course.
+                    </li>
+                    <li>
+                        <b>Team name</b>: the name of the team you enrolled the student in, or <i>NA</i> if the student does not belong to a team.
+                    </li>
+                    <li>
+                        <b>Official email address</b>: the email address that will be used to contact the student, taken from enrollment information
+                    </li>
+                    <li>
+                        <b>Comments</b>: additional student information you entered in the Comments column during enrollment
+                    </li>
+                </ul>
+
+                <p>
+                    Below this is the <b>More Info</b> section containing a personal description given by the student, if any.
+                    <br> You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a lightbox for better readability.
+                </p>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

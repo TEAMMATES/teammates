@@ -1,0 +1,27 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+           How do I email a student or students in my course?
+        </button>
+    </p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <ol>
+	                <li>
+	                    On the <b>Students</b> page, filter out the selected student/students.
+	                </li>
+	                <li>
+	                    Click
+	                    <button class="btn btn-xs btn-default">Copy Emails</button> to copy their email addresses to your clipboard
+	                </li>
+	                <li>
+	                    Use your preferred email provider to email the students
+	                </li>
+	            </ol>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

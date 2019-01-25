@@ -1,0 +1,19 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+            Is it compulsory for students to use Google accounts?
+        </button>
+    </p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    Students can submit feedback and view results without having to login to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results. However, students
+                    who link their TEAMMATES account with their Google account will be able to access a dashboard of all their sessions and results through the TEAMMATES website.
+                </p>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

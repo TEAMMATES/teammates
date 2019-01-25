@@ -1,0 +1,19 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+             How do I change the Google ID associated with a student?
+        </button>
+    </p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    At the moment, there is no way for students to update their own Google IDs.
+                    <br> Please ask the student to <a href="mailto:teammates@comp.nus.edu.sg">contact us</a> for assistance changing his/her Google ID.
+                </p>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

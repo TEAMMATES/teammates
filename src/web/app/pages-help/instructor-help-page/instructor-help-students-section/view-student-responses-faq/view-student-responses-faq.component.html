@@ -1,0 +1,28 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p>
+    	<button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+        	How do I view all the responses a student has given and received?
+    	</button>
+    </p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    To view the responses that Student A from Course B has given and received:
+                </p>
+                <ol>
+                    <li>
+                        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+                    </li>
+                    <li>
+                        Click
+                        <button class="btn btn-xs btn-default">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
+                    </li>
+                </ol>
+
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

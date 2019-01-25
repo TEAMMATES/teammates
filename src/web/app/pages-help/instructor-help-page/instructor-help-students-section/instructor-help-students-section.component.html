@@ -1,0 +1,28 @@
+<div>
+     <h2 class="color-blue" *ngIf="show">Students</h2>
+
+     <!--Questions/Answers-->
+
+     <!--Section-->
+     <h3 *ngIf="show">Student Records</h3>
+     <div>
+     	<tm-view-profile-faq [key]="key"></tm-view-profile-faq>
+     	<tm-edit-student-details-faq [key]="key"></tm-edit-student-details-faq>
+     	<tm-view-student-responses-faq [key]="key"></tm-view-student-responses-faq>
+ 	 </div>
+
+     <!--Section-->
+     <h3 *ngIf="show">Finding Students</h3>
+     <div>
+     	<tm-search-student-faq [key]="key"></tm-search-student-faq>
+        <tm-email-student-faq [key]="key"></tm-email-student-faq>
+ 	 </div>
+
+      <!--Section-->
+     <h3 *ngIf="show">Student Accounts</h3>
+     <div>
+        <tm-student-use-gaccount-faq [key]="key"></tm-student-use-gaccount-faq>
+        <tm-student-change-gaccount-faq [key]="key"></tm-student-change-gaccount-faq>
+     </div>
+      
+</div>

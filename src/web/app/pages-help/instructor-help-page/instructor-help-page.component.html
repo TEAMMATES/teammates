@@ -1,3 +1,47 @@
-<p>
-  instructor-help-page works!
-</p>
+<main>
+    <h1 class="color-orange"> Help for Instructors</h1>
+    <div>
+        <p>
+            Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
+            <br> If you are new to TEAMMATES, our <a href="/gettingStarted.jsp">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
+            <br> If you have any remaining questions, don't hesitate to <a href="mailto:teammates@comp.nus.edu.sg">email us</a>. We respond within 24 hours.
+        </p>
+
+        <div id="topics" style="display: block;">
+            <p>
+                Browse questions by topic:
+            </p>
+            <ul>
+                <li>
+                    <a href="#students">Students</a>
+                </li>
+                <li>
+                    <a href="#courses">Courses</a>
+                </li>
+                <li>
+                    <a href="#sessions">Sessions</a>
+                </li>
+                <li>
+                    <a href="#questions">Questions</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="row">
+       <div class="offset-md-2 col-md-8">
+        <div class="input-group input-group-lg">
+          <input type="text"  [(ngModel)]="search_term" class="form-control input-lg" placeholder="How can we help?">
+            <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
+            <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+        </div> 
+      </div>
+    </div>
+
+    <hr/>
+
+    <div>
+        <tm-instructor-help-students-section [key]="key"></tm-instructor-help-students-section>
+        <tm-instructor-help-courses-section></tm-instructor-help-courses-section>
+    </div>
+</main>

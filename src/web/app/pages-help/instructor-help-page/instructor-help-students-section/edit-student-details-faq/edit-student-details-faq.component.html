@@ -1,0 +1,36 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p><button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+        How do I edit a student's details after enrolling the student?
+    </button></p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    To edit the name, section, team, contact email, or instructor comments of Student A from Course B:
+                </p>
+                <ol>
+                    <li>
+                        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in Course B.
+                    </li>
+                    <li>
+                        Click the
+                        <button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.
+                        <br>
+                    </li>
+                    <li>
+                        In the new page that opens, edit the relevant fields of Student A's details. The page will look similar to the example below.
+                    </li>
+                    <li>
+                        Click
+                        <button class="btn btn-primary btn-s">Save Changes</button> to save your changes to Student A's details.
+                    </li>
+                </ol>
+                <p>
+                    Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the course.
+                </p>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

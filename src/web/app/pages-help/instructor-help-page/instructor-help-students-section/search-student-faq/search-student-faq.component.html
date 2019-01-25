@@ -1,0 +1,43 @@
+<div class="instr-help-qn" *ngIf="show">
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="answer">
+             How do I search for a student in my course?
+        </button>
+    </p>
+
+    <div id="answer" [ngbCollapse]="!isCollapsed">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    You can search for students from the <b>Search</b> page. Click the <b>Search</b> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
+                </p>
+
+                <p>
+                    To search for a student:
+                </p>
+                <ol>
+                    <li>
+                        Tick the option <b>Students</b> below the search box.
+                    </li>
+                    <li>
+                        Type your search terms into the search bar. You can search for a student record based on:
+                        <ul>
+                            <li>Section name</li>
+                            <li>Team name</li>
+                            <li>Student name</li>
+                            <li>Email</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Click the
+                        <button class="btn btn-primary btn">Search</button> button.
+                    </li>
+                </ol>
+                <p>
+                    If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
+                </p>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>
