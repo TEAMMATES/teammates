@@ -27,6 +27,8 @@ export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
+  @Input() listOfStudentsToHide: string[] = [];
+  @Input() isHideTableHead: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -100,4 +102,10 @@ export class StudentListComponent implements OnInit {
     });
   }
 
+  /**
+   * Determines which row in the studentTable should be hidden.
+   */
+  isStudentToHide(studentEmail: string): boolean {
+    return this.listOfStudentsToHide.indexOf(studentEmail) > -1;
+  }
 }

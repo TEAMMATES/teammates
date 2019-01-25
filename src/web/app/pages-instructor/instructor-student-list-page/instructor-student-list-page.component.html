@@ -1,3 +1,103 @@
-<p>
-  instructor-student-list-page works!
-</p>
+<div class="section pb-3"*ngIf="courses">
+  <div class="card">
+    <div class="card-body fill-plain">
+      <div class="form form-horizontal">
+        <div class="form-group row">
+          <div class="col-sm-3 float-left">
+            <div class="checkbox-outer-div">
+              <input type="checkbox" (change)="toggleAllCoursesStateAtInput(!getAllCoursesState())" [checked]="!getAllCoursesState()">
+              <label class="ml-1"> Select All Courses </label>
+            </div>
+            <div class="checkbox-outer-div" *ngFor="let course of courses">
+              <input type="checkbox"
+                     (change)="toggleCourseStateAtInput(course)"
+                     [checked]="!getCourseState(course)">
+              <label class="ml-1">
+                [{{course.id}}]{{course.name}}
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-3 float-left">
+            <ng-container *ngIf="courseDetailsMap.values()">
+              <ng-container *ngFor="let courseDetails of courseDetailsMap.values()">
+                <div class="checkbox-outer-div">
+                  <input type="checkbox" (change)="toggleAllSections(!getAllSectionsState())" [checked]="!getAllSectionsState()">
+                  <label class="ml-1"> Select All Sections </label>
+                </div>
+                <div class="checkbox-outer-div" *ngFor="let section of courseDetails.sections" [hidden]="getCourseState(courseDetails)">
+                  <input type="checkbox"
+                         (change)="toggleSectionState(courseDetails.id, section)"
+                         [checked]="!getSectionState(courseDetails.id, section)">
+                  <label class="ml-1">
+                    [{{courseDetails.id}}]{{section.name}}
+                  </label>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+
+          <div class="col-sm-3 float-left">
+            <ng-container *ngIf="courseDetailsMap.values()">
+              <ng-container *ngFor="let courseDetails of courseDetailsMap.values()">
+                <ng-container *ngFor="let section of courseDetails.sections">
+                  <div class="checkbox-outer-div" *ngFor="let team of section.teams" [hidden]="getCourseState(courseDetails)" >
+                    <input type="checkbox"
+                           (change)="toggleTeamState(courseDetails.id, section.name, team)"
+                           [checked]="!getTeamState(courseDetails.id, section.name, team)">
+                    <label class="ml-1">
+                      [{{courseDetails.id}}][{{section.name}}]{{team.name}}
+                    </label>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+
+          <div class="col-sm-3 float-left">
+            <ng-container *ngIf="courseDetailsMap.values()">
+              <ng-container *ngFor="let courseDetails of courseDetailsMap.values()">
+                <ng-container *ngFor="let section of courseDetails.sections">
+                  <ng-container *ngFor="let team of section.teams">
+                    <div class="checkbox-outer-div" *ngFor="let student of team.students" [hidden]="getCourseState(courseDetails)">
+                      <input type="checkbox"
+                             (change)="toggleStudentState(student)"
+                             [checked]="!getStudentState(student)">
+                      <label class="ml-1">
+                        [{{team.name}}]{{student.email}}
+                      </label>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="courses && courses.length" >
+  <div class="p-0">
+    <div *ngFor="let course of courses" class="card border mb-3 p-0">
+      <div class="card-header text-dark-blue bg-light-blue font-weight-bold" (click)="toggleCourseStateAtInput(course)">
+        <strong>[{{course.id}}]:</strong> {{course.name}}
+        <div class="arrow-sign">
+          <i class="fas fa-chevron-down" *ngIf="getAllCoursesState() === true"></i>
+          <i class="fas fa-chevron-up" *ngIf="getAllCoursesState() === false"></i>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <tm-student-list
+            [courseId]="course.id"
+            [useGrayHeading]="true"
+            [sections]="getStudentListSectionDataForCourse(course.id)"
+            [listOfStudentsToHide]="getStudentsToHide()"
+            [isHideTableHead]="getCourseState(course)"
+        >
+        </tm-student-list>
+      </div>
+    </div>
+  </div>
+</ng-container>

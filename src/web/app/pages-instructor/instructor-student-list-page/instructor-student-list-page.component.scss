@@ -1,0 +1,38 @@
+.bg-light-blue {
+  background-color: #007BFF33 !important;
+}
+
+.border-light-blue {
+  border-color: #007BFF33 !important;
+}
+
+.text-dark-blue {
+  color: var(--blue) !important;
+}
+
+.fill-plain {
+  background-color: #EAEFF5 !important;
+}
+
+.checkbox-outer-div {
+  margin-left: 20px;
+}
+
+.checkbox-outer-div input[type="checkbox"] {
+  margin-left: -20px;
+  margin-top: 5px;
+}
+
+.checkbox-outer-div label {
+  display: inline;
+}
+
+.card-header {
+  cursor: pointer;
+}
+
+.arrow-sign {
+  float: right;
+  display: inline;
+  text-align: right;
+}
