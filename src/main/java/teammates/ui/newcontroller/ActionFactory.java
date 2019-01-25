@@ -83,6 +83,7 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE_FORM_URL, POST, PostStudentProfileFormUrlAction.class);
+        map(ResourceURIs.STUDENT_PROFILE_PICTURE, POST, PostStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_PROFILE_UPDATE, PUT, PutStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_COURSES, GET, GetStudentCoursesAction.class);
