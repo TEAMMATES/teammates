@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -15,7 +16,7 @@ import {
 import { Course, Courses } from '../../course';
 import { FeedbackSession, FeedbackSessions } from '../../feedback-session';
 import { defaultInstructorPrivilege, InstructorPrivilege } from '../../instructor-privilege';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 
 interface CourseTabModel {
@@ -52,7 +53,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
-              private route: ActivatedRoute, private timezoneService: TimezoneService) {
+              private route: ActivatedRoute, private ngbModal: NgbModal, private timezoneService: TimezoneService) {
     super(router, httpRequestService, statusMessageService, navigationService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
@@ -73,12 +74,47 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
     return this.courseTabModels.map((m: CourseTabModel) => m.course);
   }
 
+  /**
+   * Redirect to the search page and query the search
+   */
   search(): void {
-    this.router.navigate(['web/instructor/search'], { queryParams: {
-      studentSearchkey: this.studentSearch
-    }});
+    this.router.navigate(['web/instructor/search'], {
+      queryParams: { studentSearchkey: this.studentSearch },
+    });
   }
 
+  /**
+   * Open the modal for different buttons and link.
+   */
+  openModal(content: any): void {
+    this.ngbModal.open(content);
+  }
+
+  /**
+   * Archives the entire course from the instructor
+   */
+  archiveCourse(courseId: string): void {
+    this.httpRequestService.post('/course', { courseid: courseId, archive: 'true' })
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            '/web/instructor/home', resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
+
+  /**
+   * Deletes the entire course from the instructor
+   */
+  deleteCourse(courseId: string): void {
+    this.httpRequestService.delete('/course', { courseid: courseId })
+      .subscribe((resp: MessageOutput) => {
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            '/web/instructor/home', resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+  }
   /**
    * Loads courses of current instructor.
    */
