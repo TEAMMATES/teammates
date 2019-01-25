@@ -13,7 +13,6 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -41,7 +40,7 @@ public class PostStudentProfilePictureAction extends Action {
     }
 
     @Override
-    public ActionResult execute() throws EntityNotFoundException {
+    public ActionResult execute() {
         String pictureKey;
         BlobKey blobKey = new BlobKey("");
 

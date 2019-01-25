@@ -1,7 +1,6 @@
 package teammates.ui.newcontroller;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -15,9 +14,7 @@ public class GetStudentProfileAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (!userInfo.isStudent) {
-            throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
-        }
+        // Anyone logged in can get a student's profile
     }
 
     @Override

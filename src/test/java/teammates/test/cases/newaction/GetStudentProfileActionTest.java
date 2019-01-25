@@ -35,7 +35,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
         student = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
         StudentProfileAttributes student1InTestingSanitizationCourseProfile =
-                typicalBundle.profiles.get("student1InCourse1");
+                typicalBundle.profiles.get("student1InTestingSanitizationCourse");
         // simulate sanitization that occurs before persistence
         student.sanitizeForSaving();
         testActionSuccess(student, student1InTestingSanitizationCourseProfile,
@@ -82,10 +82,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {};
-        verifyInaccessibleWithoutLogin(submissionParams);
-
-        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyAnyLoggedInUserCanAccess();
     }
 
 }
