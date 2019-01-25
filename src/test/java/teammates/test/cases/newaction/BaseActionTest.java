@@ -21,6 +21,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.newcontroller.Action;
+import teammates.ui.newcontroller.CsvResult;
 import teammates.ui.newcontroller.ImageResult;
 import teammates.ui.newcontroller.JsonResult;
 
@@ -367,6 +368,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected JsonResult getJsonResult(Action a) {
         return (JsonResult) a.execute();
+    }
+
+    /**
+     * Executes the action and returns the csv content.
+     *
+     * <p>Assumption: The action returns a {@link CsvResult}.
+     */
+    protected CsvResult getCsvResult(Action a) {
+        return (CsvResult) a.execute();
     }
 
     /**

@@ -247,7 +247,6 @@ public final class Const {
                 + "but a joined student can access extra features e.g. set up a user profile";
         public static final String COURSE_STUDENT_DELETE =
                 "Delete the student and the corresponding submissions from the course";
-        public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
 
         public static final String COURSE_REMIND =
                 "Email an invitation to all students yet to join requesting them to join the course "
@@ -619,6 +618,8 @@ public final class Const {
 
     public static class ParamsNames {
 
+        public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
+
         public static final String IS_USING_AJAX = "isusingAjax";
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
@@ -890,6 +891,8 @@ public final class Const {
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
         public static final String ERROR_FEEDBACK_REQUEST_ID = "errorfeedbackrequestid";
         public static final String ENTITY_TYPE = "entitytype";
+
+        public static final String INTENT = "intent";
     }
 
     public static class SearchIndex {
@@ -964,17 +967,35 @@ public final class Const {
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
         public static final String COURSE = "/course";
+        public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
+        public static final String INSTRUCTOR = "/instructor";
+        public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
         public static final String STUDENTS = "/students";
+        public static final String STUDENT = "/student";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";
+        public static final String SESSION_PUBLISH = "/session/publish";
+        public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
+        public static final String SESSION_REMIND_RESULT = "/session/remind/result";
+        public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
+        public static final String QUESTION_RECIPIENTS = "/question/recipients";
+        public static final String RESPONSE = "/response";
+        public static final String RESPONSES = "/responses";
+        public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
+
+        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
+        public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
+        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
+        public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
+        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
@@ -983,6 +1004,10 @@ public final class Const {
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
+        public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
+        public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
+        public static final String STUDENT_RECORDS = "/students/records";
+        public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }
 
     @Deprecated
@@ -1210,7 +1235,6 @@ public final class Const {
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
-        public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
@@ -1459,7 +1483,6 @@ public final class Const {
         public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS =
                 "There are no course or students information to be displayed";
-        public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
         public static final String INSTRUCTOR_SEARCH_TIPS =
                 "Search Tips:<br>"

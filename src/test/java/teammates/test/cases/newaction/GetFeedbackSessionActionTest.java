@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.newcontroller.FeedbackSessionInfo;
 import teammates.ui.newcontroller.GetFeedbackSessionAction;
+import teammates.ui.newcontroller.Intent;
 import teammates.ui.newcontroller.JsonResult;
 
 /**
@@ -39,12 +40,15 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId());
         verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 feedbackSessionAttributes.getFeedbackSessionName());
+        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName());
 
         ______TS("typical success case");
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
         };
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
@@ -68,11 +72,14 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(feedbackSessionAttributes.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals("Open", response.getSubmissionStatus());
-        assertEquals("Not Published", response.getPublishStatus());
+        assertEquals(FeedbackSessionInfo.FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionInfo.FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
 
         assertEquals(feedbackSessionAttributes.isClosingEmailEnabled(), response.isClosingEmailEnabled());
         assertEquals(feedbackSessionAttributes.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
+
+        assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
     }
 
     @Override
@@ -86,6 +93,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123",
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -96,8 +104,10 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

@@ -56,7 +56,7 @@ public class GetStudentEditDetailsAction extends Action {
     }
 
     /**
-     * Data format for {@link PutCourseStudentDetailsEditAction}.
+     * Data format for {@link GetStudentEditDetailsAction}.
      */
     public static class StudentEditDetails extends ActionResult.ActionOutput {
 
