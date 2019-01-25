@@ -42,6 +42,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   user: string = '';
+  studentSearch: string = '';
 
   // data
   courseTabModels: CourseTabModel[] = [];
@@ -67,6 +68,12 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   get courseCandidates(): Course[] {
     return this.courseTabModels.map((m: CourseTabModel) => m.course);
+  }
+
+  search(): void {
+    this.router.navigate(['web/instructor/search'], { queryParams: {
+      studentSearchkey: this.studentSearch
+    }});
   }
 
   /**

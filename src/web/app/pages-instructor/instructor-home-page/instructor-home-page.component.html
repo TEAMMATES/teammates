@@ -1,3 +1,18 @@
+<h1>Home</h1>
+<div class="card bg-light mb-4">
+  <div class="card-body">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="studentSearch" (keyup.enter)="search()"
+               placeholder="e.g. Charles Shultz, charles@gmail.com">
+        <div class="input-group-append">
+          <button class="btn" (click)="search()">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
   <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = !courseTabModel.isTabExpanded">
     <div class="row">

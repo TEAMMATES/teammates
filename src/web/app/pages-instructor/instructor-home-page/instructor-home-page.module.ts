@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 
@@ -13,6 +14,7 @@ import { InstructorHomePageComponent } from './instructor-home-page.component';
   imports: [
     CommonModule,
     SessionsTableModule,
+    FormsModule,
   ],
   exports: [
     InstructorHomePageComponent,
