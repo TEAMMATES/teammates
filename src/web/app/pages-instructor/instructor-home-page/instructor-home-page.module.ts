@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
+import { RouterModule } from "@angular/router";
 
 /**
  * Module for instructor home page.
@@ -15,6 +16,7 @@ import { InstructorHomePageComponent } from './instructor-home-page.component';
     CommonModule,
     SessionsTableModule,
     FormsModule,
+    RouterModule,
   ],
   exports: [
     InstructorHomePageComponent,

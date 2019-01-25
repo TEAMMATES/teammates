@@ -40,9 +40,11 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
+  SortBy: typeof SortBy = SortBy;
 
   user: string = '';
   studentSearch: string = '';
+  instructorCoursesSortBy: SortBy = SortBy.CREATION_DATE;
 
   // data
   courseTabModels: CourseTabModel[] = [];
@@ -116,6 +118,53 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
       model.isTabExpanded = true;
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
+   * Checks the option selected to sort courses.
+   */
+  isSelectedForSorting(by: SortBy): boolean {
+    return this.instructorCoursesSortBy === by;
+  }
+
+  /**
+   * Sorts the courses according to selected option.
+   */
+  sortCoursesBy(by: SortBy): void {
+    this.instructorCoursesSortBy = by;
+
+    if (this.courseTabModels.length > 1) {
+      this.courseTabModels.sort(this.sortPanelsBy(by));
+    }
+  }
+
+  /**
+   * Sorts the panels of courses in order.
+   */
+  sortPanelsBy(by: SortBy):
+      ((a: { course: Course }, b: { course: Course }) => number) {
+    return ((a: { course: Course }, b: { course: Course }): number => {
+      let strA: string;
+      let strB: string;
+      switch(by) {
+        case SortBy.COURSE_NAME:
+          strA = a.course.courseName;
+          strB = b.course.courseName;
+          break;
+        case SortBy.COURSE_ID:
+          strA = a.course.courseId;
+          strB = b.course.courseId;
+          break;
+        case SortBy.CREATION_DATE:
+          strA = a.course.creationDate;
+          strB = b.course.creationDate;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return strA.localeCompare(strB);
+    });
   }
 
   /**
