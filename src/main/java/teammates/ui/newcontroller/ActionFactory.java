@@ -33,6 +33,7 @@ public class ActionFactory {
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
+        map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
         map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNTS, GET, GetAccountAction.class);
