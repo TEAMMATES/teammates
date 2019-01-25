@@ -14,12 +14,13 @@ import {
 } from '../../components/sessions-table/sessions-table-model';
 import { Course, Courses } from '../../course';
 import { FeedbackSession, FeedbackSessions } from '../../feedback-session';
-import { defaultInstructorPrivilege } from '../../instructor-privilege';
+import { defaultInstructorPrivilege, InstructorPrivilege } from '../../instructor-privilege';
 import { ErrorMessageOutput } from '../../message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 
 interface CourseTabModel {
   course: Course;
+  instructorPrivilege: InstructorPrivilege;
   sessionsTableRowModels: SessionsTableRowModel[];
   sessionsTableRowModelsSortBy: SortBy;
   sessionsTableRowModelsSortOrder: SortOrder;
@@ -86,6 +87,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
           course,
+          instructorPrivilege: defaultInstructorPrivilege,
           sessionsTableRowModels: [],
           isTabExpanded: false,
           sessionsTableRowModelsSortBy: SortBy.NONE,
@@ -93,9 +95,24 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
         };
 
         this.courseTabModels.push(model);
+        this.updateCourseInstructorPrivilege(model);
         this.loadFeedbackSessions(model);
       });
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    // getInstructorPrivilege();
+  }
+
+  /**
+   * Updates the instructor privilege in {@code CourseTabModel}.
+   */
+  updateCourseInstructorPrivilege(model: CourseTabModel): void {
+    this.httpRequestService.get('/instructor/privilege', {
+      courseid: model.course.courseId,
+    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+      model.instructorPrivilege = instructorPrivilege;
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -146,7 +163,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
     return ((a: { course: Course }, b: { course: Course }): number => {
       let strA: string;
       let strB: string;
-      switch(by) {
+      switch (by) {
         case SortBy.COURSE_NAME:
           strA = a.course.courseName;
           strB = b.course.courseName;
