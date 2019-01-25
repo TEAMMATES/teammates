@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.util.NationalityHelper;
 
 /**
- * Action: get a list of valid nationalities.
+ * Action: Get a list of valid nationalities.
  */
 public class GetNationalitiesAction extends Action {
     @Override
