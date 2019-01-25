@@ -1,13 +1,14 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Instant;
+
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
-
-import java.time.Instant;
 
 /**
  * SUT: {@link AccountAttributes}.
