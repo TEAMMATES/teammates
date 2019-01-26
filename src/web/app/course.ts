@@ -6,3 +6,10 @@ export interface Course {
   courseName: string;
   timeZone: string;
 }
+
+/**
+ * A list of course.
+ */
+export interface Courses {
+  courses: Course[];
+}

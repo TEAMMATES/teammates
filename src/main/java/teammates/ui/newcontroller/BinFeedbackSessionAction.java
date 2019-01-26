@@ -40,7 +40,8 @@ public class BinFeedbackSessionAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResult("Moved to the recycle bin", HttpStatus.SC_OK);
+        FeedbackSessionAttributes recycleBinFs = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(recycleBinFs));
     }
 
 }

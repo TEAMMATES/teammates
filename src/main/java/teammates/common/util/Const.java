@@ -618,6 +618,8 @@ public final class Const {
 
     public static class ParamsNames {
 
+        public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
+
         public static final String IS_USING_AJAX = "isusingAjax";
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
@@ -965,13 +967,19 @@ public final class Const {
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
         public static final String COURSE = "/course";
+        public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
+        public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
         public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";
+        public static final String SESSION_PUBLISH = "/session/publish";
+        public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
+        public static final String SESSION_REMIND_RESULT = "/session/remind/result";
+        public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
@@ -982,6 +990,12 @@ public final class Const {
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
+
+        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
+        public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
+        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
+        public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
+        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
