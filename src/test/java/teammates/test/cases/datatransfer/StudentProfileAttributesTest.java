@@ -121,6 +121,14 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         testInvalidityInfoForInvalidProfile();
     }
 
+    @Test
+    public void testGetBackUpIdentifier() {
+        StudentProfileAttributes validProfileAttributes = profile.getCopy();
+        String expectedBackUpMessage = "Recently modified student profile::" + validProfileAttributes.googleId;
+
+        assertEquals(expectedBackUpMessage, validProfileAttributes.getBackupIdentifier());
+    }
+
     private void testGetInvalidityInfoForValidProfileWithValues() {
         StudentProfileAttributes validProfile = profile.getCopy();
 
