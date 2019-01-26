@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -42,6 +43,15 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         ______TS("success : defaultTimeStamp for updatedAt date");
 
         assertEquals(defaultTimeStamp, fra.getUpdatedAt());
+    }
+
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackResponseAttributes response = new FeedbackResponseAttributes();
+        response.setId("Valid-Response-id");
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback response::" + response.getId();
+        assertEquals(expectedBackUpIdentifierMessage, response.getBackupIdentifier());
     }
 
 }
