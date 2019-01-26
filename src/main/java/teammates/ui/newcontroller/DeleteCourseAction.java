@@ -35,7 +35,7 @@ public class DeleteCourseAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResult("The course has been deleted. You can restore it from the 'Courses' tab.");
+        return new JsonResult("The course has been deleted. You can restore it from the 'Courses' tab.", HttpStatus.SC_OK);
     }
 
 }

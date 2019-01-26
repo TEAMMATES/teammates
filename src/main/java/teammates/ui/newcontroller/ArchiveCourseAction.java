@@ -31,6 +31,9 @@ public class ArchiveCourseAction extends Action {
         try {
             // Set the archive status and status shown to user and admin
             logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
+            if (!isArchive) {
+                return new JsonResult("The course has been unarchived.", HttpStatus.SC_OK);
+            }
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException e) {
@@ -39,7 +42,7 @@ public class ArchiveCourseAction extends Action {
 
         return new JsonResult("The course has been archived. It will not appear in the home page any more. "
                 + "You can access archived courses from the 'Courses' tab.\n"
-                + "Go there to undo the archiving and bring the course back to the home page.");
+                + "Go there to undo the archiving and bring the course back to the home page.", HttpStatus.SC_OK);
     }
 
 }

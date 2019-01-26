@@ -94,7 +94,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.httpRequestService.post('/course', { courseid: courseId, archive: 'true' })
+    this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessage(this.router,
             '/web/instructor/home', resp.message);
