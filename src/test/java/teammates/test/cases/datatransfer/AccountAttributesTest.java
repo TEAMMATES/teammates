@@ -97,6 +97,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.googleId), actualAccount.googleId);
         assertEquals(SanitizationHelper.sanitizeName(expectedAccount.name), actualAccount.name);
+        assertEquals(SanitizationHelper.sanitizeEmail(expectedAccount.email), actualAccount.email);
         assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.institute), actualAccount.institute);
     }
 

@@ -187,6 +187,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);
+        this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
