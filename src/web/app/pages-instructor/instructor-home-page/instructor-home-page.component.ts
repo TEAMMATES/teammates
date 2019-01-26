@@ -45,7 +45,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   SortBy: typeof SortBy = SortBy;
 
   user: string = '';
-  studentSearch: string = '';
+  studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.CREATION_DATE;
 
   // data
@@ -79,7 +79,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   search(): void {
     this.router.navigate(['web/instructor/search'], {
-      queryParams: { studentSearchkey: this.studentSearch },
+      queryParams: { studentSearchkey: this.studentSearchkey },
     });
   }
 

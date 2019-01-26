@@ -43,7 +43,7 @@ export class InstructorSearchPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
       this.searchQuery = queryParams.studentSearchkey;
-      if (this.searchQuery !== '') {
+      if (this.searchQuery) {
         this.search();
       }
     });
