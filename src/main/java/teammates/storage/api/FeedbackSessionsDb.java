@@ -342,6 +342,23 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addStudentRespondents(emails, feedbackSession);
     }
 
+
+    public Instant softDeleteFeedbackSession(FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if (!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        feedbackSession.setDeletedTime();
+        updateFeedbackSession(feedbackSession);
+
+        return feedbackSession.getDeletedTime();
+    }
+
     // The objectify library does not support throwing checked exceptions inside transactions
     @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)

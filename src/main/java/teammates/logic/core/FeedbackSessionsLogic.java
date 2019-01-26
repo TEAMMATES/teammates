@@ -1445,10 +1445,8 @@ public final class FeedbackSessionsLogic {
     public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
 
-        return feedbackSession.getDeletedTime();
+        return fsDb.softDeleteFeedbackSession(feedbackSession);
     }
 
     /**
