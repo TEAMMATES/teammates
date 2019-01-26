@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
@@ -94,9 +95,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes expectedAccount = createAccountAttributesToSanitize();
         actualAccount.sanitizeForSaving();
 
-        assertEquals(expectedAccount.googleId, actualAccount.googleId);
-        assertEquals(expectedAccount.name, actualAccount.name);
-        assertEquals(expectedAccount.institute, actualAccount.institute);
+        assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.googleId), actualAccount.googleId);
+        assertEquals(SanitizationHelper.sanitizeName(expectedAccount.name), actualAccount.name);
+        assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.institute), actualAccount.institute);
     }
 
     @Test
@@ -239,12 +240,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
     private AccountAttributes createAccountAttributesToSanitize() {
 
         return AccountAttributes.builder()
-                .withGoogleId("googleId@gmail.com")
-                .withName("'name'")
-                .withInstitute("\\/")
-                .withEmail("&<email>&")
+                .withGoogleId("    google'Id@gmail.com\t")
+                .withName("'name'\n\n")
+                .withInstitute("\\\t\n/")
+                .withEmail("&<email>&\n")
                 .withIsInstructor(true)
-                .build();
+                .buildWithoutSanitizing();
 
     }
 
