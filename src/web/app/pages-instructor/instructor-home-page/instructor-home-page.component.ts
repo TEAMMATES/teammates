@@ -96,8 +96,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   archiveCourse(courseId: string): void {
     this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router,
-            '/web/instructor/home', resp.message);
+        this.loadCourses();
+        this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
@@ -109,8 +109,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   deleteCourse(courseId: string): void {
     this.httpRequestService.delete('/course', { courseid: courseId })
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router,
-            '/web/instructor/home', resp.message);
+        this.loadCourses();
+        this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
@@ -119,6 +119,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Loads courses of current instructor.
    */
   loadCourses(): void {
+    this.courseTabModels = [];
     this.httpRequestService.get('/courses').subscribe((courses: Courses) => {
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
@@ -135,7 +136,6 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
         this.loadFeedbackSessions(model);
       });
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
-    // getInstructorPrivilege();
   }
 
   /**
