@@ -1,14 +1,7 @@
 package teammates.ui.newcontroller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -43,37 +36,9 @@ public class AddInstructorCourseAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
-        /* Prepare data for the refreshed page after executing the adding action */
-        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<>();
-        List<CourseAttributes> activeCourses = new ArrayList<>();
-        List<CourseAttributes> archivedCourses = new ArrayList<>();
-
-        // Get list of InstructorAttributes that belong to the user.
-        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(userInfo.id);
-        for (InstructorAttributes instructor : instructorList) {
-            instructorsForCourses.put(instructor.courseId, instructor);
-        }
-
-        // Get corresponding courses of the instructors.
-        List<CourseAttributes> allCourses = logic.getCoursesForInstructor(instructorList);
-        List<CourseAttributes> softDeletedCourses = logic.getSoftDeletedCoursesForInstructors(instructorList);
-
-        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
-        for (CourseAttributes course : allCourses) {
-            if (archivedCourseIds.contains(course.getId())) {
-                archivedCourses.add(course);
-            } else {
-                activeCourses.add(course);
-            }
-        }
-
-        // Sort CourseDetailsBundle lists by course id
-        CourseAttributes.sortById(activeCourses);
-        CourseAttributes.sortById(archivedCourses);
-        CourseAttributes.sortById(softDeletedCourses);
-
-        String statusMessage = "The course has been added. Click <a href=\"/web/instructor/courses/enroll\">here</a> to add students to the course "
-                + "or click <a href=\"/web/instructor/courses/edit\">here</a> to add other instructors.<br>"
+        String statusMessage = "The course has been added. Click <a href=\"/web/instructor/courses/enroll?courseid="
+                + newCourseId + "\">here</a> to add students to the course or click "
+                + "<a href=\"/web/instructor/courses/edit?courseid=" + newCourseId + "\">here</a> to add other instructors.<br>"
                 + "If you don't see the course in the list below, please refresh the page after a few moments.";
         return new JsonResult(statusMessage);
     }

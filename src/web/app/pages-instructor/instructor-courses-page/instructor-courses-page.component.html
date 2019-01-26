@@ -67,28 +67,34 @@
             {{course.createdAt | date:'d MMM yyyy'}}
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-sections-{{course.id}}" routerLink="/web/instructor/courses">
+            <a (click)="getCourseStats(course.id)" id="course-sections-{{course.id}}"
+               routerLink="/web/instructor/courses">
               show
             </a>
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-teams-{{course.id}}" routerLink="/web/instructor/courses">
+            <a (click)="getCourseStats(course.id)" id="course-teams-{{course.id}}"
+               routerLink="/web/instructor/courses">
               show
             </a>
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-students-{{course.id}}" routerLink="/web/instructor/courses">
+            <a (click)="getCourseStats(course.id)" id="course-students-{{course.id}}"
+               routerLink="/web/instructor/courses">
               show
             </a>
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-unregistered-{{course.id}}" routerLink="/web/instructor/courses">
+            <a (click)="getCourseStats(course.id)" id="course-unregistered-{{course.id}}"
+               routerLink="/web/instructor/courses">
               show
             </a>
           </td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button" *ngIf="course.canModifyStudent"
-               ngbTooltip="Enroll student into the course" routerLink="/web/instructor/courses/enroll">
+               ngbTooltip="Enroll student into the course"
+               routerLink="/web/instructor/courses/enroll"
+               [queryParams]="{courseid: course.id}">
               Enroll
             </a>
             <a class="btn btn-light btn-sm btn-left disabled" type="button" *ngIf="!course.canModifyStudent">
@@ -96,16 +102,19 @@
             </a>
             <a class="btn btn-light btn-sm btn-left" type="button"
                ngbTooltip="View, edit and send invitation emails to the students in the course"
-               routerLink="/web/instructor/courses/details">
+               routerLink="/web/instructor/courses/details"
+               [queryParams]="{courseid: course.id}">
               View
             </a>
             <a class="btn btn-light btn-sm btn-left" type="button"
                ngbTooltip="Edit Course information and instructor list"
-               routerLink="/web/instructor/courses/edit">
+               routerLink="/web/instructor/courses/edit"
+               [queryParams]="{courseid: course.id}">
               Edit
             </a>
             <a class="btn btn-light btn-sm btn-left" type="button" (click)="onArchive(course.id)"
-               ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
+               ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still
+               access it from the 'Courses' tab)">
               Archive
             </a>
             <a class="btn btn-light btn-sm" type="button" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"
