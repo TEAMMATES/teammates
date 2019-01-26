@@ -7,6 +7,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
+/**
+ * Action: gets the stats of a course for the instructor.
+ */
 public class GetCourseStatsAction extends Action {
 
     @Override

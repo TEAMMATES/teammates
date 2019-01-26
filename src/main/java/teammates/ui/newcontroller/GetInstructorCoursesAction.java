@@ -10,7 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 
 /**
- * Action: gets all courses (active, archived and soft-deleted courses) for the instructor
+ * Action: gets all courses (active, archived and soft-deleted courses) for the instructor.
  */
 public class GetInstructorCoursesAction extends Action {
 

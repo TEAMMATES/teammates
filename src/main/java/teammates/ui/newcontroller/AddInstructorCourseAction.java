@@ -38,8 +38,8 @@ public class AddInstructorCourseAction extends Action {
 
         String statusMessage = "The course has been added. Click <a href=\"/web/instructor/courses/enroll?courseid="
                 + newCourseId + "\">here</a> to add students to the course or click "
-                + "<a href=\"/web/instructor/courses/edit?courseid=" + newCourseId + "\">here</a> to add other instructors.<br>"
-                + "If you don't see the course in the list below, please refresh the page after a few moments.";
+                + "<a href=\"/web/instructor/courses/edit?courseid=" + newCourseId + "\">here</a> to add other instructors."
+                + "<br>If you don't see the course in the list below, please refresh the page after a few moments.";
         return new JsonResult(statusMessage);
     }
 }

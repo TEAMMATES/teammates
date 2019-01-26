@@ -85,7 +85,8 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE, PUT, RestoreInstructorSoftDeletedCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE_ALL, PUT, RestoreAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE, DELETE, DeleteInstructorSoftDeletedCourseAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL, DELETE, DeleteAllInstructorSoftDeletedCoursesAction.class);
+        map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL, DELETE,
+                DeleteAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.COURSE_STATS, GET, GetCourseStatsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
         map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);

@@ -16,8 +16,8 @@ public class DeleteInstructorCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
-            return AuthType.LOGGED_IN;
-        }
+        return AuthType.LOGGED_IN;
+    }
 
     @Override
     public void checkSpecificAccessControl() {
@@ -40,9 +40,11 @@ public class DeleteInstructorCourseAction extends Action {
             logic.moveCourseToRecycleBin(idOfCourseToDelete);
 
             if (isRedirectedToHomePage()) {
-                statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the 'Courses' tab.";
+                statusMessage = "The course " + idOfCourseToDelete + " has been deleted. "
+                        + "You can restore it from the 'Courses' tab.";
             } else {
-                statusMessage = "The course " + idOfCourseToDelete + " has been deleted. You can restore it from the soft-deleted courses table below.";
+                statusMessage = "The course " + idOfCourseToDelete + " has been deleted. "
+                        + "You can restore it from the soft-deleted courses table below.";
             }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);

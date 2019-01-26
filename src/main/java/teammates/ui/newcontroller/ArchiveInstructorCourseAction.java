@@ -40,8 +40,8 @@ public class ArchiveInstructorCourseAction extends Action {
         if (isArchive) {
             if (isRedirectedToHomePage()) {
                 statusMessage = "The course " + idOfCourseToArchive + " has been archived. "
-                        + "It will not appear in the home page any more. You can access archived courses from the 'Courses' tab."
-                        + "<br>Go there to undo the archiving and bring the course back to the home page.";
+                        + "It will not appear in the home page any more. You can access archived courses from the "
+                        + "'Courses' tab.<br>Go there to undo the archiving and bring the course back to the home page.";
             } else {
                 statusMessage = "The course " + idOfCourseToArchive + " has been archived. "
                         + "It will not appear in the home page any more.";
