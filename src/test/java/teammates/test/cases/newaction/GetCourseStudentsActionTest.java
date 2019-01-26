@@ -130,11 +130,11 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
                 List<StudentAttributes> students = typicalBundle.getStudentsForTeam(course.getId(), section, team);
                 students.forEach(student -> {
                     StudentDetails studentDetails = new StudentDetails(student.name,
-                            student.email, student.getStudentStatus());
+                            student.email, student.getStudentStatus(), team, section, course.getId());
                     studentDetailsList.add(studentDetails);
                 });
 
-                teamDetails.add(new TeamDetails(team, studentDetailsList));
+                teamDetails.add(new TeamDetails(team, studentDetailsList, section, course.getId()));
             });
 
             sectionDetails.add(
@@ -144,7 +144,8 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
                         instructor.isAllowedForPrivilege(
                                 section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS),
                         instructor.isAllowedForPrivilege(
-                                section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)));
+                                section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
+                        course.getId()));
         });
 
         return new CourseDetails(course.getId(), course.getName(), course.createdAt, sectionDetails);

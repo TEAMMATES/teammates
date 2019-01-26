@@ -2,6 +2,7 @@ package teammates.ui.newcontroller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,12 +66,13 @@ public class GetCourseStudentsAction extends Action {
 
             List<SectionDetailsBundle> courseSectionDetails = logic.getSectionsForCourse(courseId);
             courseSectionDetails.forEach(section -> {
-                List<TeamDetails> teams = getTeamsForSection(section);
+                List<TeamDetails> teams = getTeamsForSection(courseId, section);
                 boolean isAllowedToViewStudents = instructor.isAllowedForPrivilege(
                         section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
                 boolean isAllowedToEditStudents = instructor.isAllowedForPrivilege(
                         section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-                sections.add(new SectionDetails(section.name, teams, isAllowedToViewStudents, isAllowedToEditStudents));
+                sections.add(new SectionDetails(
+                        section.name, teams, isAllowedToViewStudents, isAllowedToEditStudents, courseId));
             });
 
             return sections;
@@ -79,23 +81,24 @@ public class GetCourseStudentsAction extends Action {
         }
     }
 
-    private List<TeamDetails> getTeamsForSection(SectionDetailsBundle section) {
+    private List<TeamDetails> getTeamsForSection(String courseId, SectionDetailsBundle section) {
         List<TeamDetailsBundle> teamDetails = section.teams;
         List<TeamDetails> teams = new ArrayList<>();
 
         teamDetails.forEach(teamDetail -> {
-            List<StudentDetails> students = getStudentsForTeam(teamDetail);
-            teams.add(new TeamDetails(teamDetail.name, students));
+            List<StudentDetails> students = getStudentsForTeam(courseId, section.name, teamDetail);
+            teams.add(new TeamDetails(teamDetail.name, students, section.name, courseId));
         });
 
         return teams;
     }
 
-    private List<StudentDetails> getStudentsForTeam(TeamDetailsBundle team) {
+    private List<StudentDetails> getStudentsForTeam(String courseId, String sectionName, TeamDetailsBundle team) {
         List<StudentDetails> students = new ArrayList<>();
 
         team.students.forEach(student -> {
-            StudentDetails studentDetails = new StudentDetails(student.name, student.email, student.getStudentStatus());
+            StudentDetails studentDetails = new StudentDetails(
+                    student.name, student.email, student.getStudentStatus(), team.name, sectionName, courseId);
             students.add(studentDetails);
         });
 
@@ -139,7 +142,7 @@ public class GetCourseStudentsAction extends Action {
             this.createdAt = createdAt;
             this.sections = sections;
 
-            sections.sort((s1, s2) -> s1.getName().compareTo(s2.getName()));
+            this.sections.sort(Comparator.comparing(SectionDetails::getName));
         }
 
         public String getId() {
@@ -186,15 +189,17 @@ public class GetCourseStudentsAction extends Action {
         private final List<TeamDetails> teams;
         private final boolean isAllowedToViewStudents;
         private final boolean isAllowedToEditStudents;
+        private final String courseId;
 
-        public SectionDetails(String name, List<TeamDetails> teams,
-                              boolean isAllowedToViewStudents, boolean isAllowedToEditStudents) {
+        public SectionDetails(String name, List<TeamDetails> teams, boolean isAllowedToViewStudents,
+                              boolean isAllowedToEditStudents, String courseId) {
             this.name = name;
             this.teams = teams;
             this.isAllowedToViewStudents = isAllowedToViewStudents;
             this.isAllowedToEditStudents = isAllowedToEditStudents;
+            this.courseId = courseId;
 
-            this.teams.sort((t1, t2) -> t1.getName().compareTo(t2.getName()));
+            this.teams.sort(Comparator.comparing(TeamDetails::getName));
         }
 
         public String getName() {
@@ -213,6 +218,10 @@ public class GetCourseStudentsAction extends Action {
             return isAllowedToEditStudents;
         }
 
+        public String getCourseId() {
+            return courseId;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) {
@@ -224,12 +233,14 @@ public class GetCourseStudentsAction extends Action {
             SectionDetails that = (SectionDetails) o;
             return isAllowedToViewStudents == that.isAllowedToViewStudents
                     && isAllowedToEditStudents == that.isAllowedToEditStudents
-                    && Objects.equals(name, that.name);
+                    && Objects.equals(name, that.name)
+                    && Objects.equals(courseId, that.courseId);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, teams, isAllowedToViewStudents, isAllowedToEditStudents);
+
+            return Objects.hash(name, isAllowedToViewStudents, isAllowedToEditStudents, courseId);
         }
     }
 
@@ -239,12 +250,16 @@ public class GetCourseStudentsAction extends Action {
     public static class TeamDetails {
         private final String name;
         private final List<StudentDetails> students;
+        private final String section;
+        private final String courseId;
 
-        public TeamDetails(String name, List<StudentDetails> students) {
+        public TeamDetails(String name, List<StudentDetails> students, String section, String courseId) {
             this.name = name;
             this.students = students;
+            this.section = section;
+            this.courseId = courseId;
 
-            this.students.sort((s1, s2) -> s1.getName().compareTo(s2.getName()));
+            this.students.sort(Comparator.comparing(StudentDetails::getName));
         }
 
         public String getName() {
@@ -253,6 +268,14 @@ public class GetCourseStudentsAction extends Action {
 
         public List<StudentDetails> getStudents() {
             return students;
+        }
+
+        public String getSection() {
+            return section;
+        }
+
+        public String getCourseId() {
+            return courseId;
         }
 
         @Override
@@ -264,12 +287,15 @@ public class GetCourseStudentsAction extends Action {
                 return false;
             }
             TeamDetails that = (TeamDetails) o;
-            return Objects.equals(name, that.name);
+            return Objects.equals(name, that.name)
+                    && Objects.equals(section, that.section)
+                    && Objects.equals(courseId, that.courseId);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, students);
+
+            return Objects.hash(name, section, courseId);
         }
     }
 
@@ -280,11 +306,17 @@ public class GetCourseStudentsAction extends Action {
         private final String name;
         private final String email;
         private final String status;
+        private final String team;
+        private final String section;
+        private final String courseId;
 
-        public StudentDetails(String name, String email, String status) {
+        public StudentDetails(String name, String email, String status, String team, String section, String courseId) {
             this.name = name;
             this.email = email;
             this.status = status;
+            this.team = team;
+            this.section = section;
+            this.courseId = courseId;
         }
 
         public String getName() {
@@ -299,6 +331,18 @@ public class GetCourseStudentsAction extends Action {
             return status;
         }
 
+        public String getTeam() {
+            return team;
+        }
+
+        public String getSection() {
+            return section;
+        }
+
+        public String getCourseId() {
+            return courseId;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) {
@@ -308,15 +352,18 @@ public class GetCourseStudentsAction extends Action {
                 return false;
             }
             StudentDetails that = (StudentDetails) o;
-            return Objects.equals(name, that.name) && Objects.equals(email, that.email)
-                    && Objects.equals(status, that.status);
+            return Objects.equals(name, that.name)
+                    && Objects.equals(email, that.email)
+                    && Objects.equals(status, that.status)
+                    && Objects.equals(team, that.team)
+                    && Objects.equals(section, that.section)
+                    && Objects.equals(courseId, that.courseId);
         }
 
         @Override
         public int hashCode() {
 
-            return Objects.hash(name, email, status);
+            return Objects.hash(name, email, status, team, section, courseId);
         }
     }
-
 }
