@@ -172,7 +172,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes account = createValidAccountAttributesObject();
 
         String expectedBackUpIdentifierMessage = "Recently modified account::" + account.googleId;
-        assertEquals(expectedBackUpIdentifierMessage, account.getGoogleId());
+        assertEquals(expectedBackUpIdentifierMessage, account.getBackupIdentifier());
     }
 
     @Test
