@@ -47,11 +47,11 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     @Test
     public void testGetBackUpIdentifier() {
-        FeedbackResponseAttributes response = new FeedbackResponseAttributes();
-        response.setId("Valid-Response-id");
+        FeedbackResponseAttributes responseAttributes = new FeedbackResponseAttributes();
+        responseAttributes.setId("Valid-Response-id");
 
-        String expectedBackUpIdentifierMessage = "Recently modified feedback response::" + response.getId();
-        assertEquals(expectedBackUpIdentifierMessage, response.getBackupIdentifier());
+        String expectedBackUpIdentifierMessage = "Recently modified feedback response::" + responseAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, responseAttributes.getBackupIdentifier());
     }
 
 }

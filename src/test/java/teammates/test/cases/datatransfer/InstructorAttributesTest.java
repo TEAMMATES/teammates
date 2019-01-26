@@ -296,10 +296,10 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         String email = "valid@email.com";
         String expectedBackUpMessage = "Recently modified instructor::" + courseId + "::" + email;
 
-        InstructorAttributes instructor = InstructorAttributes
+        InstructorAttributes instructorAttributes = InstructorAttributes
                 .builder(googleId, courseId, name, email).build();
 
-        assertEquals(expectedBackUpMessage, instructor.getBackupIdentifier());
+        assertEquals(expectedBackUpMessage, instructorAttributes.getBackupIdentifier());
     }
 
 }
