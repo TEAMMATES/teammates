@@ -113,6 +113,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Function to change states of all courses.
    */
   toggleAllCoursesStateAtInput(defaultState: boolean): void {
+    this.statusMessageService.showWarningMessage(`Default state input at toggleAllCoursesStateAtInput: ${defaultState}`);
     this.courses.forEach((course: Course) => {
       if (course !== undefined) {
         this.toggleCourseStateAtInput(course, defaultState);
@@ -137,6 +138,25 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
+  * Function to change states of all sections present, regardless checked or unchecked.
+  */
+  toggleAllSectionsPresent(defaultState: boolean): void {
+    this.courses.forEach((course: Course) => {
+      if (course !== undefined) {
+        const courseDetails: CourseDetails | undefined = this.courseDetailsMap.get(course.id);
+        if (courseDetails !== undefined) {
+          const isCourseChecked: boolean | undefined = this.coursesStateMap.get(courseDetails.id);
+          if (isCourseChecked !== undefined && isCourseChecked === true) {
+            courseDetails.sections.forEach((section: SectionDetails) => {
+              this.toggleSectionState(courseDetails.id, section, defaultState);
+            });
+          }
+        }
+      }
+    });
+  }
+
+  /**
    * Function to change states of all teams.
    */
   toggleAllTeams(defaultState: boolean): void {
@@ -155,17 +175,93 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to change states of all students.
+   * Function to change states of all sections present, regardless checked or unchecked.
    */
-  toggleAllStudents(): void {
+  toggleAllTeamsPresent(defaultState: boolean): void {
+    this.statusMessageService.showWarningMessage(`at toggleAllTeamsPresent the defaultState is set to ${defaultState}`);
+
     this.courses.forEach((course: Course) => {
       if (course !== undefined) {
         const courseDetails: CourseDetails | undefined = this.courseDetailsMap.get(course.id);
         if (courseDetails !== undefined) {
+          const isCourseChecked: boolean | undefined = this.coursesStateMap.get(courseDetails.id);
+          if (isCourseChecked !== undefined && isCourseChecked === true) {
+            courseDetails.sections.forEach((section: SectionDetails) => {
+              const isSectionChecked : boolean | undefined =
+                  this.sectionsStateMap.get(this.getSectionsStateMapKey(courseDetails.id, section));
+              if (isSectionChecked !== undefined && isSectionChecked === true) {
+                section.teams.forEach((team: TeamDetails) => {
+                  this.statusMessageService.showWarningMessage(`at toggleAllTeamsPresent setting the team ${team.name} to ${defaultState}`);
+                  this.toggleTeamState(courseDetails.id, section.name, team, defaultState);
+                });
+              }
+            });
+          }
+        }
+      }
+    });
+  }
+  /**
+   * Function to change states of all students.
+   */
+  toggleAllStudentsPresent(defaultState: boolean): void {
+    this.courses.forEach((course: Course) => {
+      if (course !== undefined) {
+        const courseDetails: CourseDetails | undefined = this.courseDetailsMap.get(course.id);
+        if (courseDetails !== undefined) {
+          const isCourseChecked: boolean | undefined = this.coursesStateMap.get(courseDetails.id);
+          if (isCourseChecked !== undefined && isCourseChecked === true) {
+            courseDetails.sections.forEach((section: SectionDetails) => {
+              const isSectionChecked : boolean | undefined =
+                  this.sectionsStateMap.get(this.getSectionsStateMapKey(courseDetails.id, section));
+              if (isSectionChecked !== undefined && isSectionChecked === true) {
+                section.teams.forEach((team: TeamDetails) => {
+                  const isTeamChecked : boolean | undefined =
+                      this.teamsStateMap.get(this.getTeamsStateMapKey(courseDetails.id, section.name, team));
+                  if (isTeamChecked !== undefined && isTeamChecked === true) {
+                    team.students.forEach((student: StudentDetails) => {
+                      this.toggleStudentState(student, defaultState);
+                    });
+                  }
+                });
+              }
+            });
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Function to change states of all students.
+   */
+  toggleAllStudents(defaultState: boolean): void {
+    this.courses.forEach((course: Course) => {
+      if (course !== undefined) {
+        const courseDetails: CourseDetails | undefined = this.courseDetailsMap.get(course.id);
+        if (courseDetails !== undefined) {
+          const isCourseChecked: boolean | undefined = this.coursesStateMap.get(courseDetails.id);
+          if (isCourseChecked !== undefined && isCourseChecked === true) {
+            courseDetails.sections.forEach((section: SectionDetails) => {
+              const isSectionChecked : boolean | undefined =
+                  this.sectionsStateMap.get(this.getSectionsStateMapKey(courseDetails.id, section));
+              if (isSectionChecked !== undefined && isSectionChecked === true) {
+                section.teams.forEach((team: TeamDetails) => {
+                  const isTeamChecked : boolean | undefined =
+                      this.teamsStateMap.get(this.getTeamsStateMapKey(courseDetails.id, section.name, team));
+                  if (isTeamChecked !== undefined && isTeamChecked === true) {
+                    team.students.forEach((student: StudentDetails) => {
+                      this.toggleStudentState(student);
+                    });
+                  }
+                });
+              }
+            });
+          }
           courseDetails.sections.forEach((section: SectionDetails) => {
             section.teams.forEach((team: TeamDetails) => {
               team.students.forEach((student: StudentDetails) => {
-                this.toggleStudentState(student);
+                this.toggleStudentState(student, defaultState);
               });
             });
           });
@@ -178,7 +274,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Function to trigger getting CourseDetails data for a course from backend.
    */
   toggleCourseStateAtInput(course: Course, designatedState?: boolean): void {
-    let recordedState: boolean = this.coursesStateMap.get(course.id);
+    let recordedState: boolean | undefined = this.coursesStateMap.get(course.id);
     if (recordedState === null || recordedState === undefined) {
       recordedState = true;
     }
@@ -230,7 +326,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   toggleCourseState(course: CourseDetails, designatedState?: boolean): void {
     const key: string = this.getCoursesStateMapKey(course);
 
-    let recordedState: boolean = this.coursesStateMap.get(key);
+    let recordedState: boolean | undefined = this.coursesStateMap.get(key);
     if (recordedState === null || recordedState === undefined) {
       recordedState = true;
     }
@@ -251,7 +347,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   toggleSectionState(courseId: string, section: SectionDetails, designatedState?: boolean): void {
     const key: string = this.getSectionsStateMapKey(courseId, section);
 
-    let recordedState: boolean = this.sectionsStateMap.get(key);
+    let recordedState: boolean | undefined = this.sectionsStateMap.get(key);
     if (recordedState === null || recordedState === undefined) {
       recordedState = true;
     }
@@ -272,7 +368,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   toggleTeamState(courseId: string, sectionName: string, team: TeamDetails, designatedState?: boolean): void {
     const key: string = this.getTeamsStateMapKey(courseId, sectionName, team);
 
-    let recordedState: boolean = this.teamsStateMap.get(key);
+    let recordedState: boolean | undefined = this.teamsStateMap.get(key);
     if (recordedState === null || recordedState === undefined) {
       recordedState = true;
     }
@@ -293,7 +389,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   toggleStudentState(student: StudentDetails, designatedState?: boolean): void {
     const key: string = this.getStudentsStateMapKey(student);
 
-    let recordedState: boolean = this.studentsStateMap.get(key);
+    let recordedState: boolean | undefined = this.studentsStateMap.get(key);
     if (recordedState === null || recordedState === undefined) {
       recordedState = true;
     }
@@ -311,11 +407,6 @@ export class InstructorStudentListPageComponent implements OnInit {
    */
   getAllCoursesState(): boolean {
     const state: boolean = this.getAllStatesOf('Course');
-    this.statusMessageService.showWarningMessage(`allStatesOfCourse: ${typeof state}`);
-    if (typeof state === 'object') {
-      this.statusMessageService.showErrorMessage(state.value);
-    }
-
     return state;
   }
 
@@ -323,6 +414,89 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Function to get all the states of sections.
    */
   getAllSectionsState(): boolean {
+    return this.getAllStatesOf('SectionDetails');
+  }
+
+  /**
+   * Function to get all the states of courses that are present.
+   */
+  getAllPresentCoursesState(): boolean {
+    const state: boolean = this.getAllStatesOf('Course');
+    return state;
+  }
+
+  /**
+   * Function to get all the states of sections that are present.
+   */
+  getAllSectionsStatePresent(): boolean {
+    // at initialization phase, no data in the maps and hence nothing should be shown
+    if (this.coursesStateMap.size === 0 || this.sectionsStateMap.size === 0) {
+      return true;
+    }
+
+    this.coursesStateMap.forEach((courseState: boolean, courseId: string) => {
+      if (courseState) {
+        const courseDetails: CourseDetails | undefined = this.courseDetailsMap.get(courseId);
+        if (courseDetails !== undefined) {
+          courseDetails.sections.forEach((section: SectionDetails) => {
+            const sectionState: boolean | undefined = this.sectionsStateMap.get(
+                this.getSectionsStateMapKey(courseId, section));
+            if (sectionState === undefined || sectionState) {
+              return true;
+            }
+          })
+        }
+      }
+    })
+    // get the boolean valies of all sections, and if one of them is hidden i.e. true, then return true.
+    // for undefined value treat as true.
+    return false;
+  }
+
+  /**
+   * Function to get all the states of teams that are present.
+   */
+  getAllTeamsStatePresent(): boolean {
+    // at initialization phase, no data in the maps and hence nothing should be shown
+    if (this.coursesStateMap.size === 0 || this.sectionsStateMap.size === 0 || this.teamsStateMap.size === 0) {
+      this.statusMessageService.showErrorMessage(`either one of the maps is empty! returning ture!`);
+      this.statusMessageService.showWarningMessage(`${this.coursesStateMap.size} - ${this.sectionsStateMap.size} - ${this.teamsStateMap.size}`);
+      return true;
+    }
+
+    this.coursesStateMap.forEach((courseState: boolean, courseId: string) => {
+      if (courseState) {
+        const courseDetails: CourseDetails | undefined = this.courseDetailsMap.get(courseId);
+        if (courseDetails !== undefined) {
+          courseDetails.sections.forEach((section: SectionDetails) => {
+            const sectionState: boolean | undefined = this.sectionsStateMap.get(
+                this.getSectionsStateMapKey(courseId, section));
+            if (sectionState !== undefined && !sectionState) {
+              section.teams.forEach((team: TeamDetails) => {
+                const teamState: boolean | undefined = this.teamsStateMap.get(
+                    this.getTeamsStateMapKey(courseId, section.name, team));
+                if (teamState === undefined || teamState) {
+                  this.statusMessageService.showSuccessMessage(`finally I reached having a team present unchecked! Team: ${team.name}`);
+                  return true;
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+    // get the boolean valies of all sections, and if one of them is hidden i.e. true, then return true.
+    // for undefined value treat as true.
+    return false;
+  }
+
+  /**
+   * Function to get all the states of teams that are present.
+   */
+  getAllStudentsStatePresent(): boolean {
+    // get all checked teams
+    // get the boolean valies of all students, and if one of them is hidden i.e. true, then return true.
+    // for undefined value treat as true.
     return this.getAllStatesOf('SectionDetails');
   }
 
@@ -349,7 +523,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     switch (itemType) {
       case 'Course':
       case 'CourseDetails':
-        mapOfAllStates = this.courseDetailsMap;
+        mapOfAllStates = this.coursesStateMap;
         break;
       case 'SectionDetails':
         mapOfAllStates = this.sectionsStateMap;
@@ -373,7 +547,7 @@ export class InstructorStudentListPageComponent implements OnInit {
       });
     }
 
-    if (state === true) {
+    if (state) {
       return true;
     }
 
@@ -426,6 +600,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
     return studentsToHide;
   }
+
   /*------------------------------Functions to formulate state map keys from item-------------------------------*/
   /**
    * Function to formulate state map keys from CourseDetails.
@@ -460,7 +635,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Function to formulate data for student list.
    */
   getStudentListSectionDataForCourse(courseId: string): StudentListSectionData[] {
-    const data: StudentListSectionData[] = this.courseStudentListSectionDataMap.get(courseId);
+    const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap.get(courseId);
     if (data === undefined) {
       return [];
     }

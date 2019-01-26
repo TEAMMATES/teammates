@@ -20,11 +20,11 @@
 
           <div class="col-sm-3 float-left">
             <ng-container *ngIf="courseDetailsMap.values()">
+              <div class="checkbox-outer-div">
+                <input type="checkbox" (change)="toggleAllSectionsPresent(!getAllSectionsStatePresent())" [checked]="!getAllSectionsStatePresent()">
+                <label class="ml-1"> Select All Sections </label>
+              </div>
               <ng-container *ngFor="let courseDetails of courseDetailsMap.values()">
-                <div class="checkbox-outer-div">
-                  <input type="checkbox" (change)="toggleAllSections(!getAllSectionsState())" [checked]="!getAllSectionsState()">
-                  <label class="ml-1"> Select All Sections </label>
-                </div>
                 <div class="checkbox-outer-div" *ngFor="let section of courseDetails.sections" [hidden]="getCourseState(courseDetails)">
                   <input type="checkbox"
                          (change)="toggleSectionState(courseDetails.id, section)"
@@ -39,9 +39,13 @@
 
           <div class="col-sm-3 float-left">
             <ng-container *ngIf="courseDetailsMap.values()">
+              <div class="checkbox-outer-div">
+                <input type="checkbox" (change)="toggleAllTeamsPresent(!getAllTeamsStatePresent())" [checked]="!getAllTeamsStatePresent()">
+                <label class="ml-1"> Select All Teams </label>
+              </div>
               <ng-container *ngFor="let courseDetails of courseDetailsMap.values()">
                 <ng-container *ngFor="let section of courseDetails.sections">
-                  <div class="checkbox-outer-div" *ngFor="let team of section.teams" [hidden]="getCourseState(courseDetails)" >
+                  <div class="checkbox-outer-div" *ngFor="let team of section.teams" [hidden]="getSectionState(courseDetails.id, section)" >
                     <input type="checkbox"
                            (change)="toggleTeamState(courseDetails.id, section.name, team)"
                            [checked]="!getTeamState(courseDetails.id, section.name, team)">
@@ -56,10 +60,14 @@
 
           <div class="col-sm-3 float-left">
             <ng-container *ngIf="courseDetailsMap.values()">
+              <div class="checkbox-outer-div">
+                <input type="checkbox" (change)="toggleAllStudents(!getAllStudentsState())" [checked]="!getAllStudentsState()">
+                <label class="ml-1"> Select All Students </label>
+              </div>
               <ng-container *ngFor="let courseDetails of courseDetailsMap.values()">
                 <ng-container *ngFor="let section of courseDetails.sections">
                   <ng-container *ngFor="let team of section.teams">
-                    <div class="checkbox-outer-div" *ngFor="let student of team.students" [hidden]="getCourseState(courseDetails)">
+                    <div class="checkbox-outer-div" *ngFor="let student of team.students" [hidden]="getTeamState(courseDetails.id, section.name, team)">
                       <input type="checkbox"
                              (change)="toggleStudentState(student)"
                              [checked]="!getStudentState(student)">
