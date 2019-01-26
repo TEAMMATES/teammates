@@ -90,7 +90,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     public void testGetEntityTypeAsString() {
         assertEquals("StudentProfile", profile.getEntityTypeAsString());
     }
-    
+
     @Test
     public void testGetIdentificationString() {
         assertEquals(profile.googleId, profile.getIdentificationString());
