@@ -3,6 +3,22 @@
   <div class="card">
     <div class="card-body fill-plain">
       <h1>{{editForm.get('studentshortname').value}}</h1>
+      <div class="form-group row">
+        <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer">
+          <img
+              id="profilePic"
+              src="{{ getProfilePictureUrl(student.studentProfile.pictureKey) }}"
+              class="profile-pic">
+        </div>
+        <div class="col-xs-6 col-sm-5 col-md-3" ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB)">
+          <button
+              id="uploadEditPhoto"
+              class="btn btn-primary"
+              type="button">
+            Upload/Edit Photo
+          </button>
+        </div>
+      </div>
       <form [formGroup]="editForm"
           (ngSubmit)="onSubmit(confirmEditProfile)">
         <div class="form-group" ngbTooltip='This is the name you prefer to be called by'>

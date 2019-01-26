@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
 import { AuthInfo } from '../../auth-info';
@@ -48,6 +49,8 @@ export class StudentProfilePageComponent implements OnInit {
   nationalities?: string[];
   genders: string[] = ['male', 'female', 'other'];
 
+  private backendUrl: string = environment.backendUrl;
+
   constructor(private route: ActivatedRoute,
               private ngbModal: NgbModal,
               private httpRequestService: HttpRequestService,
@@ -62,6 +65,16 @@ export class StudentProfilePageComponent implements OnInit {
       this.user = queryParams.user;
       this.loadStudentProfile();
     });
+  }
+
+  /**
+   * Construct the url for the profile picture from the given key.
+   */
+  getProfilePictureUrl(pictureKey: string): string {
+    if (!pictureKey) {
+      return '/assets/images/profile_picture_default.png';
+    }
+    return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
   }
 
   /**
