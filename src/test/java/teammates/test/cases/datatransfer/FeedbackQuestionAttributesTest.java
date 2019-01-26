@@ -505,10 +505,10 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetBackUpIdentifier() {
-        FeedbackQuestionAttributes question = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes questionAttributes = getNewFeedbackQuestionAttributes();
 
-        String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + question.getId();
-        assertEquals(expectedBackUpIdentifierMessage, question.getBackupIdentifier());
+        String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + questionAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
     }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {

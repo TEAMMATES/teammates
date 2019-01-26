@@ -176,6 +176,25 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
     }
 
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
+                .builder("newFeedbackSessionName", "course", "email")
+                .withInstructions("default instructions")
+                .withCreatedTime(Instant.now())
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
+                .withTimeZone(ZoneId.of("Asia/Singapore")).withGracePeriodMinutes(0)
+                .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
+                .build();
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback session::"
+                + sessionAttributes.getCourseId() + "::" + sessionAttributes.getFeedbackSessionName();
+        assertEquals(expectedBackUpIdentifierMessage, sessionAttributes.getBackupIdentifier());
+    }
+
     private List<String> buildExpectedErrorMessages() {
         String feedbackSessionNameError = "The field 'feedback session name' should not be empty. The value of 'feedback "
                 + "session name' field should be no longer than 38 characters.";
