@@ -19,6 +19,10 @@ import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
+
+    private static final String FEEDBACK_QUESTION_BACKUP_LOG_MSG = "Recently modified feedback question::";
+    private static final String ATTRIBUTE_NAME = "Feedback Question";
+
     public String feedbackSessionName;
     public String courseId;
     /**
@@ -245,12 +249,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getEntityTypeAsString() {
-        return "Feedback Question";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return FEEDBACK_QUESTION_BACKUP_LOG_MSG + getId();
     }
 
     @Override
