@@ -20,7 +20,7 @@ import teammates.ui.newcontroller.PutStudentProfileAction;
 public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfileAction> {
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.STUDENT_PROFILE_UPDATE;
+        return Const.ResourceURIs.STUDENT_PROFILE;
     }
 
     @Override

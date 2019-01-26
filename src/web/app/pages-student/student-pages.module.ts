@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Intent } from '../Intent';
@@ -18,6 +19,7 @@ import { StudentHomePageComponent } from './student-home-page/student-home-page.
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
 
 import { Pipes } from '../pipes/pipes.module';
+import { GenderFormatPipe } from './student-profile-page/student-profile-gender.pipe';
 
 const routes: Routes = [
   {
@@ -80,12 +82,14 @@ const routes: Routes = [
     StudentHelpPageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
     StudentHomePageComponent,
     StudentProfilePageComponent,
     StudentCourseDetailsPageComponent,
+    GenderFormatPipe,
   ],
 })
 export class StudentPagesModule {}
