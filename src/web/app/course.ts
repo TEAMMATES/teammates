@@ -4,6 +4,7 @@
 export interface Course {
   courseId: string;
   courseName: string;
+  creationDate: string;
   timeZone: string;
 }
 
