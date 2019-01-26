@@ -342,8 +342,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addStudentRespondents(emails, feedbackSession);
     }
 
-    public Instant softDeleteFeedbackSession(FeedbackSessionAttributes feedbackSession)
+    /**
+     * Soft-deletes a specific feedback session to Recycle Bin.
+     * @return Soft-deletion time of the feedback session.
+     */
+    public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = getFeedbackSession(courseId, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
 
         feedbackSession.sanitizeForSaving();
@@ -356,6 +361,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         updateFeedbackSession(feedbackSession);
 
         return feedbackSession.getDeletedTime();
+    }
+
+    public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
+        feedbackSession.resetDeletedTime();
+        updateFeedbackSession(feedbackSession);
     }
 
     // The objectify library does not support throwing checked exceptions inside transactions
