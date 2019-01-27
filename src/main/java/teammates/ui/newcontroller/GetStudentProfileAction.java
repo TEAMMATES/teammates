@@ -26,8 +26,9 @@ public class GetStudentProfileAction extends Action {
     public ActionResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
 
-        if (!studentId.equals(userInfo.id) && !"admin.user".equals(userInfo.id)) {
-            return new JsonResult("You are not authorized to view this student's profile.", HttpStatus.SC_FORBIDDEN);
+        if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
+            return new JsonResult("You are not authorized to view this student's profile.",
+                    HttpStatus.SC_FORBIDDEN);
         }
 
         StudentProfileAttributes studentProfile = logic.getStudentProfile(studentId);

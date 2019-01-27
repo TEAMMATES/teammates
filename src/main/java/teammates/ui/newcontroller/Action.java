@@ -68,6 +68,10 @@ public abstract class Action {
         this.emailSender = emailSender;
     }
 
+    public boolean isMasqueradeMode() {
+        return userInfo.isAdmin && authType == AuthType.MASQUERADE;
+    }
+
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */

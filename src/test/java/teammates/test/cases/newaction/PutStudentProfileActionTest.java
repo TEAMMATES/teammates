@@ -145,12 +145,25 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
 
-        String[] submissionParams = createValidParamsForProfile(student.googleId);
+        String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
 
         PutStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
+    }
+
+    private String[] createValidParamsForMasqueradeMode(String googleId) {
+        return new String[] {
+                Const.ParamsNames.STUDENT_ID, googleId,
+                Const.ParamsNames.USER_ID, googleId,
+                Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
+                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
+                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
+                Const.ParamsNames.STUDENT_NATIONALITY, "American",
+                Const.ParamsNames.STUDENT_GENDER, "  other   ",
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
+        };
     }
 
     private String[] createValidParamsForProfile(String googleId) {

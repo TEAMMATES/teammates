@@ -87,7 +87,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentProfileAttributes student1InCourse1Profile = typicalBundle.profiles.get("student1InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_ID, student.googleId
+                Const.ParamsNames.STUDENT_ID, student.googleId,
+                Const.ParamsNames.USER_ID, student.googleId,
         };
 
         GetStudentProfileAction action = getAction(submissionParams);
