@@ -120,14 +120,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 
-        responseToUpdate.responseMetaData = "Updated Response";
+        responseToUpdate.setResponseAnswer("Updated Response");
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = "Updated Response";
+        responseToUpdate.setResponseAnswer("Updated Response");
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
@@ -147,7 +147,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         responseToUpdate.giverSection,
                         "student3InCourse1@gmail.tmt",
                         responseToUpdate.recipientSection,
-                        responseToUpdate.responseMetaData);
+                        responseToUpdate.getSerializedFeedbackResponseDetail());
 
         frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
 
@@ -496,7 +496,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         "Section 1",
                         "nullRecipient@gmail.tmt",
                         "Section 1",
-                        existingResponse.responseMetaData);
+                        existingResponse.getSerializedFeedbackResponseDetail());
 
         frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");

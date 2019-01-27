@@ -47,12 +47,12 @@ public final class DataBundleRegenerator {
     }
 
     private static void fixResponse(FeedbackResponseAttributes response) {
-        String responseValue = response.responseMetaData;
+        String responseValue = response.getSerializedFeedbackResponseDetail();
         try {
             JSONObject responseJson = maintainKeyOrder(new JSONObject(responseValue));
-            response.responseMetaData = responseJson.toString();
+            response.setResponseAnswer(responseJson.toString());
         } catch (JSONException e) {
-            response.responseMetaData = responseValue;
+            response.setResponseAnswer(responseValue);
         }
     }
 
