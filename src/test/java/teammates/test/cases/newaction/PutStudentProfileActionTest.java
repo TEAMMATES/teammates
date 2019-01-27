@@ -73,7 +73,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         SanitizationHelper.sanitizeForHtml(submissionParams[9])));
 
-        assertEquals(String.join("\n", expectedErrorMessages), invalidOutput.getMessage());
+        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
 
         ______TS("Failure case: invalid parameters with attempted script injection");
 
@@ -112,7 +112,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
                 String.format(FieldValidator.GENDER_ERROR_MESSAGE,
                         SanitizationHelper.sanitizeForHtml(submissionParams[11])));
 
-        assertEquals(String.join("\n", expectedErrorMessages), invalidOutput.getMessage());
+        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
     }
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
