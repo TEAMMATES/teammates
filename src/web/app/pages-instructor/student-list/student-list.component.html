@@ -61,6 +61,31 @@
           routerLink: '/web/instructor/courses/student/edit',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
+        <ng-container *ngIf="enableRemindButton">
+          <ng-container *ngIf="student.status == 'Yet to join'">
+            <button class="btn btn-secondary btn-sm mr-2" *ngIf="section.isAllowedToModifyStudent"
+              ngbTooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
+              + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
+               (click)="openModal(remindModal)">Send Invite</button>
+            <button class="btn btn-secondary btn-sm mr-2 disabled mouse-hover-only" *ngIf="!section.isAllowedToModifyStudent"
+              ngbTooltip="'You do not have the permissions to access this feature'"></button>
+          </ng-container>
+        </ng-container>
+        <ng-template #remindModal let-modal>
+          <div class="modal-header alert-info">
+            <h4 class="modal-title"><span class="fa fa-info-circle"></span> Confirm sending join requests</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
+          </div>
+          <div class="modal-body">
+            Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students
+            at the opening time of each session. Send a join request to {{student.email}} anyway?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">OK</button>
+          </div>
+        </ng-template>
         <button class="btn btn-secondary btn-sm mr-2"
           [ngClass]="{'disabled mouse-hover-only': !section.isAllowedToModifyStudent}"
           [ngbTooltip]="section.isAllowedToModifyStudent
@@ -80,7 +105,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close(student.email)">Ok</button>
+            <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Ok</button>
           </div>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
@@ -88,7 +113,7 @@
           tooltip: 'View all data about this student',
           name: 'All Records',
           routerLink: '/web/instructor/students/records',
-          queryParams: {studentemail: student.email}
+          queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
       </td>
     </tr></ng-container>

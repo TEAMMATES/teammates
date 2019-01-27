@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.newcontroller.GetSessionResponseStatsAction;
@@ -28,9 +29,8 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     @Override
     @Test
     protected void testExecute() {
-
-        // TODO login as instructor when the access control is supported
-        loginAsAdmin();
+        InstructorAttributes instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructorAttributes.getGoogleId());
 
         ______TS("typical: instructor accesses feedback stats of his/her course");
 
@@ -67,7 +67,17 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        ______TS("accessible for admin");
+        verifyAccessibleForAdmin();
+
+
+        ______TS("accessible for authenticated instructor");
+        FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

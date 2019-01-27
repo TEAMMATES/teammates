@@ -3,6 +3,7 @@ import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { FeedbackSessionStats } from '../../feedback-session';
 import { ErrorMessageOutput } from '../../message-output';
 
 interface OngoingSession {
@@ -23,11 +24,6 @@ interface OngoingSessionsData {
   totalAwaitingSessions: number;
   totalInstitutes: number;
   sessions: { [key: string]: OngoingSession[] };
-}
-
-interface FeedbackSessionStats {
-  submittedTotal: number;
-  expectedTotal: number;
 }
 
 /**

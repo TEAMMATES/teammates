@@ -1,5 +1,8 @@
 package teammates.ui.newcontroller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 
 /**
@@ -13,11 +16,13 @@ public class CourseInfo {
     public static class CourseResponse extends ActionResult.ActionOutput {
         private final String courseId;
         private final String courseName;
+        private final String creationDate;
         private final String timeZone;
 
         public CourseResponse(CourseAttributes courseAttributes) {
             this.courseId = courseAttributes.getId();
             this.courseName = courseAttributes.getName();
+            this.creationDate = courseAttributes.getCreatedAtDateString();
             this.timeZone = courseAttributes.getTimeZone().getId();
         }
 
@@ -29,8 +34,27 @@ public class CourseInfo {
             return courseName;
         }
 
+        public String getCreationDate() {
+            return creationDate;
+        }
+
         public String getTimeZone() {
             return timeZone;
+        }
+    }
+
+    /**
+     * Response of a list of courses.
+     */
+    public static class CoursesResponse extends ActionResult.ActionOutput {
+        private final List<CourseResponse> courses;
+
+        public CoursesResponse(List<CourseAttributes> courseAttributesList) {
+            courses = courseAttributesList.stream().map(CourseResponse::new).collect(Collectors.toList());
+        }
+
+        public List<CourseResponse> getCourses() {
+            return courses;
         }
     }
 }

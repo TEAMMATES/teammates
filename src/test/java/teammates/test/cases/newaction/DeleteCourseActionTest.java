@@ -20,7 +20,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_DELETE;
+        return Const.ResourceURIs.COURSE;
     }
 
     @Override
@@ -44,16 +44,15 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
 
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        assertTrue(CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
         DeleteCourseAction deleteAction = getAction(submissionParams);
-        JsonResult r = getJsonResult(deleteAction);
+        JsonResult result = getJsonResult(deleteAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) result.getOutput();
         assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 
@@ -70,11 +69,11 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         };
 
         deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        r = getJsonResult(deleteAction);
+        result = getJsonResult(deleteAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) result.getOutput();
         assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 

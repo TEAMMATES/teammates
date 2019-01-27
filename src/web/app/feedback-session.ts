@@ -1,4 +1,16 @@
 /**
+ * The maximum length of the feedback session name.
+ */
+export const FEEDBACK_SESSION_NAME_MAX_LENGTH: number = 38;
+
+/**
+ * A list of feedback session.
+ */
+export interface FeedbackSessions {
+  feedbackSessions: FeedbackSession[];
+}
+
+/**
  * Feedback Session.
  */
 export interface FeedbackSession {
@@ -12,7 +24,7 @@ export interface FeedbackSession {
   gracePeriod: number;
 
   submissionStatus: FeedbackSessionSubmissionStatus;
-  publishStatus: string;
+  publishStatus: FeedbackSessionPublishStatus;
 
   sessionVisibleSetting: SessionVisibleSetting;
   customSessionVisibleTimestamp?: number;
@@ -22,6 +34,9 @@ export interface FeedbackSession {
 
   isClosingEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;
+
+  createdAtTimestamp: number;
+  deletedAtTimestamp?: number;
 }
 
 /**
@@ -88,4 +103,28 @@ export enum FeedbackSessionSubmissionStatus {
    * Feedback session is closed for submission.
    */
   CLOSED = 'CLOSED',
+}
+
+/**
+ * Represents the publish status of the a feedback session.
+ */
+export enum FeedbackSessionPublishStatus {
+
+  /**
+   * Feedback session is published.
+   */
+  PUBLISHED = 'PUBLISHED',
+
+  /**
+   * Feedback session is not published.
+   */
+  NOT_PUBLISHED = 'NOT_PUBLISHED',
+}
+
+/**
+ * The submission stats of a feedback session
+ */
+export interface FeedbackSessionStats {
+  submittedTotal: number;
+  expectedTotal: number;
 }

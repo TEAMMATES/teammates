@@ -25,14 +25,6 @@ import {
 } from '../common/instructor';
 
 import {
-    bindUncommonSettingsEvents,
-    formatResponsesVisibilityGroup,
-    formatSessionVisibilityGroup,
-    showUncommonPanelsIfNotInDefaultValues,
-    updateUncommonSettingsInfo,
-} from '../common/instructorFeedbacks';
-
-import {
     prepareRemindModal,
 } from '../common/remindModal';
 
@@ -61,30 +53,6 @@ const DISPLAY_FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to b
 const DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 
-/**
- * To be run on page finish loading. This will fill the start date and
- * start time inputs based on the client's time.
- *
- * The default values will not be set if the form was submitted previously and
- * failed validation.
- */
-function selectDefaultStartDateTime() {
-    const isFormSubmittedPreviously = $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).data('timeZone');
-    if (isFormSubmittedPreviously) {
-        return;
-    }
-
-    const now = new Date();
-
-    /*
-     * A workaround to hide the datepicker which opens up at the bottom of the page
-     * when setting the start date using the datepicker.
-     */
-    $('#ui-datepicker-div').css('display', 'none');
-
-    $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
-    $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);
-}
 
 function bindCopyButton() {
     $('#button_copy').on('click', (e) => {
@@ -189,33 +157,6 @@ function bindEventsAfterAjax() {
     setupFsCopyModal();
 }
 
-function escapeXml(unsafe) {
-    return (unsafe || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-}
-
-function updateCourseNameAndTimeZoneFromSelection() {
-    const selectedCourseId = $(`#${ParamsNames.COURSE_ID}`).val();
-    if (!selectedCourseId) {
-        return;
-    }
-    const selectedCourseData = $('.course-attributes-data').data(selectedCourseId);
-    $(`#${ParamsNames.COURSE_NAME}`).html(escapeXml(selectedCourseData.name));
-    $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).html(selectedCourseData.timeZone);
-}
-
-function initializeCourseName() {
-    $('.course-attributes-data').each((idx, obj) => {
-        const $obj = $(obj);
-        $('.course-attributes-data').data(obj.id, { name: $obj.data('name'), timeZone: $obj.data('timeZone') });
-    });
-    updateCourseNameAndTimeZoneFromSelection();
-}
-
-function bindSelectField() {
-    $(`#${ParamsNames.COURSE_ID}`).change(updateCourseNameAndTimeZoneFromSelection);
-}
 
 const ajaxRequest = function (e) {
     e.preventDefault();
@@ -285,23 +226,12 @@ function bindCollapseEvents() {
 }
 
 function readyFeedbackPage() {
-    formatSessionVisibilityGroup();
-    formatResponsesVisibilityGroup();
-
-    selectDefaultStartDateTime();
     loadSessionsByAjax();
-    bindUncommonSettingsEvents();
 
     bindDeleteButtons();
     bindRemindButtons();
     bindPublishButtons();
     bindUnpublishButtons();
-
-    initializeCourseName();
-    bindSelectField();
-
-    updateUncommonSettingsInfo();
-    showUncommonPanelsIfNotInDefaultValues();
 
     bindCollapseEvents();
 }

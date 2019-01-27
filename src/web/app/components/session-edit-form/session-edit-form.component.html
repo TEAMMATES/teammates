@@ -8,8 +8,8 @@
             <h4 class="text-center">Create new </h4>
           </div>
           <div class="col-7">
-            <select class="form-control" ngbTooltip="Select a session type here." [(ngModel)]="sessionTemplateName">
-              <option *ngFor="let sessionTemplate of sessionTemplates" [value]="sessionTemplate.name">{{ sessionTemplate.description }}</option>
+            <select class="form-control" ngbTooltip="Select a session type here." [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
+              <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
           </div>
           <div class="col-1">
@@ -60,10 +60,10 @@
           </div>
           <div class="col-4">
             <div *ngIf="formMode === SessionEditFormMode.ADD" ngbTooltip="Please select the course for which the feedback session is to be created.">
-              <select class="form-control" [ngClass]="{'is-invalid': coursesIdCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="triggerModelChange('courseId', $event)" [disabled]="coursesIdCandidates.length === 0">
-                <option *ngFor="let courseId of coursesIdCandidates">{{ courseId }}</option>
+              <select class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
+                <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
               </select>
-              <div class="invalid-feedback" *ngIf="coursesIdCandidates.length === 0">
+              <div class="invalid-feedback" *ngIf="courseCandidates.length === 0">
                 There is no un-archived course.
               </div>
             </div>
@@ -94,7 +94,7 @@
             <div *ngIf="formMode === SessionEditFormMode.ADD" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">
               <input type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="38" />
               <div>
-                {{38 - model.feedbackSessionName.length}} characters left
+                {{FEEDBACK_SESSION_NAME_MAX_LENGTH - model.feedbackSessionName.length}} characters left
               </div>
             </div>
             <div *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.feedbackSessionName }} </div>
@@ -121,7 +121,7 @@
             Published Status
           </div>
           <div class="col-4">
-            {{ model.publishStatus }}
+            {{ model.publishStatus | publishStatusName }}
           </div>
         </div>
       </div>
@@ -165,7 +165,8 @@
             <div class="row align-items-center">
               <div class="col-7">
                 <div class="input-group">
-                  <input type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionEndDate" (ngModelChange)="triggerModelChange('submissionEndDate', $event)" #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable"/>
+                  <input type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionEndDate" (ngModelChange)="triggerModelChange('submissionEndDate', $event)"
+                         #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
                     <button class="btn btn-secondary" (click)="endTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -224,7 +225,7 @@
                   </div>
                   <div class="col-6">
                     <div class="input-group">
-                      <input type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="model.submissionStartDate"
+                      <input type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="maxDateForSessionVisible"
                              [ngModel]="model.customSessionVisibleDate" (ngModelChange)="triggerModelChange('customSessionVisibleDate', $event)" [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"/>
                       <div class="input-group-append" *ngIf="model.sessionVisibleSetting === SessionVisibleSetting.CUSTOM && model.isEditable">
                         <button class="btn btn-secondary" (click)="sessionVisibleTimeDp.toggle()" type="button">
@@ -270,7 +271,7 @@
                   </div>
                   <div class="col-6">
                     <div class="input-group">
-                      <input type="text" class="form-control" ngbDatepicker #responseVisibleTimeDp="ngbDatepicker"
+                      <input type="text" class="form-control" ngbDatepicker #responseVisibleTimeDp="ngbDatepicker" [minDate]="minDateForResponseVisible"
                              [ngModel]="model.customResponseVisibleDate" (ngModelChange)="triggerModelChange('customResponseVisibleDate', $event)" [disabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"/>
                       <div class="input-group-append" *ngIf="model.responseVisibleSetting === ResponseVisibleSetting.CUSTOM && model.isEditable">
                         <button class="btn btn-secondary" (click)="responseVisibleTimeDp.toggle()" type="button">
@@ -352,10 +353,10 @@
       <div class="col-12 text-center">
         <span class="loader"></span>
         <div *ngIf="formMode === SessionEditFormMode.ADD">
-          <button type="button" class="btn btn-primary" [disabled]="coursesIdCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
+          <button type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
             <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Create Feedback Session
           </button>
-          <p class="text-danger margin-top-20px" *ngIf="coursesIdCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>
+          <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>
         </div>
         <div *ngIf="formMode === SessionEditFormMode.EDIT">
           <button type="button" class="btn btn-primary" [disabled]="model.isSaving || !model.isEditable" *ngIf="formMode === SessionEditFormMode.EDIT" (click)="submitFormHandler()">

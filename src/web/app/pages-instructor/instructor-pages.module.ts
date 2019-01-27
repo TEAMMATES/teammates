@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HotTableModule } from '@handsontable/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClipboardModule } from 'ngx-clipboard';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -51,6 +52,7 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 import { StatusMessageModule } from '../components/status-message/status-message.module';
+import { InstructorHomePageModule } from './instructor-home-page/instructor-home-page.module';
 
 const routes: Routes = [
   {
@@ -100,6 +102,9 @@ const routes: Routes = [
       {
         path: '',
         component: InstructorSessionsPageComponent,
+        data: {
+          pageTitle: 'Add New Feedback Session',
+        },
       },
       {
         path: 'edit',
@@ -169,6 +174,7 @@ const routes: Routes = [
     NgbModule,
     ReactiveFormsModule,
     PageNotFoundModule,
+    InstructorHomePageModule,
     InstructorSessionEditPageModule,
     InstructorSessionsPageModule,
     InstructorHelpPageModule,
@@ -176,9 +182,9 @@ const routes: Routes = [
     StatusMessageModule,
     HotTableModule,
     RouterModule.forChild(routes),
+    ClipboardModule,
   ],
   declarations: [
-    InstructorHomePageComponent,
     InstructorSearchPageComponent,
     InstructorSessionsResultPageComponent,
     InstructorStudentListPageComponent,

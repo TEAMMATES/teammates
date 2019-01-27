@@ -42,7 +42,7 @@ public class SaveFeedbackSessionAction extends Action {
         feedbackSession.setInstructions(saveRequest.getInstructions());
 
         feedbackSession.setStartTime(saveRequest.getSubmissionStartTime());
-        feedbackSession.setEndTime(saveRequest.getSubmissionEndTimestamp());
+        feedbackSession.setEndTime(saveRequest.getSubmissionEndTime());
         feedbackSession.setGracePeriodMinutes(saveRequest.getGracePeriod());
 
         feedbackSession.setSessionVisibleFromTime(saveRequest.getSessionVisibleFromTime());

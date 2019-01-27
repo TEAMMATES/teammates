@@ -1,4 +1,9 @@
-import { FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
+import {
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../feedback-session';
 
 /**
  * The format of a session template.
@@ -50,8 +55,12 @@ export interface SessionEditFormModel {
   hasVisibleSettingsPanelExpanded: boolean;
   hasEmailSettingsPanelExpanded: boolean;
 
+  // EDIT mode specific
   submissionStatus: FeedbackSessionSubmissionStatus;
-  publishStatus: string;
+  publishStatus: FeedbackSessionPublishStatus;
+
+  // ADD mode specific
+  templateSessionName: string;
 
   isClosingEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;

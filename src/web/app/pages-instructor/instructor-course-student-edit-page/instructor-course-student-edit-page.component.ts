@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
@@ -52,8 +51,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
               private router: Router,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private ngbModal: NgbModal,
-              private navigationService: NavigationService) { }
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -163,11 +161,14 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     };
 
     this.httpRequestService.put('/courses/students/details/edit', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
-              resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+      .subscribe((resp: MessageOutput) => {
+        this.router.navigate(['/web/instructor/courses/details'], {
+          queryParams: { courseid: this.courseid },
+        }).then(() => {
+          this.statusMessageService.showSuccessMessage(resp.message);
         });
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 }

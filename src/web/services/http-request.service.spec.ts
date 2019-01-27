@@ -50,7 +50,7 @@ describe('HttpRequestService', () => {
     service.get('/url');
     expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}/webapi/url`, {
       withCredentials,
-      params: expect.any(Object),
+      params: expect.any(Object), responseType: 'json' as 'text',
     });
   });
 
