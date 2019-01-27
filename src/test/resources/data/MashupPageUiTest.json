@@ -622,7 +622,14 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "My product is light.",
       "giverSection": "Section B",
-      "recipientSection": "Section B"
+      "recipientSection": "Section B",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "My product is light."
+        }
+      }
     },
     "response2": {
       "feedbackSessionName": "First feedback session",
@@ -633,7 +640,14 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": "Benny is a good student.",
       "giverSection": "Section B",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Benny is a good student."
+        }
+      }
     },
     "response3": {
       "feedbackSessionName": "First feedback session",
@@ -644,7 +658,14 @@
       "recipient": "danny.e.tmms@gmail.tmt",
       "responseMetaData": "Danny starts with D.",
       "giverSection": "Section A",
-      "recipientSection": "Section B"
+      "recipientSection": "Section B",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Danny starts with D."
+        }
+      }
     },
     "response4": {
       "feedbackSessionName": "First feedback session",
@@ -655,7 +676,14 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "Alice is a good coder.",
       "giverSection": "Section A",
-      "recipientSection": "Section B"
+      "recipientSection": "Section B",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Alice is a good coder."
+        }
+      }
     },
     "response5": {
       "feedbackSessionName": "First feedback session",
@@ -666,7 +694,14 @@
       "recipient": "charlie.d.tmms@gmail.tmt",
       "responseMetaData": "Charlie did alot of work.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Charlie did alot of work."
+        }
+      }
     },
     "response6": {
       "feedbackSessionName": "First feedback session",
@@ -677,7 +712,14 @@
       "recipient": "teammates.test@gmail.tmt",
       "responseMetaData": "It's awesome!.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "It's awesome!."
+        }
+      }
     },
     "response7": {
       "feedbackSessionName": "First feedback session",
@@ -688,7 +730,15 @@
       "recipient": "teammates.test@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "It's good"
+        }
+      }
     },
     "response8": {
       "feedbackSessionName": "First feedback session",
@@ -699,7 +749,15 @@
       "recipient": "teammates.test@gmail.tmt",
       "responseMetaData": "{\"answer\":\"Alice Betsy (Team 2)\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "Alice Betsy (Team 2)"
+        }
+      }
     },
     "response9": {
       "feedbackSessionName": "First feedback session",
@@ -710,7 +768,17 @@
       "recipient": "teammates.test@gmail.tmt",
       "responseMetaData": "{\"answers\":[\"It's good\",\"It's perfect\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
+        "data": {
+          "questionType": "MSQ",
+          "answers": [
+            "It's good",
+            "It's perfect"
+          ]
+        }
+      }
     },
     "response10": {
       "feedbackSessionName": "First feedback session",
@@ -721,7 +789,17 @@
       "recipient": "teammates.test@gmail.tmt",
       "responseMetaData": "{\"answers\":[\"Team 1\",\"Team 2\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
+        "data": {
+          "questionType": "MSQ",
+          "answers": [
+            "Team 1",
+            "Team 2"
+          ]
+        }
+      }
     },
     "response11": {
       "feedbackSessionName": "First feedback session",
@@ -732,7 +810,14 @@
       "recipient": "teammates.test@gmail.tmt",
       "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
+        "data": {
+          "questionType": "NUMSCALE",
+          "answer": 3.5
+        }
+      }
     }
   },
   "feedbackResponseComments": {

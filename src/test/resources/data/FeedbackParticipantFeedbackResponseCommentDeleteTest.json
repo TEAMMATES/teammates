@@ -269,7 +269,15 @@
       "feedbackQuestionType": "MCQ",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "It's good"
+        }
+      }
     },
     "response2ForQ1": {
       "feedbackSessionName": "First Session",
@@ -278,7 +286,15 @@
       "feedbackQuestionType": "MCQ",
       "giver": "instructor2@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "It's perfect"
+        }
+      }
     },
     "response1ForQ2": {
       "feedbackSessionName": "First Session",
@@ -287,7 +303,14 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
-      "responseMetaData": "Instructor feedback to student 1."
+      "responseMetaData": "Instructor feedback to student 1.",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Instructor feedback to student 1."
+        }
+      }
     },
     "response1ForQ3": {
       "feedbackSessionName": "First Session",
@@ -298,7 +321,15 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "It's good"
+        }
+      }
     },
     "response1ForQ4": {
       "feedbackSessionName": "First Session",
@@ -309,7 +340,15 @@
       "recipient": "Team 2.1</td></div>'\"",
       "responseMetaData": "{\"answer\":\"Algo\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "Algo"
+        }
+      }
     }
   },
   "feedbackResponseComments": {

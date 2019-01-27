@@ -434,7 +434,14 @@
       "recipient": "benny.tmms@gmail.tmt",
       "responseMetaData": "student self feedback.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "student self feedback."
+        }
+      }
     }
   },
   "feedbackResponseComments": {},

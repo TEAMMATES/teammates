@@ -859,7 +859,14 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn3.2": {
       "feedbackSessionName": "Student Session",
@@ -870,7 +877,14 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 1
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn3.3": {
       "feedbackSessionName": "Student Session",
@@ -881,7 +895,14 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 1
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn3.4": {
       "feedbackSessionName": "Student Session",
@@ -892,7 +913,14 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn3.5": {
       "feedbackSessionName": "Student Session",
@@ -903,7 +931,14 @@
       "recipient": "charlie.d.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn3.6": {
       "feedbackSessionName": "Student Session",
@@ -914,7 +949,14 @@
       "recipient": "danny.e.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn3.7": {
       "feedbackSessionName": "Student Session",
@@ -925,7 +967,14 @@
       "recipient": "charlie.d.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 3
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn5.1": {
       "feedbackSessionName": "Student Session",
@@ -936,7 +985,14 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn5.2": {
       "feedbackSessionName": "Student Session",
@@ -947,7 +1003,14 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn6.1": {
       "feedbackSessionName": "Student Session",
@@ -958,7 +1021,14 @@
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn6.2": {
       "feedbackSessionName": "Student Session",
@@ -969,7 +1039,14 @@
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 1
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn8.1": {
       "feedbackSessionName": "Student Session",
@@ -980,7 +1057,29 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "{\"answers\":[5,4,3,2,1,6,7,8,9,10,11,12,13,14],\"questionType\":\"RANK_OPTIONS\"}",
       "giverSection": "None",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails",
+        "data": {
+          "questionType": "RANK_OPTIONS",
+          "answers": [
+            5,
+            4,
+            3,
+            2,
+            1,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ]
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn16.1": {
       "feedbackSessionName": "Student Session",
@@ -991,7 +1090,14 @@
       "recipient": "TEAM 2",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn16.2": {
       "feedbackSessionName": "Student Session",
@@ -1002,7 +1108,14 @@
       "recipient": "TEAM 3",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 2",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 1
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn16.3": {
       "feedbackSessionName": "Student Session",
@@ -1013,7 +1126,14 @@
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 1
+        }
+      }
     },
     "feedbackResponseForStudentSessionQn16.4": {
       "feedbackSessionName": "Student Session",
@@ -1024,7 +1144,14 @@
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
+        "data": {
+          "questionType": "RANK_RECIPIENTS",
+          "answer": 2
+        }
+      }
     }
   },
   "feedbackResponseComments": {},

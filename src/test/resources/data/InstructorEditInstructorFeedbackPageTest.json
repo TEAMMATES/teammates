@@ -469,7 +469,14 @@
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
       "responseMetaData": "Helper 1 self feedback.",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Helper 1 self feedback."
+        }
+      }
     },
     "response2ForQ1": {
       "feedbackSessionName": "First feedback session",
@@ -480,7 +487,14 @@
       "recipient": "IEIFPTCourseintr@gmail.tmt",
       "responseMetaData": "Instructor 1 self feedback.",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Instructor 1 self feedback."
+        }
+      }
     },
     "response1ForQ3": {
       "feedbackSessionName": "First feedback session",
@@ -491,7 +505,14 @@
       "recipient": "student1InIEIFPTCourse@gmail.tmt",
       "responseMetaData": "Helper 1 opinion about Student 1.",
       "giverSection": "",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Helper 1 opinion about Student 1."
+        }
+      }
     },
     "response1ForQ4": {
       "feedbackSessionName": "First feedback session",
@@ -502,7 +523,14 @@
       "recipient": "student1InIEIFPTCourse@gmail.tmt",
       "responseMetaData": "response whereby receipient should not be seen by instructors",
       "giverSection": "",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "response whereby receipient should not be seen by instructors"
+        }
+      }
     },
     "response1ForQ5": {
       "feedbackSessionName": "First feedback session",
@@ -513,7 +541,14 @@
       "recipient": "student1InIEIFPTCourse@gmail.tmt",
       "responseMetaData": "response whereby giver should not be seen by instructors",
       "giverSection": "",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "response whereby giver should not be seen by instructors"
+        }
+      }
     },
     "response1ForQ6": {
       "feedbackSessionName": "First feedback session",
@@ -522,7 +557,15 @@
       "feedbackQuestionType": "MCQ",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "It's good"
+        }
+      }
     },
     "response1ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
@@ -533,7 +576,14 @@
       "recipient": "IEIFPTCourseintr@gmail.tmt",
       "responseMetaData": "Session 2 Question 1 Response 1",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Session 2 Question 1 Response 1"
+        }
+      }
     },
     "response2ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
@@ -544,7 +594,14 @@
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
       "responseMetaData": "Session 2 Question 1 Response 2",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Session 2 Question 1 Response 2"
+        }
+      }
     },
     "response1ForQ1InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
@@ -555,7 +612,14 @@
       "recipient": "IEIFPTCourseintr@gmail.tmt",
       "responseMetaData": "Closed session response",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Closed session response"
+        }
+      }
     },
     "response1ForQ2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
@@ -564,7 +628,15 @@
       "feedbackQuestionType": "MCQ",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "It's good"
+        }
+      }
     }
   },
   "feedbackResponseComments": {},

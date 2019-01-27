@@ -292,8 +292,8 @@
       "googleId": "CFResultsUiT.charlie.d",
       "email": "CFResultsUiT.charlie.d@gmail.tmt",
       "course": "CFResultsUiT.CS2104",
-      "name": "Charlie Dávis",
-      "comments": "This student's name is Charlie Dávis",
+      "name": "Charlie D\u8c29vis",
+      "comments": "This student's name is Charlie D\u8c29vis",
       "team": "Team 2",
       "section": "Section A"
     },
@@ -1083,7 +1083,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "Alice self feedback.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Alice self feedback."
+        }
+      }
     },
     "response2": {
       "feedbackSessionName": "First Session",
@@ -1094,7 +1101,14 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "2 Response to Benny.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "2 Response to Benny."
+        }
+      }
     },
     "response3": {
       "feedbackSessionName": "First Session",
@@ -1105,7 +1119,14 @@
       "recipient": "CFResultsUiT.danny.e@gmail.tmt",
       "responseMetaData": "1 Response to Danny.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "1 Response to Danny."
+        }
+      }
     },
     "response3a": {
       "feedbackSessionName": "First Session",
@@ -1116,7 +1137,14 @@
       "recipient": "drop.out@gmail.tmt",
       "responseMetaData": "Response to Dropout.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Response to Dropout."
+        }
+      }
     },
     "response3b": {
       "feedbackSessionName": "First Session",
@@ -1127,7 +1155,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "Response to Alice from Dropout.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Response to Alice from Dropout."
+        }
+      }
     },
     "response3c": {
       "feedbackSessionName": "First Session",
@@ -1138,7 +1173,14 @@
       "recipient": "CFResultsUiT.danny.e@gmail.tmt",
       "responseMetaData": "Response to Danny from Dropout.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Response to Danny from Dropout."
+        }
+      }
     },
     "response3d": {
       "feedbackSessionName": "First Session",
@@ -1149,7 +1191,14 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "Response to Benny from Dropout.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Response to Benny from Dropout."
+        }
+      }
     },
     "response4": {
       "feedbackSessionName": "First Session",
@@ -1160,7 +1209,14 @@
       "recipient": "CFResultsUiT.emily.f@gmail.tmt",
       "responseMetaData": "3 Response to Emily.",
       "giverSection": "Section A",
-      "recipientSection": "Section B"
+      "recipientSection": "Section B",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "3 Response to Emily."
+        }
+      }
     },
     "response5": {
       "feedbackSessionName": "First Session",
@@ -1171,7 +1227,14 @@
       "recipient": "CFResultsUiT.charlie.d@gmail.tmt",
       "responseMetaData": "4 Response to Charlie.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "4 Response to Charlie."
+        }
+      }
     },
     "response5b": {
       "feedbackSessionName": "First Session",
@@ -1182,7 +1245,14 @@
       "recipient": "CFResultsUiT.charlie.d@gmail.tmt",
       "responseMetaData": "Fred's Response to Charlie.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Fred's Response to Charlie."
+        }
+      }
     },
     "response6": {
       "feedbackSessionName": "First Session",
@@ -1193,7 +1263,15 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":\"PowerSearch\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "PowerSearch"
+        }
+      }
     },
     "mcqResponse6a": {
       "feedbackSessionName": "First Session",
@@ -1204,7 +1282,15 @@
       "recipient": "drop.out@gmail.tmt",
       "responseMetaData": "{\"answer\":\"PowerSearch\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "PowerSearch"
+        }
+      }
     },
     "response7": {
       "feedbackSessionName": "First Session",
@@ -1215,7 +1301,17 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answers\":[\"PowerSearch\",\"GoodUI\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
+        "data": {
+          "questionType": "MSQ",
+          "answers": [
+            "PowerSearch",
+            "GoodUI"
+          ]
+        }
+      }
     },
     "response8": {
       "feedbackSessionName": "First Session",
@@ -1226,7 +1322,16 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "{\"answers\":[\"\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
+        "data": {
+          "questionType": "MSQ",
+          "answers": [
+            ""
+          ]
+        }
+      }
     },
     "response9": {
       "feedbackSessionName": "First Session",
@@ -1237,7 +1342,15 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":\"Danny\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "Danny"
+        }
+      }
     },
     "response10": {
       "feedbackSessionName": "First Session",
@@ -1248,7 +1361,15 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":\"Team 1\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "Team 1"
+        }
+      }
     },
     "mcqResponse10a": {
       "feedbackSessionName": "First Session",
@@ -1259,7 +1380,15 @@
       "recipient": "drop.out@gmail.tmt",
       "responseMetaData": "{\"answer\":\"Team 2\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
+        "data": {
+          "questionType": "MCQ",
+          "otherFieldContent": "",
+          "answer": "Team 2"
+        }
+      }
     },
     "responseForTEAMQuestion": {
       "feedbackSessionName": "Second Session",
@@ -1270,7 +1399,14 @@
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": "Response from benny to Team 1 (own team)",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Response from benny to Team 1 (own team)"
+        }
+      }
     },
     "responseForTEAMQuestion2": {
       "feedbackSessionName": "Second Session",
@@ -1281,7 +1417,14 @@
       "recipient": "%GENERAL%",
       "responseMetaData": "{\"answer\":0,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
+        "data": {
+          "questionType": "NUMSCALE",
+          "answer": 0
+        }
+      }
     },
     "response11": {
       "feedbackSessionName": "Second Session",
@@ -1292,7 +1435,17 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answers\":[\"Danny\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
+        "data": {
+          "questionType": "MSQ",
+          "otherFieldContent": "",
+          "answers": [
+            "Danny"
+          ]
+        }
+      }
     },
     "response12": {
       "feedbackSessionName": "Second Session",
@@ -1303,7 +1456,18 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answers\":[\"Team 1\",\"Team 2\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
+        "data": {
+          "questionType": "MSQ",
+          "otherFieldContent": "",
+          "answers": [
+            "Team 1",
+            "Team 2"
+          ]
+        }
+      }
     },
     "response13": {
       "feedbackSessionName": "Second Session",
@@ -1314,7 +1478,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
+        "data": {
+          "questionType": "NUMSCALE",
+          "answer": 3.5
+        }
+      }
     },
     "response14": {
       "feedbackSessionName": "First Session",
@@ -1325,7 +1496,14 @@
       "recipient": "%GENERAL%",
       "responseMetaData": "This is for nobody specific.",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "This is for nobody specific."
+        }
+      }
     },
     "response15": {
       "feedbackSessionName": "First Session",
@@ -1336,7 +1514,14 @@
       "recipient": "Team 2",
       "responseMetaData": "Response from team 1 (by alice) to team 2.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Response from team 1 (by alice) to team 2."
+        }
+      }
     },
     "response16": {
       "feedbackSessionName": "Second Session",
@@ -1347,7 +1532,17 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answers\":[45,55],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
+        "data": {
+          "questionType": "CONSTSUM",
+          "answers": [
+            45,
+            55
+          ]
+        }
+      }
     },
     "response17.1": {
       "feedbackSessionName": "Second Session",
@@ -1358,7 +1553,16 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answers\":[110],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
+        "data": {
+          "questionType": "CONSTSUM",
+          "answers": [
+            110
+          ]
+        }
+      }
     },
     "response17.2": {
       "feedbackSessionName": "Second Session",
@@ -1369,7 +1573,16 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "{\"answers\":[90],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
+        "data": {
+          "questionType": "CONSTSUM",
+          "answers": [
+            90
+          ]
+        }
+      }
     },
     "response17.3": {
       "feedbackSessionName": "Second Session",
@@ -1380,7 +1593,16 @@
       "recipient": "CFResultsUiT.charlie.d@gmail.tmt",
       "responseMetaData": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
+        "data": {
+          "questionType": "CONSTSUM",
+          "answers": [
+            50
+          ]
+        }
+      }
     },
     "response17.4": {
       "feedbackSessionName": "Second Session",
@@ -1391,7 +1613,16 @@
       "recipient": "CFResultsUiT.danny.e@gmail.tmt",
       "responseMetaData": "{\"answers\":[150],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
+        "data": {
+          "questionType": "CONSTSUM",
+          "answers": [
+            150
+          ]
+        }
+      }
     },
     "FS.Q1.Alice.1": {
       "feedbackSessionName": "Second Session",
@@ -1402,7 +1633,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":150,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
+        "data": {
+          "questionType": "CONTRIB",
+          "answer": 150
+        }
+      }
     },
     "FS.Q1.Alice.2": {
       "feedbackSessionName": "Second Session",
@@ -1413,7 +1651,14 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "{\"answer\":120,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
+        "data": {
+          "questionType": "CONTRIB",
+          "answer": 120
+        }
+      }
     },
     "response17": {
       "feedbackSessionName": "Second Session",
@@ -1424,7 +1669,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":3,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
+        "data": {
+          "questionType": "NUMSCALE",
+          "answer": 3
+        }
+      }
     },
     "response18": {
       "feedbackSessionName": "Second Session",
@@ -1435,7 +1687,14 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
+        "data": {
+          "questionType": "NUMSCALE",
+          "answer": 4
+        }
+      }
     },
     "response19": {
       "feedbackSessionName": "Second Session",
@@ -1446,7 +1705,14 @@
       "recipient": "%GENERAL%",
       "responseMetaData": "{\"answer\":-0.5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
+        "data": {
+          "questionType": "NUMSCALE",
+          "answer": -0.5
+        }
+      }
     },
     "response20.1": {
       "feedbackSessionName": "Second Session",
@@ -1457,7 +1723,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answer\":150,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
+        "data": {
+          "questionType": "CONTRIB",
+          "answer": 150
+        }
+      }
     },
     "repsonse20.2": {
       "feedbackSessionName": "Second Session",
@@ -1468,7 +1741,14 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "{\"answer\":120,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
+        "data": {
+          "questionType": "CONTRIB",
+          "answer": 120
+        }
+      }
     },
     "response21": {
       "feedbackSessionName": "First Session",
@@ -1479,7 +1759,14 @@
       "recipient": "CFResultsUiT.fred.g@gmail.tmt",
       "responseMetaData": "Alice to Danny.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Alice to Danny."
+        }
+      }
     },
     "response22": {
       "feedbackSessionName": "First Session",
@@ -1490,7 +1777,14 @@
       "recipient": "CFResultsUiT.fred.g@gmail.tmt",
       "responseMetaData": "Benny to Danny.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Benny to Danny."
+        }
+      }
     },
     "response23": {
       "feedbackSessionName": "First Session",
@@ -1501,7 +1795,14 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "Danny to Alice.",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Danny to Alice."
+        }
+      }
     },
     "response1 Of Session 4": {
       "feedbackSessionName": "Fourth Session",
@@ -1512,7 +1813,14 @@
       "recipient": "%GENERAL%",
       "responseMetaData": "None",
       "giverSection": "Section A",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "None"
+        }
+      }
     },
     "response2 Of Session 4": {
       "feedbackSessionName": "Fourth Session",
@@ -1523,7 +1831,16 @@
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
+        "data": {
+          "questionType": "CONSTSUM",
+          "answers": [
+            50
+          ]
+        }
+      }
     },
     "SanitizedResponse1": {
       "feedbackSessionName": "Sanitized Session",
@@ -1534,7 +1851,14 @@
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>",
       "giverSection": "Section A</td></div>'\"",
-      "recipientSection": "Section A</td></div>'\""
+      "recipientSection": "Section A</td></div>'\"",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
+        }
+      }
     },
     "InstructorsAsGiversResponse1": {
       "feedbackSessionName": "Instructors as Givers",
@@ -1544,7 +1868,14 @@
       "giver": "CFResultsUiT.instr@gmail.tmt",
       "recipient": "CFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": "Alice you did okay. You get B-",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Alice you did okay. You get B-"
+        }
+      }
     },
     "InstructorsAsGiversResponse2": {
       "feedbackSessionName": "Instructors as Givers",
@@ -1554,7 +1885,14 @@
       "giver": "CFResultsUiT.instr@gmail.tmt",
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": "You did better than Alice. You get C+",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "You did better than Alice. You get C+"
+        }
+      }
     },
     "InstructorsAsGiversResponse3": {
       "feedbackSessionName": "Instructors as Givers",
@@ -1564,7 +1902,14 @@
       "giver": "CFResultsUiT.instr@gmail.tmt",
       "recipient": "CFResultsUiT.charlie.d@gmail.tmt",
       "responseMetaData": "I like you so I give you above A-",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "I like you so I give you above A-"
+        }
+      }
     },
     "NoSectionsResponse1": {
       "feedbackSessionName": "NoSections Session",
@@ -1575,7 +1920,14 @@
       "recipient": "CFResultsUiT.benny.no@gmail.tmt",
       "responseMetaData": "Benny self feedback.",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "Benny self feedback."
+        }
+      }
     },
     "Response to Instructors": {
       "feedbackSessionName": "Second Session",
@@ -1586,7 +1938,14 @@
       "recipient": "CFResultsUiT.instr@gmail.tmt",
       "responseMetaData": "You are a great instructor.",
       "giverSection": "Section A",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
+        "data": {
+          "questionType": "TEXT",
+          "answer": "You are a great instructor."
+        }
+      }
     }
   },
   "feedbackResponseComments": {

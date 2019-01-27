@@ -363,6 +363,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
+      "responseMetaData": "Instructor self feedback.",
       "responseDetails": {
         "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
         "data": {
@@ -378,6 +379,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
+      "responseMetaData": "Instructor feedback to student 1.",
       "responseDetails": {
         "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
         "data": {
@@ -393,6 +395,7 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor2@course1.tmt",
+      "responseMetaData": "Response from instructor 1 to instructor 2.",
       "responseDetails": {
         "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
         "data": {

@@ -229,10 +229,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public boolean isEmptyResponse() {
-//        if (isMissingResponse()) {
-//            return true;
-//        }
-        Assumption.assertNotNull(responseDetails);
+        if (isMissingResponse()) {
+            return true;
+        }
+//        Assumption.assertNotNull(responseDetails);
         return responseDetails.getAnswerString().isEmpty();
     }
 
