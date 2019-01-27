@@ -14,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EntitiesDb;
+import teammates.storage.entity.Course;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
@@ -183,6 +184,28 @@ public class CoursesDbTest extends BaseComponentTestCase {
         coursesDb.deleteCourse(c.getId());
 
         ______TS("Failure: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+    }
+
+    @Test
+    public void testSoftDeleteCourse() throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes c = createNewCourse();
+
+        ______TS("Success: soft delete an existing course");
+        coursesDb.softDeleteCourse(c.getId());
+        CourseAttributes deleted = coursesDb.getCourse(c.getId());
+
+        assertTrue(deleted.isCourseDeleted());
+
+        ______TS("Success: restore soft deleted course");
+        coursesDb.restoreDeletedCourse(deleted.getId());
+        CourseAttributes restored = coursesDb.getCourse(deleted.getId());
+        assertFalse(restored.isCourseDeleted());
+
+        ______TS("null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());

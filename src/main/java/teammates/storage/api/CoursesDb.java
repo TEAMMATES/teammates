@@ -127,7 +127,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
-    public void restoreCourseFromRecycleBin(String courseId)
+    public void restoreDeletedCourse(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = getCourse(courseId);
         course.resetDeletedAt();

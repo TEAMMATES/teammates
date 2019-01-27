@@ -679,7 +679,7 @@ public final class CoursesLogic {
      */
     public void restoreCourseFromRecycleBin(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        coursesDb.restoreCourseFromRecycleBin(courseId);
+        coursesDb.restoreDeletedCourse(courseId);
     }
 
     /**

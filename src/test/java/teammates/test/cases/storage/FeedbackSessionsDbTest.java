@@ -21,6 +21,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.entity.FeedbackSession;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -211,6 +212,27 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getSoftDeletedFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
 
+    @Test
+    public void testSoftDeleteFeedbackSession() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        ______TS("Success: soft delete an existing feedback session");
+        fsDb.softDeleteFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+        FeedbackSessionAttributes deleted = fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+
+        assertNull(deleted);
+
+        ______TS("Success: restore soft deleted course");
+        fsDb.restoreDeletedFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+        FeedbackSessionAttributes restored = fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+        assertFalse(restored.isSessionDeleted());
+
+        ______TS("null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.softDeleteFeedbackSession(null, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+    }
     @Test
     public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
 
