@@ -54,7 +54,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
-                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
         };
 
         archiveAction = getAction(submissionParams);
@@ -67,7 +66,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
-                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
 
         ArchiveCourseAction unarchiveAction = getAction(submissionParams);

@@ -268,16 +268,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyInaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
-
-        ______TS("without Modify-Course privilege cannot access");
-
-        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-
-        loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
-    }
-
     protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Session privilege cannot access");
@@ -301,6 +291,27 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected void verifyInaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Student privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
+    protected void verifyInaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Course privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+
+    }
+
+    protected void verifyInaccessibleWithoutModifyInstructorPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Instructor privilege cannot access");
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
