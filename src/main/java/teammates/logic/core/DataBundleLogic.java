@@ -169,11 +169,9 @@ public final class DataBundleLogic {
 
             courseInstructorsMap.put(instructor.courseId, instructor);
 
-            if (StringHelper.isEmpty(instructor.googleId) || googleIdAccountMap.containsKey(instructor.googleId)) {
-                // No account, or account already exists in the data bundle
-                continue;
+            if (!StringHelper.isEmpty(instructor.googleId)) {
+                googleIdAccountMap.putIfAbsent(instructor.googleId, makeAccount(instructor));
             }
-            googleIdAccountMap.put(instructor.googleId, makeAccount(instructor));
         }
     }
 
@@ -182,12 +180,9 @@ public final class DataBundleLogic {
         for (StudentAttributes student : students) {
             populateNullSection(student);
 
-            if (StringHelper.isEmpty(student.googleId) || googleIdAccountMap.containsKey(student.googleId)) {
-                // No account, account already exists in the data bundle,
-                // or instructor account already exists (i.e. instructor is also a student)
-                continue;
+            if (!StringHelper.isEmpty(student.googleId)) {
+                googleIdAccountMap.putIfAbsent(student.googleId, makeAccount(student));
             }
-            googleIdAccountMap.put(student.googleId, makeAccount(student));
         }
     }
 

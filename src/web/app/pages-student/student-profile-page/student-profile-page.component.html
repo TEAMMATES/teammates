@@ -1,3 +1,115 @@
-<p>
-  student-profile-page works!
-</p>
+<div *ngIf="student">
+  <h1>Student Profile</h1>
+  <div class="card">
+    <div class="card-body fill-plain">
+      <h1>{{ name }}</h1>
+      <div class="form-group row">
+        <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer">
+          <img
+              id="profilePic"
+              src="{{ getProfilePictureUrl(student.studentProfile.pictureKey) }}"
+              class="profile-pic">
+        </div>
+        <div class="col-xs-6 col-sm-5 col-md-3" ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB)">
+          <!-- TODO: Include upload/edit photo functionality
+          <button
+              id="uploadEditPhoto"
+              class="btn btn-primary"
+              type="button">
+            Upload/Edit Photo
+          </button> -->
+        </div>
+      </div>
+      <form [formGroup]="editForm"
+          (ngSubmit)="onSubmit(confirmEditProfile)">
+        <div class="form-group" ngbTooltip='This is the name you prefer to be called by'>
+          <label>The name you prefer to be called by instructors</label>
+          <input
+              class="form-control"
+              id="studentshortname"
+              formControlName="studentshortname">
+        </div>
+        <div class="form-group" ngbTooltip="This is a long term contact email">
+          <label>
+            Long-term Contact Email
+            <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em>          </label>
+          <input
+              class="form-control"
+              id="studentprofileemail"
+              formControlName="studentprofileemail">
+        </div>
+        <div class="form-group" ngbTooltip="This is the institution that you represent">
+          <label>Institute</label>
+          <input
+              class="form-control"
+              id="studentprofileinstitute"
+              formControlName="studentprofileinstitute">
+        </div>
+        <div class="form-group" ngbTooltip="This is your nationality">
+          <label>Nationality</label>
+          <select
+              class="form-control"
+              id="studentnationality"
+              formControlName="studentnationality">
+            <option
+                *ngFor="let n of nationalities"
+                [value]="n">
+              {{n}}
+            </option>
+          </select>
+        </div>
+        <label>Gender</label>
+        <div class="form-group">
+          <div class="custom-control-inline" *ngFor="let gender of genders">
+            <input
+                class="student-gender-radio"
+                type="radio"
+                formControlName="studentgender"
+                [value]="gender">
+            <label class="student-gender-label">{{ gender | genderFormat: gender }}</label>
+          </div>
+        </div>
+        <div class="form-group" ngbTooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc">
+          <label>More Information about Yourself</label>
+          <textarea
+              class="form-control"
+              id="studentprofilemoreinfo"
+              rows="4"
+              formControlName="studentprofilemoreinfo"
+              placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
+          ></textarea>
+        </div>
+        <div class="text-center">
+          <input
+              type="submit"
+              class="btn btn-primary"
+              id="button_submit"
+              value="Save Profile">
+        </div>
+        <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>
+      </form>
+      <ng-template #confirmEditProfile let-modal>
+        <div class="modal-header alert-primary">
+          <h4 class="modal-title icon-primary">Save Changes?</h4>
+          <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+              (click)="modal.dismiss()">×</button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to make changes to your profile?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="submitEditForm(); modal.dismiss()">
+            Yes, save changes
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">
+            Cancel
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -26,8 +26,6 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_STATS_PAGE, CourseStatsPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
-        map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
-        map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE, InstructorCourseRestoreSoftDeletedCourseAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL, InstructorCourseRestoreAllSoftDeletedCoursesAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE, InstructorCourseDeleteSoftDeletedCourseAction.class);
@@ -87,11 +85,9 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
         map(FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE,
                 FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
-        map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
         map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);
         map(STUDENT_PROFILE_PICTURE_EDIT, StudentProfilePictureEditAction.class);
         map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
-        map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
 
         map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
         map(IMAGE_UPLOAD, ImageUploadAction.class);

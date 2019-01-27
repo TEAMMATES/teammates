@@ -1,4 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { GenderFormatPipe } from './student-profile-gender.pipe';
+
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StudentProfilePageComponent } from './student-profile-page.component';
 
@@ -8,8 +13,15 @@ describe('StudentProfilePageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentProfilePageComponent],
-      imports: [RouterTestingModule],
+      declarations: [
+        StudentProfilePageComponent,
+        GenderFormatPipe,
+      ],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+      ],
     })
     .compileComponents();
   }));
