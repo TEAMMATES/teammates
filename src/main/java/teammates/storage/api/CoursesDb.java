@@ -115,23 +115,33 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Moves a course to Recycle Bin by its given corresponding ID.
      * @return Soft-deletion time of the course.
      */
-    public Instant softDeleteCourse(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = getCourse(courseId);
-        course.setDeletedAt();
-        updateCourse(course);
+    public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Course courseEntity = getCourseEntity(courseId);
 
-        return course.deletedAt;
+        if (courseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+        }
+
+        courseEntity.setDeletedAt(Instant.now());
+        saveEntity(courseEntity);
+
+        return courseEntity.getDeletedAt();
     }
 
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
-    public void restoreDeletedCourse(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = getCourse(courseId);
-        course.resetDeletedAt();
-        updateCourse(course);
+    public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Course courseEntity = getCourseEntity(courseId);
+
+        if (courseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+        }
+
+        courseEntity.setDeletedAt(null);
+        saveEntity(courseEntity);
     }
 
     @Override

@@ -1443,7 +1443,7 @@ public final class FeedbackSessionsLogic {
      * @return Soft-deletion time of the feedback session.
      */
     public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
     }
@@ -1452,7 +1452,7 @@ public final class FeedbackSessionsLogic {
      * Restores a specific feedback session from Recycle Bin to feedback sessions table.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
     }
 
@@ -1460,7 +1460,7 @@ public final class FeedbackSessionsLogic {
      * Restores all feedback sessions from Recycle Bin to feedback sessions table.
      */
     public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
         List<FeedbackSessionAttributes> feedbackSessionsList =

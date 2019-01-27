@@ -347,30 +347,32 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * @return Soft-deletion time of the feedback session.
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = getFeedbackSession(courseId, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+            throws EntityDoesNotExistException {
+        FeedbackSession sessionEntity = getFeedbackSessionEntity(courseId, feedbackSessionName);
 
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        if (sessionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        feedbackSession.setDeletedTime();
-        updateFeedbackSession(feedbackSession);
+        sessionEntity.setDeletedTime(Instant.now());
+        saveEntity(sessionEntity);
 
-        return feedbackSession.getDeletedTime();
+        return sessionEntity.getDeletedTime();
     }
 
     /**
      * Restores a specific feedback session from Recycle Bin to feedback sessions table.
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
-        feedbackSession.resetDeletedTime();
-        updateFeedbackSession(feedbackSession);
+            throws EntityDoesNotExistException {
+        FeedbackSession sessionEntity = getFeedbackSessionEntity(courseId, feedbackSessionName);
+
+        if (sessionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        sessionEntity.setDeletedTime(Instant.now());
+        saveEntity(null);
     }
 
     // The objectify library does not support throwing checked exceptions inside transactions
