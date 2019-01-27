@@ -348,6 +348,9 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+
         FeedbackSession sessionEntity = getFeedbackSessionEntity(courseId, feedbackSessionName);
 
         if (sessionEntity == null) {
@@ -365,6 +368,9 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+
         FeedbackSession sessionEntity = getFeedbackSessionEntity(courseId, feedbackSessionName);
 
         if (sessionEntity == null) {
