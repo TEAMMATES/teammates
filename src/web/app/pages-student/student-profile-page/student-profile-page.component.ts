@@ -13,8 +13,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
-import { fromEvent, merge, Observable, of} from 'rxjs';
-import { mapTo} from 'rxjs/operators';
+import { fromEvent, merge, Observable, of } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 
 interface StudentProfile {
   shortName: string;
@@ -65,7 +65,7 @@ export class StudentProfilePageComponent implements OnInit {
     this.isNetworkOnline$ = merge(
         of(navigator.onLine),
         fromEvent(window, 'online').pipe(mapTo(true)),
-        fromEvent(window, 'offline').pipe(mapTo(false))
+        fromEvent(window, 'offline').pipe(mapTo(false)),
     );
   }
 
