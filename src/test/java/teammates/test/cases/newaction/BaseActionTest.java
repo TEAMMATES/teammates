@@ -268,6 +268,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyInaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Course privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Session privilege cannot access");
