@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
-import { HttpRequestService } from "../../../services/http-request.service";
-import { StatusMessageService } from "../../../services/status-message.service";
-import { TimezoneService } from "../../../services/timezone.service";
-import {ErrorMessageOutput, MessageOutput} from "../../message-output";
+import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
+import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
 interface ActiveCourse {
   id: string;
@@ -51,6 +51,11 @@ interface InstructorCourses {
   softDeletedCourses: SoftDeletedCourse[];
   instructorList: Instructor[];
 }
+
+export var sectionsElement;
+export var teamsElement;
+export var studentsElement;
+export var unregisteredElement;
 
 /**
  * Instructor courses list page.
@@ -102,9 +107,9 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.softDeletedCourses = resp.softDeletedCourses;
       this.instructorList = resp.instructorList;
 
-      for (let course of this.activeCourses) {
-        for (let instructor of this.instructorList) {
-          if (course.id == instructor.courseId) {
+      for (const course of this.activeCourses) {
+        for (const instructor of this.instructorList) {
+          if (course.id === instructor.courseId) {
             course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
             course.canModifyStudent = instructor.privileges.courseLevel['canmodifystudent'];
             break;
@@ -112,18 +117,18 @@ export class InstructorCoursesPageComponent implements OnInit {
         }
       }
 
-      for (let course of this.archivedCourses) {
-        for (let instructor of this.instructorList) {
-          if (course.id == instructor.courseId) {
+      for (const course of this.archivedCourses) {
+        for (const instructor of this.instructorList) {
+          if (course.id === instructor.courseId) {
             course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
             break;
           }
         }
       }
 
-      for (let course of this.softDeletedCourses) {
-        for (let instructor of this.instructorList) {
-          if (course.id == instructor.courseId) {
+      for (const course of this.softDeletedCourses) {
+        for (const instructor of this.instructorList) {
+          if (course.id === instructor.courseId) {
             course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
             if (!course.canModifyCourse) {
               this.canDeleteAll = this.canRestoreAll = false;
@@ -142,32 +147,35 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   getCourseStats(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
     };
     this.httpRequestService.get('/course/stats', paramMap).subscribe((resp: CourseStats) => {
-      const sectionsElement = document.getElementById('course-sections-' + courseId);
-      const teamsElement = document.getElementById('course-teams-' + courseId);
-      const studentsElement = document.getElementById('course-students-' + courseId);
-      const unregisteredElement = document.getElementById('course-unregistered-' + courseId);
+      sectionsElement = document.getElementById(`course-sections-${courseId}`);
+      teamsElement = document.getElementById(`course-teams-${courseId}`);
+      studentsElement = document.getElementById(`course-students-${courseId}`);
+      unregisteredElement = document.getElementById(`course-unregistered-${courseId}`);
       if (sectionsElement && teamsElement && studentsElement && unregisteredElement) {
         sectionsElement.innerHTML = String(resp.sectionsTotal);
-        sectionsElement.setAttribute("class", "link-disabled");
+        sectionsElement.setAttribute('class', 'link-disabled');
         teamsElement.innerHTML = String(resp.teamsTotal);
-        teamsElement.setAttribute("class", "link-disabled");
+        teamsElement.setAttribute('class', 'link-disabled');
         studentsElement.innerHTML = String(resp.studentsTotal);
-        studentsElement.setAttribute("class", "link-disabled");
+        studentsElement.setAttribute('class', 'link-disabled');
         unregisteredElement.innerHTML = String(resp.unregisteredTotal);
-        unregisteredElement.setAttribute("class", "link-disabled");
+        unregisteredElement.setAttribute('class', 'link-disabled');
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
+  /**
+   * Auto-detects timezone for instructor.
+   */
   onAutoDetectTimezone(): void {
     this.timezone = moment.tz.guess();
   }
@@ -177,7 +185,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onSubmit(): void {
     if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorMessage('Please make sure you have filled in both Course ID and Name before adding the course!');
+      this.statusMessageService.showErrorMessage(
+          'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
     const paramMap: { [key: string]: string } = {
@@ -189,11 +198,11 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
     this.httpRequestService.post('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
-          this.loadInstructorCourses(this.user);
-          this.statusMessageService.showSuccessMessage(resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -201,7 +210,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onArchive(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
     const paramMap: { [key: string]: string } = {
@@ -210,11 +219,11 @@ export class InstructorCoursesPageComponent implements OnInit {
       next: '/instructor/courses',
     };
     this.httpRequestService.put('/instructor/courses/archive', paramMap).subscribe((resp: MessageOutput) => {
-          this.loadInstructorCourses(this.user);
-          this.statusMessageService.showSuccessMessage(resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -222,7 +231,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onUnarchive(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
     const paramMap: { [key: string]: string } = {
@@ -230,11 +239,11 @@ export class InstructorCoursesPageComponent implements OnInit {
       archive: 'false',
     };
     this.httpRequestService.put('/instructor/courses/archive', paramMap).subscribe((resp: MessageOutput) => {
-          this.loadInstructorCourses(this.user);
-          this.statusMessageService.showSuccessMessage(resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      this.loadInstructorCourses(this.user);
+      this.statusMessageService.showSuccessMessage(resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -242,7 +251,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDelete(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
     const paramMap: { [key: string]: string } = {
@@ -262,19 +271,22 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDeletePermanently(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    if (confirm('Are you sure you want to permanently delete the course: ' + courseId + '? This operation will delete all students and sessions in this course. All instructors of this course will not be able to access it hereafter as well.')) {
+    if (confirm(`Are you sure you want to permanently delete the course: ${courseId}? `
+            + 'This operation will delete all students and sessions in this course. '
+            + 'All instructors of this course will not be able to access it hereafter as well.')) {
       const paramMap: { [key: string]: string } = {
         courseid: courseId,
       };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap).subscribe((resp: MessageOutput) => {
-        this.loadInstructorCourses(this.user);
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+      this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap)
+          .subscribe((resp: MessageOutput) => {
+            this.loadInstructorCourses(this.user);
+            this.statusMessageService.showSuccessMessage(resp.message);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
     }
   }
 
@@ -283,7 +295,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onRestore(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage('Course' + courseId + 'is not found!');
+      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
     const paramMap: { [key: string]: string } = {
@@ -301,14 +313,17 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    if (confirm('Are you sure you want to permanently delete all the courses in Recycle Bin? This operation will delete all students and sessions in these courses. All instructors of these courses will not be able to access them hereafter as well.')) {
+    if (confirm('Are you sure you want to permanently delete all the courses in Recycle Bin? ' +
+            'This operation will delete all students and sessions in these courses. ' +
+            'All instructors of these courses will not be able to access them hereafter as well.')) {
       const paramMap: { [key: string]: string } = {};
-      this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap).subscribe((resp: MessageOutput) => {
-        this.loadInstructorCourses(this.user);
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+      this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap)
+          .subscribe((resp: MessageOutput) => {
+            this.loadInstructorCourses(this.user);
+            this.statusMessageService.showSuccessMessage(resp.message);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
     }
   }
 
