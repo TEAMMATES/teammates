@@ -13,6 +13,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput, MessageOutput } from '../../message-output';
 
+import { fromEvent, merge, Observable, of} from 'rxjs';
+import { mapTo} from 'rxjs/operators';
+
 interface StudentProfile {
   shortName: string;
   email: string;
@@ -50,6 +53,7 @@ export class StudentProfilePageComponent implements OnInit {
   editForm!: FormGroup;
   nationalities?: string[];
   genders: string[] = ['male', 'female', 'other'];
+  isNetworkOnline$: Observable<boolean>;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -57,7 +61,13 @@ export class StudentProfilePageComponent implements OnInit {
               private ngbModal: NgbModal,
               private httpRequestService: HttpRequestService,
               private authService: AuthService,
-              private statusMessageService: StatusMessageService) {}
+              private statusMessageService: StatusMessageService) {
+    this.isNetworkOnline$ = merge(
+        of(navigator.onLine),
+        fromEvent(window, 'online').pipe(mapTo(true)),
+        fromEvent(window, 'offline').pipe(mapTo(false))
+    );
+  }
 
   ngOnInit(): void {
     // populate drop-down menu for nationality list

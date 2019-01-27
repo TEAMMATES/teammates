@@ -1,4 +1,7 @@
 <div *ngIf="student">
+  <div>
+    <p *ngIf="!(isNetworkOnline$ | async)">You are not connected to internet.</p>
+  </div>
   <h1>Student Profile</h1>
   <div class="card">
     <div class="card-body fill-plain">
