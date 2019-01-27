@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -18,10 +19,13 @@ public class DeleteCourseAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (!userInfo.isInstructor) {
+            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
+        }
+
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.getId()),
-                logic.getCourse(idOfCourseToDelete),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
+                logic.getCourse(idOfCourseToDelete), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
     }
 
     @Override
@@ -29,13 +33,14 @@ public class DeleteCourseAction extends Action {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             logic.moveCourseToRecycleBin(idOfCourseToDelete);
+
+            return new JsonResult("The course " + idOfCourseToDelete
+                    + " has been deleted. You can restore it from the Recycle Bin manually.");
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-
-        return new JsonResult("The course has been deleted. You can restore it from the 'Courses' tab.", HttpStatus.SC_OK);
     }
 
 }
