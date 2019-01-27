@@ -218,7 +218,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       archive: 'true',
       next: '/instructor/courses',
     };
-    this.httpRequestService.put('/instructor/courses/archive', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses(this.user);
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
@@ -238,7 +238,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       courseid: courseId,
       archive: 'false',
     };
-    this.httpRequestService.put('/instructor/courses/archive', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses(this.user);
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
@@ -258,7 +258,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       courseid: courseId,
       next: '/instructor/courses',
     };
-    this.httpRequestService.put('/instructor/courses/delete', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses(this.user);
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
