@@ -145,11 +145,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 responsesRecipients.add(response.recipient);
 
                 // if the answer is not empty but the recipient is empty
-                if (response.recipient.isEmpty() && !response.responseMetaData.isEmpty()) {
+                if (response.recipient.isEmpty() && !response.isEmptyResponse()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
                 }
 
-                if (response.responseMetaData.isEmpty()) {
+                if (response.isEmptyResponse()) {
                     // deletes the response since answer is empty
                     addToPendingResponses(response);
                 } else {
@@ -281,12 +281,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.isEmpty() || response.recipient.isEmpty()) {
+            if (response.isEmptyResponse() || response.recipient.isEmpty()) {
                 responsesToDelete.add(response);
                 return;
             }
             responsesToUpdate.add(response);
-        } else if (!response.responseMetaData.isEmpty()
+        } else if (!response.isEmptyResponse()
                    && !response.recipient.isEmpty()) {
             responsesToSave.add(response);
         }
@@ -409,13 +409,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String[] answer = getRequestParamValues(paramName);
 
         if (questionDetails.isQuestionSkipped(answer)) {
-            response.responseMetaData = "";
+            response.setResponseAnswer("");
         } else {
             FeedbackResponseDetails responseDetails =
                     FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
                                                                   questionDetails, requestParameters,
                                                                   questionIndx, responseIndx);
-            response.setResponseDetails(responseDetails);
+            response.feedbackResponseDetails = responseDetails;
         }
 
         return response;

@@ -457,8 +457,8 @@ public final class FeedbackResponsesLogic {
         newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
         newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
 
-        if (newResponse.responseMetaData == null) {
-            newResponse.responseMetaData = oldResponse.responseMetaData;
+        if (newResponse.isMissingResponse()) {
+            newResponse.feedbackResponseDetails = oldResponse.getFeedbackResponseDetailsCopy();
         }
         if (newResponse.giver == null) {
             newResponse.giver = oldResponse.giver;

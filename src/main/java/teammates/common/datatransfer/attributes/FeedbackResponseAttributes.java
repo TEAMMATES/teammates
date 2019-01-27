@@ -8,6 +8,7 @@ import java.util.List;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -88,7 +89,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.recipientSection = copy.recipientSection;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
-        this.feedbackResponseDetails = deserializeResponseFromMetaData(copy.getSerializedFeedbackResponseDetail());
+        this.feedbackResponseDetails = copy.getFeedbackResponseDetailsCopy();
     }
 
     public String getId() {
@@ -206,6 +207,14 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return feedbackResponseDetails;
     }
 
+    public void setResponseAnswer(String answer) {
+        feedbackResponseDetails = deserializeResponseFromMetaData(answer);
+    }
+
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return deserializeResponseFromMetaData(getSerializedFeedbackResponseDetail());
+    }
+
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object
      * for this response.
      * @return The Feedback*ResponseDetails class type appropriate for this response.
@@ -221,6 +230,14 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      */
     public boolean isMissingResponse() {
         return feedbackResponseDetails == null;
+    }
+
+    public boolean isEmptyResponse() {
+//        if (isMissingResponse()) {
+//            return true;
+//        }
+        Assumption.assertNotNull(feedbackResponseDetails);
+        return feedbackResponseDetails.getAnswerString().isEmpty();
     }
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
