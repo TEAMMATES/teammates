@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -35,7 +35,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new TeammatesDurationMinutesAdapter())
-                .registerTypeAdapter(FeedbackResponseAttributes.class, new SubclassAdapter<FeedbackResponseAttributes>())
+                .registerTypeAdapter(FeedbackResponseDetails.class, new SubclassAdapter<FeedbackResponseDetails>())
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();
