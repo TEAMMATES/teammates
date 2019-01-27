@@ -21,7 +21,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.entity.FeedbackSession;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -233,6 +232,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
+
     @Test
     public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
 
