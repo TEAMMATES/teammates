@@ -26,8 +26,6 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_STATS_PAGE, CourseStatsPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
-        map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
-        map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE, InstructorCourseRestoreSoftDeletedCourseAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL, InstructorCourseRestoreAllSoftDeletedCoursesAction.class);
         map(INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE, InstructorCourseDeleteSoftDeletedCourseAction.class);
