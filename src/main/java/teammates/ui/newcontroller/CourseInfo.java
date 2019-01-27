@@ -16,11 +16,13 @@ public class CourseInfo {
     public static class CourseResponse extends ActionResult.ActionOutput {
         private final String courseId;
         private final String courseName;
+        private final String creationDate;
         private final String timeZone;
 
         public CourseResponse(CourseAttributes courseAttributes) {
             this.courseId = courseAttributes.getId();
             this.courseName = courseAttributes.getName();
+            this.creationDate = courseAttributes.getCreatedAtDateString();
             this.timeZone = courseAttributes.getTimeZone().getId();
         }
 
@@ -30,6 +32,10 @@ public class CourseInfo {
 
         public String getCourseName() {
             return courseName;
+        }
+
+        public String getCreationDate() {
+            return creationDate;
         }
 
         public String getTimeZone() {
