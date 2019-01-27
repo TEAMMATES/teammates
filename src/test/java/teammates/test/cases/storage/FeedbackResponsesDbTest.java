@@ -716,7 +716,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseDetails frd = FeedbackResponseDetails.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);
-        modifiedResponse.feedbackResponseDetails = frd;
+        modifiedResponse.responseDetails = frd;
         frDb.updateFeedbackResponse(modifiedResponse);
 
         verifyPresentInDatastore(modifiedResponse);
@@ -740,7 +740,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.feedbackQuestionId = "testFeedbackQuestionId";
 
         FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
-        fra. feedbackResponseDetails = responseDetails;
+        fra.responseDetails = responseDetails;
 
         return fra;
     }

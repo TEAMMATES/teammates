@@ -36,7 +36,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      *
      * <p>This is set to null to represent a missing response.
      */
-    public FeedbackResponseDetails feedbackResponseDetails;
+    public FeedbackResponseDetails responseDetails;
     public String giverSection;
     public String recipientSection;
     protected transient Instant createdAt;
@@ -59,7 +59,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = giverSection;
         this.recipient = recipient;
         this.recipientSection = recipientSection;
-        this.feedbackResponseDetails = deserializeResponseFromMetaData(responseMetaData);
+        this.responseDetails = deserializeResponseFromMetaData(responseMetaData);
     }
 
     public FeedbackResponseAttributes(FeedbackResponse fr) {
@@ -72,7 +72,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
         this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
-        this.feedbackResponseDetails = deserializeResponseFromMetaData(fr.getResponseMetaData());
+        this.responseDetails = deserializeResponseFromMetaData(fr.getResponseMetaData());
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
     }
@@ -89,7 +89,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.recipientSection = copy.recipientSection;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
-        this.feedbackResponseDetails = copy.getFeedbackResponseDetailsCopy();
+        this.responseDetails = copy.getFeedbackResponseDetailsCopy();
     }
 
     public String getId() {
@@ -187,15 +187,15 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * Converts the Feedback*ResponseDetails object to JSON String for storing.
      */
     public String getSerializedFeedbackResponseDetail() {
-        if (feedbackResponseDetails == null) {
+        if (responseDetails == null) {
             // There was error extracting response data from http request
             return "";
-        } else if (feedbackResponseDetails.questionType == FeedbackQuestionType.TEXT) {
+        } else if (responseDetails.questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the answer simply contains the response text, not a JSON
             // This is due to legacy data in the data store before there were multiple question types
-            return feedbackResponseDetails.getAnswerString();
+            return responseDetails.getAnswerString();
         } else {
-            return JsonUtils.toJson(feedbackResponseDetails, getFeedbackResponseDetailsClass());
+            return JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass());
         }
     }
 
@@ -204,11 +204,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * @return The Feedback*ResponseDetails object representing the response's details
      */
     public FeedbackResponseDetails getResponseDetails() {
-        return feedbackResponseDetails;
+        return responseDetails;
     }
 
     public void setResponseAnswer(String answer) {
-        feedbackResponseDetails = deserializeResponseFromMetaData(answer);
+        responseDetails = deserializeResponseFromMetaData(answer);
     }
 
     public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
@@ -229,15 +229,15 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-        return feedbackResponseDetails == null;
+        return responseDetails == null;
     }
 
     public boolean isEmptyResponse() {
 //        if (isMissingResponse()) {
 //            return true;
 //        }
-        Assumption.assertNotNull(feedbackResponseDetails);
-        return feedbackResponseDetails.getAnswerString().isEmpty();
+        Assumption.assertNotNull(responseDetails);
+        return responseDetails.getAnswerString().isEmpty();
     }
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {

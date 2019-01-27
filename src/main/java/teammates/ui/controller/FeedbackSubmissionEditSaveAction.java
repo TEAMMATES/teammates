@@ -415,7 +415,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
                                                                   questionDetails, requestParameters,
                                                                   questionIndx, responseIndx);
-            response.feedbackResponseDetails = responseDetails;
+            response.responseDetails = responseDetails;
         }
 
         return response;
