@@ -969,6 +969,8 @@ public final class Const {
         public static final String COURSE = "/course";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
+        public static final String INSTRUCTOR_HOME = "/instructors/home";
+        public static final String INSTRUCTOR_COURSES = "/instructors/courses";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
         public static final String STUDENTS = "/students";
@@ -1002,8 +1004,16 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
         public static final String STUDENT_COURSES = "/student/courses";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
+
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
+        public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
+        public static final String COURSE_EDIT_DETAILS_SAVE = "/instructors/course/details/save";
+        public static final String COURSE_DELETE = "/instructors/course/delete";
+        public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
+        public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
+        public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";
+        public static final String COURSE_SEND_REMINDER_EMAILS = "/instructors/course/details/sendReminders";
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";

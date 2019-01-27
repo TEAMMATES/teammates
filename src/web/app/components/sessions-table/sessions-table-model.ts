@@ -72,6 +72,11 @@ export enum SortBy {
   COURSE_ID,
 
   /**
+   * Course ID.
+   */
+  COURSE_NAME,
+
+  /**
    * Feedback session name.
    */
   FEEDBACK_SESSION_NAME,

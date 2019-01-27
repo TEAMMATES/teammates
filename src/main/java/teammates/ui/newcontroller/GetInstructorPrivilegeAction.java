@@ -26,12 +26,16 @@ public class GetInstructorPrivilegeAction extends Action {
     @Override
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
         InstructorPrivilegeResponse response = new InstructorPrivilegeResponse();
+        response.setCanModifyCourse(
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         response.setCanModifySession(
                 instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        response.setCanModifyStudent(
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
         response.setCanSubmitSessionInSections(
                 instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
                         || instructor.isAllowedForPrivilegeAnySection(
@@ -40,16 +44,25 @@ public class GetInstructorPrivilegeAction extends Action {
         return new JsonResult(response);
     }
 
-
     /**
      * The output format of {@link GetInstructorPrivilegeAction}.
      */
     public static class InstructorPrivilegeResponse extends ActionResult.ActionOutput {
+        private boolean canModifyCourse;
         private boolean canModifySession;
+        private boolean canModifyStudent;
         private boolean canSubmitSessionInSections;
+
+        public void setCanModifyCourse(boolean canModifyCourse) {
+            this.canModifyCourse = canModifyCourse;
+        }
 
         public void setCanModifySession(boolean canModifySession) {
             this.canModifySession = canModifySession;
+        }
+
+        public void setCanModifyStudent(boolean canModifyStudent) {
+            this.canModifyStudent = canModifyStudent;
         }
 
         public void setCanSubmitSessionInSections(boolean canSubmitSessionInSections) {
