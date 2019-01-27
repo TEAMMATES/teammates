@@ -31,6 +31,14 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         recommendedLength = 0;
     }
 
+    public int getRecommendedLength() {
+        return recommendedLength;
+    }
+
+    public void setRecommendedLength(int recommendedLength) {
+        this.recommendedLength = recommendedLength;
+    }
+
     @Override
     public List<String> getInstructions() {
         return null;

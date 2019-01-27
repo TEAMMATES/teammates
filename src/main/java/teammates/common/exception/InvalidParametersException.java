@@ -14,10 +14,6 @@ public class InvalidParametersException extends TeammatesException {
         super(StringHelper.toString(messages));
     }
 
-    public InvalidParametersException(String specificErrorcode, String message) {
-        super(specificErrorcode, message);
-    }
-
     public InvalidParametersException(Throwable cause) {
         super(cause);
     }

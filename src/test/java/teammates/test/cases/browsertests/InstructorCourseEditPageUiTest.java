@@ -10,7 +10,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -20,7 +21,7 @@ import teammates.test.pageobjects.InstructorCoursesPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
  */
-public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
+public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
     private InstructorCourseEditPage courseEditPage;
 
     private String instructorId;

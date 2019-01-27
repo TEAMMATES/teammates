@@ -6,15 +6,6 @@
     <!-- GAE instance class that determines compute resources available to the application -->
     <instance-class>F1</instance-class>
 
-    <!-- Application ID of the app -->
-    <!-- For dev server testing, this could be anything -->
-    <!-- For staging server testing, this should match the ID of the app your created on GAE -->
-    <application>teammates-john</application>
-
-    <!-- Version number of the app -->
-    <!-- Use dashes instead of dots because GAE does not allow dots in version number -->
-    <version>6-0-0</version>
-
     <!-- Specify which file contains logging configuration to be used by java.util.logging -->
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
@@ -26,16 +17,12 @@
     <!-- Enable session to maintain one-time status message -->
     <sessions-enabled>true</sessions-enabled>
 
-    <!-- Prevent the files from dev/mockups/node_modules folder from being deployed/hosted -->
-    <resource-files>
-        <exclude path="/dev/**" />
-        <exclude path="/mockups/**" />
-        <exclude path="/node_modules/**" />
-    </resource-files>
     <static-files>
-        <exclude path="/dev/**" />
-        <exclude path="/mockups/**" />
-        <exclude path="/node_modules/**" />
+        <include path="/index.html" expiration="1d" />
+        <include path="/*.js" expiration="14d" />
+        <include path="/*.css" expiration="14d" />
+        <include path="/fa-*" expiration="14d" />
+        <include path="/assets/**" expiration="14d" />
     </static-files>
 
 </appengine-web-app>

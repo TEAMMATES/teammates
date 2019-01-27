@@ -95,7 +95,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     public boolean isRegistered() {
-        return googleId != null;
+        return googleId != null && !googleId.trim().isEmpty();
     }
 
     @Override

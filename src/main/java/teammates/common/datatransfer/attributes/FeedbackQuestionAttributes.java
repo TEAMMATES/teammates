@@ -696,6 +696,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return questionNumber;
     }
 
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
     public FeedbackQuestionType getQuestionType() {
         return questionType;
     }
@@ -704,24 +708,48 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return giverType;
     }
 
+    public void setGiverType(FeedbackParticipantType giverType) {
+        this.giverType = giverType;
+    }
+
     public FeedbackParticipantType getRecipientType() {
         return recipientType;
+    }
+
+    public void setRecipientType(FeedbackParticipantType recipientType) {
+        this.recipientType = recipientType;
     }
 
     public int getNumberOfEntitiesToGiveFeedbackTo() {
         return numberOfEntitiesToGiveFeedbackTo;
     }
 
+    public void setNumberOfEntitiesToGiveFeedbackTo(int numberOfEntitiesToGiveFeedbackTo) {
+        this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
+    }
+
     public List<FeedbackParticipantType> getShowResponsesTo() {
         return showResponsesTo;
+    }
+
+    public void setShowResponsesTo(List<FeedbackParticipantType> showResponsesTo) {
+        this.showResponsesTo = showResponsesTo;
     }
 
     public List<FeedbackParticipantType> getShowGiverNameTo() {
         return showGiverNameTo;
     }
 
+    public void setShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+        this.showGiverNameTo = showGiverNameTo;
+    }
+
     public List<FeedbackParticipantType> getShowRecipientNameTo() {
         return showRecipientNameTo;
+    }
+
+    public void setShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
+        this.showRecipientNameTo = showRecipientNameTo;
     }
 
     public String getQuestionAdditionalInfoHtml() {

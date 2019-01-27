@@ -40,6 +40,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = true;
     }
 
+    public boolean isNotSureAllowed() {
+        return isNotSureAllowed;
+    }
+
+    public void setNotSureAllowed(boolean notSureAllowed) {
+        isNotSureAllowed = notSureAllowed;
+    }
+
     private void setContributionQuestionDetails(boolean isNotSureAllowed) {
         this.isNotSureAllowed = isNotSureAllowed;
     }

@@ -7,10 +7,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
@@ -50,8 +49,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     @Test
     public void testExecuteAndPostProcess_registeredStudentAccessSoftDeletedSession_shouldNotAccessAndRedirect()
             throws Exception {
-        Logic logic = new Logic();
-
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
@@ -80,8 +77,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             expectedExceptionsMessageRegExp = ".*unregistered student trying to access non-existent session.*")
     public void testExecuteAndPostProcess_unregisteredStudentAccessSoftDeletedSession_shouldNotAccessAndExceptionThrow()
             throws Exception {
-        Logic logic = new Logic();
-
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes unregStudent =
                 logic.getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
@@ -148,7 +143,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             pageAction = getAction(submissionParams);
             redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
@@ -164,7 +159,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             pageAction = getAction(submissionParams);
             redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.COURSE_ID), e.getMessage());
         }

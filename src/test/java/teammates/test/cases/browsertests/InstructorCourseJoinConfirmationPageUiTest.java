@@ -5,8 +5,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
@@ -14,7 +15,7 @@ import teammates.test.pageobjects.InstructorHomePage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_JOIN}.
  */
-public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
+public class InstructorCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
@@ -57,7 +58,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
         ______TS("Click join link then cancel");
 
-        String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                                         .withRegistrationKey(invalidEncryptedKey)
                                         .toAbsoluteString();
         logout();
@@ -87,7 +88,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
         String regkey = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
-        joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                                         .withRegistrationKey(regkey)
                                         .toAbsoluteString();
 

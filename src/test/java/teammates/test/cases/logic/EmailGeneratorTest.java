@@ -301,10 +301,11 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withName("Joe Wilson")
                 .build();
 
-        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                .withRegistrationKey(StringHelper.encrypt(regkey))
-                                .withInstructorInstitution("Test Institute")
-                                .toAbsoluteString();
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(regkey))
+                .withInstructorInstitution("Test Institute")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()
                 .generateNewInstructorAccountJoinEmail(instructorEmail, instructorName, joinLink);
@@ -332,9 +333,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
 
-        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor1.key))
                 .withInstructorInstitution("Test Institute")
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()
@@ -356,6 +358,25 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, instructor1.email, subject, "/instructorCourseJoinEmailTestingSanitization.html");
+
+        ______TS("instructor course join email after Google ID reset");
+
+        email = new EmailGenerator().generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, null);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, instructor1.email, subject,
+                "/instructorCourseRejoinAfterGoogleIdResetEmail.html");
+
+        ______TS("instructor course join email after Google ID reset (with institute name set)");
+
+        email = new EmailGenerator()
+                .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, "Test Institute");
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, instructor1.email, subject,
+                "/instructorCourseRejoinAfterGoogleIdResetEmailWithInstitute.html");
     }
 
     @Test
@@ -467,26 +488,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(
                 Arrays.asList(typicalLogLine, logLineWithLineBreak));
 
-        String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(),
-                                       Config.getAppVersion());
+        String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION);
 
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
-    }
-
-    @Test
-    public void testGenerateAdminEmail() {
-        String recipient = "recipient@email.com";
-        String content = "Generic content";
-        String subject = "Generic subject";
-        EmailWrapper email = new EmailGenerator().generateAdminEmail(content, subject, recipient);
-
-        // Do not use verify email since the content is not based on any template
-        assertEquals(recipient, email.getRecipient());
-        assertEquals(subject, email.getSubject());
-        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
-        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
-        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        assertEquals(content, email.getContent());
     }
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {

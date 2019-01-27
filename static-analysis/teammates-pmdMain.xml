@@ -7,6 +7,7 @@
         This is the PMD additional ruleset for TEAMMATES production code.
     </description>
     <exclude-pattern>.*/test/java/.*</exclude-pattern>
+    <exclude-pattern>.*/e2e/java/.*</exclude-pattern>
     <exclude-pattern>.*/client/java/.*</exclude-pattern>
     <exclude-pattern>.*.html</exclude-pattern>
     <exclude-pattern>.*.jsp</exclude-pattern>

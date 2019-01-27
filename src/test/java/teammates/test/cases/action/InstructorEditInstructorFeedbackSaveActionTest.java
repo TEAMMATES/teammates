@@ -10,7 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -220,7 +220,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
             editInstructorFsAction = getAction(submissionParams);
             editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_NAME),
                          e.getMessage());
         }
@@ -236,7 +236,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
             editInstructorFsAction = getAction(submissionParams);
             editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());
         }
@@ -257,7 +257,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
             editInstructorFsAction = getAction(submissionParams);
             editInstructorFsAction.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON),
                          e.getMessage());

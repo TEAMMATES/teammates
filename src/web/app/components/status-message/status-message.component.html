@@ -1,0 +1,6 @@
+<div class="alert alert-{{ statusMessage.color }}" *ngFor="let statusMessage of messages">
+  <button class="close" (click)="dismiss(statusMessage)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div style="padding-right: 30px;" [innerHtml]="statusMessage.message"></div>
+</div>

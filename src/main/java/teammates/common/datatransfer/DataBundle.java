@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -30,7 +29,6 @@ public class DataBundle {
     public Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
     public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
     public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
-    public Map<String, AdminEmailAttributes> adminEmails = new LinkedHashMap<>();
 
     /**
      * Sanitize each attribute in the dataBundle for saving.
@@ -45,7 +43,6 @@ public class DataBundle {
         sanitizeMapForSaving(feedbackResponses);
         sanitizeMapForSaving(feedbackResponseComments);
         sanitizeMapForSaving(profiles);
-        sanitizeMapForSaving(adminEmails);
     }
 
     /**

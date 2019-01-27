@@ -54,10 +54,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetAllOpenFeedbackSessions_typicalCase_shouldQuerySuccessfullyWithoutDuplication() {
+    public void testGetAllOngoingSessions_typicalCase_shouldQuerySuccessfullyWithoutDuplication() {
         Instant rangeStart = Instant.parse("2000-12-03T10:15:30.00Z");
         Instant rangeEnd = Instant.parse("2050-04-30T21:59:00Z");
-        List<FeedbackSessionAttributes> actualAttributesList = fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+        List<FeedbackSessionAttributes> actualAttributesList = fsDb.getAllOngoingSessions(rangeStart, rangeEnd);
         assertEquals("should not return more than 13 sessions as there are only 13 distinct sessions in the range",
                 13, actualAttributesList.size());
     }

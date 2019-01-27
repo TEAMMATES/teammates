@@ -103,8 +103,8 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
-        return fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+    public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getAllOngoingSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -1475,8 +1475,16 @@ public final class FeedbackSessionsLogic {
         }
     }
 
-    public FeedbackSessionDetailsBundle getFeedbackSessionDetails(
-            FeedbackSessionAttributes fsa) throws EntityDoesNotExistException {
+    public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+        FeedbackSessionAttributes fsa = getFeedbackSession(feedbackSessionName, courseId);
+        if (fsa == null) {
+            throw new EntityDoesNotExistException("Feedback session does not exist");
+        }
+        return getFeedbackSessionDetails(fsa);
+    }
+
+    public FeedbackSessionDetailsBundle getFeedbackSessionDetails(FeedbackSessionAttributes fsa) {
 
         FeedbackSessionDetailsBundle details =
                 new FeedbackSessionDetailsBundle(fsa);

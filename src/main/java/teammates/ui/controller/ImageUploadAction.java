@@ -50,7 +50,7 @@ public class ImageUploadAction extends Action {
         BlobKey blobKey = blobInfo.getBlobKey();
 
         data.isFileUploaded = true;
-        AppUrl fileSrcUrl = Config.getAppUrl(Const.ActionURIs.PUBLIC_IMAGE_SERVE)
+        AppUrl fileSrcUrl = Config.getBackEndAppUrl(Const.ActionURIs.PUBLIC_IMAGE_SERVE)
                 .withParam(Const.ParamsNames.BLOB_KEY, blobKey.getKeyString());
         String absoluteFileSrcUrl = fileSrcUrl.toAbsoluteString();
         data.fileSrcUrl = fileSrcUrl.toString();

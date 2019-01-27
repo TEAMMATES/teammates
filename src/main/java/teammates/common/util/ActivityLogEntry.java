@@ -8,6 +8,7 @@ import com.google.appengine.api.log.AppLogLine;
 /**
  * A log entry to describe an action carried out by the app.
  */
+@Deprecated
 public final class ActivityLogEntry {
     // The following constants describe the positions of the attributes
     // in the log message. i.e

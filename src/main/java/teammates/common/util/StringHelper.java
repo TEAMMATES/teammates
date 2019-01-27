@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -271,20 +269,6 @@ public final class StringHelper {
             return null;
         }
         return CharMatcher.whitespace().trimFrom(str).replaceAll("\\s+", " ");
-    }
-
-    /**
-     * Trims all strings in the set and reduces consecutive white spaces to only one space.
-     */
-    public static Set<String> removeExtraSpace(Set<String> strSet) {
-        if (strSet == null) {
-            return null;
-        }
-        Set<String> result = new TreeSet<>();
-        for (String s : strSet) {
-            result.add(removeExtraSpace(s));
-        }
-        return result;
     }
 
     /**

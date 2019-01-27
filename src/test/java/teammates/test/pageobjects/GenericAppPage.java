@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import teammates.e2e.pageobjects.Browser;
+
 /**
  * This is used as the page type when we want to navigate to a Url without
  * bothering about the exact type of the page.

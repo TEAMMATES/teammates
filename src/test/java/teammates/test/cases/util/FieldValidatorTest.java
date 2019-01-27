@@ -13,7 +13,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.FieldValidatorExtension;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -23,53 +22,6 @@ import teammates.test.driver.TimeHelperExtension;
 public class FieldValidatorTest extends BaseTestCase {
 
     private FieldValidator validator = new FieldValidator();
-
-    @Test
-    public void testGetValidityInfoForSizeCappedNonEmptyString() {
-
-        String typicalFieldName = "my field";
-        int typicalLength = 25;
-
-        assertThrows(AssertionError.class, () ->
-                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null));
-
-        int maxLength = 50;
-        assertEquals("valid: typical value",
-                "",
-                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
-
-        assertEquals("valid: max length",
-                "",
-                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        StringHelperExtension.generateStringOfLength(maxLength)));
-
-        String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
-        assertEquals("invalid: too long",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
-                         + "as a/an my field because it is too long. The value of a/an my field should be no "
-                         + "longer than 50 characters. It should not be empty.",
-                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                             maxLength, tooLongName));
-
-        String emptyValue = "";
-        assertEquals("invalid: empty",
-                     "The field 'my field' is empty. The value of a/an my field should be no longer "
-                         + "than 50 characters. It should not be empty.",
-                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                             maxLength, emptyValue));
-
-        String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed",
-                     "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
-                         + "contains extra spaces at the beginning or at the end of the text.",
-                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
-                             maxLength, untrimmedValue));
-    }
 
     @Test
     public void testGetValidityInfoForNonHtmlField_cleanInput_returnEmptyString() {
@@ -104,11 +56,6 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {
 
         String typicalFieldName = "my field";
-        int typicalLength = 25;
-
-        assertThrows(AssertionError.class, () ->
-                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null));
-
         int maxLength = 50;
         assertEquals("valid: typical value",
                 "",

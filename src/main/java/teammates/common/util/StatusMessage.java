@@ -7,6 +7,7 @@ import java.io.Serializable;
  * and its level of seriousness of the status message (the color of the message).
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class StatusMessage implements Serializable {
     private String text;
     private StatusMessageColor color;

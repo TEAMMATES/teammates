@@ -16,8 +16,9 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -27,7 +28,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  */
-public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
+public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
     private FeedbackSubmitPage submitPage;
 
     @Override

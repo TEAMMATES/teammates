@@ -11,7 +11,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -34,21 +34,19 @@ public class PublicImageServlet extends HttpServlet {
         doPost(req, resp);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String url = HttpRequestHelper.getRequestedUrl(req);
 
-        UserType userType = new GateKeeper().getCurrentUser();
-        Map<String, String[]> requestParameters = req.getParameterMap();
-        String blobKey = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.BLOB_KEY);
+        UserInfo userInfo = new GateKeeper().getCurrentUser();
+        String blobKey = req.getParameter(Const.ParamsNames.BLOB_KEY);
         Assumption.assertPostParamNotNull(Const.ParamsNames.BLOB_KEY, blobKey);
 
         try {
             if (blobKey.isEmpty()) {
                 String message = "Failed to serve image with URL : blobKey is missing";
-                Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
-                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userType));
+                Map<String, String[]> params = req.getParameterMap();
+                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userInfo));
                 resp.sendError(1, "No image found");
             } else {
                 resp.setContentType("image/png");
@@ -60,15 +58,15 @@ public class PublicImageServlet extends HttpServlet {
                                + "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener noreferrer\" >"
                                + url + "</a>";
 
-                Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
-                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userType));
+                Map<String, String[]> params = req.getParameterMap();
+                log.info(new LogMessageGenerator().generateBasicActivityLogMessage(url, params, message, userInfo));
             }
         } catch (IOException ioe) {
-            Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
-            log.warning(new LogMessageGenerator().generateActionFailureLogMessage(url, params, ioe, userType));
+            Map<String, String[]> params = req.getParameterMap();
+            log.warning(new LogMessageGenerator().generateActionFailureLogMessage(url, params, ioe, userInfo));
         } catch (Exception e) {
-            log.severe("Exception occured while performing " + Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION
-                    + ": " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Exception occured while performing publicImageServeAction:"
+                    + TeammatesException.toStringWithStackTrace(e));
         }
     }
 

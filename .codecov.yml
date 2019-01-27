@@ -17,21 +17,11 @@ coverage:
   # Set up additional statuses for PRs
   status:
     project:
-      default: off
-
-      # production-only code coverage
-      production_only:
-        threshold: 0.5% # allow small drop in coverage
-        paths:
-          - "src/main/"
-
-      # production + test code coverage
-      all_codes:
-        threshold: 0.5% # allow small drop in coverage
-        paths:
-          - "src/"
+      default:
+        # allow small drop in coverage
+        threshold: 0.5%
 
     patch:
       default:
-        # enforce manually; sometimes used codes are not "covered" e.g. back-end codes used in front-end
+        # enforce manually; sometimes used codes are not "covered" e.g. client scripts
         threshold: 100%

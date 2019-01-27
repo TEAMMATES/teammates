@@ -15,12 +15,13 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AdminSearchPage;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_SEARCH_PAGE}.
  */
-public class AdminSearchPageUiTest extends BaseUiTestCase {
+public class AdminSearchPageUiTest extends BaseE2ETestCase {
     private static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
     private static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
 
@@ -123,7 +124,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     private AdminSearchPage getAdminSearchPage() {
-        AppUrl searchPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
+        AppUrl searchPageUrl = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         return loginAdminToPage(searchPageUrl, AdminSearchPage.class);
     }
 

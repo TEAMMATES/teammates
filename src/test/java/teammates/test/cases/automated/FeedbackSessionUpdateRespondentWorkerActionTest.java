@@ -15,7 +15,8 @@ import teammates.ui.automated.FeedbackSessionUpdateRespondentWorkerAction;
 /**
  * SUT: {@link FeedbackSessionUpdateRespondentWorkerAction}.
  */
-public class FeedbackSessionUpdateRespondentWorkerActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionUpdateRespondentWorkerActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionUpdateRespondentWorkerAction> {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
@@ -99,12 +100,6 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest extends BaseAutomat
         action.execute();
 
         verifyRespondentNotInSessionRespondentsList(session, instructor.email, true);
-    }
-
-    @Override
-    protected FeedbackSessionUpdateRespondentWorkerAction getAction(String... params) {
-        return (FeedbackSessionUpdateRespondentWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
     private void verifyRespondentInSessionRespondentsList(FeedbackSessionAttributes session, String respondentEmail,

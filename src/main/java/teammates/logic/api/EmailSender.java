@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.logic.core.EmailSenderService;
@@ -41,8 +40,8 @@ public class EmailSender {
     public void sendEmail(EmailWrapper message) throws EmailSendingException {
         service.sendEmail(message);
 
-        EmailLogEntry newEntry = new EmailLogEntry(message);
-        String emailLogInfo = newEntry.generateLogMessage();
+        String emailLogInfo = String.join("|||", "TEAMMATESEMAILLOG",
+                message.getRecipient(), message.getSubject(), message.getContent());
         log.info(emailLogInfo);
     }
 
@@ -55,7 +54,7 @@ public class EmailSender {
         JavamailService javamailService = new JavamailService();
 
         // GAE Javamail requires the sender email address to be of this format
-        message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
+        message.setSenderEmail("admin@" + Config.APP_ID + ".appspotmail.com");
 
         message.setSubject("[Javamail Copy] " + message.getSubject());
 

@@ -16,7 +16,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -70,7 +70,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
             a = getAction(submissionParams);
             r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
@@ -86,7 +86,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
             a = getAction(submissionParams);
             r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
+        } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                                        Const.ParamsNames.COURSE_ID), e.getMessage());
         }

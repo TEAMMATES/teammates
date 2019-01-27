@@ -94,7 +94,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 frc1I3Q1S2C2.createdAt, frc1I3Q1S2C2.commentGiver);
         commentsDb.deleteDocumentByCommentId(commentToDelete.feedbackResponseCommentId);
         // search engine need time to persist changes
-        persistenceRetryManager.runUntilNoRecognizedException(new RetryableTask("verify search result") {
+        getPersistenceRetryManager().runUntilNoRecognizedException(new RetryableTask("verify search result") {
             @Override
             public void run() {
                 FeedbackResponseCommentSearchResultBundle bundle =

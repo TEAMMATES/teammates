@@ -1,6 +1,6 @@
 package teammates.common.util;
 
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.NullHttpParameterException;
 
 /**
  * This class provides a set of static method to verify assumptions about the system.
@@ -124,9 +124,13 @@ public final class Assumption {
         }
     }
 
+    // TODO remove this after all controller classes have been migrated
+    // Reason 1: Not all HTTP requests are POST, but null parameters for any HTTP request are equally undesirable
+    // Reason 2: This is applicable only at controller level
+    @Deprecated
     public static <T> void assertPostParamNotNull(String parameterName, T postParameter) {
         if (postParameter == null) {
-            throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
+            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     parameterName));
         }
     }

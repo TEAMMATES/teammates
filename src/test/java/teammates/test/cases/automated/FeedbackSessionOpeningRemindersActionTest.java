@@ -19,7 +19,8 @@ import teammates.ui.automated.FeedbackSessionOpeningRemindersAction;
 /**
  * SUT: {@link FeedbackSessionOpeningRemindersAction}.
  */
-public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionOpeningRemindersActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionOpeningRemindersAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -93,11 +94,6 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
 
         verifyNoTasksAdded(action);
 
-    }
-
-    @Override
-    protected FeedbackSessionOpeningRemindersAction getAction(String... params) {
-        return (FeedbackSessionOpeningRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
 
 }
