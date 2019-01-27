@@ -1,9 +1,14 @@
 package teammates.common.util;
 
-
-import com.google.gson.*;
-
 import java.lang.reflect.Type;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 public final class SubclassAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
@@ -20,11 +25,11 @@ public final class SubclassAdapter<T> implements JsonSerializer<T>, JsonDeserial
         final JsonObject wrapper = (JsonObject) json;
         final JsonElement typeName = get(wrapper, "type");
         final JsonElement data = get(wrapper, "data");
-        final Type actualType = typeForName(typeName);
+        final Type actualType = getTypeForName(typeName);
         return context.deserialize(data, actualType);
     }
 
-    private Type typeForName(final JsonElement typeElem) {
+    private Type getTypeForName(final JsonElement typeElem) {
         try {
             return Class.forName(typeElem.getAsString());
         } catch (ClassNotFoundException e) {

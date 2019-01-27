@@ -8,7 +8,6 @@ import java.util.List;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -232,7 +231,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         if (isMissingResponse()) {
             return true;
         }
-//        Assumption.assertNotNull(responseDetails);
         return responseDetails.getAnswerString().isEmpty();
     }
 
