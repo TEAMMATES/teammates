@@ -169,10 +169,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     private FeedbackResponseDetails deserializeResponseFromMetaData(String responseMetaData) {
-        if (isMissingResponse()) {
-            return null;
-        }
-
         Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
 
         if (responseDetailsClass == FeedbackTextResponseDetails.class) {
