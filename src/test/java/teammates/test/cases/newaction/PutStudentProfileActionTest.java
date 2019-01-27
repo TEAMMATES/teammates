@@ -31,16 +31,18 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
     @Override
     @Test
     public void testExecute() throws Exception {
-        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
-        testActionWithInvalidParameters(student);
-        testActionSuccess(student, "Typical Case");
-        testActionInMasqueradeMode(student);
+        testActionWithInvalidParameters(student1);
+        testActionSuccess(student1, "Typical Case");
+        testActionForbidden(student1, student2, "Forbidden Case");
+        testActionInMasqueradeMode(student1);
 
-        student = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
+        student1 = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
         // simulate sanitization that occurs before persistence
-        student.sanitizeForSaving();
-        testActionSuccess(student, "Typical case: attempted script injection");
+        student1.sanitizeForSaving();
+        testActionSuccess(student1, "Typical case: attempted script injection");
     }
 
     private void testActionWithInvalidParameters(AccountAttributes student) throws Exception {
@@ -125,6 +127,19 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
     }
 
+    private void testActionForbidden(AccountAttributes student1, AccountAttributes student2,
+                                     String caseDescription) {
+        String[] submissionParams = createValidParamsForProfile(student1.googleId);
+        loginAsStudent(student2.googleId);
+
+        ______TS(caseDescription);
+
+        PutStudentProfileAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
+
+        assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
+    }
+
     private void testActionInMasqueradeMode(AccountAttributes student) {
 
         ______TS("Typical case: masquerade mode");
@@ -177,6 +192,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
     @Override
     @Test
     protected void testAccessControl() {
-        verifyAnyLoggedInUserCanAccess();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
 }

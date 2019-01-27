@@ -59,6 +59,7 @@ public class PostStudentProfileFormUrlActionTest extends BaseActionTest<PostStud
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        verifyAnyLoggedInUserCanAccess();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
 }

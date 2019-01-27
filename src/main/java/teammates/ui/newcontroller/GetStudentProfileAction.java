@@ -1,6 +1,9 @@
 package teammates.ui.newcontroller;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -14,20 +17,28 @@ public class GetStudentProfileAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        // Anyone logged in can get a student's profile
+        if (!userInfo.isStudent) {
+            throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
+        }
     }
 
     @Override
     public ActionResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
+
+        if (!studentId.equals(userInfo.id) && !"admin.user".equals(userInfo.id)) {
+            return new JsonResult("You are not authorized to view this student's profile.", HttpStatus.SC_FORBIDDEN);
+        }
+
         StudentProfileAttributes studentProfile = logic.getStudentProfile(studentId);
+        String name = logic.getAccount(studentId).name;
 
         if (studentProfile == null) {
             // create one on the fly
             studentProfile = StudentProfileAttributes.builder(studentId).build();
         }
 
-        StudentProfile output = new StudentProfile(studentProfile);
+        StudentProfile output = new StudentProfile(name, studentProfile);
         return new JsonResult(output);
     }
 
@@ -36,13 +47,19 @@ public class GetStudentProfileAction extends Action {
      */
     public static class StudentProfile extends ActionResult.ActionOutput {
         private final StudentProfileAttributes studentProfile;
+        private String name;
 
-        public StudentProfile(StudentProfileAttributes studentProfile) {
+        public StudentProfile(String name, StudentProfileAttributes studentProfile) {
             this.studentProfile = studentProfile;
+            this.name = name;
         }
 
         public StudentProfileAttributes getStudentProfile() {
             return this.studentProfile;
+        }
+
+        public String getName() {
+            return this.name;
         }
     }
 }

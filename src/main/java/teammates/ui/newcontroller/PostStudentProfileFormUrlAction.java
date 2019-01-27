@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Url;
@@ -21,7 +22,9 @@ public class PostStudentProfileFormUrlAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        // Anyone logged in can create a student profile form url
+        if (!userInfo.isStudent) {
+            throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
+        }
     }
 
     @Override

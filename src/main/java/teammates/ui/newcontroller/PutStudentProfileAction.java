@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -19,12 +20,18 @@ public class PutStudentProfileAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        // Anyone logged in can update a student's profile
+        if (!userInfo.isStudent) {
+            throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
+        }
     }
 
     @Override
     public ActionResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
+
+        if (!studentId.equals(userInfo.id) && !"admin.user".equals(userInfo.id)) {
+            return new JsonResult("You are not authorized to update this student's profile.", HttpStatus.SC_FORBIDDEN);
+        }
 
         try {
             StudentProfileAttributes studentProfile = extractProfileData(studentId);

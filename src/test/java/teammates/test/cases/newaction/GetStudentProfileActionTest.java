@@ -27,18 +27,22 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Override
     @Test
     public void testExecute() throws Exception {
-        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
+
         StudentProfileAttributes student1InCourse1Profile = typicalBundle.profiles.get("student1InCourse1");
-        testActionSuccess(student, student1InCourse1Profile, "Typical case");
+        testActionSuccess(student1, student1InCourse1Profile, "Typical case");
 
-        testActionInMasquerade(student);
+        testActionForbidden(student1, student2, "Forbidden case");
 
-        student = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
+        testActionInMasquerade(student1);
+
+        student1 = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
         StudentProfileAttributes student1InTestingSanitizationCourseProfile =
                 typicalBundle.profiles.get("student1InTestingSanitizationCourse");
         // simulate sanitization that occurs before persistence
-        student.sanitizeForSaving();
-        testActionSuccess(student, student1InTestingSanitizationCourseProfile,
+        student1.sanitizeForSaving();
+        testActionSuccess(student1, student1InTestingSanitizationCourseProfile,
                 "Typical case: attempted script injection");
     }
 
@@ -58,6 +62,22 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentProfile output = (StudentProfile) result.getOutput();
         output.getStudentProfile().modifiedDate = null; // ignore this field for testing
         assertEquals(studentProfileAttributes.toString(), output.getStudentProfile().toString());
+        assertEquals(student.getName(), output.getName());
+    }
+
+    private void testActionForbidden(AccountAttributes student1, AccountAttributes student2,
+                                   String caseDescription) {
+        loginAsStudent(student2.googleId);
+
+        ______TS(caseDescription);
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_ID, student1.googleId
+        };
+
+        GetStudentProfileAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
+
+        assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
     }
 
     private void testActionInMasquerade(AccountAttributes student) {
@@ -77,12 +97,13 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentProfile output = (StudentProfile) result.getOutput();
         output.getStudentProfile().modifiedDate = null; // ignore this field for testing
         assertEquals(student1InCourse1Profile.toString(), output.getStudentProfile().toString());
+        assertEquals(student.getName(), output.getName());
     }
 
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        verifyAnyLoggedInUserCanAccess();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
-
 }

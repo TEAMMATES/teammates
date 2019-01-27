@@ -25,6 +25,7 @@ interface StudentProfile {
 
 interface StudentDetails {
   studentProfile: StudentProfile;
+  name: string;
   requestId: string;
 }
 
@@ -45,6 +46,7 @@ export class StudentProfilePageComponent implements OnInit {
   user: string = '';
   id: string = '';
   student?: StudentDetails;
+  name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
   genders: string[] = ['male', 'female', 'other'];
@@ -101,6 +103,7 @@ export class StudentProfilePageComponent implements OnInit {
         this.httpRequestService.get('/student/profile', paramMap).subscribe((response: StudentDetails) => {
           if (response) {
             this.student = response;
+            this.name = response.name;
             this.initStudentProfileForm(this.student.studentProfile);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
