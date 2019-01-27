@@ -670,11 +670,8 @@ public final class CoursesLogic {
      */
     public Instant moveCourseToRecycleBin(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.setDeletedAt();
-        coursesDb.updateCourse(course);
 
-        return course.deletedAt;
+        return coursesDb.softDeleteCourse(courseId);
     }
 
     /**
@@ -682,9 +679,7 @@ public final class CoursesLogic {
      */
     public void restoreCourseFromRecycleBin(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.resetDeletedAt();
-        coursesDb.updateCourse(course);
+        coursesDb.restoreCourseFromRecycleBin(courseId);
     }
 
     /**

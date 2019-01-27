@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.DateTimeException;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -108,6 +109,29 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         deleteEntity(CourseAttributes
                 .builder(courseId, "Non-existent course", Const.DEFAULT_TIME_ZONE)
                 .build());
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     * @return Soft-deletion time of the course.
+     */
+    public Instant softDeleteCourse(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = getCourse(courseId);
+        course.setDeletedAt();
+        updateCourse(course);
+
+        return course.deletedAt;
+    }
+
+    /**
+     * Restores a course from Recycle Bin by its given corresponding ID.
+     */
+    public void restoreCourseFromRecycleBin(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = getCourse(courseId);
+        course.resetDeletedAt();
+        updateCourse(course);
     }
 
     @Override

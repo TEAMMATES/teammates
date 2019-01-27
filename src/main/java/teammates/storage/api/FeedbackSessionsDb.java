@@ -363,6 +363,9 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return feedbackSession.getDeletedTime();
     }
 
+    /**
+     * Restores a specific feedback session from Recycle Bin to feedback sessions table.
+     */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
