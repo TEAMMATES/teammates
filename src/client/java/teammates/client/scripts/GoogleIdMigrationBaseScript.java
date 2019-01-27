@@ -13,6 +13,7 @@ import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
 import teammates.storage.api.InstructorsDb;
@@ -20,7 +21,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.StudentProfile;
-import teammates.test.driver.TestProperties;
 
 /**
  * Base script to migrate a googleId to a new googleId.
@@ -117,7 +117,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         if (oldStudentProfile != null) {
             BlobKey oldPictureKey = oldStudentProfile.getPictureKey();
 
-            if (!TestProperties.isDevServer()) {
+            if (!ClientProperties.isTargetUrlDevServer()) {
                 try {
                     GcsFilename oldGcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, oldGoogleId);
                     GcsFilename newGcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, newGoogleId);

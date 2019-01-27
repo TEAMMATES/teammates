@@ -41,6 +41,7 @@ build-eclipse/
 gradle.properties
 build.properties
 test.properties
+client.properties
 appengine-web.xml
 appengine-generated
 geckodriver*

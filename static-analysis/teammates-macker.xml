@@ -287,12 +287,6 @@
                             <from class="${testCases}.browsertests.**" />
                             <to class="${e2e}.**" />
                         </allow>
-
-                        <!-- need to figure out the relation between E2E and client -->
-                        <allow>
-                            <from class="${client}.remoteapi.RemoteApiClient" />
-                            <to class="${e2e}.util.TestProperties" />
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>
