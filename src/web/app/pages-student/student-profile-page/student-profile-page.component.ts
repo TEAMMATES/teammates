@@ -96,6 +96,7 @@ export class StudentProfilePageComponent implements OnInit {
       if (auth.user) {
         this.id = auth.user.id;
         const paramMap: { [key: string]: string } = {
+          user: this.user,
           googleid: auth.user.id,
         };
 
@@ -142,6 +143,7 @@ export class StudentProfilePageComponent implements OnInit {
    */
   submitEditForm(): void {
     const paramsMap: { [key: string]: string } = {
+      user: this.user,
       googleid: this.id,
       ...this.editForm.value,
     };
