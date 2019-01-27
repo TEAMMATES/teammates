@@ -351,7 +351,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
 
-        FeedbackSession sessionEntity = getFeedbackSessionEntity(courseId, feedbackSessionName);
+        FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
 
         if (sessionEntity == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
@@ -371,14 +371,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
 
-        FeedbackSession sessionEntity = getFeedbackSessionEntity(courseId, feedbackSessionName);
+        FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
 
         if (sessionEntity == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        sessionEntity.setDeletedTime(Instant.now());
-        saveEntity(null);
+        sessionEntity.setDeletedTime(null);
+        saveEntity(sessionEntity);
     }
 
     // The objectify library does not support throwing checked exceptions inside transactions

@@ -212,8 +212,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testSoftDeleteFeedbackSession() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+    public void testSoftDeleteFeedbackSession() throws Exception {
+        FeedbackSessionAttributes fs = getNewFeedbackSession();
+        fsDb.createEntity(fs);
 
         ______TS("Success: soft delete an existing feedback session");
         fsDb.softDeleteFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
