@@ -35,7 +35,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      *
      * <p>This is set to null to represent a missing response.
      */
-    public String responseMetaData;
+    public FeedbackResponseDetails feedbackResponseDetails;
     public String giverSection;
     public String recipientSection;
     protected transient Instant createdAt;
@@ -58,7 +58,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = giverSection;
         this.recipient = recipient;
         this.recipientSection = recipientSection;
-        this.responseMetaData = responseMetaData;
+        this.feedbackResponseDetails = deserializeResponseFromMetaData(responseMetaData);
     }
 
     public FeedbackResponseAttributes(FeedbackResponse fr) {
@@ -71,7 +71,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
         this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
-        this.responseMetaData = fr.getResponseMetaData();
+        this.feedbackResponseDetails = deserializeResponseFromMetaData(fr.getResponseMetaData());
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
     }
@@ -86,9 +86,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = copy.giverSection;
         this.recipient = copy.recipient;
         this.recipientSection = copy.recipientSection;
-        this.responseMetaData = copy.responseMetaData;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
+        this.feedbackResponseDetails = deserializeResponseFromMetaData(copy.getSerializedFeedbackResponseDetail());
     }
 
     public String getId() {
@@ -129,7 +129,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public FeedbackResponse toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, feedbackQuestionType,
-                giver, giverSection, recipient, recipientSection, responseMetaData);
+                giver, giverSection, recipient, recipientSection, getSerializedFeedbackResponseDetail());
     }
 
     @Override
@@ -154,7 +154,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
                 + ", giver=" + giver + ", recipient=" + recipient
-                + ", answer=" + responseMetaData + "]";
+                + ", answer=" + getSerializedFeedbackResponseDetail() + "]";
     }
 
     @Override
@@ -167,28 +167,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         // nothing to sanitize before saving
     }
 
-    /**
-     * Converts the given Feedback*ResponseDetails object to JSON for storing.
-     */
-    public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        if (responseDetails == null) {
-            // There was error extracting response data from http request
-            responseMetaData = "";
-        } else if (responseDetails.questionType == FeedbackQuestionType.TEXT) {
-            // For Text questions, the answer simply contains the response text, not a JSON
-            // This is due to legacy data in the data store before there were multiple question types
-            responseMetaData = responseDetails.getAnswerString();
-        } else {
-            responseMetaData = JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass());
-        }
-    }
-
-    /**
-     * Retrieves the Feedback*ResponseDetails object for this response.
-     * @return The Feedback*ResponseDetails object representing the response's details
-     */
-    public FeedbackResponseDetails getResponseDetails() {
-
+    private FeedbackResponseDetails deserializeResponseFromMetaData(String responseMetaData) {
         if (isMissingResponse()) {
             return null;
         }
@@ -201,6 +180,30 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return new FeedbackTextResponseDetails(responseMetaData);
         }
         return JsonUtils.fromJson(responseMetaData, responseDetailsClass);
+    }
+
+    /**
+     * Converts the Feedback*ResponseDetails object to JSON String for storing.
+     */
+    public String getSerializedFeedbackResponseDetail() {
+        if (feedbackResponseDetails == null) {
+            // There was error extracting response data from http request
+            return "";
+        } else if (feedbackResponseDetails.questionType == FeedbackQuestionType.TEXT) {
+            // For Text questions, the answer simply contains the response text, not a JSON
+            // This is due to legacy data in the data store before there were multiple question types
+            return feedbackResponseDetails.getAnswerString();
+        } else {
+            return JsonUtils.toJson(feedbackResponseDetails, getFeedbackResponseDetailsClass());
+        }
+    }
+
+    /**
+     * Retrieves the Feedback*ResponseDetails object for this response.
+     * @return The Feedback*ResponseDetails object representing the response's details
+     */
+    public FeedbackResponseDetails getResponseDetails() {
+        return feedbackResponseDetails;
     }
 
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object
@@ -217,7 +220,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-        return responseMetaData == null;
+        return feedbackResponseDetails == null;
     }
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
