@@ -146,7 +146,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * Format: email%courseId e.g., adam@gmail.com%cs1101.
      */
     public String getId() {
-        return email + "::" + course;
+        return email + "%" + course;
     }
 
     public String getSection() {

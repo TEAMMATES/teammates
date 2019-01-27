@@ -197,8 +197,6 @@ public final class Const {
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
                 Arrays.asList(ActionURIs.STUDENT_HOME_PAGE));
 
-        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
-
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
