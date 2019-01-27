@@ -9,7 +9,10 @@ public final class SubclassAdapter<T> implements JsonSerializer<T>, JsonDeserial
 
     @Override
     public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
-        return null;
+        final JsonObject wrapper = new JsonObject();
+        wrapper.addProperty("type", src.getClass().getName());
+        wrapper.add("data", context.serialize(src));
+        return wrapper;
     }
 
     @Override
