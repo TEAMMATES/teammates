@@ -91,11 +91,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
             return accountAttributes;
         }
-
-        public AccountAttributes buildWithoutSanitizing() {
-            return accountAttributes;
-        }
-
     }
 
     /**

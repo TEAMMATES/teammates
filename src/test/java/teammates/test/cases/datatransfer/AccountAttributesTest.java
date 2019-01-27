@@ -239,15 +239,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
+        AccountAttributes unsanitizedAttributes = AccountAttributes.builder().build();
+        unsanitizedAttributes.googleId = "    google'Id@gmail.com\t";
+        unsanitizedAttributes.name = "'name'\n\n";
+        unsanitizedAttributes.institute = "\\\t\n/";
+        unsanitizedAttributes.email = "&<email>&\n";
+        unsanitizedAttributes.isInstructor = true;
 
-        return AccountAttributes.builder()
-                .withGoogleId("    google'Id@gmail.com\t")
-                .withName("'name'\n\n")
-                .withInstitute("\\\t\n/")
-                .withEmail("&<email>&\n")
-                .withIsInstructor(true)
-                .buildWithoutSanitizing();
-
+        return unsanitizedAttributes;
     }
 
 }
