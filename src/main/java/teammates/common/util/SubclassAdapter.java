@@ -9,40 +9,25 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
-public final class SubclassAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
-
-    @Override
-    public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
-        final JsonObject wrapper = new JsonObject();
-        wrapper.addProperty("type", src.getClass().getName());
-        wrapper.add("data", context.serialize(src));
-        return wrapper;
-    }
+public final class SubclassAdapter implements JsonSerializer<FeedbackResponseAttributes>,
+        JsonDeserializer<FeedbackResponseAttributes> {
 
     @Override
-    public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        final JsonObject wrapper = (JsonObject) json;
-        final JsonElement typeName = get(wrapper, "type");
-        final JsonElement data = get(wrapper, "data");
-        final Type actualType = getTypeForName(typeName);
-        return context.deserialize(data, actualType);
+    public JsonElement serialize(FeedbackResponseAttributes src, Type typeOfSrc, JsonSerializationContext context) {
+        return context.serialize(src);
     }
 
-    private Type getTypeForName(final JsonElement typeElem) {
-        try {
-            return Class.forName(typeElem.getAsString());
-        } catch (ClassNotFoundException e) {
-            throw new JsonParseException(e);
-        }
-    }
-
-    private JsonElement get(final JsonObject wrapper, String memberName) {
-        final JsonElement jsonElement = wrapper.get(memberName);
-        if (jsonElement == null) {
-            throw new JsonParseException("no '" + memberName
-                    + "' member found in what was expected to be an interface wrapper");
-        }
-        return jsonElement;
+    @Override
+    public FeedbackResponseAttributes deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+            throws JsonParseException {
+        FeedbackResponseAttributes feedbackResponseAttributes = context.deserialize(json, typeOfT);
+        String detailsInJson = JsonUtils.toJson(feedbackResponseAttributes.responseDetails);
+        FeedbackResponseDetails actualDetail = JsonUtils.fromJson(detailsInJson,
+                feedbackResponseAttributes.feedbackQuestionType.getResponseDetailsClass());
+        feedbackResponseAttributes.responseDetails = actualDetail;
+        return feedbackResponseAttributes;
     }
 }

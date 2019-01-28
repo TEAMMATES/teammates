@@ -16,6 +16,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 /**
@@ -36,7 +37,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new TeammatesDurationMinutesAdapter())
-                .registerTypeAdapter(FeedbackResponseDetails.class, new SubclassAdapter<FeedbackResponseDetails>())
+                .registerTypeAdapter(FeedbackResponseAttributes.class, new SubclassAdapter())
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();
