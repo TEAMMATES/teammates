@@ -135,7 +135,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, false,
                      "idOfInstructor1OfCourse1"), r.getDestinationWithParams());
         assertEquals("You have not created any courses yet, or you have no active courses. "
-                     + "Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> "
+                     + "Go <a href=\"/web/instructor/courses?user=idOfInstructor1OfCourse1\">here</a> "
                      + "to create or unarchive a course.",
                      r.getStatusMessage());
         assertFalse(r.isError);

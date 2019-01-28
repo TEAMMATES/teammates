@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../auth-info';
+import { AuthInfo } from '../../types/api-output';
 
 /**
  * Base skeleton for instructor pages.

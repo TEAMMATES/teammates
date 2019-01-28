@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.newcontroller.DeleteInstructorInCourseAction;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link DeleteInstructorInCourseAction}.
@@ -51,7 +51,7 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        JsonResult.MessageOutput msg = (JsonResult.MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) r.getOutput();
         assertEquals("The instructor has been deleted from the course.", msg.getMessage());
 
         assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructorEmailToDelete, courseId));

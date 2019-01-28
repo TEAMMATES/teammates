@@ -22,6 +22,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.logic.api.EmailGenerator;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: creates a new instructor account with sample courses.
@@ -204,7 +205,7 @@ public class CreateAccountAction extends Action {
     /**
      * Output format for {@link CreateAccountAction}.
      */
-    public static class JoinLink extends ActionResult.ActionOutput {
+    public static class JoinLink extends ApiOutput {
 
         private final String joinLink;
 

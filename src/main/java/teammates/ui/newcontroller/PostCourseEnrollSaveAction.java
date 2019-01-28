@@ -20,6 +20,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.ui.template.EnrollResultPanel;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: saving the list of enrolled students for a course of an instructor.
@@ -185,7 +186,7 @@ public class PostCourseEnrollSaveAction extends Action {
     /**
      * Data format for {@link PostCourseEnrollSaveAction}.
      */
-    public static class EnrollResults extends ActionResult.ActionOutput {
+    public static class EnrollResults extends ApiOutput {
         private final List<EnrollResultPanel> enrollResultPanelList;
 
         public EnrollResults(List<EnrollResultPanel> enrollResultPanelList) {

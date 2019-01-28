@@ -17,10 +17,10 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
 import teammates.ui.newcontroller.PostCourseEnrollSaveAction;
 import teammates.ui.newcontroller.PostCourseEnrollSaveAction.EnrollResults;
 import teammates.ui.template.EnrollResultPanel;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link PostCourseEnrollSaveAction}.

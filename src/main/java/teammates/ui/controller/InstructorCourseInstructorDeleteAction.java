@@ -47,7 +47,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
             result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         } else {
-            result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+            result = createRedirectResult(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         }
 
         return result;

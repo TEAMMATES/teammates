@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: Showing the InstructorSearchPage for an instructor.
@@ -101,7 +102,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
     /**
      * Output format for {@link SearchStudentsAndFeedbackSessionDataAction}.
      */
-    private static class SearchResult extends ActionResult.ActionOutput {
+    private static class SearchResult extends ApiOutput {
         /* Tables containing search results */
         public List<SearchFeedbackSessionDataTable> searchFeedbackSessionDataTables;
         public List<SearchStudentsTable> searchStudentsTables;

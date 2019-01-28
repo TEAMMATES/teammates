@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: Fetches course enroll page data.
@@ -46,7 +47,7 @@ public class GetCourseEnrollPageDataAction extends Action {
     /**
      * Output format for {@link GetCourseEnrollPageDataAction}.
      */
-    public static class CourseEnrollPageData extends ActionResult.ActionOutput {
+    public static class CourseEnrollPageData extends ApiOutput {
 
         private final boolean isCoursePresent;
         private final StatusMessage statusMessage;

@@ -6,12 +6,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
-import { AuthInfo } from '../../auth-info';
+import { AuthInfo, MessageOutput } from '../../../types/api-output';
 
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentProfile {
   shortName: string;

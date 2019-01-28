@@ -167,6 +167,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyAccessibleForAdmin(params);
     }
 
+    protected void verifyOnlyInstructorsCanAccess(String... params) {
+        verifyInaccessibleWithoutLogin(params);
+        verifyInaccessibleForUnregisteredUsers(params);
+        verifyInaccessibleForStudents(params);
+        verifyAccessibleForInstructorsOfTheSameCourse(params);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(params);
+    }
+
     protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
