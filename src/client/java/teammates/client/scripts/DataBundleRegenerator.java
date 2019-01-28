@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.FileHelper;
 
