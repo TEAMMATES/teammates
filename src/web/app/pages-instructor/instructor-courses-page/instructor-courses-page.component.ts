@@ -90,15 +90,17 @@ export class InstructorCoursesPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.loadInstructorCourses(queryParams.user);
+      this.loadInstructorCourses();
     });
   }
 
   /**
    * Loads instructor courses required for this page.
    */
-  loadInstructorCourses(user: string): void {
-    const paramMap: { [key: string]: string } = { user };
+  loadInstructorCourses(): void {
+    const paramMap: { [key: string]: string } = {
+      user: this.user,
+    };
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
     this.timezone = moment.tz.guess();
     this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
@@ -152,6 +154,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
+      user: this.user,
     };
     this.httpRequestService.get('/course/stats', paramMap).subscribe((resp: CourseStats) => {
       sectionsElement = document.getElementById(`course-sections-${courseId}`);
@@ -193,12 +196,13 @@ export class InstructorCoursesPageComponent implements OnInit {
       courseid: this.newCourseId,
       coursename: this.newCourseName,
       coursetimezone: this.timezone,
+      user: this.user,
     };
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
     this.httpRequestService.post('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
+      this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -216,10 +220,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       archive: 'true',
-      next: '/instructor/courses',
+      user: this.user,
     };
     this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
+      this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -237,9 +241,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       archive: 'false',
+      user: this.user,
     };
     this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
+      this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -256,10 +261,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
-      next: '/instructor/courses',
+      user: this.user,
     };
     this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
+      this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -279,10 +284,11 @@ export class InstructorCoursesPageComponent implements OnInit {
             + 'All instructors of this course will not be able to access it hereafter as well.')) {
       const paramMap: { [key: string]: string } = {
         courseid: courseId,
+        user: this.user,
       };
       this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap)
           .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses(this.user);
+            this.loadInstructorCourses();
             this.statusMessageService.showSuccessMessage(resp.message);
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
@@ -300,9 +306,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
+      user: this.user,
     };
     this.httpRequestService.put('/instructor/courses/restore', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
+      this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -316,10 +323,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (confirm('Are you sure you want to permanently delete all the courses in Recycle Bin? ' +
             'This operation will delete all students and sessions in these courses. ' +
             'All instructors of these courses will not be able to access them hereafter as well.')) {
-      const paramMap: { [key: string]: string } = {};
+      const paramMap: { [key: string]: string } = {
+        user: this.user,
+      };
       this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap)
           .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses(this.user);
+            this.loadInstructorCourses();
             this.statusMessageService.showSuccessMessage(resp.message);
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
@@ -331,9 +340,11 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Restores all soft-deleted courses from Recycle Bin.
    */
   onRestoreAll(): void {
-    const paramMap: { [key: string]: string } = {};
+    const paramMap: { [key: string]: string } = {
+      user: this.user,
+    };
     this.httpRequestService.put('/instructor/courses/restoreAll', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses(this.user);
+      this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
