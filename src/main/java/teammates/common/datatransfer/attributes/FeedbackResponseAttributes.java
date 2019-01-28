@@ -194,10 +194,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
     }
 
-    /**
-     * Retrieves the Feedback*ResponseDetails object for this response.
-     * @return The Feedback*ResponseDetails object representing the response's details
-     */
     public FeedbackResponseDetails getResponseDetails() {
         return responseDetails;
     }
