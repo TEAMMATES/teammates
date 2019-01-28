@@ -187,7 +187,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
                 .withTimeZone(ZoneId.of("Asia/Singapore")).withGracePeriodMinutes(0)
-                .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
+                .withOpeningEmailEnabled(false).withClosingEmailEnabled(false)
+                .withPublishedEmailEnabled(false)
                 .build();
 
         String expectedBackUpIdentifierMessage = "Recently modified feedback session::"

@@ -481,9 +481,9 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
     @Test
     public void testGetBackUpIdentifier() {
         StudentAttributes studentAttributes = generateValidStudentAttributesObject();
-        String expectedBackUpMessage = "Recently modified student::" + studentAttributes.getId();
+        String expectedBackUpIdentifierMessage = "Recently modified student::" + studentAttributes.getId();
 
-        assertEquals(expectedBackUpMessage, studentAttributes.getBackupIdentifier());
+        assertEquals(expectedBackUpIdentifierMessage, studentAttributes.getBackupIdentifier());
     }
 
     private CourseStudent generateTypicalStudentObject() {

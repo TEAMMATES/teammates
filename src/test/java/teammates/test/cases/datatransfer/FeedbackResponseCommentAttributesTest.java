@@ -120,7 +120,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .builder("course", "name", "email", "valid")
                 .build();
 
-        String expectedBackUpMessage = "Recently modified feedback response comment::" + feedbackAttributes.getId();
-        assertEquals(expectedBackUpMessage, feedbackAttributes.getBackupIdentifier());
+        String expectedBackUpIdentifierMessage = "Recently modified feedback response comment::" + feedbackAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, feedbackAttributes.getBackupIdentifier());
     }
 }
