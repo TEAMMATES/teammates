@@ -13,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Get the recipients of a feedback question.
@@ -89,7 +90,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
     /**
      * Output format for {@link GetFeedbackQuestionRecipientsAction}.
      */
-    public static class FeedbackQuestionRecipients extends ActionResult.ActionOutput {
+    public static class FeedbackQuestionRecipients extends ApiOutput {
 
         private List<FeedbackQuestionRecipient> recipients;
 

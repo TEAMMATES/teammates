@@ -27,6 +27,7 @@ import {
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
 import { Course, Courses } from '../../course';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackParticipantType } from '../../feedback-participant-type';
 import {
   FeedbackQuestion, FeedbackQuestions,
@@ -41,7 +42,6 @@ import {
   SessionVisibleSetting,
 } from '../../feedback-session';
 import { Intent } from '../../Intent';
-import { ErrorMessageOutput } from '../../message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 

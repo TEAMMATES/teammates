@@ -6,7 +6,8 @@ import { ClipboardService } from 'ngx-clipboard';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { MessageOutput } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData } from '../student-list/student-list-section-data';
 
 interface CourseAttributes {

@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 
 /**
@@ -39,7 +40,7 @@ public class GetCourseEnrollStudentsAction extends Action {
     /**
      * Output format for {@link GetCourseEnrollStudentsAction}.
      */
-    public static class StudentList extends ActionResult.ActionOutput {
+    public static class StudentList extends ApiOutput {
         List<StudentAttributes> enrolledStudents;
 
         public StudentList(List<StudentAttributes> enrolledStudents) {

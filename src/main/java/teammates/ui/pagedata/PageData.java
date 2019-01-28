@@ -254,12 +254,6 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCoursesLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
     public String getInstructorCourseEnrollLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -335,7 +329,7 @@ public class PageData {
         link = Url.addParamToUrl(link,
                                  Const.ParamsNames.NEXT_URL,
                                  isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+                                        : Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
         return link;
@@ -348,47 +342,9 @@ public class PageData {
         link = Url.addParamToUrl(link,
                                  Const.ParamsNames.NEXT_URL,
                                  isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+                                        : Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
-        return link;
-    }
-
-    public String getInstructorCourseRestoreSoftDeletedCourseLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-
-        return link;
-    }
-
-    public String getInstructorCourseRestoreAllSoftDeletedCoursesLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL;
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-
-        return link;
-    }
-
-    public String getInstructorCourseDeleteSoftDeletedCourseLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-
-        return link;
-    }
-
-    public String getInstructorCourseDeleteAllSoftDeletedCoursesLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL;
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-
         return link;
     }
 

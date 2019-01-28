@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 /**
  * Account request page.
@@ -11,12 +12,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class RequestPageComponent {
 
-  googleDocUrl: SafeResourceUrl;
+  accountRequestFormUrl: SafeResourceUrl | null;
 
   constructor(private sanitizer: DomSanitizer) {
-    this.googleDocUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        'https://docs.google.com/forms/d/e/1FAIpQLSfmiNsVnVANdB1-cOwkfn9l8Ts8eN-CtolLQwi93Nrug0sngw/viewform'
-        + '?embedded=true&formkey=dDNsQmU4QXVYTVRhMjA2dEJWYW82Umc6MQ');
+    this.accountRequestFormUrl = environment.accountRequestFormUrl
+        ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.accountRequestFormUrl)
+        : null;
   }
 
 }
