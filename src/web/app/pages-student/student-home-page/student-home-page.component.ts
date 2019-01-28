@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionInfoMap {
   endTime: string;

@@ -12,7 +12,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.newcontroller.CreateInstructorInCourseAction;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link CreateInstructorInCourseAction}.

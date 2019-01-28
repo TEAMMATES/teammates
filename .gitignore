@@ -50,3 +50,4 @@ src/main/webapp/*
 src/client/java/teammates/client/scripts/statistics/data/
 src/e2e/java/teammates/e2e/cases/scalability/data/
 src/e2e/resources/gmail-api/
+src/web/types/

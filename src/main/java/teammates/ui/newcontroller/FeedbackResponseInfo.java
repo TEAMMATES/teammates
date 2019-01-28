@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Data transfer objects for {@link FeedbackResponseAttributes} between controller and HTTP.
@@ -17,7 +18,7 @@ public class FeedbackResponseInfo {
     /**
      * The response of a list of feedback response.
      */
-    public static class FeedbackResponsesResponse extends ActionResult.ActionOutput {
+    public static class FeedbackResponsesResponse extends ApiOutput {
 
         List<FeedbackResponseResponse> responses;
 
@@ -33,7 +34,7 @@ public class FeedbackResponseInfo {
     /**
      * The response of a feedback response.
      */
-    public static class FeedbackResponseResponse extends ActionResult.ActionOutput {
+    public static class FeedbackResponseResponse extends ApiOutput {
 
         String feedbackResponseId;
 

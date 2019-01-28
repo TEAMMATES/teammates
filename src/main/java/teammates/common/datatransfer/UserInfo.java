@@ -27,15 +27,15 @@ public class UserInfo {
         return id;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public boolean isInstructor() {
+    public boolean getIsInstructor() {
         return isInstructor;
     }
 
-    public boolean isStudent() {
+    public boolean getIsStudent() {
         return isStudent;
     }
 

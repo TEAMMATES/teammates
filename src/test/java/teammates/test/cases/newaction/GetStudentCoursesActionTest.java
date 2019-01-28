@@ -11,7 +11,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.ui.newcontroller.GetStudentCoursesAction;
 import teammates.ui.newcontroller.GetStudentCoursesAction.StudentCourses;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link GetStudentCoursesAction}.

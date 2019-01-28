@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: for student to get his/her own details in the course given.
@@ -138,7 +139,7 @@ public class StudentGetCourseDetailsAction extends Action {
     /**
      * Output format for {@link StudentGetCourseDetailsAction}.
      */
-    public static class StudentGetCourseDetailsResult extends ActionResult.ActionOutput {
+    public static class StudentGetCourseDetailsResult extends ApiOutput {
 
         private final StudentAttributes student;
         private final CourseAttributes course;

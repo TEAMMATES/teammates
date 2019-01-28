@@ -3,6 +3,7 @@ package teammates.ui.newcontroller;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Get the instructor privilege.
@@ -47,7 +48,7 @@ public class GetInstructorPrivilegeAction extends Action {
     /**
      * The output format of {@link GetInstructorPrivilegeAction}.
      */
-    public static class InstructorPrivilegeResponse extends ActionResult.ActionOutput {
+    public static class InstructorPrivilegeResponse extends ApiOutput {
         private boolean canModifyCourse;
         private boolean canModifySession;
         private boolean canModifyStudent;

@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets an account's information.
@@ -40,7 +41,7 @@ public class GetAccountAction extends Action {
     /**
      * Output format for {@link GetAccountAction}.
      */
-    public static class AccountInfo extends ActionResult.ActionOutput {
+    public static class AccountInfo extends ApiOutput {
 
         private final AccountAttributes accountInfo;
         private final List<CourseAttributes> instructorCourses;

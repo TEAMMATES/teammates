@@ -10,11 +10,11 @@ import {
   SortBy,
   SortOrder,
 } from '../components/sessions-table/sessions-table-model';
+import { ErrorMessageOutput } from '../error-message-output';
 import { FeedbackQuestion, FeedbackQuestions } from '../feedback-question';
 import { FeedbackSession, FeedbackSessionStats } from '../feedback-session';
 import { InstructorPrivilege } from '../instructor-privilege';
 import { Intent } from '../Intent';
-import { ErrorMessageOutput } from '../message-output';
 
 /**
  * The base page for session related page.

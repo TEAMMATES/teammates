@@ -9,7 +9,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { MessageOutput } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseAttributes {
   id: string;
