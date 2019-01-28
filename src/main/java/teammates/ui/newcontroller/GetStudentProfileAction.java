@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: Get a student's profile.
@@ -46,7 +47,7 @@ public class GetStudentProfileAction extends Action {
     /**
      * Output format for {@link GetStudentProfileAction}.
      */
-    public static class StudentProfile extends ActionResult.ActionOutput {
+    public static class StudentProfile extends ApiOutput {
         private final StudentProfileAttributes studentProfile;
         private String name;
 

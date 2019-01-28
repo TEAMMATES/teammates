@@ -4,7 +4,8 @@ import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { MessageOutput } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface ActiveCourse {
   id: string;

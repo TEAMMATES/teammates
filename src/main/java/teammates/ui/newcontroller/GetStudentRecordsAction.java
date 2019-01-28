@@ -13,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets records of a student in a course.
@@ -77,7 +78,7 @@ public class GetStudentRecordsAction extends Action {
     /**
      * Output format for {@link GetStudentRecordsAction}.
      */
-    public static class StudentRecords extends ActionResult.ActionOutput {
+    public static class StudentRecords extends ApiOutput {
         private final String courseId;
         private final String studentName;
         private final String studentEmail;

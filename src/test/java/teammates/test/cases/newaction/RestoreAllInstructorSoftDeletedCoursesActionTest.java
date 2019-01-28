@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.newcontroller.JsonResult;
 import teammates.ui.newcontroller.RestoreAllInstructorSoftDeletedCoursesAction;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link RestoreAllInstructorSoftDeletedCoursesAction}.
@@ -52,7 +53,7 @@ public class RestoreAllInstructorSoftDeletedCoursesActionTest
 
         RestoreAllInstructorSoftDeletedCoursesAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        JsonResult.MessageOutput message = (JsonResult.MessageOutput) result.getOutput();
+        MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("All courses have been restored.", message.getMessage());

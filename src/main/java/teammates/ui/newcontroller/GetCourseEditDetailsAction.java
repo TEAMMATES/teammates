@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: Gets information related to a specific course for instructor course edit page.
@@ -115,7 +116,7 @@ public class GetCourseEditDetailsAction extends Action {
     /**
      * Output format for {@link GetCourseEditDetailsAction}.
      */
-    public static class CourseEditDetails extends ActionResult.ActionOutput {
+    public static class CourseEditDetails extends ApiOutput {
         CourseAttributes courseToEdit;
         List<InstructorAttributes> instructorList;
         InstructorAttributes instructor;

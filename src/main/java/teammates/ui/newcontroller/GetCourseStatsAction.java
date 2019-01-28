@@ -6,6 +6,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets the stats of a course for the instructor.
@@ -48,7 +49,7 @@ public class GetCourseStatsAction extends Action {
     /**
      * Output format for {@link GetCourseStatsAction}.
      */
-    public static class CourseStats extends ActionResult.ActionOutput {
+    public static class CourseStats extends ApiOutput {
 
         private final int sectionsTotal;
         private final int teamsTotal;

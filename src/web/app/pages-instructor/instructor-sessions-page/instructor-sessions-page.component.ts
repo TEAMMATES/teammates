@@ -25,6 +25,7 @@ import {
   SessionsTableRowModel, SortBy, SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { Course, Courses } from '../../course';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestion } from '../../feedback-question';
 import {
   FeedbackSession,
@@ -34,7 +35,6 @@ import {
   SessionVisibleSetting,
 } from '../../feedback-session';
 import { defaultInstructorPrivilege } from '../../instructor-privilege';
-import { ErrorMessageOutput } from '../../message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
 import {

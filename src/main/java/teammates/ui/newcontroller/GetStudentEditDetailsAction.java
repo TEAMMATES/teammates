@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: fetches student edit details.
@@ -58,7 +59,7 @@ public class GetStudentEditDetailsAction extends Action {
     /**
      * Data format for {@link GetStudentEditDetailsAction}.
      */
-    public static class StudentEditDetails extends ActionResult.ActionOutput {
+    public static class StudentEditDetails extends ApiOutput {
 
         private final StudentAttributes student;
         private final boolean isOpenOrPublishedEmailSentForTheCourse;

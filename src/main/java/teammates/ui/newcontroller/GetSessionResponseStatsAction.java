@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets the response stats (submitted / total) of a feedback session.
@@ -19,7 +20,7 @@ public class GetSessionResponseStatsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (userInfo.isAdmin()) {
+        if (userInfo.isAdmin) {
             return;
         }
 
@@ -47,7 +48,7 @@ public class GetSessionResponseStatsAction extends Action {
     /**
      * Output format for {@link GetSessionResponseStatsAction}.
      */
-    public static class FeedbackSessionStats extends ActionResult.ActionOutput {
+    public static class FeedbackSessionStats extends ApiOutput {
 
         private final int submittedTotal;
         private final int expectedTotal;

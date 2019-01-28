@@ -16,6 +16,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: gets the list of all ongoing sessions.
@@ -206,7 +207,7 @@ public class GetOngoingSessionsAction extends Action {
     /**
      * Output format for {@link GetOngoingSessionsAction}.
      */
-    public static class OngoingSessionsData extends ActionResult.ActionOutput {
+    public static class OngoingSessionsData extends ApiOutput {
 
         private int totalOngoingSessions;
         private int totalOpenSessions;

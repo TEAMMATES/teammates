@@ -11,8 +11,8 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
 import teammates.ui.newcontroller.PutStudentProfileAction;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link PutStudentProfileAction}.

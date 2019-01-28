@@ -12,7 +12,7 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.ui.newcontroller.GetCourseEditDetailsAction;
 import teammates.ui.newcontroller.GetCourseEditDetailsAction.CourseEditDetails;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link GetCourseEditDetailsAction}.
