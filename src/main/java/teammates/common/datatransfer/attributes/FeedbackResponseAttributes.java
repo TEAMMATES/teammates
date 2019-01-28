@@ -207,6 +207,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        // Use serializing followed by deserializing to make a deep copy.
         return deserializeResponseFromMetaData(getSerializedFeedbackResponseDetail());
     }
 
