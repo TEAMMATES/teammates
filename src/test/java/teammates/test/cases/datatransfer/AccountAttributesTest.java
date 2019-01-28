@@ -241,9 +241,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
     private AccountAttributes createAccountAttributesToSanitize() {
         AccountAttributes unsanitizedAttributes = AccountAttributes.builder().build();
         unsanitizedAttributes.googleId = "    google'Id@gmail.com\t";
-        unsanitizedAttributes.name = "'name'\n\n";
-        unsanitizedAttributes.institute = "\\\t\n/";
-        unsanitizedAttributes.email = "&<email>&\n";
+        unsanitizedAttributes.name = "'n    \t\t    a me'\n\n";
+        unsanitizedAttributes.institute = "Some\t  \\       institute   \n/";
+        unsanitizedAttributes.email = "   <my&email>@gmail.com\n";
         unsanitizedAttributes.isInstructor = true;
 
         return unsanitizedAttributes;
