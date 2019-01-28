@@ -39,20 +39,9 @@ public final class DataBundleRegenerator {
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());
             DataBundle db = JsonUtils.fromJson(jsonString, DataBundle.class);
-            db.feedbackResponses.forEach((key, feedbackResponseAttributes) -> fixResponse(feedbackResponseAttributes));
             db.feedbackQuestions.forEach((key, feedbackQuestionAttributes) -> fixQuestion(feedbackQuestionAttributes));
             String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
             saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
-        }
-    }
-
-    private static void fixResponse(FeedbackResponseAttributes response) {
-        String responseValue = response.getSerializedFeedbackResponseDetail();
-        try {
-            JSONObject responseJson = maintainKeyOrder(new JSONObject(responseValue));
-            response.setResponseDetailsByMetaData(responseJson.toString());
-        } catch (JSONException e) {
-            response.setResponseDetailsByMetaData(responseValue);
         }
     }
 
