@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import uaParser from 'ua-parser-js';
 import { StatusMessageService } from '../services/status-message.service';
 import { StatusMessage } from './components/status-message/status-message';
+import { environment } from '../environments/environment';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -34,6 +35,8 @@ export class PageComponent implements OnInit {
   isCookieDisabled: boolean = false;
   browser: string = '';
   messageList: StatusMessage[] = [];
+  version: string = '7.0.0';
+  institute: string = 'National University of Singapore';
 
   /**
    * Minimum versions of browsers supported.

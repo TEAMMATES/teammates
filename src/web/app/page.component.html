@@ -67,13 +67,13 @@
   <footer>
     <div class="container footer text-nowrap">
       <div class="row">
-        <div class="col-sm-4 col-md-4" align="left">
-          <i class="fas fa-bolt"></i><a routerLink="/web/front/home"> TEAMMATES</a> v7
+        <div class="col-sm-4 col-md-4 text-left">
+          <i class="fas fa-bolt"></i><a routerLink="/web/front/home"> TEAMMATES</a> v{{ version }}
         </div>
-        <div class="col-sm-4 col-md-4" align="center">
-          <span *ngIf="isStudent"><i class="fas fa-university"></i> for Test University Singapore {{ user }}</span>
+        <div class="col-sm-4 col-md-4 text-center">
+          <span *ngIf="isStudent"><i class="fas fa-university"></i> for {{ institute }}</span>
         </div>
-        <div class="col-sm-4 col-md-4" align="right">
+        <div class="col-sm-4 col-md-4 text-right">
           <i class="far fa-comments"></i> Send <a routerLink="/web/front/contact" target="_blank">Feedback</a></div>
       </div>
     </div>
