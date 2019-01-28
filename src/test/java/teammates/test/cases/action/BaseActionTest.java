@@ -28,7 +28,6 @@ import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FileDownloadResult;
-import teammates.ui.controller.ImageResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -102,13 +101,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected FileDownloadResult getFileDownloadResult(Action a) {
         return (FileDownloadResult) a.executeAndPostProcess();
-    }
-
-    /** Executes the action and returns the result.
-     * Assumption: The action returns an ImageResult.
-     */
-    protected ImageResult getImageResult(Action a) {
-        return (ImageResult) a.executeAndPostProcess();
     }
 
     /**
@@ -275,7 +267,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyAssumptionFailure(String... parameters) {
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), parameters);
+            Action c = gaeSimulation.getLegacyActionObject(getActionUri(), parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (AssertionError | InvalidHttpParameterException e) {
@@ -465,7 +457,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     private void verifyRedirectToLoginOrUnauthorisedException(String... params) {
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = gaeSimulation.getLegacyActionObject(getActionUri(), params);
             assertFalse(c.isValidUser());
         } catch (UnauthorizedAccessException ue) {
             ignorePossibleException();
@@ -643,7 +635,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * accessible to the logged in user.
      */
     protected void verifyCanAccess(String... params) {
-        Action c = gaeSimulation.getActionObject(getActionUri(), params);
+        Action c = gaeSimulation.getLegacyActionObject(getActionUri(), params);
         assertTrue(c.isValidUser());
         c.executeAndPostProcess();
     }
@@ -653,7 +645,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * accessible to the logged in user masquerading as another user.
      */
     protected void verifyCanMasquerade(String... params) {
-        Action c = gaeSimulation.getActionObject(getActionUri(), params);
+        Action c = gaeSimulation.getLegacyActionObject(getActionUri(), params);
         assertTrue(c.isValidUser());
         c.executeAndPostProcess();
     }
@@ -667,7 +659,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyCannotAccess(String... params) {
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = gaeSimulation.getLegacyActionObject(getActionUri(), params);
             ActionResult result = c.executeAndPostProcess();
 
             String classNameOfResult = result.getClass().getName();
@@ -684,7 +676,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyCannotMasquerade(String... params) {
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = gaeSimulation.getLegacyActionObject(getActionUri(), params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
@@ -699,7 +691,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * matches "/page/studentHome?user=abc".
      */
     protected void verifyRedirectTo(String expectedRedirectUrl, String... params) {
-        Action c = gaeSimulation.getActionObject(getActionUri(), params);
+        Action c = gaeSimulation.getLegacyActionObject(getActionUri(), params);
         RedirectResult r = getRedirectResult(c);
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);
     }

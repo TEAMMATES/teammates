@@ -369,7 +369,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     @Override
     protected InstructorFeedbackResultsDownloadAction getAction(String... params) {
-        return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Override

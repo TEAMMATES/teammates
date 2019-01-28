@@ -21,7 +21,7 @@ import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_HOME_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
  */
 public class InstructorHomePageUiTest extends BaseE2ETestCase {
     private InstructorHomePage homePage;
@@ -92,7 +92,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         ______TS("login");
 
         loginAsNewInstructor();
-        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE));
     }
 
     private void testShowFeedbackStatsLink() throws Exception {
@@ -184,7 +184,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         ______TS("link: course enroll");
         InstructorCourseEnrollPage enrollPage = homePage.clickCourseEnrollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
-        String expectedEnrollLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+        String expectedEnrollLinkText = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                                         .withCourseId(courseId)
                                         .withUserId(instructorId)
                                         .toAbsoluteString();
@@ -194,7 +194,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
         detailsPage.verifyContains("Course Details");
-        String expectedViewLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        String expectedViewLinkText = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                         .withCourseId(courseId)
                                         .withUserId(instructorId)
                                         .toAbsoluteString();
@@ -204,7 +204,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
         editPage.verifyContains("Edit Course Details");
-        String expectedEditLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+        String expectedEditLinkText = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                                         .withCourseId(courseId)
                                         .withUserId(instructorId)
                                         .toAbsoluteString();
@@ -214,7 +214,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         ______TS("link: course add session");
         InstructorFeedbackSessionsPage feedbacksPage = homePage.clickCourseAddEvaluationLink(courseId);
         feedbacksPage.verifyContains("Add New Feedback Session");
-        String expectedAddSessionLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        String expectedAddSessionLinkText = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .toAbsoluteString();
@@ -602,14 +602,14 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
     }
 
     private void loginAsInstructor(String googleId) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
 
         homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
     }
 
     private void loginWithPersistenceProblem() {
-        AppUrl homeUrl = ((AppUrl) createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+        AppUrl homeUrl = ((AppUrl) createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"))
                     .withUserId("unreg_user");
 

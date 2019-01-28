@@ -19,7 +19,7 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
  */
 public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
     private InstructorCourseEditPage courseEditPage;
@@ -229,7 +229,7 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
                 String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                         "Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt"));
 
-        AppUrl courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        AppUrl courseDetailsLink = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                     .withCourseId(courseId)
                                     .withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
 
@@ -836,7 +836,7 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorCourseEditPage getCourseEditPage() {
-        AppUrl courseEditPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+        AppUrl courseEditPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
 

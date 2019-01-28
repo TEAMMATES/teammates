@@ -36,7 +36,7 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
 
         ______TS("Typical case: valid action mapping");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
+        setupMocks(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
@@ -50,14 +50,14 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
 
         ______TS("\"Successful\" case: NullHttpParameterException");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        setupMocks(Const.CronJobURIs.AUTOMATED_EXCEPTION_TEST);
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
         ______TS("\"Successful\" case: InvalidHttpParameterException");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        setupMocks(Const.CronJobURIs.AUTOMATED_EXCEPTION_TEST);
         mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -65,7 +65,7 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
 
         ______TS("Failure case: DeadlineExceededException");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        setupMocks(Const.CronJobURIs.AUTOMATED_EXCEPTION_TEST);
         mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -73,7 +73,7 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
 
         ______TS("Failure case: DatastoreTimeoutException");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        setupMocks(Const.CronJobURIs.AUTOMATED_EXCEPTION_TEST);
         mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -81,7 +81,7 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
 
         ______TS("Failure case: NullPointerException");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        setupMocks(Const.CronJobURIs.AUTOMATED_EXCEPTION_TEST);
         mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -89,7 +89,7 @@ public class AutomatedServletTest extends BaseTestCaseWithObjectifyAccess {
 
         ______TS("Failure case: AssertionError");
 
-        setupMocks(Const.ActionURIs.AUTOMATED_EXCEPTION_TEST);
+        setupMocks(Const.CronJobURIs.AUTOMATED_EXCEPTION_TEST);
         mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);

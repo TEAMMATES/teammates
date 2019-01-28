@@ -281,7 +281,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
     @Override
     protected InstructorFeedbackResponseCommentAddAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Override
