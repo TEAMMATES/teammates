@@ -287,12 +287,6 @@
                             <from class="${testCases}.browsertests.**" />
                             <to class="${e2e}.**" />
                         </allow>
-
-                        <!-- need to figure out the relation between E2E and client -->
-                        <allow>
-                            <from class="${client}.remoteapi.RemoteApiClient" />
-                            <to class="${e2e}.util.TestProperties" />
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>
@@ -427,7 +421,10 @@
                     <deny>
                         <to class="com.google.appengine.tools.cloudstorage.**" />
                         <allow>
-                            <from class="${common}.util.GoogleCloudStorageHelper" />
+                            <from>
+                                <include class="${common}.util.GoogleCloudStorageHelper" />
+                                <include class="${client}.**" />
+                            </from>
                         </allow>
                     </deny>
                 </access-rule>

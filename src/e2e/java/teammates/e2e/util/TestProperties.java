@@ -182,7 +182,7 @@ public final class TestProperties {
     }
 
     public static boolean isDevServer() {
-        return TEAMMATES_URL.contains("localhost");
+        return TEAMMATES_URL.matches("^https?://localhost:[0-9]+(/.*)?");
     }
 
     /**

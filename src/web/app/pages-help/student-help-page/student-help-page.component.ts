@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 /**
  * Student help page.
@@ -9,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./student-help-page.component.scss'],
 })
 export class StudentHelpPageComponent implements OnInit {
+
+  readonly supportEmail: string = environment.supportEmail;
 
   constructor() { }
 
