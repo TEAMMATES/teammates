@@ -32,7 +32,9 @@ public class AddInstructorCourseAction extends Action {
 
         try {
             logic.createCourseAndInstructor(userInfo.id, newCourseId, newCourseName, newCourseTimeZone);
-        } catch (EntityAlreadyExistsException | InvalidParametersException e) {
+        } catch (EntityAlreadyExistsException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_CONFLICT);
+        } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 

@@ -66,7 +66,7 @@ public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorC
         MessageOutput message = (MessageOutput) result.getOutput();
 
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        assertEquals(HttpStatus.SC_CONFLICT, result.getStatusCode());
         assertEquals("Trying to create a Course that exists: " + courseId, message.getMessage());
 
         ______TS("Typical case missing course id");
