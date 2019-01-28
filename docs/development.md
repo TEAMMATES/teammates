@@ -345,6 +345,7 @@ There are several files used to configure various aspects of the system.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
+* `client.properties`: Contains some configuration values used in client scripts.
 * `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.

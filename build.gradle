@@ -110,6 +110,7 @@ sourceSets {
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
+            srcDir "src/client/resources"
             exclude "**/*.java"
         }
     }
@@ -150,6 +151,7 @@ task createConfigs {
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
+            "src/client/resources/client.template.properties",
             "src/main/webapp/WEB-INF/appengine-web.template.xml"
         ]
         templatesToCopy.findAll {
