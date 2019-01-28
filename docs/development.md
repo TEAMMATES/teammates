@@ -324,7 +324,6 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-* The `client.properties` file contains some configuration values used in client scripts.
 * If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
 * It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
@@ -336,6 +335,7 @@ There are several files used to configure various aspects of the system.
 * `build.properties`: Contains the general purpose configuration values to used by the web app.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
+* `client.properties`: Contains some configuration values used in client scripts.
 * `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
