@@ -104,7 +104,7 @@ public abstract class Action {
             if (userInfo.isAdmin) {
                 userInfo = gateKeeper.getMasqueradeUser(userParam);
                 authType = AuthType.MASQUERADE;
-            } else {
+            } else if (!userInfo.id.equals(userParam)) {
                 throw new UnauthorizedAccessException("User " + userInfo.id
                                                     + " is trying to masquerade as " + userParam
                                                     + " without admin permission.");
