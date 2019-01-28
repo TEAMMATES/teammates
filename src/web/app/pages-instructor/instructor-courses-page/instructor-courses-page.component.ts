@@ -74,10 +74,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   newCourseId: string = '';
   newCourseName: string = '';
 
-  activeCourses?: ActiveCourse[];
-  archivedCourses?: ArchivedCourse[];
-  softDeletedCourses?: SoftDeletedCourse[];
-  instructorList?: Instructor[];
+  activeCourses: ActiveCourse[] = [];
+  archivedCourses: ArchivedCourse[] = [];
+  softDeletedCourses: SoftDeletedCourse[] = [];
+  instructorList: Instructor[] = [];
 
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -112,8 +112,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       for (const course of this.activeCourses) {
         for (const instructor of this.instructorList) {
           if (course.id === instructor.courseId) {
-            course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
-            course.canModifyStudent = instructor.privileges.courseLevel['canmodifystudent'];
+            course.canModifyCourse = instructor.privileges.courseLevel.canmodifycourse;
+            course.canModifyStudent = instructor.privileges.courseLevel.canmodifystudent;
             break;
           }
         }
@@ -122,7 +122,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       for (const course of this.archivedCourses) {
         for (const instructor of this.instructorList) {
           if (course.id === instructor.courseId) {
-            course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
+            course.canModifyCourse = instructor.privileges.courseLevel.canmodifycourse;
             break;
           }
         }
@@ -131,9 +131,10 @@ export class InstructorCoursesPageComponent implements OnInit {
       for (const course of this.softDeletedCourses) {
         for (const instructor of this.instructorList) {
           if (course.id === instructor.courseId) {
-            course.canModifyCourse = instructor.privileges.courseLevel['canmodifycourse'];
+            course.canModifyCourse = instructor.privileges.courseLevel.canmodifycourse;
             if (!course.canModifyCourse) {
-              this.canDeleteAll = this.canRestoreAll = false;
+              this.canDeleteAll = false;
+              this.canRestoreAll = false;
             }
             break;
           }

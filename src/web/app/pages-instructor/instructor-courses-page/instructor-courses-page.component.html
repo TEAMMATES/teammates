@@ -40,7 +40,6 @@
       </div>
     </div>
   </div>
-  <br><br><br><br>
 </ng-container>
 
 <ng-container>
@@ -63,7 +62,7 @@
         <tr *ngFor="let course of activeCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">
+          <td container="body" [ngbTooltip]="course.createdAt | date:'EEE, dd MMM yyyy, h:mma'">
             {{course.createdAt | date:'d MMM yyyy'}}
           </td>
           <td>
@@ -140,7 +139,6 @@
     </table>
     <p *ngIf="!activeCourses.length">No records found.</p>
   </div>
-  <br><br><br><br>
 </ng-container>
 
 <ng-container *ngIf="archivedCourses.length">
@@ -180,7 +178,6 @@
       </tbody>
     </table>
   </div>
-  <br><br><br><br>
 </ng-container>
 
 <ng-container *ngIf="softDeletedCourses.length">
@@ -233,10 +230,10 @@
         <tr *ngFor="let course of softDeletedCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">
+          <td container="body" [ngbTooltip]="course.createdAt | date:'EEE, dd MMM yyyy, h:mma'">
             {{course.createdAt | date:'d MMM yyyy'}}
           </td>
-          <td ngbTooltip="{{course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'}}">
+          <td container="body" [ngbTooltip]="course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'">
             {{course.deletedAt | date:'d MMM yyyy'}}
           </td>
           <td class="text-center">
@@ -261,5 +258,4 @@
       </tbody>
     </table>
   </div>
-  <br><br><br><br>
 </ng-container>
