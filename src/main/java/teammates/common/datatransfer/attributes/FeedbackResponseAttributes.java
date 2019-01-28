@@ -179,7 +179,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     /**
-     * Converts the Feedback*ResponseDetails object to JSON String for storing.
+     * Converts the feedbackResponseDetails variable to JSON String for storing.
      */
     public String getSerializedFeedbackResponseDetail() {
         if (responseDetails == null) {
