@@ -35,6 +35,6 @@ public final class ClientProperties {
     }
 
     public static boolean isTargetUrlDevServer() {
-        return TARGET_URL.contains("localhost");
+        return TARGET_URL.matches("^https?://localhost:[0-9]+(/.*)?");
     }
 }
