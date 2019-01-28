@@ -35,7 +35,7 @@ export class PageComponent implements OnInit {
   isCookieDisabled: boolean = false;
   browser: string = '';
   messageList: StatusMessage[] = [];
-  version: string = '7.0.0';
+  version: string = environment.version;
   institute: string = 'National University of Singapore';
 
   /**
