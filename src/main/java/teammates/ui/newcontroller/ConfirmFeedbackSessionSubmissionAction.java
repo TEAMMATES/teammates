@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Confirm the submission of a feedback session.
@@ -121,7 +122,7 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
     /**
      * The output format of {@link ConfirmFeedbackSessionSubmissionAction}.
      */
-    public static class ConfirmationResponse extends ActionResult.ActionOutput {
+    public static class ConfirmationResponse extends ApiOutput {
         private final ConfirmationResult result;
         private final String message;
 

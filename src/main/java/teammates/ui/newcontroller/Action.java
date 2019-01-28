@@ -68,6 +68,10 @@ public abstract class Action {
         this.emailSender = emailSender;
     }
 
+    public boolean isMasqueradeMode() {
+        return userInfo.isAdmin && authType == AuthType.MASQUERADE;
+    }
+
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
@@ -100,7 +104,7 @@ public abstract class Action {
             if (userInfo.isAdmin) {
                 userInfo = gateKeeper.getMasqueradeUser(userParam);
                 authType = AuthType.MASQUERADE;
-            } else {
+            } else if (!userInfo.id.equals(userParam)) {
                 throw new UnauthorizedAccessException("User " + userInfo.id
                                                     + " is trying to masquerade as " + userParam
                                                     + " without admin permission.");

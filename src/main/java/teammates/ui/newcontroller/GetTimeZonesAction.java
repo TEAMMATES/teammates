@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: get supported time zones.
@@ -43,7 +44,7 @@ public class GetTimeZonesAction extends Action {
     /**
      * Output format for {@link GetTimeZonesAction}.
      */
-    public static class TimezoneData extends ActionResult.ActionOutput {
+    public static class TimezoneData extends ApiOutput {
 
         private final String version;
         private final Map<String, Integer> offsets;

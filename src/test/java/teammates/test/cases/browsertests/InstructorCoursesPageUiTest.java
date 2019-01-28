@@ -19,7 +19,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSES_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSES_PAGE}.
  */
 public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
     /* Comments given as 'Explanation:' are extra comments added to train
@@ -440,7 +440,7 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorCoursesPage getCoursesPage() {
-        AppUrl coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+        AppUrl coursesUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();

@@ -141,13 +141,6 @@ public final class Const {
                 Arrays.asList(
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
-                        ActionURIs.INSTRUCTOR_COURSE_ADD,
-                        ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
-                        ActionURIs.INSTRUCTOR_COURSE_DELETE,
-                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE,
-                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL,
-                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE,
-                        ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
@@ -950,6 +943,7 @@ public final class Const {
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
+        public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
@@ -990,7 +984,15 @@ public final class Const {
         public static final String JOIN = "/join";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
+        public static final String NATIONALITIES = "/nationalities";
 
+        public static final String INSTRUCTOR_HOME = "/instrutor/home";
+        public static final String INSTRUCTOR_COURSES = "/instructor/courses";
+        public static final String INSTRUCTOR_COURSES_RESTORE = "/instructor/courses/restore";
+        public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
+        public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL = "/instructor/courses/permanentlyDeleteAll";
+        public static final String INSTRUCTOR_COURSES_RESTORE_ALL = "/instructor/courses/restoreAll";
+        public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
         public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
@@ -1000,10 +1002,19 @@ public final class Const {
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
+        public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
+
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
+        public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
+        public static final String COURSE_EDIT_DETAILS_SAVE = "/instructors/course/details/save";
+        public static final String COURSE_DELETE = "/instructors/course/delete";
+        public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
+        public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
+        public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";
+        public static final String COURSE_SEND_REMINDER_EMAILS = "/instructors/course/details/sendReminders";
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";
@@ -1019,16 +1030,8 @@ public final class Const {
 
         public static final String INSTRUCTOR_HELP_PAGE = "/instructorHelp";
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
-        public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
-        public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
-        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE = "/page/instructorCourseRestoreCourse";
-        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_RESTORE_ALL =
-                "/page/instructorCourseRestoreAllCourses";
-        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE = "/page/instructorCourseDeleteCourse";
-        public static final String INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL =
-                "/page/instructorCourseDeleteAllCourses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
@@ -1204,7 +1207,6 @@ public final class Const {
         public static final String INSTRUCTOR_HOME_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
                 "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
-        public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp";
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp";
         public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp";
@@ -1286,7 +1288,7 @@ public final class Const {
                 "You do not seem to have any courses. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS =
                 "You have not created any courses yet, or you have no active courses. Go <a href=\""
-                + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
+                + WebPageURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 

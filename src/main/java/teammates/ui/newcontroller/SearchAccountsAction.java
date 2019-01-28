@@ -16,6 +16,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: searches for accounts.
@@ -354,7 +355,7 @@ public class SearchAccountsAction extends Action {
     /**
      * Output format for {@link SearchAccountsAction}.
      */
-    public static class AdminAccountSearchResult extends ActionResult.ActionOutput {
+    public static class AdminAccountSearchResult extends ApiOutput {
 
         private final List<StudentBundle> students;
         private final List<InstructorBundle> instructors;

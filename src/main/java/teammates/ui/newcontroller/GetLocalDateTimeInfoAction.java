@@ -11,6 +11,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Resolve local date time under certain timezone to an UNIX timestamp.
@@ -26,7 +27,7 @@ public class GetLocalDateTimeInfoAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (!userInfo.isInstructor()) {
+        if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Only instructor can get local date time information");
         }
     }
@@ -71,7 +72,7 @@ public class GetLocalDateTimeInfoAction extends Action {
     /**
      * Output format for {@link GetLocalDateTimeInfoAction}.
      */
-    public static class LocalDateTimeInfo extends ActionResult.ActionOutput {
+    public static class LocalDateTimeInfo extends ApiOutput {
 
         private long resolvedTimestamp;
         private TimeHelper.LocalDateTimeAmbiguityStatus resolvedStatus;

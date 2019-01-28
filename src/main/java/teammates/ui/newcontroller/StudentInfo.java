@@ -1,6 +1,7 @@
 package teammates.ui.newcontroller;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Data transfer objects for {@link StudentAttributes} between controller and HTTP.
@@ -10,7 +11,7 @@ public class StudentInfo {
     /**
      * The response for a student attribute.
      */
-    public static class StudentResponse extends ActionResult.ActionOutput {
+    public static class StudentResponse extends ApiOutput {
 
         private final String name;
         private final String lastName;
