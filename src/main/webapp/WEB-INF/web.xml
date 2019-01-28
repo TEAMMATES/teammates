@@ -30,7 +30,7 @@
 
     <filter>
         <filter-name>OriginCheckFilter</filter-name>
-        <filter-class>teammates.ui.newcontroller.OriginCheckFilter</filter-class>
+        <filter-class>teammates.ui.webapi.action.OriginCheckFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>OriginCheckFilter</filter-name>
@@ -43,7 +43,7 @@
     <servlet>
         <description>Servlet that handles the single web page application</description>
         <servlet-name>WebPageServlet</servlet-name>
-        <servlet-class>teammates.ui.newcontroller.WebPageServlet</servlet-class>
+        <servlet-class>teammates.ui.webapi.action.WebPageServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -54,7 +54,7 @@
     <servlet>
         <description>Servlet that handles requests from web application</description>
         <servlet-name>WebApiServlet</servlet-name>
-        <servlet-class>teammates.ui.newcontroller.WebApiServlet</servlet-class>
+        <servlet-class>teammates.ui.webapi.action.WebApiServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -65,7 +65,7 @@
     <servlet>
         <description>Servlet that handles mapping from legacy URL to new one</description>
         <servlet-name>LegacyUrlMapper</servlet-name>
-        <servlet-class>teammates.ui.newcontroller.LegacyUrlMapper</servlet-class>
+        <servlet-class>teammates.ui.webapi.action.LegacyUrlMapper</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LegacyUrlMapper</servlet-name>

@@ -218,7 +218,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
 
     @Override
     protected StudentProfilePictureEditAction getAction(String... params) {
-        return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (StudentProfilePictureEditAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Override

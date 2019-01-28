@@ -207,7 +207,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Override
     protected FeedbackParticipantFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (FeedbackParticipantFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(),
+        return (FeedbackParticipantFeedbackResponseCommentDeleteAction) gaeSimulation.getLegacyActionObject(getActionUri(),
                 params);
     }
 

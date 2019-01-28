@@ -11,7 +11,7 @@
             <package name="teammates.test.cases.util" />
             <package name="teammates.test.cases.logic" />
             <package name="teammates.test.cases.action" />
-            <package name="teammates.test.cases.newaction" />
+            <package name="teammates.test.cases.webapi" />
         </packages>
     </test>
 </suite>
