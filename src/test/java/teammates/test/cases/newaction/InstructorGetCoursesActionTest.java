@@ -1,9 +1,19 @@
 package teammates.test.cases.newaction;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.newcontroller.InstructorGetCoursesAction;
+import teammates.ui.newcontroller.InstructorGetCoursesAction.CourseDetails;
+import teammates.ui.newcontroller.InstructorGetCoursesAction.InstructorGetCoursesResult;
+import teammates.ui.newcontroller.JsonResult;
 
 /**
  *SUT: {@link InstructorGetCoursesAction}.
@@ -24,13 +34,36 @@ public class InstructorGetCoursesActionTest extends BaseActionTest<InstructorGet
     @Test
     public void testExecute() {
 
-        ______TS("Courses Exist, No Archived");
+        InstructorAttributes instructor3 = typicalBundle.instructors.get("instructor3OfCourse2");
+        loginAsInstructor(instructor3.googleId);
 
-        ______TS("Courses Exist, Some Archived");
+        boolean isInstructorAllowedToModify = instructor3.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
 
-        ______TS("Courses Exist, All Archived");
+        ______TS("Courses Exist");
 
-        ______TS("No course exists");
+        InstructorGetCoursesAction action = getAction();
+        JsonResult result = getJsonResult(action);
+
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        InstructorGetCoursesResult output = (InstructorGetCoursesResult) result.getOutput();
+
+        CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
+        CourseAttributes course2 = typicalBundle.courses.get("typicalCourse2");
+
+        List<CourseAttributes> expectedCourses = new ArrayList<>();
+        expectedCourses.add(course1);
+        expectedCourses.add(course2);
+
+        List<CourseDetails> expectedCourseDetailsList = new ArrayList<>();
+        expectedCourses.forEach(course -> {
+            if (course != null) {
+                expectedCourseDetailsList.add(new CourseDetails(
+                        course.getId(), course.getName(), instructor3.isArchived, isInstructorAllowedToModify));
+            }
+        });
+
+        AssertHelper.assertSameContentIgnoreOrder(expectedCourseDetailsList, output.getCourses());
     }
 
     @Override

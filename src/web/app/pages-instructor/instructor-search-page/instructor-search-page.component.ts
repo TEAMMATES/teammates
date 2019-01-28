@@ -42,6 +42,13 @@ export class InstructorSearchPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+      if (queryParams.searchstudent) {
+        this.searchQuery = queryParams.searchstudent;
+        this.searchStudents = true;
+        this.searchFeedbackSessionData = false;
+
+        this.search();
+      }
     });
   }
 

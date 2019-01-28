@@ -48,34 +48,12 @@ public class DataBundle {
         sanitizeMapForSaving(profiles);
     }
 
-    public List<InstructorAttributes> getInstructorsByGoogleId(String googleId) {
-        return this.instructors.values()
-                .stream()
-                .filter(instructor -> instructor.googleId.equals(googleId))
-                .collect(Collectors.toList());
-    }
-
     public CourseAttributes getCourseById(String courseId) {
         return this.courses.values()
                 .stream()
                 .filter(course -> course.getId().equals(courseId))
                 .findFirst()
                 .orElseGet(null);
-    }
-
-    public List<CourseAttributes> getCoursesForInstructor(String googleId) {
-        List<CourseAttributes> courses = new ArrayList<>();
-
-        List<InstructorAttributes> instructorsWithGoogleId = getInstructorsByGoogleId(googleId);
-        instructorsWithGoogleId.forEach(instructor -> {
-            String courseId = instructor.getCourseId();
-            CourseAttributes course = getCourseById(courseId);
-            if (course != null) {
-                courses.add(course);
-            }
-        });
-
-        return courses;
     }
 
     public List<StudentAttributes> getStudentsForCourse(String courseId) {

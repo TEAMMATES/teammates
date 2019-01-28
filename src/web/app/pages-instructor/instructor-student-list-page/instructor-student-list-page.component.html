@@ -1,34 +1,68 @@
+<h1> Student List</h1>
+
+<div class="card bg-light mb-4 pb-3">
+  <div class="card-body">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()"
+               placeholder="Charlie Barnes">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2> Filter Students </h2>
 <div class="section pb-3"*ngIf="courses">
   <div class="card">
     <div class="card-body fill-plain">
       <div class="form form-horizontal">
+        <div class="checkbox-outer-div pb-3">
+          <input type="checkbox"
+                 (change)="toggleDisplayArchive()"
+                 [checked]="isDisplayArchive">
+          <label class="ml-1"> Display Archived Courses </label>
+        </div>
         <div class="form-group row">
           <div class="col-sm-3 float-left">
-            <div class="checkbox-outer-div">
-              <input type="checkbox">
-              <label class="ml-1"> Select All Courses </label>
+            <div class="text-color-primary pb-3">
+              <strong> Courses </strong>
             </div>
-            <div class="checkbox-outer-div" *ngFor="let course of courses">
+            <div class="checkbox-outer-div pb-3">
+              <input type="checkbox"
+                     (change)="toggleAllPresentCoursesStateAtInput(!isAllPresentCoursesChecked)"
+                     [checked]="isAllPresentCoursesChecked">
+              <label class="ml-1"><strong> Select All </strong></label>
+            </div>
+            <div class="checkbox-outer-div" *ngFor="let course of courses"
+                 [hidden]="(!isDisplayArchive && course.isArchived)">
               <input type="checkbox"
                      (change)="toggleCourseStateAtInput(course)"
                      [checked]="course.isChecked">
               <label class="ml-1">
-                [{{course.id}}]{{course.name}}
+                [{{course.id}}]: {{course.name}}
               </label>
             </div>
           </div>
 
           <div class="col-sm-3 float-left">
             <ng-container *ngIf="courseDetailsList.length">
-              <div class="checkbox-outer-div">
-                <input type="checkbox">
-                <label class="ml-1"> Select All Sections </label>
+              <div class="text-color-primary pb-3">
+                <strong> Sections </strong>
+              </div>
+              <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
+                <input type="checkbox"
+                       (change)="toggleAllPresentSectionDetailsState(!isAllPresentSectionDetailssChecked)"
+                       [checked]="isAllPresentSectionDetailssChecked">
+                <label class="ml-1"><strong> Select All </strong></label>
               </div>
               <ng-container *ngFor="let courseDetails of courseDetailsList">
                 <div class="checkbox-outer-div" *ngFor="let section of courseDetails.sections" [hidden]="!courseDetails.isChecked">
                   <input type="checkbox" [checked]="section.isChecked" (change)="toggleSectionState(section)">
                   <label class="ml-1">
-                    [{{courseDetails.id}}]{{section.name}}
+                    [{{courseDetails.id}}]: {{section.name}}
                   </label>
                 </div>
               </ng-container>
@@ -37,16 +71,21 @@
 
           <div class="col-sm-3 float-left">
             <ng-container *ngIf="courseDetailsList.length">
-              <div class="checkbox-outer-div">
-                <input type="checkbox">
-                <label class="ml-1"> Select All Teams </label>
+              <div class="text-color-primary pb-3">
+                <strong> Teams </strong>
+              </div>
+              <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
+                <input type="checkbox"
+                       (change)="toggleAllPresentTeamDetailsState(!isAllPresentTeamDetailsChecked)"
+                       [checked]="isAllPresentTeamDetailsChecked">
+                <label class="ml-1"><strong> Select All </strong></label>
               </div>
               <ng-container *ngFor="let courseDetails of courseDetailsList">
                 <ng-container *ngFor="let section of courseDetails.sections">
                   <div class="checkbox-outer-div" *ngFor="let team of section.teams" [hidden]="!section.isChecked" >
                     <input type="checkbox" [checked]="team.isChecked" (change)="toggleTeamState(team)">
                     <label class="ml-1">
-                      [{{courseDetails.id}}][{{section.name}}]{{team.name}}
+                      [{{courseDetails.id}}]: {{team.name}}
                     </label>
                   </div>
                 </ng-container>
@@ -56,9 +95,14 @@
 
           <div class="col-sm-3 float-left">
             <ng-container *ngIf="courseDetailsList.length">
-              <div class="checkbox-outer-div">
-                <input type="checkbox">
-                <label class="ml-1"> Select All Students </label>
+              <div class="text-color-primary pb-3">
+                <strong> Students </strong>
+              </div>
+              <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
+                <input type="checkbox"
+                       (change)="toggleAllPresentStudentDetailsState(!isAllPresentStudentDetailsChecked)"
+                       [checked]="isAllPresentStudentDetailsChecked">
+                <label class="ml-1"><strong> Show Emails </strong></label>
               </div>
               <ng-container *ngFor="let courseDetails of courseDetailsList">
                 <ng-container *ngFor="let section of courseDetails.sections">
@@ -66,7 +110,7 @@
                     <div class="checkbox-outer-div" *ngFor="let student of team.students" [hidden]="!team.isChecked">
                       <input type="checkbox" [(ngModel)]="student.isChecked">
                       <label class="ml-1">
-                        [{{team.name}}]{{student.email}}
+                        {{student.email}}
                       </label>
                     </div>
                   </ng-container>
@@ -82,12 +126,16 @@
 
 <ng-container *ngIf="courses && courses.length" >
   <div class="p-0">
-    <div *ngFor="let course of courses" class="card border mb-3 p-0">
-      <div class="card-header text-dark-blue bg-light-blue font-weight-bold" (click)="toggleCourseStateAtInput(course)">
+    <div *ngFor="let course of courses" class="card border mb-3 p-0"
+         [hidden]="(!course.isChecked) && (!isDisplayArchive) && course.isArchived">
+      <div class="card-header font-weight-bold"
+           [ngClass]="{'text-dark-blue bg-light-blue ': !course.isArchived, 'bg-light-grey': course.isArchived}"
+           (click)="toggleCourseStateAtInput(course)">
         <strong>[{{course.id}}]:</strong> {{course.name}}
         <div class="arrow-sign">
-          <i class="fas fa-chevron-down"></i>
-          <i class="fas fa-chevron-up"></i>
+          <a class="btn btn-info btn-xs" routerLink="/web/instructor/home" (click)="$event.preventDefault();"> Enroll </a>
+          <i class="fas fa-chevron-down pl-3" [hidden]="!course.isChecked"></i>
+          <i class="fas fa-chevron-up pl-3" [hidden]="course.isChecked"></i>
         </div>
       </div>
       <div class="card-body p-0">

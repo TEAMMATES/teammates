@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs/index';
 import { map } from 'rxjs/internal/operators';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -52,7 +52,6 @@ interface CourseDetails {
 
 interface GetCourseResponse {
   courses: Course[];
-  isDisplayArchive: boolean;
 }
 
 interface GetCourseDetailsResponse {
@@ -73,51 +72,155 @@ export class InstructorStudentListPageComponent implements OnInit {
   isDisplayArchive: boolean = false;
   courses: Course[] = [];
 
+  searchQuery: string = '';
+
   courseDetailsList: CourseDetails[] = [];
   sectionDetailsList: SectionDetails[] = [];
   teamDetailsList: TeamDetails[] = [];
   studentDetailsList: StudentDetails[] = [];
 
-  coursesMap: Map<string, Course> = new Map();
-  courseDetailsMap: Map<string, CourseDetails> = new Map();
+  get allPresentCourses(): Course[] {
+    return this.courses.filter((course: Course) => !(course.isArchived && !this.isDisplayArchive));
+  }
 
-  coursesStateMap: Map<string, boolean> = new Map();
-  sectionsStateMap: Map<string, boolean> = new Map();
-  teamsStateMap: Map<string, boolean> = new Map();
-  studentsStateMap: Map<string, boolean> = new Map();
+  get allCheckedCourses(): Course[] {
+    return this.allPresentCourses.filter((course: Course) => course.isChecked);
+  }
+
+  get allPresentCourseDetails(): CourseDetails[] {
+    const courseDetailsList: CourseDetails[] = [];
+
+    this.allPresentCourses.forEach((course: Course) =>  {
+      const courseDetails: CourseDetails | undefined = this.getCourseDetails(course.id);
+      if (courseDetails) {
+        courseDetailsList.push(courseDetails);
+      }
+    });
+
+    return courseDetailsList;
+  }
+
+  get allCheckedCourseDetails(): CourseDetails[] {
+    return this.allPresentCourseDetails.filter((courseDetails: CourseDetails) => courseDetails.isChecked);
+  }
+
+  get allPresentSectionDetails(): SectionDetails[] {
+    let allPresentSectionDetails: SectionDetails[] = [];
+
+    this.allCheckedCourseDetails.forEach((courseDetails: CourseDetails) => {
+      allPresentSectionDetails = allPresentSectionDetails.concat(courseDetails.sections);
+    });
+
+    return allPresentSectionDetails;
+  }
+
+  get allCheckedSectionDetails(): SectionDetails[] {
+    return this.allPresentSectionDetails.filter((sectionDetails: SectionDetails) => sectionDetails.isChecked);
+  }
+
+  get allPresentTeamDetails(): TeamDetails[] {
+    let allPresentTeamDetails: TeamDetails[] = [];
+
+    this.allCheckedSectionDetails.forEach((sectionDetails: SectionDetails) => {
+      allPresentTeamDetails = allPresentTeamDetails.concat(sectionDetails.teams);
+    });
+
+    return allPresentTeamDetails;
+  }
+
+  get allCheckedTeamDetails(): TeamDetails[] {
+    return this.allPresentTeamDetails.filter((teamDetails: TeamDetails) => teamDetails.isChecked);
+  }
+
+  get allPresentStudentDetails(): StudentDetails[] {
+    let allPresentStudentDetails: StudentDetails[] = [];
+
+    this.allCheckedTeamDetails.forEach((teamDetails: TeamDetails) => {
+      allPresentStudentDetails = allPresentStudentDetails.concat(teamDetails.students);
+    });
+
+    return allPresentStudentDetails;
+  }
+
+  get allCheckedStudentDetails(): StudentDetails[] {
+    return this.allPresentStudentDetails.filter((studentDetails: StudentDetails) => studentDetails.isChecked);
+  }
+
+  get isAllPresentCoursesChecked(): boolean {
+    if (this.allPresentCourses.length === 0) {
+      return false;
+    }
+    return this.allPresentCourses.length === this.allCheckedCourses.length;
+  }
+
+  get isAllPresentCourseDetailssChecked(): boolean {
+    if (this.allPresentCourseDetails.length === 0) {
+      return false;
+    }
+    return this.allPresentCourseDetails.length === this.allCheckedCourseDetails.length;
+  }
+
+  get isAllPresentSectionDetailssChecked(): boolean {
+    if (this.allPresentSectionDetails.length === 0) {
+      return false;
+    }
+    return this.allPresentSectionDetails.length === this.allCheckedSectionDetails.length;
+  }
+
+  get isAllPresentTeamDetailsChecked(): boolean {
+    if (this.allPresentTeamDetails.length === 0) {
+      return false;
+    }
+    return this.allPresentTeamDetails.length === this.allCheckedTeamDetails.length;
+  }
+
+  get isAllPresentStudentDetailsChecked(): boolean {
+    if (this.allPresentStudentDetails.length === 0) {
+      return false;
+    }
+    return this.allPresentStudentDetails.length === this.allCheckedStudentDetails.length;
+  }
+
+  get isAnyPresentCoursesChecked(): boolean {
+    if (this.allPresentCourses.length === 0) {
+      return false;
+    }
+    return this.allCheckedCourses.length > 0;
+  }
 
   courseStudentListSectionDataMap: Map<string, StudentListSectionData[]> = new Map();
 
-  constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
+  constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.loadCourses(this.user, this.isDisplayArchive);
+      this.loadCourses(this.user);
     });
+  }
+
+  /**
+   * Navigate to the instructor search page with query input and query type: student.
+   */
+  search(): void {
+    this.router.navigate(['/web/instructor/search'], { queryParams: { searchstudent: this.searchQuery } });
   }
 
   /**
    * Function to get initial data of the instructor's courses.
    */
-  loadCourses(user: string, isDisplayArchive: boolean): void {
-    const displayarchive: string = isDisplayArchive.toString();
-    const paramMap: { [key: string]: string } = { displayarchive, user };
+  loadCourses(user: string): void {
+    const paramMap: { [key: string]: string } = { user };
     this.httpRequestService.get('/instructor/students/courses', paramMap)
         .subscribe((resp: GetCourseResponse) => {
           this.courses = resp.courses;
-          this.isDisplayArchive = resp.isDisplayArchive;
 
           if (!this.courses) {
             this.statusMessageService.showWarningMessage('You do not have any courses yet.');
-          } else {
-            this.courses.forEach((course: Course) => {
-              this.coursesMap.set(course.id, course);
-            });
           }
 
-          if (this.isDisplayArchive === null) {
+          if (this.isDisplayArchive === undefined) {
             this.statusMessageService.showErrorMessage('Error retrieving indicator for showing archived courses');
           }
         }, (resp: ErrorMessageOutput) => {
@@ -126,14 +229,53 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
+   * Change value of the checkbox Display Archive Courses.
+   */
+  toggleDisplayArchive(): void {
+    this.isDisplayArchive = !this.isDisplayArchive;
+    const isDisplayArchiveChecked: boolean = this.isDisplayArchive;
+    this.courses.forEach((course: Course) => {
+      if (course.isArchived) {
+        this.toggleCourseStateAtInput(course, isDisplayArchiveChecked);
+      }
+    });
+  }
+
+  /**
    * Function to change states of all courses.
    */
-  toggleAllCoursesStateAtInput(defaultState: boolean): void {
-    this.statusMessageService.showWarningMessage(`Default state input at toggleAllCoursesStateAtInput: ${defaultState}`);
-    this.courses.forEach((course: Course) => {
+  toggleAllPresentCoursesStateAtInput(defaultState: boolean): void {
+    this.allPresentCourses.forEach((course: Course) => {
       if (course !== undefined) {
         this.toggleCourseStateAtInput(course, defaultState);
       }
+    });
+  }
+
+  /**
+   * Change the state of all sections presented on the screen.
+   */
+  toggleAllPresentSectionDetailsState(defaultState: boolean): void {
+    this.allPresentSectionDetails.forEach((sectionDetails: SectionDetails) => {
+      this.toggleSectionState(sectionDetails, defaultState);
+    });
+  }
+
+  /**
+   * Change the state of all teams presented on the screen.
+   */
+  toggleAllPresentTeamDetailsState(defaultState: boolean): void {
+    this.allPresentTeamDetails.forEach((teamDetails: TeamDetails) => {
+      this.toggleTeamState(teamDetails, defaultState);
+    });
+  }
+
+  /**
+   * Change the state of all students presented on the screen.
+   */
+  toggleAllPresentStudentDetailsState(defaultState: boolean): void {
+    this.allPresentStudentDetails.forEach((studentDetails: StudentDetails) => {
+      this.toggleStudentState(studentDetails, defaultState);
     });
   }
 
@@ -185,6 +327,9 @@ export class InstructorStudentListPageComponent implements OnInit {
         }));
   }
 
+  /**
+   * If the courseDetails of a course is fetched.
+   */
   isCourseDetailsInList(courseId: string): boolean {
     const filteredCourseDetailsList: CourseDetails[] =
         this.courseDetailsList.filter((courseDetails: CourseDetails) => courseDetails.id === courseId);
@@ -192,6 +337,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     return filteredCourseDetailsList.length > 0;
   }
 
+  /**
+   * If the sectionDetails is fetched.
+   */
   isSectionDetailsInList(section: SectionDetails): boolean {
     const filteredSectionDetailsList: SectionDetails[] = this.sectionDetailsList.filter(
         (sectionDetails: SectionDetails) =>
@@ -201,6 +349,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     return filteredSectionDetailsList.length > 0;
   }
 
+  /**
+   * If the teamDetails is fetched.
+   */
   isTeamDetailsInList(team: TeamDetails): boolean {
     const filteredTeamDetailsList: TeamDetails[] = this.teamDetailsList.filter(
         (teamDetails: TeamDetails) =>
@@ -211,6 +362,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     return filteredTeamDetailsList.length > 0;
   }
 
+  /**
+   * If the studentDetails is fetched.
+   */
   isStudentDetailsInList(student: StudentDetails): boolean {
     const filteredStudentDetailsList: StudentDetails[] = this.studentDetailsList.filter(
         (studentDetails: StudentDetails) =>
@@ -222,6 +376,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     return filteredStudentDetailsList.length > 0;
   }
 
+  /**
+   * Get the course from the list of courses.
+   */
   getCourse(courseId: string): Course | undefined {
     const filteredCourseList: Course[] =
         this.courses.filter((course: Course) => course.id === courseId);
@@ -233,6 +390,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     return undefined;
   }
 
+  /**
+   * Get the courseDetails from the list of courseDetails.
+   */
   getCourseDetails(courseId: string): CourseDetails | undefined {
     const filteredCourseDetailsList: CourseDetails[] =
         this.courseDetailsList.filter((courseDetails: CourseDetails) => courseDetails.id === courseId);
@@ -244,21 +404,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     return undefined;
   }
 
-  getSectionDetails(courseId: string, sectionName: string): SectionDetails | undefined {
-    const filteredSectionDetailsList: SectionDetails[] = this.sectionDetailsList.filter(
-        (sectionDetails: SectionDetails) =>
-            sectionDetails.name === sectionName
-            && sectionDetails.courseId === courseId);
-
-    if (filteredSectionDetailsList.length > 0) {
-      return filteredSectionDetailsList[0];
-    }
-
-    return undefined;
-  }
-
   /*------------------------------Functions to toggle item state in state maps----------------------------------*/
-
   /**
    * Function to change the state of a specific course.
    */

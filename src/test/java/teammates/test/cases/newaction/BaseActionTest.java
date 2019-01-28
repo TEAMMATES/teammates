@@ -255,6 +255,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyInaccessibleForSpecificInstructor(InstructorAttributes instructor, String... params) {
+        ______TS("A specific instructor cannot access the resource.");
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(params);
+    }
+
     protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
 
         ______TS("admin can access");

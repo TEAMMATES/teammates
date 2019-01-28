@@ -74,7 +74,7 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
 
         CourseDetails expectedCourseDetails = getCourseDetails(course1.getId(), instructor3);
 
-        // all accessible courseids
+        // accessible courseid
         String[] validSubmmissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course1.getId()
         };
@@ -95,14 +95,13 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
         AssertHelper.assertSameContentIgnoreOrder(
                 expectedCourseDetails.getSections().get(0).getTeams().get(0).getStudents(),
                 output.getCourse().getSections().get(0).getTeams().get(0).getStudents());
-
-        // some inaccessible courseids
     }
 
     @Override
     @Test
     public void testAccessControl() throws Exception {
         CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
+        InstructorAttributes instructor3 = typicalBundle.instructors.get("instructor3OfCourse2");
 
         String[] validSubmmissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course1.getId()
@@ -112,42 +111,68 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
         verifyInaccessibleWithoutLogin(validSubmmissionParams);
         verifyInaccessibleForStudents(validSubmmissionParams);
         verifyInaccessibleForUnregisteredUsers(validSubmmissionParams);
+
+        // inaccessible courseid
+        CourseAttributes course4 = typicalBundle.courses.get("typicalCourse4");
+        String[] inaccessibleSubmissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, course4.getId()
+        };
+
+        verifyInaccessibleForSpecificInstructor(instructor3, inaccessibleSubmissionParams);
     }
 
     private CourseDetails getCourseDetails(String courseId, InstructorAttributes instructor) {
         CourseAttributes course = typicalBundle.getCourseById(courseId);
 
+        List<SectionDetails> sectionDetails = getSectionDetailsForCOurse(course, instructor);
+
+        return new CourseDetails(course.getId(), course.getName(), course.createdAt, sectionDetails);
+    }
+
+    private List<SectionDetails> getSectionDetailsForCOurse(CourseAttributes course, InstructorAttributes instructor) {
         List<SectionDetails> sectionDetails = new ArrayList<>();
 
         List<String> sections = typicalBundle.getSectionNamesForCourse(course.getId());
         sections.forEach(section -> {
-            List<TeamDetails> teamDetails = new ArrayList<>();
-
-            List<String> teams = typicalBundle.getTeamsForSection(course.getId(), section);
-            teams.forEach(team -> {
-                List<StudentDetails> studentDetailsList = new ArrayList<>();
-
-                List<StudentAttributes> students = typicalBundle.getStudentsForTeam(course.getId(), section, team);
-                students.forEach(student -> {
-                    StudentDetails studentDetails = new StudentDetails(student.name,
-                            student.email, student.getStudentStatus(), team, section, course.getId());
-                    studentDetailsList.add(studentDetails);
-                });
-
-                teamDetails.add(new TeamDetails(team, studentDetailsList, section, course.getId()));
-            });
+            List<TeamDetails> teamDetails = getTeamDetailsForSection(course, section);
 
             sectionDetails.add(
                     new SectionDetails(
-                        section,
-                        teamDetails,
-                        instructor.isAllowedForPrivilege(
-                                section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS),
-                        instructor.isAllowedForPrivilege(
-                                section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
-                        course.getId()));
+                            section,
+                            teamDetails,
+                            instructor.isAllowedForPrivilege(
+                                    section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS),
+                            instructor.isAllowedForPrivilege(
+                                    section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
+                            course.getId()));
         });
 
-        return new CourseDetails(course.getId(), course.getName(), course.createdAt, sectionDetails);
+        return sectionDetails;
+    }
+
+    private List<TeamDetails> getTeamDetailsForSection(CourseAttributes course, String section) {
+        List<TeamDetails> teamDetails = new ArrayList<>();
+
+        List<String> teams = typicalBundle.getTeamsForSection(course.getId(), section);
+        teams.forEach(team -> {
+            List<StudentDetails> studentDetailsList = getStudentDetailsForTeam(course, section, team);
+
+            teamDetails.add(new TeamDetails(team, studentDetailsList, section, course.getId()));
+        });
+
+        return teamDetails;
+    }
+
+    private List<StudentDetails> getStudentDetailsForTeam(CourseAttributes course, String section, String team) {
+        List<StudentDetails> studentDetailsList = new ArrayList<>();
+
+        List<StudentAttributes> students = typicalBundle.getStudentsForTeam(course.getId(), section, team);
+        students.forEach(student -> {
+            StudentDetails studentDetails = new StudentDetails(student.name,
+                    student.email, student.getStudentStatus(), team, section, course.getId());
+            studentDetailsList.add(studentDetails);
+        });
+
+        return studentDetailsList;
     }
 }

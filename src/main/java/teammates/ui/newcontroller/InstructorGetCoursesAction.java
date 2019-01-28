@@ -1,14 +1,17 @@
 package teammates.ui.newcontroller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+
 
 /**
  * Action: for an instructor to get his/her list of courses.
@@ -30,7 +33,6 @@ public class InstructorGetCoursesAction extends Action {
     @Override
     public ActionResult execute() {
 
-        Boolean isDisplayArchive = getBooleanRequestParamValue(Const.ParamsNames.DISPLAY_ARCHIVE);
         Map<String, InstructorAttributes> courseInstructor = new HashMap<>();
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(userInfo.id);
@@ -46,14 +48,11 @@ public class InstructorGetCoursesAction extends Action {
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
 
-            boolean isCourseDisplayed = isDisplayArchive || !instructor.isArchived;
-            if (isCourseDisplayed) {
-                coursesToDisplay.add(new CourseDetails(
-                        course.getId(), course.getName(), instructor.isArchived, isInstructorAllowedToModify));
-            }
+            coursesToDisplay.add(new CourseDetails(
+                    course.getId(), course.getName(), instructor.isArchived, isInstructorAllowedToModify));
         }
 
-        InstructorGetCoursesResult result = new InstructorGetCoursesResult(isDisplayArchive, coursesToDisplay);
+        InstructorGetCoursesResult result = new InstructorGetCoursesResult(coursesToDisplay);
 
         return new JsonResult(result);
     }
@@ -90,6 +89,27 @@ public class InstructorGetCoursesAction extends Action {
         public boolean isInstructorAllowedToModify() {
             return isInstructorAllowedToModify;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            CourseDetails that = (CourseDetails) o;
+            return isArchived == that.isArchived
+                    && isInstructorAllowedToModify == that.isInstructorAllowedToModify
+                    && Objects.equals(id, that.id)
+                    && Objects.equals(name, that.name);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(id, name, isArchived, isInstructorAllowedToModify);
+        }
     }
 
     /**
@@ -97,18 +117,12 @@ public class InstructorGetCoursesAction extends Action {
      */
     public static class InstructorGetCoursesResult extends ActionResult.ActionOutput {
 
-        private final boolean isDisplayArchive;
         private final List<CourseDetails> courses;
 
-        public InstructorGetCoursesResult(boolean isDisplayArchive, List<CourseDetails> courses) {
-            this.isDisplayArchive = isDisplayArchive;
+        public InstructorGetCoursesResult(List<CourseDetails> courses) {
             this.courses = courses;
 
-            courses.sort((c1, c2) -> c1.getId().compareTo(c2.getId()));
-        }
-
-        public boolean isDisplayArchive() {
-            return isDisplayArchive;
+            this.courses.sort(Comparator.comparing(CourseDetails::getId));
         }
 
         public List<CourseDetails> getCourses() {
