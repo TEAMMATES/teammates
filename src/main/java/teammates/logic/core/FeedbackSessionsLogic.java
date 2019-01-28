@@ -1440,7 +1440,7 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Soft-deletes a specific feedback session to Recycle Bin.
-     * @return Soft-deletion time of the feedback session.
+     * @return the time when the feedback session is moved to the recycle bin
      */
     public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {

@@ -666,7 +666,7 @@ public final class CoursesLogic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     * @return Soft-deletion time of the course.
+     * @return the time when the course is moved to the recycle bin
      */
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
 

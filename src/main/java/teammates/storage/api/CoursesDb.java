@@ -112,7 +112,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Moves a course to Recycle Bin by its given corresponding ID.
+     * Soft delete a course by its given corresponding ID.
      * @return Soft-deletion time of the course.
      */
     public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
@@ -130,7 +130,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Restores a course from Recycle Bin by its given corresponding ID.
+     * Restores a soft deleted course by its given corresponding ID.
      */
     public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);

@@ -343,7 +343,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Soft-deletes a specific feedback session to Recycle Bin.
+     * Soft-deletes a specific feedback session by its name and course id.
      * @return Soft-deletion time of the feedback session.
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
@@ -364,7 +364,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Restores a specific feedback session from Recycle Bin to feedback sessions table.
+     * Restores a specific soft deleted feedback session to feedback sessions table.
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
