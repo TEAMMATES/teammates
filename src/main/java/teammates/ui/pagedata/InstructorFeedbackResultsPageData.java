@@ -1481,8 +1481,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, getFeedbackSessionName());
         boolean isDisabled = !isAllowedToModerate;
         String moderateFeedbackResponseLink = isGiverInstructorOfCourse
-                                              ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
-                                              : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+                                              ? Const.WebPageURIs.SESSION_SUBMISSION_PAGE
+                                              : Const.WebPageURIs.SESSION_SUBMISSION_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
 
         return new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
@@ -1520,7 +1520,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
-                                                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
+                                                Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE,
                                                 instructor,
                                                 "btn-primary btn-block");
     }
@@ -1591,7 +1591,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             String sectionName = bundle.getSectionFromRoster(giverIdentifier);
             boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, feedbackSessionName);
-            String moderateFeedbackLink = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE);
+            String moderateFeedbackLink = addUserIdToUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE);
 
             InstructorFeedbackResultsModerationButton moderationButton =
                     new InstructorFeedbackResultsModerationButton(!isAllowedToModerate, "btn btn-default btn-xs",

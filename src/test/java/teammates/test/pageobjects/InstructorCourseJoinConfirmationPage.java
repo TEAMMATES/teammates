@@ -38,7 +38,7 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
 
             @Override
             public boolean isSuccessful() {
-                return isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+                return isPageUri(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
             }
 
             @Override

@@ -71,7 +71,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
     @Override
     protected StudentProfileCreateFormUrlAction getAction(String... params) {
-        return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (StudentProfileCreateFormUrlAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Test

@@ -110,6 +110,10 @@
       "image": "assets/images/teammembers/amar.png"
     },
     {
+      "name": "Amrut Prabhu",
+      "username": "amrut-prabhu"
+    },
+    {
       "multiple": true,
       "name": "Anagh Hegde",
       "username": "AnaghHegde"
@@ -327,6 +331,10 @@
     {
       "multiple": true,
       "name": "Chua Peng Chin Benson"
+    },
+    {
+      "name": "Claire Wright",
+      "username": "ccannawright"
     },
     {
       "multiple": true,
@@ -593,6 +601,10 @@
       "username": "Jefferysan"
     },
     {
+      "name": "Jiang Chunhui",
+      "username": "Adoby7"
+    },
+    {
       "multiple": true,
       "name": "Jiang Sheng",
       "username": "Gisonrg"
@@ -609,6 +621,10 @@
     {
       "name": "Jon Vanderlaan",
       "username": "vandy56"
+    },
+    {
+      "name": "Jonathan Croskell",
+      "username": "joncros"
     },
     {
       "name": "Jonathan Lim",
@@ -893,6 +909,7 @@
       "name": "Mohit Singh Kanwal"
     },
     {
+      "multiple": true,
       "name": "Monika Manuela Hengki",
       "username": "monmanuela"
     },
@@ -1145,6 +1162,11 @@
     {
       "name": "Rohith Mukku",
       "username": "Naruto8"
+    },
+    {
+      "multiple": true,
+      "name": "Ronak Lakhotia",
+      "username": "RonakLakhotia"
     },
     {
       "multiple": true,

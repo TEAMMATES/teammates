@@ -22,6 +22,7 @@ public final class Const {
      * This section holds constants that are defined as constants primarily
      * because they are repeated in many places.
      */
+    @Deprecated
     public static final String HTML_BR_TAG = "<br>";
 
     public static final String USER_NOBODY_TEXT = "-";
@@ -56,12 +57,6 @@ public final class Const {
 
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
-
-    // for course sorting in instructorHomePage
-    public static final String SORT_BY_COURSE_ID = "id";
-    public static final String SORT_BY_COURSE_NAME = "name";
-    public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt";
-    public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
     public static final String DEFAULT_SECTION = "None";
 
@@ -141,54 +136,17 @@ public final class Const {
                 Arrays.asList(
                         ActionURIs.CREATE_IMAGE_UPLOAD_URL,
                         ActionURIs.IMAGE_UPLOAD,
-                        ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
-                        ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
-                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
-                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
-                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_REMIND,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
-                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE_ALL,
-                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE,
-                        ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE,
-                        ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_ADD,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_COPY,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_DELETE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL,
-                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
-                        ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
                         ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
-
-        @Deprecated
-        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
-                Arrays.asList(
-                        ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
-                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE));
-
-        @Deprecated
-        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
-                Arrays.asList(ActionURIs.STUDENT_HOME_PAGE));
 
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
 
@@ -936,16 +894,35 @@ public final class Const {
         private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
         private static final String INSTRUCTOR_PAGE = URI_PREFIX + "/" + EntityType.INSTRUCTOR;
         private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
+        private static final String FRONT_PAGE = URI_PREFIX + "/front";
+        public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
+
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
+        public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";
+        public static final String INSTRUCTOR_SESSIONS_PAGE = INSTRUCTOR_PAGE + "/sessions";
+        public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/submission";
+        public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/edit";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
+        public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = INSTRUCTOR_PAGE + "/courses/details";
+        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/edit";
+        public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = INSTRUCTOR_PAGE + "/courses/enroll";
+        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = INSTRUCTOR_PAGE + "/courses/student/details";
+        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/student/edit";
+        public static final String INSTRUCTOR_STUDENT_LIST_PAGE = INSTRUCTOR_PAGE + "/students";
+        public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE + "/students/records";
+
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
-        public static final String JOIN_PAGE = URI_PREFIX + "/join";
+        public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
+        public static final String STUDENT_PROFILE_PAGE = STUDENT_PAGE + "/profile";
+
+        public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
+        public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
 
     }
 
@@ -1028,86 +1005,25 @@ public final class Const {
 
         public static final String LOGOUT = "/logout";
 
-        public static final String INSTRUCTOR_HELP_PAGE = "/instructorHelp";
-        public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
-        public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
-        public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
-        public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
-        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
-        public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
-        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = "/page/instructorCourseStudentDetailsPage";
-        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT = "/page/instructorCourseStudentDetailsEdit";
-        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE =
-                "/page/instructorCourseStudentDetailsEditSave";
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
-        public static final String INSTRUCTOR_COURSE_STUDENT_DELETE_ALL = "/page/instructorCourseStudentDeleteAll";
-        public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
-        public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
-        public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE = "/page/instructorCourseEnrollAjaxPage";
-        public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
-        public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
-        public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
-        public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
-        public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage";
-
-        public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
 
-        public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
-        public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
-        public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE = "/page/instructorEditInstructorFeedbackPage";
-        public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE = "/page/instructorEditInstructorFeedbackSave";
-        public static final String INSTRUCTOR_FEEDBACK_SESSIONS_PAGE = "/page/instructorFeedbackSessionsPage";
-        public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
-        public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
-        public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND = "/page/instructorFeedbackRemind";
         public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE =
                 "/page/instructorFeedbackRemindParticularStudentsPage";
         public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS =
                 "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
-        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE =
-                "/page/instructorFeedbackResendPublishedEmailPage";
-        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL =
-                "/page/instructorFeedbackResendPublishedEmail";
-        public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
-        public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
-        public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
-        public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
-        public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
-        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE =
-                "/page/instructorFeedbackRestoreSession";
-        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL =
-                "/page/instructorFeedbackRestoreAllSessions";
-        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE = "/page/instructorFeedbackDeleteSession";
-        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL =
-                "/page/instructorFeedbackDeleteAllSessions";
-
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE = "/page/instructorFeedbackQuestionCopyPage";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY = "/page/instructorFeedbackQuestionCopy";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE =
-                "/page/instructorFeedbackQuestionvisibilityMessage";
-        public static final String INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD = "/page/instructorFeedbackTemplateQuestionAdd";
 
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/instructorFeedbackResponseCommentDelete";
-
-        public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
-
-        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
 
         public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/feedbackParticipantFeedbackResponseCommentDelete";
@@ -1115,16 +1031,7 @@ public final class Const {
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
 
-        public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
-
-        public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
-
-        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
-        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
-
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
-        public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
-        public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
         public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
@@ -1132,6 +1039,9 @@ public final class Const {
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
 
+    }
+
+    public static class CronJobURIs {
         public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = "/auto/datastoreBackup";
@@ -1189,35 +1099,14 @@ public final class Const {
     }
 
     @Deprecated
-    public static class PageNames {
-        public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
-        public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "instructorCourseDetailsPage";
-        public static final String INSTRUCTOR_FEEDBACK_SESSIONS_PAGE = "instructorFeedbackSessionsPage";
-        public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
-        public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "instructorStudentListPage";
-    }
-
-    @Deprecated
     public static class ViewURIs {
 
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
 
-        public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
-        public static final String INSTRUCTOR_HOME_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
                 "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
-        public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp";
-        public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp";
-        public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp";
-        public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_SESSIONS = "/jsp/instructorFeedbacks.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
                 "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL =
-                "/jsp/instructorFeedbackAjaxResendPublishedEmailModal.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION =
@@ -1229,22 +1118,12 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER =
                 "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT =
-                "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL =
-                "/jsp/instructorFeedbackQuestionCopyModal.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
-        public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
-        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT =
-                "/jsp/studentFeedbackQuestionSubmissionEdit.jsp";
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
-        public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
@@ -1505,23 +1384,6 @@ public final class Const {
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
                 + "When a session is open for submission you will be notified.";
-        public static final String STUDENT_UPDATE_PROFILE =
-                "Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        public static final String STUDENT_UPDATE_PROFILE_SHORTNAME =
-                "Meanwhile, you can provide a name that you would prefer to be called by "
-                + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        public static final String STUDENT_UPDATE_PROFILE_EMAIL =
-                "Meanwhile, you can provide an email for your instructors to contact you beyond graduation "
-                + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        public static final String STUDENT_UPDATE_PROFILE_PICTURE =
-                "Meanwhile, you can upload a profile picture "
-                + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        public static final String STUDENT_UPDATE_PROFILE_MOREINFO =
-                "Meanwhile, you can provide more information about yourself "
-                + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        public static final String STUDENT_UPDATE_PROFILE_NATIONALITY =
-                "Meanwhile, you can provide your nationality "
-                + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
 
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Course ID */
@@ -1536,17 +1398,9 @@ public final class Const {
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
         public static final String STUDENT_NOT_FOUND_FOR_RECORDS =
                 "The student you tried to view records for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
-        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS =
-                "The student you tried to view details for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED =
                 "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
-        public static final String STUDENT_PROFILE_NOT_CREATED =
-                "Normally, we would show the student’s profile here. "
-                + "However, this student has not created a profile yet";
-        public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR =
-                "Normally, we would show the student’s profile here. "
-                + "However, you do not have access to view this student's profile";
 
         public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
                 + "that are currently open and view results without logging in. To access other features "
@@ -1588,15 +1442,6 @@ public final class Const {
 
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
-    }
-
-    @Deprecated
-    public static class PlaceholderText {
-        public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
-                + "&quot;How well did the team member communicate?&quot;";
-        public static final String FEEDBACK_QUESTION_DESCRIPTION = "More details about the question e.g. &quot;In answering "
-                + "the question, do consider communications made informally within the team, and formal communications with "
-                + "the instructors and tutors.&quot;";
     }
 
     /**

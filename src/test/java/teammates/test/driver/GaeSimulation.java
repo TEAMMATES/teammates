@@ -33,8 +33,8 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
-import teammates.ui.newcontroller.Action;
-import teammates.ui.newcontroller.ActionFactory;
+import teammates.ui.webapi.action.Action;
+import teammates.ui.webapi.action.ActionFactory;
 
 /**
  * Provides a Singleton in-memory simulation of the GAE for unit testing.
@@ -184,7 +184,7 @@ public class GaeSimulation {
      *
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
-    public teammates.ui.controller.Action getActionObject(String uri, String... parameters) {
+    public teammates.ui.controller.Action getLegacyActionObject(String uri, String... parameters) {
         InvocationContext ic = invokeWebRequest(uri, parameters);
         HttpServletRequest req = ic.getRequest();
         teammates.ui.controller.Action action = new teammates.ui.controller.ActionFactory().getAction(req);
@@ -198,7 +198,7 @@ public class GaeSimulation {
      *
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
-    public Action getNewActionObject(String uri, String method, String body, String... parameters) {
+    public Action getActionObject(String uri, String method, String body, String... parameters) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
             for (int i = 0; i < parameters.length; i = i + 2) {
@@ -253,6 +253,7 @@ public class GaeSimulation {
         }
     }
 
+    @Deprecated
     private InvocationContext invokeWebRequest(String uri, String... parameters) {
         // This is not testing servlet, so any HTTP method suffices
         WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);

@@ -40,7 +40,7 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseE2ETestCase {
 
     private void testEnrollAction(int numStudents) throws IOException {
         AppUrl enrollUrl =
-                createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                         .withUserId(testData.instructors.get("CCEnrollScT.teammates.test").googleId)
                         .withCourseId(testData.courses.get("CCEnrollScT.CS2104").getId());
 

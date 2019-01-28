@@ -39,7 +39,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCas
 
         ______TS("content: unregistered student");
 
-        AppUrl editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+        AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .withStudentEmail(testData.students.get("unregisteredStudent").email);
@@ -49,7 +49,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCas
 
         ______TS("content: registered student");
 
-        editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+        editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
             .withUserId(instructorId)
             .withCourseId(courseId)
             .withStudentEmail(testData.students.get("registeredStudent").email);
