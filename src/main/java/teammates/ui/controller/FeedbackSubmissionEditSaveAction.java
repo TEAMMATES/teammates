@@ -409,7 +409,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String[] answer = getRequestParamValues(paramName);
 
         if (questionDetails.isQuestionSkipped(answer)) {
-            response.setResponseAnswer("");
+            response.setResponseDetailsByMetaData("");
         } else {
             FeedbackResponseDetails responseDetails =
                     FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),

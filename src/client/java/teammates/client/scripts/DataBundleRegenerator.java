@@ -50,9 +50,9 @@ public final class DataBundleRegenerator {
         String responseValue = response.getSerializedFeedbackResponseDetail();
         try {
             JSONObject responseJson = maintainKeyOrder(new JSONObject(responseValue));
-            response.setResponseAnswer(responseJson.toString());
+            response.setResponseDetailsByMetaData(responseJson.toString());
         } catch (JSONException e) {
-            response.setResponseAnswer(responseValue);
+            response.setResponseDetailsByMetaData(responseValue);
         }
     }
 

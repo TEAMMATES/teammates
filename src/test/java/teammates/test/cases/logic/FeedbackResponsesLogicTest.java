@@ -120,14 +120,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 
-        responseToUpdate.setResponseAnswer("Updated Response");
+        responseToUpdate.setResponseDetailsByMetaData("Updated Response");
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.setResponseAnswer("Updated Response");
+        responseToUpdate.setResponseDetailsByMetaData("Updated Response");
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,

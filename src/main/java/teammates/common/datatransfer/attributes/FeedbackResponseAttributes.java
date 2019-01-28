@@ -198,8 +198,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return responseDetails;
     }
 
-    public void setResponseAnswer(String answer) {
-        responseDetails = deserializeResponseFromMetaData(answer);
+    public void setResponseDetailsByMetaData(String metaData) {
+        responseDetails = deserializeResponseFromMetaData(metaData);
     }
 
     public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
