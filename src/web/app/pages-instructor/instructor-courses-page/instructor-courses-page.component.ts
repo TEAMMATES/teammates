@@ -52,11 +52,6 @@ interface InstructorCourses {
   instructorList: Instructor[];
 }
 
-export var sectionsElement;
-export var teamsElement;
-export var studentsElement;
-export var unregisteredElement;
-
 /**
  * Instructor courses list page.
  */
@@ -78,6 +73,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   archivedCourses: ArchivedCourse[] = [];
   softDeletedCourses: SoftDeletedCourse[] = [];
   instructorList: Instructor[] = [];
+  courseStats: { [key: string]: { [key: string]: number } } = {};
 
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -158,20 +154,12 @@ export class InstructorCoursesPageComponent implements OnInit {
       user: this.user,
     };
     this.httpRequestService.get('/course/stats', paramMap).subscribe((resp: CourseStats) => {
-      sectionsElement = document.getElementById(`course-sections-${courseId}`);
-      teamsElement = document.getElementById(`course-teams-${courseId}`);
-      studentsElement = document.getElementById(`course-students-${courseId}`);
-      unregisteredElement = document.getElementById(`course-unregistered-${courseId}`);
-      if (sectionsElement && teamsElement && studentsElement && unregisteredElement) {
-        sectionsElement.innerHTML = String(resp.sectionsTotal);
-        sectionsElement.setAttribute('class', 'link-disabled');
-        teamsElement.innerHTML = String(resp.teamsTotal);
-        teamsElement.setAttribute('class', 'link-disabled');
-        studentsElement.innerHTML = String(resp.studentsTotal);
-        studentsElement.setAttribute('class', 'link-disabled');
-        unregisteredElement.innerHTML = String(resp.unregisteredTotal);
-        unregisteredElement.setAttribute('class', 'link-disabled');
-      }
+      this.courseStats[courseId] = {
+        sections: resp.sectionsTotal,
+        teams: resp.teamsTotal,
+        students: resp.studentsTotal,
+        unregistered: resp.unregisteredTotal,
+      };
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

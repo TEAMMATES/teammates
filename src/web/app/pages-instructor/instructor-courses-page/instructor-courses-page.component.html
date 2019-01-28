@@ -66,28 +66,44 @@
             {{course.createdAt | date:'d MMM yyyy'}}
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-sections-{{course.id}}"
-               routerLink="/web/instructor/courses">
-              show
-            </a>
+            <span *ngIf="!courseStats[course.id]">
+              <a (click)="getCourseStats(course.id)" href="javascript:;">
+                show
+              </a>
+            </span>
+            <span *ngIf="courseStats[course.id]">
+              {{ courseStats[course.id].sections }}
+            </span>
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-teams-{{course.id}}"
-               routerLink="/web/instructor/courses">
-              show
-            </a>
+            <span *ngIf="!courseStats[course.id]">
+              <a (click)="getCourseStats(course.id)" href="javascript:;">
+                show
+              </a>
+            </span>
+            <span *ngIf="courseStats[course.id]">
+              {{ courseStats[course.id].teams }}
+            </span>
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-students-{{course.id}}"
-               routerLink="/web/instructor/courses">
-              show
-            </a>
+            <span *ngIf="!courseStats[course.id]">
+              <a (click)="getCourseStats(course.id)" href="javascript:;">
+                show
+              </a>
+            </span>
+            <span *ngIf="courseStats[course.id]">
+              {{ courseStats[course.id].students }}
+            </span>
           </td>
           <td>
-            <a (click)="getCourseStats(course.id)" id="course-unregistered-{{course.id}}"
-               routerLink="/web/instructor/courses">
-              show
-            </a>
+            <span *ngIf="!courseStats[course.id]">
+              <a (click)="getCourseStats(course.id)" href="javascript:;">
+                show
+              </a>
+            </span>
+            <span *ngIf="courseStats[course.id]">
+              {{ courseStats[course.id].unregistered }}
+            </span>
           </td>
           <td class="text-center">
             <a class="btn btn-light btn-sm btn-left" type="button" *ngIf="course.canModifyStudent"
