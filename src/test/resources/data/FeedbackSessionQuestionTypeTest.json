@@ -999,12 +999,9 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response2ForQ1S1C1": {
@@ -1016,12 +1013,9 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's perfect"
-        }
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response3ForQ1S1C1": {
@@ -1033,12 +1027,9 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's perfect"
-        }
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ2S1C1": {
@@ -1050,12 +1041,9 @@
       "recipient": "instructor1@course1.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response2ForQ2S1C1": {
@@ -1067,12 +1055,9 @@
       "recipient": "instructor2@course1.tmt",
       "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's perfect"
-        }
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ3S1C1": {
@@ -1084,13 +1069,10 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "isOther": true,
-          "otherFieldContent": "Lecture notes",
-          "questionType": "MCQ",
-          "answer": "Other"
-        }
+        "isOther": true,
+        "answer": "Other",
+        "otherFieldContent": "Lecture notes",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ4S1C1": {
@@ -1102,12 +1084,9 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ1S2C1": {
@@ -1119,16 +1098,13 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            "It's good",
-            "It's perfect"
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          "It's good",
+          "It's perfect"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response2ForQ1S2C1": {
@@ -1140,15 +1116,12 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's good\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            "It's good"
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          "It's good"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response3ForQ1S2C1": {
@@ -1160,15 +1133,12 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            ""
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          ""
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response1ForQ2S2C1": {
@@ -1180,16 +1150,13 @@
       "recipient": "instructor1@course1.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's good\",\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            "It's good",
-            "It's perfect"
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          "It's good",
+          "It's perfect"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response2ForQ2S2C1": {
@@ -1201,15 +1168,12 @@
       "recipient": "instructor2@course1.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"It's perfect\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            "It's perfect"
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          "It's perfect"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response3ForQ2S2C1": {
@@ -1221,15 +1185,12 @@
       "recipient": "instructor3@course1.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            ""
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          ""
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response1ForQ3S2C1": {
@@ -1241,18 +1202,15 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":true,\"answers\":[\"Pizza\",\"Pasta\",\"Chicken rice\",\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": true,
-          "otherFieldContent": "Hotdog",
-          "answers": [
-            "Pizza",
-            "Pasta",
-            "Chicken rice",
-            "Hotdog"
-          ]
-        }
+        "isOther": true,
+        "answers": [
+          "Pizza",
+          "Pasta",
+          "Chicken rice",
+          "Hotdog"
+        ],
+        "otherFieldContent": "Hotdog",
+        "questionType": "MSQ"
       }
     },
     "response2ForQ3S2C1": {
@@ -1264,15 +1222,12 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":false,\"answers\":[\"Pasta\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": false,
-          "otherFieldContent": "",
-          "answers": [
-            "Pasta"
-          ]
-        }
+        "isOther": false,
+        "answers": [
+          "Pasta"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response3ForQ3S2C1": {
@@ -1284,15 +1239,12 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":true,\"answers\":[\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "isOther": true,
-          "otherFieldContent": "Hotdog",
-          "answers": [
-            "Hotdog"
-          ]
-        }
+        "isOther": true,
+        "answers": [
+          "Hotdog"
+        ],
+        "otherFieldContent": "Hotdog",
+        "questionType": "MSQ"
       }
     },
     "response1ForQ1S3C1": {
@@ -1304,11 +1256,8 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 3.5
-        }
+        "answer": 3.5,
+        "questionType": "NUMSCALE"
       }
     },
     "response2ForQ1S3C1": {
@@ -1320,11 +1269,8 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 2
-        }
+        "answer": 2,
+        "questionType": "NUMSCALE"
       }
     },
     "response1ForQ2S3C1": {
@@ -1336,11 +1282,8 @@
       "recipient": "instructor1@course1.tmt",
       "responseMetaData": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 4.5
-        }
+        "answer": 4.5,
+        "questionType": "NUMSCALE"
       }
     },
     "response2ForQ2S3C1": {
@@ -1352,11 +1295,8 @@
       "recipient": "instructor2@course1.tmt",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 1
-        }
+        "answer": 1,
+        "questionType": "NUMSCALE"
       }
     },
     "response1ForQ1S4C1": {
@@ -1368,14 +1308,11 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[19,81],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            19,
-            81
-          ]
-        }
+        "answers": [
+          19,
+          81
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response2ForQ1S4C1": {
@@ -1387,14 +1324,11 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[80,20],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            80,
-            20
-          ]
-        }
+        "answers": [
+          80,
+          20
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response1ForQ2S4C1": {
@@ -1406,13 +1340,10 @@
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": "{\"answers\":[80],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            80
-          ]
-        }
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response2ForQ2S4C1": {
@@ -1424,13 +1355,10 @@
       "recipient": "Team 1.2",
       "responseMetaData": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            20
-          ]
-        }
+        "answers": [
+          20
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response1ForQ3S4C1": {
@@ -1442,13 +1370,10 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[30],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            30
-          ]
-        }
+        "answers": [
+          30
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response2ForQ3S4C1": {
@@ -1460,13 +1385,10 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            20
-          ]
-        }
+        "answers": [
+          20
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response3ForQ3S4C1": {
@@ -1478,13 +1400,10 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[30],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            30
-          ]
-        }
+        "answers": [
+          30
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response4ForQ3S4C1": {
@@ -1496,13 +1415,10 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            10
-          ]
-        }
+        "answers": [
+          10
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response5ForQ3S4C1": {
@@ -1514,13 +1430,10 @@
       "recipient": "student5InCourse1@gmail.tmt",
       "responseMetaData": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            10
-          ]
-        }
+        "answers": [
+          10
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response1ForQ1S5C1": {
@@ -1532,11 +1445,8 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 100
-        }
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "response2ForQ1S5C1": {
@@ -1548,11 +1458,8 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":80,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 80
-        }
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "response3ForQ1S5C1": {
@@ -1564,11 +1471,8 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 110
-        }
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "response4ForQ1S5C1": {
@@ -1580,11 +1484,8 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":130,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 130
-        }
+        "answer": 130,
+        "questionType": "CONTRIB"
       }
     },
     "response1ForQ1S6C1": {
@@ -1596,14 +1497,11 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[0,1],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            1
-          ]
-        }
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response2ForQ1S6C1": {
@@ -1615,14 +1513,11 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[1,0],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            0
-          ]
-        }
+        "answer": [
+          1,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response3ForQ1S6C1": {
@@ -1634,14 +1529,11 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[0,0],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response4ForQ1S6C1": {
@@ -1653,14 +1545,11 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[-1,0],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            -1,
-            0
-          ]
-        }
+        "answer": [
+          -1,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response1ForQ2S6C1": {
@@ -1672,14 +1561,11 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            -1
-          ]
-        }
+        "answer": [
+          0,
+          -1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response2ForQ2S6C1": {
@@ -1691,14 +1577,11 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[1,-1],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            -1
-          ]
-        }
+        "answer": [
+          1,
+          -1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response3ForQ2S6C1": {
@@ -1710,14 +1593,11 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            -1
-          ]
-        }
+        "answer": [
+          0,
+          -1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "response1ForQ1S7C1": {
@@ -1729,11 +1609,8 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 100
-        }
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "response1ForQ1S1C2": {
@@ -1745,11 +1622,8 @@
       "recipient": "unregisteredStudentInCourse2@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 2
-        }
+        "answer": 2,
+        "questionType": "NUMSCALE"
       }
     },
     "response1ForQ1S1CWS": {
@@ -1763,11 +1637,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 100
-        }
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "response2ForQ1S1CWS": {
@@ -1781,11 +1652,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 100
-        }
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "response3ForQ1S1CWS": {
@@ -1799,11 +1667,8 @@
       "giverSection": "Section 2",
       "recipientSection": "Section 2",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 100
-        }
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "response1ForQ1ContribSession2Course2": {
@@ -1815,11 +1680,8 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 100
-        }
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "response1ForQ1RankSession": {
@@ -1831,11 +1693,8 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 4
-        }
+        "answer": 4,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response2ForQ1RankSession": {
@@ -1847,11 +1706,8 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 3
-        }
+        "answer": 3,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response3ForQ1RankSession": {
@@ -1863,11 +1719,8 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 2
-        }
+        "answer": 2,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response4ForQ1RankSession": {
@@ -1879,11 +1732,8 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 1
-        }
+        "answer": 1,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response5ForQ1RankSession": {
@@ -1895,11 +1745,8 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 2
-        }
+        "answer": 2,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response6ForQ1RankSession": {
@@ -1911,11 +1758,8 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 3
-        }
+        "answer": 3,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response7ForQ1RankSession": {
@@ -1927,11 +1771,8 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 4
-        }
+        "answer": 4,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response8ForQ1RankSession": {
@@ -1943,11 +1784,8 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails",
-        "data": {
-          "questionType": "RANK_RECIPIENTS",
-          "answer": 3
-        }
+        "answer": 3,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "response1ForQ2RankSession": {
@@ -1959,17 +1797,14 @@
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": "{\"answers\":[1,2,3,4,-999],\"questionType\":\"RANK_OPTIONS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails",
-        "data": {
-          "questionType": "RANK_OPTIONS",
-          "answers": [
-            1,
-            2,
-            3,
-            4,
-            -999
-          ]
-        }
+        "answers": [
+          1,
+          2,
+          3,
+          4,
+          -999
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     },
     "response2ForQ2RankSession": {
@@ -1981,17 +1816,14 @@
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": "{\"answers\":[4,3,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails",
-        "data": {
-          "questionType": "RANK_OPTIONS",
-          "answers": [
-            4,
-            3,
-            2,
-            1,
-            -999
-          ]
-        }
+        "answers": [
+          4,
+          3,
+          2,
+          1,
+          -999
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     },
     "response3ForQ2RankSession": {
@@ -2003,17 +1835,14 @@
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": "{\"answers\":[2,-999,1,1,-999],\"questionType\":\"RANK_OPTIONS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails",
-        "data": {
-          "questionType": "RANK_OPTIONS",
-          "answers": [
-            2,
-            -999,
-            1,
-            1,
-            -999
-          ]
-        }
+        "answers": [
+          2,
+          -999,
+          1,
+          1,
+          -999
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     },
     "response4ForQ2RankSession": {
@@ -2025,17 +1854,14 @@
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": "{\"answers\":[3,-999,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails",
-        "data": {
-          "questionType": "RANK_OPTIONS",
-          "answers": [
-            3,
-            -999,
-            2,
-            1,
-            -999
-          ]
-        }
+        "answers": [
+          3,
+          -999,
+          2,
+          1,
+          -999
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     },
     "response5ForQ2RankSession": {
@@ -2047,17 +1873,14 @@
       "recipient": "Team 1.2",
       "responseMetaData": "{\"answers\":[1,-999,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails",
-        "data": {
-          "questionType": "RANK_OPTIONS",
-          "answers": [
-            1,
-            -999,
-            -999,
-            -999,
-            -999
-          ]
-        }
+        "answers": [
+          1,
+          -999,
+          -999,
+          -999,
+          -999
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     }
   },

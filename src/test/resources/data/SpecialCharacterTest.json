@@ -194,11 +194,8 @@
       "recipient": "Team 1\"><'",
       "responseMetaData": "Team 2 (charlie) to team 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Team 2 (charlie) to team 1"
-        }
+        "questionType": "TEXT",
+        "answer": "Team 2 (charlie) to team 1"
       }
     },
     "response2": {
@@ -210,11 +207,8 @@
       "recipient": "Team 1\"><'",
       "responseMetaData": "Team 2 (danny) to team 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Team 2 (danny) to team 1"
-        }
+        "questionType": "TEXT",
+        "answer": "Team 2 (danny) to team 1"
       }
     },
     "response3": {
@@ -226,11 +220,8 @@
       "recipient": "Team 1\"><'",
       "responseMetaData": "Team 3 to Team 1 \r\n multiline special char test",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Team 3 to Team 1 \r\n multiline special char test"
-        }
+        "questionType": "TEXT",
+        "answer": "Team 3 to Team 1 \r\n multiline special char test"
       }
     },
     "response4": {
@@ -242,11 +233,8 @@
       "recipient": "Team 2",
       "responseMetaData": "alice to team 2",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "alice to team 2"
-        }
+        "questionType": "TEXT",
+        "answer": "alice to team 2"
       }
     }
   },

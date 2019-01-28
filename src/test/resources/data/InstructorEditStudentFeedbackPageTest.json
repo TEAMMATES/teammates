@@ -463,11 +463,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Student 1 self feedback."
-        }
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
       }
     },
     "response2ForQ1": {
@@ -481,11 +478,8 @@
       "giverSection": "Section 2",
       "recipientSection": "Section 2",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Student 2 self feedback."
-        }
+        "questionType": "TEXT",
+        "answer": "Student 2 self feedback."
       }
     },
     "response1ForQ3": {
@@ -499,11 +493,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "response whereby giver should not be seen by instructors"
-        }
+        "questionType": "TEXT",
+        "answer": "response whereby giver should not be seen by instructors"
       }
     },
     "response1ForQ4": {
@@ -517,11 +508,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "response whereby receipient should not be seen by instructors"
-        }
+        "questionType": "TEXT",
+        "answer": "response whereby receipient should not be seen by instructors"
       }
     },
     "response1ForQ5": {
@@ -535,11 +523,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "response with everything should not be seen by instructors"
-        }
+        "questionType": "TEXT",
+        "answer": "response with everything should not be seen by instructors"
       }
     },
     "response1ForQ6": {
@@ -553,12 +538,9 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForS2Q1": {
@@ -572,11 +554,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Session 2 Question 1 Response 1"
-        }
+        "questionType": "TEXT",
+        "answer": "Session 2 Question 1 Response 1"
       }
     },
     "response2ForS2Q1": {
@@ -590,11 +569,8 @@
       "giverSection": "Section 2",
       "recipientSection": "Section 2",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Session 2 Question 1 Response 2"
-        }
+        "questionType": "TEXT",
+        "answer": "Session 2 Question 1 Response 2"
       }
     },
     "response1ForQ1InClosedSession": {
@@ -608,11 +584,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Closed session response"
-        }
+        "questionType": "TEXT",
+        "answer": "Closed session response"
       }
     },
     "response1ForQ2InClosedSession": {
@@ -626,12 +599,9 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     }
   },

@@ -769,11 +769,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "A highlight for me has been putting Software Engineering skills to use.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "A highlight for me has been putting Software Engineering skills to use."
       }
     },
     "aliceResponse2": {
@@ -787,11 +784,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 4,
-          "questionType": "NUMSCALE"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails"
+        "answer": 4,
+        "questionType": "NUMSCALE"
       }
     },
     "aliceResponse3": {
@@ -805,12 +799,9 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "None",
       "responseDetails": {
-        "data": {
-          "otherFieldContent": "",
-          "answer": "Team 1",
-          "questionType": "MCQ"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails"
+        "answer": "Team 1",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "aliceResponse4.1": {
@@ -824,11 +815,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Good job Benny! Thanks for the hard work for making the application pretty!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Good job Benny! Thanks for the hard work for making the application pretty!"
       }
     },
     "aliceResponse4.2": {
@@ -842,11 +830,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "It is good to see you working so hard to improve yourself!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "It is good to see you working so hard to improve yourself!"
       }
     },
     "aliceResponse4.3": {
@@ -860,11 +845,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Wow! You are really good at designing!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Wow! You are really good at designing!"
       }
     },
     "aliceResponse5": {
@@ -878,15 +860,12 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "None",
       "responseDetails": {
-        "data": {
-          "answers": [
-            "C",
-            "Java"
-          ],
-          "otherFieldContent": "",
-          "questionType": "MSQ"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails"
+        "answers": [
+          "C",
+          "Java"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "aliceResponse6.1": {
@@ -900,11 +879,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Good job Benny! Thanks for the hard work for making the application pretty!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Good job Benny! Thanks for the hard work for making the application pretty!"
       }
     },
     "aliceResponse6.2": {
@@ -918,11 +894,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Danny! You taught me many useful skills in this project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Danny! You taught me many useful skills in this project."
       }
     },
     "aliceResponse6.3": {
@@ -936,11 +909,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "You are the best Emma! Without you, our application will not be running.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "You are the best Emma! Without you, our application will not be running."
       }
     },
     "aliceResponse7": {
@@ -954,14 +924,11 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answers": [
-            20,
-            80
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          20,
+          80
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "aliceResponse8.1": {
@@ -975,13 +942,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answers": [
-            100
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "aliceResponse8.2": {
@@ -995,13 +959,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answers": [
-            120
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "aliceResponse8.3": {
@@ -1015,13 +976,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answers": [
-            90
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "aliceResponse8.4": {
@@ -1035,13 +993,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answers": [
-            90
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "aliceResponse9.1": {
@@ -1055,11 +1010,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "aliceResponse9.2": {
@@ -1073,11 +1025,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 120,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 120,
+        "questionType": "CONTRIB"
       }
     },
     "aliceResponse9.3": {
@@ -1091,11 +1040,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 90,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 90,
+        "questionType": "CONTRIB"
       }
     },
     "aliceResponse9.4": {
@@ -1109,11 +1055,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 90,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 90,
+        "questionType": "CONTRIB"
       }
     },
     "aliceResponse10.1": {
@@ -1127,14 +1070,11 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": [
-            1,
-            0
-          ],
-          "questionType": "RUBRIC"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails"
+        "answer": [
+          1,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "aliceResponse10.2": {
@@ -1148,14 +1088,11 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": [
-            0,
-            1
-          ],
-          "questionType": "RUBRIC"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails"
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "aliceResponse11.1": {
@@ -1169,11 +1106,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 2,
-          "questionType": "RANK_RECIPIENTS"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails"
+        "answer": 2,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "aliceResponse11.2": {
@@ -1187,11 +1121,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 1,
-          "questionType": "RANK_RECIPIENTS"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails"
+        "answer": 1,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "aliceResponse12.1": {
@@ -1205,16 +1136,13 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            1,
-            3,
-            2,
-            4
-          ],
-          "questionType": "RANK_OPTIONS"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails"
+        "answers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     },
     "charlieResponse1": {
@@ -1228,11 +1156,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I have enjoyed learning about new tools and using them.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I have enjoyed learning about new tools and using them."
       }
     },
     "charlieResponse2": {
@@ -1246,11 +1171,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 5,
-          "questionType": "NUMSCALE"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails"
+        "answer": 5,
+        "questionType": "NUMSCALE"
       }
     },
     "charlieResponse3": {
@@ -1264,12 +1186,9 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "None",
       "responseDetails": {
-        "data": {
-          "otherFieldContent": "",
-          "answer": "Team 2",
-          "questionType": "MCQ"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails"
+        "answer": "Team 2",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "charlieResponse4.1": {
@@ -1283,11 +1202,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you for being helpful and explaining how you did your UI.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you for being helpful and explaining how you did your UI."
       }
     },
     "charlieResponse4.2": {
@@ -1301,11 +1217,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I wish I was as good at programming as Alice.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I wish I was as good at programming as Alice."
       }
     },
     "charlieResponse4.3": {
@@ -1319,11 +1232,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Francis is very talented with design work.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Francis is very talented with design work."
       }
     },
     "charlieResponse5": {
@@ -1337,14 +1247,11 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "None",
       "responseDetails": {
-        "data": {
-          "answers": [
-            "Python"
-          ],
-          "otherFieldContent": "",
-          "questionType": "MSQ"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails"
+        "answers": [
+          "Python"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "charlieResponse6.1": {
@@ -1358,11 +1265,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I really like your design Francis!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I really like your design Francis!"
       }
     },
     "charlieResponse6.2": {
@@ -1376,11 +1280,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I really appreciate all the coding you have done in the project!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I really appreciate all the coding you have done in the project!"
       }
     },
     "charlieResponse6.3": {
@@ -1394,11 +1295,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Demo_Instructor for all the help in the project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for all the help in the project."
       }
     },
     "charlieResponse7": {
@@ -1412,14 +1310,11 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            45,
-            55
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          45,
+          55
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "charlieResponse8.1": {
@@ -1433,13 +1328,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            110
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          110
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "charlieResponse8.2": {
@@ -1453,13 +1345,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            90
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "charlieResponse8.3": {
@@ -1473,13 +1362,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            50
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          50
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "charlieResponse8.4": {
@@ -1493,13 +1379,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            150
-          ],
-          "questionType": "CONSTSUM"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails"
+        "answers": [
+          150
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "charlieResponse9.1": {
@@ -1513,11 +1396,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "charlieResponse9.2": {
@@ -1531,11 +1411,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 90,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 90,
+        "questionType": "CONTRIB"
       }
     },
     "charlieResponse9.3": {
@@ -1549,11 +1426,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 50,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 50,
+        "questionType": "CONTRIB"
       }
     },
     "charlieResponse9.4": {
@@ -1567,11 +1441,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 150,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 150,
+        "questionType": "CONTRIB"
       }
     },
     "charlieResponse10.1": {
@@ -1585,14 +1456,11 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": [
-            -1,
-            0
-          ],
-          "questionType": "RUBRIC"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails"
+        "answer": [
+          -1,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "charlieResponse10.2": {
@@ -1606,14 +1474,11 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": [
-            0,
-            0
-          ],
-          "questionType": "RUBRIC"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails"
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "charlieResponse11.1": {
@@ -1627,11 +1492,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 1,
-          "questionType": "RANK_RECIPIENTS"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails"
+        "answer": 1,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "charlieResponse11.2": {
@@ -1645,11 +1507,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 2,
-          "questionType": "RANK_RECIPIENTS"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails"
+        "answer": 2,
+        "questionType": "RANK_RECIPIENTS"
       }
     },
     "charlieResponse12.1": {
@@ -1663,16 +1522,13 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answers": [
-            4,
-            1,
-            2,
-            3
-          ],
-          "questionType": "RANK_OPTIONS"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails"
+        "answers": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "questionType": "RANK_OPTIONS"
       }
     },
     "FS2.Q1.Alice.1": {
@@ -1686,11 +1542,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Alice.2": {
@@ -1704,11 +1557,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Alice.3": {
@@ -1722,11 +1572,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Alice.4": {
@@ -1740,11 +1587,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.1": {
@@ -1758,11 +1602,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.2": {
@@ -1776,11 +1617,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.3": {
@@ -1794,11 +1632,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.4": {
@@ -1812,11 +1647,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.1": {
@@ -1830,11 +1662,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.2": {
@@ -1848,11 +1677,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.3": {
@@ -1866,11 +1692,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.4": {
@@ -1884,11 +1707,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.1": {
@@ -1902,11 +1722,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.2": {
@@ -1920,11 +1737,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.3": {
@@ -1938,11 +1752,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.4": {
@@ -1956,11 +1767,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.1": {
@@ -1974,11 +1782,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 80,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.2": {
@@ -1992,11 +1797,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.3": {
@@ -2010,11 +1812,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.4": {
@@ -2028,11 +1827,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.1": {
@@ -2046,11 +1842,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.2": {
@@ -2064,11 +1857,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 80,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.3": {
@@ -2082,11 +1872,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.4": {
@@ -2100,11 +1887,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.1": {
@@ -2118,11 +1902,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.2": {
@@ -2136,11 +1917,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 80,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.3": {
@@ -2154,11 +1932,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.4": {
@@ -2172,11 +1947,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.1": {
@@ -2190,11 +1962,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 100,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.2": {
@@ -2208,11 +1977,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 80,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.3": {
@@ -2226,11 +1992,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.4": {
@@ -2244,11 +2007,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": 110,
-          "questionType": "CONTRIB"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q2.Alice.1": {
@@ -2262,11 +2022,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I did all a portion of the backend.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I did all a portion of the backend."
       }
     },
     "FS2.Q2.Inst.1": {
@@ -2280,11 +2037,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time."
       }
     },
     "FS2.Q2.Emma.1": {
@@ -2298,11 +2052,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I worked with Alice to build the application backend.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I worked with Alice to build the application backend."
       }
     },
     "FS2.Q2.Benny.1": {
@@ -2316,11 +2067,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I did all the UI work.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I did all the UI work."
       }
     },
     "FS2.Q2.Francis.1": {
@@ -2334,11 +2082,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I was the designer. I did all the UI work.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I was the designer. I did all the UI work."
       }
     },
     "FS2.Q2.Danny.1": {
@@ -2352,11 +2097,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I designed the software architecture and led the project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I designed the software architecture and led the project."
       }
     },
     "FS2.Q2.Charlie.1": {
@@ -2370,11 +2112,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I am a bit slow compared to my team mates, but the members helped me to catch up.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I am a bit slow compared to my team mates, but the members helped me to catch up."
       }
     },
     "FS2.Q2.Gene.1": {
@@ -2388,11 +2127,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I am the programmer for the team. I did most of the coding.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I am the programmer for the team. I did most of the coding."
       }
     },
     "FS2.Q3.Alice.1": {
@@ -2406,11 +2142,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Benny did all the UI work of the application. He contributed a lot.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Benny did all the UI work of the application. He contributed a lot."
       }
     },
     "FS2.Q3.Alice.2": {
@@ -2424,11 +2157,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Emma is a strong programmer. She contributed to the backend with me.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Emma is a strong programmer. She contributed to the backend with me."
       }
     },
     "FS2.Q3.Alice.3": {
@@ -2442,11 +2172,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Danny is the project lead. He managed the project and designed the software architecture.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Danny is the project lead. He managed the project and designed the software architecture."
       }
     },
     "FS2.Q3.Benny.1": {
@@ -2460,11 +2187,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Alice built part of the application backend.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Alice built part of the application backend."
       }
     },
     "FS2.Q3.Benny.2": {
@@ -2478,11 +2202,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Emma programmed the application backend.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Emma programmed the application backend."
       }
     },
     "FS2.Q3.Benny.3": {
@@ -2496,11 +2217,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Danny led the project. He did a good job.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Danny led the project. He did a good job."
       }
     },
     "FS2.Q3.Charlie.1": {
@@ -2514,11 +2232,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Francis is the designer. I like his work!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Francis is the designer. I like his work!"
       }
     },
     "FS2.Q3.Charlie.2": {
@@ -2532,11 +2247,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Gene is a good coder. She codes a large amount of our application.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Gene is a good coder. She codes a large amount of our application."
       }
     },
     "FS2.Q3.Charlie.3": {
@@ -2550,11 +2262,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Demo_Instructor is a patient and good project lead.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Demo_Instructor is a patient and good project lead."
       }
     },
     "FS2.Q3.Danny.1": {
@@ -2568,11 +2277,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Alice built a portion of the application backend. Her work is solid.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Alice built a portion of the application backend. Her work is solid."
       }
     },
     "FS2.Q3.Danny.2": {
@@ -2586,11 +2292,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Benny built the user interface. He is very productive.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Benny built the user interface. He is very productive."
       }
     },
     "FS2.Q3.Danny.3": {
@@ -2604,11 +2307,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Emma also built the application backend. She completes her tasks promptly.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Emma also built the application backend. She completes her tasks promptly."
       }
     },
     "FS2.Q3.Emma.1": {
@@ -2622,11 +2322,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Danny is our team leader. He is very responsible.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Danny is our team leader. He is very responsible."
       }
     },
     "FS2.Q3.Emma.2": {
@@ -2640,11 +2337,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Alice helped to build the application backend. She is a good programmer.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Alice helped to build the application backend. She is a good programmer."
       }
     },
     "FS2.Q3.Emma.3": {
@@ -2658,11 +2352,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Benny designed and made the user interface. He is very creative.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Benny designed and made the user interface. He is very creative."
       }
     },
     "FS2.Q3.Inst.1": {
@@ -2676,11 +2367,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Francis is the designer of the project. He did a good job!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Francis is the designer of the project. He did a good job!"
       }
     },
     "FS2.Q3.Inst.2": {
@@ -2694,11 +2382,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good."
       }
     },
     "FS2.Q3.Inst.3": {
@@ -2712,11 +2397,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project."
       }
     },
     "FS2.Q3.Francis.1": {
@@ -2730,11 +2412,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Demo_Instructor was the project lead. He put a lot of effort in this project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Demo_Instructor was the project lead. He put a lot of effort in this project."
       }
     },
     "FS2.Q3.Francis.2": {
@@ -2748,11 +2427,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Charlie was a bit weak. Demo_Instructor spent lots of time helping him.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Charlie was a bit weak. Demo_Instructor spent lots of time helping him."
       }
     },
     "FS2.Q3.Francis.3": {
@@ -2766,11 +2442,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Gene is the programmer for our team. She is a very good coder.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Gene is the programmer for our team. She is a very good coder."
       }
     },
     "FS2.Q3.Gene.1": {
@@ -2784,11 +2457,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Demo_Instructor was our team leader. He helped us a lot, especially Charlie.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Demo_Instructor was our team leader. He helped us a lot, especially Charlie."
       }
     },
     "FS2.Q3.Gene.2": {
@@ -2802,11 +2472,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Charlie has a lot of room for improvements. He puts in effort to learn new things.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Charlie has a lot of room for improvements. He puts in effort to learn new things."
       }
     },
     "FS2.Q3.Gene.3": {
@@ -2820,11 +2487,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Francis is a very good designer. He made a very nice UI.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Francis is a very good designer. He made a very nice UI."
       }
     },
     "FS2.Q4.Inst.1": {
@@ -2838,11 +2502,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I had a great time with this team. Thanks for all the support from the members.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I had a great time with this team. Thanks for all the support from the members."
       }
     },
     "FS2.Q4.Emma.1": {
@@ -2856,11 +2517,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "The team work is great and I learnt a lot from this project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "The team work is great and I learnt a lot from this project."
       }
     },
     "FS2.Q4.Benny.1": {
@@ -2874,11 +2532,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I like the team and I learned a lot from my team mates.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I like the team and I learned a lot from my team mates."
       }
     },
     "FS2.Q4.Francis.1": {
@@ -2892,11 +2547,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "The team is nice. Everybody learnt a lot from this project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "The team is nice. Everybody learnt a lot from this project."
       }
     },
     "FS2.Q4.Danny.1": {
@@ -2910,11 +2562,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "The team dynamics was very good. I enjoy it a lot.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "The team dynamics was very good. I enjoy it a lot."
       }
     },
     "FS2.Q4.Charlie.1": {
@@ -2928,11 +2577,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I like the team. I learned my good software engineering practices from the members.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I like the team. I learned my good software engineering practices from the members."
       }
     },
     "FS2.Q4.Alice.1": {
@@ -2946,11 +2592,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I had a great time in doing this project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I had a great time in doing this project."
       }
     },
     "FS2.Q4.Gene.1": {
@@ -2964,11 +2607,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "This is a great team. I am sure we learnt a lot from each other.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "This is a great team. I am sure we learnt a lot from each other."
       }
     },
     "FS2.Q5.Alice.1": {
@@ -2982,11 +2622,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Good job Benny! Thanks for the hard work for making the application pretty!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Good job Benny! Thanks for the hard work for making the application pretty!"
       }
     },
     "FS2.Q5.Alice.2": {
@@ -3000,11 +2637,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "You are the best Emma! Without you, our application will not be running.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "You are the best Emma! Without you, our application will not be running."
       }
     },
     "FS2.Q5.Alice.3": {
@@ -3018,11 +2652,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Danny! You taught me many useful skills in this project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Danny! You taught me many useful skills in this project."
       }
     },
     "FS2.Q5.Benny.1": {
@@ -3036,11 +2667,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you for all the effort in building the application backend. Cool!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you for all the effort in building the application backend. Cool!"
       }
     },
     "FS2.Q5.Benny.2": {
@@ -3054,11 +2682,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I really appreciate your effort in the project. One of the best programmer among us!.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I really appreciate your effort in the project. One of the best programmer among us!."
       }
     },
     "FS2.Q5.Benny.3": {
@@ -3072,11 +2697,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I really enjoy doing project with you. :)",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I really enjoy doing project with you. :)"
       }
     },
     "FS2.Q5.Charlie.1": {
@@ -3090,11 +2712,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I really like your design Francis!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I really like your design Francis!"
       }
     },
     "FS2.Q5.Charlie.2": {
@@ -3108,11 +2727,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "I really appreciate all the coding you have done in the project!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I really appreciate all the coding you have done in the project!"
       }
     },
     "FS2.Q5.Charlie.3": {
@@ -3126,11 +2742,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Demo_Instructor for all the help in the project.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for all the help in the project."
       }
     },
     "FS2.Q5.Danny.1": {
@@ -3144,11 +2757,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Nice work Alice! You are a very good coder! :)",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Nice work Alice! You are a very good coder! :)"
       }
     },
     "FS2.Q5.Danny.2": {
@@ -3162,11 +2772,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Good job Benny. You are really gifted in design!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Good job Benny. You are really gifted in design!"
       }
     },
     "FS2.Q5.Danny.3": {
@@ -3180,11 +2787,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Great job Emma. You are a great programmer!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Great job Emma. You are a great programmer!"
       }
     },
     "FS2.Q5.Inst.1": {
@@ -3198,11 +2802,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Nice work Francis!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Nice work Francis!"
       }
     },
     "FS2.Q5.Inst.2": {
@@ -3216,11 +2817,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Good try Charlie! Thanks for showing great effort in picking up the skills.",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Good try Charlie! Thanks for showing great effort in picking up the skills."
       }
     },
     "FS2.Q5.Inst.3": {
@@ -3234,11 +2832,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Keep up the good work Gene!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Keep up the good work Gene!"
       }
     },
     "FS2.Q5.Emma.1": {
@@ -3252,11 +2847,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "Best team leader I ever had. I would love to be on your team again :)",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Best team leader I ever had. I would love to be on your team again :)"
       }
     },
     "FS2.Q5.Emma.2": {
@@ -3270,11 +2862,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "It has been a very enjoyable experience working with you on the backend!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "It has been a very enjoyable experience working with you on the backend!"
       }
     },
     "FS2.Q5.Emma.3": {
@@ -3288,11 +2877,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "data": {
-          "answer": "I liked your design a lot! Great job!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "I liked your design a lot! Great job!"
       }
     },
     "FS2.Q5.Francis.1": {
@@ -3306,11 +2892,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Demo_Instructor for all the hardwork!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for all the hardwork!"
       }
     },
     "FS2.Q5.Francis.2": {
@@ -3324,11 +2907,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Nice job Charlie! You learnt pretty fast",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Nice job Charlie! You learnt pretty fast"
       }
     },
     "FS2.Q5.Francis.3": {
@@ -3342,11 +2922,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Gene for all the code you have written for us!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Gene for all the code you have written for us!"
       }
     },
     "FS2.Q5.Gene.1": {
@@ -3360,11 +2937,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Thank you Demo_Instructor for being such a good team leader!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for being such a good team leader!"
       }
     },
     "FS2.Q5.Gene.2": {
@@ -3378,11 +2952,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Keep it up Charlie! You are improving very fast!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Keep it up Charlie! You are improving very fast!"
       }
     },
     "FS2.Q5.Gene.3": {
@@ -3396,11 +2967,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "data": {
-          "answer": "Nice designs Francis. Good work!",
-          "questionType": "TEXT"
-        },
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails"
+        "questionType": "TEXT",
+        "answer": "Nice designs Francis. Good work!"
       }
     }
   },
@@ -3431,7 +2999,7 @@
       "createdAt": "2012-04-30T21:17:00Z",
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:17:00Z",
-      "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don\u9225\u6a9b forget to use the project to practice communication skills too.</p>"
+      "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don\u2019t forget to use the project to practice communication skills too.</p>"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",

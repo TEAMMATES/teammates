@@ -214,13 +214,10 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "isOther": true,
-          "otherFieldContent": "Lecture notes",
-          "questionType": "MCQ",
-          "answer": "Other"
-        }
+        "isOther": true,
+        "answer": "Other",
+        "otherFieldContent": "Lecture notes",
+        "questionType": "MCQ"
       }
     },
     "response2ForQ1S2": {
@@ -232,12 +229,9 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Content"
-        }
+        "answer": "Content",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response3ForQ1S2": {
@@ -249,12 +243,9 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"Content\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Content"
-        }
+        "answer": "Content",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ2S2": {
@@ -266,12 +257,9 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response2ForQ2S2": {
@@ -283,12 +271,9 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's perfect"
-        }
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response3ForQ2S2": {
@@ -300,12 +285,9 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's perfect"
-        }
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     }
   },

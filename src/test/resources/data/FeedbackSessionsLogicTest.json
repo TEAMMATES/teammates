@@ -1088,11 +1088,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Student 1 self feedback."
-        }
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
       }
     },
     "response2ForQ1S1C1": {
@@ -1106,11 +1103,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "I'm cool'"
-        }
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
       }
     },
     "response1ForQ2S1C1": {
@@ -1124,11 +1118,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 2 to student 1."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to student 1."
       }
     },
     "response2ForQ2S1C1": {
@@ -1142,11 +1133,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 1 to student 2."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to student 2."
       }
     },
     "response3ForQ2S1C1": {
@@ -1160,11 +1148,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
       }
     },
     "response1ForQ3S1C1": {
@@ -1178,11 +1163,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Good work, keep it up!"
-        }
+        "questionType": "TEXT",
+        "answer": "Good work, keep it up!"
       }
     },
     "response1ForQ5S1C1": {
@@ -1196,11 +1178,8 @@
       "giverSection": "Section 1",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 1 to instructor 1"
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to instructor 1"
       }
     },
     "response2ForQ5S1C1": {
@@ -1214,11 +1193,8 @@
       "giverSection": "Section 1",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 2 to instructor 1"
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to instructor 1"
       }
     },
     "response3ForQ5S1C1": {
@@ -1232,11 +1208,8 @@
       "giverSection": "Section 1",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 2 to instructor 2"
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to instructor 2"
       }
     },
     "response1ForQ1S2C1": {
@@ -1250,11 +1223,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 2",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from team 1 by (student 4) to team 1.2."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from team 1 by (student 4) to team 1.2."
       }
     },
     "response1GracePeriodFeedback": {
@@ -1268,11 +1238,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 2",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from team 1 by (student 4) to team 1.2."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from team 1 by (student 4) to team 1.2."
       }
     },
     "response1Q2GracePeriodFeedback": {
@@ -1286,11 +1253,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from instructor to self."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from instructor to self."
       }
     },
     "response1Q1ClosedPeriodFeedback": {
@@ -1304,11 +1268,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from Inst1 to self."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from Inst1 to self."
       }
     },
     "response1ForQ2S2C1": {
@@ -1322,11 +1283,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 4 to team member (student 2)."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 4 to team member (student 2)."
       }
     },
     "response2ForQ2S2C1": {
@@ -1340,11 +1298,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 1 to team member (student 4)."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to team member (student 4)."
       }
     },
     "response1ForQ1S1C2": {
@@ -1358,11 +1313,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from instr to Team 2.1"
-        }
+        "questionType": "TEXT",
+        "answer": "Response from instr to Team 2.1"
       }
     },
     "response1ForNVSQ1": {
@@ -1376,11 +1328,8 @@
       "giverSection": "None",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from instructor to student"
-        }
+        "questionType": "TEXT",
+        "answer": "Response from instructor to student"
       }
     }
   },

@@ -271,12 +271,9 @@
       "recipient": "%GENERAL%",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response2ForQ1": {
@@ -288,12 +285,9 @@
       "recipient": "%GENERAL%",
       "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's perfect"
-        }
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ2": {
@@ -305,11 +299,8 @@
       "recipient": "student1inCourse1@gmail.tmt",
       "responseMetaData": "Instructor feedback to student 1.",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Instructor feedback to student 1."
-        }
+        "questionType": "TEXT",
+        "answer": "Instructor feedback to student 1."
       }
     },
     "response1ForQ3": {
@@ -323,12 +314,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response1ForQ4": {
@@ -342,12 +330,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Algo"
-        }
+        "answer": "Algo",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     }
   },

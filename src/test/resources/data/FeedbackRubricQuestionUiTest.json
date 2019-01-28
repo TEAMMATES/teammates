@@ -361,14 +361,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn1.2": {
@@ -382,14 +379,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            1
-          ]
-        }
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn1.3": {
@@ -403,14 +397,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            1
-          ]
-        }
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn2.11": {
@@ -424,14 +415,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn2.12": {
@@ -445,14 +433,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn2.21": {
@@ -466,14 +451,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            1
-          ]
-        }
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn2.22": {
@@ -487,14 +469,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            1
-          ]
-        }
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn2.31": {
@@ -508,14 +487,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            1
-          ]
-        }
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn3.1": {
@@ -529,14 +505,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn3.2": {
@@ -550,14 +523,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            1
-          ]
-        }
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn3.3": {
@@ -571,14 +541,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            1
-          ]
-        }
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForFourthSessionQn4.1": {
@@ -592,14 +559,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForThirdSessionQn1.1": {
@@ -613,14 +577,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            0,
-            0
-          ]
-        }
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     },
     "feedbackResponseForThirdSessionQn1.2": {
@@ -634,14 +595,11 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackRubricResponseDetails",
-        "data": {
-          "questionType": "RUBRIC",
-          "answer": [
-            1,
-            0
-          ]
-        }
+        "answer": [
+          1,
+          0
+        ],
+        "questionType": "RUBRIC"
       }
     }
   },

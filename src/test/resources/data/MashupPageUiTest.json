@@ -624,11 +624,8 @@
       "giverSection": "Section B",
       "recipientSection": "Section B",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "My product is light."
-        }
+        "questionType": "TEXT",
+        "answer": "My product is light."
       }
     },
     "response2": {
@@ -642,11 +639,8 @@
       "giverSection": "Section B",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Benny is a good student."
-        }
+        "questionType": "TEXT",
+        "answer": "Benny is a good student."
       }
     },
     "response3": {
@@ -660,11 +654,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Danny starts with D."
-        }
+        "questionType": "TEXT",
+        "answer": "Danny starts with D."
       }
     },
     "response4": {
@@ -678,11 +669,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Alice is a good coder."
-        }
+        "questionType": "TEXT",
+        "answer": "Alice is a good coder."
       }
     },
     "response5": {
@@ -696,11 +684,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Charlie did alot of work."
-        }
+        "questionType": "TEXT",
+        "answer": "Charlie did alot of work."
       }
     },
     "response6": {
@@ -714,11 +699,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "It's awesome!."
-        }
+        "questionType": "TEXT",
+        "answer": "It's awesome!."
       }
     },
     "response7": {
@@ -732,12 +714,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response8": {
@@ -751,12 +730,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Alice Betsy (Team 2)"
-        }
+        "answer": "Alice Betsy (Team 2)",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response9": {
@@ -770,14 +746,11 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "answers": [
-            "It's good",
-            "It's perfect"
-          ]
-        }
+        "answers": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionType": "MSQ"
       }
     },
     "response10": {
@@ -791,14 +764,11 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "answers": [
-            "Team 1",
-            "Team 2"
-          ]
-        }
+        "answers": [
+          "Team 1",
+          "Team 2"
+        ],
+        "questionType": "MSQ"
       }
     },
     "response11": {
@@ -812,11 +782,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 3.5
-        }
+        "answer": 3.5,
+        "questionType": "NUMSCALE"
       }
     }
   },

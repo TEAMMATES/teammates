@@ -37,7 +37,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new TeammatesDurationMinutesAdapter())
-                .registerTypeAdapter(FeedbackResponseAttributes.class, new SubclassAdapter())
+                .registerTypeAdapter(FeedbackResponseDetails.class, new SubclassAdapter())
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();

@@ -425,11 +425,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Student 1 self feedback."
-        }
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
       }
     },
     "response2ForQ1S1C1": {
@@ -443,11 +440,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "I'm cool'"
-        }
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
       }
     },
     "response1ForQ2S1C1": {
@@ -461,11 +455,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 2 to student 1."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to student 1."
       }
     },
     "response2ForQ2S1C1": {
@@ -479,11 +470,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 1 to student 2."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to student 2."
       }
     },
     "response3ForQ2S1C1": {
@@ -497,11 +485,8 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
       }
     },
     "response1ForQ3S1C1": {
@@ -515,11 +500,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Good work, keep it up!"
-        }
+        "questionType": "TEXT",
+        "answer": "Good work, keep it up!"
       }
     },
     "response1ForQ1S1TSC": {
@@ -533,11 +515,8 @@
       "giverSection": "Section'\"/></td>",
       "recipientSection": "Section'\"/></td>",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-        }
+        "questionType": "TEXT",
+        "answer": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
       }
     }
   },

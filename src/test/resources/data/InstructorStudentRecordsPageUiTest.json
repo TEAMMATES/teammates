@@ -44,7 +44,7 @@
     },
     "benny.c.tmms@ISR.CS2104": {
       "googleId": "ISR.benny.c.tmms",
-      "name": "Benny Charl\u8305s",
+      "name": "Benny Charl\u00e9s",
       "isInstructor": false,
       "email": "benny.c.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 5"
@@ -265,8 +265,8 @@
       "googleId": "ISR.benny.c.tmms",
       "email": "benny.c.tmms@gmail.tmt",
       "course": "ISR.CS2104",
-      "name": "Benny Charl\u8305s",
-      "comments": "This student's name is Benny Charl\u8305s",
+      "name": "Benny Charl\u00e9s",
+      "comments": "This student's name is Benny Charl\u00e9s",
       "team": "Team 1",
       "section": "None"
     },
@@ -310,8 +310,8 @@
       "googleId": "ISR.benny.c.tmms",
       "email": "benny.c.tmms@gmail.tmt",
       "course": "ISR.CS1101",
-      "name": "Benny Charl\u8305s",
-      "comments": "This student's name is Benny Charl\u8305s",
+      "name": "Benny Charl\u00e9s",
+      "comments": "This student's name is Benny Charl\u00e9s",
       "team": "Team 1",
       "section": "None"
     },
@@ -584,11 +584,8 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "My product is light.",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "My product is light."
-        }
+        "questionType": "TEXT",
+        "answer": "My product is light."
       }
     },
     "response2": {
@@ -600,11 +597,8 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": "Benny is a good student.",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Benny is a good student."
-        }
+        "questionType": "TEXT",
+        "answer": "Benny is a good student."
       }
     },
     "response3": {
@@ -616,11 +610,8 @@
       "recipient": "danny.e.tmms@gmail.tmt",
       "responseMetaData": "Danny starts with D.",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Danny starts with D."
-        }
+        "questionType": "TEXT",
+        "answer": "Danny starts with D."
       }
     },
     "response4": {
@@ -632,11 +623,8 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "Alice is a good coder.",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Alice is a good coder."
-        }
+        "questionType": "TEXT",
+        "answer": "Alice is a good coder."
       }
     },
     "response5": {
@@ -648,11 +636,8 @@
       "recipient": "charlie.d.tmms@gmail.tmt",
       "responseMetaData": "Charlie did alot of work.",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Charlie did alot of work."
-        }
+        "questionType": "TEXT",
+        "answer": "Charlie did alot of work."
       }
     },
     "response6": {
@@ -664,12 +649,9 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "It's good"
-        }
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     }
   },

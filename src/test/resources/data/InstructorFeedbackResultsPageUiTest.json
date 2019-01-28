@@ -292,8 +292,8 @@
       "googleId": "CFResultsUiT.charlie.d",
       "email": "CFResultsUiT.charlie.d@gmail.tmt",
       "course": "CFResultsUiT.CS2104",
-      "name": "Charlie D\u8c29vis",
-      "comments": "This student's name is Charlie D\u8c29vis",
+      "name": "Charlie D\u00e1vis",
+      "comments": "This student's name is Charlie D\u00e1vis",
       "team": "Team 2",
       "section": "Section A"
     },
@@ -1085,11 +1085,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Alice self feedback."
-        }
+        "questionType": "TEXT",
+        "answer": "Alice self feedback."
       }
     },
     "response2": {
@@ -1103,11 +1100,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "2 Response to Benny."
-        }
+        "questionType": "TEXT",
+        "answer": "2 Response to Benny."
       }
     },
     "response3": {
@@ -1121,11 +1115,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "1 Response to Danny."
-        }
+        "questionType": "TEXT",
+        "answer": "1 Response to Danny."
       }
     },
     "response3a": {
@@ -1139,11 +1130,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response to Dropout."
-        }
+        "questionType": "TEXT",
+        "answer": "Response to Dropout."
       }
     },
     "response3b": {
@@ -1157,11 +1145,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response to Alice from Dropout."
-        }
+        "questionType": "TEXT",
+        "answer": "Response to Alice from Dropout."
       }
     },
     "response3c": {
@@ -1175,11 +1160,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response to Danny from Dropout."
-        }
+        "questionType": "TEXT",
+        "answer": "Response to Danny from Dropout."
       }
     },
     "response3d": {
@@ -1193,11 +1175,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response to Benny from Dropout."
-        }
+        "questionType": "TEXT",
+        "answer": "Response to Benny from Dropout."
       }
     },
     "response4": {
@@ -1211,11 +1190,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "3 Response to Emily."
-        }
+        "questionType": "TEXT",
+        "answer": "3 Response to Emily."
       }
     },
     "response5": {
@@ -1229,11 +1205,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "4 Response to Charlie."
-        }
+        "questionType": "TEXT",
+        "answer": "4 Response to Charlie."
       }
     },
     "response5b": {
@@ -1247,11 +1220,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Fred's Response to Charlie."
-        }
+        "questionType": "TEXT",
+        "answer": "Fred's Response to Charlie."
       }
     },
     "response6": {
@@ -1265,12 +1235,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "PowerSearch"
-        }
+        "answer": "PowerSearch",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "mcqResponse6a": {
@@ -1284,12 +1251,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "PowerSearch"
-        }
+        "answer": "PowerSearch",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response7": {
@@ -1303,14 +1267,11 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "answers": [
-            "PowerSearch",
-            "GoodUI"
-          ]
-        }
+        "answers": [
+          "PowerSearch",
+          "GoodUI"
+        ],
+        "questionType": "MSQ"
       }
     },
     "response8": {
@@ -1324,13 +1285,10 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "answers": [
-            ""
-          ]
-        }
+        "answers": [
+          ""
+        ],
+        "questionType": "MSQ"
       }
     },
     "response9": {
@@ -1344,12 +1302,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Danny"
-        }
+        "answer": "Danny",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "response10": {
@@ -1363,12 +1318,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Team 1"
-        }
+        "answer": "Team 1",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "mcqResponse10a": {
@@ -1382,12 +1334,9 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMcqResponseDetails",
-        "data": {
-          "questionType": "MCQ",
-          "otherFieldContent": "",
-          "answer": "Team 2"
-        }
+        "answer": "Team 2",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     },
     "responseForTEAMQuestion": {
@@ -1401,11 +1350,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from benny to Team 1 (own team)"
-        }
+        "questionType": "TEXT",
+        "answer": "Response from benny to Team 1 (own team)"
       }
     },
     "responseForTEAMQuestion2": {
@@ -1419,11 +1365,8 @@
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 0
-        }
+        "answer": 0,
+        "questionType": "NUMSCALE"
       }
     },
     "response11": {
@@ -1437,14 +1380,11 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "otherFieldContent": "",
-          "answers": [
-            "Danny"
-          ]
-        }
+        "answers": [
+          "Danny"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response12": {
@@ -1458,15 +1398,12 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackMsqResponseDetails",
-        "data": {
-          "questionType": "MSQ",
-          "otherFieldContent": "",
-          "answers": [
-            "Team 1",
-            "Team 2"
-          ]
-        }
+        "answers": [
+          "Team 1",
+          "Team 2"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
       }
     },
     "response13": {
@@ -1480,11 +1417,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 3.5
-        }
+        "answer": 3.5,
+        "questionType": "NUMSCALE"
       }
     },
     "response14": {
@@ -1498,11 +1432,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "This is for nobody specific."
-        }
+        "questionType": "TEXT",
+        "answer": "This is for nobody specific."
       }
     },
     "response15": {
@@ -1516,11 +1447,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Response from team 1 (by alice) to team 2."
-        }
+        "questionType": "TEXT",
+        "answer": "Response from team 1 (by alice) to team 2."
       }
     },
     "response16": {
@@ -1534,14 +1462,11 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            45,
-            55
-          ]
-        }
+        "answers": [
+          45,
+          55
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response17.1": {
@@ -1555,13 +1480,10 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            110
-          ]
-        }
+        "answers": [
+          110
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response17.2": {
@@ -1575,13 +1497,10 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            90
-          ]
-        }
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response17.3": {
@@ -1595,13 +1514,10 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            50
-          ]
-        }
+        "answers": [
+          50
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "response17.4": {
@@ -1615,13 +1531,10 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            150
-          ]
-        }
+        "answers": [
+          150
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS.Q1.Alice.1": {
@@ -1635,11 +1548,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 150
-        }
+        "answer": 150,
+        "questionType": "CONTRIB"
       }
     },
     "FS.Q1.Alice.2": {
@@ -1653,11 +1563,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 120
-        }
+        "answer": 120,
+        "questionType": "CONTRIB"
       }
     },
     "response17": {
@@ -1671,11 +1578,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 3
-        }
+        "answer": 3,
+        "questionType": "NUMSCALE"
       }
     },
     "response18": {
@@ -1689,11 +1593,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": 4
-        }
+        "answer": 4,
+        "questionType": "NUMSCALE"
       }
     },
     "response19": {
@@ -1707,11 +1608,8 @@
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails",
-        "data": {
-          "questionType": "NUMSCALE",
-          "answer": -0.5
-        }
+        "answer": -0.5,
+        "questionType": "NUMSCALE"
       }
     },
     "response20.1": {
@@ -1725,11 +1623,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 150
-        }
+        "answer": 150,
+        "questionType": "CONTRIB"
       }
     },
     "repsonse20.2": {
@@ -1743,11 +1638,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackContributionResponseDetails",
-        "data": {
-          "questionType": "CONTRIB",
-          "answer": 120
-        }
+        "answer": 120,
+        "questionType": "CONTRIB"
       }
     },
     "response21": {
@@ -1761,11 +1653,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Alice to Danny."
-        }
+        "questionType": "TEXT",
+        "answer": "Alice to Danny."
       }
     },
     "response22": {
@@ -1779,11 +1668,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Benny to Danny."
-        }
+        "questionType": "TEXT",
+        "answer": "Benny to Danny."
       }
     },
     "response23": {
@@ -1797,11 +1683,8 @@
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Danny to Alice."
-        }
+        "questionType": "TEXT",
+        "answer": "Danny to Alice."
       }
     },
     "response1 Of Session 4": {
@@ -1815,11 +1698,8 @@
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "None"
-        }
+        "questionType": "TEXT",
+        "answer": "None"
       }
     },
     "response2 Of Session 4": {
@@ -1833,13 +1713,10 @@
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails",
-        "data": {
-          "questionType": "CONSTSUM",
-          "answers": [
-            50
-          ]
-        }
+        "answers": [
+          50
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "SanitizedResponse1": {
@@ -1853,11 +1730,8 @@
       "giverSection": "Section A</td></div>'\"",
       "recipientSection": "Section A</td></div>'\"",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
-        }
+        "questionType": "TEXT",
+        "answer": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
       }
     },
     "InstructorsAsGiversResponse1": {
@@ -1870,11 +1744,8 @@
       "responseMetaData": "Alice you did okay. You get B-",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Alice you did okay. You get B-"
-        }
+        "questionType": "TEXT",
+        "answer": "Alice you did okay. You get B-"
       }
     },
     "InstructorsAsGiversResponse2": {
@@ -1887,11 +1758,8 @@
       "responseMetaData": "You did better than Alice. You get C+",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "You did better than Alice. You get C+"
-        }
+        "questionType": "TEXT",
+        "answer": "You did better than Alice. You get C+"
       }
     },
     "InstructorsAsGiversResponse3": {
@@ -1904,11 +1772,8 @@
       "responseMetaData": "I like you so I give you above A-",
       "recipientSection": "Section A",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "I like you so I give you above A-"
-        }
+        "questionType": "TEXT",
+        "answer": "I like you so I give you above A-"
       }
     },
     "NoSectionsResponse1": {
@@ -1922,11 +1787,8 @@
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "Benny self feedback."
-        }
+        "questionType": "TEXT",
+        "answer": "Benny self feedback."
       }
     },
     "Response to Instructors": {
@@ -1940,11 +1802,8 @@
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
-        "type": "teammates.common.datatransfer.questions.FeedbackTextResponseDetails",
-        "data": {
-          "questionType": "TEXT",
-          "answer": "You are a great instructor."
-        }
+        "questionType": "TEXT",
+        "answer": "You are a great instructor."
       }
     }
   },
