@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
-import { AuthInfo } from '../auth-info';
+import { AuthInfo } from '../../types/api-output';
 
 /**
  * Base skeleton for admin pages.

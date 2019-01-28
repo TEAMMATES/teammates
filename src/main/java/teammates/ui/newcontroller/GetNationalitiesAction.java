@@ -3,6 +3,7 @@ package teammates.ui.newcontroller;
 import java.util.List;
 
 import teammates.common.util.NationalityHelper;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: Get a list of valid nationalities.
@@ -27,7 +28,7 @@ public class GetNationalitiesAction extends Action {
     /**
      * Output format for {@link GetNationalitiesAction}.
      */
-    public static class NationalityData extends ActionResult.ActionOutput {
+    public static class NationalityData extends ApiOutput {
         private List<String> nationalities;
 
         public NationalityData(List<String> nationalities) {

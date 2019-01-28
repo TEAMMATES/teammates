@@ -24,6 +24,11 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 Front-end dev server is the Angular-based server handling the user interface.
 
+First, you need to compile some type definitions from the back-end to be used in this dev server. Run the following command:
+```sh
+./gradlew generateTypes
+```
+
 To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
 ```sh
 npm run start
@@ -98,8 +103,12 @@ Go to `Run → Stop 'Google App Engine Standard Local Server'`.
 
 In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be *bundled and transpiled* (afterwards `built`).
 
-Run the following command to build the front-end files for the application's use in production mode:
+Run the following commands to build the front-end files for the application's use in production mode:
 ```sh
+# Generate type definition file from back-end
+./gradlew generateTypes
+
+# Bundle, transpile, and minify front-end files
 npm run build
 ```
 

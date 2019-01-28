@@ -12,8 +12,8 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.newcontroller.JsonResult;
-import teammates.ui.newcontroller.JsonResult.MessageOutput;
 import teammates.ui.newcontroller.SaveCourseEditDetailsAction;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link SaveCourseEditDetailsAction}.
