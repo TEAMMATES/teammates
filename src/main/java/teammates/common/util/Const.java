@@ -1041,7 +1041,7 @@ public final class Const {
 
     }
 
-    public static class CronJob {
+    public static class CronJobURIs {
         public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
         public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = "/auto/datastoreBackup";

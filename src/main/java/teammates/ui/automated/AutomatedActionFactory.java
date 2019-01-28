@@ -11,7 +11,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const.CronJob;
+import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.TaskQueue;
 
 /**
@@ -22,15 +22,15 @@ public class AutomatedActionFactory {
     private static final Map<String, Class<? extends AutomatedAction>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
-        map(CronJob.AUTOMATED_EXCEPTION_TEST, AutomatedActionExceptionTestAction.class);
+        map(CronJobURIs.AUTOMATED_EXCEPTION_TEST, AutomatedActionExceptionTestAction.class);
 
         // Cron jobs
-        map(CronJob.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
-        map(CronJob.AUTOMATED_DATASTORE_BACKUP, DatastoreBackupAction.class);
-        map(CronJob.AUTOMATED_FEEDBACK_OPENING_REMINDERS, FeedbackSessionOpeningRemindersAction.class);
-        map(CronJob.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
-        map(CronJob.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
-        map(CronJob.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
+        map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, DatastoreBackupAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, FeedbackSessionOpeningRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
 
         // Task queue workers
         map(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, FeedbackResponseAdjustmentWorkerAction.class);

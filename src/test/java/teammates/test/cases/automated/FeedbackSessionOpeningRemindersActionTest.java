@@ -27,7 +27,7 @@ public class FeedbackSessionOpeningRemindersActionTest
 
     @Override
     protected String getActionUri() {
-        return Const.CronJob.AUTOMATED_FEEDBACK_OPENING_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS;
     }
 
     @Test

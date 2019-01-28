@@ -53,7 +53,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
     @Test
     public void generateLogMessage_basicInformation() {
         ______TS("Automated task");
-        String url = Const.CronJob.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
+        String url = Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
         Map<String, String[]> paramMap = new HashMap<>();
         String logMessage = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true"
                             + "|||Auto|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
