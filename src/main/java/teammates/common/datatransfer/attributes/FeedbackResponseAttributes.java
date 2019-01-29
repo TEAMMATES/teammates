@@ -198,8 +198,13 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return responseDetails;
     }
 
-    public void setResponseDetailsByMetaData(String metaData) {
-        responseDetails = deserializeResponseFromMetaData(metaData);
+    /**
+     * This method ensures that a deep copy of responseDetails is assigned to the variable
+     * @param feedbackResponseDetails new response detail to set
+     */
+    public void setResponseDetailsDeepCopy(FeedbackResponseDetails feedbackResponseDetails) {
+        String serializedDetails = JsonUtils.toJson(feedbackResponseDetails);
+        responseDetails = deserializeResponseFromMetaData(serializedDetails);
     }
 
     public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {

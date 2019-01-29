@@ -20,6 +20,8 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -119,15 +121,16 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         ______TS("success: standard update with carried params ");
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-
-        responseToUpdate.setResponseDetailsByMetaData("Updated Response");
+        FeedbackResponseDetails updatedDetails1 = new FeedbackTextResponseDetails("Updated Response");
+        responseToUpdate.setResponseDetailsDeepCopy(updatedDetails1);
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.setResponseDetailsByMetaData("Updated Response");
+        FeedbackResponseDetails updatedDetails2 = new FeedbackTextResponseDetails("Updated Response");
+        responseToUpdate.setResponseDetailsDeepCopy(updatedDetails2);
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
