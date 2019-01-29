@@ -16,7 +16,7 @@
     },
     "registeredStudent": {
       "googleId": "CCSDetailsUiT.jose.tmms",
-      "name": "Jos\u00e9 G\u00f3mez",
+      "name": "José Gómez",
       "isInstructor": false,
       "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 5"
@@ -126,8 +126,8 @@
       "googleId": "CCSDetailsUiT.jose.tmms",
       "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
       "course": "CCSDetailsUiT.CS2104",
-      "name": "Jos\u00e9 G\u00f3mez",
-      "comments": "This student's name is Jos\u00e9 G\u00f3mez",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
       "team": "Team 1",
       "section": "None"
     },
