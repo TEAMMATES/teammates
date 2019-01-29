@@ -750,7 +750,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         return new FeedbackResponseAttributes(result.feedbackSessionName,
                 result.courseId, result.feedbackQuestionId,
                 result.feedbackQuestionType, result.giver, result.giverSection,
-                result.recipient, result.recipientSection, result.getSerializedFeedbackResponseDetail());
+                result.recipient, result.recipientSection, result.responseDetails);
     }
 
     @AfterClass

@@ -54,7 +54,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 "questionId", FeedbackQuestionType.TEXT,
                 "giver@email.com", "giverSection",
                 "recipient@email.com", "recipientSection",
-                "My original answer");
+                new FeedbackTextResponseDetails("My original answer"));
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
 
         FeedbackResponseDetails injectDetail = new FeedbackTextResponseDetails("My second answer");

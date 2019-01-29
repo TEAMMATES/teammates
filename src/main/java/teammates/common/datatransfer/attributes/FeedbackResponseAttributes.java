@@ -49,7 +49,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
             FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
-            String recipient, String recipientSection, String responseMetaData) {
+            String recipient, String recipientSection, FeedbackResponseDetails responseDetails) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
@@ -58,7 +58,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = giverSection;
         this.recipient = recipient;
         this.recipientSection = recipientSection;
-        this.responseDetails = deserializeResponseFromSeralizedString(responseMetaData);
+        this.responseDetails = responseDetails;
     }
 
     public FeedbackResponseAttributes(FeedbackResponse fr) {
@@ -97,6 +97,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public void setId(String feedbackResponseId) {
         this.feedbackResponseId = feedbackResponseId;
+    }
+
+    public FeedbackResponseDetails getResponseDetails() {
+        return responseDetails;
     }
 
     public Instant getCreatedAt() {
@@ -181,10 +185,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         } else {
             return JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass());
         }
-    }
-
-    public FeedbackResponseDetails getResponseDetails() {
-        return responseDetails;
     }
 
     /**
