@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.test.cases.webapi.BaseActionTest;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.InstructorGetCoursesAction;
 import teammates.ui.webapi.action.InstructorGetCoursesAction.CourseDetails;
