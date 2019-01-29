@@ -6,7 +6,6 @@
             <br> If you are new to TEAMMATES, our <a href="/gettingStarted.jsp">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
             <br> If you have any remaining questions, don't hesitate to <a href="mailto:teammates@comp.nus.edu.sg">email us</a>. We respond within 24 hours.
         </p>
-
         <div id="topics" style="display: block;">
             <p>
                 Browse questions by topic:
@@ -29,17 +28,15 @@
     </div>
     
     <div class="row">
-       <div class="offset-md-2 col-md-8">
-        <div class="input-group input-group-lg">
-          <input type="text"  [(ngModel)]="search_term" class="form-control input-lg" placeholder="How can we help?">
-            <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
-            <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
-        </div> 
-      </div>
+        <div class="offset-md-2 col-md-8">
+            <div class="input-group input-group-lg">
+                <input type="text"  [(ngModel)]="search_term" class="form-control input-lg" placeholder="How can we help?">
+                <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
+                <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
     </div>
-
     <hr/>
-
     <div>
         <tm-instructor-help-students-section [key]="key">
         </tm-instructor-help-students-section>
