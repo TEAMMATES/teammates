@@ -58,7 +58,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = giverSection;
         this.recipient = recipient;
         this.recipientSection = recipientSection;
-        this.responseDetails = deserializeResponseFromMetaData(responseMetaData);
+        this.responseDetails = deserializeResponseFromSeralizedString(responseMetaData);
     }
 
     public FeedbackResponseAttributes(FeedbackResponse fr) {
@@ -71,7 +71,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
         this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
-        this.responseDetails = deserializeResponseFromMetaData(fr.getResponseMetaData());
+        this.responseDetails = deserializeResponseFromSeralizedString(fr.getResponseMetaData());
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
     }
@@ -167,17 +167,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         // nothing to sanitize before saving
     }
 
-    private FeedbackResponseDetails deserializeResponseFromMetaData(String responseMetaData) {
-        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
-
-        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
-            // For Text questions, the questionText simply contains the question, not a JSON
-            // This is due to legacy data in the data store before there are multiple question types
-            return new FeedbackTextResponseDetails(responseMetaData);
-        }
-        return JsonUtils.fromJson(responseMetaData, responseDetailsClass);
-    }
-
     /**
      * Converts the feedbackResponseDetails variable to JSON String for storing.
      */
@@ -204,12 +193,29 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      */
     public void setResponseDetailsDeepCopy(FeedbackResponseDetails feedbackResponseDetails) {
         String serializedDetails = JsonUtils.toJson(feedbackResponseDetails);
-        responseDetails = deserializeResponseFromMetaData(serializedDetails);
+        responseDetails = deserializeResponseFromSeralizedString(serializedDetails);
     }
 
     public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
         // Use serializing followed by deserializing to make a deep copy.
-        return deserializeResponseFromMetaData(getSerializedFeedbackResponseDetail());
+        return deserializeResponseFromSeralizedString(getSerializedFeedbackResponseDetail());
+    }
+
+    /**
+     * This method is to deserialize a JSON String of feedbackResponseDetails. Note that
+     * Serializing a feedbackResponseDetails object followed by deserializing it will make a deep copy
+     * @param serializedResponseDetails responseDetails in JSON String
+     * @return The deserialized FeedbackResponseDetails object
+     */
+    private FeedbackResponseDetails deserializeResponseFromSeralizedString(String serializedResponseDetails) {
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+
+        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
+            // For Text questions, the questionText simply contains the question, not a JSON
+            // This is due to legacy data in the data store before there are multiple question types
+            return new FeedbackTextResponseDetails(serializedResponseDetails);
+        }
+        return JsonUtils.fromJson(serializedResponseDetails, responseDetailsClass);
     }
 
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object
@@ -227,13 +233,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      */
     public boolean isMissingResponse() {
         return responseDetails == null;
-    }
-
-    public boolean isEmptyResponse() {
-        if (isMissingResponse()) {
-            return true;
-        }
-        return responseDetails.getAnswerString().isEmpty();
     }
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
