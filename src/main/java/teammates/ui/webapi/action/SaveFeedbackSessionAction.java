@@ -8,6 +8,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.request.FeedbackSessionSaveRequest;
 
 /**
  * Save a feedback session.
@@ -37,8 +38,8 @@ public class SaveFeedbackSessionAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
 
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest =
-                getAndValidateRequestBody(FeedbackSessionInfo.FeedbackSessionSaveRequest.class);
+        FeedbackSessionSaveRequest saveRequest =
+                getAndValidateRequestBody(FeedbackSessionSaveRequest.class);
 
         feedbackSession.setInstructions(saveRequest.getInstructions());
 

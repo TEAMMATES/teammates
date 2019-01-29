@@ -8,12 +8,12 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.FeedbackSessionInfo;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveFeedbackSessionAction;
 import teammates.ui.webapi.output.FeedbackSession;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
+import teammates.ui.webapi.request.FeedbackSessionSaveRequest;
 
 /**
  * SUT: {@link SaveFeedbackSessionAction}.
@@ -50,7 +50,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
+        FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
 
         SaveFeedbackSessionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
@@ -111,7 +111,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
+        FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setCustomSessionVisibleTimestamp(saveRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
 
         InvalidHttpRequestBodyException ihrbe = assertThrows(InvalidHttpRequestBodyException.class, () -> {
@@ -140,7 +140,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
+        FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
         saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
@@ -186,7 +186,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         param = addUserIdToParams(instructor1ofCourse1.getGoogleId(), param);
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
+        FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         SaveFeedbackSessionAction a = getAction(saveRequest, param);
@@ -206,7 +206,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
+        FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setInstructions(null);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
@@ -215,8 +215,8 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         });
     }
 
-    private FeedbackSessionInfo.FeedbackSessionSaveRequest getTypicalFeedbackSessionSaveRequest() {
-        FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = new FeedbackSessionInfo.FeedbackSessionSaveRequest();
+    private FeedbackSessionSaveRequest getTypicalFeedbackSessionSaveRequest() {
+        FeedbackSessionSaveRequest saveRequest = new FeedbackSessionSaveRequest();
         saveRequest.setInstructions("instructions");
 
         saveRequest.setSubmissionStartTimestamp(1444003051000L);

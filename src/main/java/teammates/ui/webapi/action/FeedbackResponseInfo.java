@@ -5,6 +5,7 @@ import java.util.Map;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * Data transfer objects for {@link teammates.common.datatransfer.attributes.FeedbackResponseAttributes}
@@ -15,7 +16,7 @@ public class FeedbackResponseInfo {
     /**
      * The basic HTTP body request of a feedback response.
      */
-    private static class FeedbackResponseBasicRequest extends Action.RequestBody {
+    private static class FeedbackResponseBasicRequest extends BasicRequest {
 
         private String recipientIdentifier;
 

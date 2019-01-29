@@ -91,6 +91,7 @@
                     <deny>
                         <from class="${ui}.**" >
                             <exclude class="${ui}.webapi.output.**" /> <!-- allow dependency within the package -->
+                            <exclude class="${ui}.webapi.request.**" />
                         </from>
                         <to class="${ui}.webapi.output.**" />
                         <allow>

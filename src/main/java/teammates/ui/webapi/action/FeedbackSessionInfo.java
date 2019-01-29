@@ -6,6 +6,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * Data transfer objects for {@link teammates.common.datatransfer.attributes.FeedbackSessionAttributes}
@@ -16,7 +17,7 @@ public class FeedbackSessionInfo {
     /**
      * The basic request body format for creating/saving of feedback session.
      */
-    private static class FeedbackSessionBasicRequest extends Action.RequestBody {
+    private static class FeedbackSessionBasicRequest extends BasicRequest {
         private String instructions;
 
         private long submissionStartTimestamp;

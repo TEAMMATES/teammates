@@ -48,6 +48,7 @@ appengine-generated
 geckodriver*
 chromedriver*
 api-output.ts
+api-request.ts
 src/main/webapp/*
 !src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/

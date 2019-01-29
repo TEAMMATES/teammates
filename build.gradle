@@ -143,10 +143,19 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     outputFile = "src/web/types/api-output.ts"
 }
 
+task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
+    classPatterns = [
+        "teammates.ui.webapi.request.**"
+    ]
+    outputFile = "src/web/types/api-request.ts"
+}
+
 generateApiOutputFormat.dependsOn classes
+generateApiRequestFormat.dependsOn classes
 
 task generateTypes {
     dependsOn generateApiOutputFormat
+    dependsOn generateApiRequestFormat
 }
 
 // SETUP TASKS

@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * Data transfer objects for {@link teammates.common.datatransfer.attributes.FeedbackQuestionAttributes}
@@ -22,7 +23,7 @@ public class FeedbackQuestionInfo {
     /**
      * The basic request body format for creating/saving of feedback question.
      */
-    private static class FeedbackQuestionBasicRequest extends Action.RequestBody {
+    private static class FeedbackQuestionBasicRequest extends BasicRequest {
         private int questionNumber;
         private String questionBrief;
         private String questionDescription;
