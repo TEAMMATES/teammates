@@ -16,6 +16,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackResponse;
 
 /**
  * Create a feedback response.
@@ -116,7 +117,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
         FeedbackResponseAttributes createdFeedbackResponse = logic.getFeedbackResponse(
                 feedbackQuestion.getId() + "%" + feedbackResponse.giver + "%" + feedbackResponse.recipient);
-        return new JsonResult(new FeedbackResponseInfo.FeedbackResponseResponse(createdFeedbackResponse));
+        return new JsonResult(new FeedbackResponse(createdFeedbackResponse));
     }
 
 }

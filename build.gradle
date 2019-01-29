@@ -124,11 +124,21 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     outputFileType = "implementationFile"
     outputKind = "module"
     indentString = "  "
+    jackson2Configuration = [
+        fieldVisibility: "ANY",
+        getterVisibility: "NONE",
+        isGetterVisibility: "NONE",
+        setterVisibility: "NONE",
+        creatorVisibility: "NONE",
+    ]
+    mapEnum = "asEnum"
+    nonConstEnums = true
 }
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.output.**"
+        "teammates.ui.webapi.output.**",
+        "teammates.common.datatransfer.questions.**"
     ]
     outputFile = "src/web/types/api-output.ts"
 }

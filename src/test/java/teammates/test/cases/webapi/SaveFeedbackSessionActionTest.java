@@ -11,6 +11,9 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.action.FeedbackSessionInfo;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveFeedbackSessionAction;
+import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.ResponseVisibleSetting;
+import teammates.ui.webapi.output.SessionVisibleSetting;
 
 /**
  * SUT: {@link SaveFeedbackSessionAction}.
@@ -53,8 +56,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackSessionInfo.FeedbackSessionResponse response =
-                (FeedbackSessionInfo.FeedbackSessionResponse) r.getOutput();
+        FeedbackSession response = (FeedbackSession) r.getOutput();
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(session.getCourseId(), response.getCourseId());
@@ -67,15 +69,15 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         assertEquals(session.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(session.getGracePeriodMinutes(), response.getGracePeriod());
 
-        assertEquals(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(session.getSessionVisibleFromTime().toEpochMilli(),
                 response.getCustomSessionVisibleTimestamp().longValue());
-        assertEquals(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
         assertEquals(session.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(session.isClosingEmailEnabled(), response.isClosingEmailEnabled());
-        assertEquals(session.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
+        assertEquals(session.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(session.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(session.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(session.getDeletedTime());
@@ -85,14 +87,14 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
         assertEquals(5, response.getGracePeriod());
 
-        assertEquals(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(1440003051000L, response.getCustomSessionVisibleTimestamp().longValue());
 
-        assertEquals(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
         assertEquals(1547003051000L, response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertFalse(response.isClosingEmailEnabled());
-        assertFalse(response.isPublishedEmailEnabled());
+        assertFalse(response.getIsClosingEmailEnabled());
+        assertFalse(response.getIsPublishedEmailEnabled());
 
         assertNotNull(response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
@@ -139,8 +141,8 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
-        saveRequest.setSessionVisibleSetting(FeedbackSessionInfo.SessionVisibleSetting.AT_OPEN);
-        saveRequest.setResponseVisibleSetting(FeedbackSessionInfo.ResponseVisibleSetting.LATER);
+        saveRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
+        saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         SaveFeedbackSessionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
@@ -160,7 +162,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         saveRequest = getTypicalFeedbackSessionSaveRequest();
-        saveRequest.setSessionVisibleSetting(FeedbackSessionInfo.SessionVisibleSetting.AT_OPEN);
+        saveRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
 
         a = getAction(saveRequest, param);
         r = getJsonResult(a);
@@ -185,7 +187,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         };
         param = addUserIdToParams(instructor1ofCourse1.getGoogleId(), param);
         FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
-        saveRequest.setResponseVisibleSetting(FeedbackSessionInfo.ResponseVisibleSetting.LATER);
+        saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         SaveFeedbackSessionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
@@ -221,10 +223,10 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         saveRequest.setSubmissionEndTimestamp(1546003051000L);
         saveRequest.setGracePeriod(5);
 
-        saveRequest.setSessionVisibleSetting(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM);
+        saveRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
         saveRequest.setCustomSessionVisibleTimestamp(1440003051000L);
 
-        saveRequest.setResponseVisibleSetting(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM);
+        saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         saveRequest.setCustomResponseVisibleTimestamp(1547003051000L);
 
         saveRequest.setClosingEmailEnabled(false);

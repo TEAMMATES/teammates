@@ -7,6 +7,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackSession;
 
 /**
  * Save a feedback session.
@@ -59,7 +60,7 @@ public class SaveFeedbackSessionAction extends Action {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(feedbackSession));
+        return new JsonResult(new FeedbackSession(feedbackSession));
     }
 
 }

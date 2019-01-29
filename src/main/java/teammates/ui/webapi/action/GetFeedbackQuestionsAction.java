@@ -11,6 +11,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.webapi.output.FeedbackQuestions;
 
 /**
  * Get a list of feedback questions for a feedback session.
@@ -78,8 +79,8 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             questions.removeIf(question -> !canInstructorSeeQuestion(question));
         }
 
-        FeedbackQuestionInfo.FeedbackQuestionsResponse response =
-                new FeedbackQuestionInfo.FeedbackQuestionsResponse(questions);
+        FeedbackQuestions response =
+                new FeedbackQuestions(questions);
         response.normalizeQuestionNumber();
         return new JsonResult(response);
     }

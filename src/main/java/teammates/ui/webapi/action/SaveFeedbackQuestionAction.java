@@ -10,6 +10,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackQuestion;
 
 /**
  * Save a feedback question.
@@ -79,7 +80,7 @@ public class SaveFeedbackQuestionAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResult(new FeedbackQuestionInfo.FeedbackQuestionResponse(oldQuestion));
+        return new JsonResult(new FeedbackQuestion(oldQuestion));
     }
 
 }

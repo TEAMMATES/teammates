@@ -12,6 +12,9 @@ import teammates.test.driver.StringHelperExtension;
 import teammates.ui.webapi.action.CreateFeedbackSessionAction;
 import teammates.ui.webapi.action.FeedbackSessionInfo;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.ResponseVisibleSetting;
+import teammates.ui.webapi.output.SessionVisibleSetting;
 
 /**
  * SUT: {@link CreateFeedbackSessionAction}.
@@ -53,8 +56,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackSessionInfo.FeedbackSessionResponse response =
-                (FeedbackSessionInfo.FeedbackSessionResponse) r.getOutput();
+        FeedbackSession response = (FeedbackSession) r.getOutput();
 
         FeedbackSessionAttributes createdSession =
                 logic.getFeedbackSession(createRequest.getFeedbackSessionName(), course.getId());
@@ -68,15 +70,15 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(createdSession.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(createdSession.getGracePeriodMinutes(), response.getGracePeriod());
 
-        assertEquals(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(createdSession.getSessionVisibleFromTime().toEpochMilli(),
                 response.getCustomSessionVisibleTimestamp().longValue());
-        assertEquals(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
         assertEquals(createdSession.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(createdSession.isClosingEmailEnabled(), response.isClosingEmailEnabled());
-        assertEquals(createdSession.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
+        assertEquals(createdSession.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(createdSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(createdSession.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(createdSession.getDeletedTime());
@@ -87,14 +89,14 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
         assertEquals(5, response.getGracePeriod());
 
-        assertEquals(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(1440003051000L, response.getCustomSessionVisibleTimestamp().longValue());
 
-        assertEquals(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
         assertEquals(1547003051000L, response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertFalse(response.isClosingEmailEnabled());
-        assertFalse(response.isPublishedEmailEnabled());
+        assertFalse(response.getIsClosingEmailEnabled());
+        assertFalse(response.getIsPublishedEmailEnabled());
 
         assertNotNull(response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
@@ -131,7 +133,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        response = (FeedbackSessionInfo.FeedbackSessionResponse) r.getOutput();
+        response = (FeedbackSession) r.getOutput();
 
         assertEquals("Name with extra space", response.getFeedbackSessionName());
     }
@@ -166,10 +168,10 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setSubmissionEndTimestamp(1546003051000L);
         createRequest.setGracePeriod(5);
 
-        createRequest.setSessionVisibleSetting(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM);
+        createRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
         createRequest.setCustomSessionVisibleTimestamp(1440003051000L);
 
-        createRequest.setResponseVisibleSetting(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM);
+        createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         createRequest.setCustomResponseVisibleTimestamp(1547003051000L);
 
         createRequest.setClosingEmailEnabled(false);
