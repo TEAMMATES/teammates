@@ -171,21 +171,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * Converts the feedbackResponseDetails variable to JSON String for storing.
      */
     public String getSerializedFeedbackResponseDetail() {
-        return serializeFeedbackResponseDetail(this.responseDetails);
-    }
-
-    private String serializeFeedbackResponseDetail(FeedbackResponseDetails feedbackResponseDetails) {
-        if (feedbackResponseDetails == null) {
-            // There was error extracting response data from http request
-            return "";
-        } else if (feedbackResponseDetails.questionType == FeedbackQuestionType.TEXT) {
-            // For Text questions, the answer simply contains the response text, not a JSON
-            // This is due to legacy data in the data store before there were multiple question types
-            return feedbackResponseDetails.getAnswerString();
-        } else {
-            return JsonUtils.toJson(feedbackResponseDetails,
-                    feedbackResponseDetails.questionType.getResponseDetailsClass());
-        }
+        return responseDetails.getJsonString();
     }
 
     public FeedbackResponseDetails getResponseDetails() {
@@ -211,7 +197,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         if (responseType == FeedbackQuestionType.TEXT) {
             return new FeedbackTextResponseDetails(responseDetailsCopy.getAnswerString());
         }
-        String serializedResponseDetails = serializeFeedbackResponseDetail(responseDetailsCopy);
+        String serializedResponseDetails = responseDetailsCopy.getJsonString();
         return JsonUtils.fromJson(serializedResponseDetails, responseType.getResponseDetailsClass());
     }
 
