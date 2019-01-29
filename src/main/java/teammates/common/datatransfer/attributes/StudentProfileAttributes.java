@@ -19,7 +19,7 @@ import teammates.storage.entity.StudentProfile;
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     private static final String STUDENT_PROFILE_BACKUP_LOG_MSG = "Recently modified student profile::";
-    private static final String ATTRIBUTE_NAME = "StudentProfile";
+    private static final String ATTRIBUTE_NAME = "Student Profile";
 
     // Required
     public String googleId;
