@@ -364,7 +364,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Restores a specific soft deleted feedback session to feedback sessions table.
+     * Restores a specific soft deleted feedback session.
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
