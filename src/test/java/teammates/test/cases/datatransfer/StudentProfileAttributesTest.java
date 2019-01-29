@@ -88,7 +88,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetEntityTypeAsString() {
-        assertEquals("StudentProfile", profile.getEntityTypeAsString());
+        assertEquals("Student Profile", profile.getEntityTypeAsString());
     }
 
     @Test
