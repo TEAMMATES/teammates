@@ -48,7 +48,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testDuplicate() {
+    public void testShouldDoDeepCopy() {
         FeedbackResponseAttributes fra1 = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
                 "questionId", FeedbackQuestionType.TEXT,
@@ -57,28 +57,23 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 new FeedbackTextResponseDetails("My original answer"));
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
 
-        fra2.responseDetails = new FeedbackTextResponseDetails("My second answer");
+        ((FeedbackTextResponseDetails) fra2.responseDetails).answer = "My second answer";
         assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
         assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
 
-        ______TS("success : Copy of FeedbackResponseAttributes is deep copy");
     }
 
     @Test
-    public void testGettingShallowAndDeepCopyResponseDetails() {
+    public void testGetDeepCopyResponseDetails() {
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
                 "questionId", FeedbackQuestionType.TEXT,
                 "giver@email.com", "giverSection",
                 "recipient@email.com", "recipientSection",
                 new FeedbackTextResponseDetails("My original answer"));
-        FeedbackResponseDetails frdShallow = fra.responseDetails;
         FeedbackResponseDetails frdDeep = fra.getResponseDetails();
 
         ((FeedbackTextResponseDetails) fra.responseDetails).answer = "My second answer";
-        assertEquals(frdShallow.getAnswerString(), "My second answer");
-        ______TS("success : Shallow copy of FeedbackResponseAttributes has changed");
-
         assertEquals(frdDeep.getAnswerString(), "My original answer");
     }
 
@@ -98,23 +93,5 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");
 
         ______TS("success: setting a deep copy of responseDetails");
-    }
-
-    @Test
-    public void testSettingShallowCopyResponseDetails() {
-        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
-                "Session1", "CS3281",
-                "questionId", FeedbackQuestionType.TEXT,
-                "giver@email.com", "giverSection",
-                "recipient@email.com", "recipientSection",
-                new FeedbackTextResponseDetails("My original answer"));
-        FeedbackTextResponseDetails updatedDetails = new FeedbackTextResponseDetails("Updated answer");
-        fra.responseDetails = updatedDetails;
-        updatedDetails.answer = "Modified shallow copy answer";
-
-        assertEquals(updatedDetails.getAnswerString(), "Modified shallow copy answer");
-        assertEquals(fra.responseDetails.getAnswerString(), "Modified shallow copy answer");
-
-        ______TS("success: setting a shall copy of responseDetails");
     }
 }
