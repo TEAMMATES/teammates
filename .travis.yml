@@ -29,6 +29,7 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/workerMain/
   - rm -rf node_modules/.cache/uglifyjs-webpack-plugin/
+  - rm -rf node_modules/.cache/terser-webpack-plugin/
 
 cache:
   directories:

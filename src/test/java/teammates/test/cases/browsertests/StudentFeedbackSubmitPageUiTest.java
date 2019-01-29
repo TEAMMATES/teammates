@@ -857,7 +857,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
-        AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl submitUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
                                              .withSessionName(testData.feedbackSessions.get(fsDataId)
@@ -868,7 +868,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
@@ -878,7 +878,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
 
     private FeedbackSessionNotVisiblePage
             loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

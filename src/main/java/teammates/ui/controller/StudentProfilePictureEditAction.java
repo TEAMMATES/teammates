@@ -36,7 +36,7 @@ public class StudentProfilePictureEditAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges();
         readAllPostParameterValuesToFields();
         if (!validatePostParameters()) {
-            return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
+            return createRedirectResult(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
         }
 
         try {
@@ -54,7 +54,7 @@ public class StudentProfilePictureEditAction extends Action {
                           + e.getMessage();
         }
 
-        return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
+        return createRedirectResult(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
     }
 
     private byte[] transformImage() {

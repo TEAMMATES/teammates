@@ -93,7 +93,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseE2ETestCase {
     }
 
     private void loadEnrollmentPage() {
-        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+        AppUrl enrollUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                             .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
                             .withCourseId(testData.courses.get("typicalCourse1").getId());
 

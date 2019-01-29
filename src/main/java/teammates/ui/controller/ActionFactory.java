@@ -23,59 +23,18 @@ public class ActionFactory {
     private static Map<String, Class<? extends Action>> actionMappings = new HashMap<>();
 
     static {
-        map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
-        map(INSTRUCTOR_COURSE_EDIT_SAVE, InstructorCourseEditSaveAction.class);
-        map(INSTRUCTOR_COURSE_INSTRUCTOR_ADD, InstructorCourseInstructorAddAction.class);
-        map(INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE, InstructorCourseInstructorEditSaveAction.class);
-        map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
-        map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
-        map(INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE, InstructorCourseEnrollAjaxPageAction.class);
-        map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
-        map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE, InstructorEditStudentFeedbackPageAction.class);
-        map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE, InstructorEditStudentFeedbackSaveAction.class);
-        map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE, InstructorEditInstructorFeedbackPageAction.class);
-        map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE, InstructorEditInstructorFeedbackSaveAction.class);
-        map(INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, InstructorFeedbackSessionsPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
-        map(INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE, InstructorFeedbackEditCopyPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_EDIT_COPY, InstructorFeedbackEditCopyAction.class);
-        map(INSTRUCTOR_FEEDBACK_REMIND, InstructorFeedbackRemindAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE, InstructorFeedbackRemindParticularStudentsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS, InstructorFeedbackRemindParticularStudentsAction.class);
-        map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE,
-                InstructorFeedbackResendPublishedEmailPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
-                InstructorFeedbackResendPublishedEmailAction.class);
-        map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
-        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE, InstructorFeedbackRestoreSoftDeletedSessionAction.class);
-        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL,
-                InstructorFeedbackRestoreAllSoftDeletedSessionsAction.class);
-        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE, InstructorFeedbackDeleteSoftDeletedSessionAction.class);
-        map(INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL, InstructorFeedbackDeleteAllSoftDeletedSessionsAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE, InstructorFeedbackQuestionCopyPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE, InstructorFeedbackQuestionVisibilityMessageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD, InstructorFeedbackResponseCommentAddAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT, InstructorFeedbackResponseCommentEditAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE, InstructorFeedbackResponseCommentDeleteAction.class);
-        map(INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT, InstructorFeedbackPreviewAsStudentAction.class);
-        map(INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR, InstructorFeedbackPreviewAsInstructorAction.class);
-        map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE, InstructorFeedbackSubmissionEditPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE, InstructorFeedbackSubmissionEditSaveAction.class);
-        map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
-        map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
 
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
-        map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
-        map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
         map(FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE,
                 FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
         map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);

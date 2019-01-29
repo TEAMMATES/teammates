@@ -147,7 +147,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
 
     @Override
     protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Override

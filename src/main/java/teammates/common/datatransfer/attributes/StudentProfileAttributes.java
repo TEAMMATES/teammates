@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -76,29 +75,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withPictureKey(pictureKey)
                 .withModifiedDate(modifiedDate)
                 .build();
-    }
-
-    // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
-    public String generateUpdateMessageForStudent() {
-        if (isMultipleFieldsEmpty()) {
-            return Const.StatusMessages.STUDENT_UPDATE_PROFILE;
-        } else if (StringHelper.isEmpty(shortName)) {
-            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
-        } else if (StringHelper.isEmpty(email)) {
-            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
-        } else if (StringHelper.isEmpty(pictureKey)) {
-            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
-        } else if (StringHelper.isEmpty(moreInfo)) {
-            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
-        } else if (StringHelper.isEmpty(nationality)) {
-            return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
-        }
-        return "";
-    }
-
-    private boolean isMultipleFieldsEmpty() {
-        int numEmptyFields = StringHelper.countEmptyStrings(shortName, email, nationality, moreInfo, pictureKey);
-        return numEmptyFields > 1;
     }
 
     @Override
