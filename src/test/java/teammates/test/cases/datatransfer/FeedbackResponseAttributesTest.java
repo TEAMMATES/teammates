@@ -48,7 +48,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testShouldDoDeepCopy() {
+    public void testCopyConstructor_shouldDoDeepCopy() {
         FeedbackResponseAttributes fra1 = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
                 "questionId", FeedbackQuestionType.TEXT,
