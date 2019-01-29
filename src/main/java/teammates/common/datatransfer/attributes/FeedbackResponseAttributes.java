@@ -88,7 +88,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.recipientSection = copy.recipientSection;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
-        this.responseDetails = copy.getFeedbackResponseDetailsCopy();
+        this.responseDetails = copy.getResponseDetails();
     }
 
     public String getId() {
@@ -97,10 +97,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public void setId(String feedbackResponseId) {
         this.feedbackResponseId = feedbackResponseId;
-    }
-
-    public FeedbackResponseDetails getResponseDetails() {
-        return responseDetails;
     }
 
     public Instant getCreatedAt() {
@@ -175,30 +171,48 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * Converts the feedbackResponseDetails variable to JSON String for storing.
      */
     public String getSerializedFeedbackResponseDetail() {
-        if (responseDetails == null) {
+        return serializeFeedbackResponseDetail(this.responseDetails);
+    }
+
+    private String serializeFeedbackResponseDetail(FeedbackResponseDetails feedbackResponseDetails) {
+        if (feedbackResponseDetails == null) {
             // There was error extracting response data from http request
             return "";
-        } else if (responseDetails.questionType == FeedbackQuestionType.TEXT) {
+        } else if (feedbackResponseDetails.questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the answer simply contains the response text, not a JSON
             // This is due to legacy data in the data store before there were multiple question types
-            return responseDetails.getAnswerString();
+            return feedbackResponseDetails.getAnswerString();
         } else {
-            return JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass());
+            return JsonUtils.toJson(feedbackResponseDetails,
+                    feedbackResponseDetails.questionType.getResponseDetailsClass());
         }
+    }
+
+    public FeedbackResponseDetails getResponseDetails() {
+        return getFeedbackResponseDetailsDeepCopy(this.responseDetails);
     }
 
     /**
      * This method ensures that a deep copy of responseDetails is assigned to the variable
-     * @param feedbackResponseDetails new response detail to set
+     * @param newFeedbackResponseDetails new response detail to set
      */
-    public void setResponseDetailsDeepCopy(FeedbackResponseDetails feedbackResponseDetails) {
-        String serializedDetails = JsonUtils.toJson(feedbackResponseDetails);
-        responseDetails = deserializeResponseFromSeralizedString(serializedDetails);
+    public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
+        responseDetails = getFeedbackResponseDetailsDeepCopy(newFeedbackResponseDetails);
     }
 
-    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
-        // Use serializing followed by deserializing to make a deep copy.
-        return deserializeResponseFromSeralizedString(getSerializedFeedbackResponseDetail());
+    /**
+     * This method makes a deep copy of given responseDetails using serializing followed by
+     * desearlizing the original responseDetails
+     * @param responseDetailsCopy the original responseDetails
+     * @return a deep copy of given responseDetails
+     */
+    private FeedbackResponseDetails getFeedbackResponseDetailsDeepCopy(FeedbackResponseDetails responseDetailsCopy) {
+        FeedbackQuestionType responseType = responseDetailsCopy.questionType;
+        if (responseType == FeedbackQuestionType.TEXT) {
+            return new FeedbackTextResponseDetails(responseDetailsCopy.getAnswerString());
+        }
+        String serializedResponseDetails = serializeFeedbackResponseDetail(responseDetailsCopy);
+        return JsonUtils.fromJson(serializedResponseDetails, responseType.getResponseDetailsClass());
     }
 
     /**

@@ -122,7 +122,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         FeedbackResponseDetails updatedDetails1 = new FeedbackTextResponseDetails("Updated Response");
-        responseToUpdate.setResponseDetailsDeepCopy(updatedDetails1);
+        responseToUpdate.setResponseDetails(updatedDetails1);
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
@@ -130,7 +130,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         FeedbackResponseDetails updatedDetails2 = new FeedbackTextResponseDetails("Updated Response");
-        responseToUpdate.setResponseDetailsDeepCopy(updatedDetails2);
+        responseToUpdate.setResponseDetails(updatedDetails2);
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
