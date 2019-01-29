@@ -172,26 +172,12 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackResponseDetails getResponseDetails() {
-        return getFeedbackResponseDetailsDeepCopy(this.responseDetails);
+        return responseDetails.getDeepCopy();
     }
 
     public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
         // This method ensures that a deep copy of responseDetails is assigned to the variable.
-        responseDetails = getFeedbackResponseDetailsDeepCopy(newFeedbackResponseDetails);
-    }
-
-    /**
-     * Make a deep copy of given responseDetails.
-     * @param responseDetailsCopy the original responseDetails
-     * @return a deep copy of given responseDetails
-     */
-    private FeedbackResponseDetails getFeedbackResponseDetailsDeepCopy(FeedbackResponseDetails responseDetailsCopy) {
-        FeedbackQuestionType responseType = responseDetailsCopy.questionType;
-        if (responseType == FeedbackQuestionType.TEXT) {
-            return new FeedbackTextResponseDetails(responseDetailsCopy.getAnswerString());
-        }
-        String serializedResponseDetails = responseDetailsCopy.getJsonString();
-        return JsonUtils.fromJson(serializedResponseDetails, responseType.getResponseDetailsClass());
+        responseDetails = newFeedbackResponseDetails.getDeepCopy();
     }
 
     private FeedbackResponseDetails deserializeResponseFromSeralizedString(String serializedResponseDetails) {

@@ -53,6 +53,15 @@ public abstract class FeedbackResponseDetails {
         return JsonUtils.toJson(this, questionType.getResponseDetailsClass());
     }
 
+    public FeedbackResponseDetails getDeepCopy() {
+        Assumption.assertNotNull(questionType);
+        if (questionType == FeedbackQuestionType.TEXT) {
+            return new FeedbackTextResponseDetails(getAnswerString());
+        }
+        String serializedResponseDetails = getJsonString();
+        return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
+    }
+
     public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
 
     /**
