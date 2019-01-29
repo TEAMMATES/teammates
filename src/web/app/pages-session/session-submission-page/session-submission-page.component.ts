@@ -9,16 +9,20 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
+  FeedbackParticipantType,
+  FeedbackQuestion,
+  FeedbackResponse,
+  FeedbackSession,
+  FeedbackSessionSubmissionStatus,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../types/api-output';
+import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-types/question-types-session-submission/question-submission-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackParticipantType } from '../../feedback-participant-type';
-import { FeedbackQuestion, NumberOfEntitiesToGiveFeedbackToSetting } from '../../feedback-question';
-import { FeedbackResponse } from '../../feedback-response';
-import { FeedbackSession, FeedbackSessionSubmissionStatus } from '../../feedback-session';
 import { Instructor } from '../../Instructor';
 import { Intent } from '../../Intent';
 import { Student } from '../../student';

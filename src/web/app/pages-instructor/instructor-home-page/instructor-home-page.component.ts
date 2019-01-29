@@ -5,7 +5,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { FeedbackSession, FeedbackSessions, MessageOutput } from '../../../types/api-output';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -16,7 +16,6 @@ import {
 } from '../../components/sessions-table/sessions-table-model';
 import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackSession, FeedbackSessions } from '../../feedback-session';
 import { defaultInstructorPrivilege, InstructorPrivilege } from '../../instructor-privilege';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 

@@ -1,10 +1,10 @@
-import { FeedbackParticipantType } from '../../../feedback-participant-type';
 import {
+  FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
+  FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
-} from '../../../feedback-question';
-import { FeedbackVisibilityType } from '../../../feedback-visibility';
+} from '../../../../types/api-output';
 
 /**
  * The mode of operation for question edit form.

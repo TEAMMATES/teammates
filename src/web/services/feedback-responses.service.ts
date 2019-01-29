@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { FeedbackQuestionType } from '../app/feedback-question';
 import {
-  CONTRIBUTION_POINT_NOT_SUBMITTED, FeedbackContributionResponseDetails,
+  FeedbackContributionResponseDetails,
+  FeedbackQuestionType,
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
-} from '../app/feedback-response';
+} from '../types/api-output';
+import {
+  CONTRIBUTION_POINT_NOT_SUBMITTED,
+} from '../types/feedback-response-details';
 
 /**
  * Handles feedback response settings provision.
@@ -23,14 +26,16 @@ export class FeedbackResponsesService {
     switch (questionType) {
       case FeedbackQuestionType.TEXT:
         return {
+          questionType,
           answer: '',
-        };
+        } as FeedbackTextResponseDetails;
       case FeedbackQuestionType.CONTRIB:
         return {
+          questionType,
           answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
-        };
+        } as FeedbackContributionResponseDetails;
       default:
-        return {};
+        throw new Error(`Unknown question type ${questionType}`);
     }
   }
 

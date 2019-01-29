@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { FeedbackParticipantType } from '../app/feedback-participant-type';
+import { default as templateQuestions } from '../data/template-questions.json';
 import {
+  FeedbackContributionQuestionDetails,
+  FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
+  FeedbackTextQuestionDetails,
+  FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
-} from '../app/feedback-question';
-import { FeedbackVisibilityType, VisibilityControl } from '../app/feedback-visibility';
-import { default as templateQuestions } from '../data/template-questions.json';
+} from '../types/api-output';
+import { VisibilityControl } from '../types/visibility-control';
 import { VisibilityStateMachine } from './visibility-state-machine';
 
 /**
@@ -224,7 +227,9 @@ export class FeedbackQuestionsService {
           questionType: FeedbackQuestionType.TEXT,
           questionDetails: {
             recommendedLength: 0,
-          },
+            questionType: FeedbackQuestionType.TEXT,
+            questionText: '',
+          } as FeedbackTextQuestionDetails,
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -243,7 +248,9 @@ export class FeedbackQuestionsService {
           questionType: FeedbackQuestionType.CONTRIB,
           questionDetails: {
             isNotSureAllowed: true,
-          },
+            questionType: FeedbackQuestionType.CONTRIB,
+            questionText: '',
+          } as FeedbackContributionQuestionDetails,
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,

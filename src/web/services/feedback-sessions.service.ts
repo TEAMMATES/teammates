@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FeedbackQuestion } from '../app/feedback-question';
 import { default as templateSessions } from '../data/template-sessions.json';
+import { FeedbackQuestion } from '../types/api-output';
 
 /**
  * A template session.
