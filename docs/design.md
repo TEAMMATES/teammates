@@ -247,7 +247,7 @@ Package overview:
   - **`.logic`**: Component test cases for testing the `Logic` component.
   - **`.storage`**: Component test cases for testing the `Storage` component.
   - **`.search`**: Component test cases for testing the search functions.
-  - **`.action`**: System test cases for testing the user-invoked actions.
+  - **`.webapi`**: System test cases for testing the user-invoked actions.
   - **`.automated`**: System test cases for testing the system-automated actions (manually invoked during testing).
 
 Notes:

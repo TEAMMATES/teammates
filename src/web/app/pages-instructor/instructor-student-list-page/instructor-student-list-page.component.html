@@ -125,7 +125,7 @@
 </div>
 
 <ng-container *ngIf="courses && courses.length" >
-  <div class="p-0">
+  <div class="p-2">
     <div *ngFor="let course of courses" class="card border mb-3 p-0"
          [hidden]="(!course.isChecked) && (!isDisplayArchive) && course.isArchived">
       <div class="card-header font-weight-bold"

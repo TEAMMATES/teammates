@@ -12,6 +12,7 @@ class StudentListStubComponent {
   @Input() sections: Object[] = [];
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
+  @Input() enableRemindButton: boolean = false;
 }
 
 describe('InstructorStudentListPageComponent', () => {

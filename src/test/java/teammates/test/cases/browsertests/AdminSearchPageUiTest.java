@@ -277,7 +277,7 @@ public class AdminSearchPageUiTest extends BaseE2ETestCase {
                                          InstructorAttributes instructorToMasquaradeAs) {
 
         String actualNameLink = studentRow.findElement(By.xpath("td[3]/a")).getAttribute("href");
-        String expectedNameLink = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+        String expectedNameLink = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                                   .withCourseId(student.course)
                                   .withStudentEmail(student.email)
                                   .withUserId(instructorToMasquaradeAs.googleId)
@@ -286,7 +286,7 @@ public class AdminSearchPageUiTest extends BaseE2ETestCase {
         if (student.isRegistered()) {
 
             String actualGoogleIdLink = studentRow.findElement(By.xpath("td[4]/a")).getAttribute("href");
-            String expectedGoogleIdLink = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+            String expectedGoogleIdLink = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                                           .withUserId(student.googleId)
                                           .toAbsoluteString();
 

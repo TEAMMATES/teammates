@@ -195,7 +195,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
 
         ______TS("new instructor can view feedback sessions of sample course");
-        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();

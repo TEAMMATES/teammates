@@ -335,6 +335,147 @@ public final class FeedbackQuestionsLogic {
         return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
     }
 
+    /**
+     * Gets the recipients of a feedback question for students.
+     *
+     * <p>Filter out some recipients based on the setting of the course.
+     */
+    public Map<String, String> getRecipientsOfQuestionForStudent(
+            FeedbackQuestionAttributes question, String giverEmail, String giverTeam) {
+        Map<String, String> recipients = getRecipientsOfQuestion(question, giverEmail, giverTeam);
+
+        // remove hidden instructors
+        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(question.getCourseId());
+            Set<String> hiddenInstructorEmails = new HashSet<>();
+            for (InstructorAttributes instructorAttributes : instructors) {
+                if (!instructorAttributes.isDisplayedToStudents()) {
+                    hiddenInstructorEmails.add(instructorAttributes.email);
+                }
+            }
+
+            for (String instructorEmail : hiddenInstructorEmails) {
+                recipients.remove(instructorEmail);
+            }
+        }
+
+        return recipients;
+    }
+
+    /**
+     * Gets the recipients of a feedback question for instructors.
+     *
+     * <p>Filter out some recipients based on the privileges of the instructor.
+     */
+    public Map<String, String> getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes question, String giverEmail) {
+        Map<String, String> recipients = getRecipientsOfQuestion(question, giverEmail, Const.USER_TEAM_FOR_INSTRUCTOR);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(question.getCourseId(), giverEmail);
+
+        // TODO the below will cause slow queries when recipients are large, find a better way
+
+        // instructor can only see students in allowed sections for him/her
+        if (question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)) {
+            recipients.entrySet().removeIf(studentEntry -> {
+                StudentAttributes student = studentsLogic.getStudentForEmail(question.getCourseId(), studentEntry.getKey());
+                return !instructor.isAllowedForPrivilege(student.section, question.getFeedbackSessionName(),
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            });
+        }
+        // instructor can only see teams in allowed sections for him/her
+        if (question.getRecipientType().equals(FeedbackParticipantType.TEAMS)) {
+            recipients.entrySet().removeIf(teamEntry -> {
+                String teamSection = studentsLogic.getSectionForTeam(question.getCourseId(), teamEntry.getKey());
+                return !instructor.isAllowedForPrivilege(teamSection, question.getFeedbackSessionName(),
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            });
+        }
+
+        return recipients;
+    }
+
+    /**
+     * Gets the recipients of a feedback question.
+     *
+     * @param question the feedback question
+     * @param giverEmail the email of the giver of the feedback question; In the case where the giver is a team,
+     *                   this parameter can be anything as long as {@code giverTeam} is the name of the team.
+     * @param giverTeam the team name of the giver of the feedback question
+     * @return a map which keys are the identifiers of the recipients and values are the names of the recipients
+     */
+    private Map<String, String> getRecipientsOfQuestion(
+            FeedbackQuestionAttributes question, String giverEmail, String giverTeam) {
+        Map<String, String> recipients = new HashMap<>();
+
+        FeedbackParticipantType recipientType = question.recipientType;
+
+        switch (recipientType) {
+        case SELF:
+            if (question.giverType == FeedbackParticipantType.TEAMS) {
+                recipients.put(giverTeam, giverTeam);
+            } else {
+                recipients.put(giverEmail, Const.USER_NAME_FOR_SELF);
+            }
+            break;
+        case STUDENTS:
+            List<StudentAttributes> studentsInCourse = studentsLogic.getStudentsForCourse(question.courseId);
+            for (StudentAttributes student : studentsInCourse) {
+                // Ensure student does not evaluate himself
+                if (!giverEmail.equals(student.email)) {
+                    recipients.put(student.email, student.name);
+                }
+            }
+            break;
+        case INSTRUCTORS:
+            List<InstructorAttributes> instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.courseId);
+            for (InstructorAttributes instr : instructorsInCourse) {
+                // Ensure instructor does not evaluate himself
+                if (!giverEmail.equals(instr.email)) {
+                    recipients.put(instr.email, instr.name);
+                }
+            }
+            break;
+        case TEAMS:
+            List<TeamDetailsBundle> teams = null;
+            try {
+                teams = coursesLogic.getTeamsForCourse(question.courseId);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail(e.getMessage());
+            }
+            for (TeamDetailsBundle team : teams) {
+                // Ensure student('s team) does not evaluate own team.
+                if (!giverTeam.equals(team.name)) {
+                    // recipientEmail doubles as team name in this case.
+                    recipients.put(team.name, team.name);
+                }
+            }
+            break;
+        case OWN_TEAM:
+            recipients.put(giverTeam, giverTeam);
+            break;
+        case OWN_TEAM_MEMBERS:
+            List<StudentAttributes> students = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+            for (StudentAttributes student : students) {
+                if (!student.email.equals(giverEmail)) {
+                    recipients.put(student.email, student.name);
+                }
+            }
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+            for (StudentAttributes student : teamMembers) {
+                // accepts self feedback too
+                recipients.put(student.email, student.name);
+            }
+            break;
+        case NONE:
+            recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
+            break;
+        default:
+            break;
+        }
+        return recipients;
+    }
+
     public Map<String, String> getRecipientsForQuestion(
             FeedbackQuestionAttributes question, String giver,
             InstructorAttributes instructorGiver, StudentAttributes studentGiver)

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
@@ -17,6 +19,7 @@ import { StudentHomePageComponent } from './student-home-page/student-home-page.
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
 
 import { Pipes } from '../pipes/pipes.module';
+import { GenderFormatPipe } from './student-profile-page/student-profile-gender.pipe';
 
 const routes: Routes = [
   {
@@ -44,6 +47,10 @@ const routes: Routes = [
       {
         path: 'submission',
         component: SessionSubmissionPageComponent,
+        data: {
+          pageTitle: 'Submit Feedback',
+          intent: Intent.STUDENT_SUBMISSION,
+        },
       },
     ],
   },
@@ -75,12 +82,14 @@ const routes: Routes = [
     StudentHelpPageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
     StudentHomePageComponent,
     StudentProfilePageComponent,
     StudentCourseDetailsPageComponent,
+    GenderFormatPipe,
   ],
 })
 export class StudentPagesModule {}

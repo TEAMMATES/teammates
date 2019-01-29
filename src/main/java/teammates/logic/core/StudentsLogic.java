@@ -80,6 +80,9 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForCourse(courseId);
     }
 
+    /**
+     * Gets all students of a team.
+     */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }

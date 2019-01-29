@@ -1,13 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
-import { ResponseVisibleSetting, SessionVisibleSetting } from '../../feedback-session';
-import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
+import { TemplateSession } from '../../../services/feedback-sessions.service';
+import { Course } from '../../course';
 import {
-  SessionEditFormMode,
-  SessionEditFormModel,
-  SessionTemplate,
-} from './session-edit-form-model';
+  FEEDBACK_SESSION_NAME_MAX_LENGTH,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../feedback-session';
+import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
+import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -24,6 +29,9 @@ export class SessionEditFormComponent implements OnInit {
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
   ResponseVisibleSetting: typeof ResponseVisibleSetting = ResponseVisibleSetting;
+
+  // const
+  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 
   @Input()
   model: SessionEditFormModel = {
@@ -47,11 +55,13 @@ export class SessionEditFormComponent implements OnInit {
     customResponseVisibleTime: { hour: 0, minute: 0 },
     customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
-    submissionStatus: '',
-    publishStatus: '',
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+
+    templateSessionName: '',
 
     isSaving: false,
     isEditable: true,
@@ -67,10 +77,9 @@ export class SessionEditFormComponent implements OnInit {
 
   // add mode specific
   @Input()
-  coursesIdCandidates: string[] = [];
+  courseCandidates: Course[] = [];
   @Input()
-  sessionTemplates: SessionTemplate[] = [];
-  sessionTemplateName: string = '';
+  templateSessions: TemplateSession[] = [];
 
   // event emission
   @Output()
@@ -101,6 +110,78 @@ export class SessionEditFormComponent implements OnInit {
       ...this.model,
       [field]: data,
     });
+  }
+
+  /**
+   * Handles course Id change event.
+   *
+   * <p>Used in ADD mode.
+   */
+  courseIdChangeHandler(newCourseId: string): void {
+    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === newCourseId);
+
+    if (course) {
+      this.modelChange.emit({
+        ...this.model,
+        courseId: newCourseId,
+        courseName: course.courseName,
+        timeZone: course.timeZone,
+      });
+    }
+  }
+
+  /**
+   * Gets the maximum date for a session to be visible based on the input model.
+   */
+  get maxDateForSessionVisible(): DateFormat {
+    switch (this.model.responseVisibleSetting) {
+      case ResponseVisibleSetting.LATER:
+      case ResponseVisibleSetting.AT_VISIBLE:
+        return this.model.submissionStartDate;
+      case ResponseVisibleSetting.CUSTOM:
+        const submissionStartDate: any = this.getMomentInstance(this.model.submissionStartDate);
+        const responseVisibleDate: any = this.getMomentInstance(this.model.customResponseVisibleDate);
+        if (submissionStartDate.isBefore(responseVisibleDate)) {
+          return this.model.submissionStartDate;
+        }
+
+        return this.model.customResponseVisibleDate;
+      default:
+        return {
+          year: 0,
+          month: 0,
+          day: 0,
+        };
+    }
+  }
+
+  /**
+   * Gets the minimum date for responses to be visible based on the input model.
+   */
+  get minDateForResponseVisible(): DateFormat {
+    switch (this.model.sessionVisibleSetting) {
+      case SessionVisibleSetting.AT_OPEN:
+        return this.model.submissionStartDate;
+      case SessionVisibleSetting.CUSTOM:
+        return this.model.customSessionVisibleDate;
+      default:
+        return {
+          year: 0,
+          month: 0,
+          day: 0,
+        };
+    }
+  }
+
+  /**
+   * Gets a moment instance from a date.
+   */
+  getMomentInstance(date: DateFormat): any {
+    const inst: any = moment();
+    inst.set('year', date.year);
+    inst.set('month', date.month - 1); // moment month is from 0-11
+    inst.set('date', date.day);
+    return inst;
   }
 
   /**

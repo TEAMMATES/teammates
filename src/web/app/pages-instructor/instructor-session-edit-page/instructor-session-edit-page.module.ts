@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
 import {
   QuestionTypesSessionEditModule,
 } from '../../components/question-types/question-types-session-edit/question-types-session-edit.module';
@@ -23,6 +24,7 @@ import { TemplateQuestionModalComponent } from './template-question-modal/templa
     TeammatesCommonModule,
     SessionEditFormModule,
     QuestionTypesSessionEditModule,
+    CopySessionModalModule,
   ],
   entryComponents: [
     TemplateQuestionModalComponent,

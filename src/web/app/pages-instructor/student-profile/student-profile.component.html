@@ -1,0 +1,73 @@
+<ng-container *ngIf="studentProfile">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-md-2 col-3">
+          <img src="{{getPictureUrl(studentProfile.pictureKey)}}" class="profile-pic float-right">
+        </div>
+        <div class="col-md-10 col-sm-9 col-8">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th colspan="2"><h4><span class="font-weight-bold">Profile Details </span>(submitted by student)</h4></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-weight-bold">Short Name (Gender)</td>
+                <td><span *ngIf="studentProfile.shortName; else notSpecified">{{studentProfile.shortName}}</span>
+                  (<i *ngIf="studentProfile.gender != 'other'; else notSpecified">{{studentProfile.gender}}</i>)
+                </td>
+              </tr>
+              <tr>
+                <td class="font-weight-bold">Personal Email</td>
+                <td><span *ngIf="studentProfile.email; else notSpecified">{{studentProfile.email}}</span>
+              </tr>
+              <tr>
+                <td class="font-weight-bold">Institution</td>
+                <td><span *ngIf="studentProfile.institute; else notSpecified">{{studentProfile.institute}}</span>
+              </tr>
+              <tr>
+                <td class="font-weight-bold">Nationality</td>
+                <td><span *ngIf="studentProfile.nationality; else notSpecified">{{studentProfile.nationality}}</span>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="!hideMoreInfo">
+    <ng-template #notSpecified><i class="text-muted">Not Specified</i></ng-template>
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">{{studentName}}'s Profile - More Info</h4>
+        <button type="button" class="close" aria-hidden="true" (click)="modal.dismiss()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Note: When an element has class text-preserve-space, do not insert HTML spaces -->
+        <p class="text-preserve-space height-fixed-md">
+          <span *ngIf="studentProfile.moreInfo; else notSpecified">{{studentProfile.moreInfo}}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Close</button>
+      </div>
+    </ng-template>
+    <div class="row">
+      <div class="col-12">
+        <div class="card border-gray">
+          <div class="card-body">
+            <span class="text-muted float-right fas fa-expand-arrows-alt cursor-pointer"
+                (click)="openModal(content)" *ngIf="studentProfile.moreInfo"></span>
+            <h4 class="font-weight-bold">More Info:</h4>
+            <!-- Note: When an element has class text-preserve-space, do not insert HTML spaces -->
+            <p class="text-preserve-space height-fixed-md">
+              <span *ngIf="studentProfile.moreInfo; else notSpecified">{{studentProfile.moreInfo}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+ </ng-container>

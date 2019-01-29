@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import { FeedbackParticipantType } from '../app/feedback-participant-type';
 import {
+  FeedbackQuestion,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../app/feedback-question';
 import { FeedbackVisibilityType, VisibilityControl } from '../app/feedback-visibility';
-import { TemplateQuestion, templateQuestions } from './template-questions';
+import { default as templateQuestions } from '../data/template-questions.json';
 import { VisibilityStateMachine } from './visibility-state-machine';
+
+/**
+ * A template question.
+ */
+export interface TemplateQuestion {
+  description: string;
+  question: FeedbackQuestion;
+}
 
 /**
  * Handles feedback paths and visibility settings provision.

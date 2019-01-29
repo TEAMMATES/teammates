@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs/index';
 import { map } from 'rxjs/internal/operators';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
 interface Course {
@@ -204,7 +204,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Navigate to the instructor search page with query input and query type: student.
    */
   search(): void {
-    this.router.navigate(['/web/instructor/search'], { queryParams: { searchstudent: this.searchQuery } });
+    this.router.navigate(['/web/instructor/search'], { queryParams: { studentSearchkey: this.searchQuery } });
   }
 
   /**

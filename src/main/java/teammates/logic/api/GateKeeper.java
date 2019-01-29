@@ -4,9 +4,11 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -161,6 +163,53 @@ public class GateKeeper {
                                             feedbacksession.getStartTimeString());
         }
     }
+
+    /**
+     * Verifies that the feedback question is for student to answer.
+     */
+    public void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        verifyNotNull(feedbackQuestionAttributes, "feedback question");
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
+        }
+    }
+
+    /**
+     * Verifies that the feedback question is for instructor to answer.
+     */
+    public void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        verifyNotNull(feedbackQuestionAttributes, "feedback question");
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
+        }
+    }
+
+
+    /**
+     * Verifies that an instructor has submission privilege of a feedback session.
+     */
+    public void verifySessionSubmissionPrivilegeForInstructor(
+            FeedbackSessionAttributes session, InstructorAttributes instructor) {
+        verifyNotNull(session, "feedback session");
+        verifyNotNull(instructor, "instructor");
+
+        boolean shouldEnableSubmit =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+
+        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+            shouldEnableSubmit = true;
+        }
+
+        if (!shouldEnableSubmit) {
+            throw new UnauthorizedAccessException("You don't have submission privilege");
+        }
+    }
+
 
     /**
      * Verifies that comment is created by feedback participant.

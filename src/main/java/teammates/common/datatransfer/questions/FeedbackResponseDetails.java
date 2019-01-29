@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -16,6 +18,10 @@ public abstract class FeedbackResponseDetails {
     public FeedbackQuestionType questionType;
 
     public FeedbackResponseDetails(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public void setQuestionType(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }
 
@@ -55,7 +61,7 @@ public abstract class FeedbackResponseDetails {
      * override in child class if necessary.
      */
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                    FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+                               FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
     }
 
@@ -66,5 +72,13 @@ public abstract class FeedbackResponseDetails {
 
         return questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
                                                                questionIndx, responseIndx);
+    }
+
+    /**
+     * Validates the response details.
+     */
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        // TODO change this to abstract method after V7 complete
+        return new ArrayList<>();
     }
 }

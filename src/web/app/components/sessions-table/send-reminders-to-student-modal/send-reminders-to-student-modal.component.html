@@ -1,0 +1,15 @@
+<div class="modal-header bg-primary text-white">
+  <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Confirm sending reminders</h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <div>
+    Send e-mails to remind students who have not submitted their feedback for {{ feedbackSessionName }}?
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="activeModal.close()">Ok</button>
+</div>
