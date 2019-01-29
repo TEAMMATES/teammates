@@ -31,17 +31,17 @@ public class StudentListStudentData {
         String courseStudentRemindRawLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,
                 Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, previousPage);
         this.courseStudentDetailsLink =
-                furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+                furnishLinkWithCourseEmailAndUserId(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
                                                     course, studentEmail, googleId);
         this.courseStudentEditLink =
-                furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT,
+                furnishLinkWithCourseEmailAndUserId(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE,
                                                     course, studentEmail, googleId);
         this.courseStudentRemindLink = furnishLinkWithCourseEmailAndUserId(courseStudentRemindRawLink, course,
                                                                            studentEmail, googleId);
-        this.courseStudentDeleteLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
-                                                                           course, studentEmail, googleId);
-        this.courseStudentRecordsLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
-                                                                            course, studentEmail, googleId);
+        this.courseStudentDeleteLink = furnishLinkWithCourseEmailAndUserId(
+                Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE, course, studentEmail, googleId);
+        this.courseStudentRecordsLink = furnishLinkWithCourseEmailAndUserId(
+                Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE, course, studentEmail, googleId);
     }
 
     private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,

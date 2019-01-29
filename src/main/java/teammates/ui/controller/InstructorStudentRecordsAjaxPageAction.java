@@ -37,7 +37,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS,
                                                StatusMessageColor.DANGER));
             isError = true;
-            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            return createRedirectResult(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
         }
 
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId, false);

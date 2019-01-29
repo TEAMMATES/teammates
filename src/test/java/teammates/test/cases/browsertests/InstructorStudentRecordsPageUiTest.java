@@ -13,7 +13,7 @@ import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_STUDENT_RECORDS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_RECORDS_PAGE}.
  */
 public class InstructorStudentRecordsPageUiTest extends BaseE2ETestCase {
     private InstructorStudentRecordsPage viewPage;
@@ -164,7 +164,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                            .withUserId(instructorId)
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);

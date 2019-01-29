@@ -30,7 +30,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE}.
+ * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE}.
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
@@ -1050,8 +1050,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
-        expectedRedirectUrl.withParam("errorfeedbackrequestedurl",
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT);
 
         assertTrue(browser.driver.getCurrentUrl().contains(expectedRedirectUrl.toAbsoluteString()));
 
@@ -1120,7 +1118,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
 
     private InstructorFeedbackSessionsPage navigateToInstructorFeedbackSessionsPage() {
 
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE).withUserId(instructorId);
+        AppUrl feedbacksPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE).withUserId(instructorId);
         InstructorFeedbackSessionsPage feedbacksPage =
                 AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbackSessionsPage.class);
         feedbacksPage.waitForPageToLoad();
@@ -1188,7 +1186,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
 
         ______TS("Compare URLs");
 
-        String expectedRedirectUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
+        String expectedRedirectUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .withSessionName(feedbackSessionName)
@@ -1220,7 +1218,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName)
@@ -1233,7 +1231,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         String courseWithoutQuestion = testData.courses.get("course2").getId();
         String sessionWithoutQuestions = testData.feedbackSessions.get("openSession3")
                                                                   .getFeedbackSessionName();
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions)
@@ -1242,7 +1240,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfSessionIndDstCourse() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withUserId(testData.instructors.get("instructorOfDstCourse").googleId)
                 .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
                 .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())

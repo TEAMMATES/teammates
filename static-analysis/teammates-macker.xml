@@ -78,10 +78,36 @@
                         <allow>
                             <from>
                                 <include class="${ui}.controller.**" />
-                                <include class="${ui}.newcontroller.**" />
+                                <include class="${ui}.webapi.action.**" />
                                 <include class="${ui}.automated.**" />
                             </from>
                             <to class="${logic}.api.**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: API output is only used in Web API package">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" >
+                            <exclude class="${ui}.webapi.output.**" /> <!-- allow dependency within the package -->
+                        </from>
+                        <to class="${ui}.webapi.output.**" />
+                        <allow>
+                            <from>
+                                <include class="${ui}.webapi.action.**" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: API output should not have dependencies to anything within the UI component">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.webapi.output.**" />
+                        <to class="${ui}.**" />
+                        <allow>
+                            <to class="${ui}.webapi.output.**" /> <!-- allow dependency within the package -->
                         </allow>
                     </deny>
                 </access-rule>
@@ -90,9 +116,9 @@
                 <access-rule>
                     <deny>
                         <from class="${ui}.**" />
-                        <to class="${ui}.newcontroller.**" />
+                        <to class="${ui}.webapi.action.**" />
                         <allow>
-                            <from class="${ui}.newcontroller.**" /> <!-- allow dependency within the package -->
+                            <from class="${ui}.webapi.action.**" /> <!-- allow dependency within the package -->
                         </allow>
                     </deny>
                 </access-rule>
@@ -257,7 +283,7 @@
                                 <include class="${testCases}.storage.**" />
                                 <include class="${testCases}.logic.**" />
                                 <include class="${testCases}.action.**" />
-                                <include class="${testCases}.newaction.**" />
+                                <include class="${testCases}.webapi.**" />
                                 <include class="${testCases}.automated.**" />
                                 <include class="${testCases}.search.**" />
                                 <include class="${testCases}.BaseComponentTestCase" />
@@ -489,7 +515,7 @@
                                 <include class="${storage}.api.OfyHelper" />
                                 <include class="${ui}.automated.**" />
                                 <include class="${ui}.controller.**" />
-                                <include class="${ui}.newcontroller.**" />
+                                <include class="${ui}.webapi.action.**" />
                                 <include class="${test}.driver.GaeSimulation" />
                                 <include class="${test}.driver.MockFilterChain" />
                                 <include class="${test}.driver.MockHttpServletRequest" />
