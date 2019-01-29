@@ -15,11 +15,13 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
 
   @Input() key: String = '';
   show_arr: Boolean[];
-  size: Number;
+  size: number;
+  searched_terms: number;
 
   constructor() {
     this.show_arr = [];
     this.size = 0;
+    this.searched_terms = -1;
   }
 
   ngOnInit(): void {
@@ -37,11 +39,15 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
 
   private reset_faq(): void {
     for (let i: number = 0; i < this.size; i += 1) this.show_arr[i] = true;
+    this.searched_terms = -1;
   }
 
   private filter_faq(): void {
+    this.searched_terms = 0;
     for (const term of terms) {
       this.show_arr[term.tag] = term.text.includes(this.key);
+
+      if (this.show_arr[term.tag]) this.searched_terms += 1;
     }
   }
 }
