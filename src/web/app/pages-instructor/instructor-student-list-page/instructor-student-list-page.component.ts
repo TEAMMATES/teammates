@@ -485,9 +485,9 @@ export class InstructorStudentListPageComponent implements OnInit {
   /**
    * Function to get the list of students which need to be hidden on the StudentTable display.
    */
-  getStudentsToHide(): string[] {
+  getStudentsToHide(courseId: string): string[] {
     const studentsToHide: string[] = this.studentDetailsList
-        .filter((student: StudentDetails) => !student.isChecked)
+        .filter((student: StudentDetails) => student.courseId === courseId && !student.isChecked)
         .map((student: StudentDetails) => student.email);
 
     return studentsToHide;

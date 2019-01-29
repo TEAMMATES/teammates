@@ -143,7 +143,7 @@
             [courseId]="course.id"
             [useGrayHeading]="true"
             [sections]="getStudentListSectionDataForCourse(course.id)"
-            [listOfStudentsToHide]="getStudentsToHide()"
+            [listOfStudentsToHide]="getStudentsToHide(course.id)"
             [isHideTableHead]="!course.isChecked"
         >
         </tm-student-list>
