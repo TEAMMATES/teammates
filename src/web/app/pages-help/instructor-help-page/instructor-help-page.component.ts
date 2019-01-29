@@ -9,10 +9,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./instructor-help-page.component.scss'],
 })
 export class InstructorHelpPageComponent implements OnInit {
+  search_term: String = '';
+  key: String = '';
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  private search(): void {
+    if (this.search_term !== '') {
+      this.key = this.search_term.toLowerCase();
+    }
+  }
+
+  private clear(): void {
+    this.search_term = '';
+    this.key = '';
+  }
 }
