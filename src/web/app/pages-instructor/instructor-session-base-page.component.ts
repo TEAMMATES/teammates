@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { concatMap, last, switchMap } from 'rxjs/operators';
+import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../services/http-request.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
@@ -23,17 +24,16 @@ export abstract class InstructorSessionBasePageComponent {
 
   protected constructor(protected router: Router, protected httpRequestService: HttpRequestService,
                         protected statusMessageService: StatusMessageService,
-                        protected navigationService: NavigationService) { }
+                        protected navigationService: NavigationService,
+                        protected feedbackSessionsService: FeedbackSessionsService) { }
 
   /**
    * Copies a feedback session.
    */
   protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
       Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = { courseid: newCourseId };
-
     let createdFeedbackSession!: FeedbackSession;
-    return this.httpRequestService.post('/session', paramMap, {
+    return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
 

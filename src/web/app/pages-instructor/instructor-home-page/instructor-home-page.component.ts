@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -53,8 +54,9 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService,
               private route: ActivatedRoute, private ngbModal: NgbModal, private timezoneService: TimezoneService) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+    super(router, httpRequestService, statusMessageService, navigationService, feedbackSessionsService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
   }

@@ -6,6 +6,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -136,10 +137,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService,
               private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+    super(router, httpRequestService, statusMessageService, navigationService, feedbackSessionsService);
   }
 
   ngOnInit(): void {

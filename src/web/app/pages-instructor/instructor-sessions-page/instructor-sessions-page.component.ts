@@ -122,9 +122,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
-              private route: ActivatedRoute, private feedbackSessionsService: FeedbackSessionsService,
-              private timezoneService: TimezoneService, private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+              feedbackSessionsService: FeedbackSessionsService,
+              private route: ActivatedRoute, private timezoneService: TimezoneService,
+              private modalService: NgbModal) {
+    super(router, httpRequestService, statusMessageService, navigationService, feedbackSessionsService);
   }
 
   ngOnInit(): void {
@@ -244,9 +245,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
             : of(0),
     ).pipe(
         switchMap((vals: number[]) => {
-          const paramMap: { [key: string]: string } = { courseid: this.sessionEditFormModel.courseId };
-
-          return this.httpRequestService.post('/session', paramMap, {
+          return this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
             feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
             instructions: this.sessionEditFormModel.instructions,
 

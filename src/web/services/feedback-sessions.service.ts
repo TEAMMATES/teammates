@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion } from '../types/api-output';
+import { FeedbackQuestion, FeedbackSession } from '../types/api-output';
+import { FeedbackSessionCreateRequest } from '../types/api-request';
+import { HttpRequestService } from './http-request.service';
 
 /**
  * A template session.
@@ -18,12 +21,20 @@ export interface TemplateSession {
 })
 export class FeedbackSessionsService {
 
-  constructor() { }
+  constructor(private httpRequestService: HttpRequestService) { }
 
   /**
    * Gets template sessions.
    */
   getTemplateSessions(): TemplateSession[] {
     return templateSessions;
+  }
+
+  /**
+   * Creates a feedback session by calling API.
+   */
+  createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
+    const paramMap: { [key: string]: string } = { courseid: courseId };
+    return this.httpRequestService.post('/session', paramMap, request);
   }
 }
