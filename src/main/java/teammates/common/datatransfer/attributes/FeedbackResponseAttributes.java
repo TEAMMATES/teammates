@@ -167,9 +167,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         // nothing to sanitize before saving
     }
 
-    /**
-     * Converts the feedbackResponseDetails variable to JSON String for storing.
-     */
     public String getSerializedFeedbackResponseDetail() {
         return responseDetails.getJsonString();
     }
@@ -178,17 +175,13 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return getFeedbackResponseDetailsDeepCopy(this.responseDetails);
     }
 
-    /**
-     * This method ensures that a deep copy of responseDetails is assigned to the variable.
-     * @param newFeedbackResponseDetails new response detail to set
-     */
     public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
+        // This method ensures that a deep copy of responseDetails is assigned to the variable.
         responseDetails = getFeedbackResponseDetailsDeepCopy(newFeedbackResponseDetails);
     }
 
     /**
-     * This method makes a deep copy of given responseDetails.
-     * It uses serializing followed by desearlizing the original responseDetails.
+     * Make a deep copy of given responseDetails.
      * @param responseDetailsCopy the original responseDetails
      * @return a deep copy of given responseDetails
      */
@@ -201,12 +194,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return JsonUtils.fromJson(serializedResponseDetails, responseType.getResponseDetailsClass());
     }
 
-    /**
-     * This method is to deserialize a JSON String of feedbackResponseDetails. Note that
-     * Serializing a feedbackResponseDetails object followed by deserializing it will make a deep copy
-     * @param serializedResponseDetails responseDetails in JSON String
-     * @return The deserialized FeedbackResponseDetails object
-     */
     private FeedbackResponseDetails deserializeResponseFromSeralizedString(String serializedResponseDetails) {
         Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
 
