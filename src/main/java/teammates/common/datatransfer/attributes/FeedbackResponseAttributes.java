@@ -193,7 +193,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     /**
-     * This method ensures that a deep copy of responseDetails is assigned to the variable
+     * This method ensures that a deep copy of responseDetails is assigned to the variable.
      * @param newFeedbackResponseDetails new response detail to set
      */
     public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
@@ -201,8 +201,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     /**
-     * This method makes a deep copy of given responseDetails using serializing followed by
-     * desearlizing the original responseDetails
+     * This method makes a deep copy of given responseDetails.
+     * It uses serializing followed by desearlizing the original responseDetails.
      * @param responseDetailsCopy the original responseDetails
      * @return a deep copy of given responseDetails
      */
@@ -232,8 +232,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return JsonUtils.fromJson(serializedResponseDetails, responseDetailsClass);
     }
 
-    /** This method gets the appropriate class type for the Feedback*ResponseDetails object
-     * for this response.
+    /**
+     * This method gets the appropriate class type for the Feedback*ResponseDetails object for this response.
      * @return The Feedback*ResponseDetails class type appropriate for this response.
      */
     private Class<? extends FeedbackResponseDetails> getFeedbackResponseDetailsClass() {

@@ -20,7 +20,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -121,16 +120,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         ______TS("success: standard update with carried params ");
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        FeedbackResponseDetails updatedDetails1 = new FeedbackTextResponseDetails("Updated Response");
-        responseToUpdate.setResponseDetails(updatedDetails1);
+        responseToUpdate.setResponseDetails(new FeedbackTextResponseDetails("Updated Response"));
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        FeedbackResponseDetails updatedDetails2 = new FeedbackTextResponseDetails("Updated Response");
-        responseToUpdate.setResponseDetails(updatedDetails2);
+        responseToUpdate.setResponseDetails(new FeedbackTextResponseDetails("Updated Response"));
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
