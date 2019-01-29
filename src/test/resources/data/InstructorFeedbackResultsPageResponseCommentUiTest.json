@@ -1081,7 +1081,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Alice self feedback.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1096,7 +1095,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "2 Response to Benny.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1111,7 +1109,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.danny.e@gmail.tmt",
-      "responseMetaData": "1 Response to Danny.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1126,7 +1123,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "drop.out@gmail.tmt",
-      "responseMetaData": "Response to Dropout.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1141,7 +1137,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "drop.out@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Response to Alice from Dropout.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1156,7 +1151,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "drop.out@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.danny.e@gmail.tmt",
-      "responseMetaData": "Response to Danny from Dropout.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1171,7 +1165,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "drop.out@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "Response to Benny from Dropout.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1186,7 +1179,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.emily.f@gmail.tmt",
-      "responseMetaData": "3 Response to Emily.",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -1201,7 +1193,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "4 Response to Charlie.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1216,7 +1207,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.fred.g@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "Fred's Response to Charlie.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1231,7 +1221,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"PowerSearch\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1247,7 +1236,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "drop.out@gmail.tmt",
       "recipient": "drop.out@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"PowerSearch\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1263,7 +1251,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"PowerSearch\",\"GoodUI\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1281,7 +1268,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1298,7 +1284,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Danny\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1314,7 +1299,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Team 1\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1330,7 +1314,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "drop.out@gmail.tmt",
       "recipient": "drop.out@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Team 2\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1346,7 +1329,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "Team 1</td></div>'\"",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "Response from benny to Team 1 (own team)",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1361,7 +1343,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "Team 1</td></div>'\"",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":0,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
@@ -1376,7 +1357,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Danny\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1394,7 +1374,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Team 1\",\"Team 2\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1413,7 +1392,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1428,7 +1406,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "This is for nobody specific.",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -1443,7 +1420,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "Response from team 1 (by alice) to team 2.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1458,7 +1434,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[45,55],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1476,7 +1451,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[110],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1493,7 +1467,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[90],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1510,7 +1483,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1527,7 +1499,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answers\":[150],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1544,7 +1515,6 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":150,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1559,7 +1529,6 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":120,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1574,7 +1543,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":3,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1589,7 +1557,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1604,7 +1571,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "IFRResponseCommentUiT.benny.c@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":-0.5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
@@ -1619,7 +1585,6 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":150,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1634,7 +1599,6 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":120,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1649,7 +1613,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.fred.g@gmail.tmt",
-      "responseMetaData": "Alice to Danny.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1664,7 +1627,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.danny.e@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.fred.g@gmail.tmt",
-      "responseMetaData": "Benny to Danny.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1679,7 +1641,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.fred.g@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Danny to Alice.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -1694,7 +1655,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "Team 1</td></div>'\"",
       "recipient": "%GENERAL%",
-      "responseMetaData": "None",
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
@@ -1709,7 +1669,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "Team 1</td></div>'\"",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
@@ -1726,7 +1685,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>",
       "giverSection": "Section A</td></div>'\"",
       "recipientSection": "Section A</td></div>'\"",
       "responseDetails": {
@@ -1741,7 +1699,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Alice you did okay. You get B-",
       "recipientSection": "Section A",
       "responseDetails": {
         "questionType": "TEXT",
@@ -1755,7 +1712,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.c@gmail.tmt",
-      "responseMetaData": "You did better than Alice. You get C+",
       "recipientSection": "Section A",
       "responseDetails": {
         "questionType": "TEXT",
@@ -1769,7 +1725,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.instr@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "I like you so I give you above A-",
       "recipientSection": "Section A",
       "responseDetails": {
         "questionType": "TEXT",
@@ -1783,7 +1738,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.benny.no@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.benny.no@gmail.tmt",
-      "responseMetaData": "Benny self feedback.",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -1798,7 +1752,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "IFRResponseCommentUiT.alice.b@gmail.tmt",
       "recipient": "IFRResponseCommentUiT.instr@gmail.tmt",
-      "responseMetaData": "You are a great instructor.",
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {

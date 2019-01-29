@@ -620,7 +620,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "My product is light.",
       "giverSection": "Section B",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -635,7 +634,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Benny is a good student.",
       "giverSection": "Section B",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -650,7 +648,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Danny starts with D.",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -665,7 +662,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Alice is a good coder.",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -680,7 +676,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Charlie did alot of work.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -695,7 +690,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "teammates.test@gmail.tmt",
       "recipient": "teammates.test@gmail.tmt",
-      "responseMetaData": "It's awesome!.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -710,7 +704,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "teammates.test@gmail.tmt",
       "recipient": "teammates.test@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -726,7 +719,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "teammates.test@gmail.tmt",
       "recipient": "teammates.test@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Alice Betsy (Team 2)\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -742,7 +734,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "teammates.test@gmail.tmt",
       "recipient": "teammates.test@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"It's good\",\"It's perfect\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -760,7 +751,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "teammates.test@gmail.tmt",
       "recipient": "teammates.test@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Team 1\",\"Team 2\"],\"questionType\":\"MSQ\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -778,7 +768,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "teammates.test@gmail.tmt",
       "recipient": "teammates.test@gmail.tmt",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {

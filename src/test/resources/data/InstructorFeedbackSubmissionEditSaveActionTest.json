@@ -363,7 +363,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": "Instructor self feedback.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Instructor self feedback."
@@ -376,7 +375,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
-      "responseMetaData": "Instructor feedback to student 1.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Instructor feedback to student 1."
@@ -389,7 +387,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor2@course1.tmt",
-      "responseMetaData": "Response from instructor 1 to instructor 2.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instructor 1 to instructor 2."

@@ -459,7 +459,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -474,7 +473,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InIESFPTCourse@gmail.tmt",
       "recipient": "student2InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Student 2 self feedback.",
       "giverSection": "Section 2",
       "recipientSection": "Section 2",
       "responseDetails": {
@@ -489,7 +487,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "response whereby giver should not be seen by instructors",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -504,7 +501,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "response whereby receipient should not be seen by instructors",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -519,7 +515,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "response with everything should not be seen by instructors",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -534,7 +529,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -550,7 +544,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Session 2 Question 1 Response 1",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -565,7 +558,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InIESFPTCourse@gmail.tmt",
       "recipient": "student2InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Session 2 Question 1 Response 2",
       "giverSection": "Section 2",
       "recipientSection": "Section 2",
       "responseDetails": {
@@ -580,7 +572,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Closed session response",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -595,7 +586,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {

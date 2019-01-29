@@ -976,7 +976,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Alice self feedback.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Alice self feedback."
@@ -989,7 +988,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "Response to Benny.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Benny."
@@ -1002,7 +1000,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "Response to Danny.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Danny."
@@ -1015,7 +1012,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "drop.out@gmail.tmt",
-      "responseMetaData": "Response to Dropout.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Dropout."
@@ -1028,7 +1024,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "drop.out@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Response to Alice from Dropout.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Alice from Dropout."
@@ -1041,7 +1036,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "drop.out@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "Response to Danny from Dropout.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Danny from Dropout."
@@ -1054,7 +1048,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "drop.out@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "Response to Benny from Dropout.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Benny from Dropout."
@@ -1067,7 +1060,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "Secret feedback about class. (to nobody test)",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Secret feedback about class. (to nobody test)"
@@ -1080,7 +1072,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "Secret feedback about class. (to nobody test)",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Secret feedback about class. (to nobody test)"
@@ -1093,7 +1084,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.danny.e@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "Team 2 (danny) to team 1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Team 2 (danny) to team 1"
@@ -1106,7 +1096,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.emily.f@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "Team 3 to Team 1 \r\n multiline special char test",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Team 3 to Team 1 \r\n multiline special char test"
@@ -1119,7 +1108,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "alice to team 2",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "alice to team 2"
@@ -1132,7 +1120,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Teammate feedback from benny",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Teammate feedback from benny"
@@ -1145,7 +1132,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "Teammate feedback from alice",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Teammate feedback from alice"
@@ -1158,7 +1144,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "Feedback from alice to the team",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Feedback from alice to the team"
@@ -1171,7 +1156,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "Feedback from benny to the team",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Feedback from benny to the team"
@@ -1184,7 +1168,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "SFResultsUiT.instr@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "Feedback from instructor to Alice",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Feedback from instructor to Alice"
@@ -1197,7 +1180,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Algo\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Algo",
         "otherFieldContent": "",
@@ -1211,7 +1193,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Good",
         "otherFieldContent": "",
@@ -1225,7 +1206,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "drop.out@gmail.tmt",
       "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Good",
         "otherFieldContent": "",
@@ -1239,7 +1219,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "drop.out@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Good",
         "otherFieldContent": "",
@@ -1253,7 +1232,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"OK\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "OK",
         "otherFieldContent": "",
@@ -1267,7 +1245,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Can improve\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Can improve",
         "otherFieldContent": "",
@@ -1281,7 +1258,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Danny\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Danny",
         "otherFieldContent": "",
@@ -1295,7 +1271,6 @@
       "feedbackQuestionType": "MCQ",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"Team 1\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "responseDetails": {
         "answer": "Team 1",
         "otherFieldContent": "",
@@ -1309,7 +1284,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Algo\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Algo"
@@ -1324,7 +1298,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"UI\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "UI"
@@ -1339,7 +1312,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Good\",\"OK\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Good",
@@ -1355,7 +1327,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"OK\",\"Poor\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "OK",
@@ -1371,7 +1342,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"OK\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "OK"
@@ -1386,7 +1356,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.danny.e@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Poor\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Poor"
@@ -1401,7 +1370,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.danny.e@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Good\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Good"
@@ -1416,7 +1384,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Can improve\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Can improve"
@@ -1431,7 +1398,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Can improve\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Can improve"
@@ -1446,7 +1412,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Danny\",\"Alice\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Danny",
@@ -1462,7 +1427,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Benny\",\"Danny\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Benny",
@@ -1478,7 +1442,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Team 1\",\"Team 2\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Team 1",
@@ -1494,7 +1457,6 @@
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[\"Team 1\"],\"questionType\":\"MSQ\"}",
       "responseDetails": {
         "answers": [
           "Team 1"
@@ -1509,7 +1471,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 1,
         "questionType": "NUMSCALE"
@@ -1522,7 +1483,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 5,
         "questionType": "NUMSCALE"
@@ -1535,7 +1495,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3.5,
         "questionType": "NUMSCALE"
@@ -1548,7 +1507,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":2.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 2.5,
         "questionType": "NUMSCALE"
@@ -1561,7 +1519,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.danny.e@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 2,
         "questionType": "NUMSCALE"
@@ -1574,7 +1531,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":-2,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": -2,
         "questionType": "NUMSCALE"
@@ -1587,7 +1543,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":2.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 2.5,
         "questionType": "NUMSCALE"
@@ -1600,7 +1555,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.danny.e@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3.5,
         "questionType": "NUMSCALE"
@@ -1613,7 +1567,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.emily.f@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 4,
         "questionType": "NUMSCALE"
@@ -1626,7 +1579,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.charlie.d@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 4.5,
         "questionType": "NUMSCALE"
@@ -1639,7 +1591,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.danny.e@gmail.tmt",
       "recipient": "Team 1</td></div>'\"",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3.5,
         "questionType": "NUMSCALE"
@@ -1652,7 +1603,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3.5,
         "questionType": "NUMSCALE"
@@ -1665,7 +1615,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "{\"answer\":5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 5,
         "questionType": "NUMSCALE"
@@ -1678,7 +1627,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":3,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3,
         "questionType": "NUMSCALE"
@@ -1691,7 +1639,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3.5,
         "questionType": "NUMSCALE"
@@ -1704,7 +1651,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 5,
         "questionType": "NUMSCALE"
@@ -1717,7 +1663,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.charlie.d@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":1.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 1.5,
         "questionType": "NUMSCALE"
@@ -1730,7 +1675,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.charlie.d@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":1.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 1.5,
         "questionType": "NUMSCALE"
@@ -1743,7 +1687,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 1,
         "questionType": "NUMSCALE"
@@ -1756,7 +1699,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 4.5,
         "questionType": "NUMSCALE"
@@ -1769,7 +1711,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 4,
         "questionType": "NUMSCALE"
@@ -1782,7 +1723,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "{\"answer\":5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 5,
         "questionType": "NUMSCALE"
@@ -1795,7 +1735,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 2,
         "questionType": "NUMSCALE"
@@ -1808,7 +1747,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "Team 3",
-      "responseMetaData": "{\"answer\":3,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 3,
         "questionType": "NUMSCALE"
@@ -1821,7 +1759,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.emily.f@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 1,
         "questionType": "NUMSCALE"
@@ -1834,7 +1771,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.charlie.d@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 2,
         "questionType": "NUMSCALE"
@@ -1847,7 +1783,6 @@
       "feedbackQuestionType": "NUMSCALE",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}",
       "responseDetails": {
         "answer": 4.5,
         "questionType": "NUMSCALE"
@@ -1860,7 +1795,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[20,80],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           20,
@@ -1876,7 +1810,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[30,70],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           30,
@@ -1892,7 +1825,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[80],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           80
@@ -1907,7 +1839,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
-      "responseMetaData": "{\"answers\":[100],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           100
@@ -1922,7 +1853,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
-      "responseMetaData": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           20
@@ -1937,7 +1867,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[200],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           200
@@ -1952,7 +1881,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answers\":[99],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           99
@@ -1967,7 +1895,6 @@
       "feedbackQuestionType": "CONSTSUM",
       "giver": "SFResultsUiT.benny.c@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answers\":[101],\"questionType\":\"CONSTSUM\"}",
       "responseDetails": {
         "answers": [
           101
@@ -1982,7 +1909,6 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1995,7 +1921,6 @@
       "feedbackQuestionType": "CONTRIB",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.benny.c@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "responseDetails": {
         "answer": 100,
         "questionType": "CONTRIB"

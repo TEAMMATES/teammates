@@ -857,7 +857,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -872,7 +871,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -887,7 +885,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -902,7 +899,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -917,7 +913,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -932,7 +927,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -947,7 +941,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -962,7 +955,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -977,7 +969,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "emily.f.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -992,7 +983,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1007,7 +997,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "emily.f.tmms@gmail.tmt",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1022,7 +1011,6 @@
       "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "tmms.test@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[5,4,3,2,1,6,7,8,9,10,11,12,13,14],\"questionType\":\"RANK_OPTIONS\"}",
       "giverSection": "None",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1052,7 +1040,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "recipient": "TEAM 2",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1067,7 +1054,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "recipient": "TEAM 3",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 2",
       "responseDetails": {
@@ -1082,7 +1068,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "TEAM 2",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1097,7 +1082,6 @@
       "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "TEAM 3",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Section 2",
       "recipientSection": "Section 1",
       "responseDetails": {

@@ -357,7 +357,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -375,7 +374,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -393,7 +391,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "colin.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -411,7 +408,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -429,7 +425,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -447,7 +442,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -465,7 +459,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -483,7 +476,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "colin.d.tmms@gmail.tmt",
       "recipient": "colin.d.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -501,7 +493,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -519,7 +510,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -537,7 +527,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "colin.d.tmms@gmail.tmt",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -555,7 +544,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -573,7 +561,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\": [0,0],\"questionType\": \"RUBRIC\"}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -591,7 +578,6 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\": [1,0],\"questionType\": \"RUBRIC\"}",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {

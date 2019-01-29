@@ -547,7 +547,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.student1InCourse1@gmail.tmt",
-      "responseMetaData": "student self feedback.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student self feedback."
@@ -560,7 +559,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.student2InCourse1@gmail.tmt",
-      "responseMetaData": "student 1 feedback to student 2.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 1 feedback to student 2."
@@ -573,7 +571,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student6InCourse1@gmail.tmt",
       "recipient": "FSDTest.student3InCourse1@gmail.tmt",
-      "responseMetaData": "student 6 feedback to student 3.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 6 feedback to student 3."
@@ -586,7 +583,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "FSDTest.student1InCourse1@gmail.tmt",
-      "responseMetaData": "student 2 feedback to student 1.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 2 feedback to student 1."
@@ -599,7 +595,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.instr1@course1.tmt",
-      "responseMetaData": "student 1 feedback to instr 1.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 1 feedback to instr 1."
@@ -612,7 +607,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student3InCourse1@gmail.tmt",
       "recipient": "FSDTest.instr2@course1.tmt",
-      "responseMetaData": "student 3 feedback to instr 2.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 3 feedback to instr 2."
@@ -625,7 +619,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "student 5 feedback to Team 1.2.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 5 feedback to Team 1.2."
@@ -638,7 +631,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "Team 1.3",
-      "responseMetaData": "student 1 feedback to Team 1.3.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "student 1 feedback to Team 1.3."
@@ -651,7 +643,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "Team 1.4",
-      "responseMetaData": "extra response to Team 1.4.",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "extra response to Team 1.4."
@@ -664,7 +655,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "FSDTest.student4InCourse1@gmail.tmt",
-      "responseMetaData": "standard stu>stu, diff teams",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "standard stu>stu, diff teams"
@@ -677,7 +667,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.instr1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "instr > all",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "instr > all"
@@ -690,7 +679,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.student2InCourse1@gmail.tmt",
-      "responseMetaData": "team 1.1 > student (in own team)",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "team 1.1 > student (in own team)"
@@ -703,7 +691,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "FSDTest.student4InCourse1@gmail.tmt",
-      "responseMetaData": "team 1.1 > student (in Team 1.2)",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "team 1.1 > student (in Team 1.2)"
@@ -716,7 +703,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "team 1.1 > team 1.2",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "team 1.1 > team 1.2"
@@ -729,7 +715,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student4InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": "team 1.2 > team 1.1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "team 1.2 > team 1.1"
@@ -742,7 +727,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student5InCourse1@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "creator self feedback",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "creator self feedback"

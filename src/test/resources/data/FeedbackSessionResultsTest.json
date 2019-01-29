@@ -425,7 +425,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student1InCourse1@gmail.tmt",
       "recipient": "FSRTest.student1InCourse1@gmail.tmt",
-      "responseMetaData": "student self feedback.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -440,7 +439,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student1InCourse1@gmail.tmt",
       "recipient": "FSRTest.student2InCourse1@gmail.tmt",
-      "responseMetaData": "student 1 feedback to student 2.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -455,7 +453,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student6InCourse1@gmail.tmt",
       "recipient": "FSRTest.student3InCourse1@gmail.tmt",
-      "responseMetaData": "student 6 feedback to student 3.",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -470,7 +467,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student2InCourse1@gmail.tmt",
       "recipient": "FSRTest.student1InCourse1@gmail.tmt",
-      "responseMetaData": "student 2 feedback to student 1.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -485,7 +481,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student1InCourse1@gmail.tmt",
       "recipient": "FSRTest.instr1@course1.tmt",
-      "responseMetaData": "student 1 feedback to instr 1.",
       "giverSection": "Section A",
       "recipientSection": "None",
       "responseDetails": {
@@ -500,7 +495,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student3InCourse1@gmail.tmt",
       "recipient": "FSRTest.instr2@course1.tmt",
-      "responseMetaData": "student 3 feedback to instr 2.",
       "giverSection": "Section B",
       "recipientSection": "None",
       "responseDetails": {
@@ -515,7 +509,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student5InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "student 5 feedback to Team 1.2.",
       "giverSection": "Section B",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -530,7 +523,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student1InCourse1@gmail.tmt",
       "recipient": "Team 1.3",
-      "responseMetaData": "student 1 feedback to Team 1.3.",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -545,7 +537,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student2InCourse1@gmail.tmt",
       "recipient": "Team 1.4",
-      "responseMetaData": "extra response to Team 1.4.",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -560,7 +551,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student2InCourse1@gmail.tmt",
       "recipient": "FSRTest.student4InCourse1@gmail.tmt",
-      "responseMetaData": "standard stu>stu, diff teams",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -575,7 +565,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.instr1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "instr > all",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
@@ -590,7 +579,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student1InCourse1@gmail.tmt",
       "recipient": "FSRTest.student2InCourse1@gmail.tmt",
-      "responseMetaData": "team 1.1 > student (in own team)",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -605,7 +593,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student2InCourse1@gmail.tmt",
       "recipient": "FSRTest.student4InCourse1@gmail.tmt",
-      "responseMetaData": "team 1.1 > student (in Team 1.2)",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -620,7 +607,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student1InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "team 1.1 > team 1.2",
       "giverSection": "Section A",
       "recipientSection": "Section B",
       "responseDetails": {
@@ -635,7 +621,6 @@
       "feedbackQuestionType": "TEXT",
       "giver": "FSRTest.student4InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
-      "responseMetaData": "team 1.2 > team 1.1",
       "giverSection": "Section B",
       "recipientSection": "Section A",
       "responseDetails": {
