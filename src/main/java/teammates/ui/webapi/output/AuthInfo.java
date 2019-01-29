@@ -59,7 +59,9 @@ public class AuthInfo extends ApiOutput {
         return user;
     }
 
-    public String getInstitute() { return institute; }
+    public String getInstitute() {
+        return institute;
+    }
 
     public boolean isMasquerade() {
         return masquerade;

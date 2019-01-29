@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import uaParser from 'ua-parser-js';
-import { StatusMessageService } from '../services/status-message.service';
-import { StatusMessage } from './components/status-message/status-message';
 import { environment } from '../environments/environment';
-import { AuthInfo } from "../types/api-output";
+import { AuthService } from '../services/auth.service';
+import { StatusMessageService } from '../services/status-message.service';
+import { AuthInfo } from '../types/api-output';
+import { StatusMessage } from './components/status-message/status-message';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -90,7 +90,7 @@ export class PageComponent implements OnInit {
       if (res.user) {
         this.institute = res.institute;
       }
-    })
+    });
   }
 
 }
