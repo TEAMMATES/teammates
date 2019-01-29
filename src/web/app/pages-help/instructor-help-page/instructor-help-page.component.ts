@@ -17,13 +17,23 @@ export class InstructorHelpPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private search(): void {
+  /**
+   * Search method triggered on button click.
+   * If not empty, update key input to child components.
+   * Used to filter the FAQ.
+   */
+  search(): void {
     if (this.search_term !== '') {
       this.key = this.search_term.toLowerCase();
     }
   }
 
-  private clear(): void {
+  /**
+   * Clear method triggered on button click.
+   * Resets the key input to child components.
+   * Used to remove any filters within the FAQ.
+   */
+  clear(): void {
     this.search_term = '';
     this.key = '';
   }

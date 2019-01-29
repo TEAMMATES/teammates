@@ -33,7 +33,7 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
     if (this.key === '') {
       this.reset_faq();
     } else {
-      this.filter_faq();
+      this.filter_faq(changes.key.currentValue);
     }
   }
 
@@ -42,10 +42,10 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
     this.searched_terms = -1;
   }
 
-  private filter_faq(): void {
+  private filter_faq(val: String): void {
     this.searched_terms = 0;
     for (const term of terms) {
-      this.show_arr[term.tag] = term.text.includes(this.key);
+      this.show_arr[term.tag] = term.text.includes(val);
 
       if (this.show_arr[term.tag]) this.searched_terms += 1;
     }
