@@ -92,6 +92,5 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(updatedDetails.getAnswerString(), "Modified deep copy answer");
         assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");
 
-        ______TS("success: setting a deep copy of responseDetails");
     }
 }
