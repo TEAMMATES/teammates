@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import uaParser from 'ua-parser-js';
 import { StatusMessageService } from '../services/status-message.service';
 import { StatusMessage } from './components/status-message/status-message';
 import { environment } from '../environments/environment';
+import { AuthInfo } from "../types/api-output";
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -36,7 +38,7 @@ export class PageComponent implements OnInit {
   browser: string = '';
   messageList: StatusMessage[] = [];
   version: string = environment.version;
-  institute: string = 'National University of Singapore';
+  institute?: string = '';
 
   /**
    * Minimum versions of browsers supported.
@@ -54,7 +56,7 @@ export class PageComponent implements OnInit {
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-      private statusMessageService: StatusMessageService) {
+      private statusMessageService: StatusMessageService, private authService: AuthService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -84,6 +86,11 @@ export class PageComponent implements OnInit {
     this.statusMessageService.getAlertEvent().subscribe((result: StatusMessage) => {
       this.messageList.push(result);
     });
+    this.authService.getAuthUser().subscribe((res: AuthInfo) => {
+      if (res.user) {
+        this.institute = res.institute;
+      }
+    })
   }
 
 }
