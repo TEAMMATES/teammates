@@ -55,11 +55,11 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         ______TS("student pages");
 
-        verifyRedirectToLogin(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
+        verifyRedirectToLogin(createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE));
 
         ______TS("instructor pages");
 
-        verifyRedirectToLogin(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        verifyRedirectToLogin(createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE));
 
         ______TS("admin pages");
 
@@ -74,14 +74,14 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         loginStudent(TestProperties.TEST_UNREG_ACCOUNT, TestProperties.TEST_UNREG_PASSWORD);
 
-        verifyRedirectToWelcomeStrangerPage(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE),
+        verifyRedirectToWelcomeStrangerPage(createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE),
                                             TestProperties.TEST_UNREG_ACCOUNT);
 
         ______TS("instructor pages");
 
         loginInstructorUnsuccessfully(TestProperties.TEST_UNREG_ACCOUNT, TestProperties.TEST_UNREG_PASSWORD);
 
-        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
         verifyRedirectToNotAuthorized(url);
         verifyCannotMasquerade(url, otherInstructor.googleId);
 
@@ -109,7 +109,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         ______TS("cannot view other homepage");
 
-        verifyCannotMasquerade(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE), otherInstructor.googleId);
+        verifyCannotMasquerade(createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE), otherInstructor.googleId);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         ______TS("cannot view other homepage");
 
-        verifyCannotMasquerade(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
+        verifyCannotMasquerade(createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
     }
 
     private void loginStudent(String userName, String password) {

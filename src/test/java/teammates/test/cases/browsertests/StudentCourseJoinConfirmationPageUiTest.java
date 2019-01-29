@@ -56,7 +56,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
 
     private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
-        String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
+        String homePageActionUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;
         StudentHomePage studentHomePage;
 
@@ -141,7 +141,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
         logout();
         removeAndRestoreDataBundle(testData);
         String expectedMsg;
-        String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
+        String homePageActionUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;
         StudentHomePage studentHomePage;
 

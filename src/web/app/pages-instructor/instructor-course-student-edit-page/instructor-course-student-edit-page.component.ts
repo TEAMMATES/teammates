@@ -5,7 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { MessageOutput } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentAttributes {
   email: string;

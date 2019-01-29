@@ -194,7 +194,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseE2ETestCase {
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(
             String instructorName, String moderatedStudentEmail, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())

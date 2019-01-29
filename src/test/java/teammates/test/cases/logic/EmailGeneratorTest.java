@@ -108,7 +108,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
         // Verify the instructor reminder email
         String lineInEmailToInstructor =
-                "/page/instructorFeedbackSubmissionEditPage?courseid=idOfTypicalCourse1&fsname=First+feedback+session";
+                "/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First+feedback+session";
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 

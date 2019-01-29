@@ -28,7 +28,7 @@ public class FeedbackSessionClosingRemindersActionTest
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS;
     }
 
     @Test

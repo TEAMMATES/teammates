@@ -53,7 +53,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
     @Override
     protected InstructorStudentRecordsAjaxPageAction getAction(String... params) {
-        return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Test

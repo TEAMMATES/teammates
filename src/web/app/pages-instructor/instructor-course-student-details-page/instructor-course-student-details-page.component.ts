@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentProfile } from '../student-profile/student-profile';
 
 interface StudentAttributes {

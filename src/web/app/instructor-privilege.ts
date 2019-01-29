@@ -2,7 +2,9 @@
  * Instructor privilege.
  */
 export interface InstructorPrivilege {
+  canModifyCourse: boolean;
   canModifySession: boolean;
+  canModifyStudent: boolean;
   canSubmitSessionInSections: boolean;
 }
 
@@ -10,6 +12,8 @@ export interface InstructorPrivilege {
  * The default instructor privilege.
  */
 export const defaultInstructorPrivilege: InstructorPrivilege = {
+  canModifyCourse: true,
   canModifySession: true,
+  canModifyStudent: true,
   canSubmitSessionInSections: true,
 };
