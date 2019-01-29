@@ -183,4 +183,43 @@
       <br/>
     </div>
   </div>
-</div>
+  <!-- Section -->
+  <h3>Student Accounts</h3>
+  <!--Question-->
+  <div class="instr-help-qn5" *ngIf="show_arr[0]">
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5" aria-controls="answer5">
+      Is it compulsory for students to use Google accounts?
+      </button>
+    </p>
+    <div id="answer5" [ngbCollapse]="!isCollapsed5">
+      <div class="card">
+        <div class="card-body">
+          <p>
+            Students can submit feedback and view results without having to login to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results. However, students
+            who link their TEAMMATES account with their Google account will be able to access a dashboard of all their sessions and results through the TEAMMATES website.
+          </p>
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn6" *ngIf="show_arr[0]">
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6" aria-controls="answer6">
+      How do I change the Google ID associated with a student?
+      </button>
+    </p>
+    <div id="answer6" [ngbCollapse]="!isCollapsed6">
+      <div class="card">
+        <div class="card-body">
+          <p>
+            At the moment, there is no way for students to update their own Google IDs.
+            <br> Please ask the student to <a href="mailto:teammates@comp.nus.edu.sg">contact us</a> for assistance changing his/her Google ID.
+          </p>
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
