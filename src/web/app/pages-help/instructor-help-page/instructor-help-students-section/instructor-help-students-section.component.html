@@ -1,8 +1,8 @@
 <div>
-  <h2 class="color-blue">Students</h2>
+  <h2 class="color-blue" *ngIf="searched_terms == -1">Students</h2>
   
   <!-- Section -->
-  <h3>Student Records</h3>
+  <h3 *ngIf="searched_terms == -1">Student Records</h3>
   <!-- Question -->
   <div class="instr-help-qn0" *ngIf="show_arr[0]">
     <p>
@@ -113,7 +113,7 @@
     </div>
   </div>
   <!-- Section -->
-  <h3>Finding Students</h3>
+  <h3 *ngIf="searched_terms == -1">Finding Students</h3>
   <!--Question -->
   <div class="instr-help-qn3" *ngIf="show_arr[3]">
     <p>
@@ -184,9 +184,9 @@
     </div>
   </div>
   <!-- Section -->
-  <h3>Student Accounts</h3>
+  <h3 *ngIf="searched_terms == -1">Student Accounts</h3>
   <!--Question-->
-  <div class="instr-help-qn5" *ngIf="show_arr[0]">
+  <div class="instr-help-qn5" *ngIf="show_arr[5]">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5" aria-controls="answer5">
       Is it compulsory for students to use Google accounts?
@@ -205,7 +205,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn6" *ngIf="show_arr[0]">
+  <div class="instr-help-qn6" *ngIf="show_arr[6]">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6" aria-controls="answer6">
       How do I change the Google ID associated with a student?
