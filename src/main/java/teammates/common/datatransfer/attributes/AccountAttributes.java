@@ -181,9 +181,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public void sanitizeForSaving() {
-        this.googleId = SanitizationHelper.sanitizeForHtml(googleId);
-        this.name = SanitizationHelper.sanitizeForHtml(name);
-        this.institute = SanitizationHelper.sanitizeForHtml(institute);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+        this.name = SanitizationHelper.sanitizeName(name);
+        this.email = SanitizationHelper.sanitizeEmail(email);
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     public boolean isUserRegistered() {
