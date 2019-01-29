@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../auth-info';
+import { AuthInfo } from '../../types/api-output';
 
 /**
  * Base skeleton for static pages.

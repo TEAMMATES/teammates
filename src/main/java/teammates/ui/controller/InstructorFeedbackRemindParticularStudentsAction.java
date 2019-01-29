@@ -14,7 +14,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
         if (nextUrl == null) {
-            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
+            nextUrl = Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE;
         }
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);

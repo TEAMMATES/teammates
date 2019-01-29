@@ -22,7 +22,7 @@ import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.pageobjects.StudentProfilePicturePage;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_PROFILE_PAGE}.
+ * SUT: {@link Const.WebPageURIs#STUDENT_PROFILE_PAGE}.
  */
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseE2ETestCase {
@@ -94,7 +94,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
     }
 
     private void testNavLinkToPage() {
-        AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl profileUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                                    .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab();
@@ -329,7 +329,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
     }
 
     private StudentProfilePage getProfilePageForStudent(String studentId) {
-        AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
+        AppUrl profileUrl = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(profileUrl, StudentProfilePage.class);
     }

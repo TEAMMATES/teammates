@@ -5,7 +5,8 @@ import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput, MessageOutput } from '../../message-output';
+import { MessageOutput } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentProfile } from '../student-profile/student-profile';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
