@@ -29,7 +29,7 @@
   <div class="row">
     <div class="offset-md-2 col-md-8">
       <div class="input-group input-group-lg">
-        <input type="text"  [(ngModel)]="searchTerm" class="form-control input-lg" placeholder="How can we help?">
+        <input type="text"  [(ngModel)]="searchTerm" class="form-control input-lg" placeholder="How can we help?" (keyup.enter)="search()">
         <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
         <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
       </div>
