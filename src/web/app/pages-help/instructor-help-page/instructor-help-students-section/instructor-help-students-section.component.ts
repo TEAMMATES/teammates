@@ -25,7 +25,9 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
 
   ngOnInit(): void {
     this.size = terms.length;
-    for (let i: number = 0; i < this.size; i += 1) this.showArr.push(true);
+    for (let i: number = 0; i < this.size; i += 1) {
+      this.showArr.push(true);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -37,7 +39,9 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
   }
 
   private resetFaq(): void {
-    for (let i: number = 0; i < this.size; i += 1) this.showArr[i] = true;
+    for (let i: number = 0; i < this.size; i += 1) {
+      this.showArr[i] = true;
+    }
     this.searchedTerms = -1;
   }
 
@@ -46,7 +50,9 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
     for (const term of terms) {
       this.showArr[term.tag] = term.text.includes(val);
 
-      if (this.showArr[term.tag]) this.searchedTerms += 1;
+      if (this.showArr[term.tag]) {
+        this.searchedTerms += 1;
+      }
     }
   }
 }

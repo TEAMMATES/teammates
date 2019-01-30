@@ -55,6 +55,7 @@ rules:
     "tm",
     "kebab-case"
   ]
+  curly: true
   deprecation: {
     "severity": "warn"
   }
