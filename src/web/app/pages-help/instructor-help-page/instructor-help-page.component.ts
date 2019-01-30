@@ -25,6 +25,8 @@ export class InstructorHelpPageComponent implements OnInit {
   search(): void {
     if (this.searchTerm !== '') {
       this.key = this.searchTerm.toLowerCase();
+    } else {
+      this.clear();
     }
   }
 
