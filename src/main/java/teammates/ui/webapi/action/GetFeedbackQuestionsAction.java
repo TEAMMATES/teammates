@@ -79,8 +79,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             questions.removeIf(question -> !canInstructorSeeQuestion(question));
         }
 
-        FeedbackQuestions response =
-                new FeedbackQuestions(questions);
+        FeedbackQuestions response = new FeedbackQuestions(questions);
         response.normalizeQuestionNumber();
         return new JsonResult(response);
     }

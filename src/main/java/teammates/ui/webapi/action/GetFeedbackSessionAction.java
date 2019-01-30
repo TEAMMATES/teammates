@@ -50,8 +50,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession response =
-                new FeedbackSession(feedbackSession);
+        FeedbackSession response = new FeedbackSession(feedbackSession);
 
         switch (intent) {
         case STUDENT_SUBMISSION:
