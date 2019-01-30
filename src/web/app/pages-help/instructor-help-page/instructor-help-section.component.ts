@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList,
+  AfterViewInit, ElementRef, Input, OnChanges, OnInit, QueryList,
   SimpleChanges, ViewChildren,
 } from '@angular/core';
 
@@ -9,12 +9,8 @@ interface QuestionDetail {
 }
 
 /**
- * Base section for instruction help page.
+ * Base section for instructor help page.
  */
-@Component({
-  selector: 'tm-instructor-help-section',
-  template: '<h3>empty section</h3>',
-})
 export class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: String;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { InstructorHelpSectionComponent } from '../instructor-help-section/instructor-help-section.component';
+import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
  * Students Section of the Instructor Help Page.
