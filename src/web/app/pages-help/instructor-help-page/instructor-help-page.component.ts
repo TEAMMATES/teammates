@@ -20,9 +20,7 @@ export class InstructorHelpPageComponent implements OnInit {
   }
 
   /**
-   * Search method triggered on button click.
-   * If not empty, update key input to child components.
-   * Used to filter the FAQ.
+   * Filters the help contents and displays only those that matches the filter.
    */
   search(): void {
     if (this.searchTerm !== '') {
@@ -31,9 +29,7 @@ export class InstructorHelpPageComponent implements OnInit {
   }
 
   /**
-   * Clear method triggered on button click.
-   * Resets the key input to child components.
-   * Used to remove any filters within the FAQ.
+   * Clears the filter used for search.
    */
   clear(): void {
     this.searchTerm = '';

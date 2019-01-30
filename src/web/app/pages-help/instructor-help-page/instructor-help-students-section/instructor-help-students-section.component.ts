@@ -3,8 +3,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { default as terms } from './student_filter.json';
 
 /**
- * All FAQ related to students in the Instructor help page.
- * Please include a json file of all key terms and tag number for filtering.
+ * Students Section of the Instructor Help Page.
  */
 @Component({
   selector: 'tm-instructor-help-students-section',
