@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetFeedbackSessionAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
 import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
@@ -58,7 +58,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackSession response = (FeedbackSession) r.getOutput();
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
         assertEquals(feedbackSessionAttributes.getCourseId(), response.getCourseId());
         assertEquals(feedbackSessionAttributes.getFeedbackSessionName(), response.getFeedbackSessionName());
         assertEquals(feedbackSessionAttributes.getTimeZone().getId(), response.getTimeZone());

@@ -11,9 +11,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
- * The feedback question response.
+ * The API output format of {@link FeedbackQuestionAttributes}.
  */
-public class FeedbackQuestion extends ApiOutput {
+public class FeedbackQuestionData extends ApiOutput {
     private final String feedbackQuestionId;
     private int questionNumber;
     private final String questionBrief;
@@ -32,7 +32,7 @@ public class FeedbackQuestion extends ApiOutput {
     private List<FeedbackVisibilityType> showGiverNameTo;
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
-    public FeedbackQuestion(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+    public FeedbackQuestionData(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetails();
 
         this.feedbackQuestionId = feedbackQuestionAttributes.getFeedbackQuestionId();

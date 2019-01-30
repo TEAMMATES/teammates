@@ -8,7 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.FeedbackResponses;
+import teammates.ui.webapi.output.FeedbackResponsesData;
 
 /**
  * Get all responses given by the user for a question.
@@ -56,16 +56,16 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
 
-        FeedbackResponses result;
+        FeedbackResponsesData result;
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(questionAttributes.getCourseId());
-            result = new FeedbackResponses(
+            result = new FeedbackResponsesData(
                     logic.getFeedbackResponsesFromStudentOrTeamForQuestion(questionAttributes, studentAttributes));
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(questionAttributes.getCourseId());
-            result = new FeedbackResponses(
+            result = new FeedbackResponsesData(
                     logic.getFeedbackResponsesFromInstructorForQuestion(questionAttributes, instructorAttributes));
             break;
         default:

@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.FeedbackSessionData;
 
 /**
  * Publish a feedback session.
@@ -50,7 +50,7 @@ public class PublishFeedbackSessionAction extends Action {
         }
 
         session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        return new JsonResult(new FeedbackSession(session));
+        return new JsonResult(new FeedbackSessionData(session));
     }
 
 }

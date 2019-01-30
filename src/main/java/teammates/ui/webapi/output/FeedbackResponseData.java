@@ -4,9 +4,9 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 /**
- * The response of a feedback response.
+ * The API output format of {@link FeedbackResponseAttributes}.
  */
-public class FeedbackResponse extends ApiOutput {
+public class FeedbackResponseData extends ApiOutput {
 
     private final String feedbackResponseId;
 
@@ -16,7 +16,7 @@ public class FeedbackResponse extends ApiOutput {
 
     private final FeedbackResponseDetails responseDetails;
 
-    public FeedbackResponse(FeedbackResponseAttributes feedbackResponseAttributes) {
+    public FeedbackResponseData(FeedbackResponseAttributes feedbackResponseAttributes) {
         this.feedbackResponseId = feedbackResponseAttributes.getId();
         this.giverIdentifier = feedbackResponseAttributes.giver;
         this.recipientIdentifier = feedbackResponseAttributes.recipient;

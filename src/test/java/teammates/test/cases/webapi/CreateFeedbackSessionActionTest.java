@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.test.driver.StringHelperExtension;
 import teammates.ui.webapi.action.CreateFeedbackSessionAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
 import teammates.ui.webapi.request.FeedbackSessionCreateRequest;
@@ -56,7 +56,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackSession response = (FeedbackSession) r.getOutput();
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         FeedbackSessionAttributes createdSession =
                 logic.getFeedbackSession(createRequest.getFeedbackSessionName(), course.getId());
@@ -133,7 +133,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        response = (FeedbackSession) r.getOutput();
+        response = (FeedbackSessionData) r.getOutput();
 
         assertEquals("Name with extra space", response.getFeedbackSessionName());
     }

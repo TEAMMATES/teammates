@@ -140,6 +140,7 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
         "teammates.ui.webapi.output.**",
         "teammates.common.datatransfer.questions.**"
     ]
+    removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
 }
 

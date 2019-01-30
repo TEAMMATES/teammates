@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.FeedbackSessionData;
 
 /**
  * Move the feedback sesion to the recycle bin.
@@ -42,7 +42,7 @@ public class BinFeedbackSessionAction extends Action {
         }
 
         FeedbackSessionAttributes recycleBinFs = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        return new JsonResult(new FeedbackSession(recycleBinFs));
+        return new JsonResult(new FeedbackSessionData(recycleBinFs));
     }
 
 }

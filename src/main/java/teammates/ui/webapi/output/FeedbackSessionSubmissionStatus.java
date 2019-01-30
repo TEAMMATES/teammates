@@ -1,7 +1,7 @@
 package teammates.ui.webapi.output;
 
 /**
- * Represents the submission status of a feedback session.
+ * The submission status of a feedback session.
  */
 public enum FeedbackSessionSubmissionStatus {
 

@@ -1,7 +1,7 @@
 package teammates.ui.webapi.output;
 
 /**
- * Represents the publish status of the a feedback session.
+ * The publish status of the a feedback session.
  */
 public enum FeedbackSessionPublishStatus {
 

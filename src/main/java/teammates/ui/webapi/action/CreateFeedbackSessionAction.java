@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.request.FeedbackSessionCreateRequest;
 
 /**
@@ -68,7 +68,7 @@ public class CreateFeedbackSessionAction extends Action {
         }
 
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        return new JsonResult(new FeedbackSession(fs));
+        return new JsonResult(new FeedbackSessionData(fs));
     }
 
 }

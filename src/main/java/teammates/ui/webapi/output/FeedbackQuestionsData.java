@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 /**
- * The feedback questions response.
+ * The API output format of a list of {@link FeedbackQuestionAttributes}.
  */
-public class FeedbackQuestions extends ApiOutput {
-    private List<FeedbackQuestion> questions;
+public class FeedbackQuestionsData extends ApiOutput {
+    private List<FeedbackQuestionData> questions;
 
-    public FeedbackQuestions(List<FeedbackQuestionAttributes> questionAttributesList) {
-        questions = questionAttributesList.stream().map(FeedbackQuestion::new).collect(Collectors.toList());
+    public FeedbackQuestionsData(List<FeedbackQuestionAttributes> questionAttributesList) {
+        questions = questionAttributesList.stream().map(FeedbackQuestionData::new).collect(Collectors.toList());
     }
 
-    public List<FeedbackQuestion> getQuestions() {
+    public List<FeedbackQuestionData> getQuestions() {
         return questions;
     }
 

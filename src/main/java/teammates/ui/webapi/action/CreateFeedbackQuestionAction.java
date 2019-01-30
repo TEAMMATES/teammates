@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.FeedbackQuestion;
+import teammates.ui.webapi.output.FeedbackQuestionData;
 
 /**
  * Create a feedback question.
@@ -70,7 +70,7 @@ public class CreateFeedbackQuestionAction extends Action {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 
-        return new JsonResult(new FeedbackQuestion(attributes));
+        return new JsonResult(new FeedbackQuestionData(attributes));
     }
 
 }

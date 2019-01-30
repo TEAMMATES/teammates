@@ -23,7 +23,7 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.webapi.action.FeedbackQuestionInfo;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveFeedbackQuestionAction;
-import teammates.ui.webapi.output.FeedbackQuestion;
+import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
 
@@ -68,7 +68,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestion response = (FeedbackQuestion) r.getOutput();
+        FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
         assertEquals(typicalQuestion.getQuestionNumber(), response.getQuestionNumber());

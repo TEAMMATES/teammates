@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveFeedbackSessionAction;
-import teammates.ui.webapi.output.FeedbackSession;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
 import teammates.ui.webapi.request.FeedbackSessionSaveRequest;
@@ -56,7 +56,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackSession response = (FeedbackSession) r.getOutput();
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(session.getCourseId(), response.getCourseId());

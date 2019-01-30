@@ -8,9 +8,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
 /**
- * The output format for a feedback session.
+ * The API output format of {@link FeedbackSessionAttributes}.
  */
-public class FeedbackSession extends ApiOutput {
+public class FeedbackSessionData extends ApiOutput {
     private final String courseId;
     private final String timeZone;
     private final String feedbackSessionName;
@@ -38,7 +38,7 @@ public class FeedbackSession extends ApiOutput {
     @Nullable
     private final Long deletedAtTimestamp;
 
-    public FeedbackSession(FeedbackSessionAttributes feedbackSessionAttributes) {
+    public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         this.courseId = feedbackSessionAttributes.getCourseId();
         this.timeZone = feedbackSessionAttributes.getTimeZone().getId();
         this.feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();

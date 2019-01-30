@@ -14,8 +14,8 @@ import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetFeedbackQuestionsAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackQuestion;
-import teammates.ui.webapi.output.FeedbackQuestions;
+import teammates.ui.webapi.output.FeedbackQuestionData;
+import teammates.ui.webapi.output.FeedbackQuestionsData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
 
@@ -62,12 +62,12 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestions feedbackQuestionsResponse = (FeedbackQuestions) r.getOutput();
+        FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
-        List<FeedbackQuestion> questions = feedbackQuestionsResponse.getQuestions();
+        List<FeedbackQuestionData> questions = feedbackQuestionsResponse.getQuestions();
         assertEquals(5, questions.size());
 
-        FeedbackQuestion typicalResponse = questions.get(0);
+        FeedbackQuestionData typicalResponse = questions.get(0);
         FeedbackQuestionAttributes expected =
                 logic.getFeedbackQuestionsForSession(feedbackSessionAttributes.getFeedbackSessionName(),
                         feedbackSessionAttributes.getCourseId()).get(0);

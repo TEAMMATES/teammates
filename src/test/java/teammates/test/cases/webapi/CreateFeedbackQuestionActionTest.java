@@ -19,7 +19,7 @@ import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CreateFeedbackQuestionAction;
 import teammates.ui.webapi.action.FeedbackQuestionInfo;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackQuestion;
+import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
 
@@ -100,7 +100,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestion questionResponse = (FeedbackQuestion) r.getOutput();
+        FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
         assertNotNull(questionResponse.getFeedbackQuestionId());
@@ -121,7 +121,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        questionResponse = (FeedbackQuestion) r.getOutput();
+        questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
         assertNotNull(questionResponse.getFeedbackQuestionId());
@@ -151,7 +151,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestion questionResponse = (FeedbackQuestion) r.getOutput();
+        FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
         assertNotNull(questionResponse.getFeedbackQuestionId());
@@ -194,7 +194,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestion questionResponse = (FeedbackQuestion) r.getOutput();
+        FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
         assertEquals(FeedbackQuestionType.CONTRIB, questionResponse.getQuestionType());
         assertNotNull(questionResponse.getFeedbackQuestionId());
         FeedbackQuestionAttributes questionAttributes =
