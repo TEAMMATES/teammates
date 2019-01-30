@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./instructor-help-page.component.scss'],
 })
 export class InstructorHelpPageComponent implements OnInit {
-  search_term: String = '';
+  searchTerm: String = '';
   key: String = '';
 
   constructor() { }
@@ -23,8 +23,8 @@ export class InstructorHelpPageComponent implements OnInit {
    * Used to filter the FAQ.
    */
   search(): void {
-    if (this.search_term !== '') {
-      this.key = this.search_term.toLowerCase();
+    if (this.searchTerm !== '') {
+      this.key = this.searchTerm.toLowerCase();
     }
   }
 
@@ -34,7 +34,7 @@ export class InstructorHelpPageComponent implements OnInit {
    * Used to remove any filters within the FAQ.
    */
   clear(): void {
-    this.search_term = '';
+    this.searchTerm = '';
     this.key = '';
   }
 }

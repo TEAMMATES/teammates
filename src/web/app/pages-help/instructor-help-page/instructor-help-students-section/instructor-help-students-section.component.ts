@@ -14,19 +14,19 @@ import { default as terms } from './student_filter.json';
 export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges {
 
   @Input() key: String = '';
-  show_arr: Boolean[];
+  showArr: Boolean[];
   size: number;
-  searched_terms: number;
+  searchedTerms: number;
 
   constructor() {
-    this.show_arr = [];
+    this.showArr = [];
     this.size = 0;
-    this.searched_terms = -1;
+    this.searchedTerms = -1;
   }
 
   ngOnInit(): void {
     this.size = terms.length;
-    for (let i: number = 0; i < this.size; i += 1) this.show_arr.push(true);
+    for (let i: number = 0; i < this.size; i += 1) this.showArr.push(true);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,16 +38,16 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
   }
 
   private reset_faq(): void {
-    for (let i: number = 0; i < this.size; i += 1) this.show_arr[i] = true;
-    this.searched_terms = -1;
+    for (let i: number = 0; i < this.size; i += 1) this.showArr[i] = true;
+    this.searchedTerms = -1;
   }
 
   private filter_faq(val: String): void {
-    this.searched_terms = 0;
+    this.searchedTerms = 0;
     for (const term of terms) {
-      this.show_arr[term.tag] = term.text.includes(val);
+      this.showArr[term.tag] = term.text.includes(val);
 
-      if (this.show_arr[term.tag]) this.searched_terms += 1;
+      if (this.showArr[term.tag]) this.searchedTerms += 1;
     }
   }
 }
