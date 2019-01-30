@@ -201,6 +201,7 @@ rules:
   use-output-property-decorator: true
   use-pipe-transform-interface: true
   variable-name: [
+    true,
     "allow-leading-underscore"
   ]
   whitespace: [
