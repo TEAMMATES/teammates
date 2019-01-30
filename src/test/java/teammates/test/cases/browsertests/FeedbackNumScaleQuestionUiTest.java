@@ -8,7 +8,7 @@ import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for numerical scale questions.
  */
 public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {

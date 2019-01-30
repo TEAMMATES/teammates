@@ -98,7 +98,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseE2ETestCase {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                              .withUserId(instructorId)
                                              .withCourseId(courseId)
                                              .withSessionName(feedbackSessionName)

@@ -19,7 +19,7 @@ import teammates.test.pageobjects.InstructorSearchPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_SEARCH_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.
  */
 public class InstructorSearchPageUiTest extends BaseE2ETestCase {
     private InstructorSearchPage searchPage;
@@ -210,7 +210,7 @@ public class InstructorSearchPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
-        AppUrl searchPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
+        AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
         return loginAdminToPage(searchPageUrl, InstructorSearchPage.class);

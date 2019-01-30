@@ -13,10 +13,10 @@ import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.GenericAppPage;
 
 /**
- * SUT: {@link Const.ActionURIs#AUTOMATED_FEEDBACK_OPENING_REMINDERS},
- *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_CLOSING_REMINDERS},
- *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
- *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
+ * SUT: {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_OPENING_REMINDERS},
+ *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_CLOSING_REMINDERS},
+ *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
+ *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
  */
 @Priority(5)
 public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
@@ -59,25 +59,25 @@ public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
 
     @Test
     public void testFeedbackSessionOpeningReminders() {
-        AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
+        AppUrl openingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionClosingReminders() {
-        AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
+        AppUrl closingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionClosedReminders() {
-        AppUrl closedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
+        AppUrl closedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
         loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionPublishedReminders() {
-        AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
+        AppUrl publishedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
     }
 

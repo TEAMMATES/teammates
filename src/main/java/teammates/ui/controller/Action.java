@@ -336,8 +336,8 @@ public abstract class Action {
     }
 
     private boolean doesUserNeedToLogin(UserInfo currentUser) {
-        boolean isGoogleLoginRequired =
-                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean isGoogleLoginRequired = false;
+        // !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean isUserLoggedIn = currentUser != null;
         boolean hasRegkey = getRegkeyFromRequest() != null;
 
@@ -417,8 +417,8 @@ public abstract class Action {
 
     private boolean isHomePage() {
         String currentUri = request.getRequestURI();
-        return currentUri.equals(Const.ActionURIs.STUDENT_HOME_PAGE)
-               || currentUri.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        return currentUri.equals(Const.WebPageURIs.STUDENT_HOME_PAGE)
+               || currentUri.equals(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
@@ -426,11 +426,11 @@ public abstract class Action {
     }
 
     private boolean doesUserNeedRegistration(AccountAttributes user) {
-        boolean userNeedsRegistrationForPage =
-                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI())
-                && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
-        boolean userIsNotRegistered = user.createdAt == null;
-        return userNeedsRegistrationForPage && userIsNotRegistered;
+        // boolean userNeedsRegistrationForPage =
+        //         !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI())
+        //         && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        return user.createdAt == null;
+        // return userNeedsRegistrationForPage && userIsNotRegistered;
     }
 
     // These methods are used for CRUD operations on urls used for redirecting users to login page
@@ -654,14 +654,7 @@ public abstract class Action {
         statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
-        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-    }
-
-    protected ActionResult createImageResult(String blobKey) {
-        return new ImageResult("imagedisplay",
-                               blobKey,
-                               account,
-                               statusToUser);
+        return createRedirectResult(Const.WebPageURIs.STUDENT_HOME_PAGE);
     }
 
     /**

@@ -64,11 +64,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        data: {
+          pageTitle: 'Add New Course',
+        },
         component: InstructorCoursesPageComponent,
       },
       {
         path: 'edit',
         component: InstructorCourseEditPageComponent,
+        data: {
+          pageTitle: 'Edit Course Details',
+        },
       },
       {
         path: 'details',

@@ -254,8 +254,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         assertEquals(0, fsaList.size());
@@ -279,8 +278,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
         assertEquals(8, fsaList.size());
@@ -304,8 +302,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
         assertEquals(8, fsaList.size());
@@ -329,8 +326,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         assertEquals(10, fsaList.size());

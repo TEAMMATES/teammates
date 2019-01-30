@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 /**
  * Contact page.
@@ -8,4 +9,13 @@ import { Component } from '@angular/core';
   templateUrl: './contact-page.component.html',
   styleUrls: ['./contact-page.component.scss'],
 })
-export class ContactPageComponent {}
+export class ContactPageComponent implements OnInit {
+
+  readonly supportEmail: string = environment.supportEmail;
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

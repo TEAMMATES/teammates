@@ -18,7 +18,7 @@ public class FeedbackSessionPublishedRemindersActionTest
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS;
     }
 
     @Test

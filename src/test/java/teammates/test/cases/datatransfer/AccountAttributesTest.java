@@ -95,9 +95,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes expectedAccount = createAccountAttributesToSanitize();
         actualAccount.sanitizeForSaving();
 
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.name), actualAccount.name);
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
+        assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.googleId), actualAccount.googleId);
+        assertEquals(SanitizationHelper.sanitizeName(expectedAccount.name), actualAccount.name);
+        assertEquals(SanitizationHelper.sanitizeEmail(expectedAccount.email), actualAccount.email);
+        assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.institute), actualAccount.institute);
     }
 
     @Test
@@ -238,15 +239,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
+        AccountAttributes unsanitizedAttributes = AccountAttributes.builder().build();
+        unsanitizedAttributes.googleId = "    google'Id@gmail.com\t";
+        unsanitizedAttributes.name = "'n    \t\t    a me'\n\n";
+        unsanitizedAttributes.institute = "Some\t  \\       institute   \n/";
+        unsanitizedAttributes.email = "   <my&email>@gmail.com\n";
+        unsanitizedAttributes.isInstructor = true;
 
-        return AccountAttributes.builder()
-                .withGoogleId("googleId@gmail.com")
-                .withName("'name'")
-                .withInstitute("\\/")
-                .withEmail("&<email>&")
-                .withIsInstructor(true)
-                .build();
-
+        return unsanitizedAttributes;
     }
 
 }

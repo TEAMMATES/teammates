@@ -1,5 +1,6 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,16 +155,16 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
 
         CourseAttributes c = createNewCourse();
-        c.setDeletedAt();
         CourseAttributes updatedCourse = CourseAttributes
                 .builder(c.getId(), c.getName() + " updated", ZoneId.of("UTC"))
                 .withDeletedAt(c.deletedAt)
                 .build();
 
         coursesDb.updateCourse(updatedCourse);
+        Instant deletedTime = coursesDb.softDeleteCourse(updatedCourse.getId());
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertEquals(c.getName() + " updated", retrieved.getName());
-        assertEquals(c.deletedAt, retrieved.deletedAt);
+        assertEquals(deletedTime, retrieved.deletedAt);
     }
 
     @Test
