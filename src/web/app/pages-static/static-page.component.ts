@@ -16,7 +16,7 @@ export class StaticPageComponent implements OnInit {
   instructorLoginUrl: string = '';
   logoutUrl: string = '';
   user: string = '';
-  institute: string = '';
+  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;

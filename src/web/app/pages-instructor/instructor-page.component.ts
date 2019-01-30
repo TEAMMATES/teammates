@@ -15,7 +15,7 @@ export class InstructorPageComponent implements OnInit {
 
   logoutUrl: string = '';
   user: string = '';
-  institute: string = '';
+  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
