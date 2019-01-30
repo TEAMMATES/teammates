@@ -297,7 +297,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   editExistingSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
 
     forkJoin(
         this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
@@ -318,7 +317,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             : of(0),
     ).pipe(
         switchMap((vals: number[]) => {
-          return this.httpRequestService.put('/session', paramMap, {
+          return this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
             instructions: this.sessionEditFormModel.instructions,
 
             submissionStartTimestamp: vals[0],

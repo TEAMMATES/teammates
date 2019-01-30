@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { FeedbackQuestion, FeedbackSession } from '../types/api-output';
-import { FeedbackSessionCreateRequest } from '../types/api-request';
+import { FeedbackSessionCreateRequest, FeedbackSessionSaveRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -36,5 +36,14 @@ export class FeedbackSessionsService {
   createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = { courseid: courseId };
     return this.httpRequestService.post('/session', paramMap, request);
+  }
+
+  /**
+   * Updates a feedback session by calling API.
+   */
+  updateFeedbackSession(
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionSaveRequest): Observable<FeedbackSession> {
+    const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
+    return this.httpRequestService.put('/session', paramMap, request);
   }
 }
