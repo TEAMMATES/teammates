@@ -103,10 +103,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return TimeHelper.formatDateTimeForDisplay(localDateTime);
     }
 
-    public void setDeletedAt() {
-        this.deletedAt = Instant.now();
-    }
-
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
