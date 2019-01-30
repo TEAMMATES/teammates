@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
@@ -11,6 +12,8 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
   styleUrls: ['./instructor-help-students-section.component.scss'],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+
+  readonly supportEmail: string = environment.supportEmail;
 
   constructor() {
     super();
