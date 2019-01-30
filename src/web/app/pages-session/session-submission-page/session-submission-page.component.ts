@@ -453,52 +453,52 @@ export class SessionSubmissionPageComponent implements OnInit {
 
             if (recipientSubmissionFormModel.responseId !== '' && !isFeedbackResponseDetailsEmpty) {
               // existing response and details is not empty -> update response
-              savingRequests.push(this.httpRequestService.put('/response', {
-                responseid: recipientSubmissionFormModel.responseId,
-                intent: this.intent,
-                key: this.regKey,
-                moderatedperson: this.moderatedPerson,
-              }, {
-                recipientIdentifier: recipientSubmissionFormModel.recipientIdentifier,
-                questionType: questionSubmissionFormModel.questionType,
-                responseDetails: recipientSubmissionFormModel.responseDetails,
-              }).pipe(
-                  tap((resp: FeedbackResponse) => {
-                    recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                    recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                    recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                  }),
-                  catchError((error: any) => {
-                    this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                    failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                    return of(error);
-                  }),
-              ));
+              savingRequests.push(
+                  this.feedbackResponsesService.updateFeedbackResponse(recipientSubmissionFormModel.responseId, {
+                    intent: this.intent,
+                    key: this.regKey,
+                    moderatedperson: this.moderatedPerson,
+                  }, {
+                    recipientIdentifier: recipientSubmissionFormModel.recipientIdentifier,
+                    questionType: questionSubmissionFormModel.questionType,
+                    responseDetails: recipientSubmissionFormModel.responseDetails,
+                  }).pipe(
+                    tap((resp: FeedbackResponse) => {
+                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                    }),
+                    catchError((error: any) => {
+                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                      return of(error);
+                    }),
+                  ));
             }
 
             if (recipientSubmissionFormModel.responseId === '' && !isFeedbackResponseDetailsEmpty) {
               // new response and the details is not empty -> create response
-              savingRequests.push(this.httpRequestService.post('/response', {
-                questionid: questionSubmissionFormModel.feedbackQuestionId,
-                intent: this.intent,
-                key: this.regKey,
-                moderatedperson: this.moderatedPerson,
-              }, {
-                recipientIdentifier: recipientSubmissionFormModel.recipientIdentifier,
-                questionType: questionSubmissionFormModel.questionType,
-                responseDetails: recipientSubmissionFormModel.responseDetails,
-              }).pipe(
-                  tap((resp: FeedbackResponse) => {
-                    recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                    recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                    recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                  }),
-                  catchError((error: any) => {
-                    this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                    failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                    return of(error);
-                  }),
-              ));
+              savingRequests.push(
+                  this.feedbackResponsesService.createFeedbackResponse(questionSubmissionFormModel.feedbackQuestionId, {
+                    intent: this.intent,
+                    key: this.regKey,
+                    moderatedperson: this.moderatedPerson,
+                  }, {
+                    recipientIdentifier: recipientSubmissionFormModel.recipientIdentifier,
+                    questionType: questionSubmissionFormModel.questionType,
+                    responseDetails: recipientSubmissionFormModel.responseDetails,
+                  }).pipe(
+                    tap((resp: FeedbackResponse) => {
+                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                    }),
+                    catchError((error: any) => {
+                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                      return of(error);
+                    }),
+                  ));
             }
           });
 

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   FeedbackContributionResponseDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, FeedbackResponse,
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
 } from '../types/api-output';
+import { FeedbackResponseCreateRequest, FeedbackResponseSaveRequest } from '../types/api-request';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
 } from '../types/feedback-response-details';
+import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles feedback response settings provision.
@@ -17,7 +20,7 @@ import {
 })
 export class FeedbackResponsesService {
 
-  constructor() { }
+  constructor(private httpRequestService: HttpRequestService) { }
 
   /**
    * Gets the default feedback response details based on {@code questionType}.
@@ -54,4 +57,27 @@ export class FeedbackResponsesService {
         return true;
     }
   }
+
+  /**
+   * Creates a feedback response by calling API.
+   */
+  createFeedbackResponse(questionId: string, additionalParams: { [key: string]: string } = {},
+                         request: FeedbackResponseCreateRequest): Observable<FeedbackResponse> {
+    return this.httpRequestService.post('/response', {
+      questionid: questionId,
+      ...additionalParams,
+    }, request);
+  }
+
+  /**
+   * Updates a feedback response by calling API.
+   */
+  updateFeedbackResponse(responseId: string, additionalParams: { [key: string]: string } = {},
+                         request: FeedbackResponseSaveRequest): Observable<FeedbackResponse> {
+    return this.httpRequestService.put('/response', {
+      responseid: responseId,
+      ...additionalParams,
+    }, request);
+  }
+
 }

@@ -15,6 +15,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseData;
+import teammates.ui.webapi.request.FeedbackResponseSaveRequest;
 
 /**
  * Save a feedback response.
@@ -64,8 +65,7 @@ public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
         }
 
 
-        FeedbackResponseInfo.FeedbackResponseSaveRequest saveRequest =
-                getAndValidateRequestBody(FeedbackResponseInfo.FeedbackResponseSaveRequest.class);
+        FeedbackResponseSaveRequest saveRequest = getAndValidateRequestBody(FeedbackResponseSaveRequest.class);
         if (!recipientsOfTheQuestion.containsKey(saveRequest.getRecipientIdentifier())) {
             throw new UnauthorizedAccessException("The recipient is not a valid recipient of the question");
         }
@@ -97,8 +97,7 @@ public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseInfo.FeedbackResponseSaveRequest saveRequest =
-                getAndValidateRequestBody(FeedbackResponseInfo.FeedbackResponseSaveRequest.class);
+        FeedbackResponseSaveRequest saveRequest = getAndValidateRequestBody(FeedbackResponseSaveRequest.class);
         feedbackResponse.giver = giverIdentifier;
         feedbackResponse.giverSection = giverSection;
         feedbackResponse.recipient = saveRequest.getRecipientIdentifier();
