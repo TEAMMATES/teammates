@@ -31,18 +31,18 @@ export class InstructorHelpStudentsSectionComponent implements OnInit, OnChanges
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.key === '') {
-      this.reset_faq();
+      this.resetFaq();
     } else {
-      this.filter_faq(changes.key.currentValue);
+      this.filterFaq(changes.key.currentValue);
     }
   }
 
-  private reset_faq(): void {
+  private resetFaq(): void {
     for (let i: number = 0; i < this.size; i += 1) this.showArr[i] = true;
     this.searchedTerms = -1;
   }
 
-  private filter_faq(val: String): void {
+  private filterFaq(val: String): void {
     this.searchedTerms = 0;
     for (const term of terms) {
       this.showArr[term.tag] = term.text.includes(val);
