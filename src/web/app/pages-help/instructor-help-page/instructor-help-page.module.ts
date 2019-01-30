@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
+import { InstructorHelpSectionComponent } from './instructor-help-section/instructor-help-section.component';
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
@@ -21,6 +22,7 @@ import {
   declarations: [
     InstructorHelpPageComponent,
     InstructorHelpStudentsSectionComponent,
+    InstructorHelpSectionComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
