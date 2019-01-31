@@ -72,7 +72,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isStudent);
         assertEquals("idOfInstructor1OfCourse1", user.id);
 
-        assertNotNull(output.getInstitute());
+        assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
 
         ______TS("Normal case: Admin masquerading as user");
 
@@ -92,7 +92,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertTrue(output.isMasquerade());
         assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
 
-        assertNotNull(output.getInstitute());
+        assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
 
         user = output.getUser();
         assertFalse(user.isAdmin);
