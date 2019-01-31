@@ -5,6 +5,9 @@ import uaParser from 'ua-parser-js';
 import { StatusMessageService } from '../services/status-message.service';
 import { StatusMessage } from './components/status-message/status-message';
 
+import { fromEvent, merge, Observable, of } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
+
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
 /**
@@ -34,6 +37,7 @@ export class PageComponent implements OnInit {
   isCookieDisabled: boolean = false;
   browser: string = '';
   messageList: StatusMessage[] = [];
+  isNetworkOnline$: Observable<boolean>;
 
   /**
    * Minimum versions of browsers supported.
@@ -67,6 +71,12 @@ export class PageComponent implements OnInit {
         });
       }
     });
+
+    this.isNetworkOnline$ = merge(
+        of(navigator.onLine),
+        fromEvent(window, 'online').pipe(mapTo(true)),
+        fromEvent(window, 'offline').pipe(mapTo(false)),
+    );
   }
 
   private checkBrowserVersion(): void {

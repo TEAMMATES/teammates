@@ -53,6 +53,9 @@
     </ol>
     <br>
   </div>
+  <div>
+    <p *ngIf="!(isNetworkOnline$ | async)">You are not connected to internet.</p>
+  </div>
   <div *ngIf="isCookieDisabled">
     You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
   </div>
