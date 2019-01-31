@@ -44,4 +44,13 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(defaultTimeStamp, fra.getUpdatedAt());
     }
 
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackResponseAttributes responseAttributes = new FeedbackResponseAttributes();
+        responseAttributes.setId("Valid-Response-id");
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback response::" + responseAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, responseAttributes.getBackupIdentifier());
+    }
+
 }
