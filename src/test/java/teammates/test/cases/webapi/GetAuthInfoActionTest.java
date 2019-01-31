@@ -46,6 +46,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
         assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
         assertNull(output.getUser());
+        assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
         assertNull(output.getLogoutUrl());
 
@@ -71,6 +72,8 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isStudent);
         assertEquals("idOfInstructor1OfCourse1", user.id);
 
+        assertNotNull(output.getInstitute());
+
         ______TS("Normal case: Admin masquerading as user");
 
         loginAsAdmin();
@@ -89,11 +92,35 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertTrue(output.isMasquerade());
         assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
 
+        assertNotNull(output.getInstitute());
+
         user = output.getUser();
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertFalse(user.isStudent);
         assertEquals("idOfInstructor1OfCourse1", user.id);
+
+        ______TS("Normal case: Logged in unregistered user");
+        loginAsUnregistered("unregisteredId");
+
+        a = getAction();
+        r = getJsonResult(a);
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (AuthInfo) r.getOutput();
+        assertNull(output.getStudentLoginUrl());
+        assertNull(output.getInstructorLoginUrl());
+        assertNull(output.getAdminLoginUrl());
+        assertFalse(output.isMasquerade());
+        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
+
+        user = output.getUser();
+        assertFalse(user.isAdmin);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isStudent);
+        assertEquals("unregisteredId", user.id);
+
+        assertNull(output.getInstitute());
 
         ______TS("Failure case: Non-admin cannot masquerade");
 
