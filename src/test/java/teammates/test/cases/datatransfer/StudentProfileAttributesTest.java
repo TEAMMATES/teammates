@@ -88,12 +88,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetEntityTypeAsString() {
-        assertEquals("StudentProfile", profile.getEntityTypeAsString());
-    }
-
-    @Test
-    public void testGetBackupIdentifier() {
-        assertEquals("Student profile modified", profile.getBackupIdentifier());
+        assertEquals("Student Profile", profile.getEntityTypeAsString());
     }
 
     @Test
@@ -119,6 +114,14 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         testGetInvalidityInfoForValidProfileWithValues();
         testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
+    }
+
+    @Test
+    public void testGetBackUpIdentifier() {
+        StudentProfileAttributes validProfileAttributes = profile.getCopy();
+        String expectedBackUpIdentifierMessage = "Recently modified student profile::" + validProfileAttributes.googleId;
+
+        assertEquals(expectedBackUpIdentifierMessage, validProfileAttributes.getBackupIdentifier());
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {

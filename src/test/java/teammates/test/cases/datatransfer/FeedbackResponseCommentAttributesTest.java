@@ -113,4 +113,15 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         String commentText = feedbackAttributes.getCommentAsHtmlString();
         assertEquals("hello Images Link: http:&#x2f;&#x2f;test.com&#x2f;test.png ", commentText);
     }
+
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackResponseCommentAttributes commentAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", "valid")
+                .build();
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback response comment::"
+                + commentAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, commentAttributes.getBackupIdentifier());
+    }
 }
