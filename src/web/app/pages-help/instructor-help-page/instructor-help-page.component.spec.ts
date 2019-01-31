@@ -1,5 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
+
+import {
+  InstructorHelpStudentsSectionComponent,
+} from './instructor-help-students-section/instructor-help-students-section.component';
 
 describe('InstructorHelpPageComponent', () => {
   let component: InstructorHelpPageComponent;
@@ -7,7 +13,8 @@ describe('InstructorHelpPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpPageComponent],
+      declarations: [InstructorHelpPageComponent, InstructorHelpStudentsSectionComponent],
+      imports: [FormsModule, NgbModule],
     })
     .compileComponents();
   }));
