@@ -1,7 +1,7 @@
 <div>
-  <h2 class="color-blue" *ngIf="showQuestion.includes(true)">Students</h2>
+  <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Students</h2>
   <!-- Section -->
-  <h3 *ngIf="showQuestion[0] || showQuestion[1] || showQuestion[2]">Student Records</h3>
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[0] || showQuestion[1] || showQuestion[2]">Student Records</h3>
   <!-- Question -->
   <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
     <p>
@@ -112,7 +112,7 @@
     </div>
   </div>
   <!-- Section -->
-  <h3 *ngIf="showQuestion[3] || showQuestion[4]">Finding Students</h3>
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[3] || showQuestion[4]">Finding Students</h3>
   <!--Question -->
   <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
     <p>
@@ -183,7 +183,7 @@
     </div>
   </div>
   <!-- Section -->
-  <h3 *ngIf="showQuestion[5] || showQuestion[6]">Student Accounts</h3>
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[5] || showQuestion[6]">Student Accounts</h3>
   <!--Question-->
   <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
     <p>
