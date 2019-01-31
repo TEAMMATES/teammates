@@ -43,7 +43,8 @@ public class GetAuthInfoAction extends Action {
         } else {
             String googleId = userInfo.getId();
             AccountAttributes accountInfo = logic.getAccount(googleId);
-            output = new AuthInfo(userInfo, accountInfo.getInstitute(), authType == AuthType.MASQUERADE,
+            String institute = accountInfo != null ? accountInfo.getInstitute() : null;
+            output = new AuthInfo(userInfo, institute, authType == AuthType.MASQUERADE,
                     gateKeeper.getLogoutUrl(frontendUrl + "/web"));
         }
 
