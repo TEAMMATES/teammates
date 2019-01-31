@@ -1,7 +1,4 @@
 <div *ngIf="student">
-  <div>
-    <p *ngIf="!(isNetworkOnline$ | async)">You are not connected to internet.</p>
-  </div>
   <h1>Student Profile</h1>
   <div class="card">
     <div class="card-body fill-plain">
@@ -24,7 +21,7 @@
         </div>
       </div>
       <form [formGroup]="editForm"
-          (ngSubmit)="onSubmit(confirmEditProfile)">
+            (ngSubmit)="onSubmit(confirmEditProfile)">
         <div class="form-group" ngbTooltip='This is the name you prefer to be called by'>
           <label>The name you prefer to be called by instructors</label>
           <input
