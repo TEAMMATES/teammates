@@ -1,4 +1,4 @@
-<div>
+<div style="width:1100px;">
   <h1 class="color-orange"> Help for Instructors</h1>
   <div>
     <p>
@@ -6,26 +6,6 @@
       <br> If you are new to TEAMMATES, our <a routerLink="../getting-started">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
       <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
     </p>
-    <div id="topics" style="display: block;">
-      <p>
-        Browse questions by topic:
-      </p>
-      <ul>
-        <li>
-          <a href="#students">Students</a>
-        </li>
-        <li>
-          <a href="#courses">Courses</a>
-        </li>
-        <li>
-          <a href="#sessions">Sessions</a>
-        </li>
-        <li>
-          <a href="#questions">Questions</a>
-        </li>
-      </ul>
-    </div>
-  </div>
   <div class="row">
     <div class="offset-md-2 col-md-8">
       <div class="input-group input-group-lg">
@@ -39,5 +19,40 @@
   <div>
     <tm-instructor-help-students-section [key]="key">
     </tm-instructor-help-students-section>
+  </div>
+</div>
+
+
+<div class="container-fluid" style="position: fixed; left: 1200px; top: 100px;">
+  <div class="section scrollspy">
+    <div id="topics" class="col-sm-3 col-4">
+      <p>
+        Browse by topic:
+        <br>
+        {{currentSection}}
+      </p>
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a (click)="scrollTo('body')">Getting Started</a>
+          <ng-container *ngIf="currentSection==='body'"> O</ng-container>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollTo('students')">Students</a>
+          <ng-container *ngIf="currentSection==='students'"> O</ng-container>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollTo('courses')">Courses</a>
+          <ng-container *ngIf="currentSection==='courses'"> O</ng-container>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollTo('sessions')">Sessions</a>
+          <ng-container *ngIf="currentSection==='sessions'"> O</ng-container>
+        </li>
+        <li class="nav-item">
+          <a (click)="scrollTo('questions')">Questions</a>
+          <ng-container *ngIf="currentSection==='questions'"> O</ng-container>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
