@@ -32,8 +32,9 @@ export class InstructorHelpPageComponent implements OnInit {
   }
 
   scrollTo(section: string) {
-    if (section != null) {
-      document.querySelector('#' + section).scrollIntoView();
+    let query = document.querySelector('#' + section);
+    if (query != null) {
+      query.scrollIntoView();
       this.currentSection = section;
     }
   }

@@ -1,4 +1,4 @@
-import { Directive, Injectable, Input, EventEmitter, Output, ElementRef, HostListener } from '@angular/core';
+import { Directive, Input, EventEmitter, Output, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
     selector: '[scrollSpy]'
@@ -6,13 +6,13 @@ import { Directive, Injectable, Input, EventEmitter, Output, ElementRef, HostLis
 export class ScrollSpyDirective {
     @Input() public spiedTags = [];
     @Output() public sectionChange = new EventEmitter<string>();
-    private currentSection: string;
+    private currentSection = 'body';
 
     constructor(private _el: ElementRef) {}
 
     @HostListener('scroll', ['$event'])
     onScroll(event: any) {
-        let currentSection: string;
+        let currentSection = 'body';
         const children = this._el.nativeElement.children;
         const scrollTop = event.target.scrollTop;
         const parentOffset = event.target.offsetTop;
@@ -24,9 +24,7 @@ export class ScrollSpyDirective {
                 }
             }
         }
-        console.log("Here 1" + currentSection + this.currentSection);
         if (currentSection !== this.currentSection) {
-            console.log("Here 2");
             this.currentSection = currentSection;
             this.sectionChange.emit(this.currentSection);
         }
