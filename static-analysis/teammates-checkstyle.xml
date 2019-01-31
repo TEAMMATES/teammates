@@ -173,6 +173,7 @@
       <property name="onCommentFormat" value="CHECKSTYLE\.ON:([A-Za-z\|]+)"/>
       <property name="checkFormat" value="$1"/>
     </module>
+    <module name="FallThrough"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
