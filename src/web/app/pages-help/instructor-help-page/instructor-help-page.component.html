@@ -1,4 +1,4 @@
-<div style="width:1100px;">
+<div id="body" style="width:1100px;">
   <h1 class="color-orange"> Help for Instructors</h1>
   <div>
     <p>
@@ -16,8 +16,20 @@
     </div>
   </div>
   <hr/>
-  <div>
-    <tm-instructor-help-students-section [key]="key">
+  <div id="students">
+    <tm-instructor-help-students-section [key]="key"> 1
+    </tm-instructor-help-students-section>
+  </div>
+  <div id="courses">
+    <tm-instructor-help-students-section [key]="key"> 2
+    </tm-instructor-help-students-section>
+  </div>
+  <div id="sessions">
+    <tm-instructor-help-students-section [key]="key"> 3
+    </tm-instructor-help-students-section>
+  </div>
+  <div id="questions">
+    <tm-instructor-help-students-section [key]="key"> 4
     </tm-instructor-help-students-section>
   </div>
 </div>

@@ -13,6 +13,7 @@ export class InstructorHelpPageComponent implements OnInit {
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
+  currentSection = 'body';
 
   constructor() { }
 
