@@ -503,6 +503,14 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackQuestionAttributes questionAttributes = getNewFeedbackQuestionAttributes();
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + questionAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
+    }
+
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 
