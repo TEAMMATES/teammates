@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import javax.servlet.http.Cookie;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -40,7 +41,13 @@ public class GetAuthInfoAction extends Action {
                     gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
             );
         } else {
-            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE,
+            String googleId = userInfo.getId();
+            AccountAttributes accountInfo = logic.getAccount(googleId);
+            String institute = null;
+            if (accountInfo != null) {
+                institute = accountInfo.getInstitute();
+            }
+            output = new AuthInfo(userInfo, institute, authType == AuthType.MASQUERADE,
                     gateKeeper.getLogoutUrl(frontendUrl + "/web"));
         }
 
