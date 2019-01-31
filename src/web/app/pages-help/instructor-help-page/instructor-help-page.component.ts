@@ -32,9 +32,10 @@ export class InstructorHelpPageComponent implements OnInit {
   }
 
   scrollTo(section: string) {
-    document.querySelector('#' + section).
-    scrollIntoView();
-    this.currentSection = section;
+    if (section != null) {
+      document.querySelector('#' + section).scrollIntoView();
+      this.currentSection = section;
+    }
   }
 
   onSectionChange(sectionId: string) {
