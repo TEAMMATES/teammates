@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import uaParser from 'ua-parser-js';
+import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
 import { StatusMessage } from './components/status-message/status-message';
 
@@ -28,12 +29,14 @@ export class PageComponent implements OnInit {
   @Input() pageTitle: string = '';
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
+  @Input() institute: string = '';
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
   messageList: StatusMessage[] = [];
+  version: string = environment.version;
 
   /**
    * Minimum versions of browsers supported.
