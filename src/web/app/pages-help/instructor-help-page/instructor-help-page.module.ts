@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
@@ -18,7 +18,7 @@ import {
     CommonModule,
     FormsModule,
     NgbModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
