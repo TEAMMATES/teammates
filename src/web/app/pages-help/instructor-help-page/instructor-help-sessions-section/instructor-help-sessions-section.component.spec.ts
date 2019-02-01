@@ -8,7 +8,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InstructorHelpSessionsSectionComponent ]
+      declarations: [InstructorHelpSessionsSectionComponent],
     })
     .compileComponents();
   }));

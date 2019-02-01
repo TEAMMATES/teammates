@@ -1,3 +1,238 @@
-<p>
-  instructor-help-sessions-section works!
-</p>
+<div>
+  <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Sessions</h2>
+  <!--Section-->
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[0] || showQuestion[1] || showQuestion[2] || showQuestion[3]">Setting Up Sessions</h3>
+  <!-- Question -->
+  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
+        Tips for conducting team peer evaluation sessions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed">
+      <div class="card">
+        <div class="card-body">
+          TIPS FOR CONDUCTING TEAM PEER EVALUATION SESSIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
+        How do I create and schedule a new feedback session?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed1">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I CREATE AND SCHEDULE A FEEDBACK SESSION?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2">
+        How do I add questions to a session?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed2">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I ADD QUESTIONS TO A SESSION?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
+        How do I preview a session?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed3">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I PREVIEW A SESSION?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+
+  <!--Section-->
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[4] || showQuestion[5] || showQuestion[6]">Managing Session Responses</h3>
+  <!-- Question -->
+  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
+        What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed4">
+      <div class="card">
+        <div class="card-body">
+          WHAT SHOULD I DO?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
+        How do I view the results of my session?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed5">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I VIEW THE RESULTS OF MY SESSION?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6">
+        How do I view all the responses a student has given and received?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed6">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I VIEW ALL THE RESPONSES A STUDENT HAS GIVEN AND RECEIVED?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+
+  <!--Section-->
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[7] || showQuestion[8] || showQuestion[9]">Adding Comments to Responses</h3>
+  <!-- Question -->
+  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed7 = !isCollapsed7" [attr.aria-expanded]="!isCollapsed7">
+        How do I create a comment on a response?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed7">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I CREATE A COMMENT ON A RESPONSE?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn8" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed8 = !isCollapsed8" [attr.aria-expanded]="!isCollapsed8">
+        How do I edit or delete a comment on a response?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed8">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I EDIT OR DELETE A COMMENT ON A RESPONSE?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed9 = !isCollapsed9" [attr.aria-expanded]="!isCollapsed9">
+        How do I search for a feedback session question, response or comment on a response?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed9">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I SEARCH FOR A ...?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+
+  <!--Section-->
+  <h3 *ngIf="showQuestion.length === 0 || showQuestion[10] || showQuestion[11] || showQuestion[12] || showQuestion[13]">Restoring Deleted Sessions</h3>
+  <!-- Question -->
+  <div class="instr-help-qn10" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed10 = !isCollapsed10" [attr.aria-expanded]="!isCollapsed10">
+        How do I view sessions I have deleted?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed10">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I VIEW SESSIONS I HAVE DELETED?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn11" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed11 = !isCollapsed11" [attr.aria-expanded]="!isCollapsed11">
+        How do I restore a deleted session?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed11">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I RESTORE A DELETED SESSION
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn12" *ngIf="showQuestion.length === 0 || showQuestion[12]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed12 = !isCollapsed12" [attr.aria-expanded]="!isCollapsed12">
+        How do I permanently delete a session?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed12">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I PERMANENTLY DELETE A SESSION?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn13" *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed13 = !isCollapsed13" [attr.aria-expanded]="!isCollapsed13">
+        How do I restore/delete all sessions from Recycle Bin?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed13">
+      <div class="card">
+        <div class="card-body">
+          HOW DO I RESTORE/DELETE ALL SESSIONS FROM RECYCLE BIN?
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+</div>
