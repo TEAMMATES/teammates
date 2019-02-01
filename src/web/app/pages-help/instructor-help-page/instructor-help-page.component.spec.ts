@@ -4,6 +4,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
 import {
+  InstructorHelpQuestionsSectionComponent,
+} from './instructor-help-questions-section/instructor-help-questions-section.component';
+import {
+  InstructorHelpSessionsSectionComponent,
+} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
+import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
 
@@ -13,7 +19,8 @@ describe('InstructorHelpPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpPageComponent, InstructorHelpStudentsSectionComponent],
+      declarations: [InstructorHelpPageComponent, InstructorHelpStudentsSectionComponent,
+        InstructorHelpSessionsSectionComponent, InstructorHelpQuestionsSectionComponent],
       imports: [FormsModule, NgbModule],
     })
     .compileComponents();

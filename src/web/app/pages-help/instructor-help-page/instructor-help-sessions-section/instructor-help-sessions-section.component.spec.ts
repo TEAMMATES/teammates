@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
 describe('InstructorHelpSessionsSectionComponent', () => {
@@ -9,6 +10,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorHelpSessionsSectionComponent],
+      imports: [NgbModule],
     })
     .compileComponents();
   }));
