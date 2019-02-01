@@ -1,3 +1,4 @@
+<!--TODO: Fix links-->
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Sessions</h2>
   <!--Section-->
@@ -248,7 +249,7 @@
               Ask the student to view the submission page and send you his/her answers to the session questions.
             </li>
             <li>
-              <a (click)="accManage.expand('session-view-results')" href="#session-view-results">View the results</a> of the session.
+              <a (click)="isCollapsed5 = !isCollapsed5" href="#">View the results</a> of the session.
             </li>
             <li>
               Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -338,7 +339,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            While <a (click)="accManage.expand('session-view-results')" href="#session-view-results">viewing the results</a> of a session, you can add comments to respondents' answers.
+            While <a (click)="isCollapsed5 = !isCollapsed5" href="#">viewing the results</a> of a session, you can add comments to respondents' answers.
           </p>
           <p>
             To create comments on a response in a session:
@@ -378,7 +379,7 @@
           </p>
           <ol>
             <li>
-              Navigate to the page where you <a (click)="accComment.expand('session-add-comments')" href="#session-add-comments">added the comment</a> that you want to edit or delete.
+              Navigate to the page where you <a (click)="isCollapsed7 = !isCollapsed7" href="#">added the comment</a> that you want to edit or delete.
             </li>
             <li>
               Hover over the comment which you want to edit or delete.
@@ -453,7 +454,7 @@
           <p>EXAMPLE BOX</p>
           <p>
             The feedback sessions you have previously deleted are listed here.
-            In order to access information in a deleted session, <a (click)="accRestore.expand('session-restore')" href="#session-restore">restore the session</a>.
+            In order to access information in a deleted session, <a (click)="isCollapsed11 = !isCollapsed11" href="#">restore the session</a>.
           </p>
         </div>
       </div>
@@ -471,7 +472,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To restore a deleted feedback session, first <a (click)="accRestore.expand('session-view-deleted')" href="#session-view-deleted">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+            To restore a deleted feedback session, first <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
           </p>
           <p>EXAMPLE BOX</p>
@@ -494,7 +495,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To permanently delete a feedback session, first <a (click)="accRestore.expand('session-view-deleted')" href="#session-view-deleted">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+            To permanently delete a feedback session, first <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
           </p>
           <p>EXAMPLE BOX</p>
@@ -517,7 +518,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            First <a (click)="accRestore.expand('session-view-deleted')" href="#session-view-deleted">view the session</a> and check for sessions in Recycle Bin.<br>
+            First <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> and check for sessions in Recycle Bin.<br>
             To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
             to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
           </p>
