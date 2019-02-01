@@ -19,6 +19,13 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     super();
   }
 
+  //<div (click)="createMessage()" class="message" *ngIf="showCreateMessage(array,message)"></div>
+
+  displaySubsection(array:any, firstPoint: number, lastPoint:number) {
+    return array.length == 0 || this.showQuestion.slice(firstPoint, lastPoint).reduce((x, y) => x || y, false);
+  }
+
+
   ngOnInit(): void {
 
   }
