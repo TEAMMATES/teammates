@@ -10,7 +10,22 @@
     <div [ngbCollapse]="!isCollapsed">
       <div class="card">
         <div class="card-body">
-          ESSAY QUESTIONS
+          <p>
+            Essay questions are open-ended questions that allow respondents to give text feedback about a question.<br>
+            To set up an essay question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BODY</p>
         </div>
       </div>
       <br/>
@@ -26,7 +41,46 @@
     <div [ngbCollapse]="!isCollapsed1">
       <div class="card">
         <div class="card-body">
-          MULTIPLE CHOICE (SINGLE ANSWER) QUESTIONS
+          <p>
+            Multiple-choice (single answer) questions allow respondents to choose one answer from your list of answer options.<br>
+            Other than manually specifying options, TEAMMATES also supports <b>generating options</b> based on the list of students, teams and instructors in the course.
+          </p>
+          <p>
+            To set up a multiple choice (single answer) question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              Specify answer options by writing them manually, or generate options from your course's list of students, instructors or teams
+            </li>
+            <li>
+              (Optional) Specify 'Other' option, and let the student enter their own answer
+            </li>
+            <li>
+              (Optional) Assign weights to each option for calculating statistics
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
+          <p>
+            When you view the results of a multiple-choice (single answer) question, TEAMMATES calculates some statistics about the results collected,
+            such as the number of responses for each option, and the percentage of response in which each option was chosen.
+            If weights are assigned in the question, then additional statistics are calculated such as count and average point for each option.
+            'Per Recipient Statistics' are calculated if weights are assigned, it contains the number of responses each recipient received for each option,
+            and the total and average points for each recipient.
+          </p>
+          <p>
+            <strong>Note: </strong> Weights can be assigned for questions with existing questions too. To do that, edit the question that needs weights,
+            if there are existing responses for that question, the additional statistics will automatically get calculated for the question.
+          </p>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -42,7 +96,16 @@
     <div [ngbCollapse]="!isCollapsed2">
       <div class="card">
         <div class="card-body">
-          MULTIPLE CHOICE (MULTIPLE ANSWERS) QUESTIONS
+          <p>
+            Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
+            <br> The setup and result statistics is similar to the single answer version. See
+            <a (click)="accQuestion.expand('question-mcq-single')" href="#question-mcq-single">above</a> for details.
+          </p>
+          <p>
+            <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
+            if 'Minimum number of options a respondent is allowed to select' option is not selected. The result statistics do not contain
+            'None of the above' responses, as statistics is not calculated for this option.
+          </p>
         </div>
       </div>
       <br/>
@@ -58,7 +121,35 @@
     <div [ngbCollapse]="!isCollapsed3">
       <div class="card">
         <div class="card-body">
-          NUMERICAL SCALE QUESTIONS
+          <p>
+            Numerical scale questions allow numerical responses from respondents
+          </p>
+          <p>
+            To set up a numerical scale question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              Specify the minimum and maximum valid input values — values outside of the range specified will not be allowed
+            </li>
+            <li>
+              Specify the precision at which input values should increment — TEAMMATES uses this value to enumerate all possible acceptable responses
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
+          <p>
+            Statistics for numerical scale questions are also provided for instructors.<br>
+            TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
+          </p>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -74,7 +165,34 @@
     <div [ngbCollapse]="!isCollapsed4">
       <div class="card">
         <div class="card-body">
-          DISTRIBUTE POINTS (AMONG OPTIONS) QUESTIONS
+          <p>
+            Distribute points (among options) questions allow respondents to split a fixed number of points among options that you specify.
+          </p>
+          <p>
+            To setup a distribute points (among options) question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              List all the answer options from which students can choose
+            </li>
+            <li>
+              Choose the number of points students will get to split among the options — you can also choose to specify <b>points to distribute X number of options</b>, which gives students a total of <code>(specified points) x (number of options)</code> points
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
+          <p>
+            In the results view, TEAMMATES provides statistics on the average number of points each option received.
+          </p>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -90,7 +208,28 @@
     <div [ngbCollapse]="!isCollapsed5">
       <div class="card">
         <div class="card-body">
-          DISTRIBUTE POINTS (AMONG RECIPIENTS) QUESTIONS
+          <p>
+            Distribute points (among recipients) questions allow respondents to split points among a list of recipients.<br>
+            For example, if the question recipient is set to the giver's team members, students are required to split points among their team members.
+          </p>
+          <p>
+            To set up a distribute points (among recipients) question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              Choose the number of points students will get to split among the options — you can also choose to specify <b>points to distribute X number of options</b>, which gives students a total of <code>(specified points) x (number of options)</code> points
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -106,7 +245,84 @@
     <div [ngbCollapse]="!isCollapsed6">
       <div class="card">
         <div class="card-body">
-          TEAM CONTRIBUTION QUESTIONS
+          <p>
+            Team contribution questions are a specialized question type designed to evaluate a student's level of contribution in a team.<br>
+            They estimate the perceived contribution of a student and prevent students from inflating their own scores.
+          </p>
+          <p>
+            If you do not wish to use TEAMMATES's specialized calculation scheme, you may choose to use a distribute points (among recipients) question type.
+            Distribute points (among recipients) questions calculate the mean of all scores given to the recipient.
+          </p>
+          <p>
+            To set up a team contribution question:
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+          </ol>
+          <p>
+            The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
+          </p>
+          <p>EXAMPLE BOX</p>
+          <p>
+            Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
+            Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
+          </p>
+          <p>
+            Perceived contribution is calculated based on what a student's other team members perceive as his/her contribution.
+            The student's own opinion about his own contribution is not considered for the calculation.
+          </p>
+          <p>
+            Students enter contribution estimates for self and team members, using the scale <code>Equal share + x%</code>. e.g. <code>Equal share -10%</code><br>
+            Based on those values, we try to deduce the student's answer to the following two questions:
+          </p>
+          <ol>
+            <li>
+              In your opinion, what proportion of the project did you do?
+            </li>
+            <li>
+              In your opinion, if your teammates were doing the project by themselves without you, how would they compare against each other in terms of contribution?
+            </li>
+          </ol>
+          <p>
+            In the calculation, we do not allow (1) to affect (2). We use (2) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
+            <a href="/technicalInformation.jsp#calculatePointsContribution" target="_blank">here</a>.
+          </p>
+          <p>
+            The results and statistics are presented in the example below. Here is a summary of the terms used:
+          </p>
+          <ul>
+            <li>
+              <b>E (Equal share)</b>: a relative measure of work done. e.g. For a 3-person team, an ‘Equal share’ means ‘a third of the total work done’.
+            </li>
+            <li>
+              <b >CC (Claimed Contribution)</b>: This is what the student claimed he contributed.
+            </li>
+            <li>
+              <b>Ratings Received </b>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.
+            </li>
+            <li>
+              <b>PC (Perceived Contribution)</b>: This is the average value of the ‘Ratings Received’. This can be considered as the
+              <i>team’s perception of how much the student contributed</i>.
+            </li>
+            <li>
+              <b>Diff</b>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
+            </li>
+          </ul>
+          <p>
+            The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
+            If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
+            <a (click)="accSetup.expand('session-tips')" href="#session-tips">tips for conducting 'team peer evaluation' sessions</a> section.
+          </p>
+          <p>
+            The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
+            For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalizes it to ‘Equal share’ because in reality that is what the student means.
+            ‘Normalize’ here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
+          </p>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -122,7 +338,70 @@
     <div [ngbCollapse]="!isCollapsed7">
       <div class="card">
         <div class="card-body">
-          RUBRIC QUESTIONS
+          <p>
+            Rubric questions allow instructors to create multiple sub-questions with highly customizable choices and descriptions.
+          </p>
+          <p>
+            To respondents, a rubric question will appear as a table that looks similar to the example below. Respondents can choose one answer per row.
+          </p>
+          <p>EXAMPLE BOX</p>
+          <p>
+            To set up a rubric question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              Add choices using the <code>Add Column</code> button, or delete choices using the <code>x</code> button at the bottom of each column
+            </li>
+            <li>
+              Add subquestions using the <code>Add Row</code> button, or delete subquestions using the <code>x</code> button to the left of each subquestion
+            </li>
+            <li>
+              (Optional) Add description text to describe each choice for each subquestion
+            </li>
+            <li>
+              (Optional) Assign weights to each choice of each sub-question for calculating statistics
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
+          <p>
+            Result statistics for rubric questions show how often a choice is selected for each sub-question.<br>
+            If weights are assigned to the choices, the weights will be used to calculate an average score.
+          </p>
+          <p>
+            <strong>Response Summary Table:</strong> Each choice cell of each sub-question in the Response summary table
+            has three parts <strong>Percentage (Response count) [Weight of the choice]</strong>. Each of the parts are explained below:
+          </p>
+          <ul>
+            <li>
+              Percentage: Shows the percentage of how often this choice is selected out of all responses for this sub-question.
+            </li>
+            <li>
+              Response count: Shows the number of times this choice is selected
+            </li>
+            <li>
+              Weight of the choice: Shows the weight attached with this choice of this sub-question.
+            </li>
+          </ul>
+          <p>
+            If weights are assigned to the question, then based on the weight of each choice and the response count of that choice,
+            the overall average score of the sub-question is calculated.
+          </p>
+          <p>
+            <strong>Per Recipient Statistics:</strong> This table is only shown to the questions which have weights assigned.
+            Similar to the Response summary table, each choice of each sub-question in this table is divided into two parts,
+            which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and
+            the response count of that choice, total and average points for the sub-question is calculated for each recipient.
+          </p>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -138,7 +417,33 @@
     <div [ngbCollapse]="!isCollapsed8">
       <div class="card">
         <div class="card-body">
-          RANK (OPTIONS) QUESTIONS
+          <p>
+            Rank options questions allow respondents to rank the options that you create.
+          </p>
+          <p>
+            To set up a rank options question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              List the options for respondents to rank
+            </li>
+            <li>
+              (Optional) Allow respondents to give the same rank to multiple options
+            </li>
+            <li>
+              (Optional) Set the minimum and/or maximum number of options a respondent should rank — setting these values ensures that respondents will rank your desired number of options
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
@@ -154,7 +459,43 @@
     <div [ngbCollapse]="!isCollapsed9">
       <div class="card">
         <div class="card-body">
-          RANK (RECIPIENTS) QUESTIONS
+          <p>
+            Rank recipients questions allow respondents to rank themselves, students, teams, or instructors.
+          </p>
+          <p>
+          <p>
+            To set up a rank recipients question:
+          </p>
+          <ol>
+            <li>
+              Specify the question text
+            </li>
+            <li>
+              (Optional) Add a description for the question
+            </li>
+            <li>
+              Specify the feedback path that should be used to generate the options respondents get to rank
+            </li>
+            <li>
+              (Optional) Allow respondents to give the same rank to multiple options
+            </li>
+          </ol>
+          <p>EXAMPLE BOX</p>
+          <p>
+            When viewing the results of a rank recipients question, you will be able to see the following results for each feedback recipient:
+          </p>
+          <ul>
+            <li>
+              <b>Ranks received</b>: a list of the ranks which a recipient received from respondents
+            </li>
+            <li>
+              <b>Overall rank</b>: the recipient's rank relative to other recipients, as computed by TEAMMATES
+            </li>
+          </ul>
+          <p>
+            Technical details about how ranks are calculated are available <a href="/technicalInformation.jsp#calculateRanks" target="_blank">here</a>.
+          </p>
+          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
