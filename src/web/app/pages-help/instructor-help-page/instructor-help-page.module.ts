@@ -9,6 +9,7 @@ import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
+import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
 
 /**
  * Module for instructor help page.
@@ -23,6 +24,7 @@ import {
   declarations: [
     InstructorHelpPageComponent,
     InstructorHelpStudentsSectionComponent,
+    InstructorHelpSessionsSectionComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
