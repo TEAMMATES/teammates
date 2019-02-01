@@ -19,6 +19,15 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     super();
   }
 
+  /**
+   * Returns a boolean value if any question in the subsection is to be displayed after the search
+   */
+  displaySubsection(array: any, firstPoint: number, lastPoint: number): boolean {
+    return array.length === 0 || this.showQuestion
+        .slice(firstPoint, lastPoint)
+        .reduce((x: boolean, y: boolean) => x || y, false);
+  }
+
   ngOnInit(): void {
 
   }
