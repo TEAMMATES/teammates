@@ -16,6 +16,7 @@ export class AdminPageComponent implements OnInit {
 
   logoutUrl: string = '';
   user: string = '';
+  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -49,6 +50,7 @@ export class AdminPageComponent implements OnInit {
       }
       if (res.user) {
         this.user = res.user.id;
+        this.institute = res.institute;
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
         this.isAdmin = res.user.isAdmin;
