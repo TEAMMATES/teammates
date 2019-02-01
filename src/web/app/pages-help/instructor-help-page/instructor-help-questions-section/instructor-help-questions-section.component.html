@@ -1,3 +1,163 @@
-<p>
-  instructor-help-questions-section works!
-</p>
+<div>
+  <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Questions</h2>
+  <!-- Question -->
+  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
+        Essay Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed">
+      <div class="card">
+        <div class="card-body">
+          ESSAY QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
+        Multiple Choice (Single Answer) Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed1">
+      <div class="card">
+        <div class="card-body">
+          MULTIPLE CHOICE (SINGLE ANSWER) QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2">
+        Multiple Choice (Multiple Answers) Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed2">
+      <div class="card">
+        <div class="card-body">
+          MULTIPLE CHOICE (MULTIPLE ANSWERS) QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
+        Numerical Scale Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed3">
+      <div class="card">
+        <div class="card-body">
+          NUMERICAL SCALE QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
+        Distribute Points (Among Options) Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed4">
+      <div class="card">
+        <div class="card-body">
+          DISTRIBUTE POINTS (AMONG OPTIONS) QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
+        Distribute Points (Among Recepients) Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed5">
+      <div class="card">
+        <div class="card-body">
+          DISTRIBUTE POINTS (AMONG RECIPIENTS) QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6">
+        Team Contribution Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed6">
+      <div class="card">
+        <div class="card-body">
+          TEAM CONTRIBUTION QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!-- Question -->
+  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed7 = !isCollapsed7" [attr.aria-expanded]="!isCollapsed7">
+        Rubric Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed7">
+      <div class="card">
+        <div class="card-body">
+          RUBRIC QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn8" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed8 = !isCollapsed8" [attr.aria-expanded]="!isCollapsed8">
+        Rank (Options) Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed8">
+      <div class="card">
+        <div class="card-body">
+          RANK (OPTIONS) QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+  <!--Question-->
+  <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed9 = !isCollapsed9" [attr.aria-expanded]="!isCollapsed9">
+        Rank (Recipients) Questions
+      </button>
+    </p>
+    <div [ngbCollapse]="!isCollapsed9">
+      <div class="card">
+        <div class="card-body">
+          RANK (RECIPIENTS) QUESTIONS
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+</div>

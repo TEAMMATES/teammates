@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InstructorHelpSectionComponent } from "../instructor-help-section.component";
+import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
  * Questions Section of the Instructor Help Page.
@@ -7,7 +7,7 @@ import { InstructorHelpSectionComponent } from "../instructor-help-section.compo
 @Component({
   selector: 'tm-instructor-help-questions-section',
   templateUrl: './instructor-help-questions-section.component.html',
-  styleUrls: ['./instructor-help-questions-section.component.scss']
+  styleUrls: ['./instructor-help-questions-section.component.scss'],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
