@@ -15,6 +15,7 @@ export class StudentPageComponent implements OnInit {
 
   logoutUrl: string = '';
   user: string = '';
+  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -45,6 +46,7 @@ export class StudentPageComponent implements OnInit {
         }
         if (res.user) {
           this.user = res.user.id + (res.masquerade ? ' (M)' : '');
+          this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
