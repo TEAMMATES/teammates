@@ -22,9 +22,9 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   /**
    * Returns a boolean value if any question in the subsection is to be displayed after the search
    */
-  displaySubsection(array: boolean[], firstPoint: number, lastPoint: number): boolean {
+  displaySubsection(array: Boolean[], firstPoint: number, lastPoint: number): boolean {
     return array.length === 0 || array.slice(firstPoint, lastPoint)
-        .reduce((x: boolean, y: boolean) => x || y, false);
+        .reduce((x: any, y: any) => x || y, false);
   }
 
   ngOnInit(): void {
