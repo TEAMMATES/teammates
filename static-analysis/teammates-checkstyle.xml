@@ -180,6 +180,7 @@
       <!-- Remove execute value from this property after upgrading to JUnit 5 (see teammates.test.cases.Executable) -->
     </module>
     <module name="InterfaceIsType"/>
+    <module name="MutableException"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
