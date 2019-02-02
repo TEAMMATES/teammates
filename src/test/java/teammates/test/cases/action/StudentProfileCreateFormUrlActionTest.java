@@ -47,7 +47,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.USER_ID, student.googleId
+                Const.ParamsNames.USER_ID, student.googleId,
         };
 
         StudentProfileCreateFormUrlAction action = getAction(addUserIdToParams(student.googleId,

@@ -35,7 +35,7 @@ public class GetCourseStatsActionTest extends BaseActionTest<GetCourseStatsActio
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         ______TS("Typical case with existing course id");
@@ -61,7 +61,7 @@ public class GetCourseStatsActionTest extends BaseActionTest<GetCourseStatsActio
 
         submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, "idOfUnknownCourse"
+                Const.ParamsNames.COURSE_ID, "idOfUnknownCourse",
         };
 
         action = getAction(submissionParams);

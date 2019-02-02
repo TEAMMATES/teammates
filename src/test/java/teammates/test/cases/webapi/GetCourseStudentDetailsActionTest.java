@@ -45,13 +45,13 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
         //null student email
         String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
         verifyHttpParameterFailure(invalidParams);
 
         //null course id
         invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
         verifyHttpParameterFailure(invalidParams);
 
@@ -59,7 +59,7 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         GetCourseStudentDetailsAction a = getAction(submissionParams);
@@ -79,7 +79,7 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student2InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student2InCourse1.email,
         };
 
         a = getAction(submissionParams);
@@ -102,7 +102,7 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

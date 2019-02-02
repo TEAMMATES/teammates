@@ -142,7 +142,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         msqQuestionDetails = new FeedbackMsqQuestionDetails();
         requestParameters.put("questiontype-7", new String[] { "MSQ" });
         requestParameters.put("responsetext-7-0", new String[] {
-                "msq option 1", "msq option 2", "msq option 3", "other answer"
+                "msq option 1", "msq option 2", "msq option 3", "other answer",
         });
         requestParameters.put("msqIsOtherOptionAnswer-7-0", new String[] { "1" });
 
