@@ -175,6 +175,10 @@
     </module>
     <module name="FallThrough"/>
     <module name="ArrayTrailingComma"/>
+    <module name="IllegalThrows">
+      <property name="ignoredMethodNames" value="execute"/>
+      <!-- Remove execute value from this property after upgrading to JUnit 5 (see teammates.test.cases.Executable) -->
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
