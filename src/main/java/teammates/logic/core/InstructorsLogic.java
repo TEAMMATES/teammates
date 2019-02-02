@@ -144,7 +144,7 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Returns whether the instructor is a new user, according to one of the following criteria:
+     * Returns whether the instructor is a new user. This is done according to one of the following criteria:
      * <ul>
      * <li>There is only a sample course (created by system) for the instructor.</li>
      * <li>There is no any course for the instructor.</li>

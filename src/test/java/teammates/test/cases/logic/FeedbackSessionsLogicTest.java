@@ -816,7 +816,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session =
                 responseBundle.feedbackSessions.get("standard.session");
 
-        /*** Test result bundle for student1 ***/
+        /*** Test result bundle for student1. ***/
         StudentAttributes student =
                 responseBundle.students.get("student1InCourse1");
         FeedbackSessionResultsBundle results =
@@ -946,7 +946,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(11, results.visibilityTable.size());
 
-        /*** Test result bundle for instructor1 within a course ***/
+        /*** Test result bundle for instructor1 within a course. ***/
         InstructorAttributes instructor =
                 responseBundle.instructors.get("instructor1OfCourse1");
         results = fsLogic.getFeedbackSessionResultsForInstructor(
