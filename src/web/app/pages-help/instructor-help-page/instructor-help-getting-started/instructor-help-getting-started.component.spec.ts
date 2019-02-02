@@ -8,7 +8,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InstructorHelpGettingStartedComponent ]
+      declarations: [InstructorHelpGettingStartedComponent],
     })
     .compileComponents();
   }));

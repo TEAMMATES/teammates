@@ -16,9 +16,11 @@ import {
   InstructorHelpSessionsSectionComponent,
 } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
 import {
+  InstructorHelpGettingStartedComponent,
+} from './instructor-help-getting-started/instructor-help-getting-started.component';
+import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
-import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started/instructor-help-getting-started.component';
 
 /**
  * Module for instructor help page.

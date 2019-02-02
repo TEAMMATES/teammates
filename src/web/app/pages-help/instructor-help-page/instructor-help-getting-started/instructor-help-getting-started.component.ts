@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from "../../../../environments/environment";
+import { environment } from '../../../../environments/environment';
 
+/**
+ * Getting Started Section for Instructors
+ */
 @Component({
   selector: 'tm-instructor-help-getting-started',
   templateUrl: './instructor-help-getting-started.component.html',
-  styleUrls: ['./instructor-help-getting-started.component.scss']
+  styleUrls: ['./instructor-help-getting-started.component.scss'],
 })
 export class InstructorHelpGettingStartedComponent implements OnInit {
 
@@ -12,7 +15,7 @@ export class InstructorHelpGettingStartedComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }
