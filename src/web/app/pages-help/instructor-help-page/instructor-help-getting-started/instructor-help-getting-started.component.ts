@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'tm-instructor-help-getting-started',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./instructor-help-getting-started.component.scss']
 })
 export class InstructorHelpGettingStartedComponent implements OnInit {
+
+  readonly supportEmail: string = environment.supportEmail;
 
   constructor() { }
 
