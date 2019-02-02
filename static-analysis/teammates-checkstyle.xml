@@ -182,6 +182,7 @@
     <module name="InterfaceIsType"/>
     <module name="MutableException"/>
     <module name="OverloadMethodsDeclarationOrder"/>
+    <module name="SummaryJavadocCheck"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
