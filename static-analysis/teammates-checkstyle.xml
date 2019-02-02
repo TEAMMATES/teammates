@@ -195,6 +195,7 @@
       <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
     <module name="CommentsIndentation"/>
+    <module name="MissingOverride"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
