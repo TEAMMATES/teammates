@@ -581,6 +581,13 @@ public abstract class AppPage {
         return browser.driver.getPageSource();
     }
 
+    private String getPageSource(By by) {
+        waitForAjaxLoaderGifToDisappear();
+        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
+                : browser.driver.findElement(by).getAttribute("outerHTML");
+        return HtmlHelper.processPageSourceForHtmlComparison(actual);
+    }
+
     public void click(By by) {
         WebElement element = browser.driver.findElement(by);
         click(element);
@@ -1195,13 +1202,6 @@ public abstract class AppPage {
         }
 
         return this;
-    }
-
-    private String getPageSource(By by) {
-        waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
-                                   : browser.driver.findElement(by).getAttribute("outerHTML");
-        return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
