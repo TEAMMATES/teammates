@@ -120,6 +120,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
+    public List<Double> getMsqWeights() {
+        return msqWeights;
+    }
+
     private List<Double> getMsqWeights(Map<String, String[]> requestParameters,
             int numMsqChoicesCreated, boolean hasAssignedWeights) {
         List<Double> msqWeights = new ArrayList<>();
@@ -145,6 +149,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return msqWeights;
+    }
+
+    public double getMsqOtherWeight() {
+        return msqOtherWeight;
     }
 
     private double getMsqOtherWeight(Map<String, String[]> requestParameters,
@@ -856,16 +864,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return msqChoices;
     }
 
-    public List<Double> getMsqWeights() {
-        return msqWeights;
-    }
-
     public boolean hasAssignedWeights() {
         return hasAssignedWeights;
-    }
-
-    public double getMsqOtherWeight() {
-        return msqOtherWeight;
     }
 
     /**

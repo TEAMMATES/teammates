@@ -869,18 +869,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Builds question tables without response rows, but with stats.
-     * @param responses  responses to compute statistics for
-     */
-    private InstructorFeedbackResultsQuestionTable buildQuestionTableWithoutResponseRows(
-                                    FeedbackQuestionAttributes question,
-                                    List<FeedbackResponseAttributes> responses,
-                                    String additionalInfoId) {
-        return buildQuestionTableAndResponseRows(question, responses, additionalInfoId,
-                                                 null, false);
-    }
-
-    /**
      * Builds a question table for given question, and response rows for the given responses.
      *
      * @param participantIdentifier  for viewTypes * > Question > *, constructs missing response rows
@@ -888,10 +876,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * @param isShowingResponseRows  if false, hides the response rows
      */
     private InstructorFeedbackResultsQuestionTable buildQuestionTableAndResponseRows(
-                                                              FeedbackQuestionAttributes question,
-                                                              List<FeedbackResponseAttributes> responses,
-                                                              String additionalInfoId,
-                                                              String participantIdentifier, boolean isShowingResponseRows) {
+            FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> responses,
+            String additionalInfoId,
+            String participantIdentifier, boolean isShowingResponseRows) {
 
         List<ElementTag> columnTags = new ArrayList<>();
         Map<String, Boolean> isSortable = new HashMap<>();
@@ -938,28 +926,40 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         String studentEmail = student == null ? null : student.email;
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail,
-                                                                                 bundle, viewType.toString());
+                bundle, viewType.toString());
 
         String questionText = questionDetails.getQuestionText();
         String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
 
         InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(
-                                                                        !responses.isEmpty(), statisticsTable,
-                                                                        responseRows, question,
-                                                                        questionText, additionalInfoText,
-                                                                        columnTags, isSortable);
+                !responses.isEmpty(), statisticsTable,
+                responseRows, question,
+                questionText, additionalInfoText,
+                columnTags, isSortable);
         if (viewType == InstructorFeedbackResultsPageViewType.QUESTION) {
             // setup classes, for loading responses by ajax
             // ajax_submit: user needs to click on the panel to load
             // ajax_auto: responses are loaded automatically
             questionTable.setAjaxClass(isLargeNumberOfResponses()
-                                     ? " ajax_submit"
-                                     : " ajax_auto");
+                    ? " ajax_submit"
+                    : " ajax_auto");
         }
         questionTable.setShowResponseRows(isShowingResponseRows);
         questionTable.setCollapsible(isCollapsible);
 
         return questionTable;
+    }
+
+    /**
+     * Builds question tables without response rows, but with stats.
+     * @param responses  responses to compute statistics for
+     */
+    private InstructorFeedbackResultsQuestionTable buildQuestionTableWithoutResponseRows(
+                                    FeedbackQuestionAttributes question,
+                                    List<FeedbackResponseAttributes> responses,
+                                    String additionalInfoId) {
+        return buildQuestionTableAndResponseRows(question, responses, additionalInfoId,
+                                                 null, false);
     }
 
     private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags, Map<String, Boolean> isSortable,

@@ -163,6 +163,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return rubricChoices;
     }
 
+    public List<String> getRubricChoices() {
+        return rubricChoices;
+    }
+
     private List<String> getSubQuestions(Map<String, String[]> requestParameters, int numOfRubricSubQuestions) {
         List<String> rubricSubQuestions = new ArrayList<>();
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
@@ -1104,10 +1108,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public void setNumOfRubricChoices(int numOfRubricChoices) {
         this.numOfRubricChoices = numOfRubricChoices;
-    }
-
-    public List<String> getRubricChoices() {
-        return rubricChoices;
     }
 
     public int getNumOfRubricSubQuestions() {

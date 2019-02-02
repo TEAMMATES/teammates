@@ -164,6 +164,121 @@ public class GateKeeper {
         }
     }
 
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(course, "course");
+        verifyNotNull(course.getId(), "course ID");
+
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+                    + instructor.email + "]");
+        }
+    }
+
+    /**
+     * Verifies the instructor and course are not null, the instructor belongs to
+     * the course and the instructor has the privilege specified by
+     * privilegeName.
+     */
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(course, "course");
+        verifyNotNull(course.getId(), "course ID");
+
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+                    + instructor.email + "]");
+        }
+
+        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+                    + instructor.email + "] for privilege [" + privilegeName + "]");
+        }
+    }
+
+    /**
+     * Verifies the instructor and course are not null, the instructor belongs to
+     * the course and the instructor has the privilege specified by
+     * privilegeName for sectionName.
+     */
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName,
+                                 String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(course, "course");
+        verifyNotNull(course.getId(), "course ID");
+        verifyNotNull(sectionName, "section name");
+
+        if (!instructor.courseId.equals(course.getId())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+                    + instructor.email + "]");
+        }
+
+        if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+                    + instructor.email + "] for privilege [" + privilegeName
+                    + "] on section [" + sectionName + "]");
+        }
+    }
+
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(feedbacksession, "feedback session");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+
+        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+                    + "] is not accessible to instructor [" + instructor.email + "]");
+        }
+    }
+
+    /**
+     * Verifies the instructor and course are not null, the instructor belongs to
+     * the course and the instructor has the privilege specified by
+     * privilegeName for feedbackSession.
+     */
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
+                                 String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(feedbacksession, "feedback session");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+
+        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+                    + "] is not accessible to instructor [" + instructor.email + "]");
+        }
+
+        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+                    + "] is not accessible to instructor [" + instructor.email
+                    + "] for privilege [" + privilegeName + "]");
+        }
+    }
+
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
+                                 String sectionName, String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(feedbacksession, "feedback session");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+
+        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+                    + "] is not accessible to instructor [" + instructor.email + "]");
+        }
+
+        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.getFeedbackSessionName(), privilegeName)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+                    + "] is not accessible to instructor [" + instructor.email
+                    + "] for privilege [" + privilegeName + "] on section ["
+                    + sectionName + "]");
+        }
+    }
+
     /**
      * Verifies that the feedback question is for student to answer.
      */
@@ -225,121 +340,6 @@ public class GateKeeper {
         if (!frc.commentGiver.equals(feedbackParticipant)) {
             throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
                     + feedbackParticipant);
-        }
-    }
-
-    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
-
-        if (!instructor.courseId.equals(course.getId())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.email + "]");
-        }
-    }
-
-    /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName.
-     */
-    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
-
-        if (!instructor.courseId.equals(course.getId())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.email + "]");
-        }
-
-        if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.email + "] for privilege [" + privilegeName + "]");
-        }
-    }
-
-    /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName for sectionName.
-     */
-    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName,
-                                 String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
-        verifyNotNull(sectionName, "section name");
-
-        if (!instructor.courseId.equals(course.getId())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.email + "]");
-        }
-
-        if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.email + "] for privilege [" + privilegeName
-                                                  + "] on section [" + sectionName + "]");
-        }
-    }
-
-    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
-
-        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email + "]");
-        }
-    }
-
-    /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName for feedbackSession.
-     */
-    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
-                                 String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
-
-        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email + "]");
-        }
-
-        if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for privilege [" + privilegeName + "]");
-        }
-    }
-
-    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
-                                 String sectionName, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
-
-        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email + "]");
-        }
-
-        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.getFeedbackSessionName(), privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for privilege [" + privilegeName + "] on section ["
-                                                  + sectionName + "]");
         }
     }
 
