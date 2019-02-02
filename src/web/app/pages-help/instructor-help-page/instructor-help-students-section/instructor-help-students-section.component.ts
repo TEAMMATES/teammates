@@ -23,7 +23,7 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
    * Returns a boolean value if any question in the subsection is to be displayed after the search
    */
   displaySubsection(array: boolean[], firstPoint: number, lastPoint: number): boolean {
-    return array.length === 0 || this.showQuestion
+    return array.length === 0 || this.array
         .slice(firstPoint, lastPoint)
         .reduce((x: boolean, y: boolean) => x || y, false);
   }
