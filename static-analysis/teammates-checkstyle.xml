@@ -183,6 +183,10 @@
     <module name="MutableException"/>
     <module name="OverloadMethodsDeclarationOrder"/>
     <module name="SummaryJavadocCheck"/>
+    <module name="JavadocStyle">
+      <property name="scope" value="package"/>
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
