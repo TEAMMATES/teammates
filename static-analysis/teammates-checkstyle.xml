@@ -178,7 +178,6 @@
     <module name="IllegalThrows"/>
     <module name="MutableException"/>
     <module name="OverloadMethodsDeclarationOrder"/>
-    <module name="CommentsIndentation"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
