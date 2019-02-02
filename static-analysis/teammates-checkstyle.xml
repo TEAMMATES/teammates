@@ -181,6 +181,7 @@
     </module>
     <module name="InterfaceIsType"/>
     <module name="MutableException"/>
+    <module name="OverloadMethodsDeclarationOrder"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
