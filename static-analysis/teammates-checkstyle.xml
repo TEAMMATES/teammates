@@ -196,6 +196,7 @@
     </module>
     <module name="CommentsIndentation"/>
     <module name="MissingOverride"/>
+    <module name="EqualsHashCode"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
