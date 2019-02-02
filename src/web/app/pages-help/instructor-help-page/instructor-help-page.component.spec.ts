@@ -3,9 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
-import  {
-  InstructorHelpCoursesSectionComponent
-} from "./instructor-help-courses-section/instructor-help-courses-section.component";
+import {
+  InstructorHelpCoursesSectionComponent,
+} from './instructor-help-courses-section/instructor-help-courses-section.component';
 
 import {
   InstructorHelpStudentsSectionComponent,
@@ -17,7 +17,8 @@ describe('InstructorHelpPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpPageComponent, InstructorHelpCoursesSectionComponent, InstructorHelpStudentsSectionComponent],
+      declarations: [InstructorHelpPageComponent, InstructorHelpCoursesSectionComponent,
+        InstructorHelpStudentsSectionComponent],
       imports: [FormsModule, NgbModule],
     })
     .compileComponents();
