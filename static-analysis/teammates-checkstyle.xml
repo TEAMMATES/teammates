@@ -187,6 +187,13 @@
       <property name="scope" value="package"/>
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
+    <module name="ImportOrder">
+      <property name="groups" value="/^java\./,javax,org,com"/>
+      <property name="ordered" value="true"/>
+      <property name="separated" value="true"/>
+      <property name="option" value="top"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
+    </module>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
