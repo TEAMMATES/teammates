@@ -285,7 +285,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testGettingDeepCopy() {
+    public void testGetDeepCopy() {
         FeedbackTextResponseDetails frd = new FeedbackTextResponseDetails("original");
         FeedbackResponseDetails frdDeep = frd.getDeepCopy();
         frd.answer = "updated";
