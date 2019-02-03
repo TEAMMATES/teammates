@@ -2,7 +2,7 @@
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Sessions</h2>
   <!--Section-->
-  <h3 *ngIf="showQuestion.length === 0 || showQuestion[0] || showQuestion[1] || showQuestion[2] || showQuestion[3]">Setting Up Sessions</h3>
+  <h3 *ngIf="displaySubsection(showQuestion, 0, 4)">Setting Up Sessions</h3>
   <!-- Question -->
   <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
     <p>
@@ -230,7 +230,7 @@
   </div>
 
   <!--Section-->
-  <h3 *ngIf="showQuestion.length === 0 || showQuestion[4] || showQuestion[5] || showQuestion[6]">Managing Session Responses</h3>
+  <h3 *ngIf="displaySubsection(showQuestion, 4, 7)">Managing Session Responses</h3>
   <!-- Question -->
   <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
     <p>
@@ -327,7 +327,7 @@
   </div>
 
   <!--Section-->
-  <h3 *ngIf="showQuestion.length === 0 || showQuestion[7] || showQuestion[8] || showQuestion[9]">Adding Comments to Responses</h3>
+  <h3 *ngIf="displaySubsection(showQuestion, 7, 10)">Adding Comments to Responses</h3>
   <!-- Question -->
   <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
     <p>
@@ -436,7 +436,7 @@
   </div>
 
   <!--Section-->
-  <h3 *ngIf="showQuestion.length === 0 || showQuestion[10] || showQuestion[11] || showQuestion[12] || showQuestion[13]">Restoring Deleted Sessions</h3>
+  <h3 *ngIf="displaySubsection(showQuestion, 10, 14)">Restoring Deleted Sessions</h3>
   <!-- Question -->
   <div class="instr-help-qn10" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
     <p>
