@@ -233,7 +233,6 @@ public class FieldValidator {
     public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
 
     /**
-     * This regex consists of 2 parts.
      * Local part:
      * <li>Can only start with letters, digits, hyphen or plus sign;
      * <li>Special characters allowed are ! # $ % & ' * + - / = ? ^ _ ` { } ~

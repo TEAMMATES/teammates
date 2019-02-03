@@ -584,7 +584,7 @@ public abstract class AppPage {
     private String getPageSource(By by) {
         waitForAjaxLoaderGifToDisappear();
         String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
-                : browser.driver.findElement(by).getAttribute("outerHTML");
+                                   : browser.driver.findElement(by).getAttribute("outerHTML");
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 

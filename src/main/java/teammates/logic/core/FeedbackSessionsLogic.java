@@ -2081,15 +2081,15 @@ public final class FeedbackSessionsLogic {
     }
 
     private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-                                          FeedbackResponseAttributes response,
-                                          FeedbackQuestionAttributes question, CourseRoster roster,
-                                          int pairType) {
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster,
+            int pairType) {
         if (question.giverType == FeedbackParticipantType.TEAMS
                 && roster.isStudentInCourse(response.giver)) {
             emailNameTable.putIfAbsent(
-                    response.giver + Const.TEAM_OF_EMAIL_OWNER,
-                    getNameTeamNamePairForEmail(question.giverType,
-                            response.giver, roster)[pairType]);
+                        response.giver + Const.TEAM_OF_EMAIL_OWNER,
+                        getNameTeamNamePairForEmail(question.giverType,
+                                response.giver, roster)[pairType]);
 
             StudentAttributes studentGiver = roster.getStudentForEmail(response.giver);
             if (studentGiver != null) {
@@ -2112,9 +2112,9 @@ public final class FeedbackSessionsLogic {
         }
 
         emailNameTable.putIfAbsent(
-                response.recipient,
-                getNameTeamNamePairForEmail(recipientType,
-                        response.recipient, roster)[pairType]);
+                    response.recipient,
+                    getNameTeamNamePairForEmail(recipientType,
+                            response.recipient, roster)[pairType]);
     }
 
     private void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,

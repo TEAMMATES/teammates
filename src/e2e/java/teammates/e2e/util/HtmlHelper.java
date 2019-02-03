@@ -77,7 +77,7 @@ public final class HtmlHelper {
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
             assertEquals("<expected>" + System.lineSeparator() + processedExpected + "</expected>",
-                    "<actual>" + System.lineSeparator() + processedActual + "</actual>");
+                         "<actual>" + System.lineSeparator() + processedActual + "</actual>");
         }
         return false;
     }

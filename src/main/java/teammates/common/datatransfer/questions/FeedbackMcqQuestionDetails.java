@@ -75,7 +75,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<Double> getMcqWeights(Map<String, String[]> requestParameters,
-                                       int numMcqChoicesCreated, boolean hasAssignedWeights) {
+            int numMcqChoicesCreated, boolean hasAssignedWeights) {
         List<Double> mcqWeights = new ArrayList<>();
 
         if (!hasAssignedWeights) {
@@ -106,7 +106,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private double getMcqOtherWeight(Map<String, String[]> requestParameters,
-                                     boolean mcqOtherEnabled, boolean hasAssignedWeights) {
+            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
 
         double mcqOtherWeight = 0;
 
