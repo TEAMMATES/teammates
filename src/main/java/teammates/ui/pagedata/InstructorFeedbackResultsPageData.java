@@ -592,9 +592,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void finalizeBuildingSectionPanelWithoutTeamStats(InstructorFeedbackResultsSectionPanel sectionPanel,
                                                           String sectionName) {
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> emptyResponseMap =
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> emptyResponseMap =
                 new LinkedHashMap<>();
-        LinkedHashSet<String> emptyTeamList = new LinkedHashSet<>();
+        Set<String> emptyTeamList = new LinkedHashSet<>();
         finalizeBuildingSectionPanel(sectionPanel, sectionName, emptyResponseMap, emptyTeamList);
     }
 

@@ -3,6 +3,7 @@ package teammates.test.cases.logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -195,7 +196,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(5, instructors.size());
 
-        HashMap<String, Boolean> idMap = new HashMap<>();
+        Map<String, Boolean> idMap = new HashMap<>();
         idMap.put("idOfInstructor1OfCourse1", false);
         idMap.put("idOfInstructor2OfCourse1", false);
         idMap.put("idOfInstructor3", false);

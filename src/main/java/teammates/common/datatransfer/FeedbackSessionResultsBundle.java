@@ -1248,8 +1248,7 @@ public class FeedbackSessionResultsBundle {
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         responses.sort(compareByTeamQuestionRecipientTeamGiver);
 
@@ -1279,8 +1278,7 @@ public class FeedbackSessionResultsBundle {
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         responses.sort(compareByTeamQuestionGiverTeamRecipient);
 
@@ -1389,7 +1387,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
 
-        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             responses.sort(compareByTeamRecipientGiverQuestion);

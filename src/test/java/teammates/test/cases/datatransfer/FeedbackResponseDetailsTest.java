@@ -3,6 +3,7 @@ package teammates.test.cases.datatransfer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -37,7 +38,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         ______TS("TEXT Response");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
-        HashMap<String, String[]> requestParameters = new HashMap<>();
+        Map<String, String[]> requestParameters = new HashMap<>();
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "text answer" });
 

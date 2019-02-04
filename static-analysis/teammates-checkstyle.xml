@@ -180,6 +180,7 @@
     <module name="OverloadMethodsDeclarationOrder"/>
     <module name="LambdaParameterName"/>
     <module name="InterfaceIsType"/>
+    <module name="IllegalType"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
