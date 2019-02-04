@@ -178,6 +178,7 @@
     <module name="IllegalThrows"/>
     <module name="MutableException"/>
     <module name="OverloadMethodsDeclarationOrder"/>
+    <module name="LambdaParameterName"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
