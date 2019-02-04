@@ -179,6 +179,7 @@
     <module name="MutableException"/>
     <module name="OverloadMethodsDeclarationOrder"/>
     <module name="LambdaParameterName"/>
+    <module name="InterfaceIsType"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="NewlineAtEndOfFile">
