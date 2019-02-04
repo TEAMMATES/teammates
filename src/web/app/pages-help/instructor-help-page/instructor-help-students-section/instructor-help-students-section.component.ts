@@ -22,5 +22,4 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   ngOnInit(): void {
 
   }
-
 }
