@@ -1443,10 +1443,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
+        Instant startingTime;
+        startingTime = Instant.now();
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
-                .withCreatedTime(Instant.now())
-                .withStartTime(Instant.now())
-                .withSessionVisibleFromTime(Instant.now())
+                .withCreatedTime(startingTime)
+                .withSessionVisibleFromTime(startingTime)
+                .withStartTime(startingTime)
                 .withResultsVisibleFromTime(Instant.now())
                 .withEndTime(Instant.now())
                 .withGracePeriodMinutes(5)
