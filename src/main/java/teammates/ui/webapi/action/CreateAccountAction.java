@@ -163,7 +163,7 @@ public class CreateAccountAction extends Action {
         String host = emailSplit[1];
 
         String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
-        String hostAbbreviation = host.substring(0, 3);
+        String hostAbbreviation = host.substring(0, Math.min(host.length(), 3));
 
         return head + "." + hostAbbreviation + "-demo";
     }
