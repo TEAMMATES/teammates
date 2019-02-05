@@ -181,6 +181,7 @@
         <module name="LambdaParameterName"/>
         <module name="InterfaceIsType"/>
         <module name="IllegalType"/>
+        <module name="InnerTypeLast"/>
     </module>
     <module name="FileTabCharacter"/>
     <module name="NewlineAtEndOfFile">

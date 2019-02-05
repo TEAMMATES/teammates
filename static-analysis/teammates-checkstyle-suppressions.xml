@@ -65,5 +65,6 @@
     <!--<suppress checks="JavadocMethod" files="teammates[/\\]client[/\\].*\.java"/>-->
     <!--<suppress checks="JavadocType" files="teammates[/\\]client[/\\].*\.java"/>-->
     <!--<suppress checks="JavadocVariable" files="teammates[/\\]client[/\\].*\.java"/>-->
+    <suppress checks="InnerTypeLast" files="teammates[/\\]ui[/\\]webapi[/\\]action[/\\].*\.java"/>
 
 </suppressions>
