@@ -60,10 +60,11 @@ public class StudentGetCourseDetailsAction extends Action {
         List<InstructorDetails> instructorDetails = new LinkedList<>();
         instructors.forEach(
                 instructor -> {
-                    if (instructor.isDisplayedToStudents) {
+                    if (instructor.isDisplayedToStudents()) {
                         instructorDetails.add(
                                 new InstructorDetails(instructor.getDisplayedName(), instructor.getEmail()));
-                    }});
+                    }
+                });
 
         TeamDetailsBundle teamDetails = logic.getTeamDetailsForStudent(student);
         if (teamDetails == null) {
