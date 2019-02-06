@@ -188,7 +188,6 @@ export class InstructorStudentListPageComponent implements OnInit {
     return this.allCheckedCourses.length > 0;
   }
 
-  // courseStudentListSectionDataMap: Map<string, StudentListSectionData[]> = new Map();
   courseStudentListSectionDataMap: { [key : string]: StudentListSectionData[] } = {};
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
@@ -302,8 +301,6 @@ export class InstructorStudentListPageComponent implements OnInit {
         .subscribe((courseDetails: CourseDetails | null) => {
           if (courseDetails) {
             this.toggleCourseState(courseDetails, state);
-            // this.courseStudentListSectionDataMap.set(
-            //     courseDetails.id, this.getStudentListSectionDataFromCourseDetails(courseDetails));
             this.courseStudentListSectionDataMap[courseDetails.id]
                 = this.getStudentListSectionDataFromCourseDetails(courseDetails);
           }
@@ -505,7 +502,6 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Function to formulate data for student list.
    */
   getStudentListSectionDataForCourse(courseId: string): StudentListSectionData[] {
-    // const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap.get(courseId);
     const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap[courseId];
     if (data === undefined) {
       return [];
