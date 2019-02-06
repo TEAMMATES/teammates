@@ -188,7 +188,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     return this.allCheckedCourses.length > 0;
   }
 
-  courseStudentListSectionDataMap: { [key : string]: StudentListSectionData[] } = {};
+  courseStudentListSectionDataMap: { [key: string]: StudentListSectionData[] } = {};
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
