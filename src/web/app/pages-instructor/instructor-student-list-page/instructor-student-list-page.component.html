@@ -54,8 +54,8 @@
               </div>
               <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
                 <input type="checkbox"
-                       (change)="toggleAllPresentSectionDetailsState(!isAllPresentSectionDetailssChecked)"
-                       [checked]="isAllPresentSectionDetailssChecked">
+                       (change)="toggleAllPresentSectionDetailsState(!isAllPresentSectionDetailsChecked)"
+                       [checked]="isAllPresentSectionDetailsChecked">
                 <label class="ml-1"><strong> Select All </strong></label>
               </div>
               <ng-container *ngFor="let courseDetails of courseDetailsList">
@@ -133,7 +133,7 @@
            (click)="toggleCourseStateAtInput(course)">
         <strong>[{{course.id}}]:</strong> {{course.name}}
         <div class="arrow-sign">
-          <a class="btn btn-info btn-xs" routerLink="/web/instructor/home" (click)="$event.preventDefault();"> Enroll </a>
+          <button class="btn btn-info btn-xs" (click)="enroll(course.id)"> Enroll </button>
           <i class="fas fa-chevron-down pl-3" [hidden]="!course.isChecked"></i>
           <i class="fas fa-chevron-up pl-3" [hidden]="course.isChecked"></i>
         </div>

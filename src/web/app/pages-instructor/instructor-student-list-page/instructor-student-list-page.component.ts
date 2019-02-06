@@ -37,7 +37,7 @@ interface SectionDetails {
   name: string;
   teams: TeamDetails[];
   isAllowedToViewStudents: boolean;
-  isAllowedtoEditStudents: boolean;
+  isAllowedToEditStudents: boolean;
   courseId: string;
   isChecked: boolean | undefined;
 }
@@ -91,7 +91,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     const courseDetailsList: CourseDetails[] = [];
 
     this.allPresentCourses.forEach((course: Course) =>  {
-      const courseDetails: CourseDetails | undefined = this.getCourseDetails(course.id);
+      const courseDetails: CourseDetails | null = this.getCourseDetails(course.id);
       if (courseDetails) {
         courseDetailsList.push(courseDetails);
       }
@@ -153,14 +153,14 @@ export class InstructorStudentListPageComponent implements OnInit {
     return this.allPresentCourses.length === this.allCheckedCourses.length;
   }
 
-  get isAllPresentCourseDetailssChecked(): boolean {
+  get isAllPresentCourseDetailsChecked(): boolean {
     if (this.allPresentCourseDetails.length === 0) {
       return false;
     }
     return this.allPresentCourseDetails.length === this.allCheckedCourseDetails.length;
   }
 
-  get isAllPresentSectionDetailssChecked(): boolean {
+  get isAllPresentSectionDetailsChecked(): boolean {
     if (this.allPresentSectionDetails.length === 0) {
       return false;
     }
@@ -188,7 +188,8 @@ export class InstructorStudentListPageComponent implements OnInit {
     return this.allCheckedCourses.length > 0;
   }
 
-  courseStudentListSectionDataMap: Map<string, StudentListSectionData[]> = new Map();
+  // courseStudentListSectionDataMap: Map<string, StudentListSectionData[]> = new Map();
+  courseStudentListSectionDataMap: { [key : string]: StudentListSectionData[] } = {};
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
@@ -205,6 +206,13 @@ export class InstructorStudentListPageComponent implements OnInit {
    */
   search(): void {
     this.router.navigate(['/web/instructor/search'], { queryParams: { studentSearchkey: this.searchQuery } });
+  }
+
+  /**
+   * Navigate to the instructor enroll page for course.
+   */
+  enroll(courseid: string): void {
+    this.router.navigate(['/web/instructor/courses/enroll'], { queryParams: { courseid } });
   }
 
   /**
@@ -235,7 +243,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.isDisplayArchive = !this.isDisplayArchive;
     const isDisplayArchiveChecked: boolean = this.isDisplayArchive;
     this.courses.forEach((course: Course) => {
-      if (course.isArchived) {
+      if (course && course.isArchived) {
         this.toggleCourseStateAtInput(course, isDisplayArchiveChecked);
       }
     });
@@ -246,7 +254,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    */
   toggleAllPresentCoursesStateAtInput(defaultState: boolean): void {
     this.allPresentCourses.forEach((course: Course) => {
-      if (course !== undefined) {
+      if (course) {
         this.toggleCourseStateAtInput(course, defaultState);
       }
     });
@@ -291,13 +299,14 @@ export class InstructorStudentListPageComponent implements OnInit {
         : designatedState;
 
     this.fetchCourseDetails(course.id)
-        .subscribe((courseDetails: CourseDetails | undefined) => {
-          if (courseDetails !== undefined) {
+        .subscribe((courseDetails: CourseDetails | null) => {
+          if (courseDetails) {
             this.toggleCourseState(courseDetails, state);
-            this.courseStudentListSectionDataMap.set(
-                courseDetails.id, this.getStudentListSectionDataFromCourseDetails(courseDetails));
+            // this.courseStudentListSectionDataMap.set(
+            //     courseDetails.id, this.getStudentListSectionDataFromCourseDetails(courseDetails));
+            this.courseStudentListSectionDataMap[courseDetails.id]
+                = this.getStudentListSectionDataFromCourseDetails(courseDetails);
           }
-
         }, (error: any) => {
           this.statusMessageService.showErrorMessage(error);
         });
@@ -306,24 +315,22 @@ export class InstructorStudentListPageComponent implements OnInit {
   /**
    * Function to call backend API to get CourseDetails data for a course.
    */
-  fetchCourseDetails(courseid: string): Observable<CourseDetails | undefined> {
+  fetchCourseDetails(courseid: string): Observable<CourseDetails | null> {
     if (this.isCourseDetailsInList(courseid)) {
       return of(this.getCourseDetails(courseid));
     }
 
     const paramMap: { [courseid: string ]: string } = { courseid };
     return this.httpRequestService.get('/instructor/students', paramMap)
-        .pipe(map((resp: GetCourseDetailsResponse | undefined) => {
-          if (resp !== undefined) {
-            if (resp.course !== undefined) {
-              resp.course.isChecked = false;
-              this.courseDetailsList.push(resp.course);
-              return this.getCourseDetails(resp.course.id);
-            }
+        .pipe(map((resp: GetCourseDetailsResponse) => {
+          if (resp.course) {
+            resp.course.isChecked = false;
+            this.courseDetailsList.push(resp.course);
+            return this.getCourseDetails(resp.course.id);
           }
 
           this.statusMessageService.showErrorMessage(`Error retrieving course details for course of id ${courseid}`);
-          return undefined;
+          return null;
         }));
   }
 
@@ -379,7 +386,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   /**
    * Get the course from the list of courses.
    */
-  getCourse(courseId: string): Course | undefined {
+  getCourse(courseId: string): Course | null {
     const filteredCourseList: Course[] =
         this.courses.filter((course: Course) => course.id === courseId);
 
@@ -387,13 +394,13 @@ export class InstructorStudentListPageComponent implements OnInit {
       return filteredCourseList[0];
     }
 
-    return undefined;
+    return null;
   }
 
   /**
    * Get the courseDetails from the list of courseDetails.
    */
-  getCourseDetails(courseId: string): CourseDetails | undefined {
+  getCourseDetails(courseId: string): CourseDetails | null {
     const filteredCourseDetailsList: CourseDetails[] =
         this.courseDetailsList.filter((courseDetails: CourseDetails) => courseDetails.id === courseId);
 
@@ -401,7 +408,7 @@ export class InstructorStudentListPageComponent implements OnInit {
       return filteredCourseDetailsList[0];
     }
 
-    return undefined;
+    return null;
   }
 
   /*------------------------------Functions to toggle item state in state maps----------------------------------*/
@@ -419,8 +426,8 @@ export class InstructorStudentListPageComponent implements OnInit {
       this.courseDetailsList.push(courseDetails);
     }
 
-    const course: Course | undefined = this.getCourse(courseDetails.id);
-    if (course !== undefined) {
+    const course: Course | null = this.getCourse(courseDetails.id);
+    if (course) {
       course.isChecked = state;
     }
     courseDetails.sections.forEach((section: SectionDetails) => {
@@ -498,7 +505,8 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Function to formulate data for student list.
    */
   getStudentListSectionDataForCourse(courseId: string): StudentListSectionData[] {
-    const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap.get(courseId);
+    // const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap.get(courseId);
+    const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap[courseId];
     if (data === undefined) {
       return [];
     }
@@ -536,7 +544,7 @@ export class InstructorStudentListPageComponent implements OnInit {
       students,
       sectionName: sectionDetails.name,
       isAllowedToViewStudentInSection: sectionDetails.isAllowedToViewStudents,
-      isAllowedToModifyStudent: sectionDetails.isAllowedtoEditStudents,
+      isAllowedToModifyStudent: sectionDetails.isAllowedToEditStudents,
     };
 
     return section;
