@@ -606,7 +606,7 @@ public final class FeedbackResponsesLogic {
 
         FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response);
         if (feedbackResponse == null) {
-            // the response might have already being deleted.
+            // the response might have already being deleted due to team/section change.
             log.warning("Trying to update a feedback response that does not exist.");
             return;
         }
