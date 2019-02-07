@@ -62,7 +62,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = giverSection;
         this.recipient = recipient;
         this.recipientSection = recipientSection;
-        this.responseDetails = responseDetails;
+        this.responseDetails = responseDetails.getDeepCopy();
     }
 
     public FeedbackResponseAttributes(FeedbackResponse fr) {
