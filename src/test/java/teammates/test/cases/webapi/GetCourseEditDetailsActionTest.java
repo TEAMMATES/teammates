@@ -60,7 +60,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "instr1@course1.tmt",
-                Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1"
+                Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1",
         };
 
         editAction = getAction(submissionParams);
@@ -82,7 +82,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
 
         submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         editAction = getAction(submissionParams);
@@ -100,7 +100,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
 
         submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         editAction = getAction(submissionParams);
@@ -119,7 +119,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
 
         submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         editAction = getAction(submissionParams);
@@ -142,7 +142,7 @@ public class GetCourseEditDetailsActionTest extends BaseActionTest<GetCourseEdit
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

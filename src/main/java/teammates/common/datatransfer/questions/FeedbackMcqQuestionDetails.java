@@ -74,7 +74,58 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return new ArrayList<>(mcqWeights);
     }
 
+    private List<Double> getMcqWeights(Map<String, String[]> requestParameters,
+            int numMcqChoicesCreated, boolean hasAssignedWeights) {
+        List<Double> mcqWeights = new ArrayList<>();
+
+        if (!hasAssignedWeights) {
+            return mcqWeights;
+        }
+
+        for (int i = 0; i < numMcqChoicesCreated; i++) {
+            String choice = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+            String weight = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + i);
+
+            if (choice != null && !choice.trim().isEmpty() && weight != null) {
+                try {
+                    // Do not add weight to mcqWeights if the weight cannot be parsed
+                    mcqWeights.add(Double.parseDouble(weight));
+                } catch (NumberFormatException e) {
+                    log.severe("Failed to parse weight for MCQ question: " + weight);
+                }
+            }
+        }
+
+        return mcqWeights;
+    }
+
     public double getMcqOtherWeight() {
+        return mcqOtherWeight;
+    }
+
+    private double getMcqOtherWeight(Map<String, String[]> requestParameters,
+            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
+
+        double mcqOtherWeight = 0;
+
+        if (!hasAssignedWeights || !mcqOtherEnabled) {
+            return mcqOtherWeight;
+        }
+
+        String weightOther = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT);
+
+        Assumption.assertNotNull("Null 'other' weight of MCQ question", weightOther);
+        Assumption.assertNotEmpty("Empty 'other' weight of MCQ question", weightOther);
+
+        try {
+            // Do not assign value to mcqOtherWeight if the weight can not be parsed.
+            mcqOtherWeight = Double.parseDouble(weightOther);
+        } catch (NumberFormatException e) {
+            log.severe("Failed to parse \"other\" weight of MCQ question: " + weightOther);
+        }
         return mcqOtherWeight;
     }
 
@@ -128,57 +179,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             setMcqQuestionDetails(FeedbackParticipantType.valueOf(generatedMcqOptions));
         }
         return true;
-    }
-
-    private List<Double> getMcqWeights(Map<String, String[]> requestParameters,
-            int numMcqChoicesCreated, boolean hasAssignedWeights) {
-        List<Double> mcqWeights = new ArrayList<>();
-
-        if (!hasAssignedWeights) {
-            return mcqWeights;
-        }
-
-        for (int i = 0; i < numMcqChoicesCreated; i++) {
-            String choice = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
-            String weight = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + i);
-
-            if (choice != null && !choice.trim().isEmpty() && weight != null) {
-                try {
-                    // Do not add weight to mcqWeights if the weight cannot be parsed
-                    mcqWeights.add(Double.parseDouble(weight));
-                } catch (NumberFormatException e) {
-                    log.severe("Failed to parse weight for MCQ question: " + weight);
-                }
-            }
-        }
-
-        return mcqWeights;
-    }
-
-    private double getMcqOtherWeight(Map<String, String[]> requestParameters,
-            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
-
-        double mcqOtherWeight = 0;
-
-        if (!hasAssignedWeights || !mcqOtherEnabled) {
-            return mcqOtherWeight;
-        }
-
-        String weightOther = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT);
-
-        Assumption.assertNotNull("Null 'other' weight of MCQ question", weightOther);
-        Assumption.assertNotEmpty("Empty 'other' weight of MCQ question", weightOther);
-
-        try {
-            // Do not assign value to mcqOtherWeight if the weight can not be parsed.
-            mcqOtherWeight = Double.parseDouble(weightOther);
-        } catch (NumberFormatException e) {
-            log.severe("Failed to parse \"other\" weight of MCQ question: " + weightOther);
-        }
-        return mcqOtherWeight;
     }
 
     private void setMcqQuestionDetails(int numOfMcqChoices, List<String> mcqChoices, boolean otherEnabled,

@@ -65,17 +65,6 @@ public abstract class FeedbackResponseDetails {
     public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
 
     /**
-     * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
-     *
-     * <p>default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails).
-     * override in child class if necessary.
-     */
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getAnswerHtmlInstructorView(question.getQuestionDetails());
-    }
-
-    /**
      * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
      *
      * <p>default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails).
@@ -84,6 +73,17 @@ public abstract class FeedbackResponseDetails {
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
+    }
+
+    /**
+     * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
+     *
+     * <p>default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails).
+     * override in child class if necessary.
+     */
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+        return getAnswerHtmlInstructorView(question.getQuestionDetails());
     }
 
     public static FeedbackResponseDetails createResponseDetails(

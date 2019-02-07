@@ -67,7 +67,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         loginAsStudent(account.googleId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.BLOB_KEY, studentProfileAttributes.pictureKey
+                Const.ParamsNames.BLOB_KEY, studentProfileAttributes.pictureKey,
         };
         GetStudentProfilePictureAction action = getAction(submissionParams);
         ImageResult result = getImageResult(action);

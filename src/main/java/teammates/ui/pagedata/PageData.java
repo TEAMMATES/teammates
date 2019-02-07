@@ -226,7 +226,7 @@ public class PageData {
                 FeedbackParticipantType.OWN_TEAM_MEMBERS,
                 FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS
+                FeedbackParticipantType.INSTRUCTORS,
         };
 
         for (FeedbackParticipantType type : relevantTypes) {
@@ -259,7 +259,7 @@ public class PageData {
                 FeedbackParticipantType.OWN_TEAM_MEMBERS,
                 FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS
+                FeedbackParticipantType.INSTRUCTORS,
         };
 
         for (FeedbackParticipantType participantType : relevantTypes) {
