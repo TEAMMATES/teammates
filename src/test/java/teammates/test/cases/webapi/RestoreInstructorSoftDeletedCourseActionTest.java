@@ -38,7 +38,7 @@ public class RestoreInstructorSoftDeletedCourseActionTest
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         loginAsInstructor(instructorId);
@@ -58,7 +58,7 @@ public class RestoreInstructorSoftDeletedCourseActionTest
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
 
         verifyOnlyInstructorsCanAccess(submissionParams);

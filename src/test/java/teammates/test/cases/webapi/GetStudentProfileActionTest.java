@@ -53,7 +53,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         ______TS(caseDescription);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_ID, student.googleId
+                Const.ParamsNames.STUDENT_ID, student.googleId,
         };
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
@@ -71,7 +71,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
         ______TS(caseDescription);
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_ID, student1.googleId
+                Const.ParamsNames.STUDENT_ID, student1.googleId,
         };
 
         GetStudentProfileAction action = getAction(submissionParams);
