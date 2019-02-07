@@ -605,6 +605,10 @@ public final class FeedbackResponsesLogic {
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response);
+        if (feedbackResponse == null) {
+            throw new EntityDoesNotExistException("Trying to update a feedback response that does not exist.");
+        }
+
         boolean isGiverSameForResponseAndEnrollment = feedbackResponse.getGiverEmail()
                 .equals(enrollment.email);
         boolean isReceiverSameForResponseAndEnrollment = feedbackResponse.getRecipientEmail()
