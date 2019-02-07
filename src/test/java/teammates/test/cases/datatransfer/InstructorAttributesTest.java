@@ -211,7 +211,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         String googleId = "\t\tvalid.goo    gleId  \t\n";
         String courseId = "\t\n  co      urseId";
         String name = "\t\t\tna    me<><>";
-        String email = "\n      e     'm'a'i'l@google.com";
+        String email = "\n      my'email@google.com";
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
