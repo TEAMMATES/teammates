@@ -2,6 +2,7 @@ package teammates.test.cases.datatransfer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -27,7 +28,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_allChoicesNull_weightsListShouldBeEmpty() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -51,7 +52,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_allSubQuestionsNull_weightsListShouldBeEmpty() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -75,7 +76,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_emptySubQuestion_weightForInValidSubQestionShouldNotBeParsed() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -103,7 +104,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_allWeightsNull_weightListShouldBeEmpty() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -123,7 +124,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_invalidWeightPassed_invalidWeightShouldNotBeParsed() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -154,7 +155,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_weightsDisabledValidWeights_weightListShouldBeEmpty() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -178,7 +179,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testGetRubricWeightsForEachCell_weightsEnabledValidWeights_weightsListShouldHaveCorrectWeights() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -209,7 +210,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_invalidWeightListSize_errorReturned() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
@@ -233,7 +234,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_validWeightListSize_errorListShouldBeEmpty() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
+        Map<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });

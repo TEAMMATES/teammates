@@ -45,7 +45,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
 
@@ -107,7 +107,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setCustomSessionVisibleTimestamp(saveRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
@@ -136,7 +136,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setSessionVisibleSetting(FeedbackSessionInfo.SessionVisibleSetting.AT_OPEN);
@@ -157,7 +157,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setSessionVisibleSetting(FeedbackSessionInfo.SessionVisibleSetting.AT_OPEN);
@@ -202,7 +202,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         FeedbackSessionInfo.FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setInstructions(null);

@@ -43,7 +43,7 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
                 ParamsNames.SUBMISSION_REMIND_USERLIST, student1.email,
                 ParamsNames.SUBMISSION_REMIND_USERLIST, instructor1.email,
                 ParamsNames.USER_ID, instructor1.googleId,
-                ParamsNames.SUBMISSION_REMIND_USERLIST, "non-existent"
+                ParamsNames.SUBMISSION_REMIND_USERLIST, "non-existent",
         };
 
         FeedbackSessionRemindParticularUsersEmailWorkerAction action = getAction(submissionParams);

@@ -75,7 +75,7 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
                 + "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
         PostCourseEnrollSaveAction a = getAction(enrollString, submissionParams);
         JsonResult r = getJsonResult(a);
@@ -265,7 +265,7 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
+                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString,
         };
         a = getAction(submissionParams);
         r = getJsonResult(a);
@@ -301,7 +301,7 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, ""
+                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, "",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

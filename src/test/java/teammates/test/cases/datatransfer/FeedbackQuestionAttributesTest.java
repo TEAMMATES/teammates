@@ -26,18 +26,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     private DataBundle typicalBundle = getTypicalDataBundle();
 
-    private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
-
-        void setCreatedAt(Instant createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        void setUpdatedAt(Instant updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-    }
-
     @Override
     @Test
     public void testToEntity() {
@@ -531,6 +519,18 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withShowRecipientNameTo(new ArrayList<>(participants))
                 .withShowResponseTo(new ArrayList<>(participants))
                 .build();
+    }
+
+    private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
+
+        void setCreatedAt(Instant createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        void setUpdatedAt(Instant updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
     }
 
 }
