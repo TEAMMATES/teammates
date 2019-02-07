@@ -219,7 +219,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("Success: soft delete an existing feedback session");
         fsDb.softDeleteFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
 
-        assertNull(fsDb.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()));
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertNotNull(fsDb.getSoftDeletedFeedbackSession(fs.getCourseId(),
                 fs.getFeedbackSessionName()));
 
