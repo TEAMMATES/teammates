@@ -95,7 +95,7 @@ public class FeedbackSessionQuestionsBundle {
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
         List<Map.Entry<String, String>> emailList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
-        HashSet<String> result = new HashSet<>();
+        Set<String> result = new HashSet<>();
 
         for (Map.Entry<String, String> entry : emailList) {
             result.add(entry.getKey());

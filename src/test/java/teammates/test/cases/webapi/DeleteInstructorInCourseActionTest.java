@@ -43,7 +43,7 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete,
         };
 
         DeleteInstructorInCourseAction a = getAction(submissionParams);
@@ -62,7 +62,7 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete,
         };
 
         a = getAction(submissionParams);
@@ -85,7 +85,7 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete,
         };
 
         a = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
@@ -106,7 +106,7 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
         };
 
         verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);

@@ -178,7 +178,7 @@ public class TableSortTest extends BaseE2ETestCase {
                 "33",
                 "10.35",
                 "-0.001",
-                "10.3"
+                "10.3",
         };
 
         StringBuilder searchString = new StringBuilder();
@@ -203,7 +203,7 @@ public class TableSortTest extends BaseE2ETestCase {
                 "2",
                 "-13.5",
                 "0",
-                "15"
+                "15",
         };
 
         searchString = new StringBuilder();

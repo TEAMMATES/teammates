@@ -36,7 +36,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         DeleteStudentAction a = getAction(submissionParams);
@@ -49,7 +49,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
         };
 
         a = getAction(submissionParams);
@@ -66,7 +66,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         verifyAccessibleForAdmin(submissionParams);

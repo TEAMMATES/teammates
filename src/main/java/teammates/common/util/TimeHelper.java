@@ -166,6 +166,21 @@ public final class TimeHelper {
     }
 
     /**
+     * Formats a datetime stamp from an {@code instant} including time zone name.
+     * Example: Sun, 01 Apr 2018, 11:21 PM SGT
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT</p>
+     *
+     * @param instant         the instant to be formatted
+     * @param sessionTimeZone the time zone to compute local datetime
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForDisplay(Instant instant, ZoneId sessionTimeZone) {
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
+    }
+
+    /**
      * Formats a date stamp from a {@code localDateTime} for populating the sessions form.
      * Example: Sun, 01 Apr, 2018
      *
@@ -258,21 +273,6 @@ public final class TimeHelper {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
         return zonedDateTime.format(formatter);
-    }
-
-    /**
-     * Formats a datetime stamp from an {@code instant} including time zone name.
-     * Example: Sun, 01 Apr 2018, 11:21 PM SGT
-     *
-     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT</p>
-     *
-     * @param instant         the instant to be formatted
-     * @param sessionTimeZone the time zone to compute local datetime
-     * @return the formatted datetime stamp string
-     */
-    public static String formatDateTimeForDisplay(Instant instant, ZoneId sessionTimeZone) {
-        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
     /**

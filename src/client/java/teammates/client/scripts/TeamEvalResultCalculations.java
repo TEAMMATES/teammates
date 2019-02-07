@@ -23,7 +23,7 @@ public final class TeamEvalResultCalculations {
         int[][] input = {
                 { 100, 100, 110 },
                 { 100, 100, 110 },
-                { 100, 100, 110 }
+                { 100, 100, 110 },
         };
 
         showCalculationSteps(input);
@@ -33,7 +33,7 @@ public final class TeamEvalResultCalculations {
                 { 100, 100, 100, 100 },
                 { 110, 110, NSU, 110 },
                 { NSB, NSB, NSB, NSB },
-                {  70,  80, 110, 120 }
+                {  70,  80, 110, 120 },
         };
 
         showCalculationSteps(input2);
@@ -41,7 +41,7 @@ public final class TeamEvalResultCalculations {
         int[][] input3 = {
                 { 103, 103,  94 },
                 {  90, 110, NSU },
-                { 100,  90, 110 }
+                { 100,  90, 110 },
         };
         // CHECKSTYLE.ON:SingleSpaceSeparator
 
@@ -50,7 +50,7 @@ public final class TeamEvalResultCalculations {
         int[][] input4 = {
                 { 110, 120, 130 },
                 { 210, 220, 230 },
-                { 310, 320, 330 }
+                { 310, 320, 330 },
         };
 
         showCalculationSteps(input4);

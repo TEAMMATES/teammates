@@ -33,7 +33,7 @@ public class GetInstructorCoursesActionTest extends BaseActionTest<GetInstructor
         String instructorId = instructor1OfCourse1.googleId;
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
         };
 
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
