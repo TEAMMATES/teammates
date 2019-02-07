@@ -606,7 +606,9 @@ public final class FeedbackResponsesLogic {
 
         FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response);
         if (feedbackResponse == null) {
-            throw new EntityDoesNotExistException("Trying to update a feedback response that does not exist.");
+            // the response might have already being deleted.
+            log.warning("Trying to update a feedback response that does not exist.");
+            return;
         }
 
         boolean isGiverSameForResponseAndEnrollment = feedbackResponse.getGiverEmail()
