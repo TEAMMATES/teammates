@@ -6,6 +6,14 @@
   text-align: center;
 }
 
+.bg-light-blue {
+  background-color: #D9EDF7;
+}
+
+.border-right-gray {
+  border-right: 1px solid #DDD;
+}
+
 .btn-left {
   margin-right: 10px;
 }
@@ -13,6 +21,22 @@
 .button {
   border: 1px solid #CCC;
   color: black !important;
+}
+
+.col-sm-3 {
+  float: left;
+  width: 25%;
+}
+
+.col-sm-5 {
+  width: 41.66666667%;
+  margin-left: 8.33333333%;
+  float: left;
+}
+
+.col-sm-6 {
+  width: 50%;
+  float: left;
 }
 
 .fill-plain {

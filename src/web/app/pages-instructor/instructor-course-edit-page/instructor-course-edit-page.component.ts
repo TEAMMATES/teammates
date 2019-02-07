@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,8 +29,27 @@ interface CourseLevelPrivileges {
   canmodifysessioncommentinsection: boolean;
 }
 
+interface SectionLevelPrivileges {
+  canviewstudentinsection: boolean;
+  canviewsessioninsection: boolean;
+  cansubmitsessioninsection: boolean;
+  canmodifysessioncommentinsection: boolean;
+}
+
+interface SessionLevelPrivileges {
+  canviewsessioninsection: boolean;
+  cansubmitsessioninsection: boolean;
+  canmodifysessioncommentinsection: boolean;
+}
+
 interface Privileges {
   courseLevel: CourseLevelPrivileges;
+
+  // Maps a section name to section level privileges
+  sectionLevel: Map<string, SectionLevelPrivileges>;
+
+  // Maps a section name to a map mapping the session name and session privileges
+  sessionLevel: Map<string, Map<string, SessionLevelPrivileges>>;
 }
 
 interface InstructorAttributes {
@@ -166,13 +185,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.formEditInstructors = this.fb.group({ formInstructors: [] });
 
     const control: FormArray = this.fb.array([]);
-    this.instructorList.forEach((instructor: InstructorAttributes) => {
+    this.instructorList.forEach((instructor: InstructorAttributes, index: number) => {
 
-      const instructorPrivileges: Privileges = this.getPrivilegesForRole(instructor.role);
+      const instructorPrivileges: Privileges = instructor.privileges;
       const instructorEmail: string = instructor.email ? instructor.email : '';
       const instructorDisplayedName: string = instructor.isDisplayedToStudents ? instructor.displayedName : '';
 
-      control.push(this.fb.group({
+      const instructorForm: FormGroup = this.fb.group({
         googleId: [{ value: instructor.googleId, disabled: true }],
         name: [{ value: instructor.name, disabled: true }],
         email: [{ value: instructorEmail, disabled: true }],
@@ -180,7 +199,37 @@ export class InstructorCourseEditPageComponent implements OnInit {
         displayedName: [{ value: instructorDisplayedName, disabled: true }],
         role: [{ value: instructor.role }],
         privileges: [{ value: instructorPrivileges }],
-      }));
+        tunePermissions: this.fb.group({
+          canmodifycourse: instructorPrivileges.courseLevel.canmodifycourse,
+          canmodifyinstructor: instructorPrivileges.courseLevel.canmodifyinstructor,
+          canmodifysession:instructorPrivileges.courseLevel.canmodifysession,
+          canmodifystudent:instructorPrivileges.courseLevel.canmodifystudent,
+          canviewstudentinsection: instructorPrivileges.courseLevel.canviewstudentinsection,
+          cansubmitsessioninsection: instructorPrivileges.courseLevel.cansubmitsessioninsection,
+          canviewsessioninsection: instructorPrivileges.courseLevel.canviewsessioninsection,
+          canmodifysessioncommentinsection: instructorPrivileges.courseLevel.canmodifysessioncommentinsection,
+        }),
+      });
+
+      // Listen for changes to custom privileges
+      const roleControl: (AbstractControl | null) = instructorForm.get('role');
+      const permissionsControl: (AbstractControl | null) = instructorForm.get('tunePermissions');
+
+      if (roleControl != null && permissionsControl != null) {
+        roleControl.valueChanges.subscribe(selectedRole => {
+          const panelId: string = 'tune-permissions-' + index;
+          const panel: (HTMLElement | null) = document.getElementById(panelId);
+
+          if (selectedRole === 'Custom' && panel != null) {
+            permissionsControl.reset(this.instructorList[index].privileges.courseLevel);
+            panel.style.display = 'block';
+          } else if (panel != null) {
+            panel.style.display = 'none';
+          }
+        });
+      }
+
+      control.push(instructorForm);
     });
 
     this.formEditInstructors.controls.formInstructors = control;
@@ -306,8 +355,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const nameDisplayId: string = `name-display-${index}`;
     const displayedNameField: (HTMLInputElement | null) = document.getElementById(nameDisplayId) as HTMLInputElement;
 
+    const permissionsPanelId: string = `tune-permissions-${index}`;
+    const permissionsPanel: (HTMLElement | null) = document.getElementById(permissionsPanelId);
+
     if (editBtn != null && cancelBtn != null && saveBtn != null && viewRole != null && editRole != null
-        && idControl != null && roleControl != null && displayNameControl != null && displayedNameField != null) {
+        && idControl != null && roleControl != null && displayNameControl != null && displayedNameField != null
+        && permissionsPanel != null) {
 
       // If the instructor is currently being edited
       if (isEditBtnVisible) {
@@ -323,6 +376,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
         idControl.disable();
         roleControl.setValue(this.instructorList[index].role);
 
+        if (this.instructorList[index].role == 'Custom') {
+          permissionsPanel.style.display = 'block';
+        }
+
         if (!this.instructorList[index].isDisplayedToStudents) {
           displayNameControl.disable();
         }
@@ -337,6 +394,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
         control.disable();
         control.reset(this.instructorList[index]);
+        control.controls.tunePermissions.reset(this.instructorList[index].privileges.courseLevel);
+        permissionsPanel.style.display = 'none';
+
         if (!this.instructorList[index].isDisplayedToStudents) {
           displayNameControl.setValue('');
           displayedNameField.placeholder = this.getPlaceholderForDisplayedName(false);
@@ -380,6 +440,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const instructorIsDisplayed: string = 'instructorisdisplayed';
     if (editedInstructor.isDisplayedToStudents) {
       paramsMap[instructorIsDisplayed] = 'true';
+    }
+
+    // Append custom course level privileges
+    if (instr.controls.role.value == 'Custom') {
+      for (let permission in instr.controls.tunePermissions.value) {
+        let checked: (AbstractControl | null) =  instr.controls.tunePermissions.get(permission);
+        if (checked != null && checked.value) {
+          paramsMap[permission] = 'true';
+        }
+      }
+      editedInstructor.privileges.courseLevel = instr.controls.tunePermissions.value;
     }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)

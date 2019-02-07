@@ -185,6 +185,157 @@
                   </div>
                 </div>
               </div>
+              <div id="tune-permissions-{{ i }}" style="display: none;">
+                <div class="form-group" formGroupName="tunePermissions">
+                  <div class="col-xs-12">
+                    <div class="card bg-light top-padded">
+                      <div class="card-header bg-light-blue">
+                        <strong>
+                          In general, this instructor can
+                        </strong>
+                      </div>
+                      <div class="card-body">
+                        <div class="col-sm-3">
+                          <input formControlName="canmodifycourse" type="checkbox">
+                          Edit/Delete/Restore Course
+                        </div>
+                        <div class="col-sm-3">
+                          <input formControlName="canmodifyinstructor" type="checkbox">
+                          Add/Edit/Delete Instructors
+                        </div>
+                        <div class="col-sm-3">
+                          <input formControlName="canmodifysession" type="checkbox">
+                          Create/Edit/Delete/Restore Sessions
+                        </div>
+                        <div class="col-sm-3">
+                          <input formControlName="canmodifystudent" type="checkbox">
+                          Enroll/Edit/Delete Students
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-sm-6 border-right-gray">
+                          <input formControlName="canviewstudentinsection" type="checkbox">
+                          View Students' Details
+                          <br>
+                        </div>
+                        <div class="col-sm-5 col-sm-offset-1">
+                          <input formControlName="cansubmitsessioninsection" type="checkbox">
+                          Sessions: Submit Responses and Add Comments
+                          <br>
+                          <input formControlName="canviewsessioninsection" type="checkbox">
+                          Sessions: View Responses and Comments
+                          <br>
+                          <input formControlName="canmodifysessioncommentinsection" type="checkbox">
+                          Sessions: Edit/Delete Responses/Comments by Others
+                          <br>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="tune-section-permissions-{{ i }}" *ngIf="this.instructorList[i].privileges.sectionLevel.size">
+                      <div class="card bg-light top-padded">
+                        <div class="card-header bg-primary text-white">
+                          <div class="row">
+                            <div class="col-sm-2">
+                              <p>
+                                <strong>
+                                  But in section(s)
+                                </strong>
+                              </p>
+                            </div>
+                            <div class="col-sm-9">
+                              <ng-container *ngFor="let section of this.instructorList[i].privileges.sectionLevel | keyvalue">
+                                <div class="col-sm-12">
+                                  <div class="col-sm-4">
+                                    <input name="{{ section.key }}" type="checkbox">
+                                    {{ section.key }}
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                            <div class="col-sm-1">
+                              <button class="pull-right">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <p>
+                                <strong>
+                                  the instructor can only,
+                                </strong>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-body">
+                          <br>
+                          <div class="col-sm-6 border-right-gray">
+                            <input name="canviewstudentinsectionsectiongroup" type="checkbox">
+                            View Students' Details
+                            <br>
+                            <br>
+                          </div>
+                          <div class="col-sm-5 col-sm-offset-1">
+                            <input name="cansubmitsessioninsectionsectiongroup" type="checkbox">
+                            Sessions: Submit Responses and Add Comments
+                            <br>
+                            <input name="canviewsessioninsectionsectiongroup" type="checkbox">
+                            Sessions: View Responses and Comments
+                            <br>
+                            <input name="canmodifysessioncommentinsectionsectiongroup" type="checkbox">
+                            Sessions: Edit/Delete Responses/Comments by Others
+                            <br>
+                            <br>
+                          </div>
+                          <a class="small col-sm-5 hide-tune-session-permissions">
+                            Hide session-level permissions
+                          </a>
+                          <div class="row" data-is-originally-displayed="true">
+                            <input name="issectiongroup0sessionsset" type="hidden" value="true">
+                            <table class="table table-striped">
+                              <thead>
+                              <tr>
+                                <td>
+                                  SessionName
+                                </td>
+                                <td>
+                                  Submit Responses and Add Comments
+                                </td>
+                                <td>
+                                  View Responses and Comments
+                                </td>
+                                <td>
+                                  Edit/Delete Responses/Comments by Others
+                                </td>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                <td>
+                                  First feedback session
+                                </td>
+                                <td class="align-center">
+                                  <input checked="" name="cansubmitsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
+                                </td>
+                                <td class="align-center">
+                                  <input checked="" name="canviewsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
+                                </td>
+                                <td class="align-center">
+                                  <input checked="" name="canmodifysessioncommentinsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="small" href="javascript:;">Give different permissions for a specific section</a>
               <div class="form-group">
                 <div class="align-center">
                   <button class="btn btn-primary" tabindex="6" id="btn-save-{{ i }}" style="display:none;" type="submit">
@@ -234,7 +385,7 @@
     Add New Instructor
   </button>
 </div>
-<div class="card bg-light top-padded-sm bottom-padded" *ngIf="this.instructorList.length && isAddingInstructor">
+<div class="card bg-light top-padded-sm bottom-padded" id="newCard" *ngIf="this.instructorList.length && isAddingInstructor">
   <div class="card-header bg-primary text-white">
     <strong>Instructor {{ this.instructorList.length + 1 }}:</strong>
     <span class="float-sm-right">
