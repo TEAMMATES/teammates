@@ -75,7 +75,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
         this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
-        this.responseDetails = deserializeResponseFromSeralizedString(fr.getResponseMetaData());
+        this.responseDetails = deserializeResponseFromSerializedString(fr.getResponseMetaData());
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
     }
@@ -183,7 +183,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         responseDetails = newFeedbackResponseDetails.getDeepCopy();
     }
 
-    private FeedbackResponseDetails deserializeResponseFromSeralizedString(String serializedResponseDetails) {
+    private FeedbackResponseDetails deserializeResponseFromSerializedString(String serializedResponseDetails) {
         Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
 
         if (responseDetailsClass == FeedbackTextResponseDetails.class) {
