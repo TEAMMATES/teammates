@@ -1449,7 +1449,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Restores a specific feedback session from Recycle Bin to feedback sessions table.
+     * Restores a specific feedback session from Recycle Bin.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
@@ -1457,7 +1457,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Restores all feedback sessions from Recycle Bin to feedback sessions table.
+     * Restores all feedback sessions from Recycle Bin.
      */
     public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {

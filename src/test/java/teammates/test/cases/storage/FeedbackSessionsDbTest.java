@@ -228,6 +228,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         assertNull(fsDb.getSoftDeletedFeedbackSession(fs.getCourseId(),
                 fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertFalse(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()).isSessionDeleted());
 
         ______TS("null parameter");
