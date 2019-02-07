@@ -1276,6 +1276,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
+     * Selects the recipients in the feedback path to be other students in the course and waits for the corresponding
+     * visibility message to load.
+     */
+    public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
+        WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
+        selectDropdownByVisibleValueAndHandleAjaxRequests(recipientDropdown, "Other students in the course");
+    }
+
+    /**
      * Selects the recipients in the feedback path to be the team members and giver and waits for the corresponding
      * visibility message to load.
      */
@@ -1291,15 +1300,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectRecipientsToBeInstructorsAndWaitForVisibilityMessageToLoad() {
         selectDropdownByVisibleValueAndHandleAjaxRequests(
                 recipientDropdownForNewQuestion, "Instructors in the course");
-    }
-
-    /**
-     * Selects the recipients in the feedback path to be other students in the course and waits for the corresponding
-     * visibility message to load.
-     */
-    public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
-        WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByVisibleValueAndHandleAjaxRequests(recipientDropdown, "Other students in the course");
     }
 
     public void enableOtherFeedbackPathOptions(int qnNumber) {

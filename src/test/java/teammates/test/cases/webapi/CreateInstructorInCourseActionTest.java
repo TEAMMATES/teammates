@@ -59,7 +59,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         CreateInstructorInCourseAction a = getAction(submissionParams);
@@ -109,7 +109,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
 
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
         };
 
         a = getAction(submissionParams);
@@ -144,7 +144,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getJsonResult(a);
@@ -188,7 +188,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

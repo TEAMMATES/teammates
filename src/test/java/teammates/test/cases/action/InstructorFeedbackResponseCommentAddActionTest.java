@@ -58,7 +58,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response"
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
         };
 
         verifyAssumptionFailure(submissionParams);
@@ -73,7 +73,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
@@ -101,7 +101,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -119,7 +119,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -136,7 +136,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -153,7 +153,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -170,7 +170,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -187,7 +187,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -204,7 +204,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -221,7 +221,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -242,7 +242,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -267,7 +267,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
@@ -312,7 +312,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);

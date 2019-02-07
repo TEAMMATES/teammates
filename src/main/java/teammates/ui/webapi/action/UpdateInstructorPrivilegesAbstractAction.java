@@ -29,7 +29,7 @@ public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
         } catch (EntityDoesNotExistException e) {
             return;
         }
-        HashMap<String, Boolean> isSectionSpecialMappings = new HashMap<>();
+        Map<String, Boolean> isSectionSpecialMappings = new HashMap<>();
         for (String sectionName : sectionNames) {
             isSectionSpecialMappings.put(sectionName, false);
         }
@@ -135,7 +135,7 @@ public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
     protected Map<String, List<String>> getSectionsWithSpecialPrivilegesFromParameters(
             InstructorAttributes instructor, List<String> sectionNames,
             Map<String, Boolean> isSectionSpecialMappings) {
-        HashMap<String, List<String>> specialSectionsInSectionGroups = new HashMap<>();
+        Map<String, List<String>> specialSectionsInSectionGroups = new HashMap<>();
         if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             getSectionsWithSpecialPrivilegesForCustomInstructor(sectionNames, isSectionSpecialMappings,
                     specialSectionsInSectionGroups);

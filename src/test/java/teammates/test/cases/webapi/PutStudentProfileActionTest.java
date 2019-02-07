@@ -162,7 +162,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
                 Const.ParamsNames.STUDENT_NATIONALITY, "American",
                 Const.ParamsNames.STUDENT_GENDER, "  other   ",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   ",
         };
     }
 
@@ -174,7 +174,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
                 Const.ParamsNames.STUDENT_NATIONALITY, "American",
                 Const.ParamsNames.STUDENT_GENDER, "  other   ",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   ",
         };
     }
 
@@ -186,7 +186,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA",
                 Const.ParamsNames.STUDENT_GENDER, "female",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me",
         };
     }
 
@@ -198,7 +198,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>",
         };
     }
 

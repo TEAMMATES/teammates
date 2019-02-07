@@ -228,7 +228,9 @@ public class BaseTestCase {
         /**
          * Executes a block of code, potentially throwing a {@link Throwable}.
          */
+        // CHECKSTYLE.OFF:IllegalThrows
         void execute() throws Throwable;
+        // CHECKSTYLE.ON:IllegalThrows
 
     }
 
