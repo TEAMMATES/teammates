@@ -35,7 +35,7 @@ public class DeleteAllInstructorSoftDeletedCoursesActionTest
         String courseId = instructor1OfCourse1.courseId;
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
         };
 
         ______TS("Typical case, delete all soft-deleted courses in Recycle Bin");

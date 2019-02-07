@@ -46,57 +46,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     /**
-     * A Builder class for {@link AccountAttributes}.
-     */
-    public static class Builder {
-        private AccountAttributes accountAttributes;
-
-        public Builder() {
-            accountAttributes = new AccountAttributes();
-        }
-
-        public Builder withCreatedAt(Instant createdAt) {
-            accountAttributes.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder withGoogleId(String googleId) {
-            accountAttributes.googleId = googleId;
-            return this;
-        }
-
-        public Builder withName(String name) {
-            accountAttributes.name = name;
-            return this;
-        }
-
-        public Builder withIsInstructor(boolean isInstructor) {
-            accountAttributes.isInstructor = isInstructor;
-            return this;
-        }
-
-        public Builder withEmail(String email) {
-            accountAttributes.email = email;
-            return this;
-        }
-
-        public Builder withInstitute(String institute) {
-            accountAttributes.institute = institute;
-            return this;
-        }
-
-        public AccountAttributes build() {
-            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
-            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
-            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
-            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
-
-            return accountAttributes;
-        }
-
-    }
-
-    /**
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
@@ -191,6 +140,57 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     public boolean isUserRegistered() {
         return googleId != null && !googleId.isEmpty();
+    }
+
+    /**
+     * A Builder class for {@link AccountAttributes}.
+     */
+    public static class Builder {
+        private AccountAttributes accountAttributes;
+
+        public Builder() {
+            accountAttributes = new AccountAttributes();
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            accountAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withGoogleId(String googleId) {
+            accountAttributes.googleId = googleId;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            accountAttributes.name = name;
+            return this;
+        }
+
+        public Builder withIsInstructor(boolean isInstructor) {
+            accountAttributes.isInstructor = isInstructor;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            accountAttributes.email = email;
+            return this;
+        }
+
+        public Builder withInstitute(String institute) {
+            accountAttributes.institute = institute;
+            return this;
+        }
+
+        public AccountAttributes build() {
+            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
+            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
+            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
+            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
+
+            return accountAttributes;
+        }
+
     }
 
 }

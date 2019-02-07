@@ -59,18 +59,6 @@ public final class HtmlHelper {
         return assertSameHtml(expected, actual, isPart, true);
     }
 
-    /**
-     * Verifies that two HTML files are logically equivalent, e.g. ignores
-     * differences in whitespace and attribute order.
-     * @param expected the expected string for comparison
-     * @param actual the actual string for comparison
-     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
-     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
-     */
-    public static boolean areSameHtml(String expected, String actual, boolean isPart) {
-        return assertSameHtml(expected, actual, isPart, false);
-    }
-
     private static boolean assertSameHtml(String expected, String actual, boolean isPart,
                                           boolean isDifferenceToBeShown) {
         String processedActual = convertToStandardHtml(actual, isPart);
@@ -92,6 +80,18 @@ public final class HtmlHelper {
                          "<actual>" + System.lineSeparator() + processedActual + "</actual>");
         }
         return false;
+    }
+
+    /**
+     * Verifies that two HTML files are logically equivalent, e.g. ignores
+     * differences in whitespace and attribute order.
+     * @param expected the expected string for comparison
+     * @param actual the actual string for comparison
+     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
+     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
+     */
+    public static boolean areSameHtml(String expected, String actual, boolean isPart) {
+        return assertSameHtml(expected, actual, isPart, false);
     }
 
     private static boolean areSameHtmls(String expected, String actual) {

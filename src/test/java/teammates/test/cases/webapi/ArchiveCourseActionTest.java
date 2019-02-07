@@ -90,7 +90,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         loginAsAdmin();
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
         };
         archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(archiveAction);
@@ -103,7 +103,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
     protected void testAccessControl() {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

@@ -95,7 +95,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
         ______TS("New student with no existing course, course join affected by eventual consistency");
 
         submissionParams = new String[] {
-                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1",
         };
 
         studentId = "newStudent";
@@ -113,7 +113,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
 
         submissionParams = new String[] {
-                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse2"
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse2",
         };
 
         studentId = student1InCourse1.googleId;
@@ -131,7 +131,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
 
         submissionParams = new String[] {
-                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1",
         };
 
         studentId = student1InCourse1.googleId;
@@ -157,7 +157,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
 
         // check for persistence issue
         submissionParams = new String[] {
-                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course",
         };
 
         verifyInaccessibleForUnregisteredUsers(submissionParams);
