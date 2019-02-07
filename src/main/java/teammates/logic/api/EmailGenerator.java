@@ -131,8 +131,7 @@ public class EmailGenerator {
                                    ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
                                            "${joinUrl}", joinUrl,
                                            "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                           "${coOwnersEmails}", SanitizationHelper.sanitizeForHtml(
-                                                   generateCoOwnersEmailsLine(course.getId())))
+                                           "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
                                    : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
@@ -532,7 +531,7 @@ public class EmailGenerator {
                 fillUpStudentJoinFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${coOwnersEmails}", SanitizationHelper.sanitizeForHtml(generateCoOwnersEmailsLine(course.getId())),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -552,7 +551,7 @@ public class EmailGenerator {
                 fillUpStudentRejoinAfterGoogleIdResetFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${coOwnersEmails}", SanitizationHelper.sanitizeForHtml(generateCoOwnersEmailsLine(course.getId())),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -707,7 +706,7 @@ public class EmailGenerator {
         StringBuilder coOwnersEmailsLine = new StringBuilder();
         for (InstructorAttributes coOwner : coOwners) {
             coOwnersEmailsLine
-                    .append(coOwner.getName())
+                    .append(SanitizationHelper.sanitizeForHtml(coOwner.getName()))
                     .append(" (")
                     .append(coOwner.getEmail())
                     .append("), ");
@@ -721,8 +720,7 @@ public class EmailGenerator {
      */
     private String getAdditionalContactInformationFragment(CourseAttributes course) {
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
-                "${coOwnersEmails}",
-                SanitizationHelper.sanitizeForHtml(generateCoOwnersEmailsLine(course.getId())),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 }
