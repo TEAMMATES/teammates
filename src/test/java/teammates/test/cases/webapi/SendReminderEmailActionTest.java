@@ -44,7 +44,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         InstructorAttributes anotherInstructorOfCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
+                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email,
         };
 
         SendReminderEmailAction remindAction = getAction(submissionParams);
@@ -116,7 +116,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         unregisteredStudent2 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent2.email);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getJsonResult(remindAction);
@@ -141,7 +141,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         ______TS("Typical case: no unregistered students in course");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getJsonResult(remindAction);
@@ -159,7 +159,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         String invalidEmail = "invalidEmail.com";
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
         };
 
         try {
@@ -171,7 +171,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, invalidEmail
+                Const.ParamsNames.STUDENT_EMAIL, invalidEmail,
         };
 
         try {
@@ -185,7 +185,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "invalidCourseId",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
+                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email,
         };
 
         try {
@@ -199,7 +199,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

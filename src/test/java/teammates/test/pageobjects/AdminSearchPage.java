@@ -53,12 +53,6 @@ public class AdminSearchPage extends AppPage {
         return "student_" + id;
     }
 
-    public WebElement getInstructorRow(InstructorAttributes instructor) {
-        By by = By.xpath("//table[@id = 'search_table_instructor']/tbody/tr[@id='"
-                + createId(instructor) + "']");
-        return browser.driver.findElement(by);
-    }
-
     /**
      * Generates the id of the row for the {@code instructor}.
      */
@@ -68,6 +62,12 @@ public class AdminSearchPage extends AppPage {
         id = id.replace(" ", "").replace("@", "");
 
         return "instructor_" + id;
+    }
+
+    public WebElement getInstructorRow(InstructorAttributes instructor) {
+        By by = By.xpath("//table[@id = 'search_table_instructor']/tbody/tr[@id='"
+                + createId(instructor) + "']");
+        return browser.driver.findElement(by);
     }
 
     private WebElement getSearchBox() {

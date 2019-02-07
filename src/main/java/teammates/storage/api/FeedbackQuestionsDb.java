@@ -53,11 +53,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
                 "Trying to get non-existent Question: " + feedbackQuestionId);
     }
 
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
-            FeedbackQuestionAttributes entityToAdd) throws InvalidParametersException {
-        return makeAttributes(createEntityWithoutExistenceCheck(entityToAdd));
-    }
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -73,6 +68,11 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber),
                 "Trying to get non-existent Question: " + questionNumber + "." + feedbackSessionName + "/" + courseId);
+    }
+
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
+            FeedbackQuestionAttributes entityToAdd) throws InvalidParametersException {
+        return makeAttributes(createEntityWithoutExistenceCheck(entityToAdd));
     }
 
     /**
