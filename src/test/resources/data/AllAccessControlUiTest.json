@@ -929,7 +929,7 @@
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "TEXT",
-      "giver": "student1InCourse1.access@gmail.tmt",
+      "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
       "responseMetaData": "Good work, keep it up!",
       "giverSection": "None",
@@ -1053,12 +1053,12 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "3%student1InCourse1.access@gmail.tmt%%GENERAL%",
+      "feedbackResponseId": "3%instructor1@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
+      "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-01-01T23:59:00Z",
       "commentText": "Instructor 1 comment to student 1 self feedback Question 3"
     }
