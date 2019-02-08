@@ -23,6 +23,7 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.
@@ -356,14 +357,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
-        Instant startingTime;
-        startingTime = Instant.now();
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
-                .withCreatedTime(startingTime)
-                .withSessionVisibleFromTime(startingTime)
-                .withStartTime(startingTime)
-                .withResultsVisibleFromTime(Instant.now())
-                .withEndTime(Instant.now())
+                .withCreatedTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-2))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
