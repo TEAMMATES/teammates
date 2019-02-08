@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackVisibilityType, VisibilityControl } from '../../../feedback-visibility';
+import { FeedbackVisibilityType } from '../../../../types/api-output';
+import { VisibilityControl } from '../../../../types/visibility-control';
 
 /**
  * Pipe to handle the simple display of {@link VisibilityControl}.
