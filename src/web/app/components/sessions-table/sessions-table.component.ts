@@ -87,7 +87,7 @@ export class SessionsTableComponent implements OnInit {
   unpublishSessionEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  sendRemindersToStudentsEvent: EventEmitter<number> = new EventEmitter();
+  sendRemindersToStudentsEvent: EventEmitter<{row: number, users: string[]}> = new EventEmitter();
 
   constructor(private modalService: NgbModal) { }
 
@@ -157,10 +157,11 @@ export class SessionsTableComponent implements OnInit {
   sendRemindersToStudents(rowIndex: number): void {
     const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
+    modalRef.componentInstance.courseId = model.feedbackSession.courseId;
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
-    modalRef.result.then(() => {
-      this.sendRemindersToStudentsEvent.emit(rowIndex);
+    modalRef.result.then((usersToRemind: string[]) => {
+      this.sendRemindersToStudentsEvent.emit({ row: rowIndex, users: usersToRemind });
     }, () => {});
   }
 

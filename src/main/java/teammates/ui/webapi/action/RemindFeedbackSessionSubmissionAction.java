@@ -39,12 +39,13 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
                     + "as the feedback session is not open for submissions.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        String[] usersToRemind = getRequestParamValues(Const.ParamsNames.SUBMISSION_REMIND_USERLIST);
-        if (usersToRemind == null || usersToRemind.length == 0) {
+        String usersToRemind = getRequestParamValue(Const.ParamsNames.SUBMISSION_REMIND_USERLIST);
+
+        if (usersToRemind == null) {
             taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName, userInfo.getId());
         } else {
             taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
-                    usersToRemind, userInfo.getId());
+                    usersToRemind.split(","), userInfo.getId());
         }
 
         return new JsonResult("Reminders sent");

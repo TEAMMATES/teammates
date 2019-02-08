@@ -169,4 +169,16 @@ export class SendRemindersToStudentModalComponent implements OnInit {
     });
   }
 
+  /**
+   * Collates a list of selected students with selected checkbox.
+   */
+  collateStudentsToRemind(): string[] {
+    const remindStudentList: string[] = [];
+    for (const remindStudentRow of this.remindStudentsTableRows) {
+      if (remindStudentRow.isChecked) {
+        remindStudentList.push(remindStudentRow.studentResponseStatus.email);
+      }
+    }
+    return remindStudentList;
+  }
 }

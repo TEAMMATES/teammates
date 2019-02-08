@@ -305,7 +305,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
-  sendRemindersToStudentsEventHandler(tabIndex: number, rowIndex: number): void {
-    this.sendRemindersToStudents(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
+  sendRemindersToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
+    this.sendRemindersToStudents(this.courseTabModels[tabIndex]
+      .sessionsTableRowModels[remindInfo.row], remindInfo.users);
   }
 }

@@ -250,10 +250,11 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
-  sendRemindersToStudents(model: SessionsTableRowModel): void {
+  sendRemindersToStudents(model: SessionsTableRowModel, usersToRemind: string[]): void {
     const paramMap: { [key: string]: string } = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
+      usersToRemind: usersToRemind.join(','),
     };
 
     this.httpRequestService.post('/session/remind/submission', paramMap).subscribe(() => {
