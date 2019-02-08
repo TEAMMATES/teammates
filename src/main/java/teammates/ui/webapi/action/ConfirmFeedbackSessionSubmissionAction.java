@@ -1,6 +1,7 @@
 package teammates.ui.webapi.action;
 
 import java.time.Instant;
+import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -63,9 +64,19 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
-            boolean hasStudentRespondedForSession =
+            boolean hasIndividualRespondedForSession =
                     logic.hasGiverRespondedForSession(studentAttributes.getEmail(), feedbackSessionName, courseId);
-            if (hasStudentRespondedForSession) {
+            boolean hasTeamRespondedForSession =
+                    logic.hasGiverRespondedForSession(studentAttributes.getTeam(), feedbackSessionName, courseId);
+
+            if (hasTeamRespondedForSession) {
+                List<StudentAttributes> teamMembers = logic.getStudentsForTeam(
+                        studentAttributes.getTeam(), studentAttributes.getCourse());
+                for (StudentAttributes student : teamMembers) {
+                    taskQueuer.scheduleUpdateRespondentForSession(
+                            courseId, feedbackSessionName, student.getEmail(), false, false);
+                }
+            } else if (hasIndividualRespondedForSession) {
                 taskQueuer.scheduleUpdateRespondentForSession(
                         courseId, feedbackSessionName, studentAttributes.getEmail(), false, false);
             } else {
@@ -74,7 +85,7 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
             }
             if (isSubmissionEmailConfirmationEmailRequested) {
                 email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
-                            feedbackSession, studentAttributes, Instant.now());
+                        feedbackSession, studentAttributes, Instant.now());
             }
             break;
         case INSTRUCTOR_SUBMISSION:
