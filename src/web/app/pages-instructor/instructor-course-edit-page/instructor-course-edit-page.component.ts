@@ -549,7 +549,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     // Display different text depending on who is being deleted
     if (instructorToDelete.googleId === this.instructor.googleId) {
       modalContent = 'Are you sure you want to delete your instructor role from the '
-      + `course ${courseId}? You will not be able to access the course anymore.`;
+          + `course ${courseId}? You will not be able to access the course anymore.`;
     } else {
       modalContent = `Are you sure you want to delete the instructor ${instructorToDelete.name} from the course `
           + `${courseId}? He/she will not be able to access the course anymore.`;
