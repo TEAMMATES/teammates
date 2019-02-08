@@ -81,11 +81,9 @@
             </div>
           </div>
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-            <button class="btn btn-light btn-sm" ngbDropdownToggle [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">Remind</button>
-            <div ngbDropdownMenu>
-              <button class="dropdown-item" (click)="sendRemindersToStudents(idx)" [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Remind all students</button>
-              <button class="dropdown-item" [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Remind particular students</button>
-            </div>
+            <button class="btn btn-light btn-sm" (click)="sendRemindersToStudents(idx)"
+              [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
+                          !sessionsTableRowModel.instructorPrivilege.canModifySession">Remind</button>
           </div>
         </td>
       </tr>
