@@ -465,6 +465,26 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return getStudentResults(teamMembersEmail, teamResults);
     }
 
+    private Map<String, StudentResultSummary> getStudentResults(
+            Map<String, List<String>> teamMembersEmail,
+            Map<String, TeamEvalResult> teamResults) {
+        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
+        teamResults.forEach((key, teamResult) -> {
+            List<String> teamEmails = teamMembersEmail.get(key);
+            int i = 0;
+            for (String studentEmail : teamEmails) {
+                StudentResultSummary summary = new StudentResultSummary();
+                summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
+                summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
+
+                studentResults.put(studentEmail, summary);
+
+                i++;
+            }
+        });
+        return studentResults;
+    }
+
     /**
      * Returns A Map with student email as key and TeamEvalResult as value for the specified question.
      */
@@ -484,26 +504,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 teamNames, teamMembersEmail, teamResponses);
 
         return getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-    }
-
-    private Map<String, StudentResultSummary> getStudentResults(
-            Map<String, List<String>> teamMembersEmail,
-            Map<String, TeamEvalResult> teamResults) {
-        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
-        teamResults.forEach((key, teamResult) -> {
-            List<String> teamEmails = teamMembersEmail.get(key);
-            int i = 0;
-            for (String studentEmail : teamEmails) {
-                StudentResultSummary summary = new StudentResultSummary();
-                summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
-                summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
-
-                studentResults.put(studentEmail, summary);
-
-                i++;
-            }
-        });
-        return studentResults;
     }
 
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,

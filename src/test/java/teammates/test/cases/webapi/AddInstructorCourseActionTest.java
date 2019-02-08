@@ -37,7 +37,7 @@ public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorC
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, "new-course",
                 Const.ParamsNames.COURSE_NAME, "New Course",
-                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC",
         };
 
         ______TS("Typical case with new course id");
@@ -58,7 +58,7 @@ public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorC
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, "Existing Course",
-                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC",
         };
 
         action = getAction(submissionParams);
@@ -75,7 +75,7 @@ public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorC
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, "",
                 Const.ParamsNames.COURSE_NAME, "New Course",
-                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC",
         };
 
         action = getAction(submissionParams);

@@ -41,6 +41,17 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         data.students.values().forEach(this::verifyPresentInDatastore);
     }
 
+    protected void verifyPresentInDatastore(EntityAttributes<?> expected) {
+        int retryLimit = VERIFICATION_RETRY_COUNT;
+        EntityAttributes<?> actual = getEntity(expected);
+        while (actual == null && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
+            actual = getEntity(expected);
+        }
+        verifyEquals(expected, actual);
+    }
+
     private EntityAttributes<?> getEntity(EntityAttributes<?> expected) {
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
@@ -83,17 +94,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             actual = getEntity(entity);
         }
         assertNull(actual);
-    }
-
-    protected void verifyPresentInDatastore(EntityAttributes<?> expected) {
-        int retryLimit = VERIFICATION_RETRY_COUNT;
-        EntityAttributes<?> actual = getEntity(expected);
-        while (actual == null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
-            actual = getEntity(expected);
-        }
-        verifyEquals(expected, actual);
     }
 
     private void verifyEquals(EntityAttributes<?> expected, EntityAttributes<?> actual) {
@@ -165,41 +165,27 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         expected.createdAt = actual.createdAt;
     }
 
-    protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
-
     private void equalizeIrrelevantData(StudentProfileAttributes expected, StudentProfileAttributes actual) {
         expected.modifiedDate = actual.modifiedDate;
     }
-
-    protected abstract CourseAttributes getCourse(CourseAttributes course);
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
     }
 
-    protected abstract FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq);
-
     private void equalizeIrrelevantData(FeedbackQuestionAttributes expected, FeedbackQuestionAttributes actual) {
         expected.setId(actual.getId());
     }
-
-    protected abstract FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc);
-
-    protected abstract FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr);
 
     private void equalizeIrrelevantData(FeedbackResponseAttributes expected, FeedbackResponseAttributes actual) {
         expected.setId(actual.getId());
     }
 
-    protected abstract FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs);
-
     private void equalizeIrrelevantData(FeedbackSessionAttributes expected, FeedbackSessionAttributes actual) {
         expected.setRespondingInstructorList(actual.getRespondingInstructorList());
         expected.setRespondingStudentList(actual.getRespondingStudentList());
     }
-
-    protected abstract InstructorAttributes getInstructor(InstructorAttributes instructor);
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
         // pretend keys match because the key is generated only before storing into database
@@ -207,8 +193,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             expected.key = actual.key;
         }
     }
-
-    protected abstract StudentAttributes getStudent(StudentAttributes student);
 
     private void equalizeIrrelevantData(StudentAttributes expected, StudentAttributes actual) {
         // For these fields, we consider null and "" equivalent.
@@ -229,6 +213,22 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
 
         expected.lastName = StringHelper.splitName(expected.name)[1];
     }
+
+    protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
+
+    protected abstract CourseAttributes getCourse(CourseAttributes course);
+
+    protected abstract FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq);
+
+    protected abstract FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc);
+
+    protected abstract FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr);
+
+    protected abstract FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs);
+
+    protected abstract InstructorAttributes getInstructor(InstructorAttributes instructor);
+
+    protected abstract StudentAttributes getStudent(StudentAttributes student);
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

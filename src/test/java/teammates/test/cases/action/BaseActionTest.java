@@ -138,7 +138,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
                 Const.ParamsNames.STUDENT_NATIONALITY, "American",
                 Const.ParamsNames.STUDENT_GENDER, "  other   ",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   ",
         };
     }
 
@@ -149,7 +149,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA",
                 Const.ParamsNames.STUDENT_GENDER, "female",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me",
         };
     }
 
@@ -216,7 +216,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
-                Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
+                Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions",
         };
     }
 
@@ -236,7 +236,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
         };
     }
 

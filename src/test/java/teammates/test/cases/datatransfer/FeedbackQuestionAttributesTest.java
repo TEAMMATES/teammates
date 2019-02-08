@@ -26,18 +26,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     private DataBundle typicalBundle = getTypicalDataBundle();
 
-    private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
-
-        void setCreatedAt(Instant createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        void setUpdatedAt(Instant updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-    }
-
     @Override
     @Test
     public void testToEntity() {
@@ -503,6 +491,14 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackQuestionAttributes questionAttributes = getNewFeedbackQuestionAttributes();
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + questionAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
+    }
+
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 
@@ -523,6 +519,18 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withShowRecipientNameTo(new ArrayList<>(participants))
                 .withShowResponseTo(new ArrayList<>(participants))
                 .build();
+    }
+
+    private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
+
+        void setCreatedAt(Instant createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        void setUpdatedAt(Instant updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
     }
 
 }

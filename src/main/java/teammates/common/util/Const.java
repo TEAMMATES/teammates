@@ -148,8 +148,6 @@ public final class Const {
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
                         ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
 
-        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
-
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in

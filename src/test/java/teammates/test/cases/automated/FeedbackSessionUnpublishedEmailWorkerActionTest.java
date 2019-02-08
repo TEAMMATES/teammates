@@ -32,7 +32,7 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
 
         String[] submissionParams = new String[] {
                 ParamsNames.EMAIL_COURSE, session1.getCourseId(),
-                ParamsNames.EMAIL_FEEDBACK, session1.getFeedbackSessionName()
+                ParamsNames.EMAIL_FEEDBACK, session1.getFeedbackSessionName(),
         };
 
         FeedbackSessionUnpublishedEmailWorkerAction action = getAction(submissionParams);

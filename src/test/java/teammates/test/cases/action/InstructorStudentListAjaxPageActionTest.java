@@ -37,7 +37,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COURSE_INDEX, "1"
+                Const.ParamsNames.COURSE_INDEX, "1",
         };
 
         InstructorStudentListAjaxPageAction action = getAction(submissionParams);
@@ -60,7 +60,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COURSE_INDEX, "1"
+                Const.ParamsNames.COURSE_INDEX, "1",
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
