@@ -16,6 +16,8 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackResponseData;
+import teammates.ui.webapi.request.FeedbackResponseCreateRequest;
 
 /**
  * Create a feedback response.
@@ -61,8 +63,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseInfo.FeedbackResponseCreateRequest createRequest =
-                getAndValidateRequestBody(FeedbackResponseInfo.FeedbackResponseCreateRequest.class);
+        FeedbackResponseCreateRequest createRequest = getAndValidateRequestBody(FeedbackResponseCreateRequest.class);
         if (!recipientsOfTheQuestion.containsKey(createRequest.getRecipientIdentifier())) {
             throw new UnauthorizedAccessException("The recipient is not a valid recipient of the question");
         }
@@ -93,8 +94,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseInfo.FeedbackResponseCreateRequest createRequest =
-                getAndValidateRequestBody(FeedbackResponseInfo.FeedbackResponseCreateRequest.class);
+        FeedbackResponseCreateRequest createRequest = getAndValidateRequestBody(FeedbackResponseCreateRequest.class);
         feedbackResponse.recipient = createRequest.getRecipientIdentifier();
         feedbackResponse.recipientSection =
                 getRecipientSection(feedbackQuestion.getCourseId(),
@@ -116,7 +116,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
         FeedbackResponseAttributes createdFeedbackResponse = logic.getFeedbackResponse(
                 feedbackQuestion.getId() + "%" + feedbackResponse.giver + "%" + feedbackResponse.recipient);
-        return new JsonResult(new FeedbackResponseInfo.FeedbackResponseResponse(createdFeedbackResponse));
+        return new JsonResult(new FeedbackResponseData(createdFeedbackResponse));
     }
 
 }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackSessionSubmissionStatus } from '../../feedback-session';
+import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 
 /**
  * Pipe to handle the display of {@code FeedbackSessionSubmissionStatus}.

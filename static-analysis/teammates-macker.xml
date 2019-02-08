@@ -91,8 +91,24 @@
                     <deny>
                         <from class="${ui}.**" >
                             <exclude class="${ui}.webapi.output.**" /> <!-- allow dependency within the package -->
+                            <exclude class="${ui}.webapi.request.**" />
                         </from>
                         <to class="${ui}.webapi.output.**" />
+                        <allow>
+                            <from>
+                                <include class="${ui}.webapi.action.**" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: API request DTO is only used in Web API package">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" >
+                            <exclude class="${ui}.webapi.request.**" /> <!-- allow dependency within the package -->
+                        </from>
+                        <to class="${ui}.webapi.request.**" />
                         <allow>
                             <from>
                                 <include class="${ui}.webapi.action.**" />

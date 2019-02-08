@@ -6,10 +6,14 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.FeedbackSessionInfo;
 import teammates.ui.webapi.action.GetFeedbackSessionAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.FeedbackSessionData;
+import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
+import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.webapi.output.ResponseVisibleSetting;
+import teammates.ui.webapi.output.SessionVisibleSetting;
 
 /**
  * SUT: {@link GetFeedbackSessionAction}.
@@ -54,7 +58,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackSessionInfo.FeedbackSessionResponse response = (FeedbackSessionInfo.FeedbackSessionResponse) r.getOutput();
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
         assertEquals(feedbackSessionAttributes.getCourseId(), response.getCourseId());
         assertEquals(feedbackSessionAttributes.getFeedbackSessionName(), response.getFeedbackSessionName());
         assertEquals(feedbackSessionAttributes.getTimeZone().getId(), response.getTimeZone());
@@ -64,19 +68,19 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(feedbackSessionAttributes.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod());
 
-        assertEquals(FeedbackSessionInfo.SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(feedbackSessionAttributes.getSessionVisibleFromTime().toEpochMilli(),
                 response.getCustomSessionVisibleTimestamp().longValue());
 
-        assertEquals(FeedbackSessionInfo.ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
         assertEquals(feedbackSessionAttributes.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(FeedbackSessionInfo.FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
-        assertEquals(FeedbackSessionInfo.FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
 
-        assertEquals(feedbackSessionAttributes.isClosingEmailEnabled(), response.isClosingEmailEnabled());
-        assertEquals(feedbackSessionAttributes.isPublishedEmailEnabled(), response.isPublishedEmailEnabled());
+        assertEquals(feedbackSessionAttributes.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(feedbackSessionAttributes.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
