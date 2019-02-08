@@ -50,14 +50,14 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
 
         // null courseId
         String[] invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student.email
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
         };
 
         verifyHttpParameterFailure(invalidParams);
 
         // null student email
         invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
         };
 
         verifyHttpParameterFailure(invalidParams);
@@ -66,7 +66,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
         String studentEmailOfStudent1InCourse2 = typicalBundle.students.get("student1InCourse2").email;
         invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, studentEmailOfStudent1InCourse2
+                Const.ParamsNames.STUDENT_EMAIL, studentEmailOfStudent1InCourse2,
         };
 
         GetStudentRecordsAction a = getAction(invalidParams);
@@ -82,7 +82,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
         };
 
         a = getAction(submissionParams);
@@ -104,7 +104,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
         };
 
         a = getAction(submissionParams);
@@ -126,7 +126,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
 
         String[] submissionParamsWithNoSession = new String[] {
                 Const.ParamsNames.COURSE_ID, courseIdWithNoSession,
-                Const.ParamsNames.STUDENT_EMAIL, "emailTemp@gmail.tmt"
+                Const.ParamsNames.STUDENT_EMAIL, "emailTemp@gmail.tmt",
         };
 
         a = getAction(submissionParamsWithNoSession);
@@ -171,7 +171,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
         };
 
         a = getAction(submissionParams);
@@ -207,7 +207,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

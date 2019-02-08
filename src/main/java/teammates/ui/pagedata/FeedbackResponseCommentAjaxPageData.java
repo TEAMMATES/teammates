@@ -48,7 +48,7 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
                 FeedbackParticipantType.OWN_TEAM_MEMBERS,
                 FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS
+                FeedbackParticipantType.INSTRUCTORS,
         };
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();

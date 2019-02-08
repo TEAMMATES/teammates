@@ -1253,6 +1253,16 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     *
+     */
+    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
+        Assumption.assertNotNull(feedbackQuestionId);
+        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
+    }
+
+    /**
      * Gets a list of all questions for the given session that
      * students can view/submit.
      */
@@ -1274,17 +1284,6 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, instructorEmail);
-    }
-
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     *
-     */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
-        Assumption.assertNotNull(feedbackQuestionId);
-        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
     }
 
     /**
@@ -1912,14 +1911,6 @@ public class Logic {
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,
-                                                                                      String giverEmail) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverEmail);
-
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
-    }
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1931,6 +1922,14 @@ public class Logic {
         Assumption.assertNotNull(creationDate);
 
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(responseId, giverEmail, creationDate);
+    }
+
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,
+                                                                                      String giverEmail) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverEmail);
+
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
     }
 
     /**

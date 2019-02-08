@@ -576,7 +576,7 @@ public final class CoursesLogic {
     public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
+        Map<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
         List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorAttributesList) {
@@ -707,7 +707,7 @@ public final class CoursesLogic {
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
+        Map<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
         List<String> courseIdList = instructorAttributesList.stream()
                 .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())

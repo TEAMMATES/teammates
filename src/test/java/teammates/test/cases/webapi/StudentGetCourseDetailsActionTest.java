@@ -47,7 +47,7 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
 
         // accessible course
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course
+                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
         };
 
         StudentGetCourseDetailsAction a = getAction(submissionParams);
@@ -117,7 +117,7 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course
+                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
         };
 
         verifyInaccessibleForUnregisteredUsers(submissionParams);

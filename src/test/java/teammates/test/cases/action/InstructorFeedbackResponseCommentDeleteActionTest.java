@@ -61,7 +61,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.USER_ID, instructor.googleId
+                Const.ParamsNames.USER_ID, instructor.googleId,
         };
 
         verifyAssumptionFailure(submissionParams);
@@ -74,7 +74,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
@@ -96,7 +96,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 // non-existent feedback response comment id
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
         action = getAction(submissionParams);
@@ -131,7 +131,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
         action = getAction(submissionParams);
@@ -174,7 +174,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId())
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
         };
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
 

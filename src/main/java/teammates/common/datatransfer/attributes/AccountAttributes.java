@@ -15,6 +15,8 @@ import teammates.storage.entity.Account;
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
+    private static final String ACCOUNT_BACKUP_LOG_MSG = "Recently modified account::";
+    private static final String ATTRIBUTE_NAME = "Account";
     // Note: be careful when changing these variables as their names are used in *.json files.
 
     public String googleId;
@@ -41,57 +43,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * A Builder class for {@link AccountAttributes}.
-     */
-    public static class Builder {
-        private AccountAttributes accountAttributes;
-
-        public Builder() {
-            accountAttributes = new AccountAttributes();
-        }
-
-        public Builder withCreatedAt(Instant createdAt) {
-            accountAttributes.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder withGoogleId(String googleId) {
-            accountAttributes.googleId = googleId;
-            return this;
-        }
-
-        public Builder withName(String name) {
-            accountAttributes.name = name;
-            return this;
-        }
-
-        public Builder withIsInstructor(boolean isInstructor) {
-            accountAttributes.isInstructor = isInstructor;
-            return this;
-        }
-
-        public Builder withEmail(String email) {
-            accountAttributes.email = email;
-            return this;
-        }
-
-        public Builder withInstitute(String institute) {
-            accountAttributes.institute = institute;
-            return this;
-        }
-
-        public AccountAttributes build() {
-            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
-            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
-            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
-            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
-
-            return accountAttributes;
-        }
-
     }
 
     /**
@@ -166,12 +117,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public String getEntityTypeAsString() {
-        return "Account";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return "Account";
+        return ACCOUNT_BACKUP_LOG_MSG + getGoogleId();
     }
 
     @Override
@@ -189,6 +140,57 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     public boolean isUserRegistered() {
         return googleId != null && !googleId.isEmpty();
+    }
+
+    /**
+     * A Builder class for {@link AccountAttributes}.
+     */
+    public static class Builder {
+        private AccountAttributes accountAttributes;
+
+        public Builder() {
+            accountAttributes = new AccountAttributes();
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            accountAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withGoogleId(String googleId) {
+            accountAttributes.googleId = googleId;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            accountAttributes.name = name;
+            return this;
+        }
+
+        public Builder withIsInstructor(boolean isInstructor) {
+            accountAttributes.isInstructor = isInstructor;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            accountAttributes.email = email;
+            return this;
+        }
+
+        public Builder withInstitute(String institute) {
+            accountAttributes.institute = institute;
+            return this;
+        }
+
+        public AccountAttributes build() {
+            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
+            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
+            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
+            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
+
+            return accountAttributes;
+        }
+
     }
 
 }

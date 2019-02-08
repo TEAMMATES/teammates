@@ -345,7 +345,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 2,
                 3,
                 1,
-                2
+                2,
         };
 
         FeedbackQuestionAttributes fqa;

@@ -13,18 +13,6 @@ import teammates.test.cases.BaseTestCase;
  */
 public class FeedbackResponseAttributesTest extends BaseTestCase {
 
-    private static class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
-
-        void setCreatedAt(Instant createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        void setUpdatedAt(Instant updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-    }
-
     @Test
     public void testDefaultTimestamp() {
         FeedbackResponseAttributesWithModifiableTimestamp fra =
@@ -42,6 +30,27 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         ______TS("success : defaultTimeStamp for updatedAt date");
 
         assertEquals(defaultTimeStamp, fra.getUpdatedAt());
+    }
+
+    @Test
+    public void testGetBackUpIdentifier() {
+        FeedbackResponseAttributes responseAttributes = new FeedbackResponseAttributes();
+        responseAttributes.setId("Valid-Response-id");
+
+        String expectedBackUpIdentifierMessage = "Recently modified feedback response::" + responseAttributes.getId();
+        assertEquals(expectedBackUpIdentifierMessage, responseAttributes.getBackupIdentifier());
+    }
+
+    private static class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
+
+        void setCreatedAt(Instant createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        void setUpdatedAt(Instant updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
     }
 
 }
