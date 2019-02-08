@@ -112,7 +112,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Soft delete a course by its given corresponding ID.
+     * Soft-deletes a course by its given corresponding ID.
      * @return Soft-deletion time of the course.
      */
     public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
