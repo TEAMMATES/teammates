@@ -40,7 +40,7 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest
                 ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 ParamsNames.RESPONDENT_EMAIL, student.email,
                 ParamsNames.RESPONDENT_IS_INSTRUCTOR, "false",
-                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "false"
+                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "false",
         };
 
         FeedbackSessionUpdateRespondentWorkerAction action = getAction(submissionParams);
@@ -59,7 +59,7 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest
                 ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 ParamsNames.RESPONDENT_EMAIL, instructor.email,
                 ParamsNames.RESPONDENT_IS_INSTRUCTOR, "true",
-                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "false"
+                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "false",
         };
 
         action = getAction(submissionParams);
@@ -76,7 +76,7 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest
                 ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 ParamsNames.RESPONDENT_EMAIL, student.email,
                 ParamsNames.RESPONDENT_IS_INSTRUCTOR, "false",
-                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "true"
+                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "true",
         };
 
         action = getAction(submissionParams);
@@ -93,7 +93,7 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest
                 ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 ParamsNames.RESPONDENT_EMAIL, instructor.email,
                 ParamsNames.RESPONDENT_IS_INSTRUCTOR, "true",
-                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "true"
+                ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, "true",
         };
 
         action = getAction(submissionParams);

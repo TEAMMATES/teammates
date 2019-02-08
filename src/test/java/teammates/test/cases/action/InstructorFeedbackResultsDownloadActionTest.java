@@ -35,62 +35,62 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         String[] paramsNormalEitherSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER",
         };
         String[] paramsNormalFromGiverSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER",
         };
         String[] paramsNormalToRecipientSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL, "EVALUEE"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "EVALUEE",
         };
         String[] paramsNormalBothGiverAndRecipientInSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH",
         };
         String[] paramsWithInvalidSectionDetail = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1",
-                Const.ParamsNames.SECTION_NAME_DETAIL, "ALL"
+                Const.ParamsNames.SECTION_NAME_DETAIL, "ALL",
         };
 
         String[] paramsWithLargeData = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                "simulateExcessDataForTesting", "true"
+                "simulateExcessDataForTesting", "true",
         };
 
         String[] paramsWithNullCourseId = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         String[] paramsWithNullFeedbackSessionName = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId()
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
         };
 
         String[] paramsWithMissingResponsesShown = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true",
         };
 
         String[] paramsWithMissingResponsesHidden = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false"
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false",
         };
 
         ______TS("Typical case: results downloadable");
@@ -255,7 +255,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question1Id
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question1Id,
         };
 
         action = getAction(paramsQuestion1);
@@ -281,7 +281,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.SECTION_NAME_DETAIL, "EITHER",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id,
         };
 
         action = getAction(paramsQuestion2InSection);
@@ -304,7 +304,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.SECTION_NAME_DETAIL, "GIVER",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id,
         };
 
         action = getAction(paramsQuestion2FromSection);
@@ -327,7 +327,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.SECTION_NAME_DETAIL, "EVALUEE",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id,
         };
 
         action = getAction(paramsQuestion2ToSection);
@@ -350,7 +350,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.SECTION_NAME_DETAIL, "BOTH",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question2Id,
         };
 
         action = getAction(paramsQuestion2BothGiverAndRecipientSection);
@@ -379,7 +379,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
