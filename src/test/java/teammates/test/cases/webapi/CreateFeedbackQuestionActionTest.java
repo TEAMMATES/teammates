@@ -54,7 +54,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
         ______TS("null question type");
@@ -142,7 +142,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         params = addUserIdToParams(instructor1ofCourse1.getGoogleId(), params);
 
@@ -171,7 +171,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
         ______TS("Failure: Invalid feedback path");

@@ -38,7 +38,7 @@ public class GetCourseEnrollPageDataActionTest extends BaseActionTest<GetCourseE
 
         ______TS("Course is present and has existing responses");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
 
         GetCourseEnrollPageDataAction a = getAction(submissionParams);
@@ -55,7 +55,7 @@ public class GetCourseEnrollPageDataActionTest extends BaseActionTest<GetCourseE
 
         ______TS("Course is not present");
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "invalidcourse"
+                Const.ParamsNames.COURSE_ID, "invalidcourse",
         };
 
         a = getAction(submissionParams);

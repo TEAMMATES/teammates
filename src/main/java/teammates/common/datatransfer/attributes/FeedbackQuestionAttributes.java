@@ -19,6 +19,10 @@ import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
+
+    private static final String FEEDBACK_QUESTION_BACKUP_LOG_MSG = "Recently modified feedback question::";
+    private static final String ATTRIBUTE_NAME = "Feedback Question";
+
     public String feedbackSessionName;
     public String courseId;
     /**
@@ -70,133 +74,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     }
 
-    /**
-     * A Builder class for {@link FeedbackQuestionAttributes}.
-     */
-    public static class Builder {
-        private final FeedbackQuestionAttributes feedbackQuestionAttributes;
-
-        public Builder() {
-            feedbackQuestionAttributes = new FeedbackQuestionAttributes();
-        }
-
-        public Builder withFeedbackSessionName(String feedbackSessionName) {
-            if (feedbackSessionName != null) {
-                feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
-            }
-            return this;
-        }
-
-        public Builder withCourseId(String courseId) {
-            if (courseId != null) {
-                feedbackQuestionAttributes.courseId = courseId;
-            }
-            return this;
-        }
-
-        public Builder withQuestionMetaData(String questionMetaData) {
-            if (questionMetaData != null) {
-                feedbackQuestionAttributes.questionMetaData = questionMetaData;
-            }
-            return this;
-        }
-
-        public Builder withQuestionMetaData(FeedbackQuestionDetails questionDetails) {
-            if (questionDetails != null) {
-                feedbackQuestionAttributes.setQuestionDetails(questionDetails);
-            }
-            return this;
-        }
-
-        public Builder withQuestionDescription(String questionDescription) {
-            if (questionDescription != null) {
-                feedbackQuestionAttributes.setQuestionDescription(questionDescription);
-            }
-            return this;
-        }
-
-        public Builder withQuestionNumber(int questionNumber) {
-            feedbackQuestionAttributes.questionNumber = questionNumber;
-            return this;
-        }
-
-        public Builder withQuestionType(FeedbackQuestionType questionType) {
-            if (questionType != null) {
-                feedbackQuestionAttributes.questionType = questionType;
-            }
-            return this;
-        }
-
-        public Builder withGiverType(FeedbackParticipantType giverType) {
-            if (giverType != null) {
-                feedbackQuestionAttributes.giverType = giverType;
-            }
-            return this;
-        }
-
-        public Builder withRecipientType(FeedbackParticipantType recipientType) {
-            if (recipientType != null) {
-                feedbackQuestionAttributes.recipientType = recipientType;
-            }
-            return this;
-        }
-
-        public Builder withNumOfEntitiesToGiveFeedbackTo(int numOfEntitiesToGiveFeedbackTo) {
-            feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo = numOfEntitiesToGiveFeedbackTo;
-            return this;
-        }
-
-        public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
-            feedbackQuestionAttributes.showResponsesTo =
-                    showResponseTo == null ? new ArrayList<>()
-                            : new ArrayList<>(showResponseTo);
-            return this;
-        }
-
-        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            feedbackQuestionAttributes.showGiverNameTo =
-                    showGiverNameTo == null ? new ArrayList<>()
-                            : new ArrayList<>(showGiverNameTo);
-            return this;
-        }
-
-        public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
-            feedbackQuestionAttributes.showRecipientNameTo =
-                    showRecipientNameTo == null ? new ArrayList<>()
-                            : new ArrayList<>(showRecipientNameTo);
-            return this;
-        }
-
-        public Builder withCreatedAt(Instant createdAt) {
-            if (createdAt != null) {
-                feedbackQuestionAttributes.createdAt = createdAt;
-            }
-            return this;
-        }
-
-        public Builder withUpdatedAt(Instant updatedAt) {
-            if (updatedAt != null) {
-                feedbackQuestionAttributes.updatedAt = updatedAt;
-            }
-            return this;
-        }
-
-        public Builder withFeedbackQuestionId(String feedbackQuestionId) {
-            if (feedbackQuestionId != null) {
-                feedbackQuestionAttributes.feedbackQuestionId = feedbackQuestionId;
-            }
-            return this;
-        }
-
-        public FeedbackQuestionAttributes build() {
-            feedbackQuestionAttributes.questionDescription =
-                    SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
-            feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
-
-            return feedbackQuestionAttributes;
-        }
-    }
-
     public Instant getCreatedAt() {
         return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
@@ -245,12 +122,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getEntityTypeAsString() {
-        return "Feedback Question";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return FEEDBACK_QUESTION_BACKUP_LOG_MSG + getId();
     }
 
     @Override
@@ -754,5 +631,132 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
+    }
+
+    /**
+     * A Builder class for {@link FeedbackQuestionAttributes}.
+     */
+    public static class Builder {
+        private final FeedbackQuestionAttributes feedbackQuestionAttributes;
+
+        public Builder() {
+            feedbackQuestionAttributes = new FeedbackQuestionAttributes();
+        }
+
+        public Builder withFeedbackSessionName(String feedbackSessionName) {
+            if (feedbackSessionName != null) {
+                feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
+            }
+            return this;
+        }
+
+        public Builder withCourseId(String courseId) {
+            if (courseId != null) {
+                feedbackQuestionAttributes.courseId = courseId;
+            }
+            return this;
+        }
+
+        public Builder withQuestionMetaData(String questionMetaData) {
+            if (questionMetaData != null) {
+                feedbackQuestionAttributes.questionMetaData = questionMetaData;
+            }
+            return this;
+        }
+
+        public Builder withQuestionMetaData(FeedbackQuestionDetails questionDetails) {
+            if (questionDetails != null) {
+                feedbackQuestionAttributes.setQuestionDetails(questionDetails);
+            }
+            return this;
+        }
+
+        public Builder withQuestionDescription(String questionDescription) {
+            if (questionDescription != null) {
+                feedbackQuestionAttributes.setQuestionDescription(questionDescription);
+            }
+            return this;
+        }
+
+        public Builder withQuestionNumber(int questionNumber) {
+            feedbackQuestionAttributes.questionNumber = questionNumber;
+            return this;
+        }
+
+        public Builder withQuestionType(FeedbackQuestionType questionType) {
+            if (questionType != null) {
+                feedbackQuestionAttributes.questionType = questionType;
+            }
+            return this;
+        }
+
+        public Builder withGiverType(FeedbackParticipantType giverType) {
+            if (giverType != null) {
+                feedbackQuestionAttributes.giverType = giverType;
+            }
+            return this;
+        }
+
+        public Builder withRecipientType(FeedbackParticipantType recipientType) {
+            if (recipientType != null) {
+                feedbackQuestionAttributes.recipientType = recipientType;
+            }
+            return this;
+        }
+
+        public Builder withNumOfEntitiesToGiveFeedbackTo(int numOfEntitiesToGiveFeedbackTo) {
+            feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo = numOfEntitiesToGiveFeedbackTo;
+            return this;
+        }
+
+        public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
+            feedbackQuestionAttributes.showResponsesTo =
+                    showResponseTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showResponseTo);
+            return this;
+        }
+
+        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+            feedbackQuestionAttributes.showGiverNameTo =
+                    showGiverNameTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showGiverNameTo);
+            return this;
+        }
+
+        public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
+            feedbackQuestionAttributes.showRecipientNameTo =
+                    showRecipientNameTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showRecipientNameTo);
+            return this;
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            if (createdAt != null) {
+                feedbackQuestionAttributes.createdAt = createdAt;
+            }
+            return this;
+        }
+
+        public Builder withUpdatedAt(Instant updatedAt) {
+            if (updatedAt != null) {
+                feedbackQuestionAttributes.updatedAt = updatedAt;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionId(String feedbackQuestionId) {
+            if (feedbackQuestionId != null) {
+                feedbackQuestionAttributes.feedbackQuestionId = feedbackQuestionId;
+            }
+            return this;
+        }
+
+        public FeedbackQuestionAttributes build() {
+            feedbackQuestionAttributes.questionDescription =
+                    SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
+            feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
+
+            return feedbackQuestionAttributes;
+        }
     }
 }

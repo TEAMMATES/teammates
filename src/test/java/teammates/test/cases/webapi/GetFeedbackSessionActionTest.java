@@ -52,7 +52,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         String[] params = {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
@@ -97,7 +97,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123",
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -108,7 +108,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);

@@ -42,7 +42,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
                 ParamsNames.SUBMISSION_COURSE, publishedSession.getCourseId(),
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, student1.email,
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, instructor1.email,
-                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, "non-existent"
+                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, "non-existent",
         };
 
         FeedbackSessionResendPublishedEmailWorkerAction action = getAction(submissionParams);

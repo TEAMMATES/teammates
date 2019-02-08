@@ -34,7 +34,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
         };
 
         InstructorStudentRecordsAjaxPageAction a = getAction(submissionParams);
@@ -66,7 +66,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 
@@ -77,7 +77,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
         };
 
         InstructorStudentRecordsAjaxPageAction a = getAction(submissionParams);

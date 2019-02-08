@@ -41,13 +41,13 @@ public class GetStudentEditDetailsActionTest extends BaseActionTest<GetStudentEd
 
         //null student email
         String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
         verifyHttpParameterFailure(invalidParams);
 
         //null course id
         invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
         verifyHttpParameterFailure(invalidParams);
 
@@ -55,7 +55,7 @@ public class GetStudentEditDetailsActionTest extends BaseActionTest<GetStudentEd
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         GetStudentEditDetailsAction a = getAction(submissionParams);
@@ -99,7 +99,7 @@ public class GetStudentEditDetailsActionTest extends BaseActionTest<GetStudentEd
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);

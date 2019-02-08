@@ -14,7 +14,7 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.10.1"
+def checkstyleVersion = "8.16"
 def pmdVersion = "6.6.0"
 def spotbugsVersion = "3.1.10"
 def jacocoVersion = "0.8.1"
