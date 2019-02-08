@@ -1,5 +1,5 @@
 // This is a plugin for TinyMCE to enable placeholder feature.
-// Part of code is adapted from https://github.com/mohan/tinymce-placeholder/blob/master/
+// Part of code is adapted from https://github.com/mohan/tinymce-placeholder
 tinymce.PluginManager.add('placeholder', function(editor) {
   editor.on('init', function() {
     const placeHolderDiv = new PlaceHolderDiv;
@@ -31,13 +31,13 @@ tinymce.PluginManager.add('placeholder', function(editor) {
   });
 
   const PlaceHolderDiv = function() {
-    const placeholderText = editor.settings.placeholder;
-    const placeholderAttrs = { style: { position: 'absolute', top: '0.375rem', left: '0.75rem', color: '#888' } };
     const contentAreaParent = tinymce.dom.DomQuery(editor.getElement()).parent()[0];
+    const placeholderText = contentAreaParent.getAttribute('placeholder');
+    const placeholderAttrs = { style: { position: 'absolute', top: '0.375rem', left: '0.75rem', color: '#888' } };
 
     tinymce.DOM.setStyle(contentAreaParent, 'position', 'relative');
 
-    this.el = editor.dom.add(contentAreaParent, "div", placeholderAttrs, placeholderText);
+    this.el = editor.dom.add(contentAreaParent, 'div', placeholderAttrs, placeholderText);
   };
 
   PlaceHolderDiv.prototype.hide = function() {
