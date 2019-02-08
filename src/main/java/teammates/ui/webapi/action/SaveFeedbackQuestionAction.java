@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackQuestionData;
+import teammates.ui.webapi.request.FeedbackQuestionSaveRequest;
 
 /**
  * Save a feedback question.
@@ -41,8 +42,7 @@ public class SaveFeedbackQuestionAction extends Action {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes oldQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest =
-                getAndValidateRequestBody(FeedbackQuestionInfo.FeedbackQuestionSaveRequest.class);
+        FeedbackQuestionSaveRequest saveRequest = getAndValidateRequestBody(FeedbackQuestionSaveRequest.class);
 
         // update old value based on current request
         oldQuestion.setQuestionNumber(saveRequest.getQuestionNumber());

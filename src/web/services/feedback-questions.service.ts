@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import {
   FeedbackContributionQuestionDetails,
@@ -10,7 +11,9 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
+import { FeedbackQuestionCreateRequest, FeedbackQuestionSaveRequest } from '../types/api-request';
 import { VisibilityControl } from '../types/visibility-control';
+import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
 
 /**
@@ -22,14 +25,14 @@ export interface TemplateQuestion {
 }
 
 /**
- * Handles feedback paths and visibility settings provision.
+ * Handles feedback question logic provision.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class FeedbackQuestionsService {
 
-  constructor() { }
+  constructor(private httpRequestService: HttpRequestService) { }
 
   /**
    * Gets allowed feedback paths based on question type as some feedback paths does not make
@@ -273,6 +276,29 @@ export class FeedbackQuestionsService {
   getTemplateQuestions(): TemplateQuestion[] {
     return templateQuestions;
   }
+
+  /**
+   * Creates a feedback question by calling API.
+   */
+  createFeedbackQuestion(courseId: string, feedbackSessionName: string,
+                         request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post('/question', paramMap, request);
+  }
+
+  /**
+   * Saves a feedback question by calling API.
+   */
+  saveFeedbackQuestion(feedbackQuestionId: string, request: FeedbackQuestionSaveRequest): Observable<FeedbackQuestion> {
+    const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
+
+    return this.httpRequestService.put('/question', paramMap, request);
+  }
+
 }
 
 /**

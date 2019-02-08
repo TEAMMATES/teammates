@@ -17,11 +17,11 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CreateFeedbackQuestionAction;
-import teammates.ui.webapi.action.FeedbackQuestionInfo;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.webapi.request.FeedbackQuestionCreateRequest;
 
 /**
  * SUT: {@link CreateFeedbackQuestionAction}.
@@ -60,7 +60,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         ______TS("null question type");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
             createRequest.setQuestionType(null);
             Action a = getAction(createRequest, params);
             a.execute();
@@ -69,7 +69,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         ______TS("Invalid questionNumber");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
             createRequest.setQuestionNumber(0);
             Action a = getAction(createRequest, params);
             a.execute();
@@ -78,7 +78,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         ______TS("Failure: Invalid giverType");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
             createRequest.setGiverType(FeedbackParticipantType.NONE);
             Action a = getAction(createRequest, params);
             a.execute();
@@ -87,7 +87,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         ______TS("Failure: empty question brief");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
             createRequest.setQuestionBrief("");
             Action a = getAction(createRequest, params);
             a.execute();
@@ -95,7 +95,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         ______TS("Typical case");
 
-        FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
@@ -146,7 +146,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         };
         params = addUserIdToParams(instructor1ofCourse1.getGoogleId(), params);
 
-        FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
@@ -178,7 +178,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         // contribution question cannot have students -> students feedback path
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest = getTypicalContributionQuestionCreateRequest();
+            FeedbackQuestionCreateRequest createRequest = getTypicalContributionQuestionCreateRequest();
             createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
             createRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
             Action a = getAction(createRequest, params);
@@ -188,7 +188,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         ______TS("Typical case");
 
-        FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest =
+        FeedbackQuestionCreateRequest createRequest =
                 getTypicalContributionQuestionCreateRequest();
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
@@ -204,9 +204,8 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         assertEquals(FeedbackQuestionType.CONTRIB, questionAttributes.getQuestionType());
     }
 
-    private FeedbackQuestionInfo.FeedbackQuestionCreateRequest getTypicalTextQuestionCreateRequest() {
-        FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest =
-                new FeedbackQuestionInfo.FeedbackQuestionCreateRequest();
+    private FeedbackQuestionCreateRequest getTypicalTextQuestionCreateRequest() {
+        FeedbackQuestionCreateRequest createRequest = new FeedbackQuestionCreateRequest();
         createRequest.setQuestionNumber(2);
         createRequest.setQuestionBrief("this is the brief");
         createRequest.setQuestionDescription("this is the description");
@@ -225,9 +224,8 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         return createRequest;
     }
 
-    private FeedbackQuestionInfo.FeedbackQuestionCreateRequest getTypicalContributionQuestionCreateRequest() {
-        FeedbackQuestionInfo.FeedbackQuestionCreateRequest createRequest =
-                new FeedbackQuestionInfo.FeedbackQuestionCreateRequest();
+    private FeedbackQuestionCreateRequest getTypicalContributionQuestionCreateRequest() {
+        FeedbackQuestionCreateRequest createRequest = new FeedbackQuestionCreateRequest();
         createRequest.setQuestionNumber(1);
         createRequest.setQuestionBrief("this is the brief for contribution question");
         createRequest.setQuestionDescription("this is the description for contribution question");

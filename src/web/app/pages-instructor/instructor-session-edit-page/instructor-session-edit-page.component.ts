@@ -137,11 +137,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
-              feedbackSessionsService: FeedbackSessionsService,
-              private route: ActivatedRoute,
-              private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService,
-              private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService, feedbackSessionsService);
+              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
+              private route: ActivatedRoute, private timezoneService: TimezoneService, private modalService: NgbModal) {
+    super(router, httpRequestService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService);
   }
 
   ngOnInit(): void {
@@ -450,8 +449,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
 
     questionEditFormModel.isSaving = true;
-    const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
-    this.httpRequestService.put('/question', paramMap, {
+    this.feedbackQuestionsService.saveFeedbackQuestion(questionEditFormModel.feedbackQuestionId, {
       questionNumber: questionEditFormModel.questionNumber,
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -526,10 +524,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   duplicateCurrentQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
 
     questionEditFormModel.isSaving = true;
-    this.httpRequestService.post('/question', paramMap, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -586,8 +583,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             questionNumber += 1;
-            const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-            return this.httpRequestService.post('/question', paramMap, {
+            return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
               questionNumber,
               questionBrief: question.questionBrief,
               questionDescription: question.questionDescription,
@@ -659,10 +655,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Creates a new question.
    */
   createNewQuestionHandler(): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-
     this.newQuestionEditFormModel.isSaving = true;
-    this.httpRequestService.post('/question', paramMap, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.newQuestionEditFormModel.questionNumber,
       questionBrief: this.newQuestionEditFormModel.questionBrief,
       questionDescription: this.newQuestionEditFormModel.questionDescription,

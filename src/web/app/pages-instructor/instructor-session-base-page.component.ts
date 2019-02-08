@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { concatMap, last, switchMap } from 'rxjs/operators';
+import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../services/http-request.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -25,7 +26,8 @@ export abstract class InstructorSessionBasePageComponent {
   protected constructor(protected router: Router, protected httpRequestService: HttpRequestService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
-                        protected feedbackSessionsService: FeedbackSessionsService) { }
+                        protected feedbackSessionsService: FeedbackSessionsService,
+                        protected feedbackQuestionsService: FeedbackQuestionsService) { }
 
   /**
    * Copies a feedback session.
@@ -68,29 +70,25 @@ export abstract class InstructorSessionBasePageComponent {
           }
           return from(response.questions).pipe(
               concatMap((feedbackQuestion: FeedbackQuestion) => {
-                const param: { [key: string]: string } = {
-                  courseid: createdFeedbackSession.courseId,
-                  fsname: createdFeedbackSession.feedbackSessionName,
-                };
+                return this.feedbackQuestionsService.createFeedbackQuestion(
+                    createdFeedbackSession.courseId, createdFeedbackSession.feedbackSessionName, {
+                      questionNumber: feedbackQuestion.questionNumber,
+                      questionBrief: feedbackQuestion.questionBrief,
+                      questionDescription: feedbackQuestion.questionDescription,
 
-                return this.httpRequestService.post('/question', param, {
-                  questionNumber: feedbackQuestion.questionNumber,
-                  questionBrief: feedbackQuestion.questionBrief,
-                  questionDescription: feedbackQuestion.questionDescription,
+                      questionDetails: feedbackQuestion.questionDetails,
+                      questionType: feedbackQuestion.questionType,
 
-                  questionDetails: feedbackQuestion.questionDetails,
-                  questionType: feedbackQuestion.questionType,
+                      giverType: feedbackQuestion.giverType,
+                      recipientType: feedbackQuestion.recipientType,
 
-                  giverType: feedbackQuestion.giverType,
-                  recipientType: feedbackQuestion.recipientType,
+                      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+                      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
 
-                  numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-                  customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
-
-                  showResponsesTo: feedbackQuestion.showResponsesTo,
-                  showGiverNameTo: feedbackQuestion.showGiverNameTo,
-                  showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-                });
+                      showResponsesTo: feedbackQuestion.showResponsesTo,
+                      showGiverNameTo: feedbackQuestion.showGiverNameTo,
+                      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+                    });
               }),
               last(),
               switchMap(() => of(createdFeedbackSession)),
