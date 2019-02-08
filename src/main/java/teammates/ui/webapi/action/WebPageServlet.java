@@ -18,7 +18,7 @@ public class WebPageServlet extends HttpServlet {
             "default-src 'none'",
             "script-src 'self'",
             "style-src 'self' 'unsafe-inline'",
-            "frame-src 'self' docs.google.com data:",
+            "frame-src 'self' docs.google.com",
             "img-src 'self' data: http: https:",
             "font-src 'self'",
             "connect-src 'self'",
