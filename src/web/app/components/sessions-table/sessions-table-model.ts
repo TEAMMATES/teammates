@@ -100,6 +100,31 @@ export enum SortBy {
    * The time when the feedback session is moved to recycle bin.
    */
   DELETION_DATE,
+
+  /**
+   * The name of the student's section.
+   */
+  SECTION_NAME,
+
+  /**
+   * The name of the student's team.
+   */
+  TEAM_NAME,
+
+  /**
+   * The name of the student.
+   */
+  STUDENT_NAME,
+
+  /**
+   * The email of the student.
+   */
+  STUDENT_EMAIL,
+
+  /**
+   * The status of the student's feedback submission.
+   */
+  SUBMIT_STATUS,
 }
 
 /**

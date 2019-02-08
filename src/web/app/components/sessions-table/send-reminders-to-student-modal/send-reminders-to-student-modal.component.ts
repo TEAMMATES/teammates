@@ -4,6 +4,7 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../../error-message-output';
 import { StudentResponseStatus, StudentsResponseStatus } from '../../../student';
+import { SortBy, SortOrder } from '../sessions-table-model';
 
 interface RemindStudentsTableRow {
   studentResponseStatus: StudentResponseStatus;
@@ -26,8 +27,16 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   @Input()
   feedbackSessionName: string = '';
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+
   checkAll: boolean = false;
   checkAllYetSubmitted: boolean = false;
+
+  remindStudentsTableRows: RemindStudentsTableRow[] = [];
+  remindStudentsTableRowSortBy: SortBy = SortBy.NONE;
+  remindStudentsTableRowSortOrder: SortOrder = SortOrder.DESC;
 
   constructor(public activeModal: NgbActiveModal, public httpRequestService: HttpRequestService,
               public statusMessageService: StatusMessageService) {}
@@ -63,6 +72,62 @@ export class SendRemindersToStudentModalComponent implements OnInit {
         this.isAjaxSuccess = false;
       });
     this.loading = false;
+  }
+
+  /**
+   * Sort the students in according to selection option.
+   */
+  sortRemindStudentsTableRows(by: SortBy): void {
+    this.remindStudentsTableRowSortBy = by;
+    // reverse the sort order
+    this.remindStudentsTableRowSortOrder =
+        this.remindStudentsTableRowSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.remindStudentsTableRows.sort(this.sortRowsBy(by, this.remindStudentsTableRowSortOrder));
+  }
+
+  /**
+   * Sorts the rows of students in order.
+   */
+  sortRowsBy(by: SortBy, order: SortOrder):
+      ((a: { studentResponseStatus: StudentResponseStatus },
+        b: { studentResponseStatus: StudentResponseStatus }) => number) {
+    return ((a: { studentResponseStatus: StudentResponseStatus },
+             b: { studentResponseStatus: StudentResponseStatus }): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.SECTION_NAME:
+          strA = a.studentResponseStatus.sectionName;
+          strB = b.studentResponseStatus.sectionName;
+          break;
+        case SortBy.TEAM_NAME:
+          strA = a.studentResponseStatus.teamName;
+          strB = b.studentResponseStatus.teamName;
+          break;
+        case SortBy.STUDENT_NAME:
+          strA = a.studentResponseStatus.name;
+          strB = b.studentResponseStatus.name;
+          break;
+        case SortBy.STUDENT_EMAIL:
+          strA = a.studentResponseStatus.email;
+          strB = b.studentResponseStatus.email;
+          break;
+        case SortBy.SUBMIT_STATUS:
+          strA = a.studentResponseStatus.responseStatus.toString();
+          strB = b.studentResponseStatus.responseStatus.toString();
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      if (order === SortOrder.ASC) {
+        return strA.localeCompare(strB);
+      }
+      if (order === SortOrder.DESC) {
+        return strB.localeCompare(strA);
+      }
+      return 0;
+    });
   }
 
   /**

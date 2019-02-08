@@ -14,6 +14,39 @@
 <div class="modal-body">
   <div class=".table-responsive" *ngIf="remindStudentsTableRows.length > 0">
     <table class="table table-bordered">
+      <tr class="background-color-medium-gray">
+        <th></th>
+        <th (click)="sortRemindStudentsTableRows(SortBy.SECTION_NAME)" class="clickable">
+          Section
+          <span *ngIf="remindStudentsTableRowSortBy !== SortBy.SECTION_NAME"><i class="fas fa-sort"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.SECTION_NAME && remindStudentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.SECTION_NAME && remindStudentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th (click)="sortRemindStudentsTableRows(SortBy.TEAM_NAME)" class="clickable">
+          Team
+          <span *ngIf="remindStudentsTableRowSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.TEAM_NAME && remindStudentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.TEAM_NAME && remindStudentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th (click)="sortRemindStudentsTableRows(SortBy.STUDENT_NAME)" class="clickable">
+          Student Name
+          <span *ngIf="remindStudentsTableRowSortBy !== SortBy.STUDENT_NAME"><i class="fas fa-sort"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.STUDENT_NAME && remindStudentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.STUDENT_NAME && remindStudentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th (click)="sortRemindStudentsTableRows(SortBy.STUDENT_EMAIL)" class="clickable">
+          Email
+          <span *ngIf="remindStudentsTableRowSortBy !== SortBy.STUDENT_EMAIL"><i class="fas fa-sort"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.STUDENT_EMAIL && remindStudentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.STUDENT_EMAIL && remindStudentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th (click)="sortRemindStudentsTableRows(SortBy.SUBMIT_STATUS)" class="clickable">
+          Submitted?
+          <span *ngIf="remindStudentsTableRowSortBy !== SortBy.SUBMIT_STATUS"><i class="fas fa-sort"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.SUBMIT_STATUS && remindStudentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="remindStudentsTableRowSortBy === SortBy.SUBMIT_STATUS && remindStudentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+      </tr>
       <ng-container *ngFor="let remindStudentRow of remindStudentsTableRows">
         <ng-container *ngIf="!remindStudentRow.studentResponseStatus.responseStatus">
           <tr class="bg-warning">
