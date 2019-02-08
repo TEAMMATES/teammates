@@ -177,6 +177,17 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
+     * Preconditions: <br>
+     *  * All parameters are non-null.
+     * @return empty list if no matching objects.
+     */
+    public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        return makeAttributes(getInstructorEntitiesThatAreDisplayedInCourse(courseId));
+    }
+
+    /**
      * Updates the instructor. Cannot modify Course ID or google id.
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
@@ -322,6 +333,13 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
         return load().filter("courseId in", courseIds).list();
+    }
+
+    private List<Instructor> getInstructorEntitiesThatAreDisplayedInCourse(String courseId) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("isDisplayedToStudents =", true)
+                .list();
     }
 
     private Instructor getInstructorEntityForRegistrationKey(String key) {

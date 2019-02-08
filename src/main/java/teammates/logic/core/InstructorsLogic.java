@@ -144,6 +144,14 @@ public final class InstructorsLogic {
     }
 
     /**
+     * Returns whether at least one instructor is displayed to the students.
+     */
+    public boolean isNoInstructorDisplayedToStudents(String courseId) {
+
+        return instructorsDb.getInstructorsDisplayedToStudents(courseId) != null;
+    }
+
+    /**
      * Returns whether the instructor is a new user, according to one of the following criteria:
      * <ul>
      * <li>There is only a sample course (created by system) for the instructor.</li>
@@ -174,6 +182,14 @@ public final class InstructorsLogic {
         }
     }
 
+    private void verifyAtleastOneInstructorIsDisplayed(String courseId, boolean isEditedInstructorDisplayed)
+            throws InvalidParametersException {
+
+        if (isNoInstructorDisplayedToStudents(courseId) && !isEditedInstructorDisplayed) {
+            throw new InvalidParametersException("At least one instructor must be displayed to students");
+        }
+    }
+
     /**
      * Update the name and email address of an instructor with the specific Google ID.
      * @param instructor InstructorAttributes object containing the details to be updated
@@ -187,6 +203,7 @@ public final class InstructorsLogic {
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
         checkForUpdatingRespondents(instructor);
+        verifyAtleastOneInstructorIsDisplayed(instructor.courseId, instructor.isDisplayedToStudents);
 
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
@@ -225,6 +242,7 @@ public final class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
+        verifyAtleastOneInstructorIsDisplayed(instructor.courseId, instructor.isDisplayedToStudents);
 
         instructorsDb.updateInstructorByEmail(instructor);
     }
