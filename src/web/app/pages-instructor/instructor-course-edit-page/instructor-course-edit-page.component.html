@@ -231,111 +231,118 @@
                         </div>
                       </div>
                     </div>
-                    <div id="tune-section-permissions-{{ i }}" *ngIf="this.instructorList[i].privileges.sectionLevel.size">
-                      <div class="card bg-light top-padded">
-                        <div class="card-header bg-primary text-white">
-                          <div class="row">
-                            <div class="col-sm-2">
-                              <p>
-                                <strong>
-                                  But in section(s)
-                                </strong>
-                              </p>
-                            </div>
-                            <div class="col-sm-9">
-                              <ng-container *ngFor="let section of this.instructorList[i].privileges.sectionLevel | keyvalue">
+                    <div formArrayName="tuneSectionPermissions">
+                      <ng-container *ngFor="let sectionPermissions of instr.controls.tunePermissions.get('tuneSectionPermissions').controls; let j=index">
+                        <div class="card bg-light top-padded" [formGroup]="sectionPermissions">
+                          <div class="card-header bg-light-blue">
+                            <div class="row">
+                              <div class="col-sm-2">
+                                <p>
+                                  <strong>
+                                    But in section(s)
+                                  </strong>
+                                </p>
+                              </div>
+                              <div class="col-sm-9">
                                 <div class="col-sm-12">
-                                  <div class="col-sm-4">
-                                    <input name="{{ section.key }}" type="checkbox">
-                                    {{ section.key }}
+                                  <div class="col-sm-4" *ngFor="let section of this.sectionNames">
+                                    <input name="{{ section }}" type="checkbox">
+                                    {{ section }}
                                   </div>
                                 </div>
-                              </ng-container>
+                              </div>
+                              <div class="col-sm-1">
+                                <a class="float-sm-right" href="javascript:;" (click)="removeTuneSectionPermissionsPanel(instr, j)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                              </div>
                             </div>
-                            <div class="col-sm-1">
-                              <button class="pull-right">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                              </button>
+                            <br>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <p>
+                                  <strong>
+                                    the instructor can only,
+                                  </strong>
+                                </p>
+                              </div>
                             </div>
                           </div>
-                          <br>
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <p>
-                                <strong>
-                                  the instructor can only,
-                                </strong>
-                              </p>
+                          <div class="panel-body">
+                            <br>
+                            <div class="col-sm-6 border-right-gray">
+                              <input formControlName="canviewstudentinsection" type="checkbox">
+                              View Students' Details
+                              <br>
+                              <br>
+                            </div>
+                            <div class="col-sm-5 col-sm-offset-1">
+                              <input formControlName="cansubmitsessioninsection" type="checkbox">
+                              Sessions: Submit Responses and Add Comments
+                              <br>
+                              <input formControlName="canviewsessioninsection" type="checkbox">
+                              Sessions: View Responses and Comments
+                              <br>
+                              <input formControlName="canmodifysessioncommentinsection" type="checkbox">
+                              Sessions: Edit/Delete Responses/Comments by Others
+                              <br>
+                              <br>
+                            </div>
+                            <a id="hide-link-{{ j }}" class="small col-sm-5" href="javascript:;" (click)="hideSessionLevelPermissions(j)">
+                              Hide session-level permissions
+                            </a>
+                            <a id="show-link-{{ j }}" class="small col-sm-5" href="javascript:;" style="display:none;" (click)="showSessionLevelPermissions(j)">
+                              Give different permissions for sessions in this section
+                            </a>
+                            <div id="tune-session-permissions-{{ j }}" class="row" style="display:block;">
+                              <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                  <td>
+                                    Session Name
+                                  </td>
+                                  <td>
+                                    Submit Responses and Add Comments
+                                  </td>
+                                  <td>
+                                    View Responses and Comments
+                                  </td>
+                                  <td>
+                                    Edit/Delete Responses/Comments by Others
+                                  </td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let feedback of this.feedbackNames">
+                                    <td>
+                                      {{ feedback }}
+                                    </td>
+                                    <td class="align-center">
+                                      <input checked="" type="checkbox" value="true">
+                                    </td>
+                                    <td class="align-center">
+                                      <input checked="" type="checkbox" value="true">
+                                    </td>
+                                    <td class="align-center">
+                                      <input checked="" type="checkbox" value="true">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
                           </div>
                         </div>
-                        <div class="panel-body">
-                          <br>
-                          <div class="col-sm-6 border-right-gray">
-                            <input name="canviewstudentinsectionsectiongroup" type="checkbox">
-                            View Students' Details
-                            <br>
-                            <br>
-                          </div>
-                          <div class="col-sm-5 col-sm-offset-1">
-                            <input name="cansubmitsessioninsectionsectiongroup" type="checkbox">
-                            Sessions: Submit Responses and Add Comments
-                            <br>
-                            <input name="canviewsessioninsectionsectiongroup" type="checkbox">
-                            Sessions: View Responses and Comments
-                            <br>
-                            <input name="canmodifysessioncommentinsectionsectiongroup" type="checkbox">
-                            Sessions: Edit/Delete Responses/Comments by Others
-                            <br>
-                            <br>
-                          </div>
-                          <a class="small col-sm-5 hide-tune-session-permissions">
-                            Hide session-level permissions
-                          </a>
-                          <div class="row" data-is-originally-displayed="true">
-                            <input name="issectiongroup0sessionsset" type="hidden" value="true">
-                            <table class="table table-striped">
-                              <thead>
-                              <tr>
-                                <td>
-                                  SessionName
-                                </td>
-                                <td>
-                                  Submit Responses and Add Comments
-                                </td>
-                                <td>
-                                  View Responses and Comments
-                                </td>
-                                <td>
-                                  Edit/Delete Responses/Comments by Others
-                                </td>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                <td>
-                                  First feedback session
-                                </td>
-                                <td class="align-center">
-                                  <input checked="" name="cansubmitsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
-                                </td>
-                                <td class="align-center">
-                                  <input checked="" name="canviewsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
-                                </td>
-                                <td class="align-center">
-                                  <input checked="" name="canmodifysessioncommentinsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
-                                </td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
               </div>
-              <a class="small" href="javascript:;">Give different permissions for a specific section</a>
+              <a class="small" href="javascript:;"
+                 *ngIf="instr.controls.role.value == 'Custom'
+                 && instr.controls.tunePermissions.controls['tuneSectionPermissions'].length !== this.sectionNames.length"
+                 (click)="addTuneSectionPermissionsPanel(instr)">
+                Give different permissions for a specific section
+              </a>
               <div class="form-group">
                 <div class="align-center">
                   <button class="btn btn-primary" tabindex="6" id="btn-save-{{ i }}" style="display:none;" type="submit">

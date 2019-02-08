@@ -202,12 +202,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
         tunePermissions: this.fb.group({
           canmodifycourse: instructorPrivileges.courseLevel.canmodifycourse,
           canmodifyinstructor: instructorPrivileges.courseLevel.canmodifyinstructor,
-          canmodifysession:instructorPrivileges.courseLevel.canmodifysession,
-          canmodifystudent:instructorPrivileges.courseLevel.canmodifystudent,
+          canmodifysession: instructorPrivileges.courseLevel.canmodifysession,
+          canmodifystudent: instructorPrivileges.courseLevel.canmodifystudent,
           canviewstudentinsection: instructorPrivileges.courseLevel.canviewstudentinsection,
           cansubmitsessioninsection: instructorPrivileges.courseLevel.cansubmitsessioninsection,
           canviewsessioninsection: instructorPrivileges.courseLevel.canviewsessioninsection,
           canmodifysessioncommentinsection: instructorPrivileges.courseLevel.canmodifysessioncommentinsection,
+          tuneSectionPermissions: this.fb.array([]),
         }),
       });
 
@@ -766,4 +767,53 @@ export class InstructorCourseEditPageComponent implements OnInit {
         });
   }
 
+  /**
+   * Adds an additional panel to modify custom section privileges for a given instructor.
+   */
+  addTuneSectionPermissionsPanel(instr: FormGroup): void {
+    const newSection: FormGroup = this.fb.group({
+      canviewstudentinsection: true,
+      cansubmitsessioninsection: true,
+      canviewsessioninsection: true,
+      canmodifysessioncommentinsection: true,
+    });
+    ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionPermissions as FormArray).push(newSection);
+  }
+
+  /**
+   * Removes a panel to modify custom section privileges for a given instructor.
+   */
+  removeTuneSectionPermissionsPanel(instr: FormGroup, index: number): void {
+    ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionPermissions as FormArray).removeAt(index);
+  }
+
+  /**
+   * Hides session level permissions for a section panel.
+   */
+  hideSessionLevelPermissions(index: number): void {
+    const table: (HTMLElement | null) = document.getElementById(`tune-session-permissions-${index}`);
+    const hideLink: (HTMLElement | null) = document.getElementById(`hide-link-${index}`);
+    const showLink: (HTMLElement | null) = document.getElementById(`show-link-${index}`);
+
+    if (table != null && hideLink != null && showLink != null) {
+      table.style.display = 'none';
+      hideLink.style.display = 'none';
+      showLink.style.display = 'block';
+    }
+  }
+
+  /**
+   * Shows session level permissions for a section panel.
+   */
+  showSessionLevelPermissions(index: number): void {
+    const table: (HTMLElement | null) = document.getElementById(`tune-session-permissions-${index}`);
+    const hideLink: (HTMLElement | null) = document.getElementById(`hide-link-${index}`);
+    const showLink: (HTMLElement | null) = document.getElementById(`show-link-${index}`);
+
+    if (table != null && hideLink != null && showLink != null) {
+      table.style.display = 'block';
+      hideLink.style.display = 'block';
+      showLink.style.display = 'none';
+    }
+  }
 }

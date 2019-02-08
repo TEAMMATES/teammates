@@ -23,28 +23,35 @@
   color: black !important;
 }
 
+.col-sm-offset-1 {
+  margin-left: 8.33333333%;
+}
+
 .col-sm-3 {
   float: left;
   width: 25%;
+  min-height: 1px;
+}
+
+.col-sm-4 {
+  float: left;
+  min-height: 1px;
 }
 
 .col-sm-5 {
   width: 41.66666667%;
-  margin-left: 8.33333333%;
   float: left;
+  min-height: 1px;
 }
 
 .col-sm-6 {
   width: 50%;
   float: left;
+  min-height: 1px;
 }
 
 .fill-plain {
   background-color: #EAEFF5;
-}
-
-.right {
-  text-align: right;
 }
 
 .form-group {
@@ -54,6 +61,18 @@
 label {
   font-weight: bold;
   text-align: right;
+}
+
+.right {
+  text-align: right;
+}
+
+.row {
+  margin: 0;
+}
+
+table tr:first-child td {
+  border-top: none;
 }
 
 .bottom-padded {
