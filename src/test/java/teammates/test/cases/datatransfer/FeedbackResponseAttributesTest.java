@@ -36,7 +36,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testCopyConstructor_shouldDoDeepCopy() {
+    public void testConstructorWithCopy_shouldDoDeepCopyOfResponseDetails() {
         FeedbackResponseAttributes fra1 = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
                 "questionId", FeedbackQuestionType.TEXT,
@@ -49,6 +49,21 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
         assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
 
+    }
+
+    @Test
+    public void testConstructorWithAllAttributes_shouldDoDeepCopyOfResponseDetails() {
+        FeedbackTextResponseDetails detail = new FeedbackTextResponseDetails("My original answer");
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                "Session1", "CS3281",
+                "questionId", FeedbackQuestionType.TEXT,
+                "giver@email.com", "giverSection",
+                "recipient@email.com", "recipientSection", detail);
+
+        detail.answer = "Updated answer";
+
+        assertEquals("My original answer", fra.responseDetails.getAnswerString());
+        assertEquals("Updated answer", detail.answer);
     }
 
     @Test
