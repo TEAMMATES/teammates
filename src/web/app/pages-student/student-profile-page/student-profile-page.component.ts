@@ -50,6 +50,8 @@ export class StudentProfilePageComponent implements OnInit {
   editForm!: FormGroup;
   nationalities?: string[];
   genders: string[] = ['male', 'female', 'other'];
+  fileName: string = 'No File Selected';
+  isFileSelected: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -67,6 +69,17 @@ export class StudentProfilePageComponent implements OnInit {
       this.user = queryParams.user;
       this.loadStudentProfile();
     });
+  }
+
+  /**
+   * Handles event(s) when a file is selected from the user's file browser.
+   */
+  onFileChanged(event: any): void {
+    const file: any = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+      this.isFileSelected = true;
+    }
   }
 
   /**
@@ -136,6 +149,13 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onSubmit(confirmEditProfile: any): void {
     this.ngbModal.open(confirmEditProfile);
+  }
+
+  /**
+   * Shows a modal box to upload/edit profile picture.
+   */
+  onUploadEdit(uploadEditPhoto: any): void {
+    this.ngbModal.open(uploadEditPhoto);
   }
 
   /**

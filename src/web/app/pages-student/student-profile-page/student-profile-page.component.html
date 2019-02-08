@@ -11,13 +11,13 @@
               class="profile-pic">
         </div>
         <div class="col-xs-6 col-sm-5 col-md-3" ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB)">
-          <!-- TODO: Include upload/edit photo functionality
           <button
               id="uploadEditPhoto"
               class="btn btn-primary"
-              type="button">
+              type="button"
+              (click)="onUploadEdit(uploadEditPhoto)">
             Upload/Edit Photo
-          </button> -->
+          </button>
         </div>
       </div>
       <form [formGroup]="editForm"
@@ -76,8 +76,8 @@
               id="studentprofilemoreinfo"
               rows="4"
               formControlName="studentprofilemoreinfo"
-              placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
-          ></textarea>
+              placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc.">
+          </textarea>
         </div>
         <div class="text-center">
           <input
@@ -108,6 +108,110 @@
           <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">
             Cancel
           </button>
+        </div>
+      </ng-template>
+      <ng-template #uploadEditPhoto let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Upload/Edit Photo
+          </h4>
+          <button (click)="modal.dismiss()" type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×
+          </button>
+        </div>
+        <div class="modal-body align-center">
+          <div class="row">
+            <div class="col-4 profile-pic-edit-col">
+              <div class="align-center">
+                <!-- <form id="profilePictureUploadForm" method="post"> -->
+                <span class="btn btn-primary profile-pic-file-selector">
+                  Browse...
+                  <input id="studentPhoto" type="file" name="studentprofilephoto" (change)="onFileChanged($event)">
+                </span>
+                <input type="text" class="filename-preview" [value]=fileName disabled>
+                <p class="form-text">
+                  Max Size: 5 MB
+                </p>
+                <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary" [disabled]=!isFileSelected>
+                  Upload Picture
+                </button>
+                <input type="hidden" name="user" value="zz@example.com">
+                <!-- </form> -->
+              </div>
+            </div>
+            <div *ngIf="getProfilePictureUrl(student.studentProfile.pictureKey) !== '/assets/images/profile_picture_default.png'" class="col-8 border-left-gray">
+              <div class="profile-pic-edit">
+                <div class="alert alert-info">
+                  Zoom, pan and rotate to crop your image to the desired area.
+                </div>
+                <button id="profilePicEditPanUp" type="button" class="btn btn-primary">
+                  <i class="fas fa-arrow-up"></i>
+                </button>
+                <div class="profile-pic-edit-container row">
+                  <div class="col-2 profile-pic-edit-col">
+                    <button id="profilePicEditPanLeft" type="button" class="btn btn-primary">
+                      <i class="fas fa-arrow-left"></i>
+                    </button>
+                  </div>
+                  <div class="col-8 ">
+                    <div class="guillotine-window" style="width: 100%; height: auto; padding-top: 100%;">
+                      <div class="guillotine-canvas" style="width: 100%; height: 100%; top: 0%; left: 0%;">
+                        <img id="editableProfilePicture" src="/page/studentProfilePic?blob-key=encoded_gs_key:L2dzL3RlYW1tYXRlcy1qb2huLmFwcHNwb3QuY29tL3p6QGV4YW1wbGUuY29t&amp;user=zz@example.com" style="perspective: 1000px; backface-visibility: hidden;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2 profile-pic-edit-col">
+                    <button id="profilePicEditPanRight" type="button" class="btn btn-primary">
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+                <button id="profilePicEditPanDown" type="button" class="btn btn-primary">
+                  <i class="fas fa-arrow-down"></i>
+                </button>
+                <div class="profile-pic-edit-toolbar">
+                  <button id="profilePicEditRotateLeft" type="button" class="btn btn-primary btn-space">
+                    <i class="fas fa-redo-alt fa-flip-horizontal"></i>
+                  </button>
+                  <button id="profilePicEditZoomIn" type="button" class="btn btn-primary btn-space">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button id="profilePicEditZoomOut" type="button" class="btn btn-primary btn-space">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button id="profilePicEditRotateRight" type="button" class="btn btn-primary">
+                    <i class="fas fa-redo-alt"></i>
+                  </button>
+                </div>
+                <label for="editableProfilePicture">
+                  Your Photo
+                </label>
+                <br>
+              </div>
+              <!-- <form id="profilePictureEditForm" method="post" action="/page/studentProfilePictureEdit">
+                <input id="pictureHeight" type="hidden" name="pictureheight" value="400">
+                <input id="pictureWidth" type="hidden" name="picturewidth" value="400">
+                <input id="cropBoxLeftX" type="hidden" name="cropboxleftx" value="">
+                <input id="cropBoxTopY" type="hidden" name="cropboxtopy" value="">
+                <input id="cropBoxRightX" type="hidden" name="cropboxrightx" value="">
+                <input id="cropBoxBottomY" type="hidden" name="cropboxbottomy" value="">
+                <input id="rotate" type="hidden" name="picturerotate" value="">
+                <input id="blobKey" type="hidden" name="blob-key" value="encoded_gs_key:L2dzL3RlYW1tYXRlcy1qb2huLmFwcHNwb3QuY29tL3p6QGV4YW1wbGUuY29t">
+                <input type="hidden" name="user" value="zz@example.com">
+                <input type="hidden" name="token" value="98528FDFE4F737226EBD175E208760F1575639367EA7A2C5485C1F9BF996C7C1">
+              </form> -->
+              <button type="button" id="profileEditPictureSubmit" class="btn btn-primary">
+                Save Edited Photo
+              </button>
+            </div>
+            <div *ngIf="getProfilePictureUrl(student.studentProfile.pictureKey) === '/assets/images/profile_picture_default.png'" class="col-8 border-left-gray">
+              <div class="alert alert-warning">
+                Please upload a photo to start editing.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
         </div>
       </ng-template>
     </div>
