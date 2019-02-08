@@ -85,7 +85,7 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
             }
             if (isSubmissionEmailConfirmationEmailRequested) {
                 email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
-                        feedbackSession, studentAttributes, Instant.now());
+                            feedbackSession, studentAttributes, Instant.now());
             }
             break;
         case INSTRUCTOR_SUBMISSION:
