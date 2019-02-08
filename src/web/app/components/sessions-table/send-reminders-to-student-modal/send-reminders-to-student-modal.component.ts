@@ -38,6 +38,9 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   remindStudentsTableRowSortBy: SortBy = SortBy.NONE;
   remindStudentsTableRowSortOrder: SortOrder = SortOrder.DESC;
 
+  loading: boolean = false;
+  isAjaxSuccess: boolean = true;
+
   constructor(public activeModal: NgbActiveModal, public httpRequestService: HttpRequestService,
               public statusMessageService: StatusMessageService) {}
 

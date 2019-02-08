@@ -12,6 +12,7 @@
     <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
   </div>
 <div class="modal-body">
+  <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
   <div class=".table-responsive" *ngIf="remindStudentsTableRows.length > 0">
     <table class="table table-bordered">
       <tr class="background-color-medium-gray">
@@ -101,6 +102,10 @@
       </ng-container>
     </table>
   </div>
+  <div *ngIf="!isAjaxSuccess">
+    Failed to load. Click
+    <span class="clickable" (click)="initializeRemindStudentsResponses()">here</span>
+    to retry.
   </div>
 </div>
 <div class="modal-footer">
