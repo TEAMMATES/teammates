@@ -41,7 +41,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private FeedbackParticipantType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
-    private StudentAttributes studentDoingQuestion;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -258,9 +257,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
-        studentDoingQuestion = student;
         FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
-        List<String> choices = generateOptionList(courseId);
+        List<String> choices = generateOptionList(courseId, student);
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -335,8 +333,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
             StudentAttributes student) {
-        studentDoingQuestion = student;
-        List<String> choices = generateOptionList(courseId);
+        List<String> choices = generateOptionList(courseId, student);
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -434,7 +431,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return instructorList.size();
     }
 
-    private List<String> generateOptionList(String courseId) {
+    private List<String> generateOptionList(String courseId, StudentAttributes studentDoingQuestion) {
         List<String> optionList = new ArrayList<>();
 
         switch (generateOptionsFor) {

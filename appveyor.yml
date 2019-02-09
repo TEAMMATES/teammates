@@ -30,4 +30,5 @@ build_script:
   - gradlew.bat componentTests
   - npm install
   - npm run lint
+  - gradlew.bat generateTypes
   - npm run coverage
