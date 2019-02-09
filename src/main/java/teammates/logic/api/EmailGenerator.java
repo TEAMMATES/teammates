@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
 
+import com.mailjet.client.resource.Email;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -214,6 +215,13 @@ public class EmailGenerator {
         return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email, timestamp);
     }
 
+    /**
+     * Generates link recovery email.
+     */
+    public EmailWrapper generateLinkRecoveryEmail(String link,  String destinationEmail) {
+        return generateLinkRecoveryEmailForUser(link, destinationEmail);
+    }
+
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
             String template, String subject, String additionalContactInformation) {
@@ -248,6 +256,19 @@ public class EmailGenerator {
         email.setContent(emailBody);
         return email;
 
+    }
+
+    private EmailWrapper generateLinkRecoveryEmailForUser(String recoveryLink, String userEmail) {
+        // TODO: Properly format email body.
+        String template = EmailTemplates.USER_LINK_RECOVERY;
+        String subject = EmailType.RESPONSE_LINK_RECOVERY.getSubject();
+        String emailBody = Templates.populateTemplate(template,
+                "${recoveryLink}", SanitizationHelper.sanitizeForHtml(recoveryLink),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
+        email.setSubject(subject);
+        email.setContent(emailBody);
+        return email;
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(

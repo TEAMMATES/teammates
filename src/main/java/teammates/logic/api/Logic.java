@@ -728,6 +728,18 @@ public class Logic {
      *
      * @return Null if no match found.
      */
+    public List<StudentAttributes> getAllStudentForEmail(String email) {
+        Assumption.assertNotNull(email);
+
+        return studentsLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(googleId);

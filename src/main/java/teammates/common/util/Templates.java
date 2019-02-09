@@ -48,6 +48,8 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
+        public static final String USER_LINK_RECOVERY =
+                FileHelper.readResourceFile("userEmailTemplate-LinkRecovery.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =
