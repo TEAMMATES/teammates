@@ -1,17 +1,11 @@
-import {
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-} from '../../feedback-session';
-
 /**
  * The format of a session template.
  */
-export interface SessionTemplate {
-  name: string;
-  description: string;
-}
+import {
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting, SessionVisibleSetting,
+} from '../../../types/api-output';
 
 /**
  * The mode of operation for session edit form.

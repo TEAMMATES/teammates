@@ -421,9 +421,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student1InCourse1@gmail.tmt",
       "recipient": "searchUI.student1InCourse1@gmail.tmt",
-      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
+      }
     },
     "response2ForQ1S1C1": {
       "feedbackSessionName": "searchUI.First feedback session",
@@ -432,9 +435,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student2InCourse1@gmail.tmt",
       "recipient": "searchUI.student2InCourse1@gmail.tmt",
-      "responseMetaData": "I'm cool'",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
+      }
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "searchUI.First feedback session",
@@ -443,9 +449,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student2InCourse1@gmail.tmt",
       "recipient": "searchUI.student1InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 2 to student 1.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to student 1."
+      }
     },
     "response2ForQ2S1C1": {
       "feedbackSessionName": "searchUI.First feedback session",
@@ -454,9 +463,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student1InCourse1@gmail.tmt",
       "recipient": "searchUI.student2InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 1 to student 2.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to student 2."
+      }
     },
     "response3ForQ2S1C1": {
       "feedbackSessionName": "searchUI.First feedback session",
@@ -465,9 +477,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.student3InCourse1@gmail.tmt",
       "recipient": "searchUI.student2InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
+      }
     },
     "response1ForQ3S1C1": {
       "feedbackSessionName": "searchUI.First feedback session",
@@ -476,9 +491,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "Good work, keep it up!",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good work, keep it up!"
+      }
     },
     "response1ForQ1S1TSC": {
       "feedbackSessionName": "Normal feedback session name",
@@ -487,9 +505,12 @@
       "feedbackQuestionType": "TEXT",
       "giver": "searchUI.normal@sanitization.tmt",
       "recipient": "searchUI.normal@sanitization.tmt",
-      "responseMetaData": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "giverSection": "Section'\"/></td>",
-      "recipientSection": "Section'\"/></td>"
+      "recipientSection": "Section'\"/></td>",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      }
     }
   },
   "feedbackResponseComments": {

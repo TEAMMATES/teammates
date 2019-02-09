@@ -10,6 +10,8 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.output.FeedbackSessionData;
+import teammates.ui.webapi.request.FeedbackSessionCreateRequest;
 
 /**
  * Create a feedback session.
@@ -38,8 +40,8 @@ public class CreateFeedbackSessionAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         CourseAttributes course = logic.getCourse(courseId);
 
-        FeedbackSessionInfo.FeedbackSessionCreateRequest createRequest =
-                getAndValidateRequestBody(FeedbackSessionInfo.FeedbackSessionCreateRequest.class);
+        FeedbackSessionCreateRequest createRequest =
+                getAndValidateRequestBody(FeedbackSessionCreateRequest.class);
 
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
@@ -66,7 +68,7 @@ public class CreateFeedbackSessionAction extends Action {
         }
 
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionResponse(fs));
+        return new JsonResult(new FeedbackSessionData(fs));
     }
 
 }

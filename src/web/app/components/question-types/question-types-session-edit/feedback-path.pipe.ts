@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackParticipantType } from '../../../feedback-participant-type';
+import { FeedbackParticipantType } from '../../../../types/api-output';
 
 /**
  * Pipe to handle the display of {@link FeedbackParticipantType} from giver's perspective.

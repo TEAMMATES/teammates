@@ -271,13 +271,6 @@ function disableEditFS() {
     $('#form_feedbacksession').find('text,input,button,textarea,select')
             .prop('disabled', true);
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor('instructions');
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: true,
-        });
-    }
 
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
@@ -351,15 +344,6 @@ function removeRequiredIfElementHidden() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
-            inline: true,
-            readonly: true,
-        });
-        /* eslint-enable camelcase */
-    }
     $(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).addClass('well');
 
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
@@ -443,14 +427,7 @@ function enableEditFS() {
             .not('.disabled')
             .prop('disabled', false);
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor('instructions');
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-        });
-        /* eslint-enable camelcase */
-    }
+
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -542,14 +519,7 @@ function setupSortableQuestionOptionsGrid(qnType, questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
-            inline: true,
-        });
-        /* eslint-enable camelcase */
-    }
+
     $(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).removeClass('well');
 
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
@@ -637,14 +607,6 @@ function enableEdit(questionNum, maxQuestions) {
 }
 
 function enableNewQuestion() {
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
-            inline: true,
-        });
-        /* eslint-enable camelcase */
-    }
 
     removeRequiredIfElementHidden(); // TODO: Remove this function call when #8688 is fixed.
 

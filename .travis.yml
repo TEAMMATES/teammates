@@ -55,6 +55,7 @@ jobs:
       script:
         - ./gradlew createConfigs componentTests
         - ./gradlew jacocoReport
+        - ./gradlew generateTypes
         - npm run coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
