@@ -61,7 +61,7 @@ public class GetCourseStudentDetailsAction extends Action {
         }
 
         StudentProfileAttributes studentProfile = null;
-        if (!"".equals(student.googleId)) {
+        if (student.isRegistered()) {
             studentProfile = logic.getStudentProfile(student.googleId);
         }
 
