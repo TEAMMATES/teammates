@@ -443,15 +443,38 @@ export class InstructorCourseEditPageComponent implements OnInit {
       paramsMap[instructorIsDisplayed] = 'true';
     }
 
-    // Append custom course level privileges
     if (instr.controls.role.value == 'Custom') {
-      for (let permission in instr.controls.tunePermissions.value) {
-        let checked: (AbstractControl | null) =  instr.controls.tunePermissions.get(permission);
+      const tuneCoursePermissions: (FormGroup | null) = instr.controls.tunePermissions as FormGroup;
+
+      // Append custom course level privileges
+      for (let permission in tuneCoursePermissions.value) {
+        let checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
         if (checked != null && checked.value) {
           paramsMap[permission] = 'true';
         }
       }
-      editedInstructor.privileges.courseLevel = instr.controls.tunePermissions.value;
+      editedInstructor.privileges.courseLevel = tuneCoursePermissions.value;
+
+      // Append custom section level privileges
+      const tuneSectionPermissions: (FormArray | null) = tuneCoursePermissions.controls.tuneSectionPermissions as FormArray;
+      tuneSectionPermissions.controls.forEach((sectionPermissions: AbstractControl, panelIdx: number) => {
+
+        // Mark section as special if it has been checked in a section group
+        this.sectionNames.forEach((section: string, sectionIdx: number) => {
+          if ((sectionPermissions as FormGroup).controls[`${sectionIdx}`].value) {
+            paramsMap[`issectiongroup${sectionIdx}set`] = 'true';
+            paramsMap[`sectiongroup${panelIdx}section${sectionIdx}`] = section;
+          }
+        });
+
+        // Include section permissions for a section group
+        const permissionsInSection: (FormGroup | null) = (sectionPermissions as FormGroup).controls.permissionsForSection as FormGroup;
+        Object.keys(permissionsInSection.controls).forEach((permission: string) => {
+          if (permissionsInSection.controls[permission].value) {
+            paramsMap[`${permission}sectiongroup${panelIdx}`] = 'true';
+          }
+        });
+      });
     }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
@@ -772,11 +795,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   addTuneSectionPermissionsPanel(instr: FormGroup): void {
     const newSection: FormGroup = this.fb.group({
-      canviewstudentinsection: true,
-      cansubmitsessioninsection: true,
-      canviewsessioninsection: true,
-      canmodifysessioncommentinsection: true,
+      permissionsForSection: this.fb.group({
+        canviewstudentinsection: true,
+        cansubmitsessioninsection: true,
+        canviewsessioninsection: true,
+        canmodifysessioncommentinsection: true,
+      }),
     });
+
+    for (let index = 0; index < this.sectionNames.length; index++) {
+      newSection.addControl(`${index}`, this.fb.control(false ));
+    }
+
     ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionPermissions as FormArray).push(newSection);
   }
 

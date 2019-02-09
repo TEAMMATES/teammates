@@ -147,7 +147,8 @@
                 <div class="col-sm-9">
                   <span class="form-control-static" id="role-view-{{ i }}">
                     {{ instructorList[i].role }}
-                    <a class="view-role-details" href="javascript:;" (click)="viewInstructorRole(viewInstructorRoleModal, i)">
+                    <a class="view-role-details" href="javascript:;" *ngIf="instructorList[i].role !== 'Custom'"
+                       (click)="viewInstructorRole(viewInstructorRoleModal, i)">
                       View Details
                     </a>
                   </span>
@@ -245,8 +246,8 @@
                               </div>
                               <div class="col-sm-9">
                                 <div class="col-sm-12">
-                                  <div class="col-sm-4" *ngFor="let section of this.sectionNames">
-                                    <input name="{{ section }}" type="checkbox">
+                                  <div class="col-sm-4" *ngFor="let section of this.sectionNames; let k=index">
+                                    <input [formControlName]="k" type="checkbox">
                                     {{ section }}
                                   </div>
                                 </div>
@@ -268,7 +269,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="panel-body">
+                          <div class="panel-body" formGroupName="permissionsForSection">
                             <br>
                             <div class="col-sm-6 border-right-gray">
                               <input formControlName="canviewstudentinsection" type="checkbox">
@@ -338,7 +339,7 @@
                 </div>
               </div>
               <a class="small" href="javascript:;"
-                 *ngIf="instr.controls.role.value == 'Custom'
+                 *ngIf="instr.controls.role.enabled && instr.controls.role.value == 'Custom'
                  && instr.controls.tunePermissions.controls['tuneSectionPermissions'].length !== this.sectionNames.length"
                  (click)="addTuneSectionPermissionsPanel(instr)">
                 Give different permissions for a specific section
