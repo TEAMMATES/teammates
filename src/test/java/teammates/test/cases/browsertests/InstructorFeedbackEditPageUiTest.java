@@ -1073,7 +1073,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                         feedbackSessionName,
                         courseId,
                         "1",
-                        FeedbackQuestionType.TEXT,
                         "tmms.test@gmail.tmt",
                         Const.DEFAULT_SECTION,
                         "alice.b.tmms@gmail.tmt",

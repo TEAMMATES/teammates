@@ -39,8 +39,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testConstructorWithCopy_shouldDoDeepCopyOfResponseDetails() {
         FeedbackResponseAttributes fra1 = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
-                "questionId", FeedbackQuestionType.TEXT,
-                "giver@email.com", "giverSection",
+                "questionId", "giver@email.com", "giverSection",
                 "recipient@email.com", "recipientSection",
                 new FeedbackTextResponseDetails("My original answer"));
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
@@ -56,8 +55,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         FeedbackTextResponseDetails detail = new FeedbackTextResponseDetails("My original answer");
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
-                "questionId", FeedbackQuestionType.TEXT,
-                "giver@email.com", "giverSection",
+                "questionId", "giver@email.com", "giverSection",
                 "recipient@email.com", "recipientSection", detail);
 
         detail.answer = "Updated answer";
@@ -70,8 +68,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testGetResponseDetails_shouldDoDeepCopy() {
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
-                "questionId", FeedbackQuestionType.TEXT,
-                "giver@email.com", "giverSection",
+                "questionId", "giver@email.com", "giverSection",
                 "recipient@email.com", "recipientSection",
                 new FeedbackTextResponseDetails("My original answer"));
         FeedbackResponseDetails frdDeep = fra.getResponseDetails();
@@ -84,8 +81,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testSetResponseDetails_shouldDoDeepCopy() {
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
-                "questionId", FeedbackQuestionType.TEXT,
-                "giver@email.com", "giverSection",
+                "questionId", "giver@email.com", "giverSection",
                 "recipient@email.com", "recipientSection",
                 new FeedbackTextResponseDetails("My original answer"));
         FeedbackTextResponseDetails updatedDetails = new FeedbackTextResponseDetails("Updated answer");
