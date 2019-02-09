@@ -1,7 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackParticipantType } from '../../feedback-participant-type';
-import { NumberOfEntitiesToGiveFeedbackToSetting } from '../../feedback-question';
-import { FeedbackVisibilityType } from '../../feedback-visibility';
+import {
+  FeedbackParticipantType,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../types/api-output';
 
 /**
  * Pipe to handle the display of {@code FeedbackVisibilityType} in visibility message.

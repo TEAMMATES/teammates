@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { VisibilityControl } from '../../feedback-visibility';
+import { VisibilityControl } from '../../../types/visibility-control';
 
 /**
  * Pipe to handle the display of a map of {@code VisibilityControl} in visibility message.

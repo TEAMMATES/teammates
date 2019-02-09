@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { QuestionEditFormComponent } from './question-edit-form.component';
 import { QuestionTypesSessionEditModule } from './question-types-session-edit.module';
 
@@ -11,6 +12,7 @@ describe('QuestionEditFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         QuestionTypesSessionEditModule,
+        HttpClientTestingModule,
       ],
     })
     .compileComponents();

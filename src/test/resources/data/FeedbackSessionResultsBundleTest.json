@@ -166,10 +166,13 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response1ForQ1S1C1"
+      "feedbackResponseId": "response1ForQ1S1C1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
+      }
     },
     "response2ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -178,10 +181,13 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": "I'm cool'",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response1ForQ1S1C1"
+      "feedbackResponseId": "response1ForQ1S1C1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
+      }
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -190,10 +196,13 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 2 to student 1.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response1ForQ2S1C1"
+      "feedbackResponseId": "response1ForQ2S1C1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to student 1."
+      }
     },
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -202,10 +211,13 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 1 to student 2.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response2ForQ2S1C1"
+      "feedbackResponseId": "response2ForQ2S1C1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to student 2."
+      }
     },
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -214,10 +226,13 @@
       "feedbackQuestionType": "TEXT",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response3ForQ2S1C1"
+      "feedbackResponseId": "response3ForQ2S1C1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
+      }
     }
   },
   "feedbackResponseComments": {

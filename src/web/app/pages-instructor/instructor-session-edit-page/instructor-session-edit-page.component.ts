@@ -6,14 +6,23 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
 import {
-  LOCAL_DATE_TIME_FORMAT,
-  TimeResolvingResult,
-  TimezoneService,
-} from '../../../services/timezone.service';
+  FeedbackParticipantType,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackQuestionType,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -28,19 +37,6 @@ import {
 } from '../../components/session-edit-form/session-edit-form-model';
 import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackParticipantType } from '../../feedback-participant-type';
-import {
-  FeedbackQuestion, FeedbackQuestions,
-  FeedbackQuestionType,
-  NumberOfEntitiesToGiveFeedbackToSetting,
-} from '../../feedback-question';
-import {
-  FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-} from '../../feedback-session';
 import { Intent } from '../../Intent';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
@@ -119,7 +115,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       recommendedLength: 0,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: '',
+    } as FeedbackTextQuestionDetails,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.STUDENTS,
@@ -139,10 +137,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
-              private route: ActivatedRoute,
-              private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService,
-              private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
+              private route: ActivatedRoute, private timezoneService: TimezoneService, private modalService: NgbModal) {
+    super(router, httpRequestService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService);
   }
 
   ngOnInit(): void {
@@ -298,7 +296,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   editExistingSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
 
     forkJoin(
         this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
@@ -319,7 +316,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             : of(0),
     ).pipe(
         switchMap((vals: number[]) => {
-          return this.httpRequestService.put('/session', paramMap, {
+          return this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
             instructions: this.sessionEditFormModel.instructions,
 
             submissionStartTimestamp: vals[0],
@@ -452,8 +449,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
 
     questionEditFormModel.isSaving = true;
-    const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
-    this.httpRequestService.put('/question', paramMap, {
+    this.feedbackQuestionsService.saveFeedbackQuestion(questionEditFormModel.feedbackQuestionId, {
       questionNumber: questionEditFormModel.questionNumber,
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -528,10 +524,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   duplicateCurrentQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
 
     questionEditFormModel.isSaving = true;
-    this.httpRequestService.post('/question', paramMap, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -588,8 +583,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             questionNumber += 1;
-            const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-            return this.httpRequestService.post('/question', paramMap, {
+            return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
               questionNumber,
               questionBrief: question.questionBrief,
               questionDescription: question.questionDescription,
@@ -661,10 +655,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Creates a new question.
    */
   createNewQuestionHandler(): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-
     this.newQuestionEditFormModel.isSaving = true;
-    this.httpRequestService.post('/question', paramMap, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.newQuestionEditFormModel.questionNumber,
       questionBrief: this.newQuestionEditFormModel.questionBrief,
       questionDescription: this.newQuestionEditFormModel.questionDescription,

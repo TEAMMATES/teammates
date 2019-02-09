@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
+import { FeedbackQuestion } from '../../../../types/api-output';
 import {
   QuestionEditFormModel,
 } from '../../../components/question-types/question-types-session-edit/question-edit-form-model';
-import { FeedbackQuestion } from '../../../feedback-question';
 
 interface TemplateQuestionModel {
   description: string;
