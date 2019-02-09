@@ -2,9 +2,7 @@ package teammates.ui.webapi.action;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
+import teammates.common.util.*;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.ApiOutput;
 
@@ -32,7 +30,9 @@ public class LinkRecoveryAction extends Action {
         boolean hasStudentsWithRestoreEmail = !logic.getAllStudentForEmail(requestedEmail).isEmpty();
 
         if (hasStudentsWithRestoreEmail) {
-            EmailWrapper email = new EmailGenerator().generateLinkRecoveryEmail("LINK TO DO", requestedEmail);
+            String restoreKey = getRestoreKey(requestedEmail);
+            String link = getLinkRecoveryUrl(restoreKey);
+            EmailWrapper email = new EmailGenerator().generateLinkRecoveryEmail(link, requestedEmail);
 
             if (email != null) {
                 try {
@@ -51,8 +51,17 @@ public class LinkRecoveryAction extends Action {
             return new JsonResult(new EmailRestoreResponse(EmailResponseResult.FAIL,
                     "No response found with given email"));
         }
-
     }
+
+    private String getLinkRecoveryUrl(String restoreKey) {
+        return  Config.getFrontEndAppUrl(Config.getFrontEndAppUrl(Const.WebPageURIs.RESPONSE_RECOVERY_PAGE)
+                 .withRestoreKey(restoreKey).toString()).toAbsoluteString();
+    }
+
+    private String getRestoreKey(String userEmail) {
+        return StringHelper.encrypt(userEmail);
+    }
+
 
     /**
      * The result of link recovery.
