@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackSessionsData;
 
 /**
  * Get a list of feedback sessions.
@@ -47,7 +48,7 @@ public class GetFeedbackSessionsAction extends Action {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
         }
 
-        return new JsonResult(new FeedbackSessionInfo.FeedbackSessionsResponse(feedbackSessionAttributes));
+        return new JsonResult(new FeedbackSessionsData(feedbackSessionAttributes));
     }
 
 }

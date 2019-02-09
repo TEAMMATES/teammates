@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -119,15 +120,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         ______TS("success: standard update with carried params ");
 
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-
-        responseToUpdate.responseMetaData = "Updated Response";
+        responseToUpdate.setResponseDetails(new FeedbackTextResponseDetails("Updated Response"));
         responseToUpdate.feedbackSessionName = "copy over";
         responseToUpdate.recipient = null;
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        responseToUpdate.responseMetaData = "Updated Response";
+        responseToUpdate.setResponseDetails(new FeedbackTextResponseDetails("Updated Response"));
 
         assertEquals(responseToUpdate.toString(),
                 frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
@@ -147,7 +147,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         responseToUpdate.giverSection,
                         "student3InCourse1@gmail.tmt",
                         responseToUpdate.recipientSection,
-                        responseToUpdate.responseMetaData);
+                        responseToUpdate.responseDetails);
 
         frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
 
@@ -231,7 +231,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                                                FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
-                                               studentToUpdate.email, "Section 1", "New Response to self");
+                                               studentToUpdate.email, "Section 1",
+                                               new FeedbackTextResponseDetails("New Response to self"));
         frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
 
         // All these responses should be gone after he changes teams
@@ -496,7 +497,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         "Section 1",
                         "nullRecipient@gmail.tmt",
                         "Section 1",
-                        existingResponse.responseMetaData);
+                        existingResponse.responseDetails);
 
         frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");

@@ -357,9 +357,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn1.2": {
       "feedbackSessionName": "Fourth Session",
@@ -368,9 +374,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn1.3": {
       "feedbackSessionName": "Fourth Session",
@@ -379,9 +391,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "colin.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn2.11": {
       "feedbackSessionName": "Fourth Session",
@@ -390,9 +408,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn2.12": {
       "feedbackSessionName": "Fourth Session",
@@ -401,9 +425,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn2.21": {
       "feedbackSessionName": "Fourth Session",
@@ -412,9 +442,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn2.22": {
       "feedbackSessionName": "Fourth Session",
@@ -423,9 +459,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn2.31": {
       "feedbackSessionName": "Fourth Session",
@@ -434,9 +476,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "colin.d.tmms@gmail.tmt",
       "recipient": "colin.d.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn3.1": {
       "feedbackSessionName": "Fourth Session",
@@ -445,9 +493,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn3.2": {
       "feedbackSessionName": "Fourth Session",
@@ -456,9 +510,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          1,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn3.3": {
       "feedbackSessionName": "Fourth Session",
@@ -467,9 +527,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "colin.d.tmms@gmail.tmt",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForFourthSessionQn4.1": {
       "feedbackSessionName": "Fourth Session",
@@ -478,9 +544,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForThirdSessionQn1.1": {
       "feedbackSessionName": "Third Session",
@@ -489,9 +561,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\": [0,0],\"questionType\": \"RUBRIC\"}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "feedbackResponseForThirdSessionQn1.2": {
       "feedbackSessionName": "Third Session",
@@ -500,9 +578,15 @@
       "feedbackQuestionType": "RUBRIC",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\": [1,0],\"questionType\": \"RUBRIC\"}",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": [
+          1,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     }
   },
   "feedbackResponseComments": {},

@@ -1,10 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackContributionQuestionDetails } from '../../../../../feedback-question';
+import {
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails,
+  FeedbackQuestionType,
+} from '../../../../../../types/api-output';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
-  FeedbackContributionResponseDetails } from '../../../../../feedback-response';
+} from '../../../../../../types/feedback-response-details';
 import { BasicRecipientSubmissionFormComponent } from '../basic-recipient-submission-form';
 
 /**
@@ -28,8 +32,11 @@ export class ContributionRecipientSubmissionFormComponent
   constructor(private modalService: NgbModal) {
     super({
       isNotSureAllowed: false,
+      questionType: FeedbackQuestionType.CONTRIB,
+      questionText: '',
     }, {
       answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
+      questionType: FeedbackQuestionType.CONTRIB,
     });
   }
 
