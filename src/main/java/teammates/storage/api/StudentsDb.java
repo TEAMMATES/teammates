@@ -340,6 +340,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         return load().id(email + '%' + courseId).now();
     }
 
+    private List<CourseStudent> getAllStudentsForEmail(String email) {
+        return load().filter("email =", email).list();
+    }
+
     private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
         List<CourseStudent> studentList = load().filter("registrationKey =", registrationKey).list();
 
