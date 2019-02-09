@@ -818,6 +818,7 @@ public final class Const {
         public static final String RESPONDENT_IS_TO_BE_REMOVED = "respondentistoberemoved";
 
         public static final String RESTORE_EMAIL = "restoreemail";
+        public static final String RESTORE_KEY = "restorekey";
 
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
@@ -917,6 +918,8 @@ public final class Const {
 
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
+
+        public static final String RESPONSE_RECOVERY_PAGE = "/recovery";
 
     }
 
