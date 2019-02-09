@@ -263,7 +263,7 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_LINK_RECOVERY;
         String subject = EmailType.RESPONSE_LINK_RECOVERY.getSubject();
         String emailBody = Templates.populateTemplate(template,
-                "${recoveryLink}", SanitizationHelper.sanitizeForHtml(recoveryLink),
+                "${recoveryLink}", recoveryLink,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
