@@ -360,7 +360,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
       "responseDetails": {
@@ -372,7 +371,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
       "responseDetails": {
@@ -384,7 +382,6 @@
       "feedbackSessionName": "Session in Grace Period",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor2@course1.tmt",
       "responseDetails": {
