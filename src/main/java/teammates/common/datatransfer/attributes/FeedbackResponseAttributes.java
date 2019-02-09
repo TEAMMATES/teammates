@@ -21,7 +21,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
-    public FeedbackQuestionType feedbackQuestionType;
     /**
     * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
     * "anonymous", etc.
@@ -51,13 +50,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackResponseAttributes(String feedbackSessionName,
-            String courseId, String feedbackQuestionId,
-            FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
+            String courseId, String feedbackQuestionId, String giver, String giverSection,
             String recipient, String recipientSection, FeedbackResponseDetails responseDetails) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
-        this.feedbackQuestionType = feedbackQuestionType;
         this.giver = giver;
         this.giverSection = giverSection;
         this.recipient = recipient;
@@ -70,12 +67,12 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.feedbackSessionName = fr.getFeedbackSessionName();
         this.courseId = fr.getCourseId();
         this.feedbackQuestionId = fr.getFeedbackQuestionId();
-        this.feedbackQuestionType = fr.getFeedbackQuestionType();
         this.giver = fr.getGiverEmail();
         this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
         this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
-        this.responseDetails = deserializeResponseFromSerializedString(fr.getResponseMetaData());
+        this.responseDetails = deserializeResponseFromSerializedString(fr.getResponseMetaData(),
+                                                                       fr.getFeedbackQuestionType());
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
     }
@@ -85,7 +82,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.feedbackSessionName = copy.feedbackSessionName;
         this.courseId = copy.courseId;
         this.feedbackQuestionId = copy.feedbackQuestionId;
-        this.feedbackQuestionType = copy.feedbackQuestionType;
         this.giver = copy.giver;
         this.giverSection = copy.giverSection;
         this.recipient = copy.recipient;
@@ -93,6 +89,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
         this.responseDetails = copy.getResponseDetails();
+    }
+
+    public FeedbackQuestionType getFeedbackQuestionType() {
+        return responseDetails.questionType;
     }
 
     public String getId() {
@@ -132,7 +132,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     @Override
     public FeedbackResponse toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
-                feedbackQuestionId, feedbackQuestionType,
+                feedbackQuestionId, getFeedbackQuestionType(),
                 giver, giverSection, recipient, recipientSection, getSerializedFeedbackResponseDetail());
     }
 
@@ -156,7 +156,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return "FeedbackResponseAttributes [feedbackSessionName="
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
-                + ", feedbackQuestionType=" + feedbackQuestionType
+                + ", feedbackQuestionType=" + getFeedbackQuestionType()
                 + ", giver=" + giver + ", recipient=" + recipient
                 + ", answer=" + getSerializedFeedbackResponseDetail() + "]";
     }
@@ -183,19 +183,14 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         responseDetails = newFeedbackResponseDetails.getDeepCopy();
     }
 
-    private FeedbackResponseDetails deserializeResponseFromSerializedString(String serializedResponseDetails) {
-        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
-
-        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
+    private FeedbackResponseDetails deserializeResponseFromSerializedString(String serializedResponseDetails,
+                                                                            FeedbackQuestionType questionType) {
+        if (questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(serializedResponseDetails);
         }
-        return JsonUtils.fromJson(serializedResponseDetails, responseDetailsClass);
-    }
-
-    private Class<? extends FeedbackResponseDetails> getFeedbackResponseDetailsClass() {
-        return feedbackQuestionType.getResponseDetailsClass();
+        return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
     }
 
     /**
