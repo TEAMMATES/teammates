@@ -34,7 +34,8 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentProfileAttributes student1InCourse1Profile = typicalBundle.profiles.get("student1InCourse1");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        StudentAttributes unregisteredStudentInCourse1 = typicalBundle.students.get("unregisteredStudentInCourse1");
+        InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
+        StudentAttributes student1InCourse3 = typicalBundle.students.get("student1InCourse3");
 
         String instructorId = instructor1OfCourse1.googleId;
         loginAsInstructor(instructorId);
@@ -96,9 +97,13 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
 
         ______TS("Typical case, view unregistered student details");
 
+        student1InCourse3.googleId = "";
+        instructorId = instructor1OfCourse3.googleId;
+        loginAsInstructor(instructorId);
+
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudentInCourse1.email,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse3.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse3.email,
         };
 
         a = getAction(submissionParams);
@@ -107,9 +112,9 @@ public class GetCourseStudentDetailsActionTest extends BaseActionTest<GetCourseS
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (StudentInfo) r.getOutput();
-        unregisteredStudentInCourse1.googleId = null;
-        unregisteredStudentInCourse1.key = null;
-        assertEquals(unregisteredStudentInCourse1.toString(), output.getStudent().toString());
+        student1InCourse3.googleId = null;
+        student1InCourse3.key = null;
+        assertEquals(student1InCourse3.toString(), output.getStudent().toString());
         assertNull(output.getStudentProfile());
     }
 
