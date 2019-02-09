@@ -104,7 +104,7 @@ public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
         feedbackResponse.recipientSection =
                 getRecipientSection(feedbackQuestion.getCourseId(),
                         feedbackQuestion.getRecipientType(), saveRequest.getRecipientIdentifier());
-        feedbackResponse.setResponseDetails(saveRequest.getResponseDetails());
+        feedbackResponse.responseDetails = saveRequest.getResponseDetails();
 
         validResponseOfQuestion(feedbackQuestion, feedbackResponse);
         try {
