@@ -46,6 +46,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testIsEmailOfInstructorOfCourse();
         testVerifyInstructorExists();
         testVerifyIsEmailOfInstructorOfCourse();
+        testVerifyAtleastOneInstructorIsDisplayed();
         testIsNewInstructor();
         testAddInstructor();
         testGetCoOwnersForCourse();
@@ -379,6 +380,33 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
+    }
+
+    private void testVerifyAtleastOneInstructorIsDisplayed() throws Exception {
+
+        ______TS("success: at least one instructor is displayed to students");
+
+        String courseId = "idOfTypicalCourse1";
+        String courseIdWithNoInstructorsDisplayed = "idOfTestingInstructorsDisplayedCourse";
+        boolean isEditedInstructorDisplayed = true;
+
+        instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseId, isEditedInstructorDisplayed);
+        instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseId, !isEditedInstructorDisplayed);
+        instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                isEditedInstructorDisplayed);
+
+        ______TS("failure: No instructors displayed to students");
+
+        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+                () -> instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                        !isEditedInstructorDisplayed));
+        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+
+        ______TS("failure: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsLogic.verifyAtleastOneInstructorIsDisplayed(null, isEditedInstructorDisplayed));
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 

@@ -148,7 +148,7 @@ public final class InstructorsLogic {
      */
     public boolean isNoInstructorDisplayedToStudents(String courseId) {
 
-        return instructorsDb.getInstructorsDisplayedToStudents(courseId) != null;
+        return instructorsDb.getInstructorsDisplayedToStudents(courseId).size() == 0;
     }
 
     /**
@@ -182,7 +182,7 @@ public final class InstructorsLogic {
         }
     }
 
-    private void verifyAtleastOneInstructorIsDisplayed(String courseId, boolean isEditedInstructorDisplayed)
+    public void verifyAtleastOneInstructorIsDisplayed(String courseId, boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
 
         if (isNoInstructorDisplayedToStudents(courseId) && !isEditedInstructorDisplayed) {

@@ -253,6 +253,37 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetInstructorsDisplayedToStudents() {
+
+        ______TS("Success: get instructors displayed of a specific course to the students");
+
+        String courseId = "idOfTypicalCourse1";
+
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsDisplayedToStudents(courseId);
+        assertEquals(4, retrieved.size());
+
+        List<String> idListOfInstructorsDisplayed = new ArrayList<>();
+        idListOfInstructorsDisplayed.add("idOfInstructor1OfCourse1");
+        idListOfInstructorsDisplayed.add("idOfInstructor2OfCourse1");
+        idListOfInstructorsDisplayed.add("idOfInstructor3");
+        idListOfInstructorsDisplayed.add(null);
+        for (InstructorAttributes instructor : retrieved) {
+            if (!idListOfInstructorsDisplayed.contains(instructor.googleId)) {
+                fail("");
+            }
+        }
+
+        ______TS("Failure: no instructors displayed to the student for a course");
+        retrieved = instructorsDb.getInstructorsDisplayedToStudents("non-exist-course");
+        assertEquals(0, retrieved.size());
+
+        ______TS("Failure: null parameters");
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsDb.getInstructorsDisplayedToStudents(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+    }
+
+    @Test
     public void testUpdateInstructorByGoogleId() throws Exception {
 
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor2OfCourse1");
