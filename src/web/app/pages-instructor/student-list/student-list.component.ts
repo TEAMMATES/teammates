@@ -56,10 +56,14 @@ export class StudentListComponent implements OnInit {
    * Load the profile picture of a student
    */
   loadPhoto(student: StudentListStudentData): void {
+    if (student.status === 'Yet to join') {
+      student.photoUrl = '/assets/images/profile_picture_default.png';
+      return;
+    }
     const paramMap: { [key: string]: string } = { courseid: this.courseId, studentemail: student.email };
     this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
       student.photoUrl = resp.studentProfile ? this.getPictureUrl(resp.studentProfile.pictureKey)
-        : '/assets/images/profile_picture_default.png';
+          : '/assets/images/profile_picture_default.png';
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(`Error retrieving student photo: ${resp.error.message}`);
     });
