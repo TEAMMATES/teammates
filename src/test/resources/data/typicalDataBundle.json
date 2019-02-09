@@ -636,6 +636,15 @@
       "team": "Team 1.2",
       "section": "Section 2"
     },
+    "unregisteredStudentInCourse1": {
+      "googleId": "",
+      "email": "unregisteredStudentInCourse1@gmail.tmt",
+      "course": "idOfTypicalCourse1",
+      "name": "unregistered Student In Course1",
+      "comments": "",
+      "team": "Team 1.2",
+      "section": "Section 2"
+    },
     "student1InCourse2": {
       "googleId": "student1InCourse2",
       "email": "student1InCourse2@gmail.tmt",
