@@ -60,7 +60,10 @@ public class GetCourseStudentDetailsAction extends Action {
             return new JsonResult("No course with given id.", HttpStatus.SC_NOT_FOUND);
         }
 
-        StudentProfileAttributes studentProfile = logic.getStudentProfile(student.googleId);
+        StudentProfileAttributes studentProfile = null;
+        if (!"".equals(student.googleId)) {
+            studentProfile = logic.getStudentProfile(student.googleId);
+        }
 
         student.googleId = null;
         student.key = null;
