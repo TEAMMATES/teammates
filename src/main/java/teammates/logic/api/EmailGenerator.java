@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
 
+import com.mailjet.client.resource.Email;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -324,7 +325,6 @@ public class EmailGenerator {
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
         email.setContent(emailBody);
-
         return email;
     }
 
