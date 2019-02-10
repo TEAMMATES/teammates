@@ -50,11 +50,6 @@ public class DataMigrationForSanitizedInstructorName
     protected boolean isMigrationNeeded(Key<Instructor> key) throws Exception {
         Instructor instructor = ofy().load().key(key).now();
 
-        if (!SanitizationHelper.sanitizeForHtml(instructor.getName()).equals(instructor.getName())) {
-            System.err.println(String.format("Instructor %s has unsanitized name %s, this should not happen",
-                    instructor.getUniqueId(), instructor.getName()));
-        }
-
         return SanitizationHelper.isSanitizedHtml(instructor.getName());
     }
 
