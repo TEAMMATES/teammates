@@ -189,7 +189,7 @@
               <div id="tune-permissions-{{ i }}" style="display: none;">
                 <div class="form-group" formGroupName="tunePermissions">
                   <div class="col-xs-12">
-                    <div class="card bg-light top-padded">
+                    <div class="card bg-light top-padded" formGroupName="permissionsForCourse">
                       <div class="card-header bg-light-blue">
                         <strong>
                           In general, this instructor can
@@ -246,8 +246,8 @@
                               </div>
                               <div class="col-sm-9">
                                 <div class="col-sm-12">
-                                  <div class="col-sm-4" *ngFor="let section of this.sectionNames; let k=index">
-                                    <input [formControlName]="k" type="checkbox">
+                                  <div class="col-sm-4" *ngFor="let section of this.sectionNames">
+                                    <input [formControlName]="section" type="checkbox">
                                     {{ section }}
                                   </div>
                                 </div>
@@ -289,13 +289,13 @@
                               <br>
                               <br>
                             </div>
-                            <a id="hide-link-{{ j }}" class="small col-sm-5" href="javascript:;" (click)="hideSessionLevelPermissions(j)">
+                            <a id="hide-link-{{ j }}" class="small col-sm-5" href="javascript:;" style="display:none;" (click)="hideSessionLevelPermissions(j)">
                               Hide session-level permissions
                             </a>
-                            <a id="show-link-{{ j }}" class="small col-sm-5" href="javascript:;" style="display:none;" (click)="showSessionLevelPermissions(j)">
+                            <a id="show-link-{{ j }}" class="small col-sm-5" href="javascript:;" (click)="showSessionLevelPermissions(j)">
                               Give different permissions for sessions in this section
                             </a>
-                            <div id="tune-session-permissions-{{ j }}" class="row" style="display:block;">
+                            <div id="tune-session-permissions-{{ j }}" class="row" style="display:none;">
                               <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -341,7 +341,7 @@
               <a class="small" href="javascript:;"
                  *ngIf="instr.controls.role.enabled && instr.controls.role.value == 'Custom'
                  && instr.controls.tunePermissions.controls['tuneSectionPermissions'].length !== this.sectionNames.length"
-                 (click)="addTuneSectionPermissionsPanel(instr)">
+                 (click)="addTuneSectionPermissionsPanel(instr, i)">
                 Give different permissions for a specific section
               </a>
               <div class="form-group">
