@@ -3,14 +3,14 @@ import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
-import { Course } from '../../course';
 import {
-  FEEDBACK_SESSION_NAME_MAX_LENGTH,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
-} from '../../feedback-session';
+} from '../../../types/api-output';
+import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { Course } from '../../course';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 

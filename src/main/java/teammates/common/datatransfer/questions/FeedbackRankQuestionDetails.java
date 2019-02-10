@@ -122,7 +122,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
 
         // group the options/feedback response by its rank
-        TreeMap<Integer, List<K>> rankToAnswersMap = new TreeMap<>();
+        Map<Integer, List<K>> rankToAnswersMap = new TreeMap<>();
         for (K answer : options) {
             int rankGiven = rankOfOption.get(answer);
             if (rankGiven == Const.POINTS_NOT_SUBMITTED) {
@@ -158,7 +158,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * @return a map of recipients/options with their corresponding overall rank after normalization
      */
     protected Map<String, Integer> generateNormalizedOverallRankMapping(Map<String, List<Integer>> recipientRanks) {
-        TreeMap<Double, List<String>> recipientAverageRank = new TreeMap<>();
+        Map<Double, List<String>> recipientAverageRank = new TreeMap<>();
         recipientRanks.forEach((recipientIdentifier, ranks) -> {
             double average = computeAverage(ranks);
             recipientAverageRank.computeIfAbsent(average, key -> new ArrayList<>())

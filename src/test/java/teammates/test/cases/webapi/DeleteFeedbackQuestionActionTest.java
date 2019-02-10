@@ -44,7 +44,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         ______TS("Typical success case");
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
 
         DeleteFeedbackQuestionAction a = getAction(params);
@@ -67,7 +67,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         ______TS("non-existent feedback question");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomQuestionId"
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomQuestionId",
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);

@@ -43,7 +43,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
         InstructorAttributes anotherInstructorOfCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
+                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email,
         };
 
         RemindInstructorCourseStudentsAction remindAction = getAction(submissionParams);
@@ -120,7 +120,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
         unregisteredStudent2 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent2.email);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(remindAction);
@@ -145,7 +145,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
         ______TS("Typical case: no unregistered students in course");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(remindAction);
@@ -163,7 +163,7 @@ public class RemindInstructorCourseStudentsActionTest extends BaseActionTest<Rem
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

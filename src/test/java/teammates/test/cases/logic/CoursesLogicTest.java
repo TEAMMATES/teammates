@@ -867,7 +867,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertFalse(course1OfInstructor.isCourseDeleted());
 
         Instant deletedAt = coursesLogic.moveCourseToRecycleBin(course1OfInstructor.getId());
-        course1OfInstructor.setDeletedAt(deletedAt);
+        course1OfInstructor.deletedAt = deletedAt;
 
         // Ensure the course and related entities still exist in datastore
         verifyPresentInDatastore(course1OfInstructor);

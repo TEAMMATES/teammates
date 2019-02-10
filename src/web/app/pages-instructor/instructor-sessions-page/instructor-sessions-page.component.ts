@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, map, switchMap, tap } from 'rxjs/operators';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -13,6 +14,14 @@ import {
   TimeResolvingResult,
   TimezoneService,
 } from '../../../services/timezone.service';
+import {
+  FeedbackQuestion,
+  FeedbackSession, FeedbackSessionPublishStatus,
+  FeedbackSessions,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -26,14 +35,6 @@ import {
 } from '../../components/sessions-table/sessions-table-model';
 import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackQuestion } from '../../feedback-question';
-import {
-  FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessions,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-} from '../../feedback-session';
 import { defaultInstructorPrivilege } from '../../instructor-privilege';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
@@ -122,9 +123,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
-              private route: ActivatedRoute, private feedbackSessionsService: FeedbackSessionsService,
-              private timezoneService: TimezoneService, private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
+              private route: ActivatedRoute, private timezoneService: TimezoneService,
+              private modalService: NgbModal) {
+    super(router, httpRequestService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService);
   }
 
   ngOnInit(): void {
@@ -244,9 +247,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
             : of(0),
     ).pipe(
         switchMap((vals: number[]) => {
-          const paramMap: { [key: string]: string } = { courseid: this.sessionEditFormModel.courseId };
-
-          return this.httpRequestService.post('/session', paramMap, {
+          return this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
             feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
             instructions: this.sessionEditFormModel.instructions,
 
@@ -275,28 +276,25 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
       }
       of(...templateSession.questions).pipe(
           concatMap((question: FeedbackQuestion) => {
-            const paramMap: { [key: string]: string } = {
-              courseid: feedbackSession.courseId,
-              fsname: feedbackSession.feedbackSessionName,
-            };
-            return this.httpRequestService.post('/question', paramMap, {
-              questionNumber: question.questionNumber,
-              questionBrief: question.questionBrief,
-              questionDescription: question.questionDescription,
+            return this.feedbackQuestionsService.createFeedbackQuestion(
+                feedbackSession.courseId, feedbackSession.feedbackSessionName, {
+                  questionNumber: question.questionNumber,
+                  questionBrief: question.questionBrief,
+                  questionDescription: question.questionDescription,
 
-              questionDetails: question.questionDetails,
-              questionType: question.questionType,
+                  questionDetails: question.questionDetails,
+                  questionType: question.questionType,
 
-              giverType: question.giverType,
-              recipientType: question.recipientType,
+                  giverType: question.giverType,
+                  recipientType: question.recipientType,
 
-              numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
-              customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
+                  numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
+                  customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
 
-              showResponsesTo: question.showResponsesTo,
-              showGiverNameTo: question.showGiverNameTo,
-              showRecipientNameTo: question.showRecipientNameTo,
-            });
+                  showResponsesTo: question.showResponsesTo,
+                  showGiverNameTo: question.showGiverNameTo,
+                  showRecipientNameTo: question.showRecipientNameTo,
+                });
           }),
       ).subscribe(() => {}, (resp: ErrorMessageOutput) => {
         this.sessionEditFormModel.isSaving = false;

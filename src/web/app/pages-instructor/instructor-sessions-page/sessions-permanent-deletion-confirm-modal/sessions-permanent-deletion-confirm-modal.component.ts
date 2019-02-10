@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackSession } from '../../../feedback-session';
+import { FeedbackSession } from '../../../../types/api-output';
 
 /**
  * Modal to confirm permanent deletion of a list of feedback session.

@@ -561,6 +561,49 @@ public final class FeedbackSessionsLogic {
         return getFeedbackSessionResponseStatus(session, roster, allQuestions);
     }
 
+    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
+            FeedbackSessionAttributes fsa, CourseRoster roster,
+            List<FeedbackQuestionAttributes> questions) {
+
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+        List<StudentAttributes> students = roster.getStudents();
+        List<InstructorAttributes> instructors = roster.getInstructors();
+        List<FeedbackQuestionAttributes> studentQns = fqLogic
+                .getFeedbackQuestionsForStudents(questions);
+
+        List<String> studentNoResponses = new ArrayList<>();
+        List<String> studentResponded = new ArrayList<>();
+        List<String> instructorNoResponses = new ArrayList<>();
+
+        if (!studentQns.isEmpty()) {
+            for (StudentAttributes student : students) {
+                studentNoResponses.add(student.email);
+                responseStatus.emailNameTable.put(student.email, student.name);
+                responseStatus.emailSectionTable.put(student.email, student.section);
+                responseStatus.emailTeamNameTable.put(student.email, student.team);
+            }
+        }
+        studentNoResponses.removeAll(fsa.getRespondingStudentList());
+        studentResponded.addAll(fsa.getRespondingStudentList());
+
+        for (InstructorAttributes instructor : instructors) {
+            List<FeedbackQuestionAttributes> instructorQns = fqLogic
+                    .getFeedbackQuestionsForInstructor(questions,
+                            fsa.isCreator(instructor.email));
+            if (!instructorQns.isEmpty() && responseStatus.emailNameTable.get(instructor.email) == null) {
+                instructorNoResponses.add(instructor.email);
+                responseStatus.emailNameTable.put(instructor.email, instructor.name);
+            }
+        }
+        instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
+
+        responseStatus.studentsWhoDidNotRespond.addAll(studentNoResponses);
+        responseStatus.studentsWhoResponded.addAll(studentResponded);
+        responseStatus.studentsWhoDidNotRespond.addAll(instructorNoResponses);
+
+        return responseStatus;
+    }
+
     /**
      * Gets results of a feedback session to show to an instructor from an indicated question.
      * This will not retrieve the list of comments for this question.
@@ -1440,32 +1483,27 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Soft-deletes a specific feedback session to Recycle Bin.
-     * @return Soft-deletion time of the feedback session.
+     * @return the time when the feedback session is moved to the recycle bin
      */
     public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+            throws EntityDoesNotExistException {
 
-        return feedbackSession.getDeletedTime();
+        return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Restores a specific feedback session from Recycle Bin to feedback sessions table.
+     * Restores a specific feedback session from Recycle Bin.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
-        feedbackSession.resetDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+            throws EntityDoesNotExistException {
+        fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Restores all feedback sessions from Recycle Bin to feedback sessions table.
+     * Restores all feedback sessions from Recycle Bin.
      */
     public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
         List<FeedbackSessionAttributes> feedbackSessionsList =
@@ -2037,21 +2075,6 @@ public final class FeedbackSessionsLogic {
                 EMAIL_NAME_PAIR);
     }
 
-    private void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster) {
-        addEmailNamePairsToTable(emailLastNameTable, response, question, roster,
-                EMAIL_LASTNAME_PAIR);
-    }
-
-    private void addEmailTeamNamePairsToTable(
-            Map<String, String> emailTeamNameTable,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster) {
-        addEmailNamePairsToTable(emailTeamNameTable, response, question,
-                roster, EMAIL_TEAMNAME_PAIR);
-    }
-
     private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster,
@@ -2086,7 +2109,22 @@ public final class FeedbackSessionsLogic {
         emailNameTable.putIfAbsent(
                     response.recipient,
                     getNameTeamNamePairForEmail(recipientType,
-                                                response.recipient, roster)[pairType]);
+                            response.recipient, roster)[pairType]);
+    }
+
+    private void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster) {
+        addEmailNamePairsToTable(emailLastNameTable, response, question, roster,
+                EMAIL_LASTNAME_PAIR);
+    }
+
+    private void addEmailTeamNamePairsToTable(
+            Map<String, String> emailTeamNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster) {
+        addEmailNamePairsToTable(emailTeamNameTable, response, question,
+                roster, EMAIL_TEAMNAME_PAIR);
     }
 
     private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(String courseId)
@@ -2110,49 +2148,6 @@ public final class FeedbackSessionsLogic {
     private List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForCourse(String courseId) {
 
         return fsDb.getSoftDeletedFeedbackSessionsForCourse(courseId);
-    }
-
-    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
-            FeedbackSessionAttributes fsa, CourseRoster roster,
-            List<FeedbackQuestionAttributes> questions) {
-
-        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-        List<StudentAttributes> students = roster.getStudents();
-        List<InstructorAttributes> instructors = roster.getInstructors();
-        List<FeedbackQuestionAttributes> studentQns = fqLogic
-                .getFeedbackQuestionsForStudents(questions);
-
-        List<String> studentNoResponses = new ArrayList<>();
-        List<String> studentResponded = new ArrayList<>();
-        List<String> instructorNoResponses = new ArrayList<>();
-
-        if (!studentQns.isEmpty()) {
-            for (StudentAttributes student : students) {
-                studentNoResponses.add(student.email);
-                responseStatus.emailNameTable.put(student.email, student.name);
-                responseStatus.emailSectionTable.put(student.email, student.section);
-                responseStatus.emailTeamNameTable.put(student.email, student.team);
-            }
-        }
-        studentNoResponses.removeAll(fsa.getRespondingStudentList());
-        studentResponded.addAll(fsa.getRespondingStudentList());
-
-        for (InstructorAttributes instructor : instructors) {
-            List<FeedbackQuestionAttributes> instructorQns = fqLogic
-                    .getFeedbackQuestionsForInstructor(questions,
-                            fsa.isCreator(instructor.email));
-            if (!instructorQns.isEmpty() && responseStatus.emailNameTable.get(instructor.email) == null) {
-                instructorNoResponses.add(instructor.email);
-                responseStatus.emailNameTable.put(instructor.email, instructor.name);
-            }
-        }
-        instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
-
-        responseStatus.studentsWhoDidNotRespond.addAll(studentNoResponses);
-        responseStatus.studentsWhoResponded.addAll(studentResponded);
-        responseStatus.studentsWhoDidNotRespond.addAll(instructorNoResponses);
-
-        return responseStatus;
     }
 
     // return a pair of String that contains Giver/Recipient'sName (at index 0)
