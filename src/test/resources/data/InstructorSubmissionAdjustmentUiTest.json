@@ -707,7 +707,6 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "responseDetails": {
@@ -719,7 +718,6 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "responseDetails": {
@@ -731,7 +729,6 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "responseDetails": {
@@ -743,7 +740,6 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "responseDetails": {
@@ -755,7 +751,6 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "responseDetails": {
@@ -767,7 +762,6 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {
@@ -779,7 +773,6 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseDetails": {
@@ -791,7 +784,6 @@
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseDetails": {
@@ -803,7 +795,6 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "responseDetails": {
@@ -815,7 +806,6 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
       "responseDetails": {
@@ -827,7 +817,6 @@
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course2.tmt",
       "recipient": "Team 2.1",
       "responseDetails": {
