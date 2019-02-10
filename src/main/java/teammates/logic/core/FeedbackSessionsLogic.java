@@ -1362,7 +1362,7 @@ public final class FeedbackSessionsLogic {
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
-        ArrayList<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
