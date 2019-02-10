@@ -16,7 +16,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -1073,7 +1072,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                         feedbackSessionName,
                         courseId,
                         "1",
-                        FeedbackQuestionType.TEXT,
                         "tmms.test@gmail.tmt",
                         Const.DEFAULT_SECTION,
                         "alice.b.tmms@gmail.tmt",

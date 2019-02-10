@@ -6,6 +6,7 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import {
   QuestionTypesSessionSubmissionModule,
 } from '../../components/question-types/question-types-session-submission/question-types-session-submission.module';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import {
   FeedbackSessionClosedModalComponent,
 } from './feedback-session-closed-modal/feedback-session-closed-modal.component';
@@ -27,6 +28,7 @@ import { SessionSubmissionPageComponent } from './session-submission-page.compon
 @NgModule({
   imports: [
     AjaxLoadingModule,
+    TeammatesCommonModule,
     CommonModule,
     FormsModule,
     NgbModule,

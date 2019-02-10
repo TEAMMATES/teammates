@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.DateTimeException;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -108,6 +109,39 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         deleteEntity(CourseAttributes
                 .builder(courseId, "Non-existent course", Const.DEFAULT_TIME_ZONE)
                 .build());
+    }
+
+    /**
+     * Soft-deletes a course by its given corresponding ID.
+     * @return Soft-deletion time of the course.
+     */
+    public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Course courseEntity = getCourseEntity(courseId);
+
+        if (courseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+        }
+
+        courseEntity.setDeletedAt(Instant.now());
+        saveEntity(courseEntity);
+
+        return courseEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft deleted course by its given corresponding ID.
+     */
+    public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Course courseEntity = getCourseEntity(courseId);
+
+        if (courseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+        }
+
+        courseEntity.setDeletedAt(null);
+        saveEntity(courseEntity);
     }
 
     @Override

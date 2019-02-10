@@ -732,7 +732,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         fra.feedbackSessionName = "fsTest1";
         fra.courseId = "testCourse";
-        fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
         fra.giver = "giver@email.tmt";
         fra.giverSection = "None";
         fra.recipient = "recipient@email.tmt";
@@ -749,7 +748,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes result = fras.get(id);
         return new FeedbackResponseAttributes(result.feedbackSessionName,
                 result.courseId, result.feedbackQuestionId,
-                result.feedbackQuestionType, result.giver, result.giverSection,
+                result.giver, result.giverSection,
                 result.recipient, result.recipientSection, result.responseDetails);
     }
 
