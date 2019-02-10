@@ -33,6 +33,10 @@ interface NationalityData {
   nationalities: string[];
 }
 
+interface StudentProfileFormUrl {
+  formUrl: string;
+}
+
 /**
  * Student profile page.
  */
@@ -52,6 +56,7 @@ export class StudentProfilePageComponent implements OnInit {
   genders: string[] = ['male', 'female', 'other'];
   fileName: string = 'No File Selected';
   isFileSelected: boolean = false;
+  formData?: FormData;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -75,10 +80,13 @@ export class StudentProfilePageComponent implements OnInit {
    * Handles event(s) when a file is selected from the user's file browser.
    */
   onFileChanged(event: any): void {
-    const file: any = event.target.files[0];
+    const file: File = event.target.files[0];
     if (file) {
       this.fileName = file.name;
       this.isFileSelected = true;
+
+      this.formData = new FormData();
+      this.formData.append('studentprofilephoto', file, file.name);
     }
   }
 
@@ -156,6 +164,35 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onUploadEdit(uploadEditPhoto: any): void {
     this.ngbModal.open(uploadEditPhoto);
+  }
+
+  uploadPicture(): void {
+    const paramsMap: { [key: string]: string } = {
+      user: this.user,
+    };
+    this.httpRequestService.post('/student/profileFormUrl', paramsMap)
+        .subscribe((response: StudentProfileFormUrl) => {
+          // This should work but there's an exception faced
+          // java.lang.NullPointerException at
+          // com.google.appengine.api.blobstore.dev.UploadBlobServlet.handleUpload(UploadBlobServlet.java:430)
+/*          this.httpRequestService.postProfilePicture(response.formUrl, this.formData).subscribe((response: any) => {
+            console.log(response);
+          });*/
+
+          /**
+           * Errors faced by this call:
+           * Request content type: multipart/form-data; boundary=----WebKitFormBoundaryXay94v2JiT1OE8yG
+           * Request parts: [Part{n=studentprofilephoto,fn=apple-touch-icon-60x60.png,ct=image/png,s=937,t=true,f=null}]
+           * Must be called from a blob upload callback request.
+           * class java.lang.IllegalStateException
+           */
+          this.httpRequestService.post('/students/profilePic', paramsMap, this.formData)
+              .subscribe((resp: any) => {
+                console.log(resp);
+              });
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
   }
 
   /**

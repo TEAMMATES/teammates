@@ -123,20 +123,22 @@
           <div class="row">
             <div class="col-4 profile-pic-edit-col">
               <div class="align-center">
-                <!-- <form id="profilePictureUploadForm" method="post"> -->
                 <span class="btn btn-primary profile-pic-file-selector">
                   Browse...
-                  <input id="studentPhoto" type="file" name="studentprofilephoto" (change)="onFileChanged($event)">
+                  <input
+                      id="studentPhoto"
+                      type="file"
+                      name="studentprofilephoto"
+                      (change)="onFileChanged($event)">
                 </span>
                 <input type="text" class="filename-preview" [value]=fileName disabled>
                 <p class="form-text">
                   Max Size: 5 MB
                 </p>
-                <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary" [disabled]=!isFileSelected>
+                <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary" [disabled]=!isFileSelected (click)="uploadPicture()">
                   Upload Picture
                 </button>
                 <input type="hidden" name="user" value="zz@example.com">
-                <!-- </form> -->
               </div>
             </div>
             <div *ngIf="getProfilePictureUrl(student.studentProfile.pictureKey) !== '/assets/images/profile_picture_default.png'" class="col-8 border-left-gray">
