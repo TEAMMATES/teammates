@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
@@ -46,7 +46,7 @@ public class ActionFactory {
     /**
      * Returns the matching {@link Action} object for the URI in the {@code req}.
      */
-    public Action getAction(HttpServletRequest req) {
+    public Action getAction(HttpServletRequest req) throws ActionMappingException {
 
         String url = req.getRequestURL().toString();
         log.info("URL received : [" + req.getMethod() + "] " + url);
@@ -61,11 +61,11 @@ public class ActionFactory {
 
     }
 
-    private static Action getAction(String uri) {
+    private static Action getAction(String uri) throws ActionMappingException {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
 
         if (controllerClass == null) {
-            throw new PageNotFoundException(uri);
+            throw new ActionMappingException(uri, 404);
         }
 
         try {

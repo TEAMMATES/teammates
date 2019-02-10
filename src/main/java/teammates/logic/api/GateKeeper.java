@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -158,9 +157,7 @@ public class GateKeeper {
         }
 
         if (!feedbacksession.isVisible()) {
-            throw new FeedbackSessionNotVisibleException(
-                                            "This feedback session is not yet visible.",
-                                            feedbacksession.getStartTimeString());
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
     }
 
