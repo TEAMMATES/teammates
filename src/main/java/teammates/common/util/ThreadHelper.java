@@ -2,6 +2,9 @@ package teammates.common.util;
 
 import teammates.common.exception.TeammatesException;
 
+/**
+ * Holds thread-related helper functions.
+ */
 public final class ThreadHelper {
 
     private static final Logger log = Logger.getLogger();
