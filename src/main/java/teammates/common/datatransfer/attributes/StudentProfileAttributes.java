@@ -51,7 +51,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(sp.getShortName())
                 .withEmail(sp.getEmail())
                 .withInstitute(sp.getInstitute())
-                .withGender(sp.getGender())
+                .withGender(Gender.getGenderEnumValue(sp.getGender()))
                 .withNationality(sp.getNationality())
                 .withMoreInfo(sp.getMoreInfo())
                 .withPictureKey(sp.getPictureKey().getKeyString())
@@ -120,7 +120,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public StudentProfile toEntity() {
-        return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
+        return new StudentProfile(googleId, shortName, email, institute, nationality, gender.name().toLowerCase(),
                                   moreInfo, new BlobKey(this.pictureKey));
     }
 
@@ -147,6 +147,26 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(this.googleId);
+    }
+
+    /**
+     * Represents the gender of a student.
+     */
+    public enum Gender {
+        MALE,
+        FEMALE,
+        OTHER;
+
+        /**
+         * Returns the Gender enum value corresponding to {@code gender}, or OTHER by default.
+         */
+        public static Gender getGenderEnumValue(String gender) {
+            try {
+                return Gender.valueOf(gender.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return Gender.OTHER;
+            }
+        }
     }
 
     /**

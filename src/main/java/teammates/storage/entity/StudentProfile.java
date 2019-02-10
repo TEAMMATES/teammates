@@ -12,8 +12,6 @@ import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.datatransfer.attributes.Gender;
-
 /**
  * Represents profile details for student entities associated with an
  * account entity.
@@ -36,7 +34,8 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
-    private Gender gender;
+    /* only accepts "male", "female" or "other" */
+    private String gender;
 
     @Unindex
     private Text moreInfo;
@@ -68,12 +67,12 @@ public class StudentProfile extends BaseEntity {
      *            The nationality the student is from (useful for
      *            exchange/foreign students)
      * @param gender
-     *            The student's gender
+     *            The student's gender. Allows "other"
      * @param moreInfo
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, Gender gender, String moreInfo, BlobKey pictureKey) {
+                          String nationality, String gender, String moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -91,7 +90,7 @@ public class StudentProfile extends BaseEntity {
         this.setEmail("");
         this.setInstitute("");
         this.setNationality("");
-        this.setGender(Gender.OTHER);
+        this.setGender("other");
         this.setMoreInfo("");
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(Instant.now());
@@ -138,11 +137,11 @@ public class StudentProfile extends BaseEntity {
         this.nationality = nationality;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return this.gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
