@@ -104,6 +104,26 @@ public class GetInstructorCourseDetailsAction extends Action {
             }
         }
 
+        public CourseDetailsBundle getCourseDetails() {
+            return courseDetails;
+        }
+
+        public InstructorAttributes getCurrentInstructor() {
+            return currentInstructor;
+        }
+
+        public List<InstructorAttributes> getInstructors() {
+            return instructors;
+        }
+
+        public List<StudentListSectionData> getSections() {
+            return sections;
+        }
+
+        public boolean isHasSection() {
+            return hasSection;
+        }
+
         private List<StudentListStudentData> createStudentDataInSection(String sectionName,
                                                                         List<StudentAttributes> studentsInCourse) {
             return studentsInCourse.stream().filter(student -> student.section.equals(sectionName))
@@ -140,26 +160,6 @@ public class GetInstructorCourseDetailsAction extends Action {
                 this.status = studentStatus;
                 this.team = teamName;
             }
-        }
-
-        public CourseDetailsBundle getCourseDetails() {
-            return courseDetails;
-        }
-
-        public InstructorAttributes getCurrentInstructor() {
-            return currentInstructor;
-        }
-
-        public List<InstructorAttributes> getInstructors() {
-            return instructors;
-        }
-
-        public List<StudentListSectionData> getSections() {
-            return sections;
-        }
-
-        public boolean isHasSection() {
-            return hasSection;
         }
     }
 }
