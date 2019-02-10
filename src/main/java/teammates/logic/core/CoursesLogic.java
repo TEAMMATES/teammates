@@ -666,25 +666,18 @@ public final class CoursesLogic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     * @return Soft-deletion time of the course.
+     * @return the time when the course is moved to the recycle bin
      */
-    public Instant moveCourseToRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.setDeletedAt();
-        coursesDb.updateCourse(course);
+    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
 
-        return course.deletedAt;
+        return coursesDb.softDeleteCourse(courseId);
     }
 
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
-    public void restoreCourseFromRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.resetDeletedAt();
-        coursesDb.updateCourse(course);
+    public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
+        coursesDb.restoreDeletedCourse(courseId);
     }
 
     /**
