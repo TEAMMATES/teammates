@@ -380,7 +380,7 @@ public final class StringHelper {
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
                 if (i + 1 < chars.length && chars[i + 1] == '"') {
-                    i++;
+                    i++; // NOPMD loop variable deliberately increased
                 } else {
                     inquote = !inquote;
                     continue;
