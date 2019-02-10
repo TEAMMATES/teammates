@@ -43,28 +43,27 @@
       <p>
         Browse by topic:
         <br>
-        {{currentSection}}
       </p>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
           <a (click)="scrollTo('body')">Getting Started</a>
-          <ng-container *ngIf="currentSection==='body'"> O</ng-container>
+          <ng-container *ngIf="currentSection==='body'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('students')">Students</a>
-          <ng-container *ngIf="currentSection==='students'"> O</ng-container>
+          <ng-container *ngIf="currentSection==='students'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('courses')">Courses</a>
-          <ng-container *ngIf="currentSection==='courses'"> O</ng-container>
+          <ng-container *ngIf="currentSection==='courses'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('sessions')">Sessions</a>
-          <ng-container *ngIf="currentSection==='sessions'"> O</ng-container>
+          <ng-container *ngIf="currentSection==='sessions'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('questions')">Questions</a>
-          <ng-container *ngIf="currentSection==='questions'"> O</ng-container>
+          <ng-container *ngIf="currentSection==='questions'"></ng-container>
         </li>
       </ul>
     </div>
