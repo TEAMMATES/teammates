@@ -147,7 +147,7 @@
         </module>
         <module name="NonEmptyAtclauseDescription"/>
         <module name="JavadocType">
-            <property name="scope" value="public"/>
+            <property name="scope" value="package"/>
         </module>
         <module name="AtclauseOrder"/>
         <module name="JavadocTagContinuationIndentation">
