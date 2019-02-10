@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FeedbackContributionQuestionDetails } from '../../../../../feedback-question';
+import { FeedbackContributionQuestionDetails, FeedbackQuestionType } from '../../../../../../types/api-output';
 import { QuestionDetailsFormComponent } from '../question-details-form.component';
 
 /**
@@ -16,6 +16,8 @@ export class ContributionQuestionDetailsFormComponent
   constructor() {
     super({
       isNotSureAllowed: false,
+      questionText: '',
+      questionType: FeedbackQuestionType.CONTRIB,
     });
   }
 

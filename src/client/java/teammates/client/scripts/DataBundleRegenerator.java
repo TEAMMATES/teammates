@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.FileHelper;
 
@@ -39,20 +38,9 @@ public final class DataBundleRegenerator {
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());
             DataBundle db = JsonUtils.fromJson(jsonString, DataBundle.class);
-            db.feedbackResponses.forEach((key, feedbackResponseAttributes) -> fixResponse(feedbackResponseAttributes));
             db.feedbackQuestions.forEach((key, feedbackQuestionAttributes) -> fixQuestion(feedbackQuestionAttributes));
             String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
             saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
-        }
-    }
-
-    private static void fixResponse(FeedbackResponseAttributes response) {
-        String responseValue = response.responseMetaData;
-        try {
-            JSONObject responseJson = maintainKeyOrder(new JSONObject(responseValue));
-            response.responseMetaData = responseJson.toString();
-        } catch (JSONException e) {
-            response.responseMetaData = responseValue;
         }
     }
 

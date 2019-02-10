@@ -1,5 +1,5 @@
-import { FeedbackParticipantType } from '../app/feedback-participant-type';
-import { FeedbackVisibilityType, VisibilityControl } from '../app/feedback-visibility';
+import { FeedbackParticipantType, FeedbackVisibilityType } from '../types/api-output';
+import { VisibilityControl } from '../types/visibility-control';
 
 /* tslint:disable: no-non-null-assertion */
 /**

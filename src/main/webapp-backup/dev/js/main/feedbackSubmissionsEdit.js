@@ -1085,35 +1085,6 @@ function validateRankQuestions() {
 $(document).ready(() => {
     const textFields = $('div[id^="responsetext-"]');
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        $.each(textFields, (i, textField) => {
-            const id = $(textField).attr('id');
-            const isSessionOpenData = $(textField).data('isSessionOpen');
-            const isSessionOpen = typeof isSessionOpenData === 'boolean' ? isSessionOpenData : true;
-
-            /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-            richTextEditorBuilder.initEditor(`#${id}`, {
-                inline: true,
-                readonly: !isSessionOpen,
-                setup(ed) {
-                    ed.on('keyup', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                    ed.on('keydown', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                    ed.on('init', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                    ed.on('change', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                },
-            });
-            /* eslint-enable camelcase */
-        });
-    }
-
     $('form[name="form_submit_response"]').submit((e) => {
         formatRubricQuestions();
 

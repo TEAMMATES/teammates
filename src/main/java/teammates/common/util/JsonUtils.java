@@ -11,10 +11,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -34,6 +38,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new TeammatesDurationMinutesAdapter())
+                .registerTypeAdapter(FeedbackResponseDetails.class, new TeammatesFeedbackResponseDetailsAdapter())
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();
@@ -124,6 +129,17 @@ public final class JsonUtils {
             synchronized (this) {
                 return Duration.ofMinutes(element.getAsLong());
             }
+        }
+    }
+
+    private static class TeammatesFeedbackResponseDetailsAdapter implements JsonDeserializer<FeedbackResponseDetails> {
+
+        @Override
+        public FeedbackResponseDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            FeedbackQuestionType questionType =
+                    FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionType").getAsString());
+            return context.deserialize(json, questionType.getResponseDetailsClass());
         }
     }
 }
