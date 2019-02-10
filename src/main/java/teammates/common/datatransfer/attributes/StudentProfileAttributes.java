@@ -29,7 +29,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public String gender; // only accepts "male", "female" or "other"
+    public Gender gender;
     public String moreInfo;
     public String pictureKey;
     public Instant modifiedDate;
@@ -40,7 +40,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = "other";
+        this.gender = Gender.OTHER;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = Instant.now();
@@ -61,7 +61,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     /**
      * Return new builder instance all string fields setted to {@code ""}
-     * and with {@code gender = "other"}.
+     * and with {@code gender = Gender.OTHER}.
      */
     public static Builder builder(String googleId) {
         return new Builder(googleId);
@@ -104,8 +104,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         if (!StringHelper.isEmpty(nationality)) {
             addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
-
-        addNonEmptyError(validator.getInvalidityInfoForGender(gender), errors);
 
         Assumption.assertNotNull(this.pictureKey);
 
@@ -192,8 +190,10 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withGender(String gender) {
-            profileAttributes.gender = isGenderValid(gender) ? gender : "other";
+        public Builder withGender(Gender gender) {
+            if (gender != null) {
+                profileAttributes.gender = gender;
+            }
             return this;
         }
 
@@ -218,10 +218,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         public StudentProfileAttributes build() {
             return profileAttributes;
-        }
-
-        private boolean isGenderValid(String gender) {
-            return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
         }
     }
 }

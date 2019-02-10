@@ -11,8 +11,7 @@ public enum Gender {
     @SerializedName("female")
     FEMALE,
     @SerializedName("other")
-    OTHER,
-    ;
+    OTHER;
 
     /**
      * Returns the Gender enum value corresponding to {@code gender} or OTHER by default.
