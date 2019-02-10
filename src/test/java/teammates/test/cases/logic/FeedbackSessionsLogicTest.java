@@ -34,7 +34,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -250,7 +249,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
-        ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
         coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
 
