@@ -325,6 +325,7 @@ public class EmailGenerator {
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
         email.setContent(emailBody);
+
         return email;
     }
 

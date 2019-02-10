@@ -34,9 +34,8 @@ public class LinkRecoveryAction extends Action {
         boolean hasStudentsWithRestoreEmail = !logic.getAllStudentForEmail(requestedEmail).isEmpty();
 
         if (hasStudentsWithRestoreEmail) {
-            String restoreKey = getRestoreKey(requestedEmail);
-            String link = getLinkRecoveryUrl(restoreKey);
-            EmailWrapper email = new EmailGenerator().generateLinkRecoveryEmail(link, requestedEmail);
+
+            EmailWrapper email = new EmailGenerator().generateLinkRecoveryEmail(requestedEmail);
 
             if (email != null) {
                 try {
@@ -55,15 +54,6 @@ public class LinkRecoveryAction extends Action {
             return new JsonResult(new EmailRestoreResponse(EmailResponseResult.FAIL,
                     "No response found with given email"));
         }
-    }
-
-    private String getLinkRecoveryUrl(String restoreKey) {
-        return  Config.getFrontEndAppUrl(Config.getFrontEndAppUrl(Const.WebPageURIs.RESPONSE_RECOVERY_PAGE)
-                 .withRestoreKey(restoreKey).toString()).toAbsoluteString();
-    }
-
-    private String getRestoreKey(String userEmail) {
-        return StringHelper.encrypt(userEmail);
     }
 
 
