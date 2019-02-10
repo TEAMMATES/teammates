@@ -14,7 +14,7 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.10.1"
+def checkstyleVersion = "8.16"
 def pmdVersion = "6.6.0"
 def spotbugsVersion = "3.1.10"
 def jacocoVersion = "0.8.1"
@@ -124,19 +124,39 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     outputFileType = "implementationFile"
     outputKind = "module"
     indentString = "  "
+    jackson2Configuration = [
+        fieldVisibility: "ANY",
+        getterVisibility: "NONE",
+        isGetterVisibility: "NONE",
+        setterVisibility: "NONE",
+        creatorVisibility: "NONE",
+    ]
+    mapEnum = "asEnum"
+    nonConstEnums = true
 }
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.output.**"
+        "teammates.ui.webapi.output.**",
+        "teammates.common.datatransfer.questions.**"
     ]
+    removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
 }
 
+task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
+    classPatterns = [
+        "teammates.ui.webapi.request.**"
+    ]
+    outputFile = "src/web/types/api-request.ts"
+}
+
 generateApiOutputFormat.dependsOn classes
+generateApiRequestFormat.dependsOn classes
 
 task generateTypes {
     dependsOn generateApiOutputFormat
+    dependsOn generateApiRequestFormat
 }
 
 // SETUP TASKS

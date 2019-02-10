@@ -10,9 +10,7 @@
       <div class="card-header">
         <b>More details</b>
       </div>
-      <div class="card-body">
-        {{ model.questionDescription }}
-      </div>
+      <div class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
     </div>
 
     <br/>

@@ -68,7 +68,7 @@
     <br/>
     <div class="row">
       <div class="col-2 text-right"><b>Instructions:</b></div>
-      <div class="col-5">{{ feedbackSessionInstructions }}</div>
+      <div class="col-5" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
     <br/>
   </div>

@@ -1,6 +1,5 @@
 import { EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FeedbackQuestionDetails } from '../../../../feedback-question';
-import { FeedbackResponseDetails } from '../../../../feedback-response';
+import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../../types/api-output';
 
 /**
  * The abstract recipient submission form.

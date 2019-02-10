@@ -35,7 +35,7 @@ public class GetInstructorCourseDetailsActionTest extends BaseActionTest<GetInst
 
         ______TS("Typical Case, Course with at least one student and HTML table");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
         GetInstructorCourseDetailsAction pageAction = getAction(submissionParams);
@@ -59,7 +59,7 @@ public class GetInstructorCourseDetailsActionTest extends BaseActionTest<GetInst
 
         InstructorAttributes instructor4 = typicalBundle.instructors.get("instructor4");
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor4.courseId
+                Const.ParamsNames.COURSE_ID, instructor4.courseId,
         };
         pageAction = getAction(addUserIdToParams(instructor4.googleId, submissionParams));
         result = getJsonResult(pageAction);
@@ -82,7 +82,7 @@ public class GetInstructorCourseDetailsActionTest extends BaseActionTest<GetInst
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

@@ -595,13 +595,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseE2ETestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions)
                 .moveSessionToRecycleBin(courseId, sessionName);
-        newSession.setDeletedTime();
 
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
         assertNotNull("session should be in recycle bin",
                 BackDoor.getFeedbackSessionFromRecycleBin(courseId, sessionName));
-        assertTrue(newSession.isSessionDeleted());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecycleBinSuccessful.html");
 
     }

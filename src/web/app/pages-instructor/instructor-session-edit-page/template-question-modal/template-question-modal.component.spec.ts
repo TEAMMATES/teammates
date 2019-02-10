@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -18,6 +19,7 @@ describe('TemplateQuestionModalComponent', () => {
         CommonModule,
         FormsModule,
         QuestionTypesSessionEditModule,
+        HttpClientTestingModule,
       ],
       declarations: [
         TemplateQuestionModalComponent,

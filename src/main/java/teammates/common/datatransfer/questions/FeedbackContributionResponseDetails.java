@@ -69,15 +69,15 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     }
 
     @Override
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerCsv(response, question, feedbackSessionResultsBundle);
+    }
+
+    @Override
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+        return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
     }
 
     private void setAnswer(int answer) {

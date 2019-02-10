@@ -1,11 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../../services/visibility-state-machine';
-import { FeedbackParticipantType } from '../../../feedback-participant-type';
-import { FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../feedback-question';
-import { FeedbackVisibilityType, VisibilityControl } from '../../../feedback-visibility';
 import {
-  FeedbackResponseRecipient, FeedbackResponseRecipientSubmissionFormModel,
+  FeedbackParticipantType,
+  FeedbackQuestionType, FeedbackTextQuestionDetails,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../../types/api-output';
+import { VisibilityControl } from '../../../../types/visibility-control';
+import {
+  FeedbackResponseRecipient,
+  FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
@@ -64,7 +69,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       recommendedLength: 0,
-    },
+      questionText: '',
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextQuestionDetails,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 0,

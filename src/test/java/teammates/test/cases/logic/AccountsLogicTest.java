@@ -301,7 +301,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String[] encryptedKey = new String[] {
-                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email)
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
         };
 
         ______TS("failure: googleID belongs to an existing instructor in the course");
