@@ -10,7 +10,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import teammates.common.datatransfer.attributes.Gender;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.NationalityHelper;
 import teammates.e2e.pageobjects.Browser;
 
@@ -134,7 +134,7 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(Gender gender) {
+    public void selectGender(StudentProfileAttributes.Gender gender) {
         switch (gender) {
         case MALE:
             click(genderMaleRadio);
@@ -152,7 +152,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfileThroughUi(String shortName, String email, String institute,
-                                     String nationality, Gender gender, String moreInfo) {
+                                     String nationality, StudentProfileAttributes.Gender gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
@@ -163,7 +163,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
-                                      Gender gender, String moreInfo) {
+                                      StudentProfileAttributes.Gender gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -184,7 +184,7 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    private void ensureGenderIsSelectedAs(Gender gender) {
+    private void ensureGenderIsSelectedAs(StudentProfileAttributes.Gender gender) {
         switch (gender) {
         case MALE:
             assertTrue(genderMaleRadio.isSelected());

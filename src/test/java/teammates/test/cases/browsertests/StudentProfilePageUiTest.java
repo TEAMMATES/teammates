@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.Gender;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -143,10 +142,10 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
 
         ______TS("Typical case: no picture");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean", Gender.MALE,
-                                         "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean",
+                                         StudentProfileAttributes.Gender.MALE, "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Singaporean",
-                                          Gender.MALE, "this is enough!$%&*</>");
+                                          StudentProfileAttributes.Gender.MALE, "this is enough!$%&*</>");
         profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: attempted script injection");
@@ -154,7 +153,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
         StudentProfileAttributes spa = StudentProfileAttributes.builder("valid.id")
                 .withShortName("name<script>alert(\"Hello world!\");</script>")
                 .withEmail("e@email.tmt")
-                .withGender(Gender.MALE)
+                .withGender(StudentProfileAttributes.Gender.MALE)
                 .withMoreInfo("this is enough!$%&*</><script>alert(\"Hello world!\");</script>")
                 .withInstitute("inst<script>alert(\"Hello world!\");</script>")
                 .withNationality("American")
@@ -163,31 +162,31 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
                 spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
                 "e@email.tmt", "inst<script>alert(\"Hello world!\");</script>", "American",
-                Gender.MALE, "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
+                StudentProfileAttributes.Gender.MALE, "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
         profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: changing genders for complete coverage");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", Gender.OTHER,
-                                         "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
+                                         StudentProfileAttributes.Gender.OTHER, "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          Gender.OTHER, "this is enough!$%&*</>");
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", Gender.FEMALE,
-                                         "this is enough!$%&*</>");
+                                          StudentProfileAttributes.Gender.OTHER, "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
+                                         StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                         Gender.FEMALE, "this is enough!$%&*</>");
+                                         StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
 
         ______TS("Failure case: invalid institute with attempted script injection");
 
         spa = StudentProfileAttributes.builder("valid.id")
                 .withShortName("short.name").withEmail("e@email.tmt")
-                .withGender(Gender.MALE).withMoreInfo("this is enough!$%&*</>")
+                .withGender(StudentProfileAttributes.Gender.MALE).withMoreInfo("this is enough!$%&*</>")
                 .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
                 .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          Gender.FEMALE, "this is enough!$%&*</>");
+                                          StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.waitForTextsForAllStatusMessagesToUserEquals(StringHelper.toString(spa.getInvalidityInfo(), " ")
                                              // de-sanitize
                                              .replace("&lt;", "<").replace("&gt;", ">")
@@ -197,13 +196,13 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
 
         spa = StudentProfileAttributes.builder("valid.id")
                 .withShortName("$$short.name").withEmail("e@email.tmt")
-                .withGender(Gender.MALE).withMoreInfo("this is enough!$%&*</>")
+                .withGender(StudentProfileAttributes.Gender.MALE).withMoreInfo("this is enough!$%&*</>")
                 .withInstitute(" inst  ").withNationality("American")
                 .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          Gender.FEMALE, "this is enough!$%&*</>");
+                                          StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.waitForTextsForAllStatusMessagesToUserEquals(StringHelper.toString(spa.getInvalidityInfo(), " "));
 
         ______TS("Typical case: picture upload and edit");
@@ -216,7 +215,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
 
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          Gender.FEMALE, "this is enough!$%&*</>");
+                                          StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
 
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -227,7 +226,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
         profilePage.showPictureEditor();
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          Gender.FEMALE, "this is enough!$%&*</>");
+                                          StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
 
         prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;

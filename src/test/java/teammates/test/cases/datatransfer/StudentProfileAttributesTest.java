@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-import teammates.common.datatransfer.attributes.Gender;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -32,7 +31,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withInstitute("institute")
                 .withEmail("valid@email.com")
                 .withNationality("Lebanese")
-                .withGender(Gender.FEMALE)
+                .withGender(StudentProfileAttributes.Gender.FEMALE)
                 .withMoreInfo("moreInfo can have a lot more than this...")
                 .withPictureKey("profile Pic Key")
                 .build();
@@ -59,7 +58,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
-        assertEquals(Gender.OTHER, profileAttributes.gender);
+        assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.gender);
         assertEquals(VALID_GOOGLE_ID, profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
         assertEquals("", profileAttributes.email);
@@ -72,7 +71,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", Gender.MALE,
+                "Teammates Institute", "American", StudentProfileAttributes.Gender.MALE.name().toLowerCase(),
                 "hello", new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
@@ -81,7 +80,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getEmail(), profileAttributes.email);
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
-        assertEquals(studentProfile.getGender(), profileAttributes.gender);
+        assertEquals(studentProfile.getGender(), profileAttributes.gender.name().toLowerCase());
         assertEquals(studentProfile.getMoreInfo(), profileAttributes.moreInfo);
         assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
 
@@ -206,7 +205,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     private StudentProfile createStudentProfileFrom(
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
-                                  profile.institute, profile.nationality, profile.gender,
+                                  profile.institute, profile.nationality, profile.gender.name().toLowerCase(),
                                   profile.moreInfo, new BlobKey(profile.pictureKey));
     }
 
@@ -241,7 +240,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
-        Gender gender = Gender.MALE;
+        StudentProfileAttributes.Gender gender = StudentProfileAttributes.Gender.MALE;
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
@@ -262,7 +261,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
         String nationality = "&\"invalid nationality &";
-        Gender gender = Gender.OTHER;
+        StudentProfileAttributes.Gender gender = StudentProfileAttributes.Gender.OTHER;
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 
@@ -275,6 +274,34 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();
+    }
+
+    /**
+     * SUT: {@link StudentProfileAttributes.Gender}.
+     */
+    public static class GenderTest {
+        @Test
+        public void testGetGenderEnumValue() {
+            // invalid values
+            assertEquals(StudentProfileAttributes.Gender.OTHER,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("'\"'invalidGender"));
+            assertEquals(StudentProfileAttributes.Gender.OTHER,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("invalidGender"));
+
+            // valid values
+            assertEquals(StudentProfileAttributes.Gender.MALE,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("MALE"));
+            assertEquals(StudentProfileAttributes.Gender.FEMALE,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("FEMALE"));
+            assertEquals(StudentProfileAttributes.Gender.OTHER,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("OTHER"));
+            assertEquals(StudentProfileAttributes.Gender.MALE,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("male"));
+            assertEquals(StudentProfileAttributes.Gender.FEMALE,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("female"));
+            assertEquals(StudentProfileAttributes.Gender.OTHER,
+                         StudentProfileAttributes.Gender.getGenderEnumValue("other"));
+        }
     }
 
 }
