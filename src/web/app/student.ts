@@ -9,7 +9,7 @@ export interface Student {
 /**
  * A student's response status for a feedback session.
  */
-export interface StudentResponseStatus {
+export interface StudentFeedbackSessionResponseStatus {
   email: string;
   name: string;
   sectionName: string;
@@ -20,6 +20,6 @@ export interface StudentResponseStatus {
 /**
  * All the students' response status for a feedback session.
  */
-export interface StudentsResponseStatus {
-  studentsResponseStatus: StudentResponseStatus[];
+export interface StudentsFeedbackSessionResponseStatus {
+  studentsFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus[];
 }

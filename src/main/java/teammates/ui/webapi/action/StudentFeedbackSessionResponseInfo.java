@@ -11,19 +11,20 @@ import teammates.ui.webapi.output.ApiOutput;
 /**
  * Data transfer objects for {@link FeedbackSessionResponseStatus} between controller and HTTP.
  */
-public class StudentResponseInfo {
+public class StudentFeedbackSessionResponseInfo {
 
     /**
      * The feedback session response status for a student.
      */
-    public static class StudentResponseStatus extends ApiOutput {
+    public static class StudentFeedbackSessionResponseStatus extends ApiOutput {
         String email;
         String name;
         String sectionName;
         String teamName;
         boolean responseStatus;
 
-        StudentResponseStatus(String email, String name, String sectionName, String teamName, boolean responseStatus) {
+        StudentFeedbackSessionResponseStatus(String email, String name, String sectionName, String teamName,
+                                             boolean responseStatus) {
             this.email = email;
             this.name = name;
             this.sectionName = sectionName;
@@ -56,12 +57,12 @@ public class StudentResponseInfo {
     /**
      * The feedback session response status for all students.
      */
-    public static class StudentsResponseStatus extends ApiOutput {
+    public static class StudentsFeedbackSessionResponseStatus extends ApiOutput {
 
-        private List<StudentResponseStatus> studentsResponseStatus;
+        private List<StudentFeedbackSessionResponseStatus> studentsFeedbackSessionResponseStatus;
 
-        StudentsResponseStatus(FeedbackSessionResponseStatus responseStatus) {
-            studentsResponseStatus = new ArrayList<>();
+        StudentsFeedbackSessionResponseStatus(FeedbackSessionResponseStatus responseStatus) {
+            studentsFeedbackSessionResponseStatus = new ArrayList<>();
 
             Map<String, Boolean> allStudentsResponse = responseStatus.studentsWhoResponded.stream()
                     .collect(Collectors.toMap(studentEmail -> studentEmail, response -> true));
@@ -69,15 +70,15 @@ public class StudentResponseInfo {
                     .collect(Collectors.toMap(studentEmail -> studentEmail, response -> false)));
 
             allStudentsResponse.forEach((studentEmail, response) -> {
-                studentsResponseStatus.add(new StudentResponseStatus(
+                studentsFeedbackSessionResponseStatus.add(new StudentFeedbackSessionResponseStatus(
                         studentEmail, responseStatus.emailNameTable.get(studentEmail),
                         responseStatus.emailSectionTable.get(studentEmail),
                         responseStatus.emailTeamNameTable.get(studentEmail), response));
             });
         }
 
-        public List<StudentResponseStatus> getStudentsResponseStatus() {
-            return studentsResponseStatus;
+        public List<StudentFeedbackSessionResponseStatus> getStudentsFeedbackSessionResponseStatus() {
+            return studentsFeedbackSessionResponseStatus;
         }
     }
 }

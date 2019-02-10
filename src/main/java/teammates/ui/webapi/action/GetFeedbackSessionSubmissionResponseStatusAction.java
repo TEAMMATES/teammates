@@ -42,6 +42,7 @@ public class GetFeedbackSessionSubmissionResponseStatusAction extends Action {
                     HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult(new StudentResponseInfo.StudentsResponseStatus(fsResponseStatus));
+        return new JsonResult(
+                new StudentFeedbackSessionResponseInfo.StudentsFeedbackSessionResponseStatus(fsResponseStatus));
     }
 }

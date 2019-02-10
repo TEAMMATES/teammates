@@ -3,11 +3,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../../services/http-request.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../../error-message-output';
-import { StudentResponseStatus, StudentsResponseStatus } from '../../../student';
+import { StudentFeedbackSessionResponseStatus, StudentsFeedbackSessionResponseStatus } from '../../../student';
 import { SortBy, SortOrder } from '../sessions-table-model';
 
 interface RemindStudentsTableRow {
-  studentResponseStatus: StudentResponseStatus;
+  studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus;
   isChecked: boolean;
 }
 
@@ -60,10 +60,12 @@ export class SendRemindersToStudentModalComponent implements OnInit {
     };
 
     this.httpRequestService.get('/session/remind/submission', paramMap)
-      .subscribe((studentsResponseStatus: StudentsResponseStatus) => {
-        studentsResponseStatus.studentsResponseStatus.forEach((studentResponseStatus: StudentResponseStatus) => {
+      .subscribe((studentsFeedbackSessionResponseStatus: StudentsFeedbackSessionResponseStatus) => {
+        studentsFeedbackSessionResponseStatus.studentsFeedbackSessionResponseStatus.forEach(
+            (studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus) => {
+
           const studentTableRow: RemindStudentsTableRow = {
-            studentResponseStatus,
+            studentFeedbackSessionResponseStatus: studentFeedbackSessionResponseStatus,
             isChecked: false,
           };
 
@@ -92,32 +94,32 @@ export class SendRemindersToStudentModalComponent implements OnInit {
    * Sorts the rows of students in order.
    */
   sortRowsBy(by: SortBy, order: SortOrder):
-      ((a: { studentResponseStatus: StudentResponseStatus },
-        b: { studentResponseStatus: StudentResponseStatus }) => number) {
-    return ((a: { studentResponseStatus: StudentResponseStatus },
-             b: { studentResponseStatus: StudentResponseStatus }): number => {
+      ((a: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus },
+        b: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus }) => number) {
+    return ((a: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus },
+             b: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus }): number => {
       let strA: string;
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.studentResponseStatus.sectionName;
-          strB = b.studentResponseStatus.sectionName;
+          strA = a.studentFeedbackSessionResponseStatus.sectionName;
+          strB = b.studentFeedbackSessionResponseStatus.sectionName;
           break;
         case SortBy.TEAM_NAME:
-          strA = a.studentResponseStatus.teamName;
-          strB = b.studentResponseStatus.teamName;
+          strA = a.studentFeedbackSessionResponseStatus.teamName;
+          strB = b.studentFeedbackSessionResponseStatus.teamName;
           break;
         case SortBy.STUDENT_NAME:
-          strA = a.studentResponseStatus.name;
-          strB = b.studentResponseStatus.name;
+          strA = a.studentFeedbackSessionResponseStatus.name;
+          strB = b.studentFeedbackSessionResponseStatus.name;
           break;
         case SortBy.STUDENT_EMAIL:
-          strA = a.studentResponseStatus.email;
-          strB = b.studentResponseStatus.email;
+          strA = a.studentFeedbackSessionResponseStatus.email;
+          strB = b.studentFeedbackSessionResponseStatus.email;
           break;
         case SortBy.SUBMIT_STATUS:
-          strA = a.studentResponseStatus.responseStatus.toString();
-          strB = b.studentResponseStatus.responseStatus.toString();
+          strA = a.studentFeedbackSessionResponseStatus.responseStatus.toString();
+          strB = b.studentFeedbackSessionResponseStatus.responseStatus.toString();
           break;
         default:
           strA = '';
@@ -148,7 +150,7 @@ export class SendRemindersToStudentModalComponent implements OnInit {
    */
   checkAllYetSubmittedStudents(): void {
     for (const remindStudentRow of this.remindStudentsTableRows) {
-      if (!remindStudentRow.studentResponseStatus.responseStatus) {
+      if (!remindStudentRow.studentFeedbackSessionResponseStatus.responseStatus) {
         remindStudentRow.isChecked = this.checkAllYetSubmitted;
       }
     }
@@ -163,9 +165,9 @@ export class SendRemindersToStudentModalComponent implements OnInit {
     });
 
     this.checkAllYetSubmitted = this.remindStudentsTableRows.filter(
-        (tableRow: RemindStudentsTableRow) => !tableRow.studentResponseStatus.responseStatus,
+        (tableRow: RemindStudentsTableRow) => !tableRow.studentFeedbackSessionResponseStatus.responseStatus,
     ).every((tableRow: RemindStudentsTableRow) => {
-      return tableRow.isChecked && !tableRow.studentResponseStatus.responseStatus;
+      return tableRow.isChecked && !tableRow.studentFeedbackSessionResponseStatus.responseStatus;
     });
   }
 
@@ -176,7 +178,7 @@ export class SendRemindersToStudentModalComponent implements OnInit {
     const remindStudentList: string[] = [];
     for (const remindStudentRow of this.remindStudentsTableRows) {
       if (remindStudentRow.isChecked) {
-        remindStudentList.push(remindStudentRow.studentResponseStatus.email);
+        remindStudentList.push(remindStudentRow.studentFeedbackSessionResponseStatus.email);
       }
     }
     return remindStudentList;
