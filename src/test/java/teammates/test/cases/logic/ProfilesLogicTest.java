@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+import teammates.common.datatransfer.attributes.Gender;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.core.ProfilesLogic;
 
@@ -33,7 +34,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .withEmail("personal@email.com")
                 .withInstitute("institute")
                 .withNationality("American")
-                .withGender("female")
+                .withGender(Gender.FEMALE)
                 .withMoreInfo("moreInfo")
                 .build();
 
