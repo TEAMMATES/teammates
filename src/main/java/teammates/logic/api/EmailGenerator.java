@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -218,8 +219,8 @@ public class EmailGenerator {
     /**
      * Generates link recovery email.
      */
-    public EmailWrapper generateLinkRecoveryEmail(String link,  String destinationEmail) {
-        return generateLinkRecoveryEmailForUser(link, destinationEmail);
+    public EmailWrapper generateLinkRecoveryEmail(String destinationEmail) {
+        return generateLinkRecoveryEmailForUser(destinationEmail);
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
@@ -258,16 +259,73 @@ public class EmailGenerator {
 
     }
 
-    private EmailWrapper generateLinkRecoveryEmailForUser(String recoveryLink, String userEmail) {
-        // TODO: Properly format email body.
-        String template = EmailTemplates.USER_LINK_RECOVERY;
-        String subject = EmailType.RESPONSE_LINK_RECOVERY.getSubject();
-        String emailBody = Templates.populateTemplate(template,
-                "${recoveryLink}", recoveryLink,
-                "${supportEmail}", Config.SUPPORT_EMAIL);
+    private EmailWrapper generateLinkRecoveryEmailForUser(String userEmail) {
+        Instant endTime = Instant.now();
+        Instant startTime = endTime.minus(Duration.ofDays(180));
+        String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
+        StringBuffer linksFragmentValue = new StringBuffer(1000);
+        String teammateHomePageLink = Config.APP_URL;
+        String emailBody;
+        String studentName = null;
+
+        List<FeedbackSessionAttributes> sessions = fsLogic.getAllFeedbackSessionsWithinTimeRange(startTime, endTime);
+        for (FeedbackSessionAttributes session : sessions) {
+            CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+            StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
+
+            if (student != null) {
+                studentName = student.getName();
+                String submitUrlHtml = "(Feedback session is not yet open)";
+                String reportUrlHtml = "(Feedback session is not yet published)";
+
+                if (session.isOpened()) {
+                    String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                            .withCourseId(course.getId())
+                            .withSessionName(session.getFeedbackSessionName())
+                            .withRegistrationKey(StringHelper.encrypt(student.key))
+                            .withStudentEmail(student.email)
+                            .toAbsoluteString();
+                    submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+                } else if (session.isClosed()) {
+                    submitUrlHtml = "(Feedback session is closed)";
+                } else if (session.isPublished()) {
+                    String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                            .withCourseId(course.getId())
+                            .withSessionName(session.getFeedbackSessionName())
+                            .toAbsoluteString();
+                    reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
+                }
+
+                linksFragmentValue.append(Templates.populateTemplate(
+                        EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
+                        "${courseId}", course.getId(),
+                        "${courseName}", course.getName(),
+                        "${feedbackSessionName}", session.getFeedbackSessionName(),
+                        "${deadline}", session.getEndTimeString() + (session.isClosed() ? " (Passed)" : ""),
+                        "${submitUrl}", submitUrlHtml,
+                        "${reportUrl}", reportUrlHtml));
+            }
+        }
+
+        if (linksFragmentValue.length() == 0) {
+            emailBody = Templates.populateTemplate(
+                    EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+        } else {
+            emailBody = Templates.populateTemplate(
+                    EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS,
+                    "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
+                    "${linksFragment}", linksFragmentValue.toString(),
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                    "${teammateHomePageLink}", teammateHomePageLink,
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+        }
+
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
         email.setContent(emailBody);
+
         return email;
     }
 

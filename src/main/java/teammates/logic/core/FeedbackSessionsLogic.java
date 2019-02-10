@@ -2,14 +2,8 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
@@ -39,6 +33,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Handles operations related to feedback sessions.
@@ -197,6 +192,13 @@ public final class FeedbackSessionsLogic {
         }
 
         return viewableSessions;
+    }
+
+    /**
+     * Returns a list of feedback sessions within the time range.
+     */
+    public List<FeedbackSessionAttributes> getAllFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getAllFeedbackSeesionWithinTimeRange(rangeStart, rangeEnd);
     }
 
     /**

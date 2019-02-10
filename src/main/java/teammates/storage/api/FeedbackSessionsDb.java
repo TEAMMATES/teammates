@@ -5,6 +5,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +78,42 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             return null;
         }
         return feedbackSession;
+    }
+
+    /**
+     * Gets a list of feedback sessions within the given time range.
+     */
+    public List<FeedbackSessionAttributes> getAllFeedbackSeesionWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
+
+        List<FeedbackSessionAttributes> lst = new LinkedList<>();
+
+        List<FeedbackSession> startEntities = load()
+                .filter("startTime >=", rangeStart)
+                .filter("startTime <", rangeEnd)
+                .list();
+        List<FeedbackSession> endEntities = load()
+                .filter("endTime >=", rangeStart)
+                .filter("endTime <", rangeEnd)
+                .list();
+
+        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
+        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
+
+        endTimeEntities.removeAll(startTimeEntities);
+
+        List<FeedbackSession> resultsVisibleEntities = load()
+                .filter("resultsVisibleFromTime >", rangeStart)
+                .filter("resultsVisibleFromTime <=", rangeEnd)
+                .list();
+
+        resultsVisibleEntities.removeAll(startEntities);
+        resultsVisibleEntities.removeAll(endEntities);
+
+        lst.addAll(makeAttributes(startEntities));
+        lst.addAll(makeAttributes(endEntities));
+        lst.addAll(makeAttributes(resultsVisibleEntities));
+
+        return lst;
     }
 
     /**

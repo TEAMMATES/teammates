@@ -918,9 +918,6 @@ public final class Const {
 
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
-
-        public static final String RESPONSE_RECOVERY_PAGE = "/recovery";
-
     }
 
     public static class ResourceURIs {
