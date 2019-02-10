@@ -49,7 +49,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
-                ParamsNames.USER_ID, instructor1.getGoogleId()
+                ParamsNames.USER_ID, instructor1.getGoogleId(),
         };
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);

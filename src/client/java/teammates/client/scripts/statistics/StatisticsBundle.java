@@ -19,41 +19,6 @@ public class StatisticsBundle {
     private Map<String, InstituteStats> institutesStats = new HashMap<>();
 
     /**
-     * Stats that indicates the number of unique (uniqueness is determined by email)
-     * students and instructors in the institute.
-     */
-    public static class InstituteStats {
-
-        private String name;
-        private Set<String> studentEmails = new HashSet<>();
-        private Set<String> instructorEmails = new HashSet<>();
-
-        public String getName() {
-            return name;
-        }
-
-        public int getStudentTotal() {
-            return studentEmails.size();
-        }
-
-        public int getInstructorTotal() {
-            return instructorEmails.size();
-        }
-    }
-
-    /**
-     * Metadata for the bundle.
-     */
-    public static class InstitutesStatsMetadata {
-        private Instant statsSince;
-
-        public InstitutesStatsMetadata() {
-            // time when TEAMMATES project begins
-            statsSince = Instant.parse("2010-01-01T00:00:00.000Z");
-        }
-    }
-
-    /**
      * Gets the stats for a certain institute.
      *
      * @return a empty stats if institute is not found in the bundle.
@@ -155,5 +120,40 @@ public class StatisticsBundle {
 
     public Map<String, InstituteStats> getInstitutesStats() {
         return institutesStats;
+    }
+
+    /**
+     * Stats that indicates the number of unique (uniqueness is determined by email)
+     * students and instructors in the institute.
+     */
+    public static class InstituteStats {
+
+        private String name;
+        private Set<String> studentEmails = new HashSet<>();
+        private Set<String> instructorEmails = new HashSet<>();
+
+        public String getName() {
+            return name;
+        }
+
+        public int getStudentTotal() {
+            return studentEmails.size();
+        }
+
+        public int getInstructorTotal() {
+            return instructorEmails.size();
+        }
+    }
+
+    /**
+     * Metadata for the bundle.
+     */
+    public static class InstitutesStatsMetadata {
+        private Instant statsSince;
+
+        public InstitutesStatsMetadata() {
+            // time when TEAMMATES project begins
+            statsSince = Instant.parse("2010-01-01T00:00:00.000Z");
+        }
     }
 }

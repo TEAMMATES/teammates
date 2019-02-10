@@ -91,7 +91,7 @@ public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
 
     @Override
     protected NavigableMap<String, ZoneRules> provideVersions(String zoneId) {
-        TreeMap<String, ZoneRules> map = new TreeMap<>();
+        NavigableMap<String, ZoneRules> map = new TreeMap<>();
         ZoneRules rules = getRules(zoneId, false);
         if (rules != null) {
             map.put(versionId, rules);

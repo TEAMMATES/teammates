@@ -52,7 +52,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         // verify time zone will be changed
@@ -77,7 +77,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseNameWithValidCharacters,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         courseEditSaveAction = getAction(submissionParams);
@@ -95,7 +95,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         courseEditSaveAction = getAction(submissionParams);
@@ -115,7 +115,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         courseEditSaveAction = getAction(submissionParams);
@@ -135,7 +135,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         courseEditSaveAction = getAction(submissionParams);
@@ -156,7 +156,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         courseEditSaveAction = getAction(submissionParams);
@@ -188,7 +188,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

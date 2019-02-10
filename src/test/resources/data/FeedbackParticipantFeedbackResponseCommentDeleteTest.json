@@ -266,50 +266,64 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "MCQ",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "response2ForQ1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "MCQ",
       "giver": "instructor2@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseDetails": {
+        "answer": "It's perfect",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "response1ForQ2": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
-      "responseMetaData": "Instructor feedback to student 1."
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Instructor feedback to student 1."
+      }
     },
     "response1ForQ3": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "response1ForQ4": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MCQ",
       "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 2.1</td></div>'\"",
-      "responseMetaData": "{\"answer\":\"Algo\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "answer": "Algo",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     }
   },
   "feedbackResponseComments": {

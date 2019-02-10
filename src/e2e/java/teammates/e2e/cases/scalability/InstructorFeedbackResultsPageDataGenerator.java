@@ -30,6 +30,51 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
 
+    private InstructorFeedbackResultsPageDataGenerator(int numQuestions, int numStudents) {
+        courses.put("CFResultsScT.CS2104", new Course());
+        accounts.put("CFResultsScT.instr", new Account());
+        feedbackSessions.put("Open Session", new Session());
+        instructors.put("CFResultsScT.instr", new Instructor());
+
+        RandomNameGenerator nameGenerator = new RandomNameGenerator();
+        for (int i = 0; i < numStudents; i++) {
+            String name = nameGenerator.next();
+            students.put(name.replace("_", " "), new Student(name.replace("_", ".")));
+        }
+
+        int count = 0;
+        for (int i = 0; i < numQuestions; i++) {
+            feedbackQuestions.put("question" + i, new Question(i));
+            for (Student giver : students.values()) {
+                for (Student recipient : students.values()) {
+                    feedbackResponses.put(
+                            "response" + count,
+                            new Response(giver.getEmail(), recipient.getEmail(), String.valueOf(i)));
+                    count++;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        //Number of students and questions for each data set.
+        int[] studentNums = {10, 20};
+        int[] questionNums = {1, 5, 10};
+        String folderPath = "src/e2e/java/teammates/e2e/cases/scalability/data/";
+        new File(folderPath).mkdir();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        for (int studentNum : studentNums) {
+            for (int questionNum : questionNums) {
+                try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(
+                        folderPath
+                        + "InstructorFeedbackResultsPageScaleTest-" + studentNum
+                        + "Students" + questionNum + "Questions.json"))) {
+                    gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
+                }
+            }
+        }
+    }
+
     static class EmptyObject {}
 
     static class Account {
@@ -158,51 +203,6 @@ public class InstructorFeedbackResultsPageDataGenerator {
             this.giver = giver;
             this.recipient = recipient;
             this.feedbackQuestionId = feedbackQuestionId;
-        }
-    }
-
-    private InstructorFeedbackResultsPageDataGenerator(int numQuestions, int numStudents) {
-        courses.put("CFResultsScT.CS2104", new Course());
-        accounts.put("CFResultsScT.instr", new Account());
-        feedbackSessions.put("Open Session", new Session());
-        instructors.put("CFResultsScT.instr", new Instructor());
-
-        RandomNameGenerator nameGenerator = new RandomNameGenerator();
-        for (int i = 0; i < numStudents; i++) {
-            String name = nameGenerator.next();
-            students.put(name.replace("_", " "), new Student(name.replace("_", ".")));
-        }
-
-        int count = 0;
-        for (int i = 0; i < numQuestions; i++) {
-            feedbackQuestions.put("question" + i, new Question(i));
-            for (Student giver : students.values()) {
-                for (Student recipient : students.values()) {
-                    feedbackResponses.put(
-                            "response" + count,
-                            new Response(giver.getEmail(), recipient.getEmail(), String.valueOf(i)));
-                    count++;
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        //Number of students and questions for each data set.
-        int[] studentNums = {10, 20};
-        int[] questionNums = {1, 5, 10};
-        String folderPath = "src/e2e/java/teammates/e2e/cases/scalability/data/";
-        new File(folderPath).mkdir();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        for (int studentNum : studentNums) {
-            for (int questionNum : questionNums) {
-                try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(
-                        folderPath
-                        + "InstructorFeedbackResultsPageScaleTest-" + studentNum
-                        + "Students" + questionNum + "Questions.json"))) {
-                    gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
-                }
-            }
         }
     }
 }

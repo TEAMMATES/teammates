@@ -89,7 +89,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
                 "icdat.owncourse", "New course", "UTC");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "icdat.owncourse"
+                Const.ParamsNames.COURSE_ID, "icdat.owncourse",
         };
 
         /*  Test access for users

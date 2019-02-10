@@ -67,7 +67,7 @@ public class FeedbackResponseAdjustmentWorkerActionTest
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, student.course,
                 ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                ParamsNames.ENROLLMENT_DETAILS, JsonUtils.toJson(enrollList)
+                ParamsNames.ENROLLMENT_DETAILS, JsonUtils.toJson(enrollList),
         };
 
         FeedbackResponseAdjustmentWorkerAction action = getAction(submissionParams);

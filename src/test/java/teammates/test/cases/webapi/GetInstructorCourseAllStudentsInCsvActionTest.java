@@ -39,7 +39,7 @@ public class GetInstructorCourseAllStudentsInCsvActionTest extends
         verifyHttpParameterFailure(submissionParams);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         ______TS("Typical case: student list downloaded successfully");
@@ -82,7 +82,7 @@ public class GetInstructorCourseAllStudentsInCsvActionTest extends
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
