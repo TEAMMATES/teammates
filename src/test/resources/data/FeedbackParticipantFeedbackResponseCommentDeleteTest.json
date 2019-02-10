@@ -266,7 +266,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "MCQ",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {
@@ -279,7 +278,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "MCQ",
       "giver": "instructor2@course1.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {
@@ -292,7 +290,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "student1inCourse1@gmail.tmt",
       "responseDetails": {
@@ -304,7 +301,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "MCQ",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section A",
@@ -319,7 +315,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MCQ",
       "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 2.1</td></div>'\"",
       "giverSection": "Section A",

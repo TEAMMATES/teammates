@@ -455,7 +455,6 @@ public final class FeedbackResponsesLogic {
         newResponse.courseId = oldResponse.courseId;
         newResponse.feedbackSessionName = oldResponse.feedbackSessionName;
         newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
-        newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
 
         if (newResponse.isMissingResponse()) {
             newResponse.responseDetails = oldResponse.getResponseDetails();
