@@ -31,7 +31,8 @@ public class PostStudentProfileFormUrlAction extends Action {
     @Override
     public ActionResult execute() {
 
-        String callbackUrl = Url.addParamToUrl(Const.ResourceURIs.STUDENT_PROFILE_UPLOAD,
+        // To cleanup with constants later
+        String callbackUrl = Url.addParamToUrl("http://localhost:8080/webapi" + Const.ResourceURIs.STUDENT_PROFILE_PICTURE,
                 Const.CsrfConfig.TOKEN_HEADER_NAME, req.getHeader("X-CSRF-TOKEN"));
         try {
             String uploadUrl = GoogleCloudStorageHelper.getNewUploadUrl(callbackUrl);

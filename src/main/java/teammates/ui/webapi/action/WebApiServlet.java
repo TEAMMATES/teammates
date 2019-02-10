@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import java.io.IOException;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import teammates.common.util.TimeHelper;
  * Servlet that handles all requests from the web application.
  */
 @SuppressWarnings("serial")
+@MultipartConfig()
 public class WebApiServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
