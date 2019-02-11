@@ -58,6 +58,10 @@ const routes: Routes = [
         path: 'instructor',
         component: InstructorHelpPageComponent,
       },
+      {
+        path: 'getting-started',
+        component: InstructorHelpGettingStartedComponent,
+      },
     ],
   },
   {
