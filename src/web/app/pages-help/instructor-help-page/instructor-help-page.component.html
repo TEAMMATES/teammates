@@ -7,31 +7,32 @@
         <br> If you are new to TEAMMATES, our <a routerLink="../getting-started">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
         <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
       </p>
-    <div class="row">
-      <div class="offset-md-2 col-md-8">
-        <div class="input-group input-group-lg">
-          <input type="text"  [(ngModel)]="searchTerm" class="form-control input-lg" placeholder="How can we help?" (keyup.enter)="search()">
-          <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
-          <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+      <div class="row">
+        <div class="offset-md-2 col-md-8">
+          <div class="input-group input-group-lg">
+            <input type="text"  [(ngModel)]="searchTerm" class="form-control input-lg" placeholder="How can we help?" (keyup.enter)="search()">
+            <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
+            <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+          </div>
         </div>
       </div>
-    </div>
-    <hr/>
-    <div id="students">
-      <tm-instructor-help-students-section [key]="key"> 1
-      </tm-instructor-help-students-section>
-    </div>
-    <div id="courses">
-      <tm-instructor-help-students-section [key]="key"> 2
-      </tm-instructor-help-students-section>
-    </div>
-    <div id="sessions">
-      <tm-instructor-help-students-section [key]="key"> 3
-      </tm-instructor-help-students-section>
-    </div>
-    <div id="questions">
-      <tm-instructor-help-students-section [key]="key"> 4
-      </tm-instructor-help-students-section>
+      <hr/>
+      <div id="students">
+        <tm-instructor-help-students-section [key]="key"> 1
+        </tm-instructor-help-students-section>
+      </div>
+      <div id="courses">
+        <tm-instructor-help-students-section [key]="key"> 2
+        </tm-instructor-help-students-section>
+      </div>
+      <div id="sessions">
+        <tm-instructor-help-students-section [key]="key"> 3
+        </tm-instructor-help-students-section>
+      </div>
+      <div id="questions">
+        <tm-instructor-help-students-section [key]="key"> 4
+        </tm-instructor-help-students-section>
+      </div>
     </div>
   </div>
 </div>
@@ -61,7 +62,6 @@
           <a (click)="scrollTo('questions')" [routerLink]="">Questions</a>
           <ng-container *ngIf="currentSection==='questions'"></ng-container>
         </li>
-        <hr>
         <li class="nav-item">
           <a (click)="scrollTo('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
           <ng-container *ngIf="currentSection==='body'"></ng-container>

@@ -8,12 +8,12 @@ export class ScrollSpyDirective {
     @Output() public sectionChange = new EventEmitter<string>();
     private currentSection = 'body';
 
-    constructor(private _el: ElementRef) {}
+    constructor(private el: ElementRef) {}
 
     @HostListener('scroll', ['$event'])
     onScroll(event: any) {
         let currentSection = 'body';
-        const children = this._el.nativeElement.children;
+        const children = this.el.nativeElement.children;
         const scrollTop = event.target.scrollTop;
         const parentOffset = event.target.offsetTop;
         for (let i = 0; i < children.length; i++) {
