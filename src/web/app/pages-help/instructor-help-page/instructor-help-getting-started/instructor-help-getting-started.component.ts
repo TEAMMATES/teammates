@@ -23,7 +23,7 @@ export class InstructorHelpGettingStartedComponent implements OnInit {
    */
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
-    if (destination !== null) {
+    if (destination) {
       destination.scrollIntoView();
       // to prevent the navbar from covering the text
       window.scrollTo(0, window.pageYOffset - 50);
