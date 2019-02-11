@@ -102,10 +102,9 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
         feedbackResponse.courseId = feedbackQuestion.getCourseId();
         feedbackResponse.feedbackSessionName = feedbackQuestion.getFeedbackSessionName();
-        feedbackResponse.feedbackQuestionType = feedbackQuestion.getQuestionType();
         feedbackResponse.feedbackQuestionId = feedbackQuestion.getId();
 
-        feedbackResponse.setResponseDetails(createRequest.getResponseDetails());
+        feedbackResponse.responseDetails = createRequest.getResponseDetails();
 
         validResponseOfQuestion(feedbackQuestion, feedbackResponse);
         try {

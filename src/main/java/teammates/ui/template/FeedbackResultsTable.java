@@ -64,7 +64,7 @@ public class FeedbackResultsTable {
 
         // Checks and find the perceived contrib response for a student without submission
         receivedFeedbacks.entrySet().forEach(entry -> entry.getValue().forEach(questionResponses -> {
-            if (questionResponses.feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)) {
+            if (questionResponses.getFeedbackQuestionType().equals(FeedbackQuestionType.CONTRIB)) {
                 newResponseDetails[0] = new FeedbackResponseAttributes(questionResponses);
                 if (entry.getKey().equals(this.studentName)) {
                     hasContriFeedbackResponseRow[0] = true;

@@ -1483,32 +1483,27 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Soft-deletes a specific feedback session to Recycle Bin.
-     * @return Soft-deletion time of the feedback session.
+     * @return the time when the feedback session is moved to the recycle bin
      */
     public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+            throws EntityDoesNotExistException {
 
-        return feedbackSession.getDeletedTime();
+        return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Restores a specific feedback session from Recycle Bin to feedback sessions table.
+     * Restores a specific feedback session from Recycle Bin.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
-        feedbackSession.resetDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+            throws EntityDoesNotExistException {
+        fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Restores all feedback sessions from Recycle Bin to feedback sessions table.
+     * Restores all feedback sessions from Recycle Bin.
      */
     public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
         List<FeedbackSessionAttributes> feedbackSessionsList =
