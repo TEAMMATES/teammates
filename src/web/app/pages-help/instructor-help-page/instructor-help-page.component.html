@@ -1,6 +1,6 @@
-<div style="width:1100px;">
+<div id="body" style="width:1100px;">
   <div scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
-    <h1 class="color-orange"> Help for Instructors</h1>
+    <h1 class="color-orange" id="body"> Help for Instructors</h1>
     <div>
       <p>
         Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
@@ -21,6 +21,18 @@
       <tm-instructor-help-students-section [key]="key"> 1
       </tm-instructor-help-students-section>
     </div>
+    <div id="courses">
+      <tm-instructor-help-students-section [key]="key"> 2
+      </tm-instructor-help-students-section>
+    </div>
+    <div id="sessions">
+      <tm-instructor-help-students-section [key]="key"> 3
+      </tm-instructor-help-students-section>
+    </div>
+    <div id="questions">
+      <tm-instructor-help-students-section [key]="key"> 4
+      </tm-instructor-help-students-section>
+    </div>
   </div>
 </div>
 
@@ -33,10 +45,6 @@
         <br>
       </p>
       <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-          <a (click)="scrollTo('body')" [routerLink]="">Getting Started</a>
-          <ng-container *ngIf="currentSection==='body'"></ng-container>
-        </li>
         <li class="nav-item">
           <a (click)="scrollTo('students')" [routerLink]="">Students</a>
           <ng-container *ngIf="currentSection==='students'"></ng-container>
@@ -52,6 +60,11 @@
         <li class="nav-item">
           <a (click)="scrollTo('questions')" [routerLink]="">Questions</a>
           <ng-container *ngIf="currentSection==='questions'"></ng-container>
+        </li>
+        <hr>
+        <li class="nav-item">
+          <a (click)="scrollTo('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
+          <ng-container *ngIf="currentSection==='body'"></ng-container>
         </li>
       </ul>
     </div>
