@@ -13,9 +13,9 @@ import teammates.storage.entity.CourseStudent;
 
 
 /**
- * Script check if any teamname .
+ * Script to check if any team name is a email.
  *
- * <p>See issue #8830</p>
+ * <p>See issue #7285</p>
  */
 public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<CourseStudent> {
 
