@@ -38,9 +38,10 @@ public class RemindFeedbackSessionResultAction extends Action {
                     + "as the feedback session is not published.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        String[] usersToEmail =
-                getNonNullRequestParamValues(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
-        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName, usersToEmail);
+        String usersToEmail =
+                getNonNullRequestParamValue(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
+        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName,
+                usersToEmail.split(","));
 
         return new JsonResult("Reminders sent");
     }
