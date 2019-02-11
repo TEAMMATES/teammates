@@ -105,7 +105,6 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
     private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId,
                                                           String instructorName, String instructorEmail) {
         String instructorRole = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
-       // boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         boolean isDisplayedToStudents = true;
         if (getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null) {
             isDisplayedToStudents = Boolean.parseBoolean(getRequestParamValue(

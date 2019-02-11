@@ -149,7 +149,7 @@ public final class InstructorsLogic {
     public boolean isNoInstructorDisplayedToStudentsAfterEditing(String courseId, boolean isEditedInstructorDisplayed) {
 
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
-        return (instructorsDisplayed.size() == 0) || (instructorsDisplayed.size() == 1 && !isEditedInstructorDisplayed);
+        return (instructorsDisplayed.isEmpty()) || (instructorsDisplayed.size() == 1 && !isEditedInstructorDisplayed);
     }
 
     /**
