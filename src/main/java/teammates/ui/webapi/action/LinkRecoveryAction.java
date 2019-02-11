@@ -43,6 +43,7 @@ public class LinkRecoveryAction extends Action {
                             + TeammatesException.toStringWithStackTrace(e));
                     return new JsonResult(new EmailRestoreResponse(EmailResponseResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND,
                             "Link recovery email failed to send"));
+                    // tets
                 }
             }
 
