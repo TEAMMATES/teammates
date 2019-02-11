@@ -10,14 +10,14 @@ import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import {
+  InstructorHelpGettingStartedComponent,
+} from './instructor-help-getting-started/instructor-help-getting-started.component';
+import {
   InstructorHelpQuestionsSectionComponent,
 } from './instructor-help-questions-section/instructor-help-questions-section.component';
 import {
   InstructorHelpSessionsSectionComponent,
 } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
-import {
-  InstructorHelpGettingStartedComponent,
-} from './instructor-help-getting-started/instructor-help-getting-started.component';
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
