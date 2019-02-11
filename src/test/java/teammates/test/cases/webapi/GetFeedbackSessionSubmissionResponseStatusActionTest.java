@@ -44,7 +44,7 @@ public class GetFeedbackSessionSubmissionResponseStatusActionTest extends
         ______TS("Typical case");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName(),
         };
 
         GetFeedbackSessionSubmissionResponseStatusAction pageAction = getAction(submissionParams);
@@ -63,7 +63,7 @@ public class GetFeedbackSessionSubmissionResponseStatusActionTest extends
         FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }

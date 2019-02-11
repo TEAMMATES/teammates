@@ -58,7 +58,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         String[] paramsFeedbackSessionNotOpen = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         RemindFeedbackSessionSubmissionAction action = getAction(paramsFeedbackSessionNotOpen);
@@ -72,7 +72,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         action = getAction(paramsTypical);
@@ -91,7 +91,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
