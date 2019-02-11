@@ -54,7 +54,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
 
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
         };
         EditInstructorInCourseAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
@@ -92,7 +92,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         a = getAction(submissionParams);
@@ -126,7 +126,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         a = getAction(addUserIdToParams(instructorId, submissionParams));
@@ -161,7 +161,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         try {
@@ -188,7 +188,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         try {
@@ -215,7 +215,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         try {
@@ -246,7 +246,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

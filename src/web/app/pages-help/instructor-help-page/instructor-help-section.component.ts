@@ -101,4 +101,12 @@ export class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterV
       }
     }
   }
+
+  /**
+   * Checks if any question in the subsection is to be displayed after the search
+   */
+  displaySubsection(questionsToDisplay: Boolean[], firstPoint: number, lastPoint: number): boolean {
+    return questionsToDisplay.length === 0 || questionsToDisplay.slice(firstPoint, lastPoint)
+        .reduce((x: any, y: any) => x || y, false);
+  }
 }

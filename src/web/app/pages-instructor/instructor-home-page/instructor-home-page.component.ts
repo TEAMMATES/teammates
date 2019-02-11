@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { FeedbackSession, FeedbackSessions, MessageOutput } from '../../../types/api-output';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -16,7 +18,6 @@ import {
 } from '../../components/sessions-table/sessions-table-model';
 import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackSession, FeedbackSessions } from '../../feedback-session';
 import { defaultInstructorPrivilege, InstructorPrivilege } from '../../instructor-privilege';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 
@@ -54,8 +55,10 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
               private route: ActivatedRoute, private ngbModal: NgbModal, private timezoneService: TimezoneService) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+    super(router, httpRequestService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
   }

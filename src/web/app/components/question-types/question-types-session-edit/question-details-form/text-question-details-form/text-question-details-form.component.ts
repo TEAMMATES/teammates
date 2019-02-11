@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FeedbackTextQuestionDetails,
-} from '../../../../../feedback-question';
+import { FeedbackQuestionType, FeedbackTextQuestionDetails } from '../../../../../../types/api-output';
 import { QuestionDetailsFormComponent } from '../question-details-form.component';
 
 /**
@@ -18,6 +16,8 @@ export class TextQuestionDetailsFormComponent extends QuestionDetailsFormCompone
   constructor() {
     super({
       recommendedLength: 0,
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: '',
     });
   }
 

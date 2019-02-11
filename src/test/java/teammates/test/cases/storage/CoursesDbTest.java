@@ -1,5 +1,6 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,16 +155,16 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
 
         CourseAttributes c = createNewCourse();
-        c.setDeletedAt();
         CourseAttributes updatedCourse = CourseAttributes
                 .builder(c.getId(), c.getName() + " updated", ZoneId.of("UTC"))
                 .withDeletedAt(c.deletedAt)
                 .build();
 
         coursesDb.updateCourse(updatedCourse);
+        Instant deletedTime = coursesDb.softDeleteCourse(updatedCourse.getId());
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertEquals(c.getName() + " updated", retrieved.getName());
-        assertEquals(c.deletedAt, retrieved.deletedAt);
+        assertEquals(deletedTime, retrieved.deletedAt);
     }
 
     @Test
@@ -183,6 +184,28 @@ public class CoursesDbTest extends BaseComponentTestCase {
         coursesDb.deleteCourse(c.getId());
 
         ______TS("Failure: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+    }
+
+    @Test
+    public void testSoftDeleteCourse() throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes c = createNewCourse();
+
+        ______TS("Success: soft delete an existing course");
+        coursesDb.softDeleteCourse(c.getId());
+        CourseAttributes deleted = coursesDb.getCourse(c.getId());
+
+        assertTrue(deleted.isCourseDeleted());
+
+        ______TS("Success: restore soft deleted course");
+        coursesDb.restoreDeletedCourse(deleted.getId());
+        CourseAttributes restored = coursesDb.getCourse(deleted.getId());
+        assertFalse(restored.isCourseDeleted());
+
+        ______TS("null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());

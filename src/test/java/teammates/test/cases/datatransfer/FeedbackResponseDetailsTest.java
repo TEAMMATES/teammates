@@ -3,6 +3,7 @@ package teammates.test.cases.datatransfer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -37,7 +38,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         ______TS("TEXT Response");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
-        HashMap<String, String[]> requestParameters = new HashMap<>();
+        Map<String, String[]> requestParameters = new HashMap<>();
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "text answer" });
 
@@ -142,7 +143,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         msqQuestionDetails = new FeedbackMsqQuestionDetails();
         requestParameters.put("questiontype-7", new String[] { "MSQ" });
         requestParameters.put("responsetext-7-0", new String[] {
-                "msq option 1", "msq option 2", "msq option 3", "other answer"
+                "msq option 1", "msq option 2", "msq option 3", "other answer",
         });
         requestParameters.put("msqIsOtherOptionAnswer-7-0", new String[] { "1" });
 
@@ -282,5 +283,15 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertEquals("[0, 0]", responseDetails.getAnswerString());
         requestParameters.clear();
 
+    }
+
+    @Test
+    public void testGetDeepCopy() {
+        FeedbackTextResponseDetails frd = new FeedbackTextResponseDetails("original");
+        FeedbackResponseDetails frdDeep = frd.getDeepCopy();
+        frd.answer = "updated";
+
+        assertEquals("updated", frd.getAnswerString());
+        assertEquals("original", frdDeep.getAnswerString());
     }
 }

@@ -189,37 +189,45 @@
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "FQLogicPCT.charlie.d@gmail.tmt",
       "recipient": "Team 1\"><'",
-      "responseMetaData": "Team 2 (charlie) to team 1"
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Team 2 (charlie) to team 1"
+      }
     },
     "response2": {
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "FQLogicPCT.danny.e@gmail.tmt",
       "recipient": "Team 1\"><'",
-      "responseMetaData": "Team 2 (danny) to team 1"
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Team 2 (danny) to team 1"
+      }
     },
     "response3": {
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "FQLogicPCT.emily.f@gmail.tmt",
       "recipient": "Team 1\"><'",
-      "responseMetaData": "Team 3 to Team 1 \r\n multiline special char test"
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Team 3 to Team 1 \r\n multiline special char test"
+      }
     },
     "response4": {
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "FQLogicPCT.alice.b@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "alice to team 2"
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "alice to team 2"
+      }
     }
   },
   "feedbackResponseComments": {},
