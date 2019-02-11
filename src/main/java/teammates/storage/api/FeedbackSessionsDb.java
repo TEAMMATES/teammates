@@ -342,6 +342,45 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addStudentRespondents(emails, feedbackSession);
     }
 
+    /**
+     * Soft-deletes a specific feedback session by its name and course id.
+     * @return Soft-deletion time of the feedback session.
+     */
+    public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+
+        FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
+
+        if (sessionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        sessionEntity.setDeletedTime(Instant.now());
+        saveEntity(sessionEntity);
+
+        return sessionEntity.getDeletedTime();
+    }
+
+    /**
+     * Restores a specific soft deleted feedback session.
+     */
+    public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+
+        FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
+
+        if (sessionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        sessionEntity.setDeletedTime(null);
+        saveEntity(sessionEntity);
+    }
+
     // The objectify library does not support throwing checked exceptions inside transactions
     @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)

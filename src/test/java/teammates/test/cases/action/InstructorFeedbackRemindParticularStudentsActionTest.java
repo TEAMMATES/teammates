@@ -35,7 +35,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         };
         verifyAssumptionFailure(paramsNoCourseId);
         String[] paramsNoFeedback = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId()
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
         };
         verifyAssumptionFailure(paramsNoFeedback);
 
@@ -58,7 +58,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         String[] paramsFeedbackSessionNotOpen = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         action = getAction(paramsFeedbackSessionNotOpen);
@@ -73,7 +73,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         action = getAction(paramsTypical);
@@ -100,7 +100,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

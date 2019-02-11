@@ -2,9 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../../services/visibility-state-machine';
-import { FeedbackParticipantType } from '../../../feedback-participant-type';
-import { FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../feedback-question';
-import { FeedbackVisibilityType, VisibilityControl } from '../../../feedback-visibility';
+import {
+  FeedbackParticipantType,
+  FeedbackQuestionType, FeedbackTextQuestionDetails,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../../types/api-output';
+import { VisibilityControl } from '../../../../types/visibility-control';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
 /**
@@ -101,7 +105,9 @@ export class QuestionEditFormComponent implements OnInit {
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       recommendedLength: 0,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: '',
+    } as FeedbackTextQuestionDetails,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.STUDENTS,

@@ -1,5 +1,5 @@
 import { EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FeedbackQuestionDetails } from '../../../../feedback-question';
+import { FeedbackQuestionDetails } from '../../../../../types/api-output';
 
 /**
  * The abstract question details edit form component.

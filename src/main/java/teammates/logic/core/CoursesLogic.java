@@ -576,7 +576,7 @@ public final class CoursesLogic {
     public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
+        Map<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
         List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorAttributesList) {
@@ -666,25 +666,18 @@ public final class CoursesLogic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     * @return Soft-deletion time of the course.
+     * @return the time when the course is moved to the recycle bin
      */
-    public Instant moveCourseToRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.setDeletedAt();
-        coursesDb.updateCourse(course);
+    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
 
-        return course.deletedAt;
+        return coursesDb.softDeleteCourse(courseId);
     }
 
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
-    public void restoreCourseFromRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.resetDeletedAt();
-        coursesDb.updateCourse(course);
+    public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
+        coursesDb.restoreDeletedCourse(courseId);
     }
 
     /**
@@ -707,7 +700,7 @@ public final class CoursesLogic {
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
+        Map<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
         List<String> courseIdList = instructorAttributesList.stream()
                 .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())

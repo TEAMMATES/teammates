@@ -292,10 +292,8 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
         assertFalse(validCourse.isCourseDeleted());
 
         coursesPage.moveCourseToRecycleBin(courseId);
-        validCourse.setDeletedAt();
 
         assertNotNull(BackDoor.getCourse(courseId));
-        assertTrue(validCourse.isCourseDeleted());
         coursesPage.verifyHtmlMainContent("/instructorCoursesMoveToRecycleBinSuccessful.html");
     }
 

@@ -87,15 +87,14 @@
               ></textarea>
             </div>
           </div>
-          <div class="row padding-15px align-items-center">
+          <div class="row padding-15px">
             <div class="col-2">
               <div class="question-basic-info">[Optional]<br/>Description</div>
             </div>
             <div class="col-10">
-              <textarea class="form-control" [ngModel]="model.questionDescription" (ngModelChange)="triggerModelChange('questionDescription', $event)" [disabled]="!model.isEditable"
-                        placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
-                        ngbTooltip="Please enter the description of the question."
-              ></textarea>
+              <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable"
+                                   placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
+                                   ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>
             </div>
           </div>
           <div class="padding-15px">
