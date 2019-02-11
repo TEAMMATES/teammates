@@ -52,6 +52,9 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 import { StatusMessageModule } from '../components/status-message/status-message.module';
+import {
+  InstructorHelpGettingStartedComponent,
+} from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
 import { InstructorHomePageModule } from './instructor-home-page/instructor-home-page.module';
 
 const routes: Routes = [
@@ -153,6 +156,10 @@ const routes: Routes = [
   {
     path: 'help',
     component: InstructorHelpPageComponent,
+  },
+  {
+    path: 'getting-started',
+    component: InstructorHelpGettingStartedComponent,
   },
   {
     path: '',
