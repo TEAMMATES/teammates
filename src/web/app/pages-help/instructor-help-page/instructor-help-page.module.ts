@@ -10,6 +10,9 @@ import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import {
+  InstructorHelpGettingStartedComponent,
+} from './instructor-help-getting-started/instructor-help-getting-started.component';
+import {
   InstructorHelpQuestionsSectionComponent,
 } from './instructor-help-questions-section/instructor-help-questions-section.component';
 import {
@@ -35,6 +38,7 @@ import {
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
+    InstructorHelpGettingStartedComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
