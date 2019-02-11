@@ -55,8 +55,6 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
         };
         EditInstructorInCourseAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
@@ -113,7 +111,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorToEdit.email,
 
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -131,6 +129,10 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
         a = getAction(submissionParams);
         r = getJsonResult(a);
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+
+        msg = (MessageOutput) r.getOutput();
+        String expectedMessage = "At least one instructor must be displayed to students";
+        assertEquals(expectedMessage, msg.getMessage());
 
         ______TS("Masquerade mode: edit instructor successfully");
 

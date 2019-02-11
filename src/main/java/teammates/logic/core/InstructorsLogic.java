@@ -146,9 +146,10 @@ public final class InstructorsLogic {
     /**
      * Returns whether at least one instructor is displayed to the students.
      */
-    public boolean isNoInstructorDisplayedToStudents(String courseId) {
+    public boolean isNoInstructorDisplayedToStudentsAfterEditing(String courseId, boolean isEditedInstructorDisplayed) {
 
-        return instructorsDb.getInstructorsDisplayedToStudents(courseId).size() == 0;
+        List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
+        return (instructorsDisplayed.size() == 0) || (instructorsDisplayed.size() == 1 && !isEditedInstructorDisplayed);
     }
 
     /**
@@ -185,7 +186,7 @@ public final class InstructorsLogic {
     public void verifyAtleastOneInstructorIsDisplayed(String courseId, boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
 
-        if (isNoInstructorDisplayedToStudents(courseId) && !isEditedInstructorDisplayed) {
+        if (isNoInstructorDisplayedToStudentsAfterEditing(courseId, isEditedInstructorDisplayed)) {
             throw new InvalidParametersException("At least one instructor must be displayed to students");
         }
     }

@@ -554,7 +554,7 @@
       "email": "instructorNotDisplayed@NotDisplayed.tmt",
       "isArchived": true,
       "role": "Co-owner",
-      "isDisplayedToStudents": false,
+      "isDisplayedToStudents": true,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {

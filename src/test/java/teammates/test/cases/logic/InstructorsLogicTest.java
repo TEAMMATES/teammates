@@ -393,8 +393,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseId, isEditedInstructorDisplayed);
         instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseId, !isEditedInstructorDisplayed);
-        instructorsLogic.verifyAtleastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
-                isEditedInstructorDisplayed);
 
         ______TS("failure: No instructors displayed to students");
 
