@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
 
-import com.mailjet.client.resource.Email;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
