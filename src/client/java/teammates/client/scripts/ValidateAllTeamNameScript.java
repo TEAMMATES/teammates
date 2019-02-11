@@ -1,15 +1,34 @@
 package teammates.client.scripts;
 
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+
 import teammates.storage.entity.CourseStudent;
 
-import java.io.IOException;
 
-public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<CourseStudent>{
+
+
+/**
+ * Script check if any teamname .
+ *
+ * <p>See issue #8830</p>
+ */
+public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<CourseStudent> {
+
+    private final Pattern emailRegex =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static void main(String[] args) throws IOException {
         new ValidateAllTeamNameScript().doOperationRemotely();
+    }
+
+    private boolean validate(String emailStr) {
+        Matcher matcher = emailRegex.matcher(emailStr);
+        return matcher.find();
     }
 
     @Override
@@ -33,14 +52,14 @@ public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<C
     }
 
     @Override
-    protected boolean isMigrationNeeded(Key<CourseStudent> key) throws Exception {
+    protected boolean isMigrationNeeded(Key<CourseStudent> key) {
         CourseStudent student = ofy().load().key(key).now();
-
-        return student.getTeamName().equals(student.getEmail());
+        String teamName = student.getTeamName();
+        return teamName.equals(student.getEmail()) || validate(teamName);
     }
 
     @Override
-    protected void migrateEntity(Key<CourseStudent> entity) throws Exception {
+    protected void migrateEntity(Key<CourseStudent> entity) {
         // no actual data migrations needed.
     }
 }
