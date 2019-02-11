@@ -14,6 +14,9 @@ import {
   ConfirmUnpublishingSessionModalComponent,
 } from './confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import {
+  ResendResultsLinkToStudentModalComponent,
+} from './resend-results-link-to-student-modal/resend-results-link-to-student-modal.component';
+import {
   SendRemindersToStudentModalComponent,
 } from './send-reminders-to-student-modal/send-reminders-to-student-modal.component';
 import {
@@ -89,6 +92,9 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   sendRemindersToStudentsEvent: EventEmitter<{row: number, users: string[]}> = new EventEmitter();
 
+  @Output()
+  resendResultsLinkToStudentsEvent: EventEmitter<{row: number, students: string[]}> = new EventEmitter();
+
   constructor(private modalService: NgbModal) { }
 
   /**
@@ -148,6 +154,21 @@ export class SessionsTableComponent implements OnInit {
 
     modalRef.result.then(() => {
       this.unpublishSessionEvent.emit(rowIndex);
+    }, () => {});
+  }
+
+  /**
+   * Resend links to students to view results.
+   */
+  remindResultsLinkToStudent(rowIndex: number): void {
+    const modalRef: NgbModalRef = this.modalService.open(ResendResultsLinkToStudentModalComponent);
+    const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
+
+    modalRef.componentInstance.courseId = model.feedbackSession.courseId;
+    modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
+
+    modalRef.result.then((studentsToResendResultsLink: string[]) => {
+      this.resendResultsLinkToStudentsEvent.emit({ row: rowIndex, students: studentsToResendResultsLink });
     }, () => {});
   }
 

@@ -248,6 +248,25 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
+   * Sends e-mails to remind students on the published results link.
+   */
+  resendResultsLinkToStudents(model: SessionsTableRowModel, studentsToResendLink: string[]): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+      usersToResendEmail: studentsToResendLink.join(','),
+    };
+
+    this.httpRequestService.post('/session/remind/result', paramMap).subscribe(() => {
+      this.statusMessageService.showSuccessMessage(
+          'Session published notification emails have been resent to those students and instructors. '
+          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
   sendRemindersToStudents(model: SessionsTableRowModel, usersToRemind: string[]): void {

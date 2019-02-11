@@ -1,5 +1,6 @@
 import { FeedbackSession } from '../../feedback-session';
 import { InstructorPrivilege } from '../../instructor-privilege';
+import { StudentFeedbackSessionResponseStatus } from '../../student';
 
 /**
  * The model for a row of the sessions table.
@@ -10,6 +11,14 @@ export interface SessionsTableRowModel {
   isLoadingResponseRate: boolean;
 
   instructorPrivilege: InstructorPrivilege;
+}
+
+/**
+ * The model for a row of the student status table.
+ */
+export interface StudentStatusTableRowModel {
+  studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus;
+  isChecked: boolean;
 }
 
 /**

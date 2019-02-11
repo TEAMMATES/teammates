@@ -303,6 +303,14 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   }
 
   /**
+   * Sends e-mails to remind students on the published results link.
+   */
+  resendResultsLinkToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
+    this.resendResultsLinkToStudents(this.courseTabModels[tabIndex]
+        .sessionsTableRowModels[remindInfo.row], remindInfo.students);
+  }
+
+  /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
   sendRemindersToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
