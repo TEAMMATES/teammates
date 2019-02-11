@@ -102,7 +102,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         spa.modifiedDate = TimeHelper.parseInstant("2015-05-21 8:34 AM +0000");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
-                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
+                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"FEMALE\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
                      + "\n  \"modifiedDate\": \"2015-05-21T08:34:00Z\"\n}",
