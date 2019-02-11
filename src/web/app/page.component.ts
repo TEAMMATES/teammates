@@ -41,7 +41,6 @@ export class PageComponent implements OnInit {
   messageList: StatusMessage[] = [];
   isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
-  alertDismissed: boolean = false;
 
   /**
    * Minimum versions of browsers supported.
@@ -81,13 +80,6 @@ export class PageComponent implements OnInit {
         fromEvent(window, 'online').pipe(mapTo(true)),
         fromEvent(window, 'offline').pipe(mapTo(false)),
     );
-  }
-
-  /**
-   * Helper method to dismiss alert on page
-   */
-  closeAlert(): void {
-    this.alertDismissed = true;
   }
 
   private checkBrowserVersion(): void {

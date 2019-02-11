@@ -42,8 +42,8 @@
   </div>
 </nav>
 <div id="main-content" class="container main-content">
-  <div *ngIf="isUnsupportedBrowser && !alertDismissed">
-    <ngb-alert type="info" (close)="closeAlert()">
+  <div *ngIf="isUnsupportedBrowser">
+    <div class="alert alert-danger" role="alert">
       <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.
       In case this web browser does not display the webpage correctly you may wish to view it in the following supported browsers:
       <ol>
@@ -52,7 +52,7 @@
         <li>Firefox {{ minimumVersions['Firefox'] }}+</li>
         <li>Safari {{ minimumVersions['Safari'] }}+</li>
       </ol>
-    </ngb-alert>
+    </div>
   </div>
   <div *ngIf="!(isNetworkOnline$ | async)">
     <div class="alert alert-danger" role="alert">
