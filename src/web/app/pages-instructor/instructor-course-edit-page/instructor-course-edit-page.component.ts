@@ -380,6 +380,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const instructorIsDisplayed: string = 'instructorisdisplayed';
     if (editedInstructor.isDisplayedToStudents) {
       paramsMap[instructorIsDisplayed] = 'true';
+    } else {
+      paramsMap[instructorIsDisplayed] = 'false';
     }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
