@@ -1,4 +1,4 @@
-<div id="body" style="width:1100px;">
+<div style="width:1100px;">
   <div scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
     <h1 class="color-orange"> Help for Instructors</h1>
     <div>
@@ -21,18 +21,6 @@
       <tm-instructor-help-students-section [key]="key"> 1
       </tm-instructor-help-students-section>
     </div>
-    <div id="courses">
-      <tm-instructor-help-students-section [key]="key"> 2
-      </tm-instructor-help-students-section>
-    </div>
-    <div id="sessions">
-      <tm-instructor-help-students-section [key]="key"> 3
-      </tm-instructor-help-students-section>
-    </div>
-    <div id="questions">
-      <tm-instructor-help-students-section [key]="key"> 4
-      </tm-instructor-help-students-section>
-    </div>
   </div>
 </div>
 
@@ -46,23 +34,23 @@
       </p>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <a (click)="scrollTo('body')">Getting Started</a>
+          <a (click)="scrollTo('body')" [routerLink]="">Getting Started</a>
           <ng-container *ngIf="currentSection==='body'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('students')">Students</a>
+          <a (click)="scrollTo('students')" [routerLink]="">Students</a>
           <ng-container *ngIf="currentSection==='students'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('courses')">Courses</a>
+          <a (click)="scrollTo('courses')" [routerLink]="">Courses</a>
           <ng-container *ngIf="currentSection==='courses'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('sessions')">Sessions</a>
+          <a (click)="scrollTo('sessions')" [routerLink]="">Sessions</a>
           <ng-container *ngIf="currentSection==='sessions'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('questions')">Questions</a>
+          <a (click)="scrollTo('questions')" [routerLink]="">Questions</a>
           <ng-container *ngIf="currentSection==='questions'"></ng-container>
         </li>
       </ul>
