@@ -4,7 +4,13 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 import teammates.storage.entity.CourseStudent;
 
+import java.io.IOException;
+
 public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<CourseStudent>{
+
+    public static void main(String[] args) throws IOException {
+        new ValidateAllTeamNameScript().doOperationRemotely();
+    }
 
     @Override
     protected Query<CourseStudent> getFilterQuery() {
