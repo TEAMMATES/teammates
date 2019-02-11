@@ -375,14 +375,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructoremail: editedInstructor.email,
       instructorrole: editedInstructor.role,
       instructordisplayname: editedInstructor.displayedName,
+      instructorisdisplayed: editedInstructor.isDisplayedToStudents.toString(),
     };
-
-    const instructorIsDisplayed: string = 'instructorisdisplayed';
-    if (editedInstructor.isDisplayedToStudents) {
-      paramsMap[instructorIsDisplayed] = 'true';
-    } else {
-      paramsMap[instructorIsDisplayed] = 'false';
-    }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
         .subscribe((resp: MessageOutput) => {
