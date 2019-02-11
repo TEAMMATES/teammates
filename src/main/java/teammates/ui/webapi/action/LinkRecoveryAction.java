@@ -2,11 +2,9 @@ package teammates.ui.webapi.action;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.ApiOutput;
 
