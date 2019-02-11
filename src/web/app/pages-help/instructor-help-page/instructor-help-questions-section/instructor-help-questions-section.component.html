@@ -2,7 +2,7 @@
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Questions</h2>
   <!-- Question -->
-  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+  <div class="instr-help-qn0" *ngIf="displaySubsection(showQuestion, 0, 1)" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
         Essay Questions
