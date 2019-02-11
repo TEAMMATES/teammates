@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
+import {
+  InstructorHelpGettingStartedComponent,
+} from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
@@ -55,7 +58,15 @@ const routes: Routes = [
         path: 'instructor',
         component: InstructorHelpPageComponent,
       },
+      {
+        path: 'getting-started',
+        component: InstructorHelpGettingStartedComponent,
+      },
     ],
+  },
+  {
+    path: 'getting-started',
+    component: InstructorHelpGettingStartedComponent,
   },
   {
     path: '',

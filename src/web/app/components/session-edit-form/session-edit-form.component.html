@@ -106,7 +106,7 @@
             Instructions
           </div>
           <div class="col-8" ngbTooltip="Enter instructions for this feedback session. e.g. Avoid comments which are too critical. It will be displayed at the top of the page when users respond to the session.">
-            <textarea class="form-control" [ngModel]="model.instructions" (ngModelChange)="triggerModelChange('instructions', $event)" [disabled]="!model.isEditable"></textarea>
+            <tm-rich-text-editor [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable"></tm-rich-text-editor>
           </div>
         </div>
         <br/>

@@ -5,6 +5,8 @@ import java.time.Instant;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
@@ -33,6 +35,64 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testConstructorWithCopy_shouldDoDeepCopyOfResponseDetails() {
+        FeedbackResponseAttributes fra1 = new FeedbackResponseAttributes(
+                "Session1", "CS3281",
+                "questionId", "giver@email.com", "giverSection",
+                "recipient@email.com", "recipientSection",
+                new FeedbackTextResponseDetails("My original answer"));
+        FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
+
+        ((FeedbackTextResponseDetails) fra2.responseDetails).answer = "My second answer";
+        assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
+        assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
+
+    }
+
+    @Test
+    public void testConstructorWithAllAttributes_shouldDoDeepCopyOfResponseDetails() {
+        FeedbackTextResponseDetails detail = new FeedbackTextResponseDetails("My original answer");
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                "Session1", "CS3281",
+                "questionId", "giver@email.com", "giverSection",
+                "recipient@email.com", "recipientSection", detail);
+
+        detail.answer = "Updated answer";
+
+        assertEquals("My original answer", fra.responseDetails.getAnswerString());
+        assertEquals("Updated answer", detail.answer);
+    }
+
+    @Test
+    public void testGetResponseDetails_shouldDoDeepCopy() {
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                "Session1", "CS3281",
+                "questionId", "giver@email.com", "giverSection",
+                "recipient@email.com", "recipientSection",
+                new FeedbackTextResponseDetails("My original answer"));
+        FeedbackResponseDetails frdDeep = fra.getResponseDetails();
+
+        ((FeedbackTextResponseDetails) fra.responseDetails).answer = "My second answer";
+        assertEquals(frdDeep.getAnswerString(), "My original answer");
+    }
+
+    @Test
+    public void testSetResponseDetails_shouldDoDeepCopy() {
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                "Session1", "CS3281",
+                "questionId", "giver@email.com", "giverSection",
+                "recipient@email.com", "recipientSection",
+                new FeedbackTextResponseDetails("My original answer"));
+        FeedbackTextResponseDetails updatedDetails = new FeedbackTextResponseDetails("Updated answer");
+        fra.setResponseDetails(updatedDetails);
+        updatedDetails.answer = "Modified deep copy answer";
+
+        assertEquals(updatedDetails.getAnswerString(), "Modified deep copy answer");
+        assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");
+
+    }
+
+    @Test
     public void testGetBackUpIdentifier() {
         FeedbackResponseAttributes responseAttributes = new FeedbackResponseAttributes();
         responseAttributes.setId("Valid-Response-id");
@@ -52,5 +112,4 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         }
 
     }
-
 }
