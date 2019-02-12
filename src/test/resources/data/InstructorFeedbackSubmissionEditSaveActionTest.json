@@ -204,7 +204,6 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -219,12 +218,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      }
     },
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "Rate 3 students' products",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -240,12 +242,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 students' products"
+      }
     },
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "Comments about the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -257,12 +262,15 @@
       "showGiverNameTo": [],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Comments about the class"
+      }
     },
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "This question should be hidden.",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -276,12 +284,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should be hidden."
+      }
     },
     "qn5InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "This question should be hidden.",
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -295,12 +306,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should be hidden."
+      }
     },
     "qn6InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "Give feedback to other instructors.",
       "questionNumber": 6,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -314,12 +328,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to other instructors."
+      }
     },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -333,12 +350,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your instructors"
+      }
     },
     "qn1InGracePeriodSession": {
       "feedbackSessionName": "Session in Grace Period",
       "courseId": "idOfCourse1",
-      "questionMetaData": "Give feedback.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -352,7 +372,11 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback."
+      }
     }
   },
   "feedbackResponses": {

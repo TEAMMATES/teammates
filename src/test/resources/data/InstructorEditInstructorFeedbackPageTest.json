@@ -269,7 +269,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "How do you think you can improve yourself?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -286,12 +285,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "How do you think you can improve yourself?"
+      }
     },
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate your perceived contribution of these people.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 2,
       "questionType": "NUMSCALE",
       "giverType": "INSTRUCTORS",
@@ -310,12 +312,18 @@
         "INSTRUCTORS",
         "STUDENTS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate your perceived contribution of these people.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      }
     },
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "What do you think of the students?",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -332,12 +340,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What do you think of the students?"
+      }
     },
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -352,12 +363,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question"
+      }
     },
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see the givers for this question",
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -373,12 +387,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see the givers for this question"
+      }
     },
     "qn6InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}",
       "questionNumber": 6,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -392,12 +409,25 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "mcqWeights": [],
+        "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "otherEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What do you like best about the class' product?"
+      }
     },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "Talk about your contributions",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -413,12 +443,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Talk about your contributions"
+      }
     },
     "qn1InClosedsession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "Talk about your contributions",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -434,12 +467,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Talk about your contributions"
+      }
     },
     "qn2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IEIFPTCourse",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -456,7 +492,17 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionText": "What do you like best about our product?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      }
     }
   },
   "feedbackResponses": {

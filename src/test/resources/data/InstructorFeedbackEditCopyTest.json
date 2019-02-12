@@ -406,7 +406,6 @@
     "qn1": {
       "feedbackSessionName": "First Session",
       "courseId": "FeedbackEditCopy.CS2104",
-      "questionMetaData": "student self feedback",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -421,7 +420,11 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student self feedback"
+      }
     }
   },
   "feedbackResponses": {

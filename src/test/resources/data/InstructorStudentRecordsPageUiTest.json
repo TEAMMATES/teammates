@@ -438,7 +438,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
-      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -452,12 +451,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      }
     },
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -473,12 +475,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     },
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
-      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -501,12 +506,15 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      }
     },
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
-      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}",
       "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -520,12 +528,25 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "mcqWeights": [],
+        "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "otherEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What do you like best about our product?"
+      }
     },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "ISR.CS2104",
-      "questionMetaData": "Give feedback to 2 other teams.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -539,12 +560,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      }
     },
     "qn2InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "ISR.CS2104",
-      "questionMetaData": "Give feedback to 1 of your team mates",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -558,12 +582,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 1 of your team mates"
+      }
     },
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
-      "questionMetaData": "Please rate the following teams",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -571,7 +598,11 @@
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [],
       "showGiverNameTo": [],
-      "showRecipientNameTo": []
+      "showRecipientNameTo": [],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate the following teams"
+      }
     }
   },
   "feedbackResponses": {

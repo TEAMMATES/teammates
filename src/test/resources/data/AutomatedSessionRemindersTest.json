@@ -137,7 +137,6 @@
     "questionForOpeningSession": {
       "feedbackSessionName": "AutSessRem Opening Session",
       "courseId": "AutSessRem.course",
-      "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -151,12 +150,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      }
     },
     "questionForClosingSession": {
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
-      "questionMetaData": "This question is so that closing reminders will be sent to students as it is unanswered.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -170,12 +172,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that closing reminders will be sent to students as it is unanswered."
+      }
     },
     "questionForPublishedSession": {
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
-      "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -189,7 +194,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      }
     }
   },
   "feedbackResponses": {},

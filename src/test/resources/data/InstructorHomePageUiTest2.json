@@ -342,7 +342,6 @@
     "CHomeUiT.CS2104:First Feedback Session:Q1": {
       "feedbackSessionName": "First Feedback Session",
       "courseId": "CHomeUiT.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -358,12 +357,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     },
     "CHomeUiT.CS2104:Third Feedback Session:Q1": {
       "feedbackSessionName": "Third Feedback Session",
       "courseId": "CHomeUiT.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -379,7 +381,11 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     }
   },
   "feedbackResponses": {},

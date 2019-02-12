@@ -213,7 +213,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -227,12 +226,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      }
     },
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -248,12 +250,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      }
     },
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -276,12 +281,15 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      }
     },
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Instructor comments on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -304,12 +312,15 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor comments on the class"
+      }
     },
     "qnInUnviewableSession": {
       "feedbackSessionName": "Nonviewable feedback session",
       "courseId": "idOfCourseNoEvals",
-      "questionMetaData": "Please rate your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -317,7 +328,11 @@
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [],
       "showGiverNameTo": [],
-      "showRecipientNameTo": []
+      "showRecipientNameTo": [],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate your instructors"
+      }
     }
   },
   "feedbackResponses": {},

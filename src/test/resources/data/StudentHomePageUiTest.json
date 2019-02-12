@@ -405,7 +405,6 @@
     "SHomeUiT.CS2104:First Feedback Session:Q1": {
       "feedbackSessionName": "First Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -421,12 +420,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     },
     "SHomeUiT.CS2104:Graced Feedback Session:Q1": {
       "feedbackSessionName": "Graced Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -442,12 +444,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     },
     "SHomeUiT.CS2104:Future Feedback Session:Q1": {
       "feedbackSessionName": "Future Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -463,12 +468,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     },
     "SHomeUiT.CS2104:Closed Feedback Session:Q1": {
       "feedbackSessionName": "Closed Feedback Session",
       "courseId": "SHomeUiT.CS2104",
-      "questionMetaData": "Rate 5 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -484,12 +492,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      }
     },
     "SHomeUiT.CS4221:Feedback Session without Student Questions:Q1": {
       "feedbackSessionName": "Session without Student Questions",
       "courseId": "SHomeUiT.CS4221",
-      "questionMetaData": "This is a session without questions for students",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -507,7 +518,11 @@
         "INSTRUCTORS",
         "RECEIVER",
         "STUDENTS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This is a session without questions for students"
+      }
     }
   },
   "feedbackResponses": {},

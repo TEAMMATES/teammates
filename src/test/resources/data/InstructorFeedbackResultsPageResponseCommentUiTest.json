@@ -489,7 +489,6 @@
     "qn1InNoSectionsSession": {
       "feedbackSessionName": "NoSections Session",
       "courseId": "IFRResponseCommentUiT.NoSections",
-      "questionMetaData": "Dummy question for NoSections course session",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -508,12 +507,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Dummy question for NoSections course session"
+      }
     },
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "Rate 3 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -532,12 +534,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 other students' products"
+      }
     },
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -554,12 +559,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      }
     },
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "My comments on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -567,12 +575,15 @@
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [],
       "showGiverNameTo": [],
-      "showRecipientNameTo": []
+      "showRecipientNameTo": [],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      }
     },
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "Give feedback to 3 other teams.",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -589,12 +600,15 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 3 other teams."
+      }
     },
     "qn5InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "Give feedback to your team mates",
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -609,12 +623,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your team mates"
+      }
     },
     "qn6InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "This question should be hidden.",
       "questionNumber": 6,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -628,12 +645,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should be hidden."
+      }
     },
     "qn7InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"numOfMcqChoices\":4,\"mcqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
       "questionNumber": 7,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -650,12 +670,23 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "numOfMcqChoices": 4,
+        "mcqChoices": [
+          "FlexiCommand",
+          "PowerSearch",
+          "GoodUI",
+          "Google Integration"
+        ],
+        "questionText": "What is your extra feature?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      }
     },
     "qn8InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
       "questionNumber": 8,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -672,12 +703,22 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "msqChoices": [
+          "FlexiCommand",
+          "PowerSearch",
+          "GoodUI",
+          "Google Integration"
+        ],
+        "questionText": "What is your extra feature?",
+        "questionType": "MSQ",
+        "otherEnabled": false
+      }
     },
     "qn9InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Who do you think is the most hardworking student?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
       "questionNumber": 9,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -694,12 +735,17 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionText": "Who do you think is the most hardworking student?",
+        "questionType": "MCQ",
+        "generateOptionsFor": "STUDENTS",
+        "otherEnabled": false
+      }
     },
     "qn10InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Which team do you think has the best feature?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
       "questionNumber": 10,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -716,12 +762,17 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionText": "Which team do you think has the best feature?",
+        "questionType": "MCQ",
+        "generateOptionsFor": "TEAMS",
+        "otherEnabled": false
+      }
     },
     "qn2InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Who are your teammates?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
       "questionNumber": 2,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -738,12 +789,17 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionText": "Who are your teammates?",
+        "questionType": "MSQ",
+        "generateOptionsFor": "STUDENTS",
+        "otherEnabled": false
+      }
     },
     "qn3InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Which teams do you like?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
       "questionNumber": 3,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -760,12 +816,17 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionText": "Which teams do you like?",
+        "questionType": "MSQ",
+        "generateOptionsFor": "TEAMS",
+        "otherEnabled": false
+      }
     },
     "qn4InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 4,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -779,12 +840,18 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate our product.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      }
     },
     "qn5InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
       "questionNumber": 5,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -801,12 +868,23 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "distributeToRecipients": false,
+        "pointsPerOption": false,
+        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": [
+          "Grades",
+          "Fun"
+        ]
+      }
     },
     "qn6InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 6,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -823,12 +901,20 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among the your team members and yourself, according to how much you think each member has contributed.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      }
     },
     "qn7InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 7,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -846,12 +932,15 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionText": "Rate the contribution of yourself and your team members towards the latest project.",
+        "questionType": "CONTRIB"
+      }
     },
     "qn8InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate you and your team members work.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
       "questionNumber": 8,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -863,12 +952,18 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
-      "showRecipientNameTo": []
+      "showRecipientNameTo": [],
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate you and your team members work.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      }
     },
     "qn9InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate the class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.25}",
       "questionNumber": 9,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -880,12 +975,18 @@
       "showGiverNameTo": [],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate the class",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.25
+      }
     },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "Give feedback to your instructors",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -897,12 +998,15 @@
       "showGiverNameTo": [],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your instructors"
+      }
     },
     "qn10InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Rate the contribution of ideas from yourself and your team members in the last meeting.\",\"questionType\":\"CONTRIB\"}",
       "questionNumber": 10,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -917,12 +1021,15 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
-      "showRecipientNameTo": []
+      "showRecipientNameTo": [],
+      "questionDetails": {
+        "questionText": "Rate the contribution of ideas from yourself and your team members in the last meeting.",
+        "questionType": "CONTRIB"
+      }
     },
     "qn11InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "As a team, what do you think could have been done differently?",
       "questionNumber": 11,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -937,12 +1044,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "As a team, what do you think could have been done differently?"
+      }
     },
     "qn12InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"minScale\":0,\"questionText\":\"Rate the class as a team\",\"questionType\":\"NUMSCALE\",\"maxScale\":1000,\"step\":5}",
       "questionNumber": 12,
       "questionType": "NUMSCALE",
       "giverType": "TEAMS",
@@ -958,12 +1068,18 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "minScale": 0,
+        "questionText": "Rate the class as a team",
+        "questionType": "NUMSCALE",
+        "maxScale": 1000,
+        "step": 5
+      }
     },
     "qn1InSession4": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "As a team, what do you think could have been done differently?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -979,12 +1095,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "As a team, what do you think could have been done differently?"
+      }
     },
     "qn2InSession4": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
       "questionNumber": 2,
       "questionType": "CONSTSUM",
       "giverType": "TEAMS",
@@ -998,12 +1117,20 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
-      "showRecipientNameTo": []
+      "showRecipientNameTo": [],
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among the your team members and yourself, according to how much you think each member has contributed.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      }
     },
     "qn1InSanitizedSession": {
       "feedbackSessionName": "Sanitized Session",
       "courseId": "IFRResponseCommentUiT.SanitizedTeam",
-      "questionMetaData": "Some question text. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "questionDescription": "<p> Some  question description. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>",
       "questionNumber": 1,
       "questionType": "TEXT",
@@ -1021,12 +1148,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Some question text. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      }
     },
     "qn1InInstructorsAsGivers": {
       "feedbackSessionName": "Instructors as Givers",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "Rate 3 other students' products",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1046,12 +1176,15 @@
         "INSTRUCTORS",
         "STUDENTS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 other students' products"
+      }
     },
     "qn11InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "IFRResponseCommentUiT.CS2104",
-      "questionMetaData": "This is a dummy question to test default sort",
       "questionNumber": 11,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -1070,7 +1203,11 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This is a dummy question to test default sort"
+      }
     }
   },
   "feedbackResponses": {

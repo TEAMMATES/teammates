@@ -298,7 +298,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "What is the best selling point of your product?",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -312,12 +311,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      }
     },
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "Rate 1 other student's product",
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -335,12 +337,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      }
     },
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "My searchUI on the class",
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -363,12 +368,15 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My searchUI on the class"
+      }
     },
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "Instructor searchUI on the class",
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -391,12 +399,15 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor searchUI on the class"
+      }
     },
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "searchUI.idOfTestingSanitizationCourse",
-      "questionMetaData": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -410,7 +421,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      }
     }
   },
   "feedbackResponses": {
