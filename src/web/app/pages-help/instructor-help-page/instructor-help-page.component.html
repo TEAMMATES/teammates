@@ -1,4 +1,4 @@
-<div #helpPage style="width:1100px;">
+<div class="main-body" #helpPage>
   <div id="body">
     <h1 class="color-orange" id="body"> Help for Instructors</h1>
     <div>
@@ -37,38 +37,34 @@
   </div>
 </div>
 
-<div class="container-fluid" style="position: fixed; left: 1170px; top: 100px;">
-  <div class="section scrollspy">
-    <div id="topics" class="col-sm-3 col-4">
-      <p>
-        Browse by topic:
-        <br>
-      </p>
-      <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-          <a (click)="scroll('students')" [routerLink]="">Students</a>
-          <ng-container *ngIf="currentSection === 'students'"></ng-container>
-        </li>
-        <li class="nav-item">
-          <a (click)="scroll('courses')" [routerLink]="">Courses</a>
-          <ng-container *ngIf="currentSection === 'courses'"></ng-container>
-        </li>
-        <li class="nav-item">
-          <a (click)="scroll('sessions')" [routerLink]="">Sessions</a>
-          <ng-container *ngIf="currentSection === 'sessions'"></ng-container>
-        </li>
-        <li class="nav-item">
-          <a (click)="scroll('questions')" [routerLink]="">Questions</a>
-          <ng-container *ngIf="currentSection === 'questions'"></ng-container>
-        </li>
-      </ul>
-      <br>
-      <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-          <a (click)="scroll('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
-          <ng-container *ngIf="currentSection==='body'"></ng-container>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div id="topics" class="side-nav container-fluid col-sm-3 col-4">
+  <p>
+    Browse by topic:
+    <br>
+  </p>
+  <ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+      <a (click)="scroll('students')" [routerLink]="">Students</a>
+      <ng-container *ngIf="currentSection === 'students'"></ng-container>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll('courses')" [routerLink]="">Courses</a>
+      <ng-container *ngIf="currentSection === 'courses'"></ng-container>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll('sessions')" [routerLink]="">Sessions</a>
+      <ng-container *ngIf="currentSection === 'sessions'"></ng-container>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll('questions')" [routerLink]="">Questions</a>
+      <ng-container *ngIf="currentSection === 'questions'"></ng-container>
+    </li>
+  </ul>
+  <br>
+  <ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+      <a (click)="scroll('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
+      <ng-container *ngIf="currentSection==='body'"></ng-container>
+    </li>
+  </ul>
 </div>
