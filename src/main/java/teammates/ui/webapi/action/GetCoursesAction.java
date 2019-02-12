@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.ui.webapi.output.CoursesData;
 
 /**
  * Get a list of course for current user.
@@ -27,7 +28,7 @@ public class GetCoursesAction extends Action {
 
         courses.sort(Comparator.comparing(CourseAttributes::getId));
 
-        return new JsonResult(new CourseInfo.CoursesResponse(courses));
+        return new JsonResult(new CoursesData(courses));
     }
 
 }

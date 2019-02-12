@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * Get the detail of a course.
@@ -28,7 +29,7 @@ public class GetCourseAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseAttributes courseAttributes = logic.getCourse(courseId);
-        return new JsonResult(new CourseInfo.CourseResponse(courseAttributes));
+        return new JsonResult(new CourseData(courseAttributes));
     }
 
 }

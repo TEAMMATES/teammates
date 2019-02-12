@@ -11,8 +11,8 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.ui.webapi.action.SaveCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.action.SaveCourseAction;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
