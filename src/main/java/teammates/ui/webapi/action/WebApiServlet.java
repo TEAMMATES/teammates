@@ -27,7 +27,7 @@ import teammates.common.util.TimeHelper;
  * Servlet that handles all requests from the web application.
  */
 @SuppressWarnings("serial")
-@MultipartConfig()
+@MultipartConfig
 public class WebApiServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();

@@ -35,7 +35,6 @@
     <filter-mapping>
         <filter-name>OriginCheckFilter</filter-name>
         <url-pattern>/webapi/*</url-pattern>
-        <url-pattern>/_ah/upload/*</url-pattern>
     </filter-mapping>
 
     <welcome-file-list>

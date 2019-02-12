@@ -89,7 +89,7 @@ export class StudentProfilePageComponent implements OnInit {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
+    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
   }
 
   /**
