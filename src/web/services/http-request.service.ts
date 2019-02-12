@@ -52,15 +52,6 @@ export class HttpRequestService {
   }
 
   /**
-   * Executes POST request for creating a profile picture.
-   */
-  postProfilePicture(endpoint: string, body: any = null): Observable<any> {
-    const headers: HttpHeaders = this.getCsrfHeader();
-    const withCredentials: boolean = this.withCredentials;
-    return this.httpClient.post(endpoint, body, { headers, withCredentials });
-  }
-
-  /**
    * Executes PUT request.
    */
   put(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
