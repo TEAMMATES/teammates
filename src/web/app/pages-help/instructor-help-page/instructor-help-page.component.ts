@@ -15,7 +15,7 @@ export class InstructorHelpPageComponent implements OnInit {
   key: String = '';
   currentSection: String = 'body';
 
-  @ViewChild('helpPage') bodyRef: ElementRef;
+  @ViewChild('helpPage') bodyRef ?: ElementRef;
 
   constructor() { }
 
