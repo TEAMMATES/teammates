@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -11,8 +12,15 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  constructor() {
+  constructor(private modalService: NgbModal) {
     super();
+  }
+
+  /**
+   * Opens modal window.
+   */
+  openModal(modal: any): void {
+    this.modalService.open(modal);
   }
 
   ngOnInit(): void {
