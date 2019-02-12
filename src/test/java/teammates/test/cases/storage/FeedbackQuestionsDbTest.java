@@ -314,7 +314,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withNumOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
                 .withQuestionType(FeedbackQuestionType.TEXT)
-                .withQuestionMetaData(questionDetails)
+                .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowResponseTo(new ArrayList<>())
