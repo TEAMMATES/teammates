@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 import teammates.ui.webapi.action.GetNationalitiesAction;
-import teammates.ui.webapi.action.GetNationalitiesAction.NationalityData;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.NationalitiesData;
 
 /**
  * SUT: {@link GetNationalitiesAction}.
@@ -27,15 +27,13 @@ public class GetNationalitiesActionTest extends BaseActionTest<GetNationalitiesA
     @Override
     @Test
     protected void testExecute() throws Exception {
-
         ______TS("List of nationalities fetched matches the list stored in the server");
-
         GetNationalitiesAction action = getAction();
         JsonResult result = getJsonResult(action);
+
+        NationalitiesData output = (NationalitiesData) result.getOutput();
+
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        NationalityData output = (NationalityData) result.getOutput();
-
         assertEquals(NationalityHelper.getNationalities().toString(), output.getNationalities().toString());
     }
 
