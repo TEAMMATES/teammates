@@ -13,7 +13,7 @@ export class InstructorHelpPageComponent implements OnInit {
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
-  currentSection = 'body';
+  currentSection: String = 'body';
 
   constructor() { }
 
@@ -33,10 +33,9 @@ export class InstructorHelpPageComponent implements OnInit {
 
   /**
    * Scrolls the screen to the section name.
-   * @param section
    */
-  scrollTo(section: string) {
-    let query = document.querySelector('#' + section);
+  scrollTo(section: string): void {
+    const query: any = document.querySelector(`#${section}`);
     if (query != null) {
       query.scrollIntoView();
       this.currentSection = section;
