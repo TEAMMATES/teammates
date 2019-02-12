@@ -292,15 +292,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
             assertEquals(StudentProfileAttributes.Gender.MALE,
                          StudentProfileAttributes.Gender.getGenderEnumValue("MALE"));
             assertEquals(StudentProfileAttributes.Gender.FEMALE,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("FEMALE"));
-            assertEquals(StudentProfileAttributes.Gender.OTHER,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("OTHER"));
-            assertEquals(StudentProfileAttributes.Gender.MALE,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("male"));
-            assertEquals(StudentProfileAttributes.Gender.FEMALE,
                          StudentProfileAttributes.Gender.getGenderEnumValue("female"));
             assertEquals(StudentProfileAttributes.Gender.OTHER,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("other"));
+                         StudentProfileAttributes.Gender.getGenderEnumValue("oTheR"));
         }
     }
 
