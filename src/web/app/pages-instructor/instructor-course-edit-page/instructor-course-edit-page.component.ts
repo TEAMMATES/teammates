@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -186,12 +186,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const control: FormArray = this.fb.array([]);
     this.instructorList.forEach((instructor: InstructorAttributes, index: number) => {
-
       const instructorPrivileges: Privileges = instructor.privileges;
       const instructorEmail: string = instructor.email ? instructor.email : '';
       const instructorDisplayedName: string = instructor.isDisplayedToStudents ? instructor.displayedName : '';
 
-      let instructorForm: FormGroup = this.fb.group({
+      const instructorForm: FormGroup = this.fb.group({
         googleId: [{ value: instructor.googleId, disabled: true }],
         name: [{ value: instructor.name, disabled: true }],
         email: [{ value: instructorEmail, disabled: true }],
@@ -213,14 +212,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const permissionsControl: (FormGroup | null) = instructorForm.get('tunePermissions') as FormGroup;
 
       if (roleControl != null && permissionsControl != null) {
-        roleControl.valueChanges.subscribe(selectedRole => {
-          const panelId: string = 'tune-permissions-' + index;
+        roleControl.valueChanges.subscribe((selectedRole: string) => {
+          const panelId: string = `tune-permissions-${index}`;
           const panel: (HTMLElement | null) = document.getElementById(panelId);
 
           if (selectedRole === 'Custom' && panel != null) {
             panel.style.display = 'block';
             permissionsControl.controls.permissionsForCourse.reset(this.instructorList[index].privileges.courseLevel);
-            permissionsControl.controls.tuneSectionGroupPermissions = this.initSectionGroupPermissions(this.instructorList[index]);
+            permissionsControl.controls.tuneSectionGroupPermissions =
+                this.initSectionGroupPermissions(this.instructorList[index]);
           } else if (panel != null) {
             panel.style.display = 'none';
           }
@@ -260,6 +260,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       // Initialise session level privileges for each section
       const sessionPrivilegesForSection: { [session: string]: SessionLevelPrivileges } =
           instructor.privileges.sessionLevel[sectionName];
+
       this.feedbackNames.forEach((feedback: string) => {
         let sessionPrivileges: FormGroup;
         if (sessionPrivilegesForSection != null && sessionPrivilegesForSection[feedback] != null) {
@@ -271,7 +272,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
             canmodifysessioncommentinsection: false,
           });
         }
-        (specialSectionPermissions.controls.permissionsForSessions as FormGroup).addControl(feedback, sessionPrivileges);
+        (specialSectionPermissions.controls.permissionsForSessions as FormGroup)
+            .addControl(feedback, sessionPrivileges);
       });
 
       tuneSectionGroupPermissions.push(specialSectionPermissions);
@@ -421,7 +423,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         idControl.disable();
         roleControl.setValue(this.instructorList[index].role);
 
-        if (this.instructorList[index].role == 'Custom') {
+        if (this.instructorList[index].role === 'Custom') {
           permissionsPanel.style.display = 'block';
         }
 
@@ -486,12 +488,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
       paramsMap[instructorIsDisplayed] = 'true';
     }
 
-    if (instr.controls.role.value == 'Custom') {
-      const tuneCoursePermissions: (FormGroup | null) = (instr.controls.tunePermissions as FormGroup).controls.permissionsForCourse as FormGroup;
+    if (instr.controls.role.value === 'Custom') {
+      const tuneCoursePermissions: (FormGroup | null) = (instr.controls.tunePermissions as FormGroup)
+          .controls.permissionsForCourse as FormGroup;
 
       // Append custom course level privileges
-      for (let permission in tuneCoursePermissions.value) {
-        let checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
+      for (const permission of Object.keys(tuneCoursePermissions)) {
+        const checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
         if (checked != null && checked.value) {
           paramsMap[permission] = 'true';
         }
@@ -503,7 +506,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           .controls.tuneSectionGroupPermissions as FormArray;
 
       const newSectionLevelPrivileges: { [key: string]: SectionLevelPrivileges } = {};
-      let newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
+      const newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
 
       tuneSectionGroupPermissions.controls.forEach((sectionGroupPermissions: AbstractControl, panelIdx: number) => {
         const specialSections: string[] = [];
@@ -528,7 +531,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
         // Save new section level privileges
         specialSections.forEach((section: string) => {
-            newSectionLevelPrivileges[section] = permissionsInSection.value;
+          newSectionLevelPrivileges[section] = permissionsInSection.value;
         });
 
         // Append custom session level privileges
@@ -682,7 +685,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const permissionsControl: (FormGroup | null) = this.formAddInstructor.get('tunePermissions') as FormGroup;
 
     if (roleControl != null && permissionsControl != null) {
-      roleControl.valueChanges.subscribe(selectedRole => {
+      roleControl.valueChanges.subscribe((selectedRole: string) => {
         const panelId: string = `tune-permissions-${this.instructorList.length}`;
         const panel: (HTMLElement | null) = document.getElementById(panelId);
 
@@ -725,12 +728,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
       paramsMap[instructorIsDisplayed] = 'true';
     }
 
-    if (formAddInstructor.controls.role.value == 'Custom') {
-      const tuneCoursePermissions: (FormGroup | null) = (formAddInstructor.controls.tunePermissions as FormGroup).controls.permissionsForCourse as FormGroup;
+    if (formAddInstructor.controls.role.value === 'Custom') {
+      const tuneCoursePermissions: (FormGroup | null) = (formAddInstructor.controls.tunePermissions as FormGroup)
+          .controls.permissionsForCourse as FormGroup;
 
       // Append custom course level privileges
-      for (let permission in tuneCoursePermissions.value) {
-        let checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
+      for (const permission of Object.keys(tuneCoursePermissions)) {
+        const checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
         if (checked != null && checked.value) {
           paramsMap[permission] = 'true';
         }
@@ -742,7 +746,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           .controls.tuneSectionGroupPermissions as FormArray;
 
       const newSectionLevelPrivileges: { [key: string]: SectionLevelPrivileges } = {};
-      let newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
+      const newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
 
       tuneSectionGroupPermissions.controls.forEach((sectionGroupPermissions: AbstractControl, panelIdx: number) => {
         const specialSections: string[] = [];
@@ -824,25 +828,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   private addToInstructorList(instructor: InstructorAttributes): void {
     this.instructorList.push(instructor);
-
-    const controlToAdd: FormGroup = this.fb.group({
-      googleId: [{ value: '', disabled: true }],
-      name: [{ value: instructor.name, disabled: true }],
-      email: [{ value: instructor.email, disabled: true }],
-      isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
-      displayedName: [{ value: instructor.displayedName, disabled: true }],
-      role: [{ value: instructor.role }],
-      privileges: [{ value: instructor.privileges }],
-      tunePermissions: this.fb.group({
-        permissionsForCourse: this.fb.group(instructor.privileges.courseLevel),
-        tuneSectionGroupPermissions: this.fb.array([]),
-      }),
-    });
-
-    (controlToAdd.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions =
-        this.initSectionGroupPermissions(instructor);
-
-    (this.formEditInstructors.controls.formInstructors as FormArray).push(controlToAdd);
+    this.initEditInstructorsForm();
   }
 
   /**
