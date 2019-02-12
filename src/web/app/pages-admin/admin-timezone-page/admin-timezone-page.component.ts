@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { TimeZones } from "../../../types/api-output";
+import { TimeZones } from '../../../types/api-output';
 
 /**
  * Timezone listing page for admin use.

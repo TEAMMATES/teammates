@@ -11,7 +11,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.LocalDateTimeInfoData;
 
 /**
  * Resolve local date time under certain timezone to an UNIX timestamp.
@@ -47,18 +47,18 @@ public class GetLocalDateTimeInfoAction extends Action {
             throw new InvalidHttpParameterException(e.getMessage(), e);
         }
 
-        LocalDateTimeInfo localDateTimeInfo = null;
+        LocalDateTimeInfoData ldtInfo = null;
         switch(TimeHelper.LocalDateTimeAmbiguityStatus.of(localDateTime, zoneId)) {
         case UNAMBIGUOUS:
-            localDateTimeInfo = LocalDateTimeInfo.unambiguous(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
+            ldtInfo = LocalDateTimeInfoData.unambiguous(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
             break;
         case GAP:
-            localDateTimeInfo = LocalDateTimeInfo.gap(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
+            ldtInfo = LocalDateTimeInfoData.gap(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
             break;
         case OVERLAP:
             Instant earlierInterpretation = localDateTime.atZone(zoneId).withEarlierOffsetAtOverlap().toInstant();
             Instant laterInterpretation = localDateTime.atZone(zoneId).withLaterOffsetAtOverlap().toInstant();
-            localDateTimeInfo = LocalDateTimeInfo.overlap(localDateTime.atZone(zoneId).toInstant().toEpochMilli(),
+            ldtInfo = LocalDateTimeInfoData.overlap(localDateTime.atZone(zoneId).toInstant().toEpochMilli(),
                     earlierInterpretation.toEpochMilli(), laterInterpretation.toEpochMilli());
             break;
         default:
@@ -66,74 +66,6 @@ public class GetLocalDateTimeInfoAction extends Action {
             break;
         }
 
-        return new JsonResult(localDateTimeInfo);
-    }
-
-    /**
-     * Output format for {@link GetLocalDateTimeInfoAction}.
-     */
-    public static class LocalDateTimeInfo extends ApiOutput {
-
-        private long resolvedTimestamp;
-        private TimeHelper.LocalDateTimeAmbiguityStatus resolvedStatus;
-
-        private Long earlierInterpretationTimestamp;
-        private Long laterInterpretationTimestamp;
-
-        /**
-         * Constructs {@link LocalDateTimeInfo} with UNAMBIGUOUS status.
-         */
-        public static LocalDateTimeInfo unambiguous(long resolvedTimestamp) {
-            LocalDateTimeInfo localDateTimeInfo = new LocalDateTimeInfo();
-
-            localDateTimeInfo.resolvedStatus = TimeHelper.LocalDateTimeAmbiguityStatus.UNAMBIGUOUS;
-            localDateTimeInfo.resolvedTimestamp = resolvedTimestamp;
-
-            return localDateTimeInfo;
-        }
-
-        /**
-         * Constructs {@link LocalDateTimeInfo} with GAP status.
-         */
-        public static LocalDateTimeInfo gap(long resolvedTimestamp) {
-            LocalDateTimeInfo localDateTimeInfo = new LocalDateTimeInfo();
-
-            localDateTimeInfo.resolvedStatus = TimeHelper.LocalDateTimeAmbiguityStatus.GAP;
-            localDateTimeInfo.resolvedTimestamp = resolvedTimestamp;
-
-            return localDateTimeInfo;
-        }
-
-        /**
-         * Constructs {@link LocalDateTimeInfo} with OVERLAP status.
-         */
-        public static LocalDateTimeInfo overlap(long resolvedTimestamp,
-                                                long earlierInterpretationTimestamp, long laterInterpretationTimestamp) {
-            LocalDateTimeInfo localDateTimeInfo = new LocalDateTimeInfo();
-
-            localDateTimeInfo.resolvedStatus = TimeHelper.LocalDateTimeAmbiguityStatus.OVERLAP;
-            localDateTimeInfo.resolvedTimestamp = resolvedTimestamp;
-
-            localDateTimeInfo.earlierInterpretationTimestamp = earlierInterpretationTimestamp;
-            localDateTimeInfo.laterInterpretationTimestamp = laterInterpretationTimestamp;
-
-            return localDateTimeInfo;
-        }
-
-        public long getResolvedTimestamp() {
-            return resolvedTimestamp;
-        }
-
-        public TimeHelper.LocalDateTimeAmbiguityStatus getResolvedStatus() {
-            return resolvedStatus;
-        }
-
-        public Long getEarlierInterpretationTimestamp() {
-            return earlierInterpretationTimestamp;
-        }
-
-        public Long getLaterInterpretationTimestamp() {
-            return laterInterpretationTimestamp;
-        }
+        return new JsonResult(ldtInfo);
     }
 }
