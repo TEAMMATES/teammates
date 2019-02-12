@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
@@ -21,6 +20,7 @@ import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * An "action" to be performed by the system.
@@ -171,7 +171,7 @@ public abstract class Action {
     /**
      * Deserializes and validates the request body payload.
      */
-    protected <T extends RequestBody> T getAndValidateRequestBody(Type typeOfBody) {
+    protected <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         requestBody.validate();
         return requestBody;
@@ -209,25 +209,5 @@ public abstract class Action {
      * Executes the action.
      */
     public abstract ActionResult execute();
-
-    /**
-     * The request body of a HTTP request.
-     */
-    public abstract static class RequestBody {
-
-        /**
-         * Validate the request.
-         */
-        public abstract void validate();
-
-        /**
-         * Asserts a condition or throws {@link InvalidHttpRequestBodyException}.
-         */
-        public void assertTrue(boolean condition, String message) {
-            if (!condition) {
-                throw new InvalidHttpRequestBodyException(message);
-            }
-        }
-    }
 
 }

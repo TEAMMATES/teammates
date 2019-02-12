@@ -1,4 +1,4 @@
-import { FeedbackSession } from '../../../feedback-session';
+import { FeedbackSession } from '../../../../types/api-output';
 
 /**
  * The result of {@link CopyFromOtherSessionsModalComponent}.

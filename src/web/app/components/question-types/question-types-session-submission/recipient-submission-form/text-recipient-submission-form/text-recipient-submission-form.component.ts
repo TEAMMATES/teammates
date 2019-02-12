@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
-import { FeedbackTextQuestionDetails } from '../../../../../feedback-question';
-import { FeedbackTextResponseDetails } from '../../../../../feedback-response';
+
+import {
+  FeedbackQuestionType,
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails,
+} from '../../../../../../types/api-output';
 import { BasicRecipientSubmissionFormComponent } from '../basic-recipient-submission-form';
 
 /**
@@ -18,8 +22,11 @@ export class TextRecipientSubmissionFormComponent
   constructor() {
     super({
       recommendedLength: 0,
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: '',
     }, {
       answer: '',
+      questionType: FeedbackQuestionType.TEXT,
     });
   }
 

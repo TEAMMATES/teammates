@@ -716,7 +716,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseDetails frd = FeedbackResponseDetails.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);
-        modifiedResponse.setResponseDetails(frd);
+        modifiedResponse.responseDetails = frd;
         frDb.updateFeedbackResponse(modifiedResponse);
 
         verifyPresentInDatastore(modifiedResponse);
@@ -732,7 +732,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         fra.feedbackSessionName = "fsTest1";
         fra.courseId = "testCourse";
-        fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
         fra.giver = "giver@email.tmt";
         fra.giverSection = "None";
         fra.recipient = "recipient@email.tmt";
@@ -740,7 +739,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.feedbackQuestionId = "testFeedbackQuestionId";
 
         FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
-        fra.setResponseDetails(responseDetails);
+        fra.responseDetails = responseDetails;
 
         return fra;
     }
@@ -749,8 +748,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes result = fras.get(id);
         return new FeedbackResponseAttributes(result.feedbackSessionName,
                 result.courseId, result.feedbackQuestionId,
-                result.feedbackQuestionType, result.giver, result.giverSection,
-                result.recipient, result.recipientSection, result.responseMetaData);
+                result.giver, result.giverSection,
+                result.recipient, result.recipientSection, result.responseDetails);
     }
 
     @AfterClass

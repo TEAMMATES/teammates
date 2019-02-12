@@ -494,13 +494,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return deletedTime;
     }
 
-    /**
-     * Sets current time as the deletion time of this feedback session.
-     */
-    public void setDeletedTime() {
-        this.deletedTime = Instant.now();
-    }
-
     public void setDeletedTime(Instant deletedTime) {
         this.deletedTime = deletedTime;
     }
