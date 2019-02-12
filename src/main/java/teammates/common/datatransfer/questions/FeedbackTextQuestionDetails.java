@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -203,4 +204,46 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
+    @Override
+    public String getJsonString() {
+        if (isEmptyRecommendedLength()) {
+            // Due to legacy data in the data store before
+            // `recommendedLength` attribute added to `FeedbackTextQuestionDetails`,
+            // there exists both `FeedbackTextQuestionDetails` with and without recommendedLength in data store,
+            // and the corresponding Json string should either be a Json or plain text.
+            return getQuestionText();
+        }
+        return super.getJsonString();
+    }
+
+    @Override
+    public FeedbackQuestionDetails getDeepCopy() {
+        if (isEmptyRecommendedLength()) {
+            return new FeedbackTextQuestionDetails(getQuestionText());
+        }
+        return super.getDeepCopy();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+
+        // Since there are two ways to generate Json string for text questions,
+        // we need to avoid the extreme case that two FeedbackTextQuestionDetails objects
+        // have same Json string, yet their recommendedLength are different
+        FeedbackTextQuestionDetails other = (FeedbackTextQuestionDetails) obj;
+        return other.getQuestionText().equals(this.getQuestionText())
+                && other.recommendedLength == this.recommendedLength;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getJsonString(), recommendedLength);
+    }
+
+    private boolean isEmptyRecommendedLength() {
+        return recommendedLength == 0;
+    }
 }

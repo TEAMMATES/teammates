@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -236,6 +237,17 @@ public abstract class FeedbackQuestionDetails {
         return Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
     }
 
+    public String getJsonString() {
+        Assumption.assertNotNull(questionType);
+        return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
+    }
+
+    public FeedbackQuestionDetails getDeepCopy() {
+        Assumption.assertNotNull(questionType);
+        String serializedDetails = getJsonString();
+        return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
+    }
+
     /** Checks if the question has been skipped. */
     public boolean isQuestionSkipped(String[] answers) {
         if (answers == null) {
@@ -272,5 +284,26 @@ public abstract class FeedbackQuestionDetails {
         }
 
         return commentsHeader.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        // Json string contains all attributes of a `FeedbackQuestionDetails` object,
+        // so it is sufficient to use it to compare two `FeedbackQuestionDetails` objects.
+        FeedbackQuestionDetails other = (FeedbackQuestionDetails) obj;
+        return this.getJsonString().equals(other.getJsonString());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getJsonString().hashCode();
     }
 }
