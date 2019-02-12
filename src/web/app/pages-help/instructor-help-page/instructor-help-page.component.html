@@ -47,19 +47,19 @@
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
           <a (click)="scrollTo('students')" [routerLink]="">Students</a>
-          <ng-container *ngIf="currentSection==='students'"></ng-container>
+          <ng-container *ngIf="currentSection === 'students'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('courses')" [routerLink]="">Courses</a>
-          <ng-container *ngIf="currentSection==='courses'"></ng-container>
+          <ng-container *ngIf="currentSection === 'courses'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('sessions')" [routerLink]="">Sessions</a>
-          <ng-container *ngIf="currentSection==='sessions'"></ng-container>
+          <ng-container *ngIf="currentSection === 'sessions'"></ng-container>
         </li>
         <li class="nav-item">
           <a (click)="scrollTo('questions')" [routerLink]="">Questions</a>
-          <ng-container *ngIf="currentSection==='questions'"></ng-container>
+          <ng-container *ngIf="currentSection === 'questions'"></ng-container>
         </li>
       </ul>
       <br>
