@@ -1,5 +1,5 @@
 <div id="body" style="width:1100px;">
-  <div scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
+  <div scrollSpy>
     <h1 class="color-orange" id="body"> Help for Instructors</h1>
     <div>
       <p>
@@ -38,7 +38,7 @@
 </div>
 
 
-<div class="container-fluid" style="position: fixed; left: 1200px; top: 100px;">
+<div class="container-fluid" style="position: fixed; left: 1170px; top: 100px;">
   <div class="section scrollspy">
     <div id="topics" class="col-sm-3 col-4">
       <p>
@@ -62,6 +62,9 @@
           <a (click)="scrollTo('questions')" [routerLink]="">Questions</a>
           <ng-container *ngIf="currentSection==='questions'"></ng-container>
         </li>
+      </ul>
+      <br>
+      <ul class="nav nav-pills flex-column">
         <li class="nav-item">
           <a (click)="scrollTo('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
           <ng-container *ngIf="currentSection==='body'"></ng-container>

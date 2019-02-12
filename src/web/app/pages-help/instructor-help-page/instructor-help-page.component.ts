@@ -31,16 +31,16 @@ export class InstructorHelpPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Scrolls the screen to the section name.
+   * @param section
+   */
   scrollTo(section: string) {
     let query = document.querySelector('#' + section);
     if (query != null) {
       query.scrollIntoView();
       this.currentSection = section;
     }
-  }
-
-  onSectionChange(sectionId: string) {
-    this.currentSection = sectionId;
   }
 
   /**
