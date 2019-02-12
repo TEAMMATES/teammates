@@ -15,7 +15,7 @@ import teammates.common.util.FieldValidator;
 /**
  * Action: Save edited course details.
  */
-public class SaveCourseEditDetailsAction extends Action {
+public class SaveCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

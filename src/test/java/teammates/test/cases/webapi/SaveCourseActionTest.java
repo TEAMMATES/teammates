@@ -11,18 +11,18 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.ui.webapi.action.SaveCourseAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SaveCourseEditDetailsAction;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link SaveCourseEditDetailsAction}.
+ * SUT: {@link SaveCourseAction}.
  */
-public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEditDetailsAction> {
+public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_EDIT_DETAILS_SAVE;
+        return Const.ResourceURIs.COURSE;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         assertNotEquals(courseTimeZone, oldCourseTimeZone);
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
-        SaveCourseEditDetailsAction courseEditSaveAction = getAction(submissionParams);
+        SaveCourseAction courseEditSaveAction = getAction(submissionParams);
         JsonResult r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());

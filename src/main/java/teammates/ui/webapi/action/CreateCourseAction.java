@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 /**
  * Action: Adds a new course for instructor.
  */
-public class AddInstructorCourseAction extends Action {
+public class CreateCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

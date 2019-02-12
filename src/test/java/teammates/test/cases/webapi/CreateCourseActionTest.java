@@ -6,18 +6,18 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
-import teammates.ui.webapi.action.AddInstructorCourseAction;
+import teammates.ui.webapi.action.CreateCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link AddInstructorCourseAction}.
+ * SUT: {@link CreateCourseAction}.
  */
-public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorCourseAction> {
+public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTOR_COURSES;
+        return Const.ResourceURIs.COURSE;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorC
         }
 
         loginAsInstructor(instructorId);
-        AddInstructorCourseAction action = getAction(submissionParams);
+        CreateCourseAction action = getAction(courseCreateRequest, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
