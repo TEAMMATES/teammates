@@ -15,7 +15,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSES;
+        return Const.ResourceURIs.COURSE_ARCHIVE;
     }
 
     @Override

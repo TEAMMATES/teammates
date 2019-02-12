@@ -45,8 +45,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, SaveCourseAction.class);
-        //Archive temp. changed to COURSES, not sure how to put it.
-        map(ResourceURIs.COURSES, PUT, ArchiveCourseAction.class);
+        map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
