@@ -1,5 +1,5 @@
-<div id="body" style="width:1100px;">
-  <div tmScrollSpy>
+<div #helpPage style="width:1100px;">
+  <div id="body">
     <h1 class="color-orange" id="body"> Help for Instructors</h1>
     <div>
       <p>
@@ -17,23 +17,23 @@
         </div>
       </div>
       <hr/>
-      <div id="students">
-        <tm-instructor-help-students-section [key]="key"> 1
-        </tm-instructor-help-students-section>
-      </div>
-      <div id="courses">
-        <tm-instructor-help-courses-section [key]="key"> 2
-        </tm-instructor-help-courses-section>
-      </div>
-      <div id="sessions">
-        <tm-instructor-help-sessions-section [key]="key"> 3
-        </tm-instructor-help-sessions-section>
-      </div>
-      <div id="questions">
-        <tm-instructor-help-questions-section [key]="key"> 4
-        </tm-instructor-help-questions-section>
-      </div>
     </div>
+  </div>
+  <div id="students">
+    <tm-instructor-help-students-section [key]="key"> 1
+    </tm-instructor-help-students-section>
+  </div>
+  <div id="courses">
+    <tm-instructor-help-courses-section [key]="key"> 2
+    </tm-instructor-help-courses-section>
+  </div>
+  <div id="sessions">
+    <tm-instructor-help-sessions-section [key]="key"> 3
+    </tm-instructor-help-sessions-section>
+  </div>
+  <div id="questions">
+    <tm-instructor-help-questions-section [key]="key"> 4
+    </tm-instructor-help-questions-section>
   </div>
 </div>
 
@@ -46,26 +46,26 @@
       </p>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <a (click)="scrollTo('students')" [routerLink]="">Students</a>
+          <a (click)="scroll('students')" [routerLink]="">Students</a>
           <ng-container *ngIf="currentSection === 'students'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('courses')" [routerLink]="">Courses</a>
+          <a (click)="scroll('courses')" [routerLink]="">Courses</a>
           <ng-container *ngIf="currentSection === 'courses'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('sessions')" [routerLink]="">Sessions</a>
+          <a (click)="scroll('sessions')" [routerLink]="">Sessions</a>
           <ng-container *ngIf="currentSection === 'sessions'"></ng-container>
         </li>
         <li class="nav-item">
-          <a (click)="scrollTo('questions')" [routerLink]="">Questions</a>
+          <a (click)="scroll('questions')" [routerLink]="">Questions</a>
           <ng-container *ngIf="currentSection === 'questions'"></ng-container>
         </li>
       </ul>
       <br>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <a (click)="scrollTo('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
+          <a (click)="scroll('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
           <ng-container *ngIf="currentSection==='body'"></ng-container>
         </li>
       </ul>

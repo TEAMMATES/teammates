@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -14,6 +14,8 @@ export class InstructorHelpPageComponent implements OnInit {
   searchTerm: String = '';
   key: String = '';
   currentSection: String = 'body';
+
+  @ViewChild('helpPage') bodyRef: ElementRef;
 
   constructor() { }
 
@@ -32,14 +34,12 @@ export class InstructorHelpPageComponent implements OnInit {
   }
 
   /**
-   * Scrolls the screen to the section name.
+   * Scrolls to the section passed in
    */
-  scrollTo(section: string): void {
-    const query: any = document.querySelector(`#${section}`);
-    if (query != null) {
-      query.scrollIntoView();
-      this.currentSection = section;
-    }
+  scroll(section: string): void {
+    const el: ElementRef = Array.prototype.slice
+        .call(this.bodyRef.nativeElement.childNodes).find((x: any) => x.id === section);
+    el.scrollIntoView();
   }
 
   /**
