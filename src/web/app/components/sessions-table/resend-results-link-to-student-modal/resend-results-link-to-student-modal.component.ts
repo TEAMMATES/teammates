@@ -23,9 +23,9 @@ export class ResendResultsLinkToStudentModalComponent extends StudentListInfoBas
 
   checkAll: boolean = false;
 
-  constructor(activeModal: NgbActiveModal, httpRequestService: HttpRequestService,
+  constructor(public activeModal: NgbActiveModal, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService) {
-    super(activeModal, httpRequestService, statusMessageService);
+    super(httpRequestService, statusMessageService);
   }
 
   ngOnInit(): void {

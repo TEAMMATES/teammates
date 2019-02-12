@@ -1,4 +1,3 @@
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -11,17 +10,17 @@ import { SortBy, SortOrder, StudentStatusTableRowModel } from './sessions-table-
 export abstract class StudentListInfoBaseModalComponent {
 
   // enum
-  protected SortBy: typeof SortBy = SortBy;
-  protected SortOrder: typeof SortOrder = SortOrder;
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
 
-  protected studentStatusTableRows: StudentStatusTableRowModel[] = [];
-  protected studentsTableRowSortBy: SortBy = SortBy.NONE;
-  protected studentsTableRowSortOrder: SortOrder = SortOrder.DESC;
+  studentStatusTableRows: StudentStatusTableRowModel[] = [];
+  studentsTableRowSortBy: SortBy = SortBy.NONE;
+  studentsTableRowSortOrder: SortOrder = SortOrder.DESC;
 
-  protected loading: boolean = false;
-  protected isAjaxSuccess: boolean = true;
+  loading: boolean = false;
+  isAjaxSuccess: boolean = true;
 
-  protected constructor(protected activeModal: NgbActiveModal, protected httpRequestService: HttpRequestService,
+  protected constructor(protected httpRequestService: HttpRequestService,
                         protected statusMessageService: StatusMessageService) { }
 
   /**
