@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -497,6 +498,27 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + questionAttributes.getId();
         assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
+    }
+
+    @Test
+    public void testGetQuestionDetails_shouldDoDeepCopy() {
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionDetails details = fqa.getQuestionDetails();
+        fqa.questionDetails.setQuestionText("updated question");
+
+        assertEquals("Question text.", details.getQuestionText());
+        assertEquals("updated question", fqa.questionDetails.getQuestionText());
+    }
+
+    @Test
+    public void testSetQuestionDetails_shouldDoDeepCopy() {
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("my question");
+        fqa.setQuestionDetails(details);
+        details.setQuestionText("updated question");
+
+        assertEquals("updated question", details.getQuestionText());
+        assertEquals("my question", fqa.questionDetails.getQuestionText());
     }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
