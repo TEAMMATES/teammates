@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -82,7 +83,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService) { }
+              private timezoneService: TimezoneService,
+              private courseService: CourseService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -191,7 +193,15 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
-    this.httpRequestService.post('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+
+    this.courseService.createCourse(paramMap, {
+      storedData: {
+        courseId: this.newCourseId,
+        courseName: this.newCourseId,
+        timeZone: this.timezone,
+        creationDate: '',
+      },
+    }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
