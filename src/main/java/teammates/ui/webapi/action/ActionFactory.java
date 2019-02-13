@@ -36,9 +36,9 @@ public class ActionFactory {
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
         map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
-        map(ResourceURIs.ACCOUNTS, GET, GetAccountAction.class);
-        map(ResourceURIs.ACCOUNTS, POST, CreateAccountAction.class);
-        map(ResourceURIs.ACCOUNTS, DELETE, DeleteAccountAction.class);
+        map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
+        map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
+        map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNTS_DOWNGRADE, PUT, DowngradeAccountAction.class);
         map(ResourceURIs.ACCOUNTS_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);

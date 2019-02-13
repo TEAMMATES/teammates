@@ -4,6 +4,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { AccountInfo } from "../../../types/api-output";
 
 interface CourseAttributes {
   id: string;
@@ -16,12 +17,6 @@ interface AccountAttributes {
   email: string;
   institute?: string;
   isInstructor: boolean;
-}
-
-interface AccountInfo {
-  accountInfo: AccountAttributes;
-  instructorCourses: CourseAttributes[];
-  studentCourses: CourseAttributes[];
 }
 
 /**
@@ -57,7 +52,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   loadAccountInfo(instructorid: string): void {
     const paramMap: { [key: string]: string } = { instructorid };
-    this.httpRequestService.get('/accounts', paramMap).subscribe((resp: AccountInfo) => {
+    this.httpRequestService.get('/account', paramMap).subscribe((resp: AccountInfo) => {
       this.instructorCourses = resp.instructorCourses;
       this.studentCourses = resp.studentCourses;
       this.accountInfo = resp.accountInfo;
@@ -74,7 +69,7 @@ export class AdminAccountsPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       instructorid: id,
     };
-    this.httpRequestService.put('/accounts/downgrade', paramMap).subscribe(() => {
+    this.httpRequestService.put('/account/downgrade', paramMap).subscribe(() => {
       this.loadAccountInfo(id);
       this.statusMessageService.showSuccessMessage('Instructor account is successfully downgraded to student.');
     }, (resp: ErrorMessageOutput) => {
@@ -90,7 +85,7 @@ export class AdminAccountsPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       instructorid: id,
     };
-    this.httpRequestService.delete('/accounts', paramMap).subscribe(() => {
+    this.httpRequestService.delete('/account', paramMap).subscribe(() => {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
           `Instructor account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {

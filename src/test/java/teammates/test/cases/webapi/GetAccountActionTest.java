@@ -12,7 +12,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS;
+        return Const.ResourceURIs.ACCOUNT;
     }
 
     @Override
