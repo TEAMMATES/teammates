@@ -19,15 +19,13 @@ import teammates.storage.entity.CourseStudent;
  */
 public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<CourseStudent> {
 
-    private final Pattern emailRegex =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
     public static void main(String[] args) throws IOException {
         new ValidateAllTeamNameScript().doOperationRemotely();
     }
 
     private boolean validate(String emailStr) {
-        Matcher matcher = emailRegex.matcher(emailStr);
+        Matcher matcher = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+                Pattern.CASE_INSENSITIVE).matcher(emailStr);
         return matcher.find();
     }
 
@@ -55,7 +53,7 @@ public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<C
     protected boolean isMigrationNeeded(Key<CourseStudent> key) {
         CourseStudent student = ofy().load().key(key).now();
         String teamName = student.getTeamName();
-        return teamName.equals(student.getEmail()) || validate(teamName);
+        return validate(teamName);
     }
 
     @Override
