@@ -124,7 +124,7 @@ export class AdminSearchPageComponent {
       courseid: instructor.courseId,
       instructoremail: instructor.email,
     };
-    this.httpRequestService.put('/accounts/reset', paramMap).subscribe(() => {
+    this.httpRequestService.put('/account/reset', paramMap).subscribe(() => {
       this.search();
       this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
@@ -145,7 +145,7 @@ export class AdminSearchPageComponent {
       courseid: student.courseId,
       studentemail: student.email,
     };
-    this.httpRequestService.put('/accounts/reset', paramMap).subscribe(() => {
+    this.httpRequestService.put('/account/reset', paramMap).subscribe(() => {
       student.googleId = '';
       this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
