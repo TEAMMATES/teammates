@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../../services/http-request.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
+import { FeedbackSessionStudentSaveRequest } from '../../../../types/api-request';
 import { StudentStatusTableRowModel } from '../sessions-table-model';
 import { StudentListInfoBaseModalComponent } from '../student-list-info-base-modal.component';
 
@@ -82,7 +83,7 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
   /**
    * Collates a list of selected students with selected checkbox.
    */
-  collateStudentsToSendHandler(): string[] {
+  collateStudentsToSendHandler(): FeedbackSessionStudentSaveRequest {
     return this.collateStudentsToSend(this.studentStatusTableRows);
   }
 }

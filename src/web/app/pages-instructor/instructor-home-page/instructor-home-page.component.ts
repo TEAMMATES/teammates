@@ -310,7 +310,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   resendResultsLinkToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
     this.resendResultsLinkToStudents(this.courseTabModels[tabIndex]
-        .sessionsTableRowModels[remindInfo.row], remindInfo.students);
+        .sessionsTableRowModels[remindInfo.row], remindInfo.request);
   }
 
   /**
@@ -318,6 +318,6 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   sendRemindersToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
     this.sendRemindersToStudents(this.courseTabModels[tabIndex]
-      .sessionsTableRowModels[remindInfo.row], remindInfo.users);
+      .sessionsTableRowModels[remindInfo.row], remindInfo.request);
   }
 }
