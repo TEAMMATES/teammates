@@ -5,7 +5,7 @@ import teammates.common.util.TimeHelper;
 /**
  * The API output format of a {@code LocalDateTimeInfo} to hold information for resolving DST overlaps/gaps.
  */
-public class LocalDateTimeInfoData extends ApiOutput {
+public class LocalDateTimeInfo extends ApiOutput {
     private long resolvedTimestamp;
     private TimeHelper.LocalDateTimeAmbiguityStatus resolvedStatus;
 
@@ -13,10 +13,10 @@ public class LocalDateTimeInfoData extends ApiOutput {
     private Long laterInterpretationTimestamp;
 
     /**
-     * Constructs {@link LocalDateTimeInfoData} with UNAMBIGUOUS status.
+     * Constructs {@link LocalDateTimeInfo} with UNAMBIGUOUS status.
      */
-    public static LocalDateTimeInfoData unambiguous(long resolvedTimestamp) {
-        LocalDateTimeInfoData localDateTimeInfo = new LocalDateTimeInfoData();
+    public static LocalDateTimeInfo unambiguous(long resolvedTimestamp) {
+        LocalDateTimeInfo localDateTimeInfo = new LocalDateTimeInfo();
 
         localDateTimeInfo.resolvedStatus = TimeHelper.LocalDateTimeAmbiguityStatus.UNAMBIGUOUS;
         localDateTimeInfo.resolvedTimestamp = resolvedTimestamp;
@@ -25,10 +25,10 @@ public class LocalDateTimeInfoData extends ApiOutput {
     }
 
     /**
-     * Constructs {@link LocalDateTimeInfoData} with GAP status.
+     * Constructs {@link LocalDateTimeInfo} with GAP status.
      */
-    public static LocalDateTimeInfoData gap(long resolvedTimestamp) {
-        LocalDateTimeInfoData localDateTimeInfo = new LocalDateTimeInfoData();
+    public static LocalDateTimeInfo gap(long resolvedTimestamp) {
+        LocalDateTimeInfo localDateTimeInfo = new LocalDateTimeInfo();
 
         localDateTimeInfo.resolvedStatus = TimeHelper.LocalDateTimeAmbiguityStatus.GAP;
         localDateTimeInfo.resolvedTimestamp = resolvedTimestamp;
@@ -37,11 +37,11 @@ public class LocalDateTimeInfoData extends ApiOutput {
     }
 
     /**
-     * Constructs {@link LocalDateTimeInfoData} with OVERLAP status.
+     * Constructs {@link LocalDateTimeInfo} with OVERLAP status.
      */
-    public static LocalDateTimeInfoData overlap(long resolvedTimestamp,
-                                                long earlierInterpretationTimestamp, long laterInterpretationTimestamp) {
-        LocalDateTimeInfoData localDateTimeInfo = new LocalDateTimeInfoData();
+    public static LocalDateTimeInfo overlap(long resolvedTimestamp,
+                                            long earlierInterpretationTimestamp, long laterInterpretationTimestamp) {
+        LocalDateTimeInfo localDateTimeInfo = new LocalDateTimeInfo();
 
         localDateTimeInfo.resolvedStatus = TimeHelper.LocalDateTimeAmbiguityStatus.OVERLAP;
         localDateTimeInfo.resolvedTimestamp = resolvedTimestamp;

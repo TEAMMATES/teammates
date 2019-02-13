@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.webapi.action.GetLocalDateTimeInfoAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.LocalDateTimeInfoData;
+import teammates.ui.webapi.output.LocalDateTimeInfo;
 
 /**
  * SUT: {@link GetLocalDateTimeInfoAction}.
@@ -52,7 +52,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
 
         GetLocalDateTimeInfoAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        LocalDateTimeInfoData localDateTimeInfo = (LocalDateTimeInfoData) r.getOutput();
+        LocalDateTimeInfo localDateTimeInfo = (LocalDateTimeInfo) r.getOutput();
 
         assertEquals(TimeHelper.LocalDateTimeAmbiguityStatus.UNAMBIGUOUS, localDateTimeInfo.getResolvedStatus());
         assertEquals(1543669200000L, localDateTimeInfo.getResolvedTimestamp());
@@ -71,7 +71,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
 
         a = getAction(params);
         r = getJsonResult(a);
-        localDateTimeInfo = (LocalDateTimeInfoData) r.getOutput();
+        localDateTimeInfo = (LocalDateTimeInfo) r.getOutput();
 
         assertEquals(TimeHelper.LocalDateTimeAmbiguityStatus.GAP, localDateTimeInfo.getResolvedStatus());
         assertEquals(1332639000000L, localDateTimeInfo.getResolvedTimestamp());
@@ -90,7 +90,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
 
         a = getAction(params);
         r = getJsonResult(a);
-        localDateTimeInfo = (LocalDateTimeInfoData) r.getOutput();
+        localDateTimeInfo = (LocalDateTimeInfo) r.getOutput();
 
         assertEquals(TimeHelper.LocalDateTimeAmbiguityStatus.OVERLAP, localDateTimeInfo.getResolvedStatus());
         assertEquals(1351384200000L, localDateTimeInfo.getResolvedTimestamp());

@@ -11,7 +11,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.webapi.output.LocalDateTimeInfoData;
+import teammates.ui.webapi.output.LocalDateTimeInfo;
 
 /**
  * Resolve local date time under certain timezone to an UNIX timestamp.
@@ -47,18 +47,18 @@ public class GetLocalDateTimeInfoAction extends Action {
             throw new InvalidHttpParameterException(e.getMessage(), e);
         }
 
-        LocalDateTimeInfoData ldtInfo = null;
+        LocalDateTimeInfo ldtInfo = null;
         switch(TimeHelper.LocalDateTimeAmbiguityStatus.of(localDateTime, zoneId)) {
         case UNAMBIGUOUS:
-            ldtInfo = LocalDateTimeInfoData.unambiguous(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
+            ldtInfo = LocalDateTimeInfo.unambiguous(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
             break;
         case GAP:
-            ldtInfo = LocalDateTimeInfoData.gap(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
+            ldtInfo = LocalDateTimeInfo.gap(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
             break;
         case OVERLAP:
             Instant earlierInterpretation = localDateTime.atZone(zoneId).withEarlierOffsetAtOverlap().toInstant();
             Instant laterInterpretation = localDateTime.atZone(zoneId).withLaterOffsetAtOverlap().toInstant();
-            ldtInfo = LocalDateTimeInfoData.overlap(localDateTime.atZone(zoneId).toInstant().toEpochMilli(),
+            ldtInfo = LocalDateTimeInfo.overlap(localDateTime.atZone(zoneId).toInstant().toEpochMilli(),
                     earlierInterpretation.toEpochMilli(), laterInterpretation.toEpochMilli());
             break;
         default:
