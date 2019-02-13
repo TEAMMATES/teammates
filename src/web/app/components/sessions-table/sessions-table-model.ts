@@ -1,6 +1,5 @@
-import { FeedbackSession } from '../../../types/api-output';
+import { FeedbackSession, FeedbackSessionStudentResponse } from '../../../types/api-output';
 import { InstructorPrivilege } from '../../instructor-privilege';
-import { StudentFeedbackSessionResponseStatus } from '../../student';
 
 /**
  * The model for a row of the sessions table.
@@ -17,7 +16,7 @@ export interface SessionsTableRowModel {
  * The model for a row of the student status table.
  */
 export interface StudentStatusTableRowModel {
-  studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus;
+  feedbackSessionStudentResponse: FeedbackSessionStudentResponse;
   isChecked: boolean;
 }
 

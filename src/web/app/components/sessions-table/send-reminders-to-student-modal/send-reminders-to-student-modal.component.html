@@ -51,7 +51,7 @@
         </th>
       </tr>
       <ng-container *ngFor="let remindStudentRow of studentStatusTableRows">
-        <ng-container *ngIf="!remindStudentRow.studentFeedbackSessionResponseStatus.responseStatus">
+        <ng-container *ngIf="!remindStudentRow.feedbackSessionStudentResponse.responseStatus">
           <tr class="bg-warning">
             <td class="align-center">
                 <label>
@@ -59,23 +59,23 @@
                 </label>
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.sectionName }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.sectionName }}
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.teamName }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.teamName }}
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.name }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.name }}
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.email }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.email }}
             </td>
             <td>
               No
             </td>
           </tr>
         </ng-container>
-        <ng-container *ngIf="remindStudentRow.studentFeedbackSessionResponseStatus.responseStatus">
+        <ng-container *ngIf="remindStudentRow.feedbackSessionStudentResponse.responseStatus">
           <tr class="bg-light">
             <td class="align-center">
               <div class="checkbox">
@@ -85,16 +85,16 @@
               </div>
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.sectionName }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.sectionName }}
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.teamName }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.teamName }}
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.name }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.name }}
             </td>
             <td>
-              {{ remindStudentRow.studentFeedbackSessionResponseStatus.email }}
+              {{ remindStudentRow.feedbackSessionStudentResponse.email }}
             </td>
             <td>
               Yes

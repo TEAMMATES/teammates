@@ -1,7 +1,7 @@
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { FeedbackSessionStudentResponse, FeedbackSessionStudentsResponse } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentFeedbackSessionResponseStatus, StudentsFeedbackSessionResponseStatus } from '../../student';
 import { SortBy, SortOrder, StudentStatusTableRowModel } from './sessions-table-model';
 
 /**
@@ -28,12 +28,12 @@ export abstract class StudentListInfoBaseModalComponent {
    */
   getStudentStatusTableRowModel(paramMap: { [key: string]: string }, model: StudentStatusTableRowModel[]): void {
     this.httpRequestService.get('/session/students/response', paramMap)
-      .subscribe((studentsFeedbackSessionResponseStatus: StudentsFeedbackSessionResponseStatus) => {
-        studentsFeedbackSessionResponseStatus.studentsFeedbackSessionResponseStatus
-          .forEach((studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus) => {
+      .subscribe((feedbackSessionStudentsResponse: FeedbackSessionStudentsResponse) => {
+        feedbackSessionStudentsResponse.studentsResponse
+          .forEach((studentResponse: FeedbackSessionStudentResponse) => {
 
             const studentStatusTableRowModel: StudentStatusTableRowModel = {
-              studentFeedbackSessionResponseStatus,
+              feedbackSessionStudentResponse: studentResponse,
               isChecked: false,
             };
 
@@ -62,32 +62,32 @@ export abstract class StudentListInfoBaseModalComponent {
    * Sorts the rows of students in order.
    */
   sortRowsBy(by: SortBy, order: SortOrder):
-      ((a: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus },
-        b: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus }) => number) {
-    return ((a: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus },
-             b: { studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus }): number => {
+      ((a: { feedbackSessionStudentResponse: FeedbackSessionStudentResponse },
+        b: { feedbackSessionStudentResponse: FeedbackSessionStudentResponse }) => number) {
+    return ((a: { feedbackSessionStudentResponse: FeedbackSessionStudentResponse },
+             b: { feedbackSessionStudentResponse: FeedbackSessionStudentResponse }): number => {
       let strA: string;
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.studentFeedbackSessionResponseStatus.sectionName;
-          strB = b.studentFeedbackSessionResponseStatus.sectionName;
+          strA = a.feedbackSessionStudentResponse.sectionName;
+          strB = b.feedbackSessionStudentResponse.sectionName;
           break;
         case SortBy.TEAM_NAME:
-          strA = a.studentFeedbackSessionResponseStatus.teamName;
-          strB = b.studentFeedbackSessionResponseStatus.teamName;
+          strA = a.feedbackSessionStudentResponse.teamName;
+          strB = b.feedbackSessionStudentResponse.teamName;
           break;
         case SortBy.STUDENT_NAME:
-          strA = a.studentFeedbackSessionResponseStatus.name;
-          strB = b.studentFeedbackSessionResponseStatus.name;
+          strA = a.feedbackSessionStudentResponse.name;
+          strB = b.feedbackSessionStudentResponse.name;
           break;
         case SortBy.STUDENT_EMAIL:
-          strA = a.studentFeedbackSessionResponseStatus.email;
-          strB = b.studentFeedbackSessionResponseStatus.email;
+          strA = a.feedbackSessionStudentResponse.email;
+          strB = b.feedbackSessionStudentResponse.email;
           break;
         case SortBy.SUBMIT_STATUS:
-          strA = a.studentFeedbackSessionResponseStatus.responseStatus.toString();
-          strB = b.studentFeedbackSessionResponseStatus.responseStatus.toString();
+          strA = a.feedbackSessionStudentResponse.responseStatus.toString();
+          strB = b.feedbackSessionStudentResponse.responseStatus.toString();
           break;
         default:
           strA = '';
@@ -119,7 +119,7 @@ export abstract class StudentListInfoBaseModalComponent {
     const remindStudentList: string[] = [];
     for (const studentStatusTableRow of model) {
       if (studentStatusTableRow.isChecked) {
-        remindStudentList.push(studentStatusTableRow.studentFeedbackSessionResponseStatus.email);
+        remindStudentList.push(studentStatusTableRow.feedbackSessionStudentResponse.email);
       }
     }
     return remindStudentList;

@@ -58,7 +58,7 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
    */
   checkAllYetSubmittedStudents(): void {
     for (const remindStudentRow of this.studentStatusTableRows) {
-      if (!remindStudentRow.studentFeedbackSessionResponseStatus.responseStatus) {
+      if (!remindStudentRow.feedbackSessionStudentResponse.responseStatus) {
         remindStudentRow.isChecked = this.checkAllYetSubmitted;
       }
     }
@@ -73,9 +73,9 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
     });
 
     this.checkAllYetSubmitted = this.studentStatusTableRows.filter(
-        (tableRow: StudentStatusTableRowModel) => !tableRow.studentFeedbackSessionResponseStatus.responseStatus,
+        (tableRow: StudentStatusTableRowModel) => !tableRow.feedbackSessionStudentResponse.responseStatus,
     ).every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked && !tableRow.studentFeedbackSessionResponseStatus.responseStatus;
+      return tableRow.isChecked && !tableRow.feedbackSessionStudentResponse.responseStatus;
     });
   }
 
