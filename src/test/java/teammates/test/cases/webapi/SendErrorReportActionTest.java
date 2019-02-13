@@ -3,14 +3,20 @@ package teammates.test.cases.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SendErrorReportAction;
+import teammates.ui.webapi.request.ErrorReportRequest;
 
 /**
  * SUT: {@link SendErrorReportAction}.
  */
 public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAction> {
+    private static final String REQUEST_ID = "REQUESTID";
+    private static final String SUBJECT = "Email subject";
+    private static final String CONTENT = "Email content";
+    private static final String[] PARAMS = {};
 
     @Override
     protected String getActionUri() {
@@ -25,35 +31,39 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
     @Override
     @Test
     protected void testExecute() throws Exception {
-        String subject = "Email subject";
-        String requestId = "REQUESTID";
-        String content = "Email content";
-
         gaeSimulation.logoutUser();
 
-        ______TS("Not enough parameters");
-
-        verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, subject);
-        verifyHttpParameterFailure(Const.ParamsNames.ERROR_FEEDBACK_REQUEST_ID, requestId);
-
-        ______TS("Normal case");
-
-        String[] params = {
-                Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, subject,
-                Const.ParamsNames.ERROR_FEEDBACK_REQUEST_ID, requestId,
-        };
-        SendErrorReportAction a = getAction(content, params);
-        JsonResult r = getJsonResult(a);
+        ______TS("Normal case: valid report with all fields populated");
+        ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT, CONTENT);
+        SendErrorReportAction action = getAction(report, PARAMS);
+        JsonResult jsonResult = getJsonResult(action);
 
         String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: Non-logged in user" + System.lineSeparator()
-                + "REQUEST ID: " + requestId + System.lineSeparator()
-                + "SUBJECT: " + subject + System.lineSeparator()
-                + "CONTENT: " + content;
+                + "REQUEST ID: " + REQUEST_ID + System.lineSeparator()
+                + "SUBJECT: " + SUBJECT + System.lineSeparator()
+                + "CONTENT: " + CONTENT;
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        assertEquals(expectedLogMessage, a.getUserErrorReportLogMessage());
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
+        assertEquals(expectedLogMessage, action.getUserErrorReportLogMessage(report));
+
+        ______TS("Failure: Invalid report with null requestId");
+        assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            ErrorReportRequest badReport = new ErrorReportRequest(null, SUBJECT, CONTENT);
+            getAction(badReport, PARAMS).execute();
+        });
+
+        ______TS("Failure: Invalid report with null SUBJECT");
+        assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            ErrorReportRequest badReport = new ErrorReportRequest(REQUEST_ID, null, CONTENT);
+            getAction(badReport, PARAMS).execute();
+        });
+
+        ______TS("Failure: Invalid report with null CONTENT");
+        assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            ErrorReportRequest badReport = new ErrorReportRequest(REQUEST_ID, SUBJECT, null);
+            getAction(badReport, PARAMS).execute();
+        });
     }
 
     @Override
