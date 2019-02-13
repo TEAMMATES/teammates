@@ -23,7 +23,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS;
+        return Const.ResourceURIs.ACCOUNT;
     }
 
     @Override

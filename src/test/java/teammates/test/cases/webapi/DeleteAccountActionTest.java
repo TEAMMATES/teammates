@@ -12,7 +12,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS;
+        return Const.ResourceURIs.ACCOUNT;
     }
 
     @Override
