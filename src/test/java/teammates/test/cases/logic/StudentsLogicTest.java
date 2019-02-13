@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -31,8 +32,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
@@ -48,6 +47,18 @@ public class StudentsLogicTest extends BaseLogicTest {
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
+
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    public void refreshTestData() {
+        dataBundle = getTypicalDataBundle();
+
+        removeAndRestoreTypicalDataBundle();
+    }
 
     @Test
     public void testAll() throws Exception {
@@ -66,7 +77,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetTeamForStudent();
 
         testEnrollStudent();
-        testAdjustFeedbackResponseForEnrollments();
 
         testValidateSections();
         testUpdateStudentCascade();
@@ -251,7 +261,8 @@ public class StudentsLogicTest extends BaseLogicTest {
                 ee.getMessage());
     }
 
-    private void testUpdateStudentCascade() throws Exception {
+    @Test
+    public void testUpdateStudentCascade() throws Exception {
 
         ______TS("typical edit");
 
@@ -337,88 +348,33 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testAdjustFeedbackResponseForEnrollments() throws Exception {
-
-        // the case below will not cause the response to be deleted
-        // because the studentEnrollDetails'email is not the same as giver or recipient
-        ______TS("adjust feedback response: no change of team");
-
-        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
+    @Test
+    public void testUpdateStudentCascade_teamChanged_shouldDeleteOldResponsesWithinTheTeam() throws Exception {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
-        StudentEnrollDetails studentDetails1 =
-                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
-                                         course1Id, student1InCourse1.email, student1InCourse1.team,
-                                         student1InCourse1.team + "tmp", student1InCourse1.section,
-                                         student1InCourse1.section + "tmp");
-        enrollmentList.add(studentDetails1);
 
-        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
-        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+        FeedbackResponseAttributes responseToBeDeleted = dataBundle.feedbackResponses.get("response2ForQ2S2C1");
         FeedbackQuestionAttributes feedbackQuestionInDb =
-                fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
-                                            feedbackResponse1InBundle.courseId,
-                                            Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        FeedbackResponseAttributes responseBefore =
-                frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                                            feedbackResponse1InBundle.giver,
-                                            feedbackResponse1InBundle.recipient);
+                logic.getFeedbackQuestion(responseToBeDeleted.feedbackSessionName,
+                        responseToBeDeleted.courseId,
+                        Integer.parseInt(responseToBeDeleted.feedbackQuestionId));
+        responseToBeDeleted =
+                logic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
 
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
+        // response exist
+        assertNotNull(responseToBeDeleted);
 
-        FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(responseBefore.getId(), responseAfter.getId());
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1InCourse1.getCourse(), student1InCourse1.getEmail())
+                        .withTeamName(student1InCourse1.getTeam() + "tmp")
+                        .build());
 
-        // the case below will not cause the response to be deleted
-        // because the studentEnrollDetails'email is not the same as giver or recipient
-        ______TS("adjust feedback response: unmodified status");
+        responseToBeDeleted =
+                logic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
 
-        enrollmentList = new ArrayList<>();
-        studentDetails1 =
-                new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
-                                         student1InCourse1.email, student1InCourse1.team,
-                                         student1InCourse1.team + "tmp", student1InCourse1.section,
-                                         student1InCourse1.section + "tmp");
-        enrollmentList.add(studentDetails1);
-
-        feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
-                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-
-        responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(responseBefore.getId(), responseAfter.getId());
-
-        // the code below will cause the feedback to be deleted because
-        // recipient's e-mail is the same as the one in studentEnrollDetails
-        // and the question's recipient's type is own team members
-        ______TS("adjust feedback response: delete after adjustment");
-
-        studentDetails1 =
-                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED, course1Id,
-                                         student2InCourse1.email, student1InCourse1.team,
-                                         student1InCourse1.team + "tmp", student1InCourse1.section,
-                                         student1InCourse1.section + "tmp");
-        enrollmentList = new ArrayList<>();
-        enrollmentList.add(studentDetails1);
-
-        feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
-                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-
-        responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertNull(responseAfter);
-
+        // response should not exist
+        assertNull(responseToBeDeleted);
     }
 
     private void testEnrollLinesChecking() throws Exception {

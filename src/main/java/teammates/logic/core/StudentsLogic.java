@@ -9,7 +9,6 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -415,25 +414,6 @@ public final class StudentsLogic {
 
     public void deleteStudentsForCourse(String courseId) {
         studentsDb.deleteStudentsForCourse(courseId);
-    }
-
-    public void adjustFeedbackResponseForEnrollments(
-            List<StudentEnrollDetails> enrollmentList,
-            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-        for (StudentEnrollDetails enrollment : enrollmentList) {
-            if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {
-                continue;
-            }
-
-            boolean isResponseDeleted = false;
-            if (isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
-                isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
-            }
-
-            if (!isResponseDeleted && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
-                frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
-            }
-        }
     }
 
     /**

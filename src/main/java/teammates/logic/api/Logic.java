@@ -19,7 +19,6 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -2022,14 +2021,6 @@ public class Logic {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
-    }
-
-    public void adjustFeedbackResponseForEnrollments(List<StudentEnrollDetails> enrollmentList,
-                                                     FeedbackResponseAttributes response)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(enrollmentList);
-        Assumption.assertNotNull(response);
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
     }
 
     /**

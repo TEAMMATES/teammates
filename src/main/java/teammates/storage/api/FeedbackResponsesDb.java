@@ -60,7 +60,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
+    private FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
 
         FeedbackResponse fr = getFeedbackResponseEntity(feedbackResponseId);
@@ -76,7 +76,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityWithCheck(
+    private FeedbackResponse getFeedbackResponseEntityWithCheck(
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
@@ -89,15 +89,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             return null;
         }
         return fr;
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
-     */
-    public FeedbackResponse getFeedbackResponseEntityOptimized(FeedbackResponseAttributes response) {
-        return getEntity(response);
     }
 
     /**

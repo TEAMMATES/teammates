@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -17,10 +16,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Logger;
 import teammates.common.util.SectionDetail;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles operations related to feedback responses.
@@ -29,6 +29,8 @@ import teammates.storage.entity.FeedbackResponse;
  * @see FeedbackResponsesDb
  */
 public final class FeedbackResponsesLogic {
+
+    private static final Logger log = Logger.getLogger();
 
     private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
 
@@ -440,14 +442,20 @@ public final class FeedbackResponsesLogic {
         }
     }
 
+    /**
+     * Deletes all responses given by a team.
+     */
     private void deleteTeamResponses(String courseId, String oldTeam) {
         List<FeedbackResponseAttributes> responsesToOldTeam =
                 getFeedbackResponsesForReceiverForCourse(courseId, oldTeam);
         for (FeedbackResponseAttributes response : responsesToOldTeam) {
-            frDb.deleteEntity(response);
+            deleteFeedbackResponseAndCascade(response);
         }
     }
 
+    /**
+     * Deletes all responses given other team members to the user.
+     */
     private void deleteResponsesFromTeamToUser(String courseId, String userEmail) {
         FeedbackQuestionAttributes question;
         List<FeedbackResponseAttributes> responsesToUser =
@@ -456,11 +464,16 @@ public final class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesToUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
             if (isRecipientTypeTeamMembers(question)) {
-                frDb.deleteEntity(response);
+                deleteFeedbackResponseAndCascade(response);
+                updateSessionResponseRateForDeletingStudentResponse(response.giver,
+                        response.feedbackSessionName, response.courseId);
             }
         }
     }
 
+    /**
+     * Deletes all responses given by the user to team members or given by the user as a representative of a team.
+     */
     private void deleteResponsesFromUserToTeam(String courseId, String userEmail) {
         FeedbackQuestionAttributes question;
 
@@ -471,7 +484,9 @@ public final class FeedbackResponsesLogic {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
                     || isRecipientTypeTeamMembers(question)) {
-                frDb.deleteEntity(response);
+                deleteFeedbackResponseAndCascade(response);
+                updateSessionResponseRateForDeletingStudentResponse(response.giver,
+                        response.feedbackSessionName, response.courseId);
             }
         }
     }
@@ -522,70 +537,22 @@ public final class FeedbackResponsesLogic {
         }
     }
 
-    public boolean updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-
-        FeedbackQuestionAttributes question = fqLogic
-                .getFeedbackQuestion(response.feedbackQuestionId);
-
-        boolean isGiverSameForResponseAndEnrollment = response.giver
-                .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.recipient
-                .equals(enrollment.email);
-
-        boolean shouldDeleteByChangeOfGiver = isGiverSameForResponseAndEnrollment
-                                              && (question.giverType == FeedbackParticipantType.TEAMS
-                                                  || isRecipientTypeTeamMembers(question));
-        boolean shouldDeleteByChangeOfRecipient = isReceiverSameForResponseAndEnrollment
-                                                  && isRecipientTypeTeamMembers(question);
-
-        boolean shouldDeleteResponse = shouldDeleteByChangeOfGiver
-                || shouldDeleteByChangeOfRecipient;
-
-        if (shouldDeleteResponse) {
-            frDb.deleteEntity(response);
-            updateSessionResponseRateForDeletingStudentResponse(enrollment.email,
-                    response.feedbackSessionName, enrollment.course);
-        }
-
-        return shouldDeleteResponse;
-    }
-
     private void updateSessionResponseRateForDeletingStudentResponse(String studentEmail, String sessionName,
-            String courseId) throws InvalidParametersException, EntityDoesNotExistException {
-        if (!hasGiverRespondedForSession(studentEmail, sessionName, courseId)) {
-            fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
+            String courseId) {
+        try {
+            if (!hasGiverRespondedForSession(studentEmail, sessionName, courseId)) {
+                fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
+            }
+        } catch (EntityDoesNotExistException | InvalidParametersException e) {
+            log.warning(String.format(
+                    "Cannot adjust response rate when for student %s course %s feedbackSession %s because of %s",
+                    studentEmail, courseId, sessionName, TeammatesException.toStringWithStackTrace(e)));
         }
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
         return question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
-    }
-
-    public void updateFeedbackResponseForChangingSection(
-            StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-
-        FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response);
-        boolean isGiverSameForResponseAndEnrollment = feedbackResponse.getGiverEmail()
-                .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = feedbackResponse.getRecipientEmail()
-                .equals(enrollment.email);
-
-        if (isGiverSameForResponseAndEnrollment) {
-            feedbackResponse.setGiverSection(enrollment.newSection);
-        }
-
-        if (isReceiverSameForResponseAndEnrollment) {
-            feedbackResponse.setRecipientSection(enrollment.newSection);
-        }
-
-        frDb.saveEntity(feedbackResponse);
-
-        if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
-        }
     }
 
     /**
