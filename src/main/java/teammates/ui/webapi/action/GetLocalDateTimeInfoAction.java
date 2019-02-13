@@ -10,7 +10,6 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.ui.webapi.output.LocalDateTimeInfo;
 
 /**
@@ -48,7 +47,7 @@ public class GetLocalDateTimeInfoAction extends Action {
         }
 
         LocalDateTimeInfo ldtInfo = null;
-        switch(TimeHelper.LocalDateTimeAmbiguityStatus.of(localDateTime, zoneId)) {
+        switch(LocalDateTimeInfo.LocalDateTimeAmbiguityStatus.of(localDateTime, zoneId)) {
         case UNAMBIGUOUS:
             ldtInfo = LocalDateTimeInfo.unambiguous(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
             break;
