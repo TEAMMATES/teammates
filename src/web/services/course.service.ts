@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MessageOutput } from '../types/api-output';
-import { CourseCreateRequest, CourseSaveRequest } from '../types/api-request';
+import { CourseArchiveRequest, CourseCreateRequest, CourseSaveRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -34,5 +34,12 @@ export class CourseService {
    */
   deleteCourse(paramMap: { [key: string]: string }): Observable<MessageOutput> {
     return this.httpRequestService.delete('/course', paramMap);
+  }
+
+  /**
+   * Archives a course by calling API.
+   */
+  archiveCourse(paramMap: { [key: string]: string }, request: CourseArchiveRequest): Observable<MessageOutput> {
+    return this.httpRequestService.put('/course/archive', paramMap, request);
   }
 }

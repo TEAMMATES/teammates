@@ -222,7 +222,10 @@ export class InstructorCoursesPageComponent implements OnInit {
       archive: 'true',
       user: this.user,
     };
-    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.archiveCourse(paramMap, {
+      courseId,
+      archiveStatus: 'true',
+    }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {

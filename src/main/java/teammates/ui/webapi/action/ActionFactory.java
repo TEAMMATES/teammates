@@ -45,8 +45,8 @@ public class ActionFactory {
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, SaveCourseAction.class);
-        map(ResourceURIs.COURSE_SOFTDELETE, DELETE, SoftDeleteCourseAction.class);
         map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
+        map(ResourceURIs.COURSE_SOFTDELETE, DELETE, SoftDeleteCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
