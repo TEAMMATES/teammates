@@ -7,13 +7,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
-import java.util.List;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;

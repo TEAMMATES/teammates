@@ -1,10 +1,11 @@
 package teammates.ui.webapi.output;
 
-import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * The API output format of a {@code LocalDateTimeInfo} to hold information for resolving DST overlaps/gaps.
