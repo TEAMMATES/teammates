@@ -168,20 +168,6 @@
     "qn1InSession2": {
       "feedbackSessionName": "MCQ Weight Session",
       "courseId": "FMcqQnUiT.CS2104",
-      "questionNumber": 1,
-      "questionType": "MCQ",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -195,12 +181,8 @@
         "generateOptionsFor": "NONE",
         "questionType": "MCQ",
         "questionText": "Question without weights attached!"
-      }
-    },
-    "qn2InSession2": {
-      "feedbackSessionName": "MCQ Weight Session",
-      "courseId": "FMcqQnUiT.CS2104",
-      "questionNumber": 2,
+      },
+      "questionNumber": 1,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -213,7 +195,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn2InSession2": {
+      "feedbackSessionName": "MCQ Weight Session",
+      "courseId": "FMcqQnUiT.CS2104",
       "questionDetails": {
         "hasAssignedWeights": true,
         "mcqWeights": [
@@ -230,7 +216,21 @@
         "generateOptionsFor": "NONE",
         "questionType": "MCQ",
         "questionText": "Question with weights attached!"
-      }
+      },
+      "questionNumber": 2,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {

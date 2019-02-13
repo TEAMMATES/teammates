@@ -486,6 +486,10 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -499,15 +503,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "What is the best selling point of your product?"
-      }
+      ]
     },
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -523,15 +527,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Rate 1 other student's product"
-      }
+      ]
     },
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -554,15 +558,15 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "My comments on the class"
-      }
+      ]
     },
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor comments on the class"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -585,15 +589,16 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Instructor comments on the class"
-      }
+      ]
     },
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -607,16 +612,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "recommendedLength": 100,
-        "questionText": "New format Text question",
-        "questionType": "TEXT"
-      }
+      ]
     },
     "team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -630,15 +634,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to 2 other teams."
-      }
+      ]
     },
     "team.members.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 1 of your team mates"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -652,15 +656,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to 1 of your team mates"
-      }
+      ]
     },
     "graceperiod.session.feedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -674,15 +678,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to 2 other teams."
-      }
+      ]
     },
     "graceperiod.session.feedback2": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to yourself."
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -696,15 +700,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to yourself."
-      }
+      ]
     },
     "graceperiod.session.feedbackFromTeamToSelf": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback as a team to own team."
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -718,15 +722,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback as a team to own team."
-      }
+      ]
     },
     "closed.session.feedback": {
       "feedbackSessionName": "Closed Session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to yourself."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -740,15 +744,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to yourself."
-      }
+      ]
     },
     "qn1InSession4InCourse1": {
       "feedbackSessionName": "non visible session",
       "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 4 other students"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -762,15 +766,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to 4 other students"
-      }
+      ]
     },
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "idOfTestingSanitizationCourse",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -784,11 +788,7 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-      }
+      ]
     }
   },
   "feedbackResponses": {

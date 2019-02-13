@@ -189,23 +189,6 @@
     "qn1InClosedSessionInCourse": {
       "feedbackSessionName": "Closed Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "questionNumber": 1,
-      "questionType": "RUBRIC",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "STUDENTS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS",
-        "STUDENTS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "STUDENTS"
-      ],
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -229,11 +212,52 @@
             "Less than half the time"
           ]
         ]
-      }
+      },
+      "questionNumber": 1,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
     },
     "qn2InClosedSessionInCourse": {
       "feedbackSessionName": "Closed Session",
       "courseId": "FRubricQnUiT.CS2104",
+      "questionDetails": {
+        "rubricSubQuestions": [
+          "This student has done a good job.",
+          "This student has tried his/her best."
+        ],
+        "questionText": "Please choose the best choice for the following sub-questions.",
+        "numOfRubricChoices": 2,
+        "numOfRubricSubQuestions": 2,
+        "questionType": "RUBRIC",
+        "rubricChoices": [
+          "Yes",
+          "No"
+        ],
+        "rubricDescriptions": [
+          [
+            "",
+            ""
+          ],
+          [
+            "Most of the time",
+            "Less than half the time"
+          ]
+        ]
+      },
       "questionNumber": 1,
       "questionType": "RUBRIC",
       "giverType": "INSTRUCTORS",
@@ -249,52 +273,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "rubricSubQuestions": [
-          "This student has done a good job.",
-          "This student has tried his/her best."
-        ],
-        "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricChoices": 2,
-        "numOfRubricSubQuestions": 2,
-        "questionType": "RUBRIC",
-        "rubricChoices": [
-          "Yes",
-          "No"
-        ],
-        "rubricDescriptions": [
-          [
-            "",
-            ""
-          ],
-          [
-            "Most of the time",
-            "Less than half the time"
-          ]
-        ]
-      }
+      ]
     },
     "qn1InOpenSession2InCourse": {
       "feedbackSessionName": "Second Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "questionNumber": 1,
-      "questionType": "RUBRIC",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "STUDENTS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS",
-        "STUDENTS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "STUDENTS"
-      ],
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -329,15 +312,11 @@
             "Less than half the time"
           ]
         ]
-      }
-    },
-    "qn1InOpenSession3InCourse": {
-      "feedbackSessionName": "Third Session",
-      "courseId": "FRubricQnUiT.CS2104",
+      },
       "questionNumber": 1,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
-      "recipientType": "SELF",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -350,7 +329,11 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "STUDENTS"
-      ],
+      ]
+    },
+    "qn1InOpenSession3InCourse": {
+      "feedbackSessionName": "Third Session",
+      "courseId": "FRubricQnUiT.CS2104",
       "questionDetails": {
         "rubricSubQuestions": [
           "You have done a good job.",
@@ -374,24 +357,28 @@
             "Less than half the time"
           ]
         ]
-      }
-    },
-    "qn1InOpenSession4InCourse": {
-      "feedbackSessionName": "Fourth Session",
-      "courseId": "FRubricQnUiT.CS2104",
+      },
       "questionNumber": 1,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
-      "recipientType": "NONE",
+      "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
         "STUDENTS"
       ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
       ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
+    },
+    "qn1InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
       "questionDetails": {
         "rubricSubQuestions": [
           "You have done a good job.",
@@ -415,25 +402,24 @@
             "Less than half the time"
           ]
         ]
-      }
+      },
+      "questionNumber": 1,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn2InOpenSession4InCourse": {
       "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
-      "questionNumber": 2,
-      "questionType": "RUBRIC",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -468,15 +454,11 @@
             "Less than half the time"
           ]
         ]
-      }
-    },
-    "qn3InOpenSession4InCourse": {
-      "feedbackSessionName": "Fourth Session",
-      "courseId": "FRubricQnUiT.CS2104",
-      "questionNumber": 3,
+      },
+      "questionNumber": 2,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -486,7 +468,11 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ],
+      ]
+    },
+    "qn3InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -521,15 +507,11 @@
             "Less than half the time"
           ]
         ]
-      }
-    },
-    "qn4InOpenSession4InCourse": {
-      "feedbackSessionName": "Fourth Session",
-      "courseId": "FRubricQnUiT.CS2104",
-      "questionNumber": 4,
+      },
+      "questionNumber": 3,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -539,7 +521,11 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ],
+      ]
+    },
+    "qn4InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -574,7 +560,21 @@
             "Less than half the time"
           ]
         ]
-      }
+      },
+      "questionNumber": 4,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {

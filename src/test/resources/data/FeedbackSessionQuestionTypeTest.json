@@ -594,20 +594,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 1,
-      "questionType": "MCQ",
-      "giverType": "STUDENTS",
-      "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -621,14 +607,10 @@
         "generateOptionsFor": "NONE",
         "questionType": "MCQ",
         "questionText": "What do you like best about our product?"
-      }
-    },
-    "qn2InSession1InCourse1": {
-      "feedbackSessionName": "MCQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 2,
+      },
+      "questionNumber": 1,
       "questionType": "MCQ",
-      "giverType": "INSTRUCTORS",
+      "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
@@ -639,7 +621,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn2InSession1InCourse1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -653,14 +639,10 @@
         "generateOptionsFor": "NONE",
         "questionType": "MCQ",
         "questionText": "What do you like best about the class' product?"
-      }
-    },
-    "qn3InSession1InCourse1": {
-      "feedbackSessionName": "MCQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 3,
+      },
+      "questionNumber": 2,
       "questionType": "MCQ",
-      "giverType": "STUDENTS",
+      "giverType": "INSTRUCTORS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
@@ -671,7 +653,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn3InSession1InCourse1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -685,12 +671,8 @@
         "generateOptionsFor": "NONE",
         "questionType": "MCQ",
         "questionText": "What can be improved for this class?"
-      }
-    },
-    "qn4InSession1InCourse1": {
-      "feedbackSessionName": "MCQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 4,
+      },
+      "questionNumber": 3,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
@@ -703,7 +685,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn4InSession1InCourse1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
       "questionDetails": {
         "hasAssignedWeights": true,
         "mcqWeights": [
@@ -720,11 +706,34 @@
         "generateOptionsFor": "NONE",
         "questionType": "MCQ",
         "questionText": "What do you like best about our product?"
-      }
+      },
+      "questionNumber": 4,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "msqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionText": "What do you like best about our product?",
+        "questionType": "MSQ",
+        "otherEnabled": false
+      },
       "questionNumber": 1,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -738,20 +747,20 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn2InSession2InCourse1": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
       "questionDetails": {
         "msqChoices": [
           "It's good",
           "It's perfect"
         ],
-        "questionText": "What do you like best about our product?",
+        "questionText": "What do you like best about the class' product?",
         "questionType": "MSQ",
         "otherEnabled": false
-      }
-    },
-    "qn2InSession2InCourse1": {
-      "feedbackSessionName": "MSQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
+      },
       "questionNumber": 2,
       "questionType": "MSQ",
       "giverType": "INSTRUCTORS",
@@ -765,34 +774,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "msqChoices": [
-          "It's good",
-          "It's perfect"
-        ],
-        "questionText": "What do you like best about the class' product?",
-        "questionType": "MSQ",
-        "otherEnabled": false
-      }
+      ]
     },
     "qn3InSession2InCourse1": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 3,
-      "questionType": "MSQ",
-      "giverType": "STUDENTS",
-      "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
       "questionDetails": {
         "msqChoices": [
           "Pizza",
@@ -809,11 +795,32 @@
           0.0
         ],
         "msqOtherWeight": 3.0
-      }
+      },
+      "questionNumber": 3,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn1InSession3InCourse1": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate our product.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 1,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -827,18 +834,18 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn2InSession3InCourse1": {
+      "feedbackSessionName": "NUMSCALE Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
       "questionDetails": {
         "minScale": 1,
         "questionText": "Rate our product.",
         "questionType": "NUMSCALE",
         "maxScale": 5,
         "step": 0.5
-      }
-    },
-    "qn2InSession3InCourse1": {
-      "feedbackSessionName": "NUMSCALE Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
+      },
       "questionNumber": 2,
       "questionType": "NUMSCALE",
       "giverType": "INSTRUCTORS",
@@ -852,18 +859,23 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "minScale": 1,
-        "questionText": "Rate our product.",
-        "questionType": "NUMSCALE",
-        "maxScale": 5,
-        "step": 0.5
-      }
+      ]
     },
     "qn1InSession4InCourse1": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "distributeToRecipients": false,
+        "pointsPerOption": false,
+        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": [
+          "Grades",
+          "Fun"
+        ]
+      },
       "questionNumber": 1,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -877,23 +889,20 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "distributeToRecipients": false,
-        "pointsPerOption": false,
-        "questionText": "How important are the following factors to you? Give points accordingly.",
-        "numOfConstSumOptions": 2,
-        "questionType": "CONSTSUM",
-        "points": 100,
-        "constSumOptions": [
-          "Grades",
-          "Fun"
-        ]
-      }
+      ]
     },
     "qn2InSession4InCourse1": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among the teams",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      },
       "questionNumber": 2,
       "questionType": "CONSTSUM",
       "giverType": "INSTRUCTORS",
@@ -907,20 +916,20 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "distributeToRecipients": true,
-        "pointsPerOption": true,
-        "questionText": "Split points among the teams",
-        "numOfConstSumOptions": 0,
-        "questionType": "CONSTSUM",
-        "points": 100,
-        "constSumOptions": []
-      }
+      ]
     },
     "qn3InSession4InCourse1": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "How much has each student worked?",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      },
       "questionNumber": 3,
       "questionType": "CONSTSUM",
       "giverType": "INSTRUCTORS",
@@ -934,20 +943,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "distributeToRecipients": true,
-        "pointsPerOption": true,
-        "questionText": "How much has each student worked?",
-        "numOfConstSumOptions": 0,
-        "questionType": "CONSTSUM",
-        "points": 100,
-        "constSumOptions": []
-      }
+      ]
     },
     "qn1InSession5InCourse1": {
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionText": "How much has each team member including yourself, contributed to the project?",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -961,29 +965,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionText": "How much has each team member including yourself, contributed to the project?",
-        "questionType": "CONTRIB"
-      }
+      ]
     },
     "qn1InSession6InCourse1": {
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 1,
-      "questionType": "RUBRIC",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -1018,12 +1004,8 @@
             "Less than half the time"
           ]
         ]
-      }
-    },
-    "qn2InSession6InCourse1": {
-      "feedbackSessionName": "RUBRIC Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "questionNumber": 2,
+      },
+      "questionNumber": 1,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -1036,7 +1018,11 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
+      ]
+    },
+    "qn2InSession6InCourse1": {
+      "feedbackSessionName": "RUBRIC Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
       "questionDetails": {
         "rubricSubQuestions": [
           "This student has done a good job.",
@@ -1071,11 +1057,29 @@
             "Less than half the time"
           ]
         ]
-      }
+      },
+      "questionNumber": 2,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn1InSession7InCourse1": {
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionText": "How much has each team member including yourself, contributed to the project?",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -1087,15 +1091,15 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
-      "showRecipientNameTo": [],
-      "questionDetails": {
-        "questionText": "How much has each team member including yourself, contributed to the project?",
-        "questionType": "CONTRIB"
-      }
+      "showRecipientNameTo": []
     },
     "qn1InContribSession2InCourse2": {
       "feedbackSessionName": "CONTRIB Session 2",
       "courseId": "FSQTT.idOfTypicalCourse2",
+      "questionDetails": {
+        "questionText": "How much has each team member including yourself, contributed to the project?",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -1109,15 +1113,18 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionText": "How much has each team member including yourself, contributed to the project?",
-        "questionType": "CONTRIB"
-      }
+      ]
     },
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Unregistered Student Session",
       "courseId": "FSQTT.idOfTypicalCourse2",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate our product.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 1,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -1131,18 +1138,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "minScale": 1,
-        "questionText": "Rate our product.",
-        "questionType": "NUMSCALE",
-        "maxScale": 5,
-        "step": 0.5
-      }
+      ]
     },
     "qn1InSession1InCourseWithSections": {
       "feedbackSessionName": "CONTRIB Session Section Restricted",
       "courseId": "FSQTT.idOfCourseWithSections",
+      "questionDetails": {
+        "questionText": "How much has each team member including yourself, contributed to the project?",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -1156,15 +1160,16 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionText": "How much has each team member including yourself, contributed to the project?",
-        "questionType": "CONTRIB"
-      }
+      ]
     },
     "qn1InRANKSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "areDuplicatesAllowed": false,
+        "questionText": "Rank the other students.",
+        "questionType": "RANK_RECIPIENTS"
+      },
       "questionNumber": 1,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -1178,16 +1183,23 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "areDuplicatesAllowed": false,
-        "questionText": "Rank the other students.",
-        "questionType": "RANK_RECIPIENTS"
-      }
+      ]
     },
     "qn2InRANKSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
+      "questionDetails": {
+        "areDuplicatesAllowed": true,
+        "questionText": "Rank the areas of improvement you think your team should make progress in.",
+        "questionType": "RANK_OPTIONS",
+        "options": [
+          "Quality of work",
+          "Quality of progress reports",
+          "Time management",
+          "Teamwork and communication",
+          "Friendliness of teammates"
+        ]
+      },
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -1201,19 +1213,7 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "areDuplicatesAllowed": true,
-        "questionText": "Rank the areas of improvement you think your team should make progress in.",
-        "questionType": "RANK_OPTIONS",
-        "options": [
-          "Quality of work",
-          "Quality of progress reports",
-          "Time management",
-          "Teamwork and communication",
-          "Friendliness of teammates"
-        ]
-      }
+      ]
     }
   },
   "feedbackResponses": {

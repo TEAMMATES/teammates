@@ -90,6 +90,10 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn1InSession1InCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -103,16 +107,16 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "What is the best selling point of your product?"
-      }
+      ]
     },
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn2InSession1InCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -128,16 +132,16 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Rate 1 other student's product"
-      }
+      ]
     },
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "qn3InSession1InCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -160,11 +164,7 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "My comments on the class"
-      }
+      ]
     }
   },
   "feedbackResponses": {

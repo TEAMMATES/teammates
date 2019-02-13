@@ -299,6 +299,10 @@
     "qn1.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student self feedback"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -312,15 +316,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "student self feedback"
-      }
+      ]
     },
     "qn2.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student feedback to team members. only recipient can see names."
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -335,15 +339,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "student feedback to team members. only recipient can see names."
-      }
+      ]
     },
     "qn3.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student to instructors. recipient name protected."
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -357,15 +361,15 @@
       "showGiverNameTo": [
         "RECEIVER"
       ],
-      "showRecipientNameTo": [],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "student to instructors. recipient name protected."
-      }
+      "showRecipientNameTo": []
     },
     "qn4.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student to 2 teams with extra responses. only instructor can see giver name."
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -383,15 +387,15 @@
         "RECEIVER",
         "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "student to 2 teams with extra responses. only instructor can see giver name."
-      }
+      ]
     },
     "qn5.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student to students. only giver team + receiver can see giver name"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -411,15 +415,15 @@
         "INSTRUCTORS",
         "RECEIVER",
         "RECEIVER_TEAM_MEMBERS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "student to students. only giver team + receiver can see giver name"
-      }
+      ]
     },
     "qn6.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "instructor to none. only instructors can see."
+      },
       "questionNumber": 6,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -433,15 +437,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "instructor to none. only instructors can see."
-      }
+      ]
     },
     "qn7.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "teams to students. all students can see everything, but not instr inc creator."
+      },
       "questionNumber": 7,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -455,15 +459,15 @@
       ],
       "showRecipientNameTo": [
         "STUDENTS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "teams to students. all students can see everything, but not instr inc creator."
-      }
+      ]
     },
     "qn8.standard.session": {
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "teams to teams test."
+      },
       "questionNumber": 8,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -477,15 +481,15 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "teams to teams test."
-      }
+      ]
     },
     "qn1.no.recipient.session": {
       "feedbackSessionName": "Special feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "student > none"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -499,15 +503,15 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "student > none"
-      }
+      ]
     },
     "qn2.no.recipient.session": {
       "feedbackSessionName": "Special feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "instructor > none"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -524,15 +528,15 @@
       "showRecipientNameTo": [
         "INSTRUCTORS",
         "STUDENTS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "instructor > none"
-      }
+      ]
     },
     "qn1.no.responses.session": {
       "feedbackSessionName": "No responses feedback session",
       "courseId": "FSDTest.idOfTypicalCourse2",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "students"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -546,15 +550,15 @@
       ],
       "showRecipientNameTo": [
         "STUDENTS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "students"
-      }
+      ]
     },
     "qn2.no.responses.session": {
       "feedbackSessionName": "No responses feedback session",
       "courseId": "FSDTest.idOfTypicalCourse2",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "instructors"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -568,11 +572,7 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "instructors"
-      }
+      ]
     }
   },
   "feedbackResponses": {
