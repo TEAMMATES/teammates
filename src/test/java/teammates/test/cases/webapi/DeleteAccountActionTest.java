@@ -59,7 +59,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         action = getAction(submissionParams);
         result = getJsonResult(action);
 
-        // should failed silently.
+        // should fail silently.
         assertEquals(msg.getMessage(), "Account is successfully deleted.");
         assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 

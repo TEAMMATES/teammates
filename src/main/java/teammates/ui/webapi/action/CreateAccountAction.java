@@ -19,6 +19,8 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.JoinLinkData;
+import teammates.ui.webapi.request.AccountCreateRequest;
 
 /**
  * Action: creates a new instructor account with sample courses.
@@ -40,15 +42,11 @@ public class CreateAccountAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
-        String instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();
+        AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-        try {
-            logic.verifyInputForAdminHomePage(instructorName, instructorInstitution, instructorEmail);
-        } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
-        }
+        String instructorName = createRequest.getInstructorName();
+        String instructorEmail = createRequest.getInstructorEmail();
+        String instructorInstitution = createRequest.getInstructorInstitution();
 
         String courseId = null;
 
@@ -68,7 +66,7 @@ public class CreateAccountAction extends Action {
                 instructorList.get(0).email, instructorName, joinLink);
         emailSender.sendEmail(email);
 
-        JoinLink output = new JoinLink(joinLink);
+        JoinLinkData output = new JoinLinkData(joinLink);
         return new JsonResult(output);
     }
 
@@ -190,23 +188,6 @@ public class CreateAccountAction extends Action {
         int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
-    }
-
-    /**
-     * Output format for {@link CreateAccountAction}.
-     */
-    public static class JoinLink extends ApiOutput {
-
-        private final String joinLink;
-
-        public JoinLink(String joinLink) {
-            this.joinLink = joinLink;
-        }
-
-        public String getJoinLink() {
-            return joinLink;
-        }
-
     }
 
 }
