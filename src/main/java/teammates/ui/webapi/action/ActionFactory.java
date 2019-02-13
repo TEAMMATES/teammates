@@ -58,7 +58,7 @@ public class ActionFactory {
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
-        map(ResourceURIs.SESSION_REMIND_SUBMISSION, GET, GetFeedbackSessionSubmissionResponseStatusAction.class);
+        map(ResourceURIs.SESSION_STUDENTS_RESPONSE, GET, GetFeedbackSessionSubmissionResponseStatusAction.class);
         map(ResourceURIs.SESSION_REMIND_SUBMISSION, POST, RemindFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.SESSION_REMIND_RESULT, POST, RemindFeedbackSessionResultAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);

@@ -27,7 +27,7 @@ export abstract class StudentListInfoBaseModalComponent {
    * Get the list of students to remind in table form.
    */
   getStudentStatusTableRowModel(paramMap: { [key: string]: string }, model: StudentStatusTableRowModel[]): void {
-    this.httpRequestService.get('/session/remind/submission', paramMap)
+    this.httpRequestService.get('/session/students/response', paramMap)
       .subscribe((studentsFeedbackSessionResponseStatus: StudentsFeedbackSessionResponseStatus) => {
         studentsFeedbackSessionResponseStatus.studentsFeedbackSessionResponseStatus
           .forEach((studentFeedbackSessionResponseStatus: StudentFeedbackSessionResponseStatus) => {
