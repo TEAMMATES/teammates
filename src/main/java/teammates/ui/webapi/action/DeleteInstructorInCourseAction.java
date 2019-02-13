@@ -40,6 +40,11 @@ public class DeleteInstructorInCourseAction extends Action {
                     + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
         }
 
+        if (!hasAlternativeInstructorDisplayed(courseId, instructorEmail)) {
+            return new JsonResult("The instructor you are trying to delete is the last instructor in the course that "
+            + "is displayed to the students." + " Deleting this instructor is not allowed.", HttpStatus.SC_BAD_REQUEST);
+        }
+
         logic.deleteInstructor(courseId, instructorEmail);
 
         return new JsonResult("The instructor has been deleted from the course.", HttpStatus.SC_OK);
@@ -64,6 +69,29 @@ public class DeleteInstructorInCourseAction extends Action {
                             && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
             if (isAlternativeInstructor) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if there is a joined instructor that is visible to students(other than the instructor to delete)
+     * with the privilege of modifying instructors.
+     *
+     * @param courseId                Id of the course
+     * @param instructorToDeleteEmail Email of the instructor who is being deleted
+     */
+    private boolean hasAlternativeInstructorDisplayed(String courseId, String instructorToDeleteEmail) {
+
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+
+        for (InstructorAttributes instr : instructors) {
+            boolean isAlternativeInstructorDisplayed = instr.isDisplayedToStudents
+                    && !instr.getEmail().equals(instructorToDeleteEmail);
+
+            if (isAlternativeInstructorDisplayed) {
                 return true;
             }
         }

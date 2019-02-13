@@ -565,6 +565,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseid: this.courseToEdit.id,
       instructorid: this.instructor.googleId,
       instructoremail: instructorToDelete.email,
+      instructorisdisplayed: instructorToDelete.isDisplayedToStudents.toString(),
     };
 
     this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)
