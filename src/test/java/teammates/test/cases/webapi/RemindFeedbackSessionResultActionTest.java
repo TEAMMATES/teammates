@@ -9,11 +9,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.RemindFeedbackSessionResultAction;
+import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.FeedbackSessionStudentSaveRequest;
 
 /**
  * SUT: {@link RemindFeedbackSessionResultAction}.
  */
-public class RemindFeedbackSessionResultTest extends BaseActionTest<RemindFeedbackSessionResultAction> {
+public class RemindFeedbackSessionResultActionTest extends BaseActionTest<RemindFeedbackSessionResultAction> {
 
     @Override
     protected String getActionUri() {
@@ -38,19 +40,12 @@ public class RemindFeedbackSessionResultTest extends BaseActionTest<RemindFeedba
         verifyHttpParameterFailure();
         String[] paramsNoCourseId = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail(),
         };
         verifyHttpParameterFailure(paramsNoCourseId);
         String[] paramsNoFeedback = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail(),
         };
         verifyHttpParameterFailure(paramsNoFeedback);
-        String[] paramsNoUsersToResendEmail = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-        };
-        verifyHttpParameterFailure(paramsNoUsersToResendEmail);
 
         ______TS("Unsuccessful case: Feedback session not published, warning message generated");
 
@@ -58,13 +53,18 @@ public class RemindFeedbackSessionResultTest extends BaseActionTest<RemindFeedba
         String[] paramsFeedbackSessionNotPublshed = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail(),
         };
 
-        RemindFeedbackSessionResultAction action = getAction(paramsFeedbackSessionNotPublshed);
+        FeedbackSessionStudentSaveRequest saveRequest = new FeedbackSessionStudentSaveRequest();
+        saveRequest.setUsersToRemind(studentToEmail.getEmail().split(""));
+
+        RemindFeedbackSessionResultAction action = getAction(saveRequest, paramsFeedbackSessionNotPublshed);
         JsonResult result = getJsonResult(action);
+        MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        assertEquals("Published email could not be resent "
+                + "as the feedback session is not published.", message.getMessage());
         verifyNoTasksAdded(action);
 
         ______TS("Successful case: Typical case");
@@ -73,10 +73,9 @@ public class RemindFeedbackSessionResultTest extends BaseActionTest<RemindFeedba
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail(),
         };
 
-        action = getAction(paramsTypical);
+        action = getAction(saveRequest, paramsTypical);
         result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

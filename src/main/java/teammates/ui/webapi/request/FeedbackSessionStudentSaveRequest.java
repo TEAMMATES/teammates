@@ -10,6 +10,10 @@ public class FeedbackSessionStudentSaveRequest extends BasicRequest {
         return usersToRemind;
     }
 
+    public void setUsersToRemind(String[] usersToRemind) {
+        this.usersToRemind = usersToRemind;
+    }
+
     @Override
     public void validate() {
 

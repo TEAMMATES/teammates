@@ -9,6 +9,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.RemindFeedbackSessionSubmissionAction;
+import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.FeedbackSessionStudentSaveRequest;
 
 /**
  * SUT: {@link RemindFeedbackSessionSubmissionAction}.
@@ -38,19 +40,12 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         verifyHttpParameterFailure();
         String[] paramsNoCourseId = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
         verifyHttpParameterFailure(paramsNoCourseId);
         String[] paramsNoFeedback = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
         verifyHttpParameterFailure(paramsNoFeedback);
-        String[] paramsNoUsersToRemind = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-        };
-        verifyHttpParameterFailure(paramsNoUsersToRemind);
 
         ______TS("Unsuccessful case: Feedback session not open, warning message generated");
 
@@ -58,13 +53,18 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         String[] paramsFeedbackSessionNotOpen = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
-        RemindFeedbackSessionSubmissionAction action = getAction(paramsFeedbackSessionNotOpen);
+        FeedbackSessionStudentSaveRequest saveRequest = new FeedbackSessionStudentSaveRequest();
+        saveRequest.setUsersToRemind(studentNotSubmitFeedback.getEmail().split(""));
+
+        RemindFeedbackSessionSubmissionAction action = getAction(saveRequest, paramsFeedbackSessionNotOpen);
         JsonResult result = getJsonResult(action);
+        MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        assertEquals("Reminder email could not be sent out "
+                + "as the feedback session is not open for submissions.", message.getMessage());
 
         ______TS("Successful case: Typical case");
 
@@ -72,10 +72,9 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
-        action = getAction(paramsTypical);
+        action = getAction(saveRequest, paramsTypical);
         result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
