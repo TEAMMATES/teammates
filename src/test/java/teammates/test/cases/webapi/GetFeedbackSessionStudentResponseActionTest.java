@@ -7,19 +7,19 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetFeedbackSessionSubmissionResponseStatusAction;
+import teammates.ui.webapi.action.GetFeedbackSessionStudentResponseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackSessionStudentsResponseData;
 
 /**
- * SUT: {@link GetFeedbackSessionSubmissionResponseStatusAction}.
+ * SUT: {@link GetFeedbackSessionStudentResponseAction}.
  */
-public class GetFeedbackSessionSubmissionResponseStatusActionTest extends
-        BaseActionTest<GetFeedbackSessionSubmissionResponseStatusAction> {
+public class GetFeedbackSessionStudentResponseActionTest extends
+        BaseActionTest<GetFeedbackSessionStudentResponseAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.SESSION_REMIND_SUBMISSION;
+        return Const.ResourceURIs.SESSION_STUDENTS_RESPONSE;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class GetFeedbackSessionSubmissionResponseStatusActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName(),
         };
 
-        GetFeedbackSessionSubmissionResponseStatusAction pageAction = getAction(submissionParams);
+        GetFeedbackSessionStudentResponseAction pageAction = getAction(submissionParams);
         JsonResult result = getJsonResult(pageAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

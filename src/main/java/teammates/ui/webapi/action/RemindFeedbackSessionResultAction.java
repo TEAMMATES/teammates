@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.ui.webapi.request.FeedbackSessionStudentSaveRequest;
 
 /**
  * Remind the student about the published result of a feedback session.
@@ -38,10 +39,10 @@ public class RemindFeedbackSessionResultAction extends Action {
                     + "as the feedback session is not published.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        String usersToEmail =
-                getNonNullRequestParamValue(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
-        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName,
-                usersToEmail.split(","));
+        FeedbackSessionStudentSaveRequest saveRequest = getAndValidateRequestBody(FeedbackSessionStudentSaveRequest.class);
+        String[] usersToEmail = saveRequest.getUsersToRemind();
+
+        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName, usersToEmail);
 
         return new JsonResult("Reminders sent");
     }
