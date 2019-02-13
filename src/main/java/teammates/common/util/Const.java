@@ -927,8 +927,8 @@ public final class Const {
         public static final String AUTH = "/auth";
         public static final String ACCOUNT = "/account";
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
-        public static final String ACCOUNTS_RESET = "/accounts/reset";
-        public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String ACCOUNT_RESET = "/account/reset";
+        public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String COURSE = "/course";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";

@@ -12,7 +12,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS_DOWNGRADE;
+        return Const.ResourceURIs.ACCOUNT_DOWNGRADE;
     }
 
     @Override

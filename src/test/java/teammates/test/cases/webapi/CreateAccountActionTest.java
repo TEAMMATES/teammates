@@ -15,7 +15,6 @@ import teammates.test.driver.StringHelperExtension;
 import teammates.ui.webapi.action.CreateAccountAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.JoinLinkData;
-import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.AccountCreateRequest;
 
 /**
