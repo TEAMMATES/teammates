@@ -544,7 +544,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.student1InCourse1@gmail.tmt",
       "responseDetails": {
@@ -556,7 +555,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.student2InCourse1@gmail.tmt",
       "responseDetails": {
@@ -568,7 +566,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student6InCourse1@gmail.tmt",
       "recipient": "FSDTest.student3InCourse1@gmail.tmt",
       "responseDetails": {
@@ -580,7 +577,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "FSDTest.student1InCourse1@gmail.tmt",
       "responseDetails": {
@@ -592,7 +588,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.instr1@course1.tmt",
       "responseDetails": {
@@ -604,7 +599,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student3InCourse1@gmail.tmt",
       "recipient": "FSDTest.instr2@course1.tmt",
       "responseDetails": {
@@ -616,7 +610,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseDetails": {
@@ -628,7 +621,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "Team 1.3",
       "responseDetails": {
@@ -640,7 +632,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "Team 1.4",
       "responseDetails": {
@@ -652,7 +643,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "FSDTest.student4InCourse1@gmail.tmt",
       "responseDetails": {
@@ -664,7 +654,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "6",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.instr1@course1.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {
@@ -676,7 +665,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "FSDTest.student2InCourse1@gmail.tmt",
       "responseDetails": {
@@ -688,7 +676,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student2InCourse1@gmail.tmt",
       "recipient": "FSDTest.student4InCourse1@gmail.tmt",
       "responseDetails": {
@@ -700,7 +687,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student1InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseDetails": {
@@ -712,7 +698,6 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student4InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseDetails": {
@@ -724,7 +709,6 @@
       "feedbackSessionName": "Special feedback session",
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "FSDTest.student5InCourse1@gmail.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {

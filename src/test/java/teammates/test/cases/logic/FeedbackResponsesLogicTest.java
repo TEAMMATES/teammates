@@ -19,7 +19,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -142,7 +141,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         responseToUpdate.feedbackSessionName,
                         responseToUpdate.courseId,
                         responseToUpdate.feedbackQuestionId,
-                        responseToUpdate.feedbackQuestionType,
                         responseToUpdate.giver,
                         responseToUpdate.giverSection,
                         "student3InCourse1@gmail.tmt",
@@ -230,7 +228,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes responseToAdd =
                 new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
                                                getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                                               FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
+                                               studentToUpdate.email, "Section 1",
                                                studentToUpdate.email, "Section 1",
                                                new FeedbackTextResponseDetails("New Response to self"));
         frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
@@ -492,7 +490,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         existingResponse.feedbackSessionName,
                         "nullCourse",
                         existingResponse.feedbackQuestionId,
-                        existingResponse.feedbackQuestionType,
                         existingResponse.giver,
                         "Section 1",
                         "nullRecipient@gmail.tmt",
