@@ -39,7 +39,7 @@ export class InstructorHelpPageComponent implements OnInit {
   scroll(section: string): void {
     const el: ElementRef = Array.prototype.slice
         .call(this.bodyRef.nativeElement.childNodes).find((x: any) => x.id === section);
-    if (el != undefined) {
+    if (el !== undefined) {
       el.scrollIntoView();
     }
   }
