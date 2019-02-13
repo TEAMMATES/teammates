@@ -9,7 +9,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetFeedbackSessionSubmissionResponseStatusAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.StudentFeedbackSessionResponseInfo.StudentsFeedbackSessionResponseStatus;
+import teammates.ui.webapi.output.FeedbackSessionStudentsResponseData;
 
 /**
  * SUT: {@link GetFeedbackSessionSubmissionResponseStatusAction}.
@@ -52,8 +52,8 @@ public class GetFeedbackSessionSubmissionResponseStatusActionTest extends
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        StudentsFeedbackSessionResponseStatus output = (StudentsFeedbackSessionResponseStatus) result.getOutput();
-        assertEquals(9, output.getStudentsFeedbackSessionResponseStatus().size());
+        FeedbackSessionStudentsResponseData output = (FeedbackSessionStudentsResponseData) result.getOutput();
+        assertEquals(9, output.getStudentsResponse().size());
     }
 
     @Override

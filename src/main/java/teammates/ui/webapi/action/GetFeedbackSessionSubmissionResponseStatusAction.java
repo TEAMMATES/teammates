@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackSessionStudentsResponseData;
 
 /**
  * Get students submission response status about the feedback session.
@@ -42,7 +43,6 @@ public class GetFeedbackSessionSubmissionResponseStatusAction extends Action {
                     HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult(
-                new StudentFeedbackSessionResponseInfo.StudentsFeedbackSessionResponseStatus(fsResponseStatus));
+        return new JsonResult(new FeedbackSessionStudentsResponseData(fsResponseStatus));
     }
 }
