@@ -1,5 +1,6 @@
 package teammates.ui.webapi.output;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -11,8 +12,9 @@ import java.util.List;
 public class LocalDateTimeInfo extends ApiOutput {
     private long resolvedTimestamp;
     private LocalDateTimeAmbiguityStatus resolvedStatus;
-
+    @Nullable
     private Long earlierInterpretationTimestamp;
+    @Nullable
     private Long laterInterpretationTimestamp;
 
     /**
