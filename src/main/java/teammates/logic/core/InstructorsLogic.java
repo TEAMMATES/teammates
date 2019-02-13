@@ -174,11 +174,14 @@ public final class InstructorsLogic {
         }
     }
 
-    public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isEditedInstructorDisplayed)
+    public void verifyAtLeastOneInstructorIsDisplayed(boolean isOriginalInstructorDisplayed, String courseId,
+                                                      boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
-
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
-        if ((instructorsDisplayed.isEmpty()) || (instructorsDisplayed.size() == 1 && !isEditedInstructorDisplayed)) {
+        boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
+
+        if ((instructorsDisplayed.isEmpty())
+                || (instructorsDisplayed.size() == 1 && isEditedInstructorChangedToNonVisible)) {
             throw new InvalidParametersException("At least one instructor must be displayed to students");
         }
     }
@@ -196,7 +199,10 @@ public final class InstructorsLogic {
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
         checkForUpdatingRespondents(instructor);
-        verifyAtLeastOneInstructorIsDisplayed(instructor.courseId, instructor.isDisplayedToStudents);
+        boolean isOriginalInstructorDisplayed = instructorsDb.getInstructorForGoogleId(instructor.courseId,
+                googleId).isDisplayedToStudents;
+        verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed, instructor.courseId,
+                instructor.isDisplayedToStudents);
 
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
@@ -235,7 +241,10 @@ public final class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
-        verifyAtLeastOneInstructorIsDisplayed(instructor.courseId, instructor.isDisplayedToStudents);
+        boolean isOriginalInstructorDisplayed = instructorsDb.getInstructorForEmail(instructor.courseId,
+                email).isDisplayedToStudents;
+        verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed,
+                instructor.courseId, instructor.isDisplayedToStudents);
 
         instructorsDb.updateInstructorByEmail(instructor);
     }
