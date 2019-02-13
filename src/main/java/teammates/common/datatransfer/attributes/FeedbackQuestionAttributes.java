@@ -519,6 +519,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return questionDetails.getJsonString();
     }
 
+    public String getFeedbackQuestionText() {
+        return questionDetails.getQuestionText();
+    }
+
     public String getFeedbackQuestionId() {
         return feedbackQuestionId;
     }

@@ -134,7 +134,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
-        assertEquals(questionMetaData, feedbackQuestionAttributes.getSerializedQuestionDetails());
+        assertEquals(questionMetaData, feedbackQuestionAttributes.getFeedbackQuestionText());
         assertEquals(questionDescription, feedbackQuestionAttributes.questionDescription);
         assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
         assertEquals(numOfEntities, feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
