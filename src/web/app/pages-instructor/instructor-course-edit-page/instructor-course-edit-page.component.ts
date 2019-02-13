@@ -372,7 +372,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
       coursetimezone: newTimeZone,
     };
 
-    this.courseService.updateCourse(paramsMap).subscribe((resp: MessageOutput) => {
+    this.courseService.updateCourse(paramsMap, {
+      storedData : {
+        courseId: this.courseToEdit.id,
+        courseName: newName,
+        timeZone: newTimeZone,
+        creationDate: '',
+      },
+    }).subscribe((resp: MessageOutput) => {
       this.statusMessageService.showSuccessMessage(resp.message);
       this.updateCourseDetails(newName, newTimeZone);
       this.toggleIsEditingCourse();
