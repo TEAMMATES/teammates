@@ -2,40 +2,8 @@ import { Component } from '@angular/core';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {AdminSearchResult, InstructorBundle, StudentBundle} from "../../../types/api-output";
 
-interface CommonBundle {
-  name: string;
-  email: string;
-  googleId: string;
-  courseId: string;
-  courseName: string;
-  institute: string;
-
-  courseJoinLink: string;
-  homePageLink: string;
-  manageAccountLink: string;
-
-  showLinks: boolean;
-}
-
-interface StudentBundle extends CommonBundle {
-  section: string;
-  team: string;
-  comments: string;
-  recordsPageLink: string;
-
-  openSessions: { [key: string]: string };
-  notOpenSessions: { [key: string]: string };
-  publishedSessions: { [key: string]: string };
-}
-
-// tslint:disable-next-line:no-empty-interface
-interface InstructorBundle extends CommonBundle {}
-
-interface AdminAccountSearchResult {
-  students: StudentBundle[];
-  instructors: InstructorBundle[];
-}
 
 /**
  * Admin search page.
@@ -60,7 +28,7 @@ export class AdminSearchPageComponent {
     const paramMap: { [key: string]: string } = {
       searchkey: this.searchQuery,
     };
-    this.httpRequestService.get('/accounts/search', paramMap).subscribe((resp: AdminAccountSearchResult) => {
+    this.httpRequestService.get('/accounts/search', paramMap).subscribe((resp: AdminSearchResult) => {
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;

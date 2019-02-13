@@ -16,7 +16,9 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.AdminSearchResultData;
+import teammates.ui.webapi.output.InstructorBundle;
+import teammates.ui.webapi.output.StudentBundle;
 
 /**
  * Action: searches for accounts.
@@ -61,7 +63,7 @@ public class SearchAccountsAction extends Action {
         List<StudentBundle> studentsBundle = getStudentsBundle(students);
         List<InstructorBundle> instructorsBundle = getInstructorsBundle(instructors);
 
-        AdminAccountSearchResult result = new AdminAccountSearchResult(studentsBundle, instructorsBundle);
+        AdminSearchResultData result = new AdminSearchResultData(studentsBundle, instructorsBundle);
         return new JsonResult(result);
     }
 
@@ -149,52 +151,60 @@ public class SearchAccountsAction extends Action {
         List<StudentBundle> studentsBundle = new ArrayList<>();
         for (StudentAttributes student : students) {
             StudentBundle sb = new StudentBundle();
-            sb.name = student.name;
-            sb.email = student.email;
+            sb.setName(student.name);
+            sb.setEmail(student.email);
             if (student.googleId != null) {
-                sb.googleId = student.googleId;
-                sb.manageAccountLink = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
+                sb.setGoogleId(student.googleId);
+                sb.setManageAccountLink(Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                         .withInstructorId(student.googleId)
-                        .toString();
+                        .toString());
             }
             if (student.course != null) {
-                sb.courseId = student.course;
-                sb.courseName = courseIdToCourseNameMap.get(student.course);
-                sb.institute = courseIdToInstituteMap.get(student.course);
+                sb.setCourseId(student.course);
+                sb.setCourseName(courseIdToCourseNameMap.get(student.course));
+                sb.setInstitute(courseIdToInstituteMap.get(student.course));
             }
-            sb.section = student.section;
-            sb.team = student.team;
-            sb.comments = student.comments;
+            sb.setSection(student.section);
+            sb.setTeam(student.team);
+            sb.setComments(student.comments);
 
-            if (sb.googleId != null) {
-                sb.homePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                        .withUserId(sb.googleId)
-                        .toString();
+            if (sb.getGoogleId() != null) {
+                sb.setHomePageLink(Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+                        .withUserId(sb.getGoogleId())
+                        .toString());
             }
-            sb.courseJoinLink = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+            sb.setCourseJoinLink(Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString());
 
             if (student.email != null && student.course != null
                     && !StringHelper.isEmpty(courseIdToInstructorGoogleIdMap.get(student.course))) {
-                sb.recordsPageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+                sb.setRecordsPageLink(Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                         .withCourseId(student.course)
                         .withStudentEmail(student.email)
                         .withUserId(courseIdToInstructorGoogleIdMap.get(student.course))
-                        .toAbsoluteString();
+                        .toAbsoluteString());
             }
 
             if (student.email != null && student.course != null) {
+                Map<String, String> openSessions = sb.getOpenSessions();
                 for (FeedbackSessionAttributes openFs : courseIdToOpenFeedbackSessionsMap.get(student.course)) {
-                    sb.openSessions.put(generateNameFragment(openFs),
+                    openSessions.put(generateNameFragment(openFs),
                             generateSubmitUrl(student, openFs.getFeedbackSessionName()));
                 }
+                sb.setOpenSessions(openSessions);
+
+                Map<String, String> notOpenSessions = sb.getNotOpenSessions();
                 for (FeedbackSessionAttributes notOpenFs : courseIdToNotOpenFeedbackSessionsMap.get(student.course)) {
-                    sb.notOpenSessions.put(generateNameFragment(notOpenFs) + " (Currently Not Open)",
+                    notOpenSessions.put(generateNameFragment(notOpenFs) + " (Currently Not Open)",
                             generateSubmitUrl(student, notOpenFs.getFeedbackSessionName()));
                 }
+                sb.setNotOpenSessions(notOpenSessions);
+
+                Map<String, String> publishedSessions = sb.getPublishedSessions();
                 for (FeedbackSessionAttributes publishedFs : courseIdToPublishedFeedbackSessionsMap.get(student.course)) {
-                    sb.publishedSessions.put(generateNameFragment(publishedFs) + " (Published)",
+                    publishedSessions.put(generateNameFragment(publishedFs) + " (Published)",
                             generateResultUrl(student, publishedFs.getFeedbackSessionName()));
                 }
+                sb.setPublishedSessions(publishedSessions);
             }
 
             studentsBundle.add(sb);
@@ -231,148 +241,35 @@ public class SearchAccountsAction extends Action {
         List<InstructorBundle> instructorsBundle = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             InstructorBundle ib = new InstructorBundle();
-            ib.name = instructor.name;
-            ib.email = instructor.email;
+            ib.setName(instructor.name);
+            ib.setEmail(instructor.email);
+
             if (instructor.googleId != null) {
-                ib.googleId = instructor.googleId;
-                ib.manageAccountLink = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
+                ib.setGoogleId(instructor.googleId);
+                ib.setManageAccountLink(Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                         .withInstructorId(instructor.googleId)
-                        .toString();
+                        .toString());
             }
             if (instructor.courseId != null) {
-                ib.courseId = instructor.courseId;
-                ib.courseName = courseIdToCourseNameMap.get(instructor.courseId);
-                ib.institute = courseIdToInstituteMap.get(instructor.courseId);
+                ib.setCourseId(instructor.courseId);
+                ib.setCourseName(courseIdToCourseNameMap.get(instructor.courseId));
+                ib.setInstitute(courseIdToInstituteMap.get(instructor.courseId));
             }
 
-            if (ib.googleId != null) {
-                ib.homePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+            if (ib.getGoogleId() != null) {
+                ib.setHomePageLink(Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                         .withUserId(instructor.googleId)
-                        .toAbsoluteString();
+                        .toAbsoluteString());
             }
-            ib.courseJoinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+            ib.setCourseJoinLink(Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(StringHelper.encrypt(instructor.key))
                     .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
-                    .toAbsoluteString();
+                    .toAbsoluteString());
 
             instructorsBundle.add(ib);
         }
 
         return instructorsBundle;
-    }
-
-    private static class StudentBundle extends CommonBundle {
-        private String section;
-        private String team;
-        private String comments;
-
-        private String recordsPageLink;
-
-        private Map<String, String> openSessions = new HashMap<>();
-        private Map<String, String> notOpenSessions = new HashMap<>();
-        private Map<String, String> publishedSessions = new HashMap<>();
-
-        public String getSection() {
-            return section;
-        }
-
-        public String getTeam() {
-            return team;
-        }
-
-        public String getComments() {
-            return comments;
-        }
-
-        public String getRecordsPageLink() {
-            return recordsPageLink;
-        }
-
-        public Map<String, String> getOpenSessions() {
-            return openSessions;
-        }
-
-        public Map<String, String> getNotOpenSessions() {
-            return notOpenSessions;
-        }
-
-        public Map<String, String> getPublishedSessions() {
-            return publishedSessions;
-        }
-    }
-
-    private static class InstructorBundle extends CommonBundle {}
-
-    private static class CommonBundle {
-        protected String name;
-        protected String email;
-        protected String googleId;
-        protected String courseId;
-        protected String courseName;
-        protected String institute;
-
-        protected String courseJoinLink;
-        protected String homePageLink;
-        protected String manageAccountLink;
-
-        public String getName() {
-            return name;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getGoogleId() {
-            return googleId;
-        }
-
-        public String getCourseId() {
-            return courseId;
-        }
-
-        public String getCourseName() {
-            return courseName;
-        }
-
-        public String getInstitute() {
-            return institute;
-        }
-
-        public String getCourseJoinLink() {
-            return courseJoinLink;
-        }
-
-        public String getHomePageLink() {
-            return homePageLink;
-        }
-
-        public String getManageAccountLink() {
-            return manageAccountLink;
-        }
-    }
-
-    /**
-     * Output format for {@link SearchAccountsAction}.
-     */
-    public static class AdminAccountSearchResult extends ApiOutput {
-
-        private final List<StudentBundle> students;
-        private final List<InstructorBundle> instructors;
-
-        public AdminAccountSearchResult(List<StudentBundle> students, List<InstructorBundle> instructors) {
-            this.students = students;
-            this.instructors = instructors;
-        }
-
-        public List<StudentBundle> getStudents() {
-            return students;
-        }
-
-        public List<InstructorBundle> getInstructors() {
-            return instructors;
-        }
-
     }
 
 }
