@@ -286,13 +286,12 @@ export class InstructorCoursesPageComponent implements OnInit {
         courseid: courseId,
         user: this.user,
       };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap)
-          .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses();
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
+      this.courseService.deleteCourse(paramMap).subscribe((resp: MessageOutput) => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage(resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
     }
   }
 

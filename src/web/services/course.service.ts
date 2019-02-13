@@ -28,4 +28,11 @@ export class CourseService {
   updateCourse(paramMap: { [key: string]: string }, request: CourseSaveRequest): Observable<MessageOutput> {
     return this.httpRequestService.put('/course', paramMap, request);
   }
+
+  /**
+   * Deletes a course by calling API.
+   */
+  deleteCourse(paramMap: { [key: string]: string }): Observable<MessageOutput> {
+    return this.httpRequestService.delete('/course', paramMap);
+  }
 }
