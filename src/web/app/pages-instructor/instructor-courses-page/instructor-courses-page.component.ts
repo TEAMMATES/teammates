@@ -184,12 +184,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: this.newCourseId,
-      coursename: this.newCourseName,
-      coursetimezone: this.timezone,
-      user: this.user,
-    };
+    const paramMap: { [key: string]: string } = {};
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
