@@ -1,15 +1,13 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
-
+import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
 
 /**
@@ -21,12 +19,6 @@ public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<C
 
     public static void main(String[] args) throws IOException {
         new ValidateAllTeamNameScript().doOperationRemotely();
-    }
-
-    private boolean validate(String emailStr) {
-        Matcher matcher = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
-                Pattern.CASE_INSENSITIVE).matcher(emailStr);
-        return matcher.find();
     }
 
     @Override
@@ -53,7 +45,7 @@ public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<C
     protected boolean isMigrationNeeded(Key<CourseStudent> key) {
         CourseStudent student = ofy().load().key(key).now();
         String teamName = student.getTeamName();
-        return validate(teamName);
+        return StringHelper.isMatching(teamName, REGEX_EMAIL);
     }
 
     @Override
