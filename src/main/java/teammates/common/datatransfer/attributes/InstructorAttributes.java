@@ -142,11 +142,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, InstructorAttributes.class);
-    }
-
-    @Override
     public void sanitizeForSaving() {
         googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         name = SanitizationHelper.sanitizeName(name);
@@ -215,22 +210,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public boolean hasTutorPrivileges() {
         return privileges.hasTutorPrivileges();
-    }
-
-    /**
-     * Returns true if this instructor object is equal with the given {@code instructor} object.
-     *
-     * @param instructor
-     *            the {@link InstructorAttributes} of an instructor, cannot be
-     *            {@code null}
-     * @return true if this {@link InstructorAttributes} is equal to
-     *         {@code instructor}, otherwise false
-     */
-    public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
-        // JsonParser is used instead of
-        // this.getJsonString().equals(instructor.getJsonString) so that the
-        // comparison ignores the order of key-value pairs in the json strings.
-        return JsonUtils.parse(getJsonString()).equals(JsonUtils.parse(instructor.getJsonString()));
     }
 
     public boolean isCustomRole() {

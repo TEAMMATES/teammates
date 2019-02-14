@@ -129,11 +129,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, StudentProfileAttributes.class);
-    }
-
-    @Override
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(this.googleId);
     }

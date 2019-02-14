@@ -538,19 +538,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
     }
 
     @Test
-    public void testGetJsonString() {
-        StudentAttributes studentAttributes = StudentAttributes
-                .builder("course1", "name 1", "email@email.com")
-                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
-                .build();
-
-        assertEquals("{\n  \"email\": \"email@email.com\",\n  \"course\": \"course1\",\n  \"name\": \"name 1\","
-                     + "\n  \"googleId\": \"\",\n  \"lastName\": \"1\","
-                     + "\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
-                     + "\n  \"section\": \"sect 1\"\n}", studentAttributes.getJsonString());
-    }
-
-    @Test
     public void testGetBackUpIdentifier() {
         StudentAttributes studentAttributes = generateValidStudentAttributesObject();
         String expectedBackUpIdentifierMessage = "Recently modified student::" + studentAttributes.getId();

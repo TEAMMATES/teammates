@@ -264,36 +264,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testIsEqualToAnotherInstructor() {
-        String googleId = "valid.googleId";
-        String courseId = "courseId";
-        String name = "name";
-        String email = "email@google.com";
-        String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
-                .withRole(roleName)
-                .withDisplayedName(displayedName).withPrivileges(privileges)
-                .build();
-        InstructorPrivileges privileges2 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor2 = InstructorAttributes.builder(googleId, courseId, name, email)
-                .withRole(roleName)
-                .withDisplayedName(displayedName)
-                .withPrivileges(privileges2)
-                .build();
-
-        assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
-        instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
-        assertFalse(instructor.isEqualToAnotherInstructor(instructor2));
-        instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
-        assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
-        // TODO: find ways to test this method more thoroughly
-    }
-
-    @Test
     public void testGetBackUpIdentifier() {
         String googleId = "valid.googleId";
         String courseId = "courseId";

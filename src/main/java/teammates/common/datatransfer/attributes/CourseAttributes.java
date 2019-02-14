@@ -146,11 +146,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, CourseAttributes.class);
-    }
-
-    @Override
     public void sanitizeForSaving() {
         // no additional sanitization required
     }

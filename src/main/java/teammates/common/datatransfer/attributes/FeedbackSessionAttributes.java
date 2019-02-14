@@ -181,11 +181,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, FeedbackSessionAttributes.class);
-    }
-
-    @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 

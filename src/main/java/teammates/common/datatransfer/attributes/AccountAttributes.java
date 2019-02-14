@@ -116,11 +116,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, AccountAttributes.class);
-    }
-
-    @Override
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);

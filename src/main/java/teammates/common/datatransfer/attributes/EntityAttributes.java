@@ -39,11 +39,6 @@ public abstract class EntityAttributes<E extends BaseEntity> {
     public abstract String getBackupIdentifier();
 
     /**
-     * Returns the entity object as a JSON-formatted string.
-     */
-    public abstract String getJsonString();
-
-    /**
      * Perform any sanitization that needs to be done before saving.
      * e.g. trim strings
      */

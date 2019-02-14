@@ -145,7 +145,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             InstructorAttributes expectedInstructor = ((InstructorAttributes) expected).getCopy();
             InstructorAttributes actualInstructor = (InstructorAttributes) actual;
             equalizeIrrelevantData(expectedInstructor, actualInstructor);
-            assertTrue(expectedInstructor.isEqualToAnotherInstructor(actualInstructor));
+            assertEquals(JsonUtils.toJson(expectedInstructor), JsonUtils.toJson(actualInstructor));
 
         } else if (expected instanceof StudentAttributes) {
             StudentAttributes expectedStudent = ((StudentAttributes) expected).getCopy();

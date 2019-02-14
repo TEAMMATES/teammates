@@ -182,11 +182,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, FeedbackResponseCommentAttributes.class);
-    }
-
-    @Override
     public void sanitizeForSaving() {
         this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);
     }

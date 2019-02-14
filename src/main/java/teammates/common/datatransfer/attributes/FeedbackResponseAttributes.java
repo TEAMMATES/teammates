@@ -151,11 +151,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, FeedbackResponseAttributes.class);
-    }
-
-    @Override
     public void sanitizeForSaving() {
         // nothing to sanitize before saving
     }
