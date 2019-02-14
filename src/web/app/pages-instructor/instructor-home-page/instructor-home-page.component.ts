@@ -150,6 +150,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
         this.updateCourseInstructorPrivilege(model);
         this.loadFeedbackSessions(model);
       });
+      this.sortCoursesBy(this.instructorCoursesSortBy);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
