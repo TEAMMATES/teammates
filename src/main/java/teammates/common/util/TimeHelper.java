@@ -7,13 +7,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
-import java.util.List;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
@@ -24,48 +22,6 @@ import teammates.common.util.Const.SystemParams;
 public final class TimeHelper {
 
     private static final Logger log = Logger.getLogger();
-
-    /**
-     * Represents the ambiguity status for a {@link LocalDateTime} at a given time {@code zone},
-     * brought about by Daylight Saving Time (DST).
-     */
-    public enum LocalDateTimeAmbiguityStatus {
-        /**
-         * The local date time can be unambiguously resolved to a single instant.
-         * It has only one valid interpretation.
-         */
-        UNAMBIGUOUS,
-
-        /**
-         * The local date time falls within the gap period when clocks spring forward at the start of DST.
-         * Strictly speaking, it is non-existent, and needs to be readjusted to be valid.
-         */
-        GAP,
-
-        /**
-         * The local date time falls within the overlap period when clocks fall back at the end of DST.
-         * It has more than one valid interpretation.
-         */
-        OVERLAP;
-
-        /**
-         * Gets the ambiguity status for a {@link LocalDateTime} at a given time {@code zone}.
-         */
-        public static LocalDateTimeAmbiguityStatus of(LocalDateTime localDateTime, ZoneId zone) {
-            if (localDateTime == null || zone == null) {
-                return null;
-            }
-
-            List<ZoneOffset> offsets = zone.getRules().getValidOffsets(localDateTime);
-            if (offsets.size() == 1) {
-                return UNAMBIGUOUS;
-            }
-            if (offsets.isEmpty()) {
-                return GAP;
-            }
-            return OVERLAP;
-        }
-    }
 
     private TimeHelper() {
         // utility class
