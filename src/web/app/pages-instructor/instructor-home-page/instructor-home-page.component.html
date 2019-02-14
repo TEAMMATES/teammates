@@ -36,7 +36,7 @@
 
 <div *ngIf="courseTabModels.length > 0; else noCourseMessage">
   <div class="card margin-bottom-15px" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel)">
+    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(courseTabModel);">
       <div class="row">
         <div class="col-6">
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>

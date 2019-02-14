@@ -49,6 +49,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   user: string = '';
   studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+  coursesToLoad: number = 3;
 
   // data
   courseTabModels: CourseTabModel[] = [];
@@ -148,7 +149,6 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
         this.courseTabModels.push(model);
         this.updateCourseInstructorPrivilege(model);
-        this.loadFeedbackSessions(model);
       });
       this.sortCoursesBy(this.instructorCoursesSortBy);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
@@ -204,6 +204,19 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
     if (this.courseTabModels.length > 1) {
       this.courseTabModels.sort(this.sortPanelsBy(by));
+    }
+    this.loadLatestCourses(this.coursesToLoad);
+  }
+
+  /**
+   * Loads and expand the latest number of courses.
+   */
+  loadLatestCourses(coursesToLoad: number): void {
+    for (let i: number = 0; i < this.courseTabModels.length; i += 1) {
+      if (i >= coursesToLoad) {
+        break;
+      }
+      this.loadFeedbackSessions(this.courseTabModels[i]);
     }
   }
 
