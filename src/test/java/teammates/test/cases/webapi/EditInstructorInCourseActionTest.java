@@ -148,7 +148,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
                 Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
-                
+
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
 
