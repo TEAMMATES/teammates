@@ -7,6 +7,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.webapi.request.StudentProfileUpdateRequest;
 
 /**
  * Action: Update a student's profile.
@@ -28,13 +29,15 @@ public class PutStudentProfileAction extends Action {
     @Override
     public ActionResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-
         if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
             return new JsonResult("You are not authorized to update this student's profile.",
                     HttpStatus.SC_FORBIDDEN);
         }
 
+        StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
+
         try {
+<<<<<<< HEAD
             StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId));
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(studentId)
@@ -45,30 +48,34 @@ public class PutStudentProfileAction extends Action {
                             .withInstitute(studentProfile.institute)
                             .withMoreInfo(studentProfile.moreInfo)
                             .build());
+=======
+            StudentProfileAttributes studentProfile = extractProfileData(studentId, updateRequest);
+            logic.updateOrCreateStudentProfile(sanitizeProfile(studentProfile));
+>>>>>>> add response DTO for update student profile and update test
             return new JsonResult(Const.StatusMessages.STUDENT_PROFILE_EDITED, HttpStatus.SC_ACCEPTED);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
     }
 
-    private StudentProfileAttributes extractProfileData(String studentId) {
+    private StudentProfileAttributes extractProfileData(String studentId, StudentProfileUpdateRequest req) {
         StudentProfileAttributes editedProfile =
                 StudentProfileAttributes.builder(studentId).build();
 
-        editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
-        editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
-        editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);
-        editedProfile.nationality = getRequestParamValue(Const.ParamsNames.STUDENT_NATIONALITY);
+        editedProfile.shortName = req.getShortName();
+        editedProfile.email = req.getEmail();
+        editedProfile.institute = req.getInstitute();
+        editedProfile.nationality = req.getNationality();
+
         if ("".equals(editedProfile.nationality)) {
-            editedProfile.nationality = getRequestParamValue("existingNationality");
+            editedProfile.nationality = req.getExistingNationality();
         }
-        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(
-                                                                getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
-        editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
+
+        editedProfile.gender =  StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender());
+        editedProfile.moreInfo = req.getMoreInfo();
         editedProfile.pictureKey = "";
 
         sanitizeProfile(editedProfile);
-
         return editedProfile;
     }
 

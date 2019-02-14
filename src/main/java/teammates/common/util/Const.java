@@ -965,7 +965,7 @@ public final class Const {
         public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
-        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
+        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/students/csv";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
