@@ -72,6 +72,8 @@ public final class FeedbackQuestionsLogic {
         if (fqa.questionNumber < 0) {
             fqa.questionNumber = questions.size() + 1;
         }
+        // TODO question numbers adjustment cannot be done before a question is created
+        // as the question to create may not be valid
         adjustQuestionNumbers(questions.size() + 1, fqa.questionNumber, questions);
         return createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
     }
@@ -134,7 +136,30 @@ public final class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         questions.sort(null);
 
+        // check whether the question numbers are consistent
+        if (questions.size() > 1 && !areQuestionNumbersConsistent(questions)) {
+            log.severe(courseId + ": " + feedbackSessionName + " has invalid question numbers");
+        }
+
         return questions;
+    }
+
+    // TODO can be removed once we are sure that question numbers will be consistent
+    private boolean areQuestionNumbersConsistent(List<FeedbackQuestionAttributes> questions) {
+        Set<Integer> questionNumbersInSession = new HashSet<>();
+        for (FeedbackQuestionAttributes question : questions) {
+            if (!questionNumbersInSession.add(question.questionNumber)) {
+                return false;
+            }
+        }
+
+        for (int i = 1; i <= questions.size(); i++) {
+            if (!questionNumbersInSession.contains(i)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
