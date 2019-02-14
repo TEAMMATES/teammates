@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.request.CourseArchiveRequest;
 
 /**
  * Action: Archives a course for an instructor.
@@ -25,8 +26,10 @@ public class ArchiveCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String archiveStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
+        CourseArchiveRequest courseArchiveRequest = getAndValidateRequestBody(CourseArchiveRequest.class);
+
+        String idOfCourseToArchive = courseArchiveRequest.getCourseId();
+        String archiveStatus = courseArchiveRequest.getArchiveStatus();
         boolean isArchive = Boolean.parseBoolean(archiveStatus);
         try {
             // Set the archive status and status shown to user and admin

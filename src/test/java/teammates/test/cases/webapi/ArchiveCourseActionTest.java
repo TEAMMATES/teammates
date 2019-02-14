@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.ArchiveCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.request.CourseArchiveRequest;
 
 /**
  * SUT: {@link ArchiveCourseAction}.
@@ -28,59 +29,51 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
 
         loginAsInstructor(instructorId);
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, courseId);
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true");
 
         ______TS("Typical case: archive a course");
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
-        };
+        String[] submissionParams = new String[] {};
 
-        ArchiveCourseAction archiveAction = getAction(submissionParams);
+        CourseArchiveRequest courseArchiveRequest = new CourseArchiveRequest();
+        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
+        courseArchiveRequest.setArchiveStatus("true");
+
+        ArchiveCourseAction archiveAction = getAction(courseArchiveRequest, submissionParams);
         JsonResult result = getJsonResult(archiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("Rare case: archive an already archived course");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
-        };
+        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
+        courseArchiveRequest.setArchiveStatus("true");
 
-        archiveAction = getAction(submissionParams);
+        archiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(archiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("Typical case: unarchive a course, redirect to Courses page");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
-        };
+        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
+        courseArchiveRequest.setArchiveStatus("false");
 
-        ArchiveCourseAction unarchiveAction = getAction(submissionParams);
+        ArchiveCourseAction unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("Rare case: unarchive an active course, redirect to Courses page");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
-        };
+        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
+        courseArchiveRequest.setArchiveStatus("false");
 
-        unarchiveAction = getAction(submissionParams);
+        unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -88,11 +81,10 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         ______TS("Masquerade mode: archive course, redirect to Courses page");
 
         loginAsAdmin();
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
-        };
-        archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
+        courseArchiveRequest.setArchiveStatus("true");
+
+        archiveAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(archiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

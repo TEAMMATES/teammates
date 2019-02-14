@@ -212,11 +212,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      archive: 'true',
-      user: this.user,
-    };
+    const paramMap: { [key: string]: string } = {};
     this.courseService.archiveCourse(paramMap, {
       courseId,
       archiveStatus: 'true',

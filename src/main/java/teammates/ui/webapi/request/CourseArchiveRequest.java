@@ -13,4 +13,20 @@ public class CourseArchiveRequest extends BasicRequest {
         assertTrue("true".equals(archiveStatus) || "false".equals(archiveStatus),
                 "Archive status should be either true or false.");
     }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getArchiveStatus() {
+        return archiveStatus;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public void setArchiveStatus(String archiveStatus) {
+        this.archiveStatus = archiveStatus;
+    }
 }
