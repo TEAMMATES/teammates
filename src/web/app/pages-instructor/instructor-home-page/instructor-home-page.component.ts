@@ -171,22 +171,23 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Loads the feedback session in the course.
    */
   loadFeedbackSessions(model: CourseTabModel): void {
-    this.httpRequestService.get('/sessions', {
-      courseid: model.course.courseId,
-    }).subscribe((response: FeedbackSessions) => {
-      response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
-        const m: SessionsTableRowModel = {
-          feedbackSession,
-          responseRate: '',
-          isLoadingResponseRate: false,
-          instructorPrivilege: defaultInstructorPrivilege,
-        };
-        model.sessionsTableRowModels.push(m);
-        this.updateInstructorPrivilege(m);
-      });
-
-      model.isTabExpanded = true;
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    if (model.sessionsTableRowModels.length === 0) {
+      this.httpRequestService.get('/sessions', {
+        courseid: model.course.courseId,
+      }).subscribe((response: FeedbackSessions) => {
+        response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+          const m: SessionsTableRowModel = {
+            feedbackSession,
+            responseRate: '',
+            isLoadingResponseRate: false,
+            instructorPrivilege: defaultInstructorPrivilege,
+          };
+          model.sessionsTableRowModels.push(m);
+          this.updateInstructorPrivilege(m);
+        });
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    }
+    model.isTabExpanded = !model.isTabExpanded;
   }
 
   /**
@@ -216,6 +217,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
       if (i >= coursesToLoad) {
         break;
       }
+      this.courseTabModels[i].isTabExpanded = false;
       this.loadFeedbackSessions(this.courseTabModels[i]);
     }
   }
