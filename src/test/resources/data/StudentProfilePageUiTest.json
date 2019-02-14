@@ -171,7 +171,7 @@
       "email": "i.m.benny@gmail.tmt",
       "institute": "TEAMMATES Test Institute 4",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just another student :P",
       "pictureKey": ""
     },
@@ -181,7 +181,7 @@
       "email": "ash.ketchum@pokemon.com",
       "institute": "TEAMMATES Test Institute 4",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "Gotta catch 'em all!",
       "pictureKey": ""
     },
@@ -191,7 +191,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "school'/><script> alert('hi!'); </script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }
