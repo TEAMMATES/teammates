@@ -530,6 +530,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructorisdisplayed: editedInstructor.isDisplayedToStudents.toString(),
     };
 
+    const instructorIsDisplayed: string = 'instructorisdisplayed';
+    if (editedInstructor.isDisplayedToStudents) {
+      paramsMap[instructorIsDisplayed] = 'true';
+    }
+
     if (instr.controls.role.value === 'Custom') {
       const tuneCoursePermissions: (FormGroup | null) = (instr.controls.tunePermissions as FormGroup)
           .controls.permissionsForCourse as FormGroup;
@@ -613,7 +618,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
+    this.httpRequestService.put('/instructors', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.updateInstructorDetails(index, editedInstructor);
@@ -768,7 +773,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     if (addedInstructor.isDisplayedToStudents) {
       paramsMap[instructorIsDisplayed] = 'true';
     }
-
+    
     if (formAddInstructor.controls.role.value === 'Custom') {
       const tuneCoursePermissions: (FormGroup | null) = (formAddInstructor.controls.tunePermissions as FormGroup)
           .controls.permissionsForCourse as FormGroup;
@@ -852,7 +857,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       addedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
+    this.httpRequestService.post('/instructors', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.addToInstructorList(addedInstructor);
