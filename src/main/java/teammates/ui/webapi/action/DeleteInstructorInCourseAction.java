@@ -56,22 +56,31 @@ public class DeleteInstructorInCourseAction extends Action {
     private boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        boolean isAlternativeInstructor = false;
+        boolean isAlternativeInstructorDisplayed = false;
 
         for (InstructorAttributes instr : instructors) {
 
-            boolean isAlternativeInstructor =
+            isAlternativeInstructor =
                     instr.isRegistered()
                             && !instr.getEmail().equals(instructorToDeleteEmail)
                             && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-            boolean isAlternativeInstructorDisplayed =
-                    instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail);
-
-            if (isAlternativeInstructor && isAlternativeInstructorDisplayed) {
-                return true;
+            if (isAlternativeInstructor) {
+                break;
             }
         }
 
-        return false;
+        for (InstructorAttributes instr : instructors) {
+
+            isAlternativeInstructorDisplayed = instr.isDisplayedToStudents()
+                    && !instr.getEmail().equals(instructorToDeleteEmail);
+
+            if (isAlternativeInstructorDisplayed) {
+                break;
+            }
+        }
+
+        return isAlternativeInstructor && isAlternativeInstructorDisplayed;
     }
 }
