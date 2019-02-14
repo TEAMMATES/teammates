@@ -95,7 +95,7 @@ public class InstructorSearchDocument extends SearchDocument {
                 //TODO TO REMOVE AFTER DATA MIGRATION - needed to work with code before the sanitizing was removed
                 .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.role))
                 .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.name))
-                .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.email)));
+                .thenComparing(instructor -> instructor.email));
 
     }
 
