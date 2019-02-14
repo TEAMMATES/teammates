@@ -931,7 +931,7 @@ public final class Const {
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
         public static final String COURSE = "/course";
         public static final String COURSE_ARCHIVE = "/course/archive";
-        public static final String COURSE_SOFTDELETE = "/course/softdelete";
+        public static final String COURSE_SOFTDELETE = "/bin/course";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";

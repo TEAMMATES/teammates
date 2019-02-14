@@ -25,7 +25,7 @@ public class SoftDeleteCourseActionTest extends BaseActionTest<SoftDeleteCourseA
 
     @Override
     protected String getRequestMethod() {
-        return DELETE;
+        return PUT;
     }
 
     @Override
