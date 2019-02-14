@@ -324,7 +324,6 @@ public class GateKeeper {
         }
     }
 
-
     /**
      * Verifies that an instructor has submission privilege of a feedback session.
      */
@@ -345,7 +344,6 @@ public class GateKeeper {
             throw new UnauthorizedAccessException("You don't have submission privilege");
         }
     }
-
 
     /**
      * Verifies that comment is created by feedback participant.

@@ -695,7 +695,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
                 modifiedResponse.giver, modifiedResponse.recipient);
 
-
         FeedbackResponseDetails frd = new FeedbackTextResponseDetails("New answer text!");
         modifiedResponse.setResponseDetails(frd);
 
