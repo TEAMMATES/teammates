@@ -48,7 +48,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
   user: string = '';
   studentSearchkey: string = '';
-  instructorCoursesSortBy: SortBy = SortBy.CREATION_DATE;
+  instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // data
   courseTabModels: CourseTabModel[] = [];
@@ -223,7 +223,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           strA = a.course.courseId;
           strB = b.course.courseId;
           break;
-        case SortBy.CREATION_DATE:
+        case SortBy.COURSE_CREATION_DATE:
           strA = a.course.creationDate;
           strB = b.course.creationDate;
           break;
