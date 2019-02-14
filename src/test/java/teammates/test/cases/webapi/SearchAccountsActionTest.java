@@ -23,7 +23,13 @@ public class SearchAccountsActionTest extends BaseActionTest<SearchAccountsActio
     @Override
     @Test
     protected void testExecute() {
-        // TODO
+        loginAsAdmin();
+
+        ______TS("Not enough parameters");
+
+        verifyHttpParameterFailure();
+
+        ______TS("Typical case");
     }
 
     @Override
