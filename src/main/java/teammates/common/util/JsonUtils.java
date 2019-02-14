@@ -145,7 +145,14 @@ public final class JsonUtils {
         }
     }
 
-    private static class TeammatesFeedbackQuestionDetailsAdapter implements JsonDeserializer<FeedbackQuestionDetails> {
+    private static class TeammatesFeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,
+            JsonDeserializer<FeedbackQuestionDetails> {
+
+        @Override
+        public JsonElement serialize(FeedbackQuestionDetails src, Type typeOfSrc, JsonSerializationContext context)
+                throws JsonParseException {
+            return context.serialize(src, src.getQuestionType().getQuestionDetailsClass());
+        }
 
         @Override
         public FeedbackQuestionDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
