@@ -65,7 +65,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         studentProfile.setEmail(newAttributes.email);
         studentProfile.setInstitute(newAttributes.institute);
         studentProfile.setNationality(newAttributes.nationality);
-        studentProfile.setGender(newAttributes.gender);
+        studentProfile.setGender(newAttributes.gender.name().toLowerCase());
         studentProfile.setMoreInfo(newAttributes.moreInfo);
         studentProfile.setPictureKey(new BlobKey(newAttributes.pictureKey));
         studentProfile.setModifiedDate(Instant.now());
