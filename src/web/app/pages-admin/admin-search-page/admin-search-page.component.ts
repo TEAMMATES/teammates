@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { AdminSearchResult, InstructorBundle, StudentBundle } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {AdminSearchResult, InstructorBundle, StudentBundle} from "../../../types/api-output";
-
 
 /**
  * Admin search page.
@@ -19,7 +18,7 @@ export class AdminSearchPageComponent {
   instructors: InstructorBundle[] = [];
   students: StudentBundle[] = [];
 
-  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService) {}
+  constructor(private statusMessageService: StatusMessageService, private accountService: AccountService) {}
 
   /**
    * Searches for students and instructors matching the search query.
@@ -28,7 +27,7 @@ export class AdminSearchPageComponent {
     const paramMap: { [key: string]: string } = {
       searchkey: this.searchQuery,
     };
-    this.httpRequestService.get('/accounts/search', paramMap).subscribe((resp: AdminSearchResult) => {
+    this.accountService.searchAccounts(paramMap).subscribe((resp: AdminSearchResult) => {
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;
@@ -92,7 +91,7 @@ export class AdminSearchPageComponent {
       courseid: instructor.courseId,
       instructoremail: instructor.email,
     };
-    this.httpRequestService.put('/account/reset', paramMap).subscribe(() => {
+    this.accountService.resetAccount(paramMap).subscribe(() => {
       this.search();
       this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
@@ -113,7 +112,7 @@ export class AdminSearchPageComponent {
       courseid: student.courseId,
       studentemail: student.email,
     };
-    this.httpRequestService.put('/account/reset', paramMap).subscribe(() => {
+    this.accountService.resetAccount(paramMap).subscribe(() => {
       student.googleId = '';
       this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {

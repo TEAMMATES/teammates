@@ -13,7 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {StudentProfileUpdateRequest} from "../../../types/api-request";
+import { StudentProfileUpdateRequest } from "../../../types/api-request";
 
 interface StudentProfile {
   shortName: string;
@@ -30,6 +30,7 @@ interface StudentDetails {
   name: string;
   requestId: string;
 }
+
 
 /**
  * Student profile page.
@@ -55,7 +56,9 @@ export class StudentProfilePageComponent implements OnInit {
               private ngbModal: NgbModal,
               private httpRequestService: HttpRequestService,
               private authService: AuthService,
-              private statusMessageService: StatusMessageService) {}
+              private statusMessageService: StatusMessageService,
+              private studentProfileService: StudentProfileService) {
+  }
 
   ngOnInit(): void {
     // populate drop-down menu for nationality list
@@ -99,7 +102,7 @@ export class StudentProfilePageComponent implements OnInit {
         };
 
         // retrieve profile once we have the student's googleId
-        this.httpRequestService.get('/student/profile', paramMap).subscribe((response: StudentDetails) => {
+        this.studentProfileService.getStudentProfile(paramMap).subscribe((response: StudentDetails) => {
           if (response) {
             this.student = response;
             this.name = response.name;
@@ -145,17 +148,20 @@ export class StudentProfilePageComponent implements OnInit {
       googleid: this.id,
     };
 
-    const requestBody = {
-      ...this.editForm.value,
-    };
-
-    this.httpRequestService.put('/student/profile', paramsMap, requestBody)
-        .subscribe((response: MessageOutput) => {
-          if (response) {
-            this.statusMessageService.showSuccessMessage(response.message);
-          }
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
-        });
+    this.studentProfileService.updateStudentProfile(paramsMap, {
+      shortName: this.editForm.controls.studentshortname.value,
+      email: this.editForm.controls.studentprofileemail.value,
+      institute: this.editForm.controls.studentprofileinstitute.value,
+      nationality: this.editForm.controls.studentnationality.value,
+      gender: this.editForm.controls.studentgender.value,
+      moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
+      existingNationality: this.editForm.controls.existingNationality.value,
+    }).subscribe((response: MessageOutput) => {
+      if (response) {
+        this.statusMessageService.showSuccessMessage(response.message);
+      }
+    }, (response: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
+    });
   }
 }

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { AccountService } from '../../../services/account.service';
+import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {JoinLink} from "../../../types/api-output";
-
 
 interface InstructorData {
   name: string;
@@ -31,7 +30,7 @@ export class AdminHomePageComponent {
   instructorsConsolidated: InstructorData[] = [];
   activeRequests: number = 0;
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(private accountService: AccountService) {}
 
   /**
    * Validates and adds the instructor details filled with first form.
@@ -81,13 +80,11 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
     const paramMap: { [key: string]: string } = {};
 
-    const request = {
+    this.accountService.createAccount(paramMap, {
       instructorName: instructor.name,
       instructorEmail: instructor.email,
-      instructorInstitution: instructor.institution
-    }
-
-    this.httpRequestService.post('/account', paramMap, request).subscribe((resp: JoinLink) => {
+      instructorInstitution: instructor.institution,
+    }).subscribe((resp: JoinLink) => {
       instructor.status = 'SUCCESS';
       instructor.joinLink = resp.joinLink;
       this.activeRequests -= 1;

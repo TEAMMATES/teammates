@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from '../../../services/account.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { AccountInfo } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { AccountInfo } from "../../../types/api-output";
 
 interface CourseAttributes {
   id: string;
@@ -39,7 +40,8 @@ export class AdminAccountsPageComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
-      private navigationService: NavigationService, private statusMessageService: StatusMessageService) { }
+      private navigationService: NavigationService, private statusMessageService: StatusMessageService,
+              private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -52,7 +54,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   loadAccountInfo(instructorid: string): void {
     const paramMap: { [key: string]: string } = { instructorid };
-    this.httpRequestService.get('/account', paramMap).subscribe((resp: AccountInfo) => {
+    this.accountService.getAccount(paramMap).subscribe((resp: AccountInfo) => {
       this.instructorCourses = resp.instructorCourses;
       this.studentCourses = resp.studentCourses;
       this.accountInfo = resp.accountInfo;
@@ -69,7 +71,7 @@ export class AdminAccountsPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       instructorid: id,
     };
-    this.httpRequestService.put('/account/downgrade', paramMap).subscribe(() => {
+    this.accountService.downgradeAccount(paramMap).subscribe(() => {
       this.loadAccountInfo(id);
       this.statusMessageService.showSuccessMessage('Instructor account is successfully downgraded to student.');
     }, (resp: ErrorMessageOutput) => {
@@ -85,7 +87,7 @@ export class AdminAccountsPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       instructorid: id,
     };
-    this.httpRequestService.delete('/account', paramMap).subscribe(() => {
+    this.accountService.deleteAccount(paramMap).subscribe(() => {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
           `Instructor account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {
