@@ -39,10 +39,11 @@ public class GateKeeperTest extends BaseLogicTest {
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = StudentAttributes
-                .builder(course.getId(), "Instructor As Student", "instructorasstudent@yahoo.com")
-                .withSection("Section 1")
-                .withTeam("Team 1")
-                .withComments("")
+                .builder(course.getId(), "instructorasstudent@yahoo.com")
+                .withName("Instructor As Student")
+                .withSectionName("Section 1")
+                .withTeamName("Team 1")
+                .withComment("")
                 .build();
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);

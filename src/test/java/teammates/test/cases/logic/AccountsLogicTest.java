@@ -144,10 +144,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // Create correct student with original@email.com
         StudentAttributes studentData = StudentAttributes
-                .builder(courseId, "name", originalEmail)
-                .withSection("sectionName")
-                .withTeam("teamName")
-                .withComments("")
+                .builder(courseId, originalEmail)
+                .withName("name")
+                .withSectionName("sectionName")
+                .withTeamName("teamName")
+                .withComment("")
                 .build();
         studentsLogic.createStudentCascade(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
@@ -173,10 +174,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = StudentAttributes
-                .builder(courseId, "name", "differentEmail@email.com")
-                .withSection("sectionName")
-                .withTeam("teamName")
-                .withComments("")
+                .builder(courseId, "differentEmail@email.com")
+                .withName("name")
+                .withSectionName("sectionName")
+                .withTeamName("teamName")
+                .withComment("")
                 .withGoogleId(existingId)
                 .build();
         studentsLogic.createStudentCascade(existingStudent);
@@ -222,10 +224,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         originalEmail = "email2@gmail.com";
         studentData = StudentAttributes
-                .builder(courseId, "name", originalEmail)
-                .withSection("sectionName")
-                .withTeam("teamName")
-                .withComments("")
+                .builder(courseId, originalEmail)
+                .withName("name")
+                .withSectionName("sectionName")
+                .withTeamName("teamName")
+                .withComment("")
                 .build();
         studentsLogic.createStudentCascade(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
@@ -409,10 +412,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
-                .builder(instructor.courseId, instructor.name, "email@com")
-                .withSection("section")
-                .withTeam("team")
-                .withComments("")
+                .builder(instructor.courseId, "email@com")
+                .withName(instructor.name)
+                .withSectionName("section")
+                .withTeamName("team")
+                .withComment("")
                 .withGoogleId(instructor.googleId)
                 .build();
         studentsLogic.createStudentCascade(student);

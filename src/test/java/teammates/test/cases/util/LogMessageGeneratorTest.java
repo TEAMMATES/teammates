@@ -96,10 +96,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||join|||join|||true|||Unregistered:CS2103|||Joe"
                      + "|||Unknown|||student@email|||Join Course|||" + url;
         StudentAttributes student = StudentAttributes
-                .builder("CS2103", "Joe", "student@email")
-                .withSection("section1")
-                .withTeam("team1")
-                .withComments("comments")
+                .builder("CS2103", "student@email")
+                .withName("Joe")
+                .withSectionName("section1")
+                .withTeamName("team1")
+                .withComment("comments")
                 .withGoogleId("unknownGoogleId")
                 .build();
 

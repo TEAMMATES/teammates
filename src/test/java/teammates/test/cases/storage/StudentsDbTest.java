@@ -54,10 +54,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
     public void testCreateStudent() throws Exception {
 
         StudentAttributes s = StudentAttributes
-                .builder("course id", "valid student", "valid-fresh@email.com")
-                .withComments("")
-                .withTeam("validTeamName")
-                .withSection("validSectionName")
+                .builder("course id", "valid-fresh@email.com")
+                .withName("valid student")
+                .withComment("")
+                .withTeamName("validTeamName")
+                .withSectionName("validSectionName")
                 .withGoogleId("validGoogleId")
                 .withLastName("student")
                 .build();
@@ -276,10 +277,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
     private StudentAttributes createNewStudent() throws InvalidParametersException {
         StudentAttributes s = StudentAttributes
-                .builder("valid-course", "valid student", "valid@email.com")
-                .withComments("")
-                .withTeam("validTeamName")
-                .withSection("validSectionName")
+                .builder("valid-course", "valid@email.com")
+                .withName("valid student")
+                .withComment("")
+                .withTeamName("validTeamName")
+                .withSectionName("validSectionName")
                 .withGoogleId("")
                 .build();
 
@@ -295,10 +297,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
     private StudentAttributes createNewStudent(String email) throws InvalidParametersException {
         StudentAttributes s = StudentAttributes
-                .builder("valid-course", "valid student 2", email)
-                .withComments("")
-                .withTeam("valid team name")
-                .withSection("valid section name")
+                .builder("valid-course", email)
+                .withName("valid student 2")
+                .withComment("")
+                .withTeamName("valid team name")
+                .withSectionName("valid section name")
                 .withGoogleId("")
                 .build();
 

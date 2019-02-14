@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.security.SecureRandom;
 import java.time.Instant;
 
-import com.google.gson.annotations.SerializedName;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -41,33 +40,23 @@ public class CourseStudent extends BaseEntity {
      * The student's Google ID. Links to the Account object.
      * This can be null if the student hasn't joined the course yet.
      */
-    @SerializedName("google_id")
     private String googleId;
 
-    @SerializedName("email")
     private String email;
 
-    /**
-     * The student's Course ID. References the primary key of the course.
-     */
-    @SerializedName("coursename")
     private String courseId;
 
     @Unindex
-    @SerializedName("name")
     private String name;
 
     @Unindex
-    @SerializedName("lastName")
     private String lastName;
 
     @Unindex
     private String comments;
 
-    @SerializedName("teamname")
     private String teamName;
 
-    @SerializedName("sectionname")
     private String sectionName;
 
     @SuppressWarnings("unused")
