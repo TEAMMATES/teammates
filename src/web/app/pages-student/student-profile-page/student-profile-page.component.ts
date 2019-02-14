@@ -6,7 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
-import { AuthInfo, MessageOutput } from '../../../types/api-output';
+import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-output';
 
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -27,10 +27,6 @@ interface StudentDetails {
   studentProfile: StudentProfile;
   name: string;
   requestId: string;
-}
-
-interface NationalityData {
-  nationalities: string[];
 }
 
 /**
@@ -83,7 +79,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Fetches the list of nationalities needed for the drop down box.
    */
   initNationalities(): void {
-    this.httpRequestService.get('/nationalities').subscribe((response: NationalityData) => {
+    this.httpRequestService.get('/nationalities').subscribe((response: Nationalities) => {
       this.nationalities = response.nationalities;
     });
   }
