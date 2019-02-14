@@ -1,13 +1,15 @@
 package teammates.client.scripts;
 
+import static teammates.common.util.FieldValidator.REGEX_EMAIL;
+
 import java.io.IOException;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
-import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
 
 /**
