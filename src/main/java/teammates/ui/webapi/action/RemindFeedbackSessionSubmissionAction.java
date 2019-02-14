@@ -4,7 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.request.FeedbackSessionStudentSaveRequest;
+import teammates.ui.webapi.request.FeedbackSessionStudentRemindRequest;
 
 /**
  * Remind students about the feedback submission.
@@ -40,8 +40,9 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
                     + "as the feedback session is not open for submissions.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        FeedbackSessionStudentSaveRequest saveRequest = getAndValidateRequestBody(FeedbackSessionStudentSaveRequest.class);
-        String[] usersToRemind = saveRequest.getUsersToRemind();
+        FeedbackSessionStudentRemindRequest remindRequest =
+                getAndValidateRequestBody(FeedbackSessionStudentRemindRequest.class);
+        String[] usersToRemind = remindRequest.getUsersToRemind();
 
         taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
                 usersToRemind, userInfo.getId());

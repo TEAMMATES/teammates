@@ -7,7 +7,7 @@ import { HttpRequestService } from '../../services/http-request.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { FeedbackQuestion, FeedbackQuestions, FeedbackSession } from '../../types/api-output';
-import { FeedbackSessionStudentSaveRequest } from '../../types/api-request';
+import { FeedbackSessionStudentRemindRequest } from '../../types/api-request';
 import {
   CopySessionResult,
   SessionsTableRowModel,
@@ -249,7 +249,7 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Sends e-mails to remind students on the published results link.
    */
-  resendResultsLinkToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentSaveRequest): void {
+  resendResultsLinkToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
     const paramMap: { [key: string]: string } = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
@@ -267,7 +267,7 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
-  sendRemindersToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentSaveRequest): void {
+  sendRemindersToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
     const paramMap: { [key: string]: string } = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,

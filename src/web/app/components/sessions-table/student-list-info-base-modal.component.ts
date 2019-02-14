@@ -1,7 +1,7 @@
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { FeedbackSessionStudentResponse, FeedbackSessionStudentsResponse } from '../../../types/api-output';
-import { FeedbackSessionStudentSaveRequest } from '../../../types/api-request';
+import { FeedbackSessionStudentRemindRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SortBy, SortOrder, StudentStatusTableRowModel } from './sessions-table-model';
 
@@ -116,7 +116,7 @@ export abstract class StudentListInfoBaseModalComponent {
   /**
    * Collates a list of selected students with selected checkbox.
    */
-  collateStudentsToSend(model: StudentStatusTableRowModel[]): FeedbackSessionStudentSaveRequest {
+  collateStudentsToSend(model: StudentStatusTableRowModel[]): FeedbackSessionStudentRemindRequest {
     const remindStudentList: string[] = [];
     for (const studentStatusTableRow of model) {
       if (studentStatusTableRow.isChecked) {

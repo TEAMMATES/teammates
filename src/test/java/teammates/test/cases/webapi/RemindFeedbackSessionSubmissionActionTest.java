@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.RemindFeedbackSessionSubmissionAction;
 import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackSessionStudentSaveRequest;
+import teammates.ui.webapi.request.FeedbackSessionStudentRemindRequest;
 
 /**
  * SUT: {@link RemindFeedbackSessionSubmissionAction}.
@@ -55,10 +55,10 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        FeedbackSessionStudentSaveRequest saveRequest = new FeedbackSessionStudentSaveRequest();
-        saveRequest.setUsersToRemind(studentNotSubmitFeedback.getEmail().split(""));
+        FeedbackSessionStudentRemindRequest remindRequest = new FeedbackSessionStudentRemindRequest();
+        remindRequest.setUsersToRemind(studentNotSubmitFeedback.getEmail().split(""));
 
-        RemindFeedbackSessionSubmissionAction action = getAction(saveRequest, paramsFeedbackSessionNotOpen);
+        RemindFeedbackSessionSubmissionAction action = getAction(remindRequest, paramsFeedbackSessionNotOpen);
         JsonResult result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
@@ -74,7 +74,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        action = getAction(saveRequest, paramsTypical);
+        action = getAction(remindRequest, paramsTypical);
         result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
-import { FeedbackSessionStudentSaveRequest } from '../../../types/api-request';
+import { FeedbackSessionStudentRemindRequest } from '../../../types/api-request';
 import { Course } from '../../course';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
@@ -92,11 +92,11 @@ export class SessionsTableComponent implements OnInit {
 
   @Output()
   sendRemindersToStudentsEvent:
-    EventEmitter<{row: number, request: FeedbackSessionStudentSaveRequest}> = new EventEmitter();
+    EventEmitter<{row: number, request: FeedbackSessionStudentRemindRequest}> = new EventEmitter();
 
   @Output()
   resendResultsLinkToStudentsEvent:
-    EventEmitter<{row: number, request: FeedbackSessionStudentSaveRequest}> = new EventEmitter();
+    EventEmitter<{row: number, request: FeedbackSessionStudentRemindRequest}> = new EventEmitter();
 
   constructor(private modalService: NgbModal) { }
 
@@ -170,8 +170,8 @@ export class SessionsTableComponent implements OnInit {
     modalRef.componentInstance.courseId = model.feedbackSession.courseId;
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
-    modalRef.result.then((saveRequest: FeedbackSessionStudentSaveRequest) => {
-      this.resendResultsLinkToStudentsEvent.emit({ row: rowIndex, request: saveRequest });
+    modalRef.result.then((remindRequest: FeedbackSessionStudentRemindRequest) => {
+      this.resendResultsLinkToStudentsEvent.emit({ row: rowIndex, request: remindRequest });
     }, () => {});
   }
 
@@ -184,8 +184,8 @@ export class SessionsTableComponent implements OnInit {
     modalRef.componentInstance.courseId = model.feedbackSession.courseId;
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
-    modalRef.result.then((saveRequest: FeedbackSessionStudentSaveRequest) => {
-      this.sendRemindersToStudentsEvent.emit({ row: rowIndex, request: saveRequest });
+    modalRef.result.then((remindRequest: FeedbackSessionStudentRemindRequest) => {
+      this.sendRemindersToStudentsEvent.emit({ row: rowIndex, request: remindRequest });
     }, () => {});
   }
 
