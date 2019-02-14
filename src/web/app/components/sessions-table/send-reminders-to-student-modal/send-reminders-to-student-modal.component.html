@@ -15,7 +15,7 @@
 </div>
 <div class="modal-body">
   <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
-  <div class="table-responsive" *ngIf="studentStatusTableRows.length > 0">
+  <div class="table-responsive" *ngIf="studentStatusTableRows.length > 0; else noStudentsToRemind">
     <table class="table table-bordered">
       <tr class="background-color-medium-gray">
         <th></th>
@@ -104,6 +104,11 @@
       </ng-container>
     </table>
   </div>
+  <ng-template #noStudentsToRemind>
+    <h4 class="p-2 bg-info text-white">
+      There are no students enrolled to remind.
+    </h4>
+  </ng-template>
   <div *ngIf="!isAjaxSuccess">
     Failed to load. Click
     <span class="clickable" (click)="initializeStudentsStatusTable()">here</span>
