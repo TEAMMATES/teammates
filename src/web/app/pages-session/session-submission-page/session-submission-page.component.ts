@@ -14,6 +14,7 @@ import {
   FeedbackResponse,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
+  Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import {
@@ -23,7 +24,6 @@ import {
   QuestionSubmissionFormModel,
 } from '../../components/question-types/question-types-session-submission/question-submission-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Instructor } from '../../Instructor';
 import { Intent } from '../../Intent';
 import { Student } from '../../student';
 import {
