@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.ui.webapi.request.CourseSaveRequest;
 
 /**
  * Action: Save edited course details.
@@ -36,7 +37,11 @@ public class SaveCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String courseTimeZone = getNonNullRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
+        CourseSaveRequest courseSaveRequest = getAndValidateRequestBody(CourseSaveRequest.class);
+
+        String courseId = courseSaveRequest.getCourseData().getCourseId();
+        String courseName = courseSaveRequest.getCourseData().getCourseName();
+        String courseTimeZone = courseSaveRequest.getCourseData().getTimeZone();
 
         FieldValidator validator = new FieldValidator();
         String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
@@ -44,8 +49,8 @@ public class SaveCourseAction extends Action {
             return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
+        courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
         try {
             logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)

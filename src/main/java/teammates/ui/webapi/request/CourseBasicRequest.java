@@ -13,6 +13,10 @@ public class CourseBasicRequest extends BasicRequest {
         return storedData;
     }
 
+    public void setCourseData(CourseData cd) {
+        storedData = cd;
+    }
+
     @Override
     public void validate() {
         assertTrue(storedData != null, "CourseData should not be null");

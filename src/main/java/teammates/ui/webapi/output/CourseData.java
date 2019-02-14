@@ -12,7 +12,7 @@ public class CourseData extends ApiOutput {
     private final String courseId;
     private final String courseName;
     private final String creationDate;
-    private final String timeZone;
+    private String timeZone;
 
     public CourseData(CourseAttributes courseAttributes) {
         this.courseId = courseAttributes.getId();
@@ -35,5 +35,9 @@ public class CourseData extends ApiOutput {
 
     public String getTimeZone() {
         return timeZone;
+    }
+
+    public void setTimeZone(String s) {
+        timeZone = s;
     }
 }
