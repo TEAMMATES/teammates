@@ -2,12 +2,11 @@ package teammates.ui.webapi.output;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.ui.webapi.action.GetAccountAction;
 
 import java.util.List;
 
 /**
- * Output format for {@link GetAccountAction}.
+ * Output format for account info.
  */
 public class AccountInfoData extends ApiOutput {
 

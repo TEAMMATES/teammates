@@ -1,11 +1,9 @@
 package teammates.ui.webapi.output;
 
-import teammates.ui.webapi.action.SearchAccountsAction;
-
 import java.util.List;
 
 /**
- * Output format for {@link SearchAccountsAction}.
+ * Output format for admin search result.
  */
 public class AdminSearchResultData extends ApiOutput {
     private final List<StudentBundle> students;
