@@ -62,10 +62,12 @@ public class DeleteInstructorInCourseAction extends Action {
             boolean isAlternativeInstructor =
                     instr.isRegistered()
                             && !instr.getEmail().equals(instructorToDeleteEmail)
-                            && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)
-                            && instr.isDisplayedToStudents();
+                            && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-            if (isAlternativeInstructor) {
+            boolean isAlternativeInstructorDisplayed =
+                    instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail);
+
+            if (isAlternativeInstructor && isAlternativeInstructorDisplayed) {
                 return true;
             }
         }

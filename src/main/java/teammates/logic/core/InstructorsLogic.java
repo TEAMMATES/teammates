@@ -179,9 +179,10 @@ public final class InstructorsLogic {
             throws InvalidParametersException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
+        boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
 
-        if (!(instructorsDisplayed.isEmpty() && !isOriginalInstructorDisplayed && isEditedInstructorDisplayed)
-                && (instructorsDisplayed.size() == 1 && isEditedInstructorChangedToNonVisible)) {
+        if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
+                && isEditedInstructorChangedToNonVisible)) {
             throw new InvalidParametersException("At least one instructor must be displayed to students");
         }
     }
