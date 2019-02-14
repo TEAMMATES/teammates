@@ -23,12 +23,12 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_ADD_INSTRUCTOR;
+        return Const.ResourceURIs.INSTRUCTORS;
     }
 
     @Override
     protected String getRequestMethod() {
-        return PUT;
+        return POST;
     }
 
     @Override

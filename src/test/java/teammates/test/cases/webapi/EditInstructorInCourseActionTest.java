@@ -22,12 +22,12 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_EDIT_INSTRUCTOR_DETAILS;
+        return Const.ResourceURIs.INSTRUCTORS;
     }
 
     @Override
     protected String getRequestMethod() {
-        return POST;
+        return PUT;
     }
 
     @Override
