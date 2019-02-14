@@ -29,7 +29,7 @@ public class FeedbackSession extends BaseEntity {
 
     private String courseId;
 
-    private String creatorEmail; //TODO: should this be googleId?
+    private String creatorEmail;
 
     @Unindex
     private Set<String> respondingInstructorList = new HashSet<>();

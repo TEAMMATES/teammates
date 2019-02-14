@@ -59,8 +59,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
         }
 
-        // TODO: Do we really need special identifiers? Can just use ToString()?
-        // Answer: Yes. We can use toString.
         if (shouldCheckExistence && hasEntity(entityToAdd)) {
             String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
                     + entityToAdd.getIdentificationString();
