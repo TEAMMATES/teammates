@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
@@ -36,26 +35,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testBuilderWithNullValuesForRequiredFields() {
-        assertThrows(AssertionError.class, () -> StudentProfileAttributes.builder(null).build());
-    }
-
-    @Test
-    public void testBuilderWithDefaultOptionalValues() {
+    public void testBuilder_withNothingPassed_shouldUseDefaultValues() {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID).build();
-        assertIsDefaultValues(profileAttributes);
-    }
 
-    @Test
-    public void testDefaultValueForGenderIfNullPassed() {
-        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID)
-                .withGender(null)
-                .build();
-
-        assertIsDefaultValues(profileAttributes);
-    }
-
-    private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
         assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.gender);
         assertEquals(VALID_GOOGLE_ID, profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
@@ -67,7 +49,77 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testValueOf() {
+    public void testBuilder_withNullValuePassed_shouldThrowException() {
+
+        assertThrows(AssertionError.class, () -> StudentProfileAttributes.builder(null).build());
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withShortName(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withInstitute(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withEmail(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withNationality(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withGender(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withMoreInfo(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                    .withPictureKey(null)
+                    .build();
+        });
+    }
+
+    @Test
+    public void testBuilder_withTypicalData_shouldBuildCorrectAttribute() {
+        StudentProfileAttributes studentProfileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                .withShortName("shor")
+                .withInstitute("institute")
+                .withEmail("valid@email.com")
+                .withNationality("Lebanese")
+                .withGender(StudentProfileAttributes.Gender.FEMALE)
+                .withMoreInfo("moreInfo can have a lot more than this...")
+                .withPictureKey("profile Pic Key")
+                .build();
+
+        assertEquals(VALID_GOOGLE_ID, studentProfileAttributes.getGoogleId());
+        assertEquals("shor", studentProfileAttributes.getShortName());
+        assertEquals("institute", studentProfileAttributes.getInstitute());
+        assertEquals("valid@email.com", studentProfileAttributes.getEmail());
+        assertEquals("Lebanese", studentProfileAttributes.getNationality());
+        assertEquals(StudentProfileAttributes.Gender.FEMALE, studentProfileAttributes.getGender());
+        assertEquals("moreInfo can have a lot more than this...", studentProfileAttributes.getMoreInfo());
+        assertEquals("profile Pic Key", studentProfileAttributes.getPictureKey());
+    }
+
+    @Test
+    public void testValueOf_withAllFieldPopulatedStudentProfile_shouldGenerateAttributesCorrectly() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
                 "Teammates Institute", "American", StudentProfileAttributes.Gender.MALE.name().toLowerCase(),
                 "hello", "key");
@@ -81,6 +133,23 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getGender(), profileAttributes.gender.name().toLowerCase());
         assertEquals(studentProfile.getMoreInfo(), profileAttributes.moreInfo);
         assertEquals(studentProfile.getPictureKey(), profileAttributes.pictureKey);
+
+    }
+
+    @Test
+    public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
+        StudentProfile studentProfile = new StudentProfile("id", null, null,
+                null, null, null, null, null);
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
+
+        assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
+        assertEquals("", profileAttributes.shortName);
+        assertEquals("", profileAttributes.email);
+        assertEquals("", profileAttributes.institute);
+        assertEquals("", profileAttributes.nationality);
+        assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.gender);
+        assertEquals("", profileAttributes.moreInfo);
+        assertEquals("", profileAttributes.pictureKey);
 
     }
 
@@ -320,6 +389,8 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         @Test
         public void testGetGenderEnumValue() {
             // invalid values
+            assertEquals(StudentProfileAttributes.Gender.OTHER,
+                    StudentProfileAttributes.Gender.getGenderEnumValue(null));
             assertEquals(StudentProfileAttributes.Gender.OTHER,
                          StudentProfileAttributes.Gender.getGenderEnumValue("'\"'invalidGender"));
             assertEquals(StudentProfileAttributes.Gender.OTHER,
