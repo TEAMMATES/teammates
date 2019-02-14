@@ -185,26 +185,33 @@ public class SearchAccountsAction extends Action {
             }
 
             if (student.email != null && student.course != null) {
-                Map<String, String> openSessions = sb.getOpenSessions();
-                for (FeedbackSessionAttributes openFs : courseIdToOpenFeedbackSessionsMap.get(student.course)) {
-                    openSessions.put(generateNameFragment(openFs),
-                            generateSubmitUrl(student, openFs.getFeedbackSessionName()));
-                }
-                sb.setOpenSessions(openSessions);
 
-                Map<String, String> notOpenSessions = sb.getNotOpenSessions();
-                for (FeedbackSessionAttributes notOpenFs : courseIdToNotOpenFeedbackSessionsMap.get(student.course)) {
-                    notOpenSessions.put(generateNameFragment(notOpenFs) + " (Currently Not Open)",
-                            generateSubmitUrl(student, notOpenFs.getFeedbackSessionName()));
+                if (courseIdToOpenFeedbackSessionsMap.get(student.course) != null) {
+                    Map<String, String> openSessions = sb.getOpenSessions();
+                    for (FeedbackSessionAttributes openFs : courseIdToOpenFeedbackSessionsMap.get(student.course)) {
+                        openSessions.put(generateNameFragment(openFs),
+                                generateSubmitUrl(student, openFs.getFeedbackSessionName()));
+                    }
+                    sb.setOpenSessions(openSessions);
                 }
-                sb.setNotOpenSessions(notOpenSessions);
 
-                Map<String, String> publishedSessions = sb.getPublishedSessions();
-                for (FeedbackSessionAttributes publishedFs : courseIdToPublishedFeedbackSessionsMap.get(student.course)) {
-                    publishedSessions.put(generateNameFragment(publishedFs) + " (Published)",
-                            generateResultUrl(student, publishedFs.getFeedbackSessionName()));
+                if (courseIdToNotOpenFeedbackSessionsMap.get(student.course) != null) {
+                    Map<String, String> notOpenSessions = sb.getNotOpenSessions();
+                    for (FeedbackSessionAttributes notOpenFs : courseIdToNotOpenFeedbackSessionsMap.get(student.course)) {
+                        notOpenSessions.put(generateNameFragment(notOpenFs) + " (Currently Not Open)",
+                                generateSubmitUrl(student, notOpenFs.getFeedbackSessionName()));
+                    }
+                    sb.setNotOpenSessions(notOpenSessions);
                 }
-                sb.setPublishedSessions(publishedSessions);
+
+                if ( courseIdToPublishedFeedbackSessionsMap.get(student.course) != null) {
+                    Map<String, String> publishedSessions = sb.getPublishedSessions();
+                    for (FeedbackSessionAttributes publishedFs : courseIdToPublishedFeedbackSessionsMap.get(student.course)) {
+                        publishedSessions.put(generateNameFragment(publishedFs) + " (Published)",
+                                generateResultUrl(student, publishedFs.getFeedbackSessionName()));
+                    }
+                    sb.setPublishedSessions(publishedSessions);
+                }
             }
 
             studentsBundle.add(sb);
