@@ -8,10 +8,7 @@ export enum Gender {
 }
 export namespace Gender {
 
-  export const values: () => string[] = (): string[] =>
-      Object.keys(Gender).filter((key: string) => isNaN(key as any) && key !== 'values');
-
-  export const enums: () => Gender[] = (): Gender[] => {
+  export const enumValues: () => Gender[] = (): Gender[] => {
     const genders: Gender[] = [];
     genders.push(Gender.MALE);
     genders.push(Gender.FEMALE);

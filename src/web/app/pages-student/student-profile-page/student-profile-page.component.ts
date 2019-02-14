@@ -11,6 +11,7 @@ import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-outpu
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
+import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentProfile {
@@ -18,7 +19,7 @@ interface StudentProfile {
   email: string;
   institute: string;
   nationality: string;
-  gender: string;
+  gender: Gender;
   moreInfo: string;
   pictureKey: string;
 }
@@ -45,7 +46,7 @@ export class StudentProfilePageComponent implements OnInit {
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-  genders: string[] = ['male', 'female', 'other'];
+  genders?: Gender[];
 
   private backendUrl: string = environment.backendUrl;
 
@@ -56,8 +57,9 @@ export class StudentProfilePageComponent implements OnInit {
               private statusMessageService: StatusMessageService) {}
 
   ngOnInit(): void {
-    // populate drop-down menu for nationality list
+    // populate drop-down menu for nationality and gender lists
     this.initNationalities();
+    this.initGenders();
 
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
@@ -82,6 +84,13 @@ export class StudentProfilePageComponent implements OnInit {
     this.httpRequestService.get('/nationalities').subscribe((response: Nationalities) => {
       this.nationalities = response.nationalities;
     });
+  }
+
+  /**
+   * Fetches the list of genders needed for the drop down box.
+   */
+  initGenders(): void {
+    this.genders = Gender.enumValues();
   }
 
   /**
