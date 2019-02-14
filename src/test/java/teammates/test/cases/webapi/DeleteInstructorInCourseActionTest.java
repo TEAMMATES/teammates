@@ -116,8 +116,8 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
         msg = (MessageOutput) r.getOutput();
 
-        assertEquals("The instructor you are trying to delete is the last instructor in the course that "
-                + "is displayed to the students." + " Deleting this instructor is not allowed.", msg.getMessage());
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", msg.getMessage());
 
         assertTrue(instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorToDelete.googleId, courseId));
 

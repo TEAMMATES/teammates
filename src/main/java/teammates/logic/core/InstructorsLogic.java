@@ -180,7 +180,7 @@ public final class InstructorsLogic {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
 
-        if ((instructorsDisplayed.isEmpty())
+        if ((instructorsDisplayed.isEmpty() && !isOriginalInstructorDisplayed && isEditedInstructorDisplayed)
                 || (instructorsDisplayed.size() == 1 && isEditedInstructorChangedToNonVisible)) {
             throw new InvalidParametersException("At least one instructor must be displayed to students");
         }
