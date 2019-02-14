@@ -4,6 +4,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.InstructorData;
 
 /**
  * Get the information of an instructor inside a course.
@@ -41,7 +42,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            return new JsonResult(new InstructorInfo.InstructorResponse(instructorAttributes));
+            return new JsonResult(new InstructorData(instructorAttributes));
         case FULL_DETAIL:
             // TODO implement this when necessary
             return null;
