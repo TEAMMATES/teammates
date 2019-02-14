@@ -13,6 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {StudentProfileUpdateRequest} from "../../../types/api-request";
 
 interface StudentProfile {
   shortName: string;
@@ -25,7 +26,7 @@ interface StudentProfile {
 }
 
 interface StudentDetails {
-  studentProfile: StudentProfile;
+  studentProfile: StudentProfileUpdateRequest;
   name: string;
   requestId: string;
 }
@@ -116,7 +117,7 @@ export class StudentProfilePageComponent implements OnInit {
   /**
    * Initializes the edit form with the student profile fields fetched from the backend.
    */
-  initStudentProfileForm(profile: StudentProfile): void {
+  initStudentProfileForm(profile: StudentProfileUpdateRequest): void {
     this.editForm = new FormGroup({
       studentshortname: new FormControl(profile.shortName),
       studentprofileemail: new FormControl(profile.email),
@@ -142,10 +143,13 @@ export class StudentProfilePageComponent implements OnInit {
     const paramsMap: { [key: string]: string } = {
       user: this.user,
       googleid: this.id,
+    };
+
+    const requestBody = {
       ...this.editForm.value,
     };
 
-    this.httpRequestService.put('/student/profile', paramsMap)
+    this.httpRequestService.put('/student/profile', paramsMap, requestBody)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
