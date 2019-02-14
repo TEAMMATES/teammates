@@ -59,7 +59,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         assertTrue(response.getStudentCourses().isEmpty());
         assertTrue(response.getInstructorCourses().size() == 1);
 
-        CourseAttributes actualCourse  = response.getInstructorCourses().get(0);
+        CourseAttributes actualCourse = response.getInstructorCourses().get(0);
         assertEquals(actualCourse.getId(), course1.getId());
         assertEquals(actualCourse.getName(), course1.getName());
         assertEquals(actualCourse.getTimeZone(), course1.getTimeZone());

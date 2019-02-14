@@ -3,6 +3,9 @@ package teammates.ui.webapi.output;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Student Bundle for {@link AccountInfoData}.
+ */
 public class StudentBundle extends CommonBundle {
     private String section;
     private String team;

@@ -204,9 +204,10 @@ public class SearchAccountsAction extends Action {
                     sb.setNotOpenSessions(notOpenSessions);
                 }
 
-                if ( courseIdToPublishedFeedbackSessionsMap.get(student.course) != null) {
+                if (courseIdToPublishedFeedbackSessionsMap.get(student.course) != null) {
                     Map<String, String> publishedSessions = sb.getPublishedSessions();
-                    for (FeedbackSessionAttributes publishedFs : courseIdToPublishedFeedbackSessionsMap.get(student.course)) {
+                    for (FeedbackSessionAttributes publishedFs
+                            : courseIdToPublishedFeedbackSessionsMap.get(student.course)) {
                         publishedSessions.put(generateNameFragment(publishedFs) + " (Published)",
                                 generateResultUrl(student, publishedFs.getFeedbackSessionName()));
                     }

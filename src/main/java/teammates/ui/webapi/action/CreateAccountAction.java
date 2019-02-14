@@ -18,7 +18,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.ui.webapi.output.ApiOutput;
+
 import teammates.ui.webapi.output.JoinLinkData;
 import teammates.ui.webapi.request.AccountCreateRequest;
 
@@ -46,7 +46,6 @@ public class CreateAccountAction extends Action {
 
         String instructorName = createRequest.getInstructorName();
         String instructorEmail = createRequest.getInstructorEmail();
-        String instructorInstitution = createRequest.getInstructorInstitution();
 
         String courseId = null;
 
@@ -55,6 +54,8 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
+
+        String instructorInstitution = createRequest.getInstructorInstitution();
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)

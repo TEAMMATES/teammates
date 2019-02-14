@@ -38,6 +38,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         JsonResult r = getJsonResult(a);
         MessageOutput response = (MessageOutput) r.getOutput();
 
+        assertEquals("Either student email or instructor email has to be specified.", response.getMessage());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+
         ______TS("Failure case: no course id supplied");
 
         String[] paramsInsufficient = {
@@ -50,7 +53,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         String[] paramsInstructor = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId()
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         a = getAction(paramsInstructor);
@@ -61,7 +64,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals(response.getMessage(), "Account is successfully reset.");
         assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
-        assertNull(logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),instructor1OfCourse1.getGoogleId()));
+        assertNull(logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId()));
 
         ______TS("typical success case: reset instructor student account");
 

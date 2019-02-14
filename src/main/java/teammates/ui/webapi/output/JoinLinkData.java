@@ -1,6 +1,5 @@
 package teammates.ui.webapi.output;
 
-import teammates.ui.webapi.action.CreateAccountAction;
 
 /**
  * Output format for join link.

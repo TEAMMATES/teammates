@@ -171,7 +171,6 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         };
     }
 
-
     private StudentProfileUpdateRequest createValidRequestForProfile() {
         StudentProfileUpdateRequest req = new StudentProfileUpdateRequest();
 
@@ -184,7 +183,6 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
 
         return req;
     }
-
 
     private StudentProfileUpdateRequest createInvalidUpdateRequest() {
         StudentProfileUpdateRequest req = new StudentProfileUpdateRequest();

@@ -1,5 +1,8 @@
 package teammates.ui.webapi.output;
 
+/**
+ * Common bundle for accounts.
+ */
 public class CommonBundle {
     protected String name;
     protected String email;

@@ -1,9 +1,10 @@
 package teammates.ui.webapi.output;
 
+import java.util.List;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 
-import java.util.List;
 
 /**
  * Output format for account info.
