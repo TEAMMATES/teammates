@@ -97,6 +97,29 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testValueOf_withDifferentTextQuestions() throws InvalidParametersException {
+        ______TS("single word text, should deserialize as plain text");
+        FeedbackQuestionsDb db = new FeedbackQuestionsDb();
+        FeedbackQuestion qn = db.createEntityWithoutExistenceCheck(getNewFeedbackQuestionAttributes());
+        qn.setQuestionText("singleWord");
+
+        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.valueOf(qn);
+        assertEquals("singleWord", fqa.questionDetails.getQuestionText());
+        assertEquals(0, ((FeedbackTextQuestionDetails) fqa.questionDetails).getRecommendedLength());
+
+        ______TS("json text, should deserialize as json");
+        String jsonQuestionText = "{\n"
+                + "  \"recommendedLength\": 70,\n"
+                + "  \"questionType\": \"TEXT\",\n"
+                + "  \"questionText\": \"normal question\"\n"
+                + "}";
+        qn.setQuestionText(jsonQuestionText);
+        FeedbackQuestionAttributes fqaJson = FeedbackQuestionAttributes.valueOf(qn);
+        assertEquals("normal question", fqaJson.questionDetails.getQuestionText());
+        assertEquals(70, ((FeedbackTextQuestionDetails) fqaJson.questionDetails).getRecommendedLength());
+    }
+
+    @Test
     public void testBuilderWithPopulatedFieldValues() {
         String feedbackSession = "test session";
         String courseId = "some course";
