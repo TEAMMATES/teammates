@@ -19,8 +19,7 @@ import teammates.common.util.GoogleCloudStorageHelper;
 public class PostStudentProfilePictureAction extends Action {
     /*
      * This class is not tested in ActionTests as it is difficult to
-     * reproduce the upload action done by Google Blobstore API
-     * without the server running.
+     * reproduce the upload action.
      * TODO: To cover it in UiTests.
      */
 
@@ -61,12 +60,6 @@ public class PostStudentProfilePictureAction extends Action {
             Part image = req.getParts().iterator().next();
             return validateProfilePicture(image);
         } catch (Exception e) {
-            /*
-             * This means the action was called directly (and not via BlobStore API callback).
-             * Simply redirect to ProfilePage.
-             */
-            System.out.println(e.getMessage());
-            System.out.println(e.getClass());
             return null;
         }
     }
