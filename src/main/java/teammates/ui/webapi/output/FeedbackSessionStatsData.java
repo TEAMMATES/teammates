@@ -1,5 +1,9 @@
 package teammates.ui.webapi.output;
 
+/**
+ * Api output of Feedback Session Status to hold information
+ * of submitted feedback responses status
+ */
 public class FeedbackSessionStatsData extends ApiOutput {
 
     private final int submittedTotal;
