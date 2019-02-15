@@ -1,30 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  QuestionTypesSessionEditModule,
-} from '../../../components/question-types/question-types-session-edit/question-types-session-edit.module';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
-import { TemplateQuestionModalComponent } from './template-question-modal.component';
+import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal.component';
 
-describe('TemplateQuestionModalComponent', () => {
-  let component: TemplateQuestionModalComponent;
-  let fixture: ComponentFixture<TemplateQuestionModalComponent>;
+describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
+  let component: CopyQuestionsFromOtherSessionsModalComponent;
+  let fixture: ComponentFixture<CopyQuestionsFromOtherSessionsModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [CopyQuestionsFromOtherSessionsModalComponent],
       imports: [
         CommonModule,
         FormsModule,
-        QuestionTypesSessionEditModule,
         TeammatesCommonModule,
-        HttpClientTestingModule,
-      ],
-      declarations: [
-        TemplateQuestionModalComponent,
       ],
       providers: [
         NgbActiveModal,
@@ -34,7 +26,7 @@ describe('TemplateQuestionModalComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TemplateQuestionModalComponent);
+    fixture = TestBed.createComponent(CopyQuestionsFromOtherSessionsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

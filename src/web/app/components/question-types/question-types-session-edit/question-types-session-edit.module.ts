@@ -14,7 +14,6 @@ import {
   TextQuestionDetailsFormComponent,
 } from './question-details-form/text-question-details-form/text-question-details-form.component';
 import { QuestionEditFormComponent } from './question-edit-form.component';
-import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import {
   VisibilityControlNamePipe,
   VisibilityTypeDescriptionPipe,
@@ -36,7 +35,6 @@ import {
   ],
   declarations: [
     QuestionEditFormComponent,
-    QuestionTypeNamePipe,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
     VisibilityTypeDescriptionPipe,
@@ -47,7 +45,6 @@ import {
   ],
   exports: [
     QuestionEditFormComponent,
-    QuestionTypeNamePipe,
   ],
 })
 export class QuestionTypesSessionEditModule { }
