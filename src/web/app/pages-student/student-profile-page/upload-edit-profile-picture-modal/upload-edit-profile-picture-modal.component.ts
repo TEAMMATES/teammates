@@ -7,6 +7,11 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
+interface PostStudentProfileResults {
+  message: string;
+  pictureKey: string;
+}
+
 /**
  * Student profile page's modal to upload/edit photo.
  */
@@ -36,10 +41,12 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
-    this.getProfilePicture().subscribe((resp: any) => {
-      this.blobToBase64Image(resp);
-    });
-    this.isImageLoaded = false;
+    if (this.profilePicLink !== '/assets/images/profile_picture_default.png') {
+      this.getProfilePicture().subscribe((resp: any) => {
+        this.blobToBase64Image(resp);
+      });
+      this.isImageLoaded = false;
+    }
   }
 
   /**
@@ -69,21 +76,23 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
     const paramsMap: { [key: string]: string } = {
       user: this.user,
     };
-    this.httpRequestService.post('/students/profilePic', paramsMap, this.formData).subscribe((response: any) => {
-      this.statusMessageService.showSuccessMessage(response.message);
+    this.httpRequestService.post('/students/profilePic', paramsMap, this.formData)
+        .subscribe((response: PostStudentProfileResults) => {
+          this.statusMessageService.showSuccessMessage(response.message);
+          this.profilePicLink = `${this.backendUrl}/webapi/students/profilePic?blob-key=${response.pictureKey}`;
 
-      // Gets the updated picture as blob to be filled in the image cropper
-      this.getProfilePicture().subscribe((resp: any) => {
-        this.blobToBase64Image(resp);
-        this.imageUpdated.emit();
-      });
+          // Gets the updated picture as blob to be filled in the image cropper
+          this.getProfilePicture().subscribe((resp: any) => {
+            this.blobToBase64Image(resp);
+            this.imageUpdated.emit(response.pictureKey);
+          });
 
-      // Reset upload section
-      this.fileName = 'No File Selected';
-      this.isFileSelected = false;
-    }, (response: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(response.error.message);
-    });
+          // Reset upload section
+          this.fileName = 'No File Selected';
+          this.isFileSelected = false;
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
   }
 
   /**

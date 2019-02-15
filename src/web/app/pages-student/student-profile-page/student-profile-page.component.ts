@@ -154,9 +154,9 @@ export class StudentProfilePageComponent implements OnInit {
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
 
     // When a new image is uploaded/edited in the modal box, update the profile pic link in the page too
-    modalRef.componentInstance.imageUpdated.subscribe(() => {
+    modalRef.componentInstance.imageUpdated.subscribe((pictureKey: string) => {
       this.profilePicLink =
-          this.getProfilePictureUrl(this.student.studentProfile.pictureKey); // Retrieves the profile picture link again
+          this.getProfilePictureUrl(pictureKey); // Retrieves the profile picture link again
     });
   }
 
@@ -177,6 +177,40 @@ export class StudentProfilePageComponent implements OnInit {
           }
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
+        });
+  }
+
+  /**
+   * Prompts the user with a modal box to confirm deleting the profile picture.
+   */
+  onDelete(confirmDeleteProfilePicture: any): void {
+    this.ngbModal.open(confirmDeleteProfilePicture);
+  }
+
+  /**
+   * Deletes the profile picture and the profile picture key
+   */
+  deleteProfilePicture(): void {
+    if (this.profilePicLink === '/assets/images/profile_picture_default.png') {
+      this.statusMessageService.showErrorMessage('You do not have a profile picture!');
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      user: this.user,
+      googleid: this.id,
+      'blob-key': this.profilePicLink.split('?')[1].split('&')[0].replace('blob-key=', ''),
+    };
+    this.httpRequestService.put('/students/profilePic', paramMap)
+        .subscribe((response: MessageOutput) => {
+          if (response) {
+            this.statusMessageService.showSuccessMessage(response.message);
+
+            this.student.studentProfile.pictureKey = '';
+            this.profilePicLink = this.getProfilePictureUrl(this.student.studentProfile.pictureKey);
+          }
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.
+            showErrorMessage(`Could not delete your profile picture! ${response.error.message}`);
         });
   }
 }
