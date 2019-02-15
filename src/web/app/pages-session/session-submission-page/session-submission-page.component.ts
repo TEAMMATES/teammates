@@ -11,6 +11,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
+  FeedbackQuestionRecipients,
   FeedbackResponse,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
@@ -44,13 +45,6 @@ import {
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
-}
-
-interface FeedbackQuestionRecipients {
-  recipients: {
-    name: string,
-    identifier: string,
-  }[];
 }
 
 interface FeedbackResponsesResponse {
