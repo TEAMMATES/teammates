@@ -279,7 +279,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     private void updateBasic(UpdateOptions updateOptions) {
         updateOptions.nameOption.ifPresent(s -> name = s);
-        updateOptions.isAchievedOption.ifPresent(s -> isArchived = s);
+        updateOptions.isArchivedOption.ifPresent(s -> isArchived = s);
         updateOptions.roleOption.ifPresent(s -> role = s);
         updateOptions.isDisplayedToStudentsOption.ifPresent(s -> isDisplayedToStudents = s);
         updateOptions.instructorPrivilegesOption.ifPresent(s -> privileges = s);
@@ -494,7 +494,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     private static class UpdateOptions {
 
         protected UpdateOption<String> nameOption = UpdateOption.empty();
-        protected UpdateOption<Boolean> isAchievedOption = UpdateOption.empty();
+        protected UpdateOption<Boolean> isArchivedOption = UpdateOption.empty();
         protected UpdateOption<String> roleOption = UpdateOption.empty();
         protected UpdateOption<Boolean> isDisplayedToStudentsOption = UpdateOption.empty();
         protected UpdateOption<String> displayedNameOption = UpdateOption.empty();
@@ -504,7 +504,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         public String toString() {
             return "InstructorAttributes.UpdateOptions ["
                     + "name = " + nameOption
-                    + ", isAchieved = " + isAchievedOption
+                    + ", isAchieved = " + isArchivedOption
                     + ", roleOption = " + roleOption
                     + ", isDisplayedToStudents = " + isDisplayedToStudentsOption
                     + ", displayedName = " + displayedNameOption
@@ -540,7 +540,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
                 return thisBuilder;
             }
 
-            public B withPrivilege(InstructorPrivileges instructorPrivileges) {
+            public B withPrivileges(InstructorPrivileges instructorPrivileges) {
                 Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, instructorPrivileges);
 
                 updateOptions.instructorPrivilegesOption = UpdateOption.of(instructorPrivileges);
@@ -552,8 +552,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
                 return thisBuilder;
             }
 
-            public B withIsAchieved(boolean isAchieved) {
-                updateOptions.isAchievedOption = UpdateOption.of(isAchieved);
+            public B withIsArchived(boolean isAchieved) {
+                updateOptions.isArchivedOption = UpdateOption.of(isAchieved);
                 return thisBuilder;
             }
 

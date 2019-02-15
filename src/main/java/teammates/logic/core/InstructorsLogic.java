@@ -91,7 +91,7 @@ public final class InstructorsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
         instructorsDb.updateInstructorByGoogleId(
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder(courseId, googleId)
-                        .withIsAchieved(archiveStatus)
+                        .withIsArchived(archiveStatus)
                         .build()
         );
     }

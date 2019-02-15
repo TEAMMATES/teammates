@@ -308,8 +308,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "test@test.com")
                         .withName("test")
                         .withDisplayedName("Instructor")
-                        .withIsAchieved(false)
-                        .withPrivilege(new InstructorPrivileges(
+                        .withIsArchived(false)
+                        .withPrivileges(new InstructorPrivileges(
                                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
                         .withIsDisplayedToStudents(false)
                         .withGoogleId("googleId")
@@ -347,8 +347,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                         .withName("test")
                         .withEmail("test@email.com")
                         .withDisplayedName("Instructor")
-                        .withIsAchieved(false)
-                        .withPrivilege(new InstructorPrivileges(
+                        .withIsArchived(false)
+                        .withPrivileges(new InstructorPrivileges(
                                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
                         .withIsDisplayedToStudents(false)
                         .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
@@ -392,7 +392,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                         .withDisplayedName(null));
         assertThrows(AssertionError.class, () ->
                 InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "email@email.com")
-                        .withPrivilege(null));
+                        .withPrivileges(null));
         assertThrows(AssertionError.class, () ->
                 InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "email@email.com")
                         .withRole(null));
@@ -412,7 +412,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                         .withDisplayedName(null));
         assertThrows(AssertionError.class, () ->
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
-                        .withPrivilege(null));
+                        .withPrivileges(null));
         assertThrows(AssertionError.class, () ->
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
                         .withRole(null));

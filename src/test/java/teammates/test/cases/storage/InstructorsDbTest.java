@@ -265,11 +265,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorToEdit.googleId)
                         .withName(instructorToEdit.name)
                         .withEmail(instructorToEdit.email)
-                        .withIsAchieved(instructorToEdit.isArchived)
+                        .withIsArchived(instructorToEdit.isArchived)
                         .withRole(instructorToEdit.role)
                         .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
                         .withDisplayedName(instructorToEdit.displayedName)
-                        .withPrivilege(instructorToEdit.privileges)
+                        .withPrivileges(instructorToEdit.privileges)
                         .build());
 
         InstructorAttributes actualInstructor =
@@ -354,11 +354,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                 InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorToEdit.email)
                         .withGoogleId(instructorToEdit.googleId)
                         .withName(instructorToEdit.name)
-                        .withIsAchieved(instructorToEdit.isArchived)
+                        .withIsArchived(instructorToEdit.isArchived)
                         .withRole(instructorToEdit.role)
                         .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
                         .withDisplayedName(instructorToEdit.displayedName)
-                        .withPrivilege(instructorToEdit.privileges)
+                        .withPrivileges(instructorToEdit.privileges)
                         .build());
 
         InstructorAttributes actualInstructor =

@@ -53,7 +53,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
                                 .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
-                                .withPrivilege(instructorToEdit.privileges)
+                                .withPrivileges(instructorToEdit.privileges)
                                 .withRole(instructorToEdit.role)
                                 .build());
             } else {
@@ -63,7 +63,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
                                 .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
-                                .withPrivilege(instructorToEdit.privileges)
+                                .withPrivileges(instructorToEdit.privileges)
                                 .withRole(instructorToEdit.role)
                                 .build());
             }
