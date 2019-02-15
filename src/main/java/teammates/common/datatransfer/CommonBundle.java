@@ -1,4 +1,4 @@
-package teammates.ui.webapi.output;
+package teammates.common.datatransfer;
 
 /**
  * Common bundle for accounts.

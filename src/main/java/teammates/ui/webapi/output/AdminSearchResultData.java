@@ -1,5 +1,8 @@
 package teammates.ui.webapi.output;
 
+import teammates.common.datatransfer.InstructorBundle;
+import teammates.common.datatransfer.StudentBundle;
+
 import java.util.List;
 
 /**

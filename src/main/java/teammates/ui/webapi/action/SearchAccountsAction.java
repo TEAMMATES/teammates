@@ -17,8 +17,8 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.AdminSearchResultData;
-import teammates.ui.webapi.output.InstructorBundle;
-import teammates.ui.webapi.output.StudentBundle;
+import teammates.common.datatransfer.InstructorBundle;
+import teammates.common.datatransfer.StudentBundle;
 
 /**
  * Action: searches for accounts.

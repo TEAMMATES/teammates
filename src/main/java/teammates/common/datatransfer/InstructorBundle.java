@@ -1,4 +1,6 @@
-package teammates.ui.webapi.output;
+package teammates.common.datatransfer;
+
+import teammates.ui.webapi.output.AccountInfoData;
 
 /**
  * Instructor Bundle for {@link AccountInfoData}.
