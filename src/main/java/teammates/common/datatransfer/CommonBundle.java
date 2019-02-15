@@ -1,7 +1,7 @@
 package teammates.common.datatransfer;
 
 /**
- * Common bundle for accounts.
+ * Represents details of an account.
  */
 public class CommonBundle {
     protected String name;

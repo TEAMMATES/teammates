@@ -1,7 +1,7 @@
 package teammates.common.datatransfer;
 
 /**
- * Instructor Bundle.
+ * Represents details of an instructor account.
  */
 public class InstructorBundle extends CommonBundle {
 }

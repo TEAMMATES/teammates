@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Student Bundle.
+ * Represents details of a student account.
  */
 public class StudentBundle extends CommonBundle {
     private String section;
