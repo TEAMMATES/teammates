@@ -38,7 +38,8 @@ public class GetSessionResponseStatsAction extends Action {
 
         try {
             FeedbackSessionDetailsBundle fsdb = logic.getFeedbackSessionDetails(feedbackSessionName, courseId);
-            FeedbackSessionStatsData output = new FeedbackSessionStatsData(fsdb.stats.submittedTotal, fsdb.stats.expectedTotal);
+            FeedbackSessionStatsData output =
+                    new FeedbackSessionStatsData(fsdb.stats.submittedTotal, fsdb.stats.expectedTotal);
             return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
