@@ -71,7 +71,7 @@ public class PutStudentProfileAction extends Action {
             editedProfile.nationality = req.getExistingNationality();
         }
 
-        editedProfile.gender =  StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender());
+        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender());
         editedProfile.moreInfo = req.getMoreInfo();
         editedProfile.pictureKey = "";
 
