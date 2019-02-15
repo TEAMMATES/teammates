@@ -79,7 +79,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         profileToUpdate.setEmail(newSpa.email);
         profileToUpdate.setInstitute(newSpa.institute);
         profileToUpdate.setNationality(newSpa.nationality);
-        profileToUpdate.setGender(newSpa.gender);
+        profileToUpdate.setGender(newSpa.gender.name().toLowerCase());
         profileToUpdate.setMoreInfo(newSpa.moreInfo);
         profileToUpdate.setModifiedDate(Instant.now());
 
