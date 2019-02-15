@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
@@ -12,6 +12,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+
+// tslint:disable-next-line:max-line-length
+import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 interface StudentProfile {
   shortName: string;
@@ -41,14 +44,14 @@ export class StudentProfilePageComponent implements OnInit {
 
   user: string = '';
   id: string = '';
-  student?: StudentDetails;
+  student!: StudentDetails;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
   genders: string[] = ['male', 'female', 'other'];
-  fileName: string = 'No File Selected';
-  isFileSelected: boolean = false;
-  formData?: FormData;
+
+  profilePicLink!: string;
+  currentTime?: number;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -69,27 +72,14 @@ export class StudentProfilePageComponent implements OnInit {
   }
 
   /**
-   * Handles event(s) when a file is selected from the user's file browser.
-   */
-  onFileChanged(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.fileName = file.name;
-      this.isFileSelected = true;
-
-      this.formData = new FormData();
-      this.formData.append('studentprofilephoto', file, file.name);
-    }
-  }
-
-  /**
    * Construct the url for the profile picture from the given key.
    */
   getProfilePictureUrl(pictureKey: string): string {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
+    this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
+    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}&time=${this.currentTime}`;
   }
 
   /**
@@ -118,6 +108,10 @@ export class StudentProfilePageComponent implements OnInit {
           if (response) {
             this.student = response;
             this.name = response.name;
+
+            this.profilePicLink =
+                this.getProfilePictureUrl(this.student.studentProfile.pictureKey);
+
             this.initStudentProfileForm(this.student.studentProfile);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
@@ -152,20 +146,17 @@ export class StudentProfilePageComponent implements OnInit {
   }
 
   /**
-   * Shows a modal box to upload/edit profile picture.
+   * Opens a modal box to upload/edit profile picture.
    */
-  onUploadEdit(uploadEditPhoto: any): void {
-    this.ngbModal.open(uploadEditPhoto);
-  }
+  onUploadEdit(): void {
+    const modalRef: NgbModalRef =
+        this.ngbModal.open(UploadEditProfilePictureModalComponent);
+    modalRef.componentInstance.profilePicLink = this.profilePicLink;
 
-  uploadPicture(): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-    };
-    this.httpRequestService.post('/students/profilePic', paramsMap, this.formData).subscribe((resp: any) => {
-      console.log(resp);
-    }, (response: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(response.error.message);
+    // When a new image is uploaded/edited in the modal box, update the profile pic link in the page too
+    modalRef.componentInstance.imageUpdated.subscribe(() => {
+      this.profilePicLink =
+          this.getProfilePictureUrl(this.student.studentProfile.pictureKey); // Retrieves the profile picture link again
     });
   }
 
