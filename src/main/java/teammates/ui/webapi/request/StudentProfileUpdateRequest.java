@@ -1,7 +1,7 @@
 package teammates.ui.webapi.request;
 
 /**
- * The request of modifying a student profile.
+ * The request of updating a student profile.
  */
 public class StudentProfileUpdateRequest extends BasicRequest {
 
