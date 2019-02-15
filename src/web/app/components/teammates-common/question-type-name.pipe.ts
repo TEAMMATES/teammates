@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackQuestionType } from '../../../../types/api-output';
+import { FeedbackQuestionType } from '../../../types/api-output';
 
 /**
  * Pipe to handle the display of {@code FeedbackQuestionType}.
