@@ -1218,6 +1218,7 @@ public final class Const {
         public static final String STUDENTS_DELETED = "All the students have been removed from the course";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         public static final String STUDENT_PROFILE_PICTURE_SAVED = "Your profile picture has been saved successfully";
+        public static final String STUDENT_PROFILE_PICTURE_DELETED = "Your profile picture has been deleted successfully";
         public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
