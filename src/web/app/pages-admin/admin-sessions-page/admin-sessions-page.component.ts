@@ -3,8 +3,8 @@ import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { FeedbackSessionStats } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {FeedbackSessionStats} from "../../../types/api-output";
 
 interface OngoingSession {
   sessionStatus: string;

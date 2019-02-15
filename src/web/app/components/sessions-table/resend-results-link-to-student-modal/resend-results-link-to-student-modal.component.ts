@@ -7,14 +7,14 @@ import { StudentStatusTableRowModel } from '../sessions-table-model';
 import { StudentListInfoBaseModalComponent } from '../student-list-info-base-modal.component';
 
 /**
- * Send reminders to students modal.
+ * Re-send results link to students modal.
  */
 @Component({
-  selector: 'tm-send-reminders-to-student-modal',
-  templateUrl: './send-reminders-to-student-modal.component.html',
-  styleUrls: ['./send-reminders-to-student-modal.component.scss'],
+  selector: 'tm-resend-results-link-to-student-modal',
+  templateUrl: './resend-results-link-to-student-modal.component.html',
+  styleUrls: ['./resend-results-link-to-student-modal.component.scss'],
 })
-export class SendRemindersToStudentModalComponent extends StudentListInfoBaseModalComponent implements OnInit {
+export class ResendResultsLinkToStudentModalComponent extends StudentListInfoBaseModalComponent implements OnInit {
 
   @Input()
   courseId: string = '';
@@ -23,7 +23,6 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
   feedbackSessionName: string = '';
 
   checkAll: boolean = false;
-  checkAllYetSubmitted: boolean = false;
 
   constructor(public activeModal: NgbActiveModal, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService) {
@@ -47,37 +46,19 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
   }
 
   /**
-   * Check all students checkbox to all students.
-   */
-  checkAllStudentsHandler(): void {
-    this.checkAllStudents(this.studentStatusTableRows, this.checkAll);
-    this.checkAllYetSubmitted = this.checkAll;
-  }
-
-  /**
-   * Check all yet to submit students checkbox to respective students.
-   */
-  checkAllYetSubmittedStudents(): void {
-    for (const remindStudentRow of this.studentStatusTableRows) {
-      if (!remindStudentRow.feedbackSessionStudentResponse.responseStatus) {
-        remindStudentRow.isChecked = this.checkAllYetSubmitted;
-      }
-    }
-  }
-
-  /**
    * Bind individual checkboxes to all submitted and all yet submitted students checkbox.
    */
   bindSelectedCheckboxes(): void {
     this.checkAll = this.studentStatusTableRows.every((tableRow: StudentStatusTableRowModel) => {
       return tableRow.isChecked;
     });
+  }
 
-    this.checkAllYetSubmitted = this.studentStatusTableRows.filter(
-        (tableRow: StudentStatusTableRowModel) => !tableRow.feedbackSessionStudentResponse.responseStatus,
-    ).every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked && !tableRow.feedbackSessionStudentResponse.responseStatus;
-    });
+  /**
+   * Check all students checkbox to all students.
+   */
+  checkAllStudentsHandler(): void {
+    this.checkAllStudents(this.studentStatusTableRows, this.checkAll);
   }
 
   /**

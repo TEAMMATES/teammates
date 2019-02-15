@@ -8,18 +8,18 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RemindFeedbackSessionSubmissionAction;
+import teammates.ui.webapi.action.RemindFeedbackSessionResultAction;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.FeedbackSessionStudentRemindRequest;
 
 /**
- * SUT: {@link RemindFeedbackSessionSubmissionAction}.
+ * SUT: {@link RemindFeedbackSessionResultAction}.
  */
-public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<RemindFeedbackSessionSubmissionAction> {
+public class RemindFeedbackSessionResultActionTest extends BaseActionTest<RemindFeedbackSessionResultAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.SESSION_REMIND_SUBMISSION;
+        return Const.ResourceURIs.SESSION_REMIND_RESULT;
     }
 
     @Override
@@ -31,8 +31,8 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
     @Override
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student5InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("closedSession");
+        StudentAttributes studentToEmail = typicalBundle.students.get("student1InCourse1");
 
         loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -47,28 +47,29 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         };
         verifyHttpParameterFailure(paramsNoFeedback);
 
-        ______TS("Unsuccessful case: Feedback session not open, warning message generated");
+        ______TS("Unsuccessful case: Feedback session not published, warning message generated");
 
-        fs = typicalBundle.feedbackSessions.get("awaiting.session");
-        String[] paramsFeedbackSessionNotOpen = new String[] {
+        fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] paramsFeedbackSessionNotPublshed = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
         FeedbackSessionStudentRemindRequest remindRequest = new FeedbackSessionStudentRemindRequest();
-        remindRequest.setUsersToRemind(studentNotSubmitFeedback.getEmail().split(""));
+        remindRequest.setUsersToRemind(studentToEmail.getEmail().split(""));
 
-        RemindFeedbackSessionSubmissionAction action = getAction(remindRequest, paramsFeedbackSessionNotOpen);
+        RemindFeedbackSessionResultAction action = getAction(remindRequest, paramsFeedbackSessionNotPublshed);
         JsonResult result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals("Reminder email could not be sent out "
-                + "as the feedback session is not open for submissions.", message.getMessage());
+        assertEquals("Published email could not be resent "
+                + "as the feedback session is not published.", message.getMessage());
+        verifyNoTasksAdded(action);
 
         ______TS("Successful case: Typical case");
 
-        fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        fs = typicalBundle.feedbackSessions.get("closedSession");
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -79,18 +80,18 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifySpecifiedTasksAdded(action,
-                Const.TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME, 1);
+                Const.TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student5InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("closedSession");
+        StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student1InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
+                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentNotSubmitFeedback.getEmail(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
