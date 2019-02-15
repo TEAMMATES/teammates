@@ -46,7 +46,7 @@ export class StudentProfilePageComponent implements OnInit {
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-  genders?: Gender[];
+  Gender: typeof Gender = Gender;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -59,7 +59,6 @@ export class StudentProfilePageComponent implements OnInit {
   ngOnInit(): void {
     // populate drop-down menu for nationality and gender lists
     this.initNationalities();
-    this.initGenders();
 
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
@@ -84,13 +83,6 @@ export class StudentProfilePageComponent implements OnInit {
     this.httpRequestService.get('/nationalities').subscribe((response: Nationalities) => {
       this.nationalities = response.nationalities;
     });
-  }
-
-  /**
-   * Fetches the list of genders needed for the drop down box.
-   */
-  initGenders(): void {
-    this.genders = Gender.enumValues();
   }
 
   /**

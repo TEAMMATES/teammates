@@ -6,29 +6,15 @@ export enum Gender {
   /**
    * Male gender.
    */
-  MALE,
+  MALE = 'MALE',
 
   /**
    * Female gender.
    */
-  FEMALE,
+  FEMALE = 'FEMALE',
 
   /**
    * Not specified gender.
    */
-  OTHER,
-}
-
-export namespace Gender {
-
-  /**
-   * Returns an array containing the values of Gender enum.
-   */
-  export const enumValues: () => Gender[] = (): Gender[] => {
-    const genders: Gender[] = [];
-    genders.push(Gender.MALE);
-    genders.push(Gender.FEMALE);
-    genders.push(Gender.OTHER);
-    return genders;
-  };
+  OTHER = 'OTHER',
 }

@@ -11,7 +11,7 @@ import { Gender } from '../../../types/gender';
 export class GenderFormatPipe implements PipeTransform {
 
   /**
-   * Transforms the list of genders as display options for the student profile page.
+   * Transforms {@code gender} to a gender display option for the student profile page.
    */
   transform(gender: Gender): string {
     switch (gender) {
