@@ -167,7 +167,7 @@ export abstract class InstructorSessionBasePageComponent {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    this.httpRequestService.get('/sessions/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
+    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
       model.isLoadingResponseRate = false;
       model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });

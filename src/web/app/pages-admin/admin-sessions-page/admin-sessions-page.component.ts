@@ -171,7 +171,7 @@ export class AdminSessionsPageComponent implements OnInit {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
-    this.httpRequestService.get('/sessions/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
+    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
       const sessions: OngoingSession[] = this.sessions[institute].filter((session: OngoingSession) =>
           session.courseId === courseId && session.feedbackSessionName === feedbackSessionName,
       );
