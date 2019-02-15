@@ -15,7 +15,7 @@ import teammates.test.cases.BaseTestCase;
 public class JsonUtilsTest extends BaseTestCase {
 
     @Test
-    public void testFeedbackResponseAttributesAdaptor_withResponseDetails_shouldSerializeToConcreteClass() {
+    public void testFeedbackResponseDetailsAdaptor_withComposedResponseDetails_shouldSerializeToConcreteClass() {
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
                 "Session1", "CS3281",
                 "questionId", "giver@email.com", "giverSection",
