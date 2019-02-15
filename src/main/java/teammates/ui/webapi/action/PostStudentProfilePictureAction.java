@@ -11,6 +11,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: saves the file information of the profile picture
@@ -45,8 +46,9 @@ public class PostStudentProfilePictureAction extends Action {
             }
             String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(userInfo.id, imageData);
             logic.updateStudentProfilePicture(userInfo.id, pictureKey);
-            return new JsonResult(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED,
-                    HttpStatus.SC_OK);
+            PostStudentProfileResults dataFormat =
+                    new PostStudentProfileResults(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, pictureKey);
+            return new JsonResult(dataFormat);
         } catch (IllegalArgumentException | IOException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
@@ -70,8 +72,27 @@ public class PostStudentProfilePictureAction extends Action {
         } else if (!image.getContentType().startsWith("image/")) {
             throw new IllegalArgumentException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         }
-
         return image;
     }
 
+    /**
+     * Data format for {@link PostStudentProfilePictureAction}.
+     */
+    public static class PostStudentProfileResults extends ApiOutput {
+        private final String message;
+        private final String pictureKey;
+
+        public PostStudentProfileResults(String message, String pictureKey) {
+            this.message = message;
+            this.pictureKey = pictureKey;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getPictureKey() {
+            return pictureKey;
+        }
+    }
 }
