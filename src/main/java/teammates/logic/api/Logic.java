@@ -170,6 +170,17 @@ public class Logic {
     }
 
     /**
+     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
+     *
+     * <p>If the associated profile doesn't exist, create a new one.</p>
+     */
+    public void deletePictureKey(String googleId) {
+        Assumption.assertNotNull(googleId);
+
+        profilesLogic.deletePictureKey(googleId);
+    }
+
+    /**
      * Creates an instructor and an new account if the instructor doesn't not have account yet.<br>
      * Used as a shorthand when the account entity is not important and is
      * only needed for completeness<br>
