@@ -18,7 +18,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.SESSIONS_STATS;
+        return Const.ResourceURIs.SESSION_STATS;
     }
 
     @Override
