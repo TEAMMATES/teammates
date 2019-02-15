@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.ui.webapi.output.CoursesData;
 
 /**
- * Get a list of course for current user.
+ * Get a list of courses.
  */
 public class GetCoursesAction extends Action {
 

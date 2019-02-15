@@ -8,7 +8,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.ui.webapi.request.CourseCreateRequest;
 
 /**
- * Action: Adds a new course for instructor.
+ * Create a new course for an instructor.
  */
 public class CreateCourseAction extends Action {
 

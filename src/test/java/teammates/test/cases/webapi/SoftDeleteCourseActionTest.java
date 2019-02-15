@@ -20,7 +20,7 @@ public class SoftDeleteCourseActionTest extends BaseActionTest<SoftDeleteCourseA
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_SOFTDELETE;
+        return Const.ResourceURIs.BIN_COURSE;
     }
 
     @Override

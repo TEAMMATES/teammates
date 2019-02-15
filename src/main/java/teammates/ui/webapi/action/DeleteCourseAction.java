@@ -7,11 +7,9 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: Permanently deletes a course from Recycle Bin for an instructor.
+ * Delete a course
  */
 public class DeleteCourseAction extends Action {
-
-    private String idOfCourseToDelete;
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -23,7 +21,7 @@ public class DeleteCourseAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
-        idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
                 logic.getCourse(idOfCourseToDelete),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);

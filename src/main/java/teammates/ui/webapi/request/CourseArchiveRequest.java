@@ -1,7 +1,7 @@
 package teammates.ui.webapi.request;
 
 /**
- * The delete request to archive a course.
+ * The archive request of a course.
  */
 public class CourseArchiveRequest extends BasicRequest {
     private String courseId;

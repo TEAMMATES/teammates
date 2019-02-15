@@ -5,7 +5,7 @@ import { CourseArchiveRequest, CourseCreateRequest, CourseSaveRequest } from '..
 import { HttpRequestService } from './http-request.service';
 
 /**
- * Handles sessions related logic provision.
+ * Handles course related logic provision.
  */
 @Injectable({
   providedIn: 'root',

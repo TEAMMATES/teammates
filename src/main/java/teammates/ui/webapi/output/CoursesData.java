@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 
 /**
- * Response of a list of courses.
+ * The API output format of a list of {@link CourseAttributes}.
  */
 public class CoursesData extends ApiOutput {
     private final List<CourseData> courses;

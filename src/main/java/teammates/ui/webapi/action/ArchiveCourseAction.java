@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.request.CourseArchiveRequest;
 
 /**
- * Action: Archives a course for an instructor.
+ * Archive a course.
  */
 public class ArchiveCourseAction extends Action {
 
