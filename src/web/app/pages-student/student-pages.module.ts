@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -20,6 +21,9 @@ import { StudentProfilePageComponent } from './student-profile-page/student-prof
 
 import { Pipes } from '../pipes/pipes.module';
 import { GenderFormatPipe } from './student-profile-page/student-profile-gender.pipe';
+
+// tslint:disable-next-line:max-line-length
+import { UploadEditProfilePictureModalComponent } from './student-profile-page/upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 const routes: Routes = [
   {
@@ -76,6 +80,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    ImageCropperModule,
     NgbModule,
     PageNotFoundModule,
     Pipes,
@@ -90,6 +95,10 @@ const routes: Routes = [
     StudentProfilePageComponent,
     StudentCourseDetailsPageComponent,
     GenderFormatPipe,
+    UploadEditProfilePictureModalComponent,
+  ],
+  entryComponents: [
+    UploadEditProfilePictureModalComponent,
   ],
 })
 export class StudentPagesModule {}
