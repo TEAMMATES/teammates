@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   QuestionTypesSessionEditModule,
 } from '../../../components/question-types/question-types-session-edit/question-types-session-edit.module';
+import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 import { TemplateQuestionModalComponent } from './template-question-modal.component';
 
 describe('TemplateQuestionModalComponent', () => {
@@ -19,6 +20,7 @@ describe('TemplateQuestionModalComponent', () => {
         CommonModule,
         FormsModule,
         QuestionTypesSessionEditModule,
+        TeammatesCommonModule,
         HttpClientTestingModule,
       ],
       declarations: [

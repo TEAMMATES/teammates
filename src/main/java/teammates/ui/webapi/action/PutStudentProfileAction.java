@@ -54,7 +54,8 @@ public class PutStudentProfileAction extends Action {
         if ("".equals(editedProfile.nationality)) {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
-        editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
+        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(
+                                                                getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
@@ -66,7 +67,6 @@ public class PutStudentProfileAction extends Action {
     private StudentProfileAttributes sanitizeProfile(StudentProfileAttributes studentProfile) {
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
-        studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
         studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);

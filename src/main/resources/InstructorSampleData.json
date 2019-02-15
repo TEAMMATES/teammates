@@ -2919,7 +2919,7 @@
       "email": "alice@b.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Chinese",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "I am Alice from TEAMMATES Test Institute 1 and am here at Cambridge for exchange. My Major in TEAMMATES Test Institute 5 is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!",
       "pictureKey": ""
     },
@@ -2929,7 +2929,7 @@
       "email": "danny@e.tmt",
       "institute": "TEAMMATES Test Institute 7",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "",
       "pictureKey": ""
     },
@@ -2939,7 +2939,7 @@
       "email": "emma@f.tmt",
       "institute": "TEAMMATES Test Institute 8",
       "nationality": "Indian",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "I am Emma from TEAMMATES Test Institute 8 India and am here at TEAMMATES Test Institute 5 for exchange. ",
       "pictureKey": ""
     },
@@ -2949,7 +2949,7 @@
       "email": "charlie@d.tmt",
       "institute": "TEAMMATES Test Institute 8",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am Charlie - an exchange student",
       "pictureKey": ""
     },
@@ -2959,7 +2959,7 @@
       "email": "gene@h.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Nigerian",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "",
       "pictureKey": ""
     }

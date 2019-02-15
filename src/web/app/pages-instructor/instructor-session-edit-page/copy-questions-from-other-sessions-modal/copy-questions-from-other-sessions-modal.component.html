@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h4 class="modal-title">Copy Questions</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table table-bordered table-responsive-lg">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>#</th>
+        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.COURSE_ID)">
+          Course ID
+          <span *ngIf="candidatesSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.COURSE_ID && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.COURSE_ID && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.FEEDBACK_SESSION_NAME)">
+          Session Name
+          <span *ngIf="candidatesSortBy !== SortBy.FEEDBACK_SESSION_NAME"><i class="fas fa-sort"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.FEEDBACK_SESSION_NAME && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.FEEDBACK_SESSION_NAME && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.QUESTION_TYPE)">
+          Question Type
+          <span *ngIf="candidatesSortBy !== SortBy.QUESTION_TYPE"><i class="fas fa-sort"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.QUESTION_TYPE && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.QUESTION_TYPE && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.QUESTION_TEXT)">
+          Question Text
+          <span *ngIf="candidatesSortBy !== SortBy.QUESTION_TEXT"><i class="fas fa-sort"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.QUESTION_TEXT && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.QUESTION_TEXT && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let questionCandidate of questionToCopyCandidates">
+        <td><input type="checkbox" class="form-control" [(ngModel)]="questionCandidate.isSelected"></td>
+        <td>{{ questionCandidate.courseId }}</td>
+        <td>{{ questionCandidate.feedbackSessionName }}</td>
+        <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
+        <td>{{ questionCandidate.question.questionBrief }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
+          [disabled]="!hasAnyQuestionsToCopySelected">Copy</button>
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+</div>
