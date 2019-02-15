@@ -1,12 +1,10 @@
 package teammates.common.datatransfer;
 
-import teammates.ui.webapi.output.AccountInfoData;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Student Bundle for {@link AccountInfoData}.
+ * Student Bundle.
  */
 public class StudentBundle extends CommonBundle {
     private String section;

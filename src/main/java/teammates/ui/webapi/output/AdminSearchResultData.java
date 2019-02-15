@@ -1,9 +1,9 @@
 package teammates.ui.webapi.output;
 
+import java.util.List;
+
 import teammates.common.datatransfer.InstructorBundle;
 import teammates.common.datatransfer.StudentBundle;
-
-import java.util.List;
 
 /**
  * Output format for admin search result.

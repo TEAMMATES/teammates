@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import teammates.common.datatransfer.InstructorBundle;
+import teammates.common.datatransfer.StudentBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -17,8 +19,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.AdminSearchResultData;
-import teammates.common.datatransfer.InstructorBundle;
-import teammates.common.datatransfer.StudentBundle;
+
 
 /**
  * Action: searches for accounts.
