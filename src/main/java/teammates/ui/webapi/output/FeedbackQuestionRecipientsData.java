@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * API output for Feedback Question Recipients, which is a collection of {@link FeedbackQuestionRecipientData}.
+ */
 public class FeedbackQuestionRecipientsData extends ApiOutput {
     private List<FeedbackQuestionRecipientData> recipients;
 

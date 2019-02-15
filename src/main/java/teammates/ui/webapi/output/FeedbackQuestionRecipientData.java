@@ -1,5 +1,8 @@
 package teammates.ui.webapi.output;
 
+/**
+ * API output for feedback question recipient.
+ */
 public class FeedbackQuestionRecipientData extends ApiOutput {
 
     private String name;
