@@ -204,6 +204,22 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }),
       });
 
+      // Listen for specific course value changes
+      const courseLevel: FormGroup = (instructorForm.controls.tunePermissions as FormGroup)
+          .controls.permissionsForCourse as FormGroup;
+
+      courseLevel.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToView: boolean) => {
+        if (!isAbleToView) {
+          courseLevel.controls.canmodifysessioncommentinsection.setValue(false);
+        }
+      });
+
+      courseLevel.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
+        if (isAbleToModify) {
+          courseLevel.controls.canviewsessioninsection.setValue(true);
+        }
+      });
+
       (instructorForm.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions =
           this.initSectionGroupPermissions(instructor);
 
@@ -257,6 +273,21 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }
       });
 
+      // Listen for specific section value changes
+      const sectionLevel: FormGroup = specialSectionPermissions.controls.permissionsForSection as FormGroup;
+
+      sectionLevel.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToView: boolean) => {
+        if (!isAbleToView) {
+          sectionLevel.controls.canmodifysessioncommentinsection.setValue(false);
+        }
+      });
+
+      sectionLevel.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
+        if (isAbleToModify) {
+          sectionLevel.controls.canviewsessioninsection.setValue(true);
+        }
+      });
+
       // Initialise session level privileges for each section
       const sessionPrivilegesForSection: { [session: string]: SessionLevelPrivileges } =
           instructor.privileges.sessionLevel[sectionName];
@@ -267,11 +298,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
           sessionPrivileges = this.fb.group(sessionPrivilegesForSection[feedback]);
         } else {
           sessionPrivileges = this.fb.group({
-            canviewsessioninsection: false,
             cansubmitsessioninsection: false,
+            canviewsessioninsection: false,
             canmodifysessioncommentinsection: false,
           });
         }
+
+        // Listen for specific session value changes
+        sessionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
+          if (!isAbleToSubmit) {
+            sessionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
+          }
+        });
+
+        sessionPrivileges.controls.canmodifysessioncommentinsection.valueChanges
+            .subscribe((isAbleToModify: boolean) => {
+              if (isAbleToModify) {
+                sessionPrivileges.controls.canviewsessioninsection.setValue(true);
+              }
+            });
+
         (specialSectionPermissions.controls.permissionsForSessions as FormGroup)
             .addControl(feedback, sessionPrivileges);
       });
@@ -493,12 +539,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
           .controls.permissionsForCourse as FormGroup;
 
       // Append custom course level privileges
-      for (const permission of Object.keys(tuneCoursePermissions)) {
-        const checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
-        if (checked != null && checked.value) {
+      Object.keys(tuneCoursePermissions.controls).forEach((permission: string) => {
+        if (tuneCoursePermissions.controls[permission].value) {
           paramsMap[permission] = 'true';
         }
-      }
+      });
       editedInstructor.privileges.courseLevel = tuneCoursePermissions.value;
 
       // Append custom section level privileges
@@ -733,12 +778,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
           .controls.permissionsForCourse as FormGroup;
 
       // Append custom course level privileges
-      for (const permission of Object.keys(tuneCoursePermissions)) {
-        const checked: (AbstractControl | null) =  tuneCoursePermissions.get(permission);
-        if (checked != null && checked.value) {
+      Object.keys(tuneCoursePermissions.controls).forEach((permission: string) => {
+        if (tuneCoursePermissions.controls[permission].value) {
           paramsMap[permission] = 'true';
         }
-      }
+      });
       addedInstructor.privileges.courseLevel = tuneCoursePermissions.value;
 
       // Append custom section level privileges
@@ -1012,12 +1056,39 @@ export class InstructorCourseEditPageComponent implements OnInit {
       newSection.addControl(sectionName, this.fb.control(false));
     });
 
-    const defaultSessionPrivileges: FormGroup = this.fb.group({
-      canviewsessioninsection: false,
-      cansubmitsessioninsection: false,
-      canmodifysessioncommentinsection: false,
+    const sectionPrivileges: FormGroup = newSection.controls.permissionsForSection as FormGroup;
+    sectionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
+      if (!isAbleToSubmit) {
+        sectionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
+      }
     });
+
+    sectionPrivileges.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
+      if (isAbleToModify) {
+        sectionPrivileges.controls.canviewsessioninsection.setValue(true);
+      }
+    });
+
     this.feedbackNames.forEach((feedback: string) => {
+      const defaultSessionPrivileges: FormGroup = this.fb.group({
+        canviewsessioninsection: false,
+        cansubmitsessioninsection: false,
+        canmodifysessioncommentinsection: false,
+      });
+
+      defaultSessionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
+        if (!isAbleToSubmit) {
+          defaultSessionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
+        }
+      });
+
+      defaultSessionPrivileges.controls.canmodifysessioncommentinsection.valueChanges
+          .subscribe((isAbleToModify: boolean) => {
+            if (isAbleToModify) {
+              defaultSessionPrivileges.controls.canviewsessioninsection.setValue(true);
+            }
+          });
+
       (newSection.controls.permissionsForSessions as FormGroup).addControl(feedback, defaultSessionPrivileges);
     });
 
@@ -1042,12 +1113,39 @@ export class InstructorCourseEditPageComponent implements OnInit {
       newSection.addControl(sectionName, this.fb.control(false));
     });
 
-    const defaultSessionPrivileges: FormGroup = this.fb.group({
-      canviewsessioninsection: false,
-      cansubmitsessioninsection: false,
-      canmodifysessioncommentinsection: false,
+    const sectionPrivileges: FormGroup = newSection.controls.permissionsForSection as FormGroup;
+    sectionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
+      if (!isAbleToSubmit) {
+        sectionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
+      }
     });
+
+    sectionPrivileges.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
+      if (isAbleToModify) {
+        sectionPrivileges.controls.canviewsessioninsection.setValue(true);
+      }
+    });
+
     this.feedbackNames.forEach((feedback: string) => {
+      const defaultSessionPrivileges: FormGroup = this.fb.group({
+        canviewsessioninsection: false,
+        cansubmitsessioninsection: false,
+        canmodifysessioncommentinsection: false,
+      });
+
+      defaultSessionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
+        if (!isAbleToSubmit) {
+          defaultSessionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
+        }
+      });
+
+      defaultSessionPrivileges.controls.canmodifysessioncommentinsection.valueChanges
+          .subscribe((isAbleToModify: boolean) => {
+            if (isAbleToModify) {
+              defaultSessionPrivileges.controls.canviewsessioninsection.setValue(true);
+            }
+          });
+
       (newSection.controls.permissionsForSessions as FormGroup).addControl(feedback, defaultSessionPrivileges);
     });
 
