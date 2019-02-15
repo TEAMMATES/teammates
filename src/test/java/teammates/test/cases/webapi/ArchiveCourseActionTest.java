@@ -37,10 +37,11 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Typical case: archive a course");
 
-        String[] submissionParams = new String[] {};
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+        };
 
         CourseArchiveRequest courseArchiveRequest = new CourseArchiveRequest();
-        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
         courseArchiveRequest.setArchiveStatus("true");
 
         ArchiveCourseAction archiveAction = getAction(courseArchiveRequest, submissionParams);
@@ -50,7 +51,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Rare case: archive an already archived course");
 
-        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
         courseArchiveRequest.setArchiveStatus("true");
 
         archiveAction = getAction(courseArchiveRequest, submissionParams);
@@ -60,7 +60,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Typical case: unarchive a course, redirect to Courses page");
 
-        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
         courseArchiveRequest.setArchiveStatus("false");
 
         ArchiveCourseAction unarchiveAction = getAction(courseArchiveRequest, submissionParams);
@@ -70,7 +69,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Rare case: unarchive an active course, redirect to Courses page");
 
-        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
         courseArchiveRequest.setArchiveStatus("false");
 
         unarchiveAction = getAction(courseArchiveRequest, submissionParams);
@@ -81,7 +79,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         ______TS("Masquerade mode: archive course, redirect to Courses page");
 
         loginAsAdmin();
-        courseArchiveRequest.setCourseId(instructor1OfCourse1.courseId);
         courseArchiveRequest.setArchiveStatus("true");
 
         archiveAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));

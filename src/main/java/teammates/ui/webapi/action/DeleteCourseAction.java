@@ -7,7 +7,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Delete a course
+ * Delete a course.
  */
 public class DeleteCourseAction extends Action {
 

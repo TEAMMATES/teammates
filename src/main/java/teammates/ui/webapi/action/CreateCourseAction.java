@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Const;
 import teammates.ui.webapi.request.CourseCreateRequest;
 
 /**
@@ -26,11 +27,12 @@ public class CreateCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
+        String newCourseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
-        String newCourseId = courseCreateRequest.getCourseData().getCourseId();
-        String newCourseName = courseCreateRequest.getCourseData().getCourseName();
-        String newCourseTimeZone = courseCreateRequest.getCourseData().getTimeZone();
+        String newCourseName = courseCreateRequest.getCourseName();
+        String newCourseTimeZone = courseCreateRequest.getTimeZone();
 
         try {
             logic.createCourseAndInstructor(userInfo.id, newCourseId, newCourseName, newCourseTimeZone);

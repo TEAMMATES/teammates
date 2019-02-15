@@ -175,8 +175,7 @@ public abstract class Action {
     protected <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_BODY_PARAMETER,
-                    typeOfBody.toString()));
+            throw new NullHttpParameterException(Const.StatusCodes.NULL_BODY_PARAMETER);
         }
         requestBody.validate();
         return requestBody;

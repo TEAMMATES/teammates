@@ -26,9 +26,10 @@ public class ArchiveCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
+        String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         CourseArchiveRequest courseArchiveRequest = getAndValidateRequestBody(CourseArchiveRequest.class);
 
-        String idOfCourseToArchive = courseArchiveRequest.getCourseId();
         String archiveStatus = courseArchiveRequest.getArchiveStatus();
         boolean isArchive = Boolean.parseBoolean(archiveStatus);
         try {

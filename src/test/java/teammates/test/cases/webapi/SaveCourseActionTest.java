@@ -1,12 +1,10 @@
 package teammates.test.cases.webapi;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
@@ -15,7 +13,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveCourseAction;
-import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.CourseSaveRequest;
 
@@ -53,12 +50,13 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
 
         ______TS("Typical case: edit course name with same name");
 
-        submissionParams = new String[] {};
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
 
         CourseSaveRequest courseSaveRequest = new CourseSaveRequest();
-        CourseAttributes courseAttributes = CourseAttributes.builder(courseId, courseName,
-                ZoneId.of(courseTimeZone)).build();
-        courseSaveRequest.setCourseData(new CourseData(courseAttributes));
+        courseSaveRequest.setCourseName(courseName);
+        courseSaveRequest.setTimeZone(courseTimeZone);
 
         // verify time zone will be changed
         String oldCourseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
@@ -80,9 +78,8 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
 
         String courseNameWithValidCharacters = courseName + " valid";
 
-        courseAttributes = CourseAttributes.builder(courseId, courseNameWithValidCharacters,
-                ZoneId.of(courseTimeZone)).build();
-        courseSaveRequest.setCourseData(new CourseData(courseAttributes));
+        courseSaveRequest.setCourseName(courseNameWithValidCharacters);
+        courseSaveRequest.setTimeZone(courseTimeZone);
 
         courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
@@ -96,9 +93,8 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: edit course name with empty string");
 
         courseName = "";
-
-        courseAttributes = CourseAttributes.builder(courseId, courseName, ZoneId.of(courseTimeZone)).build();
-        courseSaveRequest.setCourseData(new CourseData(courseAttributes));
+        courseSaveRequest.setCourseName(courseName);
+        courseSaveRequest.setTimeZone(courseTimeZone);
 
         courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
@@ -114,9 +110,8 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: edit course name with non-alphanumeric start character");
 
         courseName = "@#$@#$";
-
-        courseAttributes = CourseAttributes.builder(courseId, courseName, ZoneId.of(courseTimeZone)).build();
-        courseSaveRequest.setCourseData(new CourseData(courseAttributes));
+        courseSaveRequest.setCourseName(courseName);
+        courseSaveRequest.setTimeZone(courseTimeZone);
 
         courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
@@ -132,9 +127,8 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: edit course name with name containing | and %");
 
         courseName = "normal|name%";
-
-        courseAttributes = CourseAttributes.builder(courseId, courseName, ZoneId.of(courseTimeZone)).build();
-        courseSaveRequest.setCourseData(new CourseData(courseAttributes));
+        courseSaveRequest.setCourseName(courseName);
+        courseSaveRequest.setTimeZone(courseTimeZone);
 
         courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
@@ -150,12 +144,9 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: invalid time zone");
 
         courseName = CoursesLogic.inst().getCourse(courseId).getName();
-        courseAttributes = CourseAttributes.builder(courseId, courseName, ZoneId.of(courseTimeZone)).build();
-        courseSaveRequest.setCourseData(new CourseData(courseAttributes));
-
         courseTimeZone = "InvalidTimeZone";
-
-        courseSaveRequest.getCourseData().setTimeZone(courseTimeZone);
+        courseSaveRequest.setCourseName(courseName);
+        courseSaveRequest.setTimeZone(courseTimeZone);
 
         courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);

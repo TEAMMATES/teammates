@@ -1,27 +1,31 @@
 package teammates.ui.webapi.request;
 
-import teammates.ui.webapi.output.CourseData;
-
 /**
  * The basic request of modifying a course.
  */
 public class CourseBasicRequest extends BasicRequest {
-
-    private CourseData storedData;
-
-    public CourseData getCourseData() {
-        return storedData;
-    }
-
-    public void setCourseData(CourseData cd) {
-        storedData = cd;
-    }
+    private String courseName;
+    private String timeZone;
 
     @Override
     public void validate() {
-        assertTrue(storedData != null, "CourseData should not be null");
-        assertTrue(storedData.getCourseName() != null, "Course name should not be null");
-        assertTrue(storedData.getCourseId() != null, "Course ID should not be null");
-        assertTrue(storedData.getTimeZone() != null, "Course time zone should not be null");
+        assertTrue(courseName != null, "Course name should not be null");
+        assertTrue(timeZone != null, "Time zone should not be null");
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 }

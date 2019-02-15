@@ -1,17 +1,13 @@
 package teammates.test.cases.webapi;
 
-import java.time.ZoneId;
-
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.CreateCourseAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.CourseCreateRequest;
 
@@ -38,11 +34,13 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
 
-        String[] submissionParams = new String[] {};
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "new-course",
+        };
 
         CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
-        CourseAttributes courseAttributes = CourseAttributes.builder("new-course", "New Course", ZoneId.of("UTC")).build();
-        courseCreateRequest.setCourseData(new CourseData(courseAttributes));
+        courseCreateRequest.setCourseName("New Course");
+        courseCreateRequest.setTimeZone("UTC");
 
         ______TS("Typical case with new course id");
 
@@ -58,8 +56,11 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Typical case with existing course id");
 
-        courseAttributes = CourseAttributes.builder(courseId, "Existing Course", ZoneId.of("UTC")).build();
-        courseCreateRequest.setCourseData(new CourseData(courseAttributes));
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+        courseCreateRequest.setCourseName("Existing Course");
+        courseCreateRequest.setTimeZone("UTC");
 
         action = getAction(courseCreateRequest, submissionParams);
         result = getJsonResult(action);
@@ -70,8 +71,11 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Typical case missing course id");
 
-        courseAttributes = CourseAttributes.builder("", "New Course", ZoneId.of("UTC")).build();
-        courseCreateRequest.setCourseData(new CourseData(courseAttributes));
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "",
+        };
+        courseCreateRequest.setCourseName("New Course");
+        courseCreateRequest.setTimeZone("UTC");
 
         action = getAction(courseCreateRequest, submissionParams);
         result = getJsonResult(action);

@@ -3,7 +3,7 @@ package teammates.ui.webapi.output;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 
 /**
- * The API output format of a list of {@link CourseAttributes}.
+ * The API output format of a course.
  */
 public class CourseData extends ApiOutput {
     /**

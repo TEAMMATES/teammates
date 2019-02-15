@@ -184,18 +184,13 @@ export class InstructorCoursesPageComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
-    const paramMap: { [key: string]: string } = {};
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
 
-    this.courseService.createCourse(paramMap, {
-      storedData: {
-        courseId: this.newCourseId,
-        courseName: this.newCourseId,
-        timeZone: this.timezone,
-        creationDate: '',
-      },
+    this.courseService.createCourse(this.newCourseId, {
+      courseName: this.newCourseId,
+      timeZone: this.timezone,
     }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
@@ -212,9 +207,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {};
-    this.courseService.archiveCourse(paramMap, {
-      courseId,
+    this.courseService.archiveCourse(courseId, {
       archiveStatus: 'true',
     }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
@@ -276,11 +269,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (confirm(`Are you sure you want to permanently delete the course: ${courseId}? `
             + 'This operation will delete all students and sessions in this course. '
             + 'All instructors of this course will not be able to access it hereafter as well.')) {
-      const paramMap: { [key: string]: string } = {
-        courseid: courseId,
-        user: this.user,
-      };
-      this.courseService.deleteCourse(paramMap).subscribe((resp: MessageOutput) => {
+      this.courseService.deleteCourse(courseId).subscribe((resp: MessageOutput) => {
         this.loadInstructorCourses();
         this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {

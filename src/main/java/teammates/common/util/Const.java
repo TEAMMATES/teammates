@@ -1435,8 +1435,8 @@ public final class Const {
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
 
-        // body paramter null message
-        public static final String NULL_BODY_PARAMETER = "The %s body parameter is null";
+        // body parameter null message
+        public static final String NULL_BODY_PARAMETER = "The body parameter is null";
     }
 
     /**

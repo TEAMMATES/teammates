@@ -37,11 +37,12 @@ public class SaveCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         CourseSaveRequest courseSaveRequest = getAndValidateRequestBody(CourseSaveRequest.class);
 
-        String courseId = courseSaveRequest.getCourseData().getCourseId();
-        String courseName = courseSaveRequest.getCourseData().getCourseName();
-        String courseTimeZone = courseSaveRequest.getCourseData().getTimeZone();
+        String courseName = courseSaveRequest.getCourseName();
+        String courseTimeZone = courseSaveRequest.getTimeZone();
 
         FieldValidator validator = new FieldValidator();
         String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);

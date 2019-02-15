@@ -366,15 +366,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const newName: string = formEditCourse.controls.name.value;
     const newTimeZone: string = formEditCourse.controls.timeZone.value;
 
-    const paramsMap: { [key: string]: string } = {};
-
-    this.courseService.updateCourse(paramsMap, {
-      storedData : {
-        courseId: this.courseToEdit.id,
-        courseName: newName,
-        timeZone: newTimeZone,
-        creationDate: '',
-      },
+    this.courseService.updateCourse(this.courseToEdit.id, {
+      courseName: newName,
+      timeZone: newTimeZone,
     }).subscribe((resp: MessageOutput) => {
       this.statusMessageService.showSuccessMessage(resp.message);
       this.updateCourseDetails(newName, newTimeZone);
