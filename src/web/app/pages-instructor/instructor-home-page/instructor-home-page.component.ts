@@ -41,6 +41,7 @@ interface CourseTabModel {
 })
 export class InstructorHomePageComponent extends InstructorSessionBasePageComponent implements OnInit {
 
+  private static readonly coursesToLoad: number = 3;
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
@@ -49,7 +50,6 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   user: string = '';
   studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
-  coursesToLoad: number = 3;
 
   // data
   courseTabModels: CourseTabModel[] = [];
@@ -206,15 +206,15 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
     if (this.courseTabModels.length > 1) {
       this.courseTabModels.sort(this.sortPanelsBy(by));
     }
-    this.loadLatestCourses(this.coursesToLoad);
+    this.loadLatestCourses();
   }
 
   /**
    * Loads and expand the latest number of courses.
    */
-  loadLatestCourses(coursesToLoad: number): void {
+  loadLatestCourses(): void {
     for (let i: number = 0; i < this.courseTabModels.length; i += 1) {
-      if (i >= coursesToLoad) {
+      if (i >= InstructorHomePageComponent.coursesToLoad) {
         break;
       }
       this.courseTabModels[i].isTabExpanded = false;
