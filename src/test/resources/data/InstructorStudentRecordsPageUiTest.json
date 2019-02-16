@@ -579,55 +579,68 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "My product is light."
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "My product is light."
+      }
     },
     "response2": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Benny is a good student."
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Benny is a good student."
+      }
     },
     "response3": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Danny starts with D."
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Danny starts with D."
+      }
     },
     "response4": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Alice is a good coder."
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Alice is a good coder."
+      }
     },
     "response5": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Charlie did alot of work."
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Charlie did alot of work."
+      }
     },
     "response6": {
       "feedbackSessionName": "First feedback session",
       "courseId": "ISR.CS2104",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MCQ",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -725,7 +738,7 @@
       "email": "",
       "institute": "TEAMMATES Test Institute 7",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "This is a lot of info!",
       "pictureKey": ""
     },
@@ -735,7 +748,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "inst<script> alert('hi!'); </script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }

@@ -456,111 +456,133 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
+      }
     },
     "response2ForQ1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student2InIESFPTCourse@gmail.tmt",
       "recipient": "student2InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Student 2 self feedback.",
       "giverSection": "Section 2",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Student 2 self feedback."
+      }
     },
     "response1ForQ3": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "response whereby giver should not be seen by instructors",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "response whereby giver should not be seen by instructors"
+      }
     },
     "response1ForQ4": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "response whereby receipient should not be seen by instructors",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "response whereby receipient should not be seen by instructors"
+      }
     },
     "response1ForQ5": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "response with everything should not be seen by instructors",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "response with everything should not be seen by instructors"
+      }
     },
     "response1ForQ6": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "6",
-      "feedbackQuestionType": "MCQ",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "response1ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Session 2 Question 1 Response 1",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Session 2 Question 1 Response 1"
+      }
     },
     "response2ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student2InIESFPTCourse@gmail.tmt",
       "recipient": "student2InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Session 2 Question 1 Response 2",
       "giverSection": "Section 2",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Session 2 Question 1 Response 2"
+      }
     },
     "response1ForQ1InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "Closed session response",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Closed session response"
+      }
     },
     "response1ForQ2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IESFPTCourse",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "MCQ",
       "giver": "student1InIESFPTCourse@gmail.tmt",
       "recipient": "student1InIESFPTCourse@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     }
   },
   "feedbackResponseComments": {},
@@ -571,7 +593,7 @@
       "email": "i.m.stud1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 3",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just a student :P",
       "pictureKey": "asdf34&hfn3!@"
     }

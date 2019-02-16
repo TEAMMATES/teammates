@@ -20,9 +20,12 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.webapi.action.FeedbackQuestionInfo;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveFeedbackQuestionAction;
+import teammates.ui.webapi.output.FeedbackQuestionData;
+import teammates.ui.webapi.output.FeedbackVisibilityType;
+import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.webapi.request.FeedbackQuestionSaveRequest;
 
 /**
  * SUT: {@link SaveFeedbackQuestionAction}.
@@ -57,16 +60,15 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         ______TS("success: Typical case");
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
 
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestionInfo.FeedbackQuestionResponse response =
-                (FeedbackQuestionInfo.FeedbackQuestionResponse) r.getOutput();
+        FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
         assertEquals(typicalQuestion.getQuestionNumber(), response.getQuestionNumber());
@@ -78,7 +80,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         assertEquals(typicalQuestion.getQuestionDescription(), response.getQuestionDescription());
         assertEquals("this is the description", typicalQuestion.getQuestionDescription());
 
-        assertEquals(typicalQuestion.getQuestionType(), typicalQuestion.getQuestionType());
+        assertEquals(typicalQuestion.getQuestionType(), response.getQuestionType());
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetails()),
@@ -92,7 +94,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         assertEquals(typicalQuestion.getRecipientType(), typicalQuestion.getRecipientType());
         assertEquals(FeedbackParticipantType.INSTRUCTORS, typicalQuestion.getRecipientType());
 
-        assertEquals(FeedbackQuestionInfo.NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+        assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
                 response.getNumberOfEntitiesToGiveFeedbackToSetting());
         assertEquals(Const.MAX_POSSIBLE_RECIPIENTS, typicalQuestion.getNumberOfEntitiesToGiveFeedbackTo());
 
@@ -116,11 +118,10 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(
-                FeedbackQuestionInfo.NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
         saveRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(10);
 
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
@@ -142,14 +143,14 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
         saveRequest.setRecipientType(FeedbackParticipantType.TEAMS);
-        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.RECIPIENT));
+        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         saveRequest.setShowGiverNameTo(Arrays.asList());
-        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.RECIPIENT));
+        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
@@ -174,14 +175,14 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
         saveRequest.setRecipientType(FeedbackParticipantType.SELF);
-        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.RECIPIENT));
+        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         saveRequest.setShowGiverNameTo(Arrays.asList());
-        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.RECIPIENT));
+        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
@@ -215,14 +216,14 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         // There are already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalContributionQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalContributionQuestionSaveRequest();
         saveRequest.setQuestionNumber(fq.getQuestionNumber());
         saveRequest.setGiverType(fq.getGiverType());
         saveRequest.setRecipientType(fq.getRecipientType());
         saveRequest.setQuestionDetails(fq.getQuestionDetails());
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
@@ -235,7 +236,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         ______TS("Edit: Invalid recipient type");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionInfo.FeedbackQuestionSaveRequest request = getTypicalContributionQuestionSaveRequest();
+            FeedbackQuestionSaveRequest request = getTypicalContributionQuestionSaveRequest();
             request.setQuestionNumber(fq.getQuestionNumber());
             request.setRecipientType(FeedbackParticipantType.STUDENTS);
             getJsonResult(getAction(request, param));
@@ -252,9 +253,9 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         saveRequest.setQuestionNumber(-1);
 
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
@@ -278,9 +279,9 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         saveRequest.setGiverType(FeedbackParticipantType.TEAMS);
         saveRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
@@ -321,16 +322,15 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
 
         FeedbackQuestionAttributes fq =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         saveRequest.setQuestionNumber(fq.getQuestionNumber());
         saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
         saveRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(
-                FeedbackQuestionInfo.NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
         saveRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(1);
 
         String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
         getJsonResult(a);
@@ -354,7 +354,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
 
         param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
         a = getAction(saveRequest, param);
         getJsonResult(a);
@@ -374,7 +374,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setRecipientType(FeedbackParticipantType.NONE);
 
         param = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
         a = getAction(saveRequest, param);
         getJsonResult(a);
@@ -387,9 +387,8 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         assertEquals(totalStudents + 1, details.stats.expectedTotal);
     }
 
-    private FeedbackQuestionInfo.FeedbackQuestionSaveRequest getTypicalTextQuestionSaveRequest() {
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest =
-                new FeedbackQuestionInfo.FeedbackQuestionSaveRequest();
+    private FeedbackQuestionSaveRequest getTypicalTextQuestionSaveRequest() {
+        FeedbackQuestionSaveRequest saveRequest = new FeedbackQuestionSaveRequest();
         saveRequest.setQuestionNumber(2);
         saveRequest.setQuestionBrief("this is the brief");
         saveRequest.setQuestionDescription("this is the description");
@@ -399,8 +398,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setQuestionType(FeedbackQuestionType.TEXT);
         saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
         saveRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(
-                FeedbackQuestionInfo.NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
         saveRequest.setShowResponsesTo(new ArrayList<>());
         saveRequest.setShowGiverNameTo(new ArrayList<>());
@@ -409,9 +407,8 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         return saveRequest;
     }
 
-    private FeedbackQuestionInfo.FeedbackQuestionSaveRequest getTypicalContributionQuestionSaveRequest() {
-        FeedbackQuestionInfo.FeedbackQuestionSaveRequest saveRequest =
-                new FeedbackQuestionInfo.FeedbackQuestionSaveRequest();
+    private FeedbackQuestionSaveRequest getTypicalContributionQuestionSaveRequest() {
+        FeedbackQuestionSaveRequest saveRequest = new FeedbackQuestionSaveRequest();
         saveRequest.setQuestionNumber(1);
         saveRequest.setQuestionBrief("this is the brief for contribution question");
         saveRequest.setQuestionDescription("this is the description for contribution question");
@@ -421,12 +418,11 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setQuestionType(FeedbackQuestionType.CONTRIB);
         saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
         saveRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(
-                FeedbackQuestionInfo.NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
-        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.INSTRUCTORS));
-        saveRequest.setShowGiverNameTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.INSTRUCTORS));
-        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.INSTRUCTORS));
+        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
+        saveRequest.setShowGiverNameTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
+        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
 
         return saveRequest;
     }

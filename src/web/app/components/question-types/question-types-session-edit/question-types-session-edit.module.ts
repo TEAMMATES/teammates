@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../ajax-loading/ajax-loading.module';
+import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../../visibility-messages/visibility-messages.module';
 import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
@@ -13,7 +14,6 @@ import {
   TextQuestionDetailsFormComponent,
 } from './question-details-form/text-question-details-form/text-question-details-form.component';
 import { QuestionEditFormComponent } from './question-edit-form.component';
-import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import {
   VisibilityControlNamePipe,
   VisibilityTypeDescriptionPipe,
@@ -31,10 +31,10 @@ import {
     AjaxLoadingModule,
     VisibilityMessagesModule,
     TeammatesCommonModule,
+    RichTextEditorModule,
   ],
   declarations: [
     QuestionEditFormComponent,
-    QuestionTypeNamePipe,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
     VisibilityTypeDescriptionPipe,
@@ -45,7 +45,6 @@ import {
   ],
   exports: [
     QuestionEditFormComponent,
-    QuestionTypeNamePipe,
   ],
 })
 export class QuestionTypesSessionEditModule { }

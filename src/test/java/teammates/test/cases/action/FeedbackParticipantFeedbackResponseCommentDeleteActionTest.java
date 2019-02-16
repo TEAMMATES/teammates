@@ -229,7 +229,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email,
         };
         gaeSimulation.loginAsInstructor(moderator.googleId);
         verifyCanAccess(submissionParamsForModeration);
@@ -256,7 +256,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
         };
 
         ______TS("Different student of same course cannot delete comment");
@@ -273,7 +273,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email,
         };
         gaeSimulation.loginAsInstructor(moderator.googleId);
         verifyCanAccess(submissionParamsForModeration);
@@ -300,7 +300,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
         };
 
         ______TS("Different student of different team and same course cannot delete comment");
@@ -323,7 +323,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email,
         };
         gaeSimulation.loginAsInstructor(moderator.googleId);
         verifyCanAccess(submissionParamsForModeration);

@@ -7,13 +7,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
-import java.util.List;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
@@ -24,48 +22,6 @@ import teammates.common.util.Const.SystemParams;
 public final class TimeHelper {
 
     private static final Logger log = Logger.getLogger();
-
-    /**
-     * Represents the ambiguity status for a {@link LocalDateTime} at a given time {@code zone},
-     * brought about by Daylight Saving Time (DST).
-     */
-    public enum LocalDateTimeAmbiguityStatus {
-        /**
-         * The local date time can be unambiguously resolved to a single instant.
-         * It has only one valid interpretation.
-         */
-        UNAMBIGUOUS,
-
-        /**
-         * The local date time falls within the gap period when clocks spring forward at the start of DST.
-         * Strictly speaking, it is non-existent, and needs to be readjusted to be valid.
-         */
-        GAP,
-
-        /**
-         * The local date time falls within the overlap period when clocks fall back at the end of DST.
-         * It has more than one valid interpretation.
-         */
-        OVERLAP;
-
-        /**
-         * Gets the ambiguity status for a {@link LocalDateTime} at a given time {@code zone}.
-         */
-        public static LocalDateTimeAmbiguityStatus of(LocalDateTime localDateTime, ZoneId zone) {
-            if (localDateTime == null || zone == null) {
-                return null;
-            }
-
-            List<ZoneOffset> offsets = zone.getRules().getValidOffsets(localDateTime);
-            if (offsets.size() == 1) {
-                return UNAMBIGUOUS;
-            }
-            if (offsets.isEmpty()) {
-                return GAP;
-            }
-            return OVERLAP;
-        }
-    }
 
     private TimeHelper() {
         // utility class
@@ -166,6 +122,21 @@ public final class TimeHelper {
     }
 
     /**
+     * Formats a datetime stamp from an {@code instant} including time zone name.
+     * Example: Sun, 01 Apr 2018, 11:21 PM SGT
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT</p>
+     *
+     * @param instant         the instant to be formatted
+     * @param sessionTimeZone the time zone to compute local datetime
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForDisplay(Instant instant, ZoneId sessionTimeZone) {
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
+    }
+
+    /**
      * Formats a date stamp from a {@code localDateTime} for populating the sessions form.
      * Example: Sun, 01 Apr, 2018
      *
@@ -258,21 +229,6 @@ public final class TimeHelper {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
         return zonedDateTime.format(formatter);
-    }
-
-    /**
-     * Formats a datetime stamp from an {@code instant} including time zone name.
-     * Example: Sun, 01 Apr 2018, 11:21 PM SGT
-     *
-     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT</p>
-     *
-     * @param instant         the instant to be formatted
-     * @param sessionTimeZone the time zone to compute local datetime
-     * @return the formatted datetime stamp string
-     */
-    public static String formatDateTimeForDisplay(Instant instant, ZoneId sessionTimeZone) {
-        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
     /**

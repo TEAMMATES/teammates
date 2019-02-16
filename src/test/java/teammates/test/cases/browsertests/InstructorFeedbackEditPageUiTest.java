@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -1072,12 +1072,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                         feedbackSessionName,
                         courseId,
                         "1",
-                        FeedbackQuestionType.TEXT,
                         "tmms.test@gmail.tmt",
                         Const.DEFAULT_SECTION,
                         "alice.b.tmms@gmail.tmt",
                         Const.DEFAULT_SECTION,
-                        "Response from instructor to Alice");
+                        new FeedbackTextResponseDetails("Response from instructor to Alice"));
         BackDoor.createFeedbackResponse(feedbackResponse);
 
         ______TS("check response rate before editing question");

@@ -50,6 +50,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return result;
     };
 
+    private static final String FEEDBACK_SESSION_BACKUP_LOG_MSG = "Recently modified feedback session::";
+    private static final String ATTRIBUTE_NAME = "Feedback Session";
+
     // Required fields
     private String feedbackSessionName;
     private String courseId;
@@ -180,12 +183,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public String getEntityTypeAsString() {
-        return "Feedback Session";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+        return FEEDBACK_SESSION_BACKUP_LOG_MSG + getCourseId() + "::" + getFeedbackSessionName();
     }
 
     @Override
@@ -489,13 +492,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     public Instant getDeletedTime() {
         return deletedTime;
-    }
-
-    /**
-     * Sets current time as the deletion time of this feedback session.
-     */
-    public void setDeletedTime() {
-        this.deletedTime = Instant.now();
     }
 
     public void setDeletedTime(Instant deletedTime) {

@@ -63,7 +63,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
         StudentFeedbackResultsPageAction pageAction = getAction(submissionParams);
@@ -89,7 +89,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
 
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredStudent.key),
-                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
+                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email,
         };
 
         StudentFeedbackResultsPageAction pageAction = getAction(submissionParams);
@@ -124,7 +124,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         verifyRedirectTo(Const.WebPageURIs.STUDENT_HOME_PAGE, submissionParams);
 
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
         verifyRedirectTo(Const.WebPageURIs.STUDENT_HOME_PAGE, submissionParams);
@@ -133,7 +133,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
         FeedbackSessionsLogic.inst().unpublishFeedbackSession(session1InCourse1);
@@ -151,7 +151,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, emptySession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, emptySession.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, emptySession.getFeedbackSessionName(),
         };
 
         pageAction = getAction(submissionParams);
@@ -165,7 +165,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, gracePeriodSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, gracePeriodSession.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, gracePeriodSession.getFeedbackSessionName(),
         };
 
         pageAction = getAction(submissionParams);
@@ -187,7 +187,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, closedSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                closedSession.getFeedbackSessionName()
+                closedSession.getFeedbackSessionName(),
         };
 
         pageAction = getAction(submissionParams);
@@ -207,7 +207,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent session"
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent session",
         };
 
         pageAction = getAction(submissionParams);
@@ -230,7 +230,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
         pageAction = getAction(submissionParams);
@@ -287,7 +287,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName()
+                session1InCourse1.getFeedbackSessionName(),
         };
 
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);

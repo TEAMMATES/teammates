@@ -23,6 +23,7 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.
@@ -212,6 +213,33 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testSoftDeleteFeedbackSession() throws Exception {
+        FeedbackSessionAttributes fs = getNewFeedbackSession();
+        fsDb.createEntity(fs);
+
+        ______TS("Success: soft delete an existing feedback session");
+        fsDb.softDeleteFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getSoftDeletedFeedbackSession(fs.getCourseId(),
+                fs.getFeedbackSessionName()));
+
+        ______TS("Success: restore soft deleted course");
+        fsDb.restoreDeletedFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+
+        assertNull(fsDb.getSoftDeletedFeedbackSession(fs.getCourseId(),
+                fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertFalse(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()).isSessionDeleted());
+
+        ______TS("null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.softDeleteFeedbackSession(null, null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+
+    }
+
+    @Test
     public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
 
         ______TS("standard success case");
@@ -228,8 +256,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         assertEquals(0, fsaList.size());
@@ -253,8 +280,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
         assertEquals(8, fsaList.size());
@@ -278,8 +304,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
         assertEquals(8, fsaList.size());
@@ -303,8 +328,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         // soft delete a feedback session now
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
-        feedbackSession.setDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         assertEquals(10, fsaList.size());
@@ -357,11 +381,11 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
-                .withCreatedTime(Instant.now())
-                .withStartTime(Instant.now())
-                .withEndTime(Instant.now())
-                .withSessionVisibleFromTime(Instant.now())
-                .withResultsVisibleFromTime(Instant.now())
+                .withCreatedTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-2))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
                 .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)

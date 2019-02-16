@@ -11,10 +11,13 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.ui.webapi.action.FeedbackQuestionInfo;
 import teammates.ui.webapi.action.GetFeedbackQuestionsAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.FeedbackQuestionData;
+import teammates.ui.webapi.output.FeedbackQuestionsData;
+import teammates.ui.webapi.output.FeedbackVisibilityType;
+import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
 
 /**
  * SUT: {@link GetFeedbackQuestionsAction}.
@@ -53,19 +56,18 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         String[] params = {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        FeedbackQuestionInfo.FeedbackQuestionsResponse feedbackQuestionsResponse =
-                (FeedbackQuestionInfo.FeedbackQuestionsResponse) r.getOutput();
+        FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
-        List<FeedbackQuestionInfo.FeedbackQuestionResponse> questions = feedbackQuestionsResponse.getQuestions();
+        List<FeedbackQuestionData> questions = feedbackQuestionsResponse.getQuestions();
         assertEquals(5, questions.size());
 
-        FeedbackQuestionInfo.FeedbackQuestionResponse typicalResponse = questions.get(0);
+        FeedbackQuestionData typicalResponse = questions.get(0);
         FeedbackQuestionAttributes expected =
                 logic.getFeedbackQuestionsForSession(feedbackSessionAttributes.getFeedbackSessionName(),
                         feedbackSessionAttributes.getCourseId()).get(0);
@@ -84,15 +86,15 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         assertEquals(expected.getGiverType(), typicalResponse.getGiverType());
         assertEquals(expected.getRecipientType(), typicalResponse.getRecipientType());
 
-        assertEquals(FeedbackQuestionInfo.NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
+        assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
                 typicalResponse.getNumberOfEntitiesToGiveFeedbackToSetting());
         assertEquals(1, typicalResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
 
-        assertEquals(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS),
                 typicalResponse.getShowResponsesTo());
-        assertEquals(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS),
                 typicalResponse.getShowGiverNameTo());
-        assertEquals(Arrays.asList(FeedbackQuestionInfo.FeedbackVisibilityType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS),
                 typicalResponse.getShowRecipientNameTo());
     }
 
@@ -107,7 +109,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for a session",
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -118,7 +120,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString()
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         verifyAccessibleForInstructorsOfTheSameCourse(params);

@@ -415,7 +415,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
 
-        fr.setAnswer(newAttributes.responseMetaData);
+        fr.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
         fr.setRecipientEmail(newAttributes.recipient);
         fr.setGiverSection(newAttributes.giverSection);
         fr.setRecipientSection(newAttributes.recipientSection);

@@ -762,1585 +762,1926 @@
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "A highlight for me has been putting Software Engineering skills to use.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "A highlight for me has been putting Software Engineering skills to use."
+      }
     },
     "aliceResponse2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "NUMSCALE",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 4,
+        "questionType": "NUMSCALE"
+      }
     },
     "aliceResponse3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MCQ",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":\"Team 1\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": "Team 1",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "aliceResponse4.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Good job Benny! Thanks for the hard work for making the application pretty!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good job Benny! Thanks for the hard work for making the application pretty!"
+      }
     },
     "aliceResponse4.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "It is good to see you working so hard to improve yourself!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "It is good to see you working so hard to improve yourself!"
+      }
     },
     "aliceResponse4.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Wow! You are really good at designing!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Wow! You are really good at designing!"
+      }
     },
     "aliceResponse5": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "6",
-      "feedbackQuestionType": "MSQ",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answers\":[\"C\",\"Java\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answers": [
+          "C",
+          "Java"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
+      }
     },
     "aliceResponse6.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Good job Benny! Thanks for the hard work for making the application pretty!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good job Benny! Thanks for the hard work for making the application pretty!"
+      }
     },
     "aliceResponse6.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Thank you Danny! You taught me many useful skills in this project.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Danny! You taught me many useful skills in this project."
+      }
     },
     "aliceResponse6.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "You are the best Emma! Without you, our application will not be running.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "You are the best Emma! Without you, our application will not be running."
+      }
     },
     "aliceResponse7": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "9",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[20,80],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          20,
+          80
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "aliceResponse8.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[100],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "aliceResponse8.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[120],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "aliceResponse8.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[90],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "aliceResponse8.4": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[90],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "aliceResponse9.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "aliceResponse9.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":120,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 120,
+        "questionType": "CONTRIB"
+      }
     },
     "aliceResponse9.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":90,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 90,
+        "questionType": "CONTRIB"
+      }
     },
     "aliceResponse9.4": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":90,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 90,
+        "questionType": "CONTRIB"
+      }
     },
     "aliceResponse10.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "12",
-      "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":[1,0],\"questionType\":\"RUBRIC\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": [
+          1,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "aliceResponse10.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "12",
-      "feedbackQuestionType": "RUBRIC",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":[0,1],\"questionType\":\"RUBRIC\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": [
+          0,
+          1
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "aliceResponse11.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "13",
-      "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 2,
+        "questionType": "RANK_RECIPIENTS"
+      }
     },
     "aliceResponse11.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "13",
-      "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "Team 3",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 1,
+        "questionType": "RANK_RECIPIENTS"
+      }
     },
     "aliceResponse12.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "14",
-      "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[1,3,2,4],\"questionType\":\"RANK_OPTIONS\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "questionType": "RANK_OPTIONS"
+      }
     },
     "charlieResponse1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "I have enjoyed learning about new tools and using them.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I have enjoyed learning about new tools and using them."
+      }
     },
     "charlieResponse2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "NUMSCALE",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":5,\"questionType\":\"NUMSCALE\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 5,
+        "questionType": "NUMSCALE"
+      }
     },
     "charlieResponse3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MCQ",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answer\":\"Team 2\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answer": "Team 2",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "charlieResponse4.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Thank you for being helpful and explaining how you did your UI.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you for being helpful and explaining how you did your UI."
+      }
     },
     "charlieResponse4.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "I wish I was as good at programming as Alice.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I wish I was as good at programming as Alice."
+      }
     },
     "charlieResponse4.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Francis is very talented with design work.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Francis is very talented with design work."
+      }
     },
     "charlieResponse5": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "6",
-      "feedbackQuestionType": "MSQ",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "{\"answers\":[\"Python\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "answers": [
+          "Python"
+        ],
+        "otherFieldContent": "",
+        "questionType": "MSQ"
+      }
     },
     "charlieResponse6.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "I really like your design Francis!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I really like your design Francis!"
+      }
     },
     "charlieResponse6.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "I really appreciate all the coding you have done in the project!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I really appreciate all the coding you have done in the project!"
+      }
     },
     "charlieResponse6.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "8",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Thank you Demo_Instructor for all the help in the project.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for all the help in the project."
+      }
     },
     "charlieResponse7": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "9",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[45,55],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          45,
+          55
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "charlieResponse8.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[110],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          110
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "charlieResponse8.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[90],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          90
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "charlieResponse8.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[50],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          50
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "charlieResponse8.4": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "10",
-      "feedbackQuestionType": "CONSTSUM",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answers\":[150],\"questionType\":\"CONSTSUM\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          150
+        ],
+        "questionType": "CONSTSUM"
+      }
     },
     "charlieResponse9.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "charlieResponse9.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":90,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 90,
+        "questionType": "CONTRIB"
+      }
     },
     "charlieResponse9.3": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":50,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 50,
+        "questionType": "CONTRIB"
+      }
     },
     "charlieResponse9.4": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "11",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":150,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 150,
+        "questionType": "CONTRIB"
+      }
     },
     "charlieResponse10.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "12",
-      "feedbackQuestionType": "RUBRIC",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":[-1,0],\"questionType\":\"RUBRIC\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": [
+          -1,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "charlieResponse10.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "12",
-      "feedbackQuestionType": "RUBRIC",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":[0,0],\"questionType\":\"RUBRIC\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": [
+          0,
+          0
+        ],
+        "questionType": "RUBRIC"
+      }
     },
     "charlieResponse11.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "13",
-      "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "Team 1",
-      "responseMetaData": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 1,
+        "questionType": "RANK_RECIPIENTS"
+      }
     },
     "charlieResponse11.2": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "13",
-      "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "Team 3",
-      "responseMetaData": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 2,
+        "questionType": "RANK_RECIPIENTS"
+      }
     },
     "charlieResponse12.1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "feedbackQuestionId": "14",
-      "feedbackQuestionType": "RANK_OPTIONS",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answers\":[4,1,2,3],\"questionType\":\"RANK_OPTIONS\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "questionType": "RANK_OPTIONS"
+      }
     },
     "FS2.Q1.Alice.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Alice.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Alice.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Alice.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Benny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Benny.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Benny.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Benny.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Danny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Danny.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Danny.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Danny.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Emma.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Emma.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Emma.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Emma.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Charlie.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":80,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 80,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Charlie.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Charlie.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Charlie.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Inst.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Inst.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":80,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 80,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Inst.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Inst.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Francis.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Francis.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":80,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 80,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Francis.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Francis.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Gene.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":100,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 100,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Gene.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":80,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 80,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Gene.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q1.Gene.4": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "{\"answer\":110,\"questionType\":\"CONTRIB\"}",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answer": 110,
+        "questionType": "CONTRIB"
+      }
     },
     "FS2.Q2.Alice.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "I did all a portion of the backend.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I did all a portion of the backend."
+      }
     },
     "FS2.Q2.Inst.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time."
+      }
     },
     "FS2.Q2.Emma.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "I worked with Alice to build the application backend.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I worked with Alice to build the application backend."
+      }
     },
     "FS2.Q2.Benny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "I did all the UI work.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I did all the UI work."
+      }
     },
     "FS2.Q2.Francis.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "I was the designer. I did all the UI work.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I was the designer. I did all the UI work."
+      }
     },
     "FS2.Q2.Danny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "I designed the software architecture and led the project.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I designed the software architecture and led the project."
+      }
     },
     "FS2.Q2.Charlie.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "I am a bit slow compared to my team mates, but the members helped me to catch up.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I am a bit slow compared to my team mates, but the members helped me to catch up."
+      }
     },
     "FS2.Q2.Gene.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "I am the programmer for the team. I did most of the coding.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I am the programmer for the team. I did most of the coding."
+      }
     },
     "FS2.Q3.Alice.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Benny did all the UI work of the application. He contributed a lot.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Benny did all the UI work of the application. He contributed a lot."
+      }
     },
     "FS2.Q3.Alice.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "Emma is a strong programmer. She contributed to the backend with me.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Emma is a strong programmer. She contributed to the backend with me."
+      }
     },
     "FS2.Q3.Alice.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Danny is the project lead. He managed the project and designed the software architecture.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Danny is the project lead. He managed the project and designed the software architecture."
+      }
     },
     "FS2.Q3.Benny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Alice built part of the application backend.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Alice built part of the application backend."
+      }
     },
     "FS2.Q3.Benny.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "Emma programmed the application backend.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Emma programmed the application backend."
+      }
     },
     "FS2.Q3.Benny.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Danny led the project. He did a good job.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Danny led the project. He did a good job."
+      }
     },
     "FS2.Q3.Charlie.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Francis is the designer. I like his work!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Francis is the designer. I like his work!"
+      }
     },
     "FS2.Q3.Charlie.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "Gene is a good coder. She codes a large amount of our application.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Gene is a good coder. She codes a large amount of our application."
+      }
     },
     "FS2.Q3.Charlie.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Demo_Instructor is a patient and good project lead.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Demo_Instructor is a patient and good project lead."
+      }
     },
     "FS2.Q3.Danny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Alice built a portion of the application backend. Her work is solid.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Alice built a portion of the application backend. Her work is solid."
+      }
     },
     "FS2.Q3.Danny.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Benny built the user interface. He is very productive.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Benny built the user interface. He is very productive."
+      }
     },
     "FS2.Q3.Danny.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "Emma also built the application backend. She completes her tasks promptly.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Emma also built the application backend. She completes her tasks promptly."
+      }
     },
     "FS2.Q3.Emma.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Danny is our team leader. He is very responsible.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Danny is our team leader. He is very responsible."
+      }
     },
     "FS2.Q3.Emma.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Alice helped to build the application backend. She is a good programmer.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Alice helped to build the application backend. She is a good programmer."
+      }
     },
     "FS2.Q3.Emma.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Benny designed and made the user interface. He is very creative.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Benny designed and made the user interface. He is very creative."
+      }
     },
     "FS2.Q3.Inst.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Francis is the designer of the project. He did a good job!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Francis is the designer of the project. He did a good job!"
+      }
     },
     "FS2.Q3.Inst.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good."
+      }
     },
     "FS2.Q3.Inst.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project."
+      }
     },
     "FS2.Q3.Francis.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Demo_Instructor was the project lead. He put a lot of effort in this project.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Demo_Instructor was the project lead. He put a lot of effort in this project."
+      }
     },
     "FS2.Q3.Francis.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Charlie was a bit weak. Demo_Instructor spent lots of time helping him.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Charlie was a bit weak. Demo_Instructor spent lots of time helping him."
+      }
     },
     "FS2.Q3.Francis.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "Gene is the programmer for our team. She is a very good coder.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Gene is the programmer for our team. She is a very good coder."
+      }
     },
     "FS2.Q3.Gene.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Demo_Instructor was our team leader. He helped us a lot, especially Charlie.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Demo_Instructor was our team leader. He helped us a lot, especially Charlie."
+      }
     },
     "FS2.Q3.Gene.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Charlie has a lot of room for improvements. He puts in effort to learn new things.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Charlie has a lot of room for improvements. He puts in effort to learn new things."
+      }
     },
     "FS2.Q3.Gene.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Francis is a very good designer. He made a very nice UI.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Francis is a very good designer. He made a very nice UI."
+      }
     },
     "FS2.Q4.Inst.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "Team 2",
-      "responseMetaData": "I had a great time with this team. Thanks for all the support from the members.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I had a great time with this team. Thanks for all the support from the members."
+      }
     },
     "FS2.Q4.Emma.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "Team 1",
-      "responseMetaData": "The team work is great and I learnt a lot from this project.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "The team work is great and I learnt a lot from this project."
+      }
     },
     "FS2.Q4.Benny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "Team 1",
-      "responseMetaData": "I like the team and I learned a lot from my team mates.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I like the team and I learned a lot from my team mates."
+      }
     },
     "FS2.Q4.Francis.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "The team is nice. Everybody learnt a lot from this project.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "The team is nice. Everybody learnt a lot from this project."
+      }
     },
     "FS2.Q4.Danny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "Team 1",
-      "responseMetaData": "The team dynamics was very good. I enjoy it a lot.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "The team dynamics was very good. I enjoy it a lot."
+      }
     },
     "FS2.Q4.Charlie.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "I like the team. I learned my good software engineering practices from the members.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I like the team. I learned my good software engineering practices from the members."
+      }
     },
     "FS2.Q4.Alice.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "Team 1",
-      "responseMetaData": "I had a great time in doing this project.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I had a great time in doing this project."
+      }
     },
     "FS2.Q4.Gene.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "Team 2",
-      "responseMetaData": "This is a great team. I am sure we learnt a lot from each other.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "This is a great team. I am sure we learnt a lot from each other."
+      }
     },
     "FS2.Q5.Alice.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Good job Benny! Thanks for the hard work for making the application pretty!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good job Benny! Thanks for the hard work for making the application pretty!"
+      }
     },
     "FS2.Q5.Alice.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "You are the best Emma! Without you, our application will not be running.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "You are the best Emma! Without you, our application will not be running."
+      }
     },
     "FS2.Q5.Alice.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Thank you Danny! You taught me many useful skills in this project.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Danny! You taught me many useful skills in this project."
+      }
     },
     "FS2.Q5.Benny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Thank you for all the effort in building the application backend. Cool!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you for all the effort in building the application backend. Cool!"
+      }
     },
     "FS2.Q5.Benny.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "I really appreciate your effort in the project. One of the best programmer among us!.",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I really appreciate your effort in the project. One of the best programmer among us!."
+      }
     },
     "FS2.Q5.Benny.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "I really enjoy doing project with you. :)",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I really enjoy doing project with you. :)"
+      }
     },
     "FS2.Q5.Charlie.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "I really like your design Francis!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I really like your design Francis!"
+      }
     },
     "FS2.Q5.Charlie.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "I really appreciate all the coding you have done in the project!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I really appreciate all the coding you have done in the project!"
+      }
     },
     "FS2.Q5.Charlie.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Thank you Demo_Instructor for all the help in the project.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for all the help in the project."
+      }
     },
     "FS2.Q5.Danny.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "Nice work Alice! You are a very good coder! :)",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Nice work Alice! You are a very good coder! :)"
+      }
     },
     "FS2.Q5.Danny.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "Good job Benny. You are really gifted in design!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good job Benny. You are really gifted in design!"
+      }
     },
     "FS2.Q5.Danny.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
-      "responseMetaData": "Great job Emma. You are a great programmer!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Great job Emma. You are a great programmer!"
+      }
     },
     "FS2.Q5.Inst.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Nice work Francis!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Nice work Francis!"
+      }
     },
     "FS2.Q5.Inst.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Good try Charlie! Thanks for showing great effort in picking up the skills.",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good try Charlie! Thanks for showing great effort in picking up the skills."
+      }
     },
     "FS2.Q5.Inst.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "teammates.demo.instructor@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "Keep up the good work Gene!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Keep up the good work Gene!"
+      }
     },
     "FS2.Q5.Emma.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
-      "responseMetaData": "Best team leader I ever had. I would love to be on your team again :)",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Best team leader I ever had. I would love to be on your team again :)"
+      }
     },
     "FS2.Q5.Emma.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "responseMetaData": "It has been a very enjoyable experience working with you on the backend!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "It has been a very enjoyable experience working with you on the backend!"
+      }
     },
     "FS2.Q5.Emma.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
-      "responseMetaData": "I liked your design a lot! Great job!",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 1"
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I liked your design a lot! Great job!"
+      }
     },
     "FS2.Q5.Francis.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Thank you Demo_Instructor for all the hardwork!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for all the hardwork!"
+      }
     },
     "FS2.Q5.Francis.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Nice job Charlie! You learnt pretty fast",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Nice job Charlie! You learnt pretty fast"
+      }
     },
     "FS2.Q5.Francis.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
-      "responseMetaData": "Thank you Gene for all the code you have written for us!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Gene for all the code you have written for us!"
+      }
     },
     "FS2.Q5.Gene.1": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
-      "responseMetaData": "Thank you Demo_Instructor for being such a good team leader!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Thank you Demo_Instructor for being such a good team leader!"
+      }
     },
     "FS2.Q5.Gene.2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
-      "responseMetaData": "Keep it up Charlie! You are improving very fast!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Keep it up Charlie! You are improving very fast!"
+      }
     },
     "FS2.Q5.Gene.3": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
-      "responseMetaData": "Nice designs Francis. Good work!",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2"
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Nice designs Francis. Good work!"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -2578,7 +2919,7 @@
       "email": "alice@b.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Chinese",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "I am Alice from TEAMMATES Test Institute 1 and am here at Cambridge for exchange. My Major in TEAMMATES Test Institute 5 is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!",
       "pictureKey": ""
     },
@@ -2588,7 +2929,7 @@
       "email": "danny@e.tmt",
       "institute": "TEAMMATES Test Institute 7",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "",
       "pictureKey": ""
     },
@@ -2598,7 +2939,7 @@
       "email": "emma@f.tmt",
       "institute": "TEAMMATES Test Institute 8",
       "nationality": "Indian",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "I am Emma from TEAMMATES Test Institute 8 India and am here at TEAMMATES Test Institute 5 for exchange. ",
       "pictureKey": ""
     },
@@ -2608,7 +2949,7 @@
       "email": "charlie@d.tmt",
       "institute": "TEAMMATES Test Institute 8",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am Charlie - an exchange student",
       "pictureKey": ""
     },
@@ -2618,7 +2959,7 @@
       "email": "gene@h.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Nigerian",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "",
       "pictureKey": ""
     }

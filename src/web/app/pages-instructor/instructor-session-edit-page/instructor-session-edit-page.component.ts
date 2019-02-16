@@ -3,17 +3,26 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, flatMap, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
 import {
-  LOCAL_DATE_TIME_FORMAT,
-  TimeResolvingResult,
-  TimezoneService,
-} from '../../../services/timezone.service';
+  FeedbackParticipantType,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackQuestionType,
+  FeedbackSession,
+  FeedbackSessionPublishStatus, FeedbackSessions,
+  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -28,21 +37,14 @@ import {
 } from '../../components/session-edit-form/session-edit-form-model';
 import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackParticipantType } from '../../feedback-participant-type';
-import {
-  FeedbackQuestion, FeedbackQuestions,
-  FeedbackQuestionType,
-  NumberOfEntitiesToGiveFeedbackToSetting,
-} from '../../feedback-question';
-import {
-  FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-} from '../../feedback-session';
 import { Intent } from '../../Intent';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import {
+  QuestionToCopyCandidate,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 /**
@@ -119,7 +121,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       recommendedLength: 0,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: '',
+    } as FeedbackTextQuestionDetails,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.STUDENTS,
@@ -139,10 +143,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
-              private route: ActivatedRoute,
-              private timezoneService: TimezoneService, private feedbackQuestionsService: FeedbackQuestionsService,
-              private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService);
+              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
+              private route: ActivatedRoute, private timezoneService: TimezoneService, private modalService: NgbModal) {
+    super(router, httpRequestService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService);
   }
 
   ngOnInit(): void {
@@ -298,7 +302,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   editExistingSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
 
     forkJoin(
         this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
@@ -319,7 +322,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             : of(0),
     ).pipe(
         switchMap((vals: number[]) => {
-          return this.httpRequestService.put('/session', paramMap, {
+          return this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
             instructions: this.sessionEditFormModel.instructions,
 
             submissionStartTimestamp: vals[0],
@@ -452,8 +455,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
 
     questionEditFormModel.isSaving = true;
-    const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
-    this.httpRequestService.put('/question', paramMap, {
+    this.feedbackQuestionsService.saveFeedbackQuestion(questionEditFormModel.feedbackQuestionId, {
       questionNumber: questionEditFormModel.questionNumber,
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -528,10 +530,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   duplicateCurrentQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
 
     questionEditFormModel.isSaving = true;
-    this.httpRequestService.post('/question', paramMap, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -588,8 +589,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             questionNumber += 1;
-            const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-            return this.httpRequestService.post('/question', paramMap, {
+            return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
               questionNumber,
               questionBrief: question.questionBrief,
               questionDescription: question.questionDescription,
@@ -661,10 +661,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Creates a new question.
    */
   createNewQuestionHandler(): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-
     this.newQuestionEditFormModel.isSaving = true;
-    this.httpRequestService.post('/question', paramMap, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.newQuestionEditFormModel.questionNumber,
       questionBrief: this.newQuestionEditFormModel.questionBrief,
       questionDescription: this.newQuestionEditFormModel.questionDescription,
@@ -698,6 +696,72 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
           this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
+   * Handles 'Copy Question' click event.
+   */
+  copyQuestionsFromOtherSessionsHandler(): void {
+    const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
+
+    this.httpRequestService.get('/sessions', {
+      isinrecyclebin: 'false',
+    }).pipe(
+        switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
+        flatMap((session: FeedbackSession) => {
+          const paramMap: { [key: string]: string } = {
+            courseid: session.courseId,
+            fsname: session.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          };
+          return this.httpRequestService.get('/questions', paramMap)
+              .pipe(
+                  map((questions: FeedbackQuestions) => {
+                    return questions.questions.map((q: FeedbackQuestion) => ({
+                      courseId: session.courseId,
+                      feedbackSessionName: session.feedbackSessionName,
+                      question: q,
+
+                      isSelected: false,
+                    } as QuestionToCopyCandidate));
+                  }),
+              );
+        }),
+    ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
+      questionToCopyCandidates.push(...questionToCopyCandidate);
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); }, () => {
+      const ref: NgbModalRef = this.modalService.open(CopyQuestionsFromOtherSessionsModalComponent);
+      ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
+
+      ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
+        of(...questionsToCopy).pipe(
+            concatMap((questionToCopy: FeedbackQuestion) => {
+              return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
+                questionNumber: this.questionEditFormModels.length + 1, // add the copied question at the end
+                questionBrief: questionToCopy.questionBrief,
+                questionDescription: questionToCopy.questionDescription,
+
+                questionDetails: questionToCopy.questionDetails,
+                questionType: questionToCopy.questionType,
+
+                giverType: questionToCopy.giverType,
+                recipientType: questionToCopy.recipientType,
+
+                numberOfEntitiesToGiveFeedbackToSetting: questionToCopy.numberOfEntitiesToGiveFeedbackToSetting,
+                customNumberOfEntitiesToGiveFeedbackTo: questionToCopy.customNumberOfEntitiesToGiveFeedbackTo,
+
+                showResponsesTo: questionToCopy.showResponsesTo,
+                showGiverNameTo: questionToCopy.showGiverNameTo,
+                showRecipientNameTo: questionToCopy.showRecipientNameTo,
+              });
+            }),
+        ).subscribe((newQuestion: FeedbackQuestion) => {
+          this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
+          this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
+          this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+      }, () => {});
+    });
   }
 
   /**
