@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.FeedbackSessionStatsData;
 
 /**
  * Action: gets the response stats (submitted / total) of a feedback session.
@@ -38,34 +38,12 @@ public class GetSessionResponseStatsAction extends Action {
 
         try {
             FeedbackSessionDetailsBundle fsdb = logic.getFeedbackSessionDetails(feedbackSessionName, courseId);
-            FeedbackSessionStats output = new FeedbackSessionStats(fsdb.stats.submittedTotal, fsdb.stats.expectedTotal);
+            FeedbackSessionStatsData output =
+                    new FeedbackSessionStatsData(fsdb.stats.submittedTotal, fsdb.stats.expectedTotal);
             return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
-    }
-
-    /**
-     * Output format for {@link GetSessionResponseStatsAction}.
-     */
-    public static class FeedbackSessionStats extends ApiOutput {
-
-        private final int submittedTotal;
-        private final int expectedTotal;
-
-        FeedbackSessionStats(int submittedTotal, int expectedTotal) {
-            this.submittedTotal = submittedTotal;
-            this.expectedTotal = expectedTotal;
-        }
-
-        public int getSubmittedTotal() {
-            return submittedTotal;
-        }
-
-        public int getExpectedTotal() {
-            return expectedTotal;
-        }
-
     }
 
 }

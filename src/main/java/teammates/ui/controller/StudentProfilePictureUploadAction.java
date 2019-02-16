@@ -11,7 +11,9 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -42,12 +44,15 @@ public class StudentProfilePictureUploadAction extends Action {
             if (!isError) {
                 blobKey = blobInfo.getBlobKey();
                 pictureKey = renameFileToGoogleId(blobInfo);
-                logic.updateStudentProfilePicture(account.googleId, pictureKey);
+                logic.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(account.googleId)
+                                .withPictureKey(pictureKey)
+                                .build());
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED,
                                                    StatusMessageColor.SUCCESS));
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
-        } catch (BlobstoreFailureException | IOException bfe) {
+        } catch (InvalidParametersException | BlobstoreFailureException | IOException e) {
             deletePicture(blobKey);
             updateStatusesForBlobstoreFailure();
             isError = true;

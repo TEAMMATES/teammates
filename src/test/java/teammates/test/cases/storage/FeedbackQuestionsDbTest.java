@@ -1,5 +1,7 @@
 package teammates.test.cases.storage;
 
+import static teammates.common.util.FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("success : update lastUpdated");
 
         feedbackQuestion.questionNumber++;
-        fqDb.updateFeedbackQuestion(feedbackQuestion);
+        fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(feedbackQuestion.getId())
+                        .withQuestionNumber(feedbackQuestion.questionNumber)
+                        .build());
 
         FeedbackQuestionAttributes updatedFq =
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
@@ -259,24 +264,26 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.createEntity(invalidFqa);
         invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId,
                                                   invalidFqa.questionNumber).getId());
-        invalidFqa.courseId = "there is space";
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> fqDb.updateFeedbackQuestion(invalidFqa));
+                () -> fqDb.updateFeedbackQuestion(
+                        FeedbackQuestionAttributes.updateOptionsBuilder(invalidFqa.getId())
+                                .withGiverType(FeedbackParticipantType.TEAMS) // invalid feedback path
+                                .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                                .build()));
         AssertHelper.assertContains(
-                getPopulatedErrorMessage(
-                        FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidFqa.courseId,
-                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                        FeedbackParticipantType.OWN_TEAM_MEMBERS.toDisplayRecipientName(),
+                        FeedbackParticipantType.TEAMS.toDisplayGiverName()),
                 ipe.getMessage());
 
         ______TS("feedback session does not exist");
 
-        FeedbackQuestionAttributes nonexistantFq = getNewFeedbackQuestionAttributes();
-        nonexistantFq.setId("non-existent fq id");
-
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> fqDb.updateFeedbackQuestion(nonexistantFq));
+                () -> fqDb.updateFeedbackQuestion(
+                        FeedbackQuestionAttributes.updateOptionsBuilder("non-existent")
+                                .withQuestionDescription("test")
+                                .build()));
         AssertHelper.assertContains(FeedbackQuestionsDb.ERROR_UPDATE_NON_EXISTENT, ednee.getLocalizedMessage());
 
         ______TS("standard success case");
@@ -292,13 +299,18 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionDetails fqd = modifiedQuestion.getQuestionDetails();
         fqd.setQuestionText("New question text!");
         modifiedQuestion.setQuestionDetails(fqd);
-        fqDb.updateFeedbackQuestion(modifiedQuestion);
+
+        FeedbackQuestionAttributes updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(modifiedQuestion.getId())
+                        .withQuestionDetails(fqd)
+                        .build());
 
         verifyPresentInDatastore(modifiedQuestion);
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
         assertEquals("New question text!", modifiedQuestion.getQuestionDetails().getQuestionText());
+        assertEquals("New question text!", updatedQuestion.getQuestionDetails().getQuestionText());
 
         fqDb.deleteEntity(modifiedQuestion);
     }

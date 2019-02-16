@@ -862,7 +862,7 @@
       "email": "",
       "institute": "TEAMMATES Test Institute 10",
       "nationality": "",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "Some info",
       "pictureKey": ""
     },
@@ -872,7 +872,7 @@
       "email": "",
       "institute": "TEAMMATES Test Institute 4",
       "nationality": "",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "This is a lot more info so that the instructor can see the extent of info that can be given",
       "pictureKey": ""
     }

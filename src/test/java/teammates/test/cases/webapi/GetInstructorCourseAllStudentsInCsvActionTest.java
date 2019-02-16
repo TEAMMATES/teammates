@@ -53,7 +53,11 @@ public class GetInstructorCourseAllStudentsInCsvActionTest extends
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         student1InCourse1.name = "new name {new last name}";
-        StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
+        StudentsLogic.inst().updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1InCourse1.course, student1InCourse1.email)
+                        .withName(student1InCourse1.name)
+                        .build()
+        );
 
         downloadAction = getAction(submissionParams);
         result = getCsvResult(downloadAction);
@@ -67,7 +71,11 @@ public class GetInstructorCourseAllStudentsInCsvActionTest extends
 
         student1InCourse1 = StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
         student1InCourse1.team = "N/A";
-        StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
+        StudentsLogic.inst().updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1InCourse1.course, student1InCourse1.email)
+                        .withTeamName(student1InCourse1.team)
+                        .build()
+        );
 
         downloadAction = getAction(submissionParams);
         result = getCsvResult(downloadAction);

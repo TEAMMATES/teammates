@@ -247,6 +247,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Toggles the view of 'Existing Students' spreadsheet interface
    */
   toggleExistingStudentsPanel(): void {
+    // Has to be done before the API call is made so that HOT is available for data population
     this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
     this.loading = true;
     const existingStudentsHOTInstance: Handsontable =
@@ -269,11 +270,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           } else {
             // Shows a message if there are no existing students. Panel would not be expanded.
             this.isExistingStudentsPresent = false;
+            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
           }
         }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
       this.isAjaxSuccess = false;
-      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // collapse the panel again
+      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
     });
     this.loading = false;
   }

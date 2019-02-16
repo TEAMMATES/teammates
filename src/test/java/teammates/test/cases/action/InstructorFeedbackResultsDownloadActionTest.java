@@ -168,7 +168,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         student1InCourse1.name = "new name {new last name}";
         StudentsLogic studentsLogic = StudentsLogic.inst();
-        studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1InCourse1.course, student1InCourse1.email)
+                        .withName(student1InCourse1.name)
+                        .build()
+        );
 
         action = getAction(paramsNormal);
         result = getFileDownloadResult(action);

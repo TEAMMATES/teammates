@@ -134,7 +134,14 @@ public final class JsonUtils {
         }
     }
 
-    private static class TeammatesFeedbackResponseDetailsAdapter implements JsonDeserializer<FeedbackResponseDetails> {
+    private static class TeammatesFeedbackResponseDetailsAdapter implements JsonSerializer<FeedbackResponseDetails>,
+            JsonDeserializer<FeedbackResponseDetails> {
+
+        @Override
+        public JsonElement serialize(FeedbackResponseDetails src, Type typeOfSrc, JsonSerializationContext context)
+                throws JsonParseException {
+            return context.serialize(src, src.questionType.getResponseDetailsClass());
+        }
 
         @Override
         public FeedbackResponseDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
@@ -143,6 +150,7 @@ public final class JsonUtils {
                     FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionType").getAsString());
             return context.deserialize(json, questionType.getResponseDetailsClass());
         }
+
     }
 
     private static class TeammatesFeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,

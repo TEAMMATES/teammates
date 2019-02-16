@@ -559,12 +559,6 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
 
-    public static class GenderTypes {
-        public static final String MALE = "male";
-        public static final String FEMALE = "female";
-        public static final String OTHER = "other";
-    }
-
     public static class ParamsNames {
 
         public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
@@ -943,11 +937,12 @@ public final class Const {
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
-        public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = "/session/remind/result";
+        public static final String SESSION_STATS = "/session/stats";
+        public static final String SESSION_STUDENTS_RESPONSE = "/session/students/response";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
@@ -1054,9 +1049,6 @@ public final class Const {
      */
     public static class TaskQueue {
 
-        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
-        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
-
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
                 "feedback-session-published-email-queue";
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
@@ -1103,8 +1095,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
                 "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
-                "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION =
@@ -1431,6 +1421,9 @@ public final class Const {
 
         // General Error codes
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
+
+        // Error message for update options
+        public static final String UPDATE_OPTIONS_NULL_INPUT = "Field to update is null";
 
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";

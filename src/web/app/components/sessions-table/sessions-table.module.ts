@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { AjaxPreloadModule } from '../ajax-preload/ajax-preload.module';
 import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import {
@@ -16,6 +17,9 @@ import {
 } from './confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
+import {
+  ResendResultsLinkToStudentModalComponent,
+} from './resend-results-link-to-student-modal/resend-results-link-to-student-modal.component';
 import {
   SendRemindersToStudentModalComponent,
 } from './send-reminders-to-student-modal/send-reminders-to-student-modal.component';
@@ -32,6 +36,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     SessionsTableComponent,
     ConfirmUnpublishingSessionModalComponent,
     ConfirmPublishingSessionModalComponent,
+    ResendResultsLinkToStudentModalComponent,
     SendRemindersToStudentModalComponent,
     FormatDateBriefPipe,
     ConfirmSessionMoveToRecycleBinModalComponent,
@@ -39,6 +44,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
   imports: [
     CommonModule,
     AjaxLoadingModule,
+    AjaxPreloadModule,
     TeammatesCommonModule,
     NgbModule,
     FormsModule,
@@ -48,6 +54,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     ConfirmSessionMoveToRecycleBinModalComponent,
     ConfirmUnpublishingSessionModalComponent,
     ConfirmPublishingSessionModalComponent,
+    ResendResultsLinkToStudentModalComponent,
     SendRemindersToStudentModalComponent,
   ],
   exports: [

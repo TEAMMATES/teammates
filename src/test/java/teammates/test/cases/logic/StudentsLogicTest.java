@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -31,8 +32,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
@@ -48,6 +47,18 @@ public class StudentsLogicTest extends BaseLogicTest {
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
+
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    public void refreshTestData() {
+        dataBundle = getTypicalDataBundle();
+
+        removeAndRestoreTypicalDataBundle();
+    }
 
     @Test
     public void testAll() throws Exception {
@@ -66,7 +77,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetTeamForStudent();
 
         testEnrollStudent();
-        testAdjustFeedbackResponseForEnrollments();
 
         testValidateSections();
         testUpdateStudentCascade();
@@ -182,7 +192,11 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("modify info of existing student");
         //add some more details to the student
         student1.googleId = "googleId";
-        studentsLogic.updateStudentCascade(student1.email, student1);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1.course, student1.email)
+                        .withGoogleId(student1.googleId)
+                        .build()
+        );
 
     }
 
@@ -247,7 +261,8 @@ public class StudentsLogicTest extends BaseLogicTest {
                 ee.getMessage());
     }
 
-    private void testUpdateStudentCascade() throws Exception {
+    @Test
+    public void testUpdateStudentCascade() throws Exception {
 
         ______TS("typical edit");
 
@@ -262,135 +277,104 @@ public class StudentsLogicTest extends BaseLogicTest {
         student4InCourse1.section = "Section 2";
         student4InCourse1.team = "Team 1.2"; // move to a different team
 
-        studentsLogic.updateStudentCascade(originalEmail, student4InCourse1);
-        StudentAttributes updatedStudent4InCourse1 =
+        StudentAttributes updatedStudent = studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.course, originalEmail)
+                        .withName(student4InCourse1.name)
+                        .withGoogleId(student4InCourse1.googleId)
+                        .withComment(student4InCourse1.comments)
+                        .withNewEmail(student4InCourse1.email)
+                        .withSectionName(student4InCourse1.section)
+                        .withTeamName(student4InCourse1.team)
+                        .build()
+        );
+        StudentAttributes actualStudent =
                 studentsLogic.getStudentForEmail(student4InCourse1.course, student4InCourse1.email);
-        assertFalse(student4InCourse1.getUpdatedAt().equals(updatedStudent4InCourse1.getUpdatedAt()));
+        assertFalse(student4InCourse1.getUpdatedAt().equals(actualStudent.getUpdatedAt()));
+        assertEquals(student4InCourse1.getName(), actualStudent.getName());
+        assertEquals(student4InCourse1.getName(), updatedStudent.getName());
+        assertEquals(student4InCourse1.getEmail(), actualStudent.getEmail());
+        assertEquals(student4InCourse1.getEmail(), updatedStudent.getEmail());
+        assertEquals(student4InCourse1.googleId, actualStudent.googleId);
+        assertEquals(student4InCourse1.googleId, updatedStudent.googleId);
+        assertEquals(student4InCourse1.getSection(), actualStudent.getSection());
+        assertEquals(student4InCourse1.getSection(), updatedStudent.getSection());
+        assertEquals(student4InCourse1.getTeam(), actualStudent.getTeam());
+        assertEquals(student4InCourse1.getTeam(), updatedStudent.getTeam());
+        assertEquals(student4InCourse1.getComments(), actualStudent.getComments());
+        assertEquals(student4InCourse1.getComments(), updatedStudent.getComments());
 
-        ______TS("check for KeepExistingPolicy : change email only");
+        ______TS("change email only");
 
         originalEmail = student4InCourse1.email;
-        String newEmail = student4InCourse1.email + "y";
-        student4InCourse1.email = newEmail;
+        student4InCourse1.email = student4InCourse1.email + "y";
 
-        // create an empty student and then copy course and email attributes
-        StudentAttributes copyOfStudent1 = StudentAttributes
-                .builder(student4InCourse1.course, student4InCourse1.name, newEmail)
-                .build();
-        student4InCourse1.googleId = "";
-        student4InCourse1.section = "None";
-
-        studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.course, originalEmail)
+                        .withNewEmail(student4InCourse1.email)
+                        .build()
+        );
         verifyPresentInDatastore(student4InCourse1);
 
-        ______TS("check for KeepExistingPolicy : change nothing");
+        ______TS("update nothing");
 
-        originalEmail = student4InCourse1.email;
-        copyOfStudent1.email = null;
-        studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
-        verifyPresentInDatastore(copyOfStudent1);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.course, student4InCourse1.email)
+                        .build()
+        );
+        verifyPresentInDatastore(student4InCourse1);
 
         ______TS("non-existent student");
 
         StudentAttributes finalStudent4InCourse1 = student4InCourse1;
+        StudentAttributes.UpdateOptions updateOptions =
+                StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.course, "non-existent@email")
+                        .withName("test")
+                        .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> studentsLogic.updateStudentCascade("non-existent@email", finalStudent4InCourse1));
+                () -> studentsLogic.updateStudentCascade(updateOptions));
         assertEquals(
-                StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + student4InCourse1.course + "/" + "non-existent@email",
+                StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + updateOptions,
                 ednee.getMessage());
 
         ______TS("check for InvalidParameters");
-        copyOfStudent1.email = "invalid email";
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> studentsLogic.updateStudentCascade(finalStudent4InCourse1.email, copyOfStudent1));
-        AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
-        // delete student from db
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> studentsLogic.updateStudentCascade(
+                        StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.course, finalStudent4InCourse1.email)
+                                .withNewEmail("invalid email")
+                                .build()
+                ));
+        AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
     }
 
-    private void testAdjustFeedbackResponseForEnrollments() throws Exception {
-
-        // the case below will not cause the response to be deleted
-        // because the studentEnrollDetails'email is not the same as giver or recipient
-        ______TS("adjust feedback response: no change of team");
-
-        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
+    @Test
+    public void testUpdateStudentCascade_teamChanged_shouldDeleteOldResponsesWithinTheTeam() throws Exception {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
-        StudentEnrollDetails studentDetails1 =
-                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
-                                         course1Id, student1InCourse1.email, student1InCourse1.team,
-                                         student1InCourse1.team + "tmp", student1InCourse1.section,
-                                         student1InCourse1.section + "tmp");
-        enrollmentList.add(studentDetails1);
 
-        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
-        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+        FeedbackResponseAttributes responseToBeDeleted = dataBundle.feedbackResponses.get("response2ForQ2S2C1");
         FeedbackQuestionAttributes feedbackQuestionInDb =
-                fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
-                                            feedbackResponse1InBundle.courseId,
-                                            Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        FeedbackResponseAttributes responseBefore =
-                frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                                            feedbackResponse1InBundle.giver,
-                                            feedbackResponse1InBundle.recipient);
+                logic.getFeedbackQuestion(responseToBeDeleted.feedbackSessionName,
+                        responseToBeDeleted.courseId,
+                        Integer.parseInt(responseToBeDeleted.feedbackQuestionId));
+        responseToBeDeleted =
+                logic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
 
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
+        // response exist
+        assertNotNull(responseToBeDeleted);
 
-        FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(responseBefore.getId(), responseAfter.getId());
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1InCourse1.getCourse(), student1InCourse1.getEmail())
+                        .withTeamName(student1InCourse1.getTeam() + "tmp")
+                        .build());
 
-        // the case below will not cause the response to be deleted
-        // because the studentEnrollDetails'email is not the same as giver or recipient
-        ______TS("adjust feedback response: unmodified status");
+        responseToBeDeleted =
+                logic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
 
-        enrollmentList = new ArrayList<>();
-        studentDetails1 =
-                new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
-                                         student1InCourse1.email, student1InCourse1.team,
-                                         student1InCourse1.team + "tmp", student1InCourse1.section,
-                                         student1InCourse1.section + "tmp");
-        enrollmentList.add(studentDetails1);
-
-        feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
-                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-
-        responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(responseBefore.getId(), responseAfter.getId());
-
-        // the code below will cause the feedback to be deleted because
-        // recipient's e-mail is the same as the one in studentEnrollDetails
-        // and the question's recipient's type is own team members
-        ______TS("adjust feedback response: delete after adjustment");
-
-        studentDetails1 =
-                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED, course1Id,
-                                         student2InCourse1.email, student1InCourse1.team,
-                                         student1InCourse1.team + "tmp", student1InCourse1.section,
-                                         student1InCourse1.section + "tmp");
-        enrollmentList = new ArrayList<>();
-        enrollmentList.add(studentDetails1);
-
-        feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
-                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-
-        responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertNull(responseAfter);
-
+        // response should not exist
+        assertNull(responseToBeDeleted);
     }
 
     private void testEnrollLinesChecking() throws Exception {
@@ -590,7 +574,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     * {@link #signalFailureToDetectException(String...)} ()}.
+     * {@link AssertionError}
      *
      * @param invalidEnrollLines is assumed to be invalid
      */
@@ -605,6 +589,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
+        // delete leftover data if any
+        accountsLogic.deleteAccountCascade(instructorId);
         AccountAttributes accountToAdd = AccountAttributes.builder()
                 .withGoogleId(instructorId)
                 .withName("Instructor 1")
