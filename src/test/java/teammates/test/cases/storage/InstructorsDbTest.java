@@ -55,7 +55,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes i = InstructorAttributes.builder(googleId, courseId, name, email)
+        InstructorAttributes i = InstructorAttributes.builder(courseId, email)
+                .withGoogleId(googleId)
+                .withName(name)
                 .withRole(role)
                 .withDisplayedName(displayedName)
                 .withPrivileges(privileges)
@@ -153,6 +155,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     public void testGetInstructorForRegistrationKey() {
 
         InstructorAttributes i = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        i = logic.getInstructorById(i.getCourseId(), i.getEmail());
 
         ______TS("Success: get an instructor");
 

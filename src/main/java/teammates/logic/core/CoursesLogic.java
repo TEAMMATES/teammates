@@ -95,7 +95,9 @@ public final class CoursesLogic {
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instructor = InstructorAttributes
-                .builder(instructorGoogleId, courseId, courseCreator.name, courseCreator.email)
+                .builder(courseId, courseCreator.email)
+                .withName(courseCreator.name)
+                .withGoogleId(instructorGoogleId)
                 .withPrivileges(privileges)
                 .build();
 

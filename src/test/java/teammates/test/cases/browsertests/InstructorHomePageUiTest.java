@@ -134,8 +134,9 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
         InstructorAttributes instr = InstructorAttributes
-                .builder("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
-                        "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .builder("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .withName("Teammates Test New Instructor With Sample")
+                .withGoogleId("CHomeUiT.instructor.tmms.new")
                 .build();
         BackDoor.createInstructor(instr);
 

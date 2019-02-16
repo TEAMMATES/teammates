@@ -161,8 +161,10 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor = InstructorAttributes.builder(null, courseId, name, email)
-                .withRole(role).withPrivileges(new InstructorPrivileges(role))
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withRole(role)
+                .withPrivileges(new InstructorPrivileges(role))
                 .build();
         instructorsLogic.createInstructor(instructor);
     }

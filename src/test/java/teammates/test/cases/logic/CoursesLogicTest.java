@@ -777,9 +777,10 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .builder("fresh-course-tccai", "Fresh course for tccai", ZoneId.of("America/Los_Angeles"))
                 .build();
 
-        @SuppressWarnings("deprecation")
         InstructorAttributes i = InstructorAttributes
-                .builder("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
+                .builder(c.getId(), "ins.for.iccai@gmail.tmt")
+                .withGoogleId("instructor-for-tccai")
+                .withName("Instructor for tccai")
                 .build();
 
         AssertionError ae = assertThrows(AssertionError.class,
