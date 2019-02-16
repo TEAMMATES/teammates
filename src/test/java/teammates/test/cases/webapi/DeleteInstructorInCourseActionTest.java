@@ -135,6 +135,9 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
         a = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
         r = getJsonResult(a);
 
+        instructorsLogic.deleteInstructorCascade(courseId, instructorEmailToDelete);
+        verifyAbsentInDatastore(instructorToDelete);
+
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         msg = (MessageOutput) r.getOutput();
 

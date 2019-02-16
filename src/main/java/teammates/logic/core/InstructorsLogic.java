@@ -212,11 +212,19 @@ public final class InstructorsLogic {
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
-        InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
+
+        if (originalInstructor == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + updateOptions);
+        }
+
+        InstructorAttributes newInstructor = originalInstructor.getCopy();
+        newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
         verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
-                updatedInstructor.isDisplayedToStudents());
+                newInstructor.isDisplayedToStudents());
+
+        InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
 
         if (!originalInstructor.email.equals(updatedInstructor.email)) {
             // cascade responses
@@ -279,11 +287,17 @@ public final class InstructorsLogic {
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
-        InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByEmail(updateOptions);
+
+        if (originalInstructor == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + updateOptions);
+        }
+
+        InstructorAttributes newInstructor = originalInstructor.getCopy();
+        newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
         verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
-                updatedInstructor.isDisplayedToStudents());
+                newInstructor.isDisplayedToStudents());
 
         return instructorsDb.updateInstructorByEmail(updateOptions);
     }
