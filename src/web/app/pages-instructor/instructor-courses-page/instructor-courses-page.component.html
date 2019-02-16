@@ -29,14 +29,14 @@
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
               <span class="input-group-btn">
-              <input type="button" class="btn btn-primary" value="Auto-Detect" (click)="onAutoDetectTimezone()">
-            </span>
+                <button class="btn btn-primary" (click)="onAutoDetectTimezone()">Auto Detect</button>
+              </span>
             </div>
           </div>
         </div>
         <div class="form-group row">
           <div class="offset-sm-3 col-sm-9">
-            <input type="button" class="btn btn-primary" (click)="onSubmit()" value="Add Course">
+            <button class="btn btn-primary" (click)="onSubmit()">Add Course</button>
           </div>
         </div>
       </div>
@@ -118,13 +118,13 @@
             <button class="btn btn-light btn-sm btn-left disabled" *ngIf="!course.canModifyStudent">
               Enroll
             </button>
-            <button class="btn btn-light btn-sm btn-left" type="button"
+            <button class="btn btn-light btn-sm btn-left"
                     ngbTooltip="View, edit and send invitation emails to the students in the course"
                     routerLink="/web/instructor/courses/details"
                     [queryParams]="{courseid: course.id}">
               View
             </button>
-            <button class="btn btn-light btn-sm btn-left" type="button"
+            <button class="btn btn-light btn-sm btn-left"
                     ngbTooltip="Edit Course information and instructor list"
                     routerLink="/web/instructor/courses/edit"
                     [queryParams]="{courseid: course.id}">
