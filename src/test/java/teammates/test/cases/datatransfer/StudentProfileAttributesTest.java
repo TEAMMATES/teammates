@@ -197,6 +197,68 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(profile.toString(), spa.toString());
     }
 
+    @Test
+    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
+        StudentProfileAttributes.UpdateOptions updateOptions =
+                StudentProfileAttributes.updateOptionsBuilder("testGoogleId")
+                        .withShortName("testName")
+                        .withEmail("test@email.com")
+                        .withInstitute("NUS")
+                        .withNationality("Singapore")
+                        .withGender(StudentProfileAttributes.Gender.MALE)
+                        .withMoreInfo("more info")
+                        .withPictureKey("newPic")
+                        .build();
+
+        assertEquals("testGoogleId", updateOptions.getGoogleId());
+
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder("id").build();
+
+        profileAttributes.update(updateOptions);
+
+        assertEquals("testName", profileAttributes.shortName);
+        assertEquals("test@email.com", profileAttributes.email);
+        assertEquals("NUS", profileAttributes.institute);
+        assertEquals("Singapore", profileAttributes.nationality);
+        assertEquals(StudentProfileAttributes.Gender.MALE, profileAttributes.gender);
+        assertEquals("more info", profileAttributes.moreInfo);
+        assertEquals("newPic", profileAttributes.pictureKey);
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withShortName(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withEmail(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withInstitute(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withNationality(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withGender(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withMoreInfo(null));
+
+        assertThrows(AssertionError.class, () ->
+                StudentProfileAttributes.updateOptionsBuilder("validId")
+                        .withPictureKey(null));
+    }
+
     // -------------------------------------------------------------------------------------------------------
     // -------------------------------------- Helper Functions
     // -----------------------------------------------

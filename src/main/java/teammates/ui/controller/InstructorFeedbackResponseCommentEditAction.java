@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -52,39 +53,35 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
             return createAjaxResult(data);
         }
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName, instructor.email, commentText)
-                .withCreatedAt(Instant.now())
-                .withGiverSection(response.giverSection)
-                .withReceiverSection(response.recipientSection)
-                .withCommentFromFeedbackParticipant(false)
-                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
-                .withVisibilityFollowingFeedbackQuestion(false)
-                .build();
+        FeedbackResponseCommentAttributes.UpdateOptions.Builder commentUpdateOptions =
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(Long.parseLong(feedbackResponseCommentId))
+                        .withCommentText(commentText)
+                        .withLastEditorEmail(instructor.email)
+                        .withLastEditorAt(Instant.now());
 
-        feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
-
-        //Edit visibility settings
+        // edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
-        feedbackResponseComment.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
+            List<FeedbackParticipantType> showCommentToList = new ArrayList<>();
             for (String viewer : showCommentToArray) {
-                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+                showCommentToList.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
+            commentUpdateOptions.withShowCommentTo(showCommentToList);
         }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
         if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
+            List<FeedbackParticipantType> showGiverNameToList = new ArrayList<>();
             for (String viewer : showGiverNameToArray) {
-                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+                showGiverNameToList.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
+            commentUpdateOptions.withShowGiverNameTo(showGiverNameToList);
         }
 
         FeedbackResponseCommentAttributes updatedComment = null;
         try {
-            updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
+            updatedComment = logic.updateFeedbackResponseComment(commentUpdateOptions.build());
             //TODO: move putDocument to task queue
             logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
@@ -95,11 +92,11 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
 
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
-                           + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
-                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
-                           + feedbackResponseComment.feedbackSessionName + "<br>"
-                           + "by: " + feedbackResponseComment.commentGiver + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText;
+                           + "Editing feedback response comment: " + updatedComment.getId() + "<br>"
+                           + "in course/feedback session: " + updatedComment.courseId + "/"
+                           + updatedComment.feedbackSessionName + "<br>"
+                           + "by: " + updatedComment.commentGiver + "<br>"
+                           + "comment text: " + updatedComment.commentText;
 
             String commentGiverName = logic.getInstructorForEmail(courseId, frc.commentGiver).name;
             String commentEditorName = instructor.name;
