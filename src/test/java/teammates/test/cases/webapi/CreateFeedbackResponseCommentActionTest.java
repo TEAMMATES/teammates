@@ -195,7 +195,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
-                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, "")
+                .builder()
+                .withCourseId(fs.getCourseId())
+                .withFeedbackSessionName(fs.getFeedbackSessionName())
+                .withCommentGiver(giverEmail)
+                .withCommentText("")
                 .withFeedbackQuestionId(question.getId())
                 .withFeedbackResponseId(response.getId())
                 .build();
