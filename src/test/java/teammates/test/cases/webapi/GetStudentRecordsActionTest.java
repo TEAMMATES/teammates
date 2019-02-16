@@ -146,8 +146,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
                         .withGoogleId(testStudent.googleId)
                         .build());
         AccountsLogic.inst().createAccount(
-                AccountAttributes.builder()
-                        .withGoogleId(testStudent.googleId)
+                AccountAttributes.builder(testStudent.googleId)
                         .withName(testStudent.name)
                         .withIsInstructor(false)
                         .withEmail(testStudent.email)

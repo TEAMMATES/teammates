@@ -126,8 +126,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         //create fresh test data
         accountsLogic.createAccount(
-                AccountAttributes.builder()
-                        .withGoogleId(instructorId)
+                AccountAttributes.builder(instructorId)
                         .withName("ICET Instr Name")
                         .withEmail("instructor@icet.tmt")
                         .withInstitute("TEAMMATES Test Institute 1")
@@ -600,8 +599,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorEmail = "instructor@email.tmt";
         // delete leftover data if any
         accountsLogic.deleteAccountCascade(instructorId);
-        AccountAttributes accountToAdd = AccountAttributes.builder()
-                .withGoogleId(instructorId)
+        AccountAttributes accountToAdd = AccountAttributes.builder(instructorId)
                 .withName("Instructor 1")
                 .withEmail(instructorEmail)
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -708,8 +706,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        accountToAdd = AccountAttributes.builder()
-                .withGoogleId("tes.instructor")
+        accountToAdd = AccountAttributes.builder("tes.instructor")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")

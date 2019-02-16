@@ -347,8 +347,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -395,8 +394,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -447,8 +445,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -494,8 +491,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -811,8 +807,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: account doesn't have instructor privileges");
 
-        AccountAttributes a = AccountAttributes.builder()
-                .withGoogleId(i.googleId)
+        AccountAttributes a = AccountAttributes.builder(i.googleId)
                 .withName(i.name)
                 .withIsInstructor(false)
                 .withEmail(i.email)

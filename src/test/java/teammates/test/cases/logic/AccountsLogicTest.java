@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import java.util.List;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -30,38 +28,12 @@ public class AccountsLogicTest extends BaseLogicTest {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testGetInstructorAccounts() throws Exception {
-
-        ______TS("success case");
-
-        List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
-        int size = instructorAccounts.size();
-
-        accountsLogic.createAccount(
-                AccountAttributes.builder()
-                        .withGoogleId("test.account")
-                        .withName("Test Account")
-                        .withIsInstructor(true)
-                        .withEmail("test@account.com")
-                        .withInstitute("Foo University")
-                        .build());
-        instructorAccounts = logic.getInstructorAccounts();
-        assertEquals(instructorAccounts.size(), size + 1);
-
-        accountsLogic.deleteAccountCascade("test.account");
-        instructorAccounts = logic.getInstructorAccounts();
-        assertEquals(instructorAccounts.size(), size);
-    }
-
     @Test
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
 
-        AccountAttributes accountToCreate = AccountAttributes.builder()
-                .withGoogleId("id")
+        AccountAttributes accountToCreate = AccountAttributes.builder("id")
                 .withName("name")
                 .withEmail("test@email.com")
                 .withInstitute("dev")
@@ -75,8 +47,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = AccountAttributes.builder()
-                .withGoogleId("")
+        accountToCreate = AccountAttributes.builder("")
                 .withName("name")
                 .withEmail("test@email.com")
                 .withInstitute("dev")
@@ -103,14 +74,6 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
         assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
-
-        ______TS("test getInstructorAccounts");
-
-        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()) {
-            ______TS(aa.toString());
-        }
-
-        assertEquals(16, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test downgradeInstructorToStudentCascade");
 
@@ -189,8 +152,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        AccountAttributes accountData = AccountAttributes.builder()
-                .withGoogleId(correctStudentId)
+        AccountAttributes accountData = AccountAttributes.builder(correctStudentId)
                 .withName("nameABC")
                 .withEmail("real@gmail.com")
                 .withInstitute("TEAMMATES Test Institute 1")

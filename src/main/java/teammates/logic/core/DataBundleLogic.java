@@ -376,8 +376,7 @@ public final class DataBundleLogic {
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return AccountAttributes.builder()
-                .withGoogleId(instructor.googleId)
+        return AccountAttributes.builder(instructor.googleId)
                 .withName(instructor.name)
                 .withEmail(instructor.email)
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -386,8 +385,7 @@ public final class DataBundleLogic {
     }
 
     private AccountAttributes makeAccount(StudentAttributes student) {
-        return AccountAttributes.builder()
-                .withGoogleId(student.googleId)
+        return AccountAttributes.builder(student.googleId)
                 .withName(student.name)
                 .withEmail(student.email)
                 .withInstitute("TEAMMATES Test Institute 1")

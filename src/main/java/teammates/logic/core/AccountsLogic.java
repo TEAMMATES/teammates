@@ -11,6 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.api.AccountsDb;
 
@@ -49,7 +50,7 @@ public final class AccountsLogic {
             throw new InvalidParametersException(invalidityInfo);
         }
 
-        log.info("going to create account :\n" + accountData.toString());
+        log.info("going to create account :\n" + JsonUtils.toJson(accountData));
 
         accountsDb.createAccount(accountData);
     }
@@ -65,10 +66,6 @@ public final class AccountsLogic {
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor;
-    }
-
-    public List<AccountAttributes> getInstructorAccounts() {
-        return accountsDb.getInstructorAccounts();
     }
 
     public String getCourseInstitute(String courseId) {
@@ -144,8 +141,7 @@ public final class AccountsLogic {
 
         if (account == null) {
             try {
-                createAccount(AccountAttributes.builder()
-                        .withGoogleId(googleId)
+                createAccount(AccountAttributes.builder(googleId)
                         .withName(instructor.name)
                         .withEmail(instructor.email)
                         .withInstitute(instituteToSave)
@@ -276,8 +272,7 @@ public final class AccountsLogic {
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        AccountAttributes account = AccountAttributes.builder()
-                .withGoogleId(student.googleId)
+        AccountAttributes account = AccountAttributes.builder(student.googleId)
                 .withEmail(student.email)
                 .withName(student.name)
                 .withIsInstructor(false)

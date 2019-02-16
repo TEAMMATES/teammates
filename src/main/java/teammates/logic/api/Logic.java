@@ -76,19 +76,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Details of accounts with instruction privileges. Returns empty
-     *         list if no such accounts are found.
-     */
-    @Deprecated //Not scalable.
-    public List<AccountAttributes> getInstructorAccounts() {
-
-        return accountsLogic.getInstructorAccounts();
-    }
-
-    /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
      * <br/> Preconditions: <br/>

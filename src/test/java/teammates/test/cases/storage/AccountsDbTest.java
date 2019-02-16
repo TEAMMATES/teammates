@@ -1,8 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -46,56 +43,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetInstructorAccounts() throws Exception {
-        int numOfInstructors = 3;
-
-        // a non-instructor account
-        createNewAccount();
-
-        List<AccountAttributes> instructorAccountsExpected = createInstructorAccounts(numOfInstructors);
-        List<AccountAttributes> instructorAccountsActual = accountsDb.getInstructorAccounts();
-
-        assertEquals(numOfInstructors, instructorAccountsActual.size());
-
-        for (int i = 0; i < numOfInstructors; i++) {
-            // remove the created/modified dates due to their unpredictable nature
-            instructorAccountsExpected.get(i).createdAt = null;
-            instructorAccountsActual.get(i).createdAt = null;
-        }
-
-        AssertHelper.assertSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
-
-        deleteInstructorAccounts(numOfInstructors);
-    }
-
-    private List<AccountAttributes> createInstructorAccounts(
-            int numOfInstructors) throws Exception {
-        AccountAttributes a;
-        List<AccountAttributes> result = new ArrayList<>();
-        for (int i = 0; i < numOfInstructors; i++) {
-            a = getNewAccountAttributes();
-            a.googleId = "id." + i;
-            a.isInstructor = true;
-            accountsDb.createAccount(a);
-            result.add(a);
-        }
-        return result;
-    }
-
-    private void deleteInstructorAccounts(int numOfInstructors) {
-        String googleId;
-        for (int i = 0; i < numOfInstructors; i++) {
-            googleId = "id." + i;
-            accountsDb.deleteAccount(googleId);
-        }
-    }
-
-    @Test
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case (legacy data)");
-        AccountAttributes a = AccountAttributes.builder()
-                .withGoogleId("test.account")
+        AccountAttributes a = AccountAttributes.builder("test.account")
                 .withName("Test account Name")
                 .withIsInstructor(false)
                 .withEmail("fresh-account@email.com")
@@ -188,8 +139,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes getNewAccountAttributes() {
-        return AccountAttributes.builder()
-                .withGoogleId("valid.googleId")
+        return AccountAttributes.builder("valid.googleId")
                 .withName("Valid Fresh Account")
                 .withIsInstructor(false)
                 .withEmail("valid@email.com")
