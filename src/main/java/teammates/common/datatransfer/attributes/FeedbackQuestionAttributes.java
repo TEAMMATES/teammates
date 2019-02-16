@@ -104,7 +104,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return builder()
                 .withFeedbackSessionName(getFeedbackSessionName())
                 .withCourseId(getCourseId())
-                .withQuestionMetaData(getQuestionMetaData())
+                .withQuestionDetails(getQuestionDetails())
                 .withQuestionDescription(getQuestionDescription())
                 .withQuestionNumber(getQuestionNumber())
                 .withQuestionType(getQuestionType())
@@ -653,8 +653,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      */
     public void update(FeedbackQuestionAttributes.UpdateOptions updateOptions) {
         updateOptions.questionNumberOption.ifPresent(s -> questionNumber = s);
-        updateOptions.questionDetailsOption.ifPresent(
-                s -> questionMetaData = JsonUtils.toJson(s, getFeedbackQuestionDetailsClass()));
+        updateOptions.questionDetailsOption.ifPresent(s -> questionDetails = s.getDeepCopy());
         updateOptions.questionDescriptionOption.ifPresent(s -> questionDescription = s);
         updateOptions.giverTypeOption.ifPresent(s -> giverType = s);
         updateOptions.recipientTypeOption.ifPresent(s -> recipientType = s);

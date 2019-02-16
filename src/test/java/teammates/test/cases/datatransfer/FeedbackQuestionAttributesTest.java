@@ -594,7 +594,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                         .withNumOfEntitiesToGiveFeedbackTo(3)
                         .withQuestionNumber(1)
                         .withQuestionType(FeedbackQuestionType.TEXT)
-                        .withQuestionMetaData(new FeedbackTextQuestionDetails("question text 2"))
+                        .withQuestionDetails(new FeedbackTextQuestionDetails("question text 2"))
                         .withShowGiverNameTo(new ArrayList<>())
                         .withShowRecipientNameTo(new ArrayList<>())
                         .withShowResponseTo(new ArrayList<>())
