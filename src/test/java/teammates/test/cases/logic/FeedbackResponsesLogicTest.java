@@ -136,15 +136,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 
         FeedbackResponseAttributes existingResponse =
-                new FeedbackResponseAttributes(
-                        responseToUpdate.feedbackSessionName,
-                        responseToUpdate.courseId,
-                        responseToUpdate.feedbackQuestionId,
-                        responseToUpdate.giver,
-                        responseToUpdate.giverSection,
-                        "student3InCourse1@gmail.tmt",
-                        responseToUpdate.recipientSection,
-                        responseToUpdate.responseDetails);
+                FeedbackResponseAttributes.builder(
+                        responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(), "student3InCourse1@gmail.tmt")
+                .withFeedbackSessionName(responseToUpdate.feedbackSessionName)
+                .withCourseId(responseToUpdate.courseId)
+                .withGiverSection(responseToUpdate.giverSection)
+                .withRecipientSection(responseToUpdate.recipientSection)
+                .withResponseDetails(responseToUpdate.responseDetails)
+                .build();
 
         frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
 
@@ -256,11 +255,16 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         // Add one more non-team response
         FeedbackResponseAttributes responseToAdd =
-                new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
-                                               getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                                               studentToUpdate.email, "Section 1",
-                                               studentToUpdate.email, "Section 1",
-                                               new FeedbackTextResponseDetails("New Response to self"));
+                FeedbackResponseAttributes.builder(
+                        getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
+                        studentToUpdate.email, studentToUpdate.email)
+                .withFeedbackSessionName("First feedback session")
+                .withCourseId("idOfTypicalCourse1")
+                .withGiverSection("Section 1")
+                .withRecipientSection("Section 1")
+                .withResponseDetails(new FeedbackTextResponseDetails("New Response to self"))
+                .build();
+
         frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
 
         // All these responses should be gone after he changes teams
@@ -485,15 +489,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         //Create a "null" response to simulate trying to get a null student's response
         FeedbackResponseAttributes newResponse =
-                new FeedbackResponseAttributes(
-                        existingResponse.feedbackSessionName,
-                        "nullCourse",
-                        existingResponse.feedbackQuestionId,
-                        existingResponse.giver,
-                        "Section 1",
-                        "nullRecipient@gmail.tmt",
-                        "Section 1",
-                        existingResponse.responseDetails);
+                FeedbackResponseAttributes.builder(
+                        existingResponse.feedbackQuestionId, existingResponse.giver, "nullRecipient@gmail.tmt")
+                .withFeedbackSessionName(existingResponse.feedbackSessionName)
+                .withCourseId("nullCourse")
+                .withGiverSection("Section 1")
+                .withRecipientSection("Section 1")
+                .withResponseDetails(existingResponse.responseDetails)
+                .build();
 
         frLogic.createFeedbackResponses(Arrays.asList(newResponse));
         student = dataBundle.students.get("student2InCourse1");

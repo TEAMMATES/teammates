@@ -728,28 +728,26 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {
-        FeedbackResponseAttributes fra = new FeedbackResponseAttributes();
-
-        fra.feedbackSessionName = "fsTest1";
-        fra.courseId = "testCourse";
-        fra.giver = "giver@email.tmt";
-        fra.giverSection = "None";
-        fra.recipient = "recipient@email.tmt";
-        fra.recipientSection = "None";
-        fra.feedbackQuestionId = "testFeedbackQuestionId";
-
-        FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
-        fra.responseDetails = responseDetails;
-
-        return fra;
+        return FeedbackResponseAttributes.builder(
+                "testFeedbackQuestionId", "giver@email.tmt", "recipient@email.tmt")
+                .withCourseId("testCourse")
+                .withFeedbackSessionName("fsTest1")
+                .withGiverSection("None")
+                .withRecipientSection("None")
+                .withResponseDetails(new FeedbackTextResponseDetails("Text response"))
+                .build();
     }
 
     private FeedbackResponseAttributes getResponseAttributes(String id) {
         FeedbackResponseAttributes result = fras.get(id);
-        return new FeedbackResponseAttributes(result.feedbackSessionName,
-                result.courseId, result.feedbackQuestionId,
-                result.giver, result.giverSection,
-                result.recipient, result.recipientSection, result.responseDetails);
+
+        return FeedbackResponseAttributes.builder(result.feedbackQuestionId, result.giver, result.recipient)
+                .withCourseId(result.courseId)
+                .withFeedbackSessionName(result.feedbackSessionName)
+                .withGiverSection(result.giverSection)
+                .withRecipientSection(result.recipientSection)
+                .withResponseDetails(result.responseDetails)
+                .build();
     }
 
     @AfterClass
