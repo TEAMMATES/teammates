@@ -98,8 +98,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testValueOf_withDifferentTextQuestions() throws InvalidParametersException {
-        ______TS("single word text, should deserialize as plain text");
+    public void testValueOf_textQuestions_shouldDeserializeCorrectly() throws InvalidParametersException {
+        ______TS("legacy data: plain text: single word, should deserialize correctly");
         FeedbackQuestionsDb db = new FeedbackQuestionsDb();
         FeedbackQuestion qn = db.createEntityWithoutExistenceCheck(getNewFeedbackQuestionAttributes());
         qn.setQuestionText("singleWord");
@@ -108,7 +108,15 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals("singleWord", fqa.questionDetails.getQuestionText());
         assertEquals(0, ((FeedbackTextQuestionDetails) fqa.questionDetails).getRecommendedLength());
 
-        ______TS("json text, should deserialize as json");
+        ______TS("legacy data: plain text: multiple words, should deserialize correctly");
+        qn.setQuestionText("multiple words text");
+
+        FeedbackQuestionAttributes fqaMulti = FeedbackQuestionAttributes.valueOf(qn);
+        assertEquals("multiple words text", fqaMulti.questionDetails.getQuestionText());
+        assertEquals(0, ((FeedbackTextQuestionDetails) fqaMulti.questionDetails).getRecommendedLength());
+
+
+        ______TS("json text: should deserialize as json");
         String jsonQuestionText = "{\n"
                 + "  \"recommendedLength\": 70,\n"
                 + "  \"questionType\": \"TEXT\",\n"
@@ -124,7 +132,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     public void testBuilderWithPopulatedFieldValues() {
         String feedbackSession = "test session";
         String courseId = "some course";
-        String questionMetaData = "test qn from teams->none.";
+        String questionText = "test qn from teams->none.";
         String questionDescription = "some description";
         int questionNumber = 1;
         int numOfEntities = 4;
@@ -141,7 +149,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName(feedbackSession)
                 .withCourseId(courseId)
-                .withQuestionDetails(new FeedbackTextQuestionDetails(questionMetaData))
+                .withQuestionDetails(new FeedbackTextQuestionDetails(questionText))
                 .withQuestionDescription(questionDescription)
                 .withQuestionNumber(questionNumber)
                 .withNumOfEntitiesToGiveFeedbackTo(numOfEntities)
@@ -158,7 +166,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
-        assertEquals(questionMetaData, feedbackQuestionAttributes.getFeedbackQuestionText());
+        assertEquals(questionText, feedbackQuestionAttributes.questionDetails.getQuestionText());
         assertEquals(questionDescription, feedbackQuestionAttributes.questionDescription);
         assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
         assertEquals(numOfEntities, feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
