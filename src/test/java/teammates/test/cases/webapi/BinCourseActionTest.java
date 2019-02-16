@@ -9,14 +9,14 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.ui.webapi.action.BinCourseAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SoftDeleteCourseAction;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link SoftDeleteCourseAction}.
+ * SUT: {@link BinCourseAction}.
  */
-public class SoftDeleteCourseActionTest extends BaseActionTest<SoftDeleteCourseAction> {
+public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
     @Override
     protected String getActionUri() {
@@ -47,7 +47,7 @@ public class SoftDeleteCourseActionTest extends BaseActionTest<SoftDeleteCourseA
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        SoftDeleteCourseAction deleteAction = getAction(submissionParams);
+        BinCourseAction deleteAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

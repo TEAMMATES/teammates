@@ -962,7 +962,6 @@ public final class Const {
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
         public static final String INSTRUCTOR_COURSES_RESTORE = "/instructor/courses/restore";
-        public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL = "/instructor/courses/permanentlyDeleteAll";
         public static final String INSTRUCTOR_COURSES_RESTORE_ALL = "/instructor/courses/restoreAll";
         public static final String COURSE_STATS = "/course/stats";
@@ -970,7 +969,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
         public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
-        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
         public static final String INSTRUCTOR_STUDENTS_COURSES = "/instructor/students/courses";
         public static final String INSTRUCTOR_STUDENTS = "/instructor/students";
@@ -984,8 +982,6 @@ public final class Const {
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
-        public static final String COURSE_EDIT_DETAILS_SAVE = "/instructors/course/details/save";
-        public static final String COURSE_DELETE = "/instructors/course/delete";
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
         public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";

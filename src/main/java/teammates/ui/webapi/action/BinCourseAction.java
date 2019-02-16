@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 /**
  * Soft delete a course.
  */
-public class SoftDeleteCourseAction extends Action {
+public class BinCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
