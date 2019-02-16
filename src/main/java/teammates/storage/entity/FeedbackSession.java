@@ -88,18 +88,6 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpenEmail,
-            boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, deletedTime, startTime, endTime,
-                sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
-                isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<>(), new HashSet<>());
-    }
-
-    public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
-            String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
-            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,

@@ -51,12 +51,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     private static final String FEEDBACK_SESSION_BACKUP_LOG_MSG = "Recently modified feedback session::";
 
-    // Required fields
     private String feedbackSessionName;
     private String courseId;
-    private String creatorEmail;
 
-    // Optional fields
+    private String creatorEmail;
     private String instructions;
     private Instant createdTime;
     private Instant deletedTime;
@@ -76,56 +74,63 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private transient Set<String> respondingInstructorList;
     private transient Set<String> respondingStudentList;
 
-    FeedbackSessionAttributes() {
-        isOpeningEmailEnabled = true;
-        isClosingEmailEnabled = true;
-        isPublishedEmailEnabled = true;
-        respondingInstructorList = new HashSet<>();
-        respondingStudentList = new HashSet<>();
+    FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
 
-        timeZone = Const.DEFAULT_TIME_ZONE;
-        gracePeriod = Duration.ZERO;
+        this.instructions = "";
+        this.createdTime = Instant.now();
 
-        instructions = "";
+        this.isOpeningEmailEnabled = true;
+        this.isClosingEmailEnabled = true;
+        this.isPublishedEmailEnabled = true;
+
+        this.respondingInstructorList = new HashSet<>();
+        this.respondingStudentList = new HashSet<>();
+
+        this.timeZone = Const.DEFAULT_TIME_ZONE;
+        this.gracePeriod = Duration.ZERO;
+
     }
 
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
-        return builder(fs.getFeedbackSessionName(), fs.getCourseId(), fs.getCreatorEmail())
-                .withInstructions(fs.getInstructions())
-                .withCreatedTime(fs.getCreatedTime())
-                .withDeletedTime(fs.getDeletedTime())
-                .withStartTime(fs.getStartTime())
-                .withEndTime(fs.getEndTime())
-                .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
-                .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
-                .withTimeZone(ZoneId.of(fs.getTimeZone()))
-                .withGracePeriodMinutes(fs.getGracePeriod())
-                .withSentOpenEmail(fs.isSentOpenEmail())
-                .withSentClosingEmail(fs.isSentClosingEmail())
-                .withSentClosedEmail(fs.isSentClosedEmail())
-                .withSentPublishedEmail(fs.isSentPublishedEmail())
-                .withOpeningEmailEnabled(fs.isOpeningEmailEnabled())
-                .withPublishedEmailEnabled(fs.isPublishedEmailEnabled())
-                .withRespondingInstructorList(fs.getRespondingInstructorList())
-                .withRespondingStudentList(fs.getRespondingStudentList())
-                .withClosingEmailEnabled(fs.isClosingEmailEnabled())
-                .build();
+        FeedbackSessionAttributes feedbackSessionAttributes =
+                new FeedbackSessionAttributes(fs.getFeedbackSessionName(), fs.getCourseId());
+
+        feedbackSessionAttributes.creatorEmail = fs.getCreatorEmail();
+        if (fs.getInstructions() != null) {
+            feedbackSessionAttributes.instructions = fs.getInstructions();
+        }
+        feedbackSessionAttributes.createdTime = fs.getCreatedTime();
+        feedbackSessionAttributes.deletedTime = fs.getDeletedTime();
+        feedbackSessionAttributes.startTime = fs.getStartTime();
+        feedbackSessionAttributes.endTime = fs.getEndTime();
+        feedbackSessionAttributes.sessionVisibleFromTime = fs.getSessionVisibleFromTime();
+        feedbackSessionAttributes.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
+        feedbackSessionAttributes.timeZone = ZoneId.of(fs.getTimeZone());
+        feedbackSessionAttributes.gracePeriod = Duration.ofMinutes(fs.getGracePeriod());
+        feedbackSessionAttributes.sentOpenEmail = fs.isSentOpenEmail();
+        feedbackSessionAttributes.sentClosingEmail = fs.isSentClosingEmail();
+        feedbackSessionAttributes.sentClosedEmail = fs.isSentClosedEmail();
+        feedbackSessionAttributes.sentPublishedEmail = fs.isSentPublishedEmail();
+        feedbackSessionAttributes.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
+        feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
+        feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
+        if (fs.getRespondingStudentList() != null) {
+            feedbackSessionAttributes.respondingStudentList = fs.getRespondingStudentList();
+        }
+        if (fs.getRespondingInstructorList() != null) {
+            feedbackSessionAttributes.respondingInstructorList = fs.getRespondingInstructorList();
+        }
+
+        return feedbackSessionAttributes;
     }
 
     /**
-     * Returns new builder instance with default values for optional fields.
-     *
-     * <p>Following default values are set to corresponding attributes:
-     * <ul>
-     * <li>{@code isOpeningEmailEnabled = true}</li>
-     * <li>{@code isClosingEmailEnabled = true}</li>
-     * <li>{@code isPublishedEmailEnabled = true}</li>
-     * <li>{@code respondingInstructorList = new HashSet<>()}</li>
-     * <li>{@code respondingStudentList = new HashSet<>()}</li>
-     * </ul>
+     * Returns a builder for {@link FeedbackSessionAttributes}.
      */
-    public static Builder builder(String feedbackSessionName, String courseId, String creatorEmail) {
-        return new Builder(feedbackSessionName, courseId, creatorEmail);
+    public static Builder builder(String feedbackSessionName, String courseId) {
+        return new Builder(feedbackSessionName, courseId);
     }
 
     public FeedbackSessionAttributes getCopy() {
@@ -242,11 +247,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         return errors;
-    }
-
-    @Override
-    public boolean isValid() {
-        return getInvalidityInfo().isEmpty();
     }
 
     public boolean isClosedAfter(long hours) {
@@ -679,128 +679,30 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * A Builder for {@link FeedbackSessionAttributes}.
+     * A builder for {@link FeedbackSessionAttributes}.
      */
-    public static class Builder {
+    public static class Builder extends BasicBuilder<FeedbackSessionAttributes, Builder> {
         private final FeedbackSessionAttributes feedbackSessionAttributes;
 
-        public Builder(String feedbackSessionName, String courseId, String creatorEmail) {
-            feedbackSessionAttributes = new FeedbackSessionAttributes();
+        private Builder(String feedbackSessionName, String courseId) {
+            super(new UpdateOptions(feedbackSessionName, courseId));
+            thisBuilder = this;
 
-            feedbackSessionAttributes.setFeedbackSessionName(feedbackSessionName);
-            feedbackSessionAttributes.setCourseId(courseId);
-            feedbackSessionAttributes.setCreatorEmail(creatorEmail);
+            feedbackSessionAttributes = new FeedbackSessionAttributes(feedbackSessionName, courseId);
         }
 
-        public Builder withInstructions(String instructions) {
-            feedbackSessionAttributes.setInstructions(instructions == null ? "" : instructions);
+        public Builder withCreatorEmail(String creatorEmail) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, creatorEmail);
+
+            feedbackSessionAttributes.creatorEmail = creatorEmail;
+
             return this;
         }
 
-        public Builder withCreatedTime(Instant createdTime) {
-            if (createdTime != null) {
-                feedbackSessionAttributes.setCreatedTime(createdTime);
-            }
-            return this;
-        }
-
-        public Builder withDeletedTime(Instant deletedTime) {
-            if (deletedTime != null) {
-                feedbackSessionAttributes.setDeletedTime(deletedTime);
-            }
-            return this;
-        }
-
-        public Builder withStartTime(Instant startTime) {
-            if (startTime != null) {
-                feedbackSessionAttributes.setStartTime(startTime);
-            }
-            return this;
-        }
-
-        public Builder withEndTime(Instant endTime) {
-            if (endTime != null) {
-                feedbackSessionAttributes.setEndTime(endTime);
-            }
-            return this;
-        }
-
-        public Builder withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-            if (sessionVisibleFromTime != null) {
-                feedbackSessionAttributes.setSessionVisibleFromTime(sessionVisibleFromTime);
-            }
-            return this;
-        }
-
-        public Builder withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-            if (resultsVisibleFromTime != null) {
-                feedbackSessionAttributes.setResultsVisibleFromTime(resultsVisibleFromTime);
-            }
-            return this;
-        }
-
-        public Builder withTimeZone(ZoneId timeZone) {
-            feedbackSessionAttributes.setTimeZone(timeZone);
-            return this;
-        }
-
-        public Builder withGracePeriodMinutes(long gracePeriodMinutes) {
-            feedbackSessionAttributes.setGracePeriodMinutes(gracePeriodMinutes);
-            return this;
-        }
-
-        public Builder withSentOpenEmail(boolean sentOpenEmail) {
-            feedbackSessionAttributes.setSentOpenEmail(sentOpenEmail);
-            return this;
-        }
-
-        public Builder withSentClosingEmail(boolean sentClosingEmail) {
-            feedbackSessionAttributes.setSentClosingEmail(sentClosingEmail);
-            return this;
-        }
-
-        public Builder withSentClosedEmail(boolean sentClosedEmail) {
-            feedbackSessionAttributes.setSentClosedEmail(sentClosedEmail);
-            return this;
-        }
-
-        public Builder withSentPublishedEmail(boolean sentPublishedEmail) {
-            feedbackSessionAttributes.setSentPublishedEmail(sentPublishedEmail);
-            return this;
-        }
-
-        public Builder withOpeningEmailEnabled(boolean openingEmailEnabled) {
-            feedbackSessionAttributes.setOpeningEmailEnabled(openingEmailEnabled);
-            return this;
-        }
-
-        public Builder withClosingEmailEnabled(boolean closingEmailEnabled) {
-            feedbackSessionAttributes.setClosingEmailEnabled(closingEmailEnabled);
-            return this;
-        }
-
-        public Builder withPublishedEmailEnabled(boolean publishedEmailEnabled) {
-            feedbackSessionAttributes.setPublishedEmailEnabled(publishedEmailEnabled);
-            return this;
-        }
-
-        public Builder withRespondingInstructorList(Set<String> respondingInstructorList) {
-            Set<String> respondingList = respondingInstructorList == null
-                    ? new HashSet<>()
-                    : respondingInstructorList;
-            feedbackSessionAttributes.setRespondingInstructorList(respondingList);
-            return this;
-        }
-
-        public Builder withRespondingStudentList(Set<String> respondingStudentList) {
-            Set<String> respondingList = respondingStudentList == null
-                    ? new HashSet<>()
-                    : respondingStudentList;
-            feedbackSessionAttributes.setRespondingStudentList(respondingList);
-            return this;
-        }
-
+        @Override
         public FeedbackSessionAttributes build() {
+            feedbackSessionAttributes.update(updateOptions);
+
             return feedbackSessionAttributes;
         }
     }
@@ -902,69 +804,17 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder {
-            private UpdateOptions updateOptions;
+        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(UpdateOptions updateOptions) {
+                super(updateOptions);
                 Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, updateOptions);
-
-                this.updateOptions = updateOptions;
+                thisBuilder = this;
             }
 
             private Builder(String feedbackSessionName, String courseId) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-
-                updateOptions = new UpdateOptions(feedbackSessionName, courseId);
-            }
-
-            public Builder withInstructions(String instruction) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instruction);
-
-                updateOptions.instructionsOption = UpdateOption.of(instruction);
-                return this;
-            }
-
-            public Builder withStartTime(Instant startTime) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, startTime);
-
-                updateOptions.startTimeOption = UpdateOption.of(startTime);
-                return this;
-            }
-
-            public Builder withEndTime(Instant gender) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gender);
-
-                updateOptions.endTimeOption = UpdateOption.of(gender);
-                return this;
-            }
-
-            public Builder withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sessionVisibleFromTime);
-
-                updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
-                return this;
-            }
-
-            public Builder withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, resultsVisibleFromTime);
-
-                updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
-                return this;
-            }
-
-            public Builder withTimeZone(ZoneId timeZone) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timeZone);
-
-                updateOptions.timeZoneOption = UpdateOption.of(timeZone);
-                return this;
-            }
-
-            public Builder withGracePeriod(Duration gracePeriod) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gracePeriod);
-
-                updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
-                return this;
+                super(new UpdateOptions(feedbackSessionName, courseId));
+                thisBuilder = this;
             }
 
             public Builder withSentOpenEmail(boolean sentOpenEmail) {
@@ -984,16 +834,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
             public Builder withSentPublishedEmail(boolean sentPublishedEmail) {
                 updateOptions.sentPublishedEmailOption = UpdateOption.of(sentPublishedEmail);
-                return this;
-            }
-
-            public Builder withIsClosingEmailEnabled(boolean isClosingEmailEnabled) {
-                updateOptions.isClosingEmailEnabledOption = UpdateOption.of(isClosingEmailEnabled);
-                return this;
-            }
-
-            public Builder withIsPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
-                updateOptions.isPublishedEmailEnabledOption = UpdateOption.of(isPublishedEmailEnabled);
                 return this;
             }
 
@@ -1041,11 +881,90 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 return this;
             }
 
+            @Override
             public UpdateOptions build() {
                 return updateOptions;
             }
 
         }
+
+    }
+
+    /**
+     * Basic builder to build {@link FeedbackSessionAttributes} related classes.
+     *
+     * @param <T> type to be built
+     * @param <B> type of the builder
+     */
+    private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
+
+        protected UpdateOptions updateOptions;
+        protected B thisBuilder;
+
+        protected BasicBuilder(UpdateOptions updateOptions) {
+            this.updateOptions = updateOptions;
+        }
+
+        public B withInstructions(String instruction) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instruction);
+
+            updateOptions.instructionsOption = UpdateOption.of(instruction);
+            return thisBuilder;
+        }
+
+        public B withStartTime(Instant startTime) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, startTime);
+
+            updateOptions.startTimeOption = UpdateOption.of(startTime);
+            return thisBuilder;
+        }
+
+        public B withEndTime(Instant endTime) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, endTime);
+
+            updateOptions.endTimeOption = UpdateOption.of(endTime);
+            return thisBuilder;
+        }
+
+        public B withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sessionVisibleFromTime);
+
+            updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
+            return thisBuilder;
+        }
+
+        public B withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, resultsVisibleFromTime);
+
+            updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
+            return thisBuilder;
+        }
+
+        public B withTimeZone(ZoneId timeZone) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timeZone);
+
+            updateOptions.timeZoneOption = UpdateOption.of(timeZone);
+            return thisBuilder;
+        }
+
+        public B withGracePeriod(Duration gracePeriod) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gracePeriod);
+
+            updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
+            return thisBuilder;
+        }
+
+        public B withIsClosingEmailEnabled(boolean isClosingEmailEnabled) {
+            updateOptions.isClosingEmailEnabledOption = UpdateOption.of(isClosingEmailEnabled);
+            return thisBuilder;
+        }
+
+        public B withIsPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
+            updateOptions.isPublishedEmailEnabledOption = UpdateOption.of(isPublishedEmailEnabled);
+            return thisBuilder;
+        }
+
+        public abstract T build();
 
     }
 }

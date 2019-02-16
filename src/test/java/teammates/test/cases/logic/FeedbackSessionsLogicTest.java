@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1606,15 +1606,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
-        return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
-                .withCreatedTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-2))
+        return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
+                .withCreatorEmail("valid@email.tmt")
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
-                .withGracePeriodMinutes(5)
-                .withSentOpenEmail(true)
-                .withSentPublishedEmail(true)
+                .withGracePeriod(Duration.ofMinutes(5))
                 .withInstructions("Give feedback.")
                 .build();
     }

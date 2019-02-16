@@ -1422,8 +1422,8 @@ public final class FeedbackSessionsLogic {
 
         fqLogic.deleteFeedbackQuestionsCascadeForSession(feedbackSessionName, courseId);
 
-        FeedbackSessionAttributes sessionToDelete = FeedbackSessionAttributes
-                .builder(feedbackSessionName, courseId, "").build();
+        FeedbackSessionAttributes sessionToDelete =
+                FeedbackSessionAttributes.builder(feedbackSessionName, courseId).build();
 
         fsDb.deleteEntity(sessionToDelete);
     }
