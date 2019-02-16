@@ -174,7 +174,7 @@ public final class InstructorsLogic {
         }
     }
 
-    public void verifyAtLeastOneInstructorIsDisplayed(boolean isOriginalInstructorDisplayed, String courseId,
+    public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
                                                       boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
@@ -202,7 +202,7 @@ public final class InstructorsLogic {
         checkForUpdatingRespondents(instructor);
         boolean isOriginalInstructorDisplayed = instructorsDb.getInstructorForGoogleId(instructor.courseId,
                 googleId).isDisplayedToStudents;
-        verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed, instructor.courseId,
+        verifyAtLeastOneInstructorIsDisplayed(instructor.courseId, isOriginalInstructorDisplayed,
                 instructor.isDisplayedToStudents);
 
         instructorsDb.updateInstructorByGoogleId(instructor);
@@ -244,8 +244,8 @@ public final class InstructorsLogic {
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
         boolean isOriginalInstructorDisplayed = instructorsDb.getInstructorForEmail(instructor.courseId,
                 email).isDisplayedToStudents;
-        verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed,
-                instructor.courseId, instructor.isDisplayedToStudents);
+        verifyAtLeastOneInstructorIsDisplayed(instructor.courseId, isOriginalInstructorDisplayed,
+                instructor.isDisplayedToStudents);
 
         instructorsDb.updateInstructorByEmail(instructor);
     }

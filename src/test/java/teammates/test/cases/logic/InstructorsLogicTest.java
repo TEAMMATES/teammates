@@ -389,30 +389,28 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         String courseId = "idOfTypicalCourse1";
         String courseIdWithNoInstructorsDisplayed = "idOfTestingInstructorsDisplayedCourse";
-        boolean isEditedInstructorDisplayed = true;
-        boolean isOriginalInstructorDisplayed = true;
 
-        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed,
-                courseId, isEditedInstructorDisplayed);
-        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed,
-                courseId, !isEditedInstructorDisplayed);
-        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(!isOriginalInstructorDisplayed,
-                courseId, !isEditedInstructorDisplayed);
-        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(!isOriginalInstructorDisplayed,
-                courseIdWithNoInstructorsDisplayed, !isEditedInstructorDisplayed);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, true,
+                true);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, true,
+                false);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, false,
+                false);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                false, false);
 
         ______TS("failure: No instructors displayed to students");
 
         InvalidParametersException ive = assertThrows(InvalidParametersException.class,
-                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed,
-                        courseIdWithNoInstructorsDisplayed, !isEditedInstructorDisplayed));
+                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                        true, false));
         assertEquals("At least one instructor must be displayed to students", ive.getMessage());
 
         ______TS("failure: null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(isOriginalInstructorDisplayed,
-                        null, isEditedInstructorDisplayed));
+                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(null,
+                        true, true));
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
