@@ -58,6 +58,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   course?: CourseAttributes;
   instructorDetails?: InstructorDetails[];
   teammateProfiles?: TeammateProfile[];
+  Gender: typeof Gender = Gender;
 
   private backendUrl: string = environment.backendUrl;
 
