@@ -616,7 +616,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       editedInstructor.privileges.sectionLevel = newSectionLevelPrivileges;
       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
-    
+
     this.httpRequestService.put('/instructors', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);

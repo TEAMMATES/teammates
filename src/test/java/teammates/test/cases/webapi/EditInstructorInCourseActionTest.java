@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -12,6 +13,7 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.EditInstructorInCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
  * SUT: {@link EditInstructorInCourseAction}.
@@ -46,18 +48,12 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
         };
-        EditInstructorInCourseAction a = getAction(submissionParams);
+        InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
+
+        EditInstructorInCourseAction a = getAction(reqBody, submissionParams);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -80,24 +76,12 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
+        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
+                invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        a = getAction(submissionParams);
+        a = getAction(reqBody, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -144,24 +128,13 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
+        reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        a = getAction(addUserIdToParams(instructorId, submissionParams));
+
+        a = getAction(reqBody, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -179,25 +152,13 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         ______TS("Unsuccessful case: test null course id parameter");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
-        };
+        submissionParams = new String[0];
+        reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         try {
-            a = getAction(submissionParams);
+            a = getAction(reqBody, submissionParams);
             getJsonResult(a);
         } catch (NullHttpParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER,
@@ -208,54 +169,34 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
+        reqBody = new InstructorCreateRequest(instructorId, null,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         try {
-            a = getAction(submissionParams);
+            a = getAction(reqBody, submissionParams);
             getJsonResult(a);
-        } catch (NullHttpParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER,
-                    Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals(String.format(Const.StatusCodes.INVALID_REQUEST_BODY,
+                    Const.ParamsNames.NAME), e.getMessage());
         }
 
         ______TS("Unsuccessful case: test null instructor email parameter");
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
+        reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+                null, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         try {
-            a = getAction(submissionParams);
+            a = getAction(reqBody, submissionParams);
             getJsonResult(a);
-        } catch (NullHttpParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER,
-                    Const.ParamsNames.INSTRUCTOR_EMAIL), e.getMessage());
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals(String.format(Const.StatusCodes.INVALID_REQUEST_BODY,
+                    Const.ParamsNames.EMAIL), e.getMessage());
         }
     }
 
@@ -265,20 +206,6 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

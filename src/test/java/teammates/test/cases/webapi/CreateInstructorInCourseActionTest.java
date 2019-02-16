@@ -13,6 +13,7 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.CreateInstructorInCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
  * SUT: {@link CreateInstructorInCourseAction}.
@@ -47,22 +48,13 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName + " ", // with some extra spaces
-                Const.ParamsNames.INSTRUCTOR_EMAIL, " " + newInstructorEmail + " ", // with some extra spaces
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
-        CreateInstructorInCourseAction a = getAction(submissionParams);
+        InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName, newInstructorEmail,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                null, false);
+
+        CreateInstructorInCourseAction a = getAction(reqBody, submissionParams);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -84,12 +76,12 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
         Map<String, String[]> paramMap = taskAdded.getParamMap();
 
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
-        assertEquals(instructorAdded.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL)[0]);
-        assertEquals(instructorId, paramMap.get(Const.ParamsNames.INVITER_ID)[0]);
+        assertEquals(instructorAdded.email, reqBody.getEmail());
+        assertEquals(instructorId, reqBody.getId());
 
         ______TS("Error: try to add an existing instructor");
 
-        a = getAction(submissionParams);
+        a = getAction(reqBody, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
@@ -103,16 +95,11 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
         ______TS("Error: try to add an instructor with invalid email");
 
         String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.tmt";
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+        reqBody = new InstructorCreateRequest(null, newInstructorName, newInvalidInstructorEmail,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-        };
+                null, false);
 
-        a = getAction(submissionParams);
+        a = getAction(reqBody, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -132,21 +119,12 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
         loginAsAdmin();
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
-        a = getAction(addUserIdToParams(instructorId, submissionParams));
+        reqBody = new InstructorCreateRequest(instructorId, newInstructorName, newInstructorEmail,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                null, false);
+
+        a = getAction(reqBody, submissionParams);
         r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -176,19 +154,6 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.tmt",
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
