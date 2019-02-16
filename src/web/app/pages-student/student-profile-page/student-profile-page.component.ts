@@ -57,7 +57,7 @@ export class StudentProfilePageComponent implements OnInit {
               private statusMessageService: StatusMessageService) {}
 
   ngOnInit(): void {
-    // populate drop-down menu for nationality and gender lists
+    // populate drop-down menu for nationality list
     this.initNationalities();
 
     this.route.queryParams.subscribe((queryParams: any) => {
