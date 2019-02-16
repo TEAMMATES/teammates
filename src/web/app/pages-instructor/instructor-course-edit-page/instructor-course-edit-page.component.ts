@@ -350,10 +350,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteCourse(): void {
     this.courseService.deleteCourse(this.courseToEdit.id).subscribe((resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**

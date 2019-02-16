@@ -18,8 +18,8 @@ export class CourseService {
   /**
    * Creates a course by calling API.
    */
-  createCourse(courseid: string, request: CourseCreateRequest): Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = { courseid };
+  createCourse(request: CourseCreateRequest): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = {};
     return this.httpRequestService.post('/course', paramMap, request);
   }
 

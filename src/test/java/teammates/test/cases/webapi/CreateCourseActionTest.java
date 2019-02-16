@@ -34,13 +34,10 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "new-course",
-        };
-
         CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
         courseCreateRequest.setCourseName("New Course");
         courseCreateRequest.setTimeZone("UTC");
+        courseCreateRequest.setCourseId("new-course");
 
         ______TS("Typical case with new course id");
 
@@ -49,20 +46,18 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         }
 
         loginAsInstructor(instructorId);
-        CreateCourseAction action = getAction(courseCreateRequest, submissionParams);
+        CreateCourseAction action = getAction(courseCreateRequest);
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("Typical case with existing course id");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
         courseCreateRequest.setCourseName("Existing Course");
         courseCreateRequest.setTimeZone("UTC");
+        courseCreateRequest.setCourseId(courseId);
 
-        action = getAction(courseCreateRequest, submissionParams);
+        action = getAction(courseCreateRequest);
         result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
@@ -71,13 +66,11 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Typical case missing course id");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "",
-        };
         courseCreateRequest.setCourseName("New Course");
         courseCreateRequest.setTimeZone("UTC");
+        courseCreateRequest.setCourseId("");
 
-        action = getAction(courseCreateRequest, submissionParams);
+        action = getAction(courseCreateRequest);
         result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());

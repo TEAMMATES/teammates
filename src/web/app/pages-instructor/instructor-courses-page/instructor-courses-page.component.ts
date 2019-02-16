@@ -188,9 +188,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
 
-    this.courseService.createCourse(this.newCourseId, {
+    this.courseService.createCourse({
       courseName: this.newCourseId,
       timeZone: this.timezone,
+      courseId: this.newCourseId,
     }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
