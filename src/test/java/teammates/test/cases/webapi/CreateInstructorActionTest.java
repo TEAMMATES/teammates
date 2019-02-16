@@ -10,15 +10,15 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.InstructorsLogic;
-import teammates.ui.webapi.action.CreateInstructorInCourseAction;
+import teammates.ui.webapi.action.CreateInstructorAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
- * SUT: {@link CreateInstructorInCourseAction}.
+ * SUT: {@link CreateInstructorAction}.
  */
-public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateInstructorInCourseAction> {
+public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorAction> {
 
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
@@ -54,7 +54,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        CreateInstructorInCourseAction a = getAction(reqBody, submissionParams);
+        CreateInstructorAction a = getAction(reqBody, submissionParams);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());

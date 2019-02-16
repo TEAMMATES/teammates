@@ -10,15 +10,15 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
-import teammates.ui.webapi.action.EditInstructorInCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.action.SaveInstructorAction;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
- * SUT: {@link EditInstructorInCourseAction}.
+ * SUT: {@link SaveInstructorAction}.
  */
-public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstructorInCourseAction> {
+public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorAction> {
 
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
@@ -43,18 +43,22 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         ______TS("Typical case: edit instructor successfully");
 
-        String newInstructorName = "newName";
-        String newInstructorEmail = "newEmail@email.com";
-
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        EditInstructorInCourseAction a = getAction(reqBody, submissionParams);
+        String newInstructorName = "newName";
+        String newInstructorEmail = "newEmail@email.com";
+
+        InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+                newInstructorEmail, instructorToEdit.role,
+                instructorToEdit.displayedName, instructorToEdit.isDisplayedToStudents);
+
+        SaveInstructorAction a = getAction(reqBody, submissionParams);
         JsonResult r = getJsonResult(a);
+
+        MessageOutput test = (MessageOutput) r.getOutput();
+        System.out.println(test.getMessage());
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 

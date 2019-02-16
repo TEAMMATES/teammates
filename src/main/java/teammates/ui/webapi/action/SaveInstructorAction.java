@@ -16,7 +16,7 @@ import teammates.ui.webapi.request.InstructorCreateRequest;
 /**
  * Edits an instructor in a course.
  */
-public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbstractAction {
+public class SaveInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -59,7 +59,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
                                 .build());
             } else {
                 logic.updateInstructorCascade(
-                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, courseId)
+                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, id)
                                 .withEmail(instructorToEdit.email)
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)

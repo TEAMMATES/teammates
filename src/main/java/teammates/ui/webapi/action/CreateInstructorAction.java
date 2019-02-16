@@ -14,7 +14,7 @@ import teammates.ui.webapi.request.InstructorCreateRequest;
 /**
  * Action: adds another instructor to a course that already exists.
  */
-public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAbstractAction {
+public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
     protected AuthType getMinAuthLevel() {

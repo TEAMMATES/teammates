@@ -773,7 +773,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       displayName: addedInstructor.displayedName,
       isDisplayedToStudent: canDisplay,
     };
-    
+
     if (formAddInstructor.controls.role.value === 'Custom') {
       const tuneCoursePermissions: (FormGroup | null) = (formAddInstructor.controls.tunePermissions as FormGroup)
           .controls.permissionsForCourse as FormGroup;

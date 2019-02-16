@@ -61,7 +61,6 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        // TODO
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
