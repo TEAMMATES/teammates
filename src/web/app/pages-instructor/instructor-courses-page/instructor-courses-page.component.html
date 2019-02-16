@@ -1,4 +1,4 @@
-<div class="container">
+<div class="component">
   <div class="card border-primary fill-plain">
     <div class="card-body">
       <div class="form-group row">
@@ -41,7 +41,7 @@
   </div>
 </div>
 
-<div class="container">
+<div class="component">
   <h2>Active Courses</h2>
   <div class="table-responsive">
     <table class="table table-striped table-bordered margin-0">
@@ -156,7 +156,7 @@
   </div>
 </div>
 
-<div class="container" *ngIf="archivedCourses.length">
+<div class="component" *ngIf="archivedCourses.length">
   <h2 class="text-muted">
     <span class="fa fa-file-archive"></span> Archived Courses
   </h2>
@@ -195,7 +195,7 @@
   </div>
 </div>
 
-<div class="container" *ngIf="softDeletedCourses.length">
+<div class="component" *ngIf="softDeletedCourses.length">
   <h2 class="text-muted">
     <span class="fa fa-trash"></span> Deleted Courses
   </h2>
