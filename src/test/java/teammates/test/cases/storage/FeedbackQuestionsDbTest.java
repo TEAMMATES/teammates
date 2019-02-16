@@ -320,12 +320,12 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumOfEntitiesToGiveFeedbackTo(1)
+                .withNumberOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
                 .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
-                .withShowResponseTo(new ArrayList<>())
+                .withShowResponsesTo(new ArrayList<>())
                 .build();
     }
 

@@ -98,7 +98,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testAddQuestion();
-        testCopyQuestion();
         testDeleteQuestion();
         testAddQuestionNoIntegrityCheck();
         testDeleteQuestionsForCourse();
@@ -368,27 +367,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         for (int i = 0; i < actualList.size(); i++) {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
-    }
-
-    private void testCopyQuestion() throws Exception {
-
-        ______TS("Typical case: copy question successfully");
-
-        FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
-
-        FeedbackQuestionAttributes copiedQuestion =
-                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId);
-
-        FeedbackQuestionDetails question1Details = question1.getQuestionDetails();
-        FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
-
-        assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
-        assertEquals(question1.getQuestionType(), copiedQuestion.getQuestionType());
-        assertEquals(question1.giverType, copiedQuestion.giverType);
-        assertEquals(question1.recipientType, copiedQuestion.recipientType);
-        assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());
-
     }
 
     @Test

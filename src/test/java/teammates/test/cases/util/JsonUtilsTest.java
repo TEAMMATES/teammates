@@ -33,12 +33,12 @@ public class JsonUtilsTest extends BaseTestCase {
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withQuestionNumber(1)
                 .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(participants)
                 .withShowRecipientNameTo(participants)
-                .withShowResponseTo(participants)
+                .withShowResponsesTo(participants)
                 .build();
 
         try {

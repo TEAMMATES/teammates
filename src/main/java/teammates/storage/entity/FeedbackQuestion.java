@@ -219,6 +219,10 @@ public class FeedbackQuestion extends BaseEntity {
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
+    public void setFeedbackQuestionId(Long feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
+    }
+
     @OnSave
     public void updateLastUpdateTimestamp() {
         this.setLastUpdate(Instant.now());

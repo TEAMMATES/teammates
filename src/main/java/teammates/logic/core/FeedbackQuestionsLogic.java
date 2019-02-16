@@ -85,21 +85,6 @@ public final class FeedbackQuestionsLogic {
         return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
 
-    public FeedbackQuestionAttributes copyFeedbackQuestion(
-            String feedbackQuestionId, String feedbackSessionName, String courseId)
-            throws InvalidParametersException {
-
-        FeedbackQuestionAttributes question = getFeedbackQuestion(feedbackQuestionId);
-        question.feedbackSessionName = feedbackSessionName;
-        question.courseId = courseId;
-        question.questionNumber = -1;
-        question.setId(null);
-
-        createFeedbackQuestion(question);
-
-        return question;
-    }
-
     /**
      * Gets a single question corresponding to the given parameters. <br><br>
      * <b>Note:</b><br>

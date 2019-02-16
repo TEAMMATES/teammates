@@ -486,11 +486,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withFeedbackSessionName(fs.getFeedbackSessionName())
                 .withCourseId(fs.getCourseId())
                 .withQuestionNumber(1)
-                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)
                 .withQuestionDetails(new FeedbackTextQuestionDetails("question to be deleted through cascade"))
-                .withShowResponseTo(new ArrayList<>())
+                .withShowResponsesTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowGiverNameTo(new ArrayList<>())
                 .build();

@@ -1527,21 +1527,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
-                                                           String courseId)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
-    }
-
-    /**
      * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
      *
      * <p>Cascade adjust the question number of questions in the same session.
