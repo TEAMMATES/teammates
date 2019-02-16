@@ -814,7 +814,9 @@ public final class CoursesLogic {
         if (!timeZoneErrorMessage.isEmpty()) {
             // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
             CourseAttributes dummyCourse = CourseAttributes
-                    .builder(courseId, courseName, Const.DEFAULT_TIME_ZONE)
+                    .builder(courseId)
+                    .withName(courseName)
+                    .withTimezone(Const.DEFAULT_TIME_ZONE)
                     .build();
             List<String> errors = dummyCourse.getInvalidityInfo();
             errors.add(timeZoneErrorMessage);
@@ -824,7 +826,9 @@ public final class CoursesLogic {
 
         // If time zone field is valid, leave validation  of other fields to `CoursesDb` like usual
         return CourseAttributes
-                .builder(courseId, courseName, ZoneId.of(courseTimeZone))
+                .builder(courseId)
+                .withName(courseName)
+                .withTimezone(ZoneId.of(courseTimeZone))
                 .build();
     }
 }

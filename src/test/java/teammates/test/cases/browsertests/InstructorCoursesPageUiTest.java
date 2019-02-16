@@ -38,7 +38,9 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
 
     private CourseAttributes validCourse =
             CourseAttributes
-                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
+                    .builder(" CCAddUiTest.course1 ")
+                    .withName(" Software Engineering $^&*() ")
+                    .withTimezone(ZoneId.of("Asia/Singapore"))
                     .build();
 
     @Override

@@ -36,7 +36,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Success: typical case");
 
         CourseAttributes c = CourseAttributes
-                .builder("CDbT.tCC.newCourse", "Basic Computing", ZoneId.of("UTC"))
+                .builder("CDbT.tCC.newCourse")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
@@ -51,7 +53,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Failure: create a course with invalid parameter");
 
         CourseAttributes invalidIdCourse = CourseAttributes
-                .builder("Invalid id", "Basic Computing", ZoneId.of("UTC"))
+                .builder("Invalid id")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidIdCourse));
@@ -61,7 +65,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         CourseAttributes invalidNameCourse = CourseAttributes
-                .builder("CDbT.tCC.newCourse", longCourseName, ZoneId.of("UTC"))
+                .builder("CDbT.tCC.newCourse")
+                .withName(longCourseName)
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidNameCourse));
         AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
@@ -210,7 +216,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
     private CourseAttributes createNewCourse() throws InvalidParametersException {
 
         CourseAttributes c = CourseAttributes
-                .builder("Computing101", "Basic Computing", ZoneId.of("UTC"))
+                .builder("Computing101")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         try {

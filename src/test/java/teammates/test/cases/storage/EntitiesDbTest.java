@@ -34,7 +34,9 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-fresh", "Basic Computing", ZoneId.of("UTC"))
+                .builder("Computing101-fresh")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
@@ -50,7 +52,9 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id spaces", "Basic Computing", ZoneId.of("UTC"))
+                .builder("invalid id spaces")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidCourse));
