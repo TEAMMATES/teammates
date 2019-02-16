@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
  * Edits an instructor in a course.
@@ -38,18 +39,18 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
     @Override
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
-        InstructorAttributes instructorToEdit =
-                extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+        InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
+        InstructorAttributes instructorToEdit = extractUpdatedInstructor(courseId, instructorRequest);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
+        String email = instructorRequest.getEmail();
+        String id = instructorRequest.getId();
+
         try {
-            if (instructorId == null) {
+            if (id == null) {
                 logic.updateInstructor(
-                        InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorEmail)
+                        InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, email)
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
                                 .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
@@ -58,7 +59,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
                                 .build());
             } else {
                 logic.updateInstructorCascade(
-                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorId)
+                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, courseId)
                                 .withEmail(instructorToEdit.email)
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
@@ -73,8 +74,8 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult("The changes to the instructor " + instructorName + " has been updated.",
-                HttpStatus.SC_OK);
+        return new JsonResult("The changes to the instructor " + instructorRequest.getName()
+                + " has been updated.", HttpStatus.SC_OK);
     }
 
     /**
@@ -117,11 +118,14 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
      * @param instructorEmail Email of the instructor.
      * @return The updated instructor with all relevant info filled in.
      */
-    private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId,
-                                                          String instructorName, String instructorEmail) {
-        String instructorRole = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
-        boolean isDisplayedToStudents = getBooleanRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT);
-        String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
+    private InstructorAttributes extractUpdatedInstructor(String courseId, InstructorCreateRequest instructorRequest) {
+
+        String instructorId = instructorRequest.getId();
+        String instructorName = instructorRequest.getName();
+        String instructorEmail = instructorRequest.getEmail();
+        String instructorRole = instructorRequest.getRoleName();
+        boolean isDisplayedToStudents = instructorRequest.getIsDisplayedToStudent();
+        String displayedName = instructorRequest.getDisplayName();
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }

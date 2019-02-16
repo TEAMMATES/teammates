@@ -773,7 +773,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     if (addedInstructor.isDisplayedToStudents) {
       paramsMap[instructorIsDisplayed] = 'true';
     }
-    
+
     if (formAddInstructor.controls.role.value === 'Custom') {
       const tuneCoursePermissions: (FormGroup | null) = (formAddInstructor.controls.tunePermissions as FormGroup)
           .controls.permissionsForCourse as FormGroup;

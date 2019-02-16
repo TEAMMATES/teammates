@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
  * Action: adds another instructor to a course that already exists.
@@ -39,7 +40,6 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
 
     @Override
     public ActionResult execute() {
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructorToAdd = extractCompleteInstructor(courseId);
 
@@ -71,12 +71,13 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
      * @return An instructor with all relevant info filled in.
      */
     private InstructorAttributes extractCompleteInstructor(String courseId) {
-        String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String instructorRole = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
+        InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
+        String instructorName = instructorRequest.getName();
+        String instructorEmail = instructorRequest.getEmail();
+        String instructorRole = instructorRequest.getRoleName();
 
-        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
-        String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
+        boolean isDisplayedToStudents = instructorRequest.getIsDisplayedToStudent();
+        String displayedName = instructorRequest.getDisplayName();
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
