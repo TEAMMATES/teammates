@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -13,6 +14,7 @@ import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -38,6 +40,32 @@ public class CoursesLogicTest extends BaseLogicTest {
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
+
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    public void refreshTestData() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
+    }
+
+    @Test
+    public void testUpdateCourseCascade_shouldCascadeUpdateTimezoneOfFeedbackSessions() throws Exception {
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        assertNotEquals(ZoneId.of("UTC"), typicalCourse1.getTimeZone());
+
+        coursesLogic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(typicalCourse1.getId())
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
+
+        List<FeedbackSessionAttributes> sessionsOfCourse = logic.getFeedbackSessionsForCourse(typicalCourse1.getId());
+        assertFalse(sessionsOfCourse.isEmpty());
+        assertTrue(sessionsOfCourse.stream().allMatch(s -> s.getTimeZone().equals(ZoneId.of("UTC"))));
+    }
 
     @Test
     public void testAll() throws Exception {
@@ -66,7 +94,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         testRestoreAllCoursesFromRecycleBin();
         testDeleteCourse();
         testDeleteAllCourses();
-        testUpdateCourse();
+        testUpdateCourseCascade();
     }
 
     private void testGetCourse() throws Exception {
@@ -779,8 +807,11 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during course creation");
 
-        a.isInstructor = true;
-        accountsDb.updateAccount(a);
+        accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(a.googleId)
+                        .withIsInstructor(true)
+                        .build()
+        );
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id", "Fresh course for tccai", ZoneId.of("UTC"))
@@ -1030,7 +1061,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testUpdateCourse() throws Exception {
+    private void testUpdateCourseCascade() throws Exception {
         CourseAttributes c = CourseAttributes
                 .builder("Computing101-getthis", "Basic Computing Getting", ZoneId.of("UTC"))
                 .build();
@@ -1039,25 +1070,31 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("Typical case");
         String newName = "New Course Name";
         String validTimeZone = "Asia/Singapore";
-        coursesLogic.updateCourse(c.getId(), newName, validTimeZone);
+        CourseAttributes updateCourse = coursesLogic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(c.getId())
+                        .withName(newName)
+                        .withTimezone(ZoneId.of(validTimeZone))
+                        .build()
+        );
         c.setName(newName);
         c.setTimeZone(ZoneId.of(validTimeZone));
         verifyPresentInDatastore(c);
+        assertEquals(newName, updateCourse.getName());
+        assertEquals(validTimeZone, updateCourse.getTimeZone().getId());
 
-        ______TS("Invalid time zone and name");
+        ______TS("Invalid name (empty course name)");
 
         String emptyName = "";
-        String invalidTimeZone = "Invalid Timezone";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.updateCourse(c.getId(), emptyName, invalidTimeZone));
+                () -> coursesLogic.updateCourseCascade(
+                        CourseAttributes.updateOptionsBuilder(c.getId())
+                                .withName(emptyName)
+                                .build()
+                ));
         String expectedErrorMessage =
                 getPopulatedEmptyStringErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH)
-                        + System.lineSeparator()
-                        + getPopulatedErrorMessage(
-                        FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                        FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+                        FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(expectedErrorMessage, ipe.getMessage());
         verifyPresentInDatastore(c);
     }

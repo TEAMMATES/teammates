@@ -3,7 +3,7 @@
 
     <queue>
         <name>feedback-response-adjustment-queue</name>
-        <!-- Processes each feedback adjustment sequentially -->
+        <!-- Not used, keep in case of roll back to V6 -->
         <rate>1/s</rate>
         <bucket-size>5</bucket-size>
         <max-concurrent-requests>1</max-concurrent-requests>

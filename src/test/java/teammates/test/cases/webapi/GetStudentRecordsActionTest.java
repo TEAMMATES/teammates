@@ -19,7 +19,7 @@ import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link GetStudentRecrodsAction}.
+ * SUT: {@link GetStudentRecordsAction}.
  */
 public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecordsAction> {
 
@@ -141,7 +141,10 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
         ______TS("Typical case: student has no records");
 
         testStudent.googleId = "valid.no.sessions";
-        StudentsLogic.inst().updateStudentCascade(testStudent.email, testStudent);
+        StudentsLogic.inst().updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(testStudent.course, testStudent.email)
+                        .withGoogleId(testStudent.googleId)
+                        .build());
         AccountsLogic.inst().createAccount(
                 AccountAttributes.builder()
                         .withGoogleId(testStudent.googleId)

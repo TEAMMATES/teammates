@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
@@ -78,11 +79,20 @@ public class PutCourseStudentDetailsEditAction extends Action {
             }
 
             try {
-                logic.updateStudent(studentEmail, student);
+                logic.updateStudentCascade(
+                        StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
+                                .withName(student.name)
+                                .withNewEmail(student.email)
+                                .withTeamName(student.team)
+                                .withSectionName(student.section)
+                                .withComment(student.comments)
+                                .build());
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             } catch (InvalidParametersException e) {
                 return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            } catch (EntityAlreadyExistsException e) {
+                return new JsonResult("Trying to update to an email that is already used", HttpStatus.SC_BAD_REQUEST);
             }
 
             boolean isSessionSummarySendEmail =

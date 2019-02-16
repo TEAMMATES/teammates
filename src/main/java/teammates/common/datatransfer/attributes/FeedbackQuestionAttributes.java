@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -97,6 +98,26 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
+    }
+
+    public FeedbackQuestionAttributes getCopy() {
+        return builder()
+                .withFeedbackSessionName(getFeedbackSessionName())
+                .withCourseId(getCourseId())
+                .withQuestionMetaData(getQuestionMetaData())
+                .withQuestionDescription(getQuestionDescription())
+                .withQuestionNumber(getQuestionNumber())
+                .withQuestionType(getQuestionType())
+                .withGiverType(getGiverType())
+                .withRecipientType(getRecipientType())
+                .withNumOfEntitiesToGiveFeedbackTo(getNumberOfEntitiesToGiveFeedbackTo())
+                .withShowResponseTo(new ArrayList<>(getShowResponsesTo()))
+                .withShowGiverNameTo(new ArrayList<>(getShowGiverNameTo()))
+                .withShowRecipientNameTo(new ArrayList<>(getShowRecipientNameTo()))
+                .withCreatedAt(getCreatedAt())
+                .withUpdatedAt(getUpdatedAt())
+                .withFeedbackQuestionId(getId())
+                .build();
     }
 
     @Override
@@ -634,6 +655,32 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(FeedbackQuestionAttributes.UpdateOptions updateOptions) {
+        updateOptions.questionNumberOption.ifPresent(s -> questionNumber = s);
+        updateOptions.questionDetailsOption.ifPresent(
+                s -> questionMetaData = JsonUtils.toJson(s, getFeedbackQuestionDetailsClass()));
+        updateOptions.questionDescriptionOption.ifPresent(s -> questionDescription = s);
+        updateOptions.giverTypeOption.ifPresent(s -> giverType = s);
+        updateOptions.recipientTypeOption.ifPresent(s -> recipientType = s);
+        updateOptions.numberOfEntitiesToGiveFeedbackToOption.ifPresent(s -> numberOfEntitiesToGiveFeedbackTo = s);
+        updateOptions.showResponsesToOption.ifPresent(s -> showResponsesTo = s);
+        updateOptions.showGiverNameToOption.ifPresent(s -> showGiverNameTo = s);
+        updateOptions.showRecipientNameToOption.ifPresent(s -> showRecipientNameTo = s);
+
+        removeIrrelevantVisibilityOptions();
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder}
+     * to build {@link UpdateOptions} for a question.
+     */
+    public static FeedbackQuestionAttributes.UpdateOptions.Builder updateOptionsBuilder(String feedbackQuestionId) {
+        return new FeedbackQuestionAttributes.UpdateOptions.Builder(feedbackQuestionId);
+    }
+
+    /**
      * A Builder class for {@link FeedbackQuestionAttributes}.
      */
     public static class Builder {
@@ -758,5 +805,134 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             return feedbackQuestionAttributes;
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link FeedbackQuestionAttributes}.
+     */
+    public static class UpdateOptions {
+        private String feedbackQuestionId;
+
+        private UpdateOption<FeedbackQuestionDetails> questionDetailsOption = UpdateOption.empty();
+        private UpdateOption<String> questionDescriptionOption = UpdateOption.empty();
+        private UpdateOption<Integer> questionNumberOption = UpdateOption.empty();
+        private UpdateOption<FeedbackParticipantType> giverTypeOption = UpdateOption.empty();
+        private UpdateOption<FeedbackParticipantType> recipientTypeOption = UpdateOption.empty();
+        private UpdateOption<Integer> numberOfEntitiesToGiveFeedbackToOption = UpdateOption.empty();
+        private UpdateOption<List<FeedbackParticipantType>> showResponsesToOption = UpdateOption.empty();
+        private UpdateOption<List<FeedbackParticipantType>> showGiverNameToOption = UpdateOption.empty();
+        private UpdateOption<List<FeedbackParticipantType>> showRecipientNameToOption = UpdateOption.empty();
+
+        private UpdateOptions(String feedbackQuestionId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackQuestionId);
+
+            this.feedbackQuestionId = feedbackQuestionId;
+        }
+
+        public String getFeedbackQuestionId() {
+            return feedbackQuestionId;
+        }
+
+        @Override
+        public String toString() {
+            return "FeedbackQuestionAttributes.UpdateOptions ["
+                    + "feedbackQuestionId = " + feedbackQuestionId
+                    + ", questionDetails = " + JsonUtils.toJson(questionDetailsOption)
+                    + ", questionDescription = " + questionDescriptionOption
+                    + ", questionNumber = " + questionNumberOption
+                    + ", giverType = " + giverTypeOption
+                    + ", recipientType = " + recipientTypeOption
+                    + ", numberOfEntitiesToGiveFeedbackTo = " + numberOfEntitiesToGiveFeedbackToOption
+                    + ", showResponsesTo = " + showResponsesToOption
+                    + ", showGiverNameTo = " + showGiverNameToOption
+                    + ", showRecipientNameTo = " + showRecipientNameToOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private FeedbackQuestionAttributes.UpdateOptions updateOptions;
+
+            private Builder(String feedbackQuestionId) {
+                updateOptions = new FeedbackQuestionAttributes.UpdateOptions(feedbackQuestionId);
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionDetails(
+                    FeedbackQuestionDetails questionDetails) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, questionDetails);
+
+                updateOptions.questionDetailsOption = UpdateOption.of(questionDetails);
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionDescription(String questionDescription) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, questionDescription);
+
+                updateOptions.questionDescriptionOption = UpdateOption.of(questionDescription);
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionNumber(int questionNumber) {
+                updateOptions.questionNumberOption = UpdateOption.of(questionNumber);
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withGiverType(FeedbackParticipantType giverType) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverType);
+
+                updateOptions.giverTypeOption = UpdateOption.of(giverType);
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withRecipientType(
+                    FeedbackParticipantType recipientType) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, recipientType);
+
+                updateOptions.recipientTypeOption = UpdateOption.of(recipientType);
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withNumberOfEntitiesToGiveFeedbackTo(
+                    int numberOfEntitiesToGiveFeedbackTo) {
+                updateOptions.numberOfEntitiesToGiveFeedbackToOption = UpdateOption.of(numberOfEntitiesToGiveFeedbackTo);
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withShowResponsesTo(
+                    List<FeedbackParticipantType> showResponsesTo) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showResponsesTo);
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, (Object[]) showResponsesTo.toArray());
+
+                updateOptions.showResponsesToOption = UpdateOption.of(new ArrayList<>(showResponsesTo));
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withShowGiveNameTo(
+                    List<FeedbackParticipantType> showGiveNameTo) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showGiveNameTo);
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, (Object[]) showGiveNameTo.toArray());
+
+                updateOptions.showGiverNameToOption = UpdateOption.of(new ArrayList<>(showGiveNameTo));
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions.Builder withShowRecipientNameTo(
+                    List<FeedbackParticipantType> showRecipientNameTo) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showRecipientNameTo);
+                Assumption.assertNotNull(
+                        Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, (Object[]) showRecipientNameTo.toArray());
+
+                updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
+                return this;
+            }
+
+            public FeedbackQuestionAttributes.UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 }
