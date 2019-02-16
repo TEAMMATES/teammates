@@ -46,7 +46,7 @@ public class DeleteInstructorInCourseAction extends Action {
     }
 
     /**
-     * Returns true if there is at least one joined instructor (other than the instructor to delete)
+     * Returns true if there is at least one joined instructor. (other than the instructor to delete)
      * with the privilege of modifying instructors and at least one instructor visible to the students
      *
      * @param courseId                Id of the course

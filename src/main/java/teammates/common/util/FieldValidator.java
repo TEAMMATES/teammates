@@ -87,11 +87,6 @@ public class FieldValidator {
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
 
-    public static final String GENDER_FIELD_NAME = "gender";
-    public static final List<String> GENDER_ACCEPTED_VALUES =
-            Collections.unmodifiableList(
-                    Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
-
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -194,11 +189,6 @@ public class FieldValidator {
     public static final String NATIONALITY_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
             + HINT_FOR_CORRECT_NATIONALITY;
-
-    public static final String GENDER_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
-            + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
-            + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
@@ -431,21 +421,6 @@ public class FieldValidator {
         return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
                                                                STUDENT_ROLE_COMMENTS_MAX_LENGTH,
                                                                studentRoleComments);
-    }
-
-    /**
-     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}.
-     * @return An explanation of why the {@code gender} is not acceptable.
-     *         Returns an empty string if the {@code gender} is acceptable.
-     */
-    public String getInvalidityInfoForGender(String gender) {
-        Assumption.assertNotNull("Non-null value expected", gender);
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
-
-        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
-            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
-        }
-        return "";
     }
 
     /**

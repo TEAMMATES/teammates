@@ -51,13 +51,14 @@ public class ActionFactory {
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
-        map(ResourceURIs.SESSIONS_STATS, GET, GetSessionResponseStatsAction.class);
+        map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, PUT, SaveFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_STUDENTS_RESPONSE, GET, GetFeedbackSessionStudentResponseAction.class);
         map(ResourceURIs.SESSION_REMIND_SUBMISSION, POST, RemindFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.SESSION_REMIND_RESULT, POST, RemindFeedbackSessionResultAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);

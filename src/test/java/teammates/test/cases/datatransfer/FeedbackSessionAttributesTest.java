@@ -1,5 +1,6 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.google.common.collect.Sets;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.TimeHelper;
@@ -209,6 +212,144 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 + "The value must be one of the options in the grace period dropdown selector.";
 
         return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError);
+    }
+
+    @Test
+    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
+        Instant sessionVisibleTime = TimeHelper.getInstantDaysOffsetFromNow(-3);
+        Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
+        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        Instant resultVisibleTime = TimeHelper.getInstantDaysOffsetFromNow(1);
+        FeedbackSessionAttributes.UpdateOptions updateOptions =
+                FeedbackSessionAttributes.updateOptionsBuilder("sessionName", "courseId")
+                        .withInstructions("instruction 1")
+                        .withStartTime(startTime)
+                        .withEndTime(endTime)
+                        .withSessionVisibleFromTime(sessionVisibleTime)
+                        .withResultsVisibleFromTime(resultVisibleTime)
+                        .withTimeZone(ZoneId.of("Asia/Singapore"))
+                        .withGracePeriod(Duration.ofMinutes(5))
+                        .withSentOpenEmail(true)
+                        .withSentClosingEmail(true)
+                        .withSentClosedEmail(true)
+                        .withSentPublishedEmail(false)
+                        .withIsClosingEmailEnabled(true)
+                        .withIsPublishedEmailEnabled(false)
+                        .withAddingInstructorRespondent("instructor@email.com")
+                        .withAddingStudentRespondent("student@email.com")
+                        .withUpdatingStudentRespondent("studentA@email.com", "studentB@email.com")
+                        .withUpdatingInstructorRespondent("insturctorA@email.com", "insturctorB@email.com")
+                        .withRemovingStudentRespondent("studentF@email.com")
+                        .withRemovingInstructorRespondent("instructorF@email.com")
+                        .build();
+
+        assertEquals("sessionName", updateOptions.getFeedbackSessionName());
+        assertEquals("courseId", updateOptions.getCourseId());
+
+        FeedbackSessionAttributes feedbackSessionAttributes =
+                FeedbackSessionAttributes.builder("sessionName", "courseId", "i@email.com")
+                        .withInstructions("instruction")
+                        .withCreatedTime(TimeHelper.getInstantDaysOffsetFromNow(-10))
+                        .withStartTime(TimeHelper.getInstantDaysOffsetFromNow(1))
+                        .withEndTime(TimeHelper.getInstantDaysOffsetFromNow(2))
+                        .withSessionVisibleFromTime(sessionVisibleTime.minusSeconds(60))
+                        .withResultsVisibleFromTime(Instant.now().minusSeconds(60))
+                        .withTimeZone(ZoneId.of("UTC"))
+                        .withGracePeriodMinutes(20)
+                        .withSentOpenEmail(false)
+                        .withSentClosingEmail(false)
+                        .withSentClosedEmail(false)
+                        .withSentPublishedEmail(true)
+                        .withOpeningEmailEnabled(true)
+                        .withClosingEmailEnabled(false)
+                        .withPublishedEmailEnabled(false)
+                        .withRespondingInstructorList(Sets.newHashSet("insturctorA@email.com"))
+                        .withRespondingStudentList(Sets.newHashSet("studentA@email.com", "studentF@email.com"))
+                        .build();
+
+        feedbackSessionAttributes.update(updateOptions);
+
+        assertEquals("instruction 1", feedbackSessionAttributes.getInstructions());
+        assertEquals(startTime, feedbackSessionAttributes.getStartTime());
+        assertEquals(endTime, feedbackSessionAttributes.getEndTime());
+        assertEquals(sessionVisibleTime, feedbackSessionAttributes.getSessionVisibleFromTime());
+        assertEquals(resultVisibleTime, feedbackSessionAttributes.getResultsVisibleFromTime());
+        assertEquals(ZoneId.of("Asia/Singapore"), feedbackSessionAttributes.getTimeZone());
+        assertEquals(5, feedbackSessionAttributes.getGracePeriodMinutes());
+        assertTrue(feedbackSessionAttributes.isSentOpenEmail());
+        assertTrue(feedbackSessionAttributes.isSentClosingEmail());
+        assertTrue(feedbackSessionAttributes.isSentClosedEmail());
+        assertFalse(feedbackSessionAttributes.isSentPublishedEmail());
+        assertTrue(feedbackSessionAttributes.isOpeningEmailEnabled());
+        assertTrue(feedbackSessionAttributes.isClosingEmailEnabled());
+        assertFalse(feedbackSessionAttributes.isPublishedEmailEnabled());
+        assertEquals(Sets.newHashSet("student@email.com", "studentB@email.com"),
+                feedbackSessionAttributes.getRespondingStudentList());
+        assertEquals(Sets.newHashSet("instructor@email.com", "insturctorB@email.com"),
+                feedbackSessionAttributes.getRespondingInstructorList());
+
+        // constructor update option based on existing update option
+        FeedbackSessionAttributes.UpdateOptions newUpdateOptions =
+                FeedbackSessionAttributes.updateOptionsBuilder(updateOptions)
+                        .withInstructions("instruction")
+                        .build();
+        feedbackSessionAttributes.update(newUpdateOptions);
+        assertEquals("instruction", feedbackSessionAttributes.getInstructions());
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder(null, "courseId"));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withInstructions(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withStartTime(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withEndTime(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withSessionVisibleFromTime(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withResultsVisibleFromTime(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withTimeZone(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withGracePeriod(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withAddingInstructorRespondent(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withAddingStudentRespondent(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withUpdatingStudentRespondent(null, "email@email.com"));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withUpdatingStudentRespondent("email@email.com", null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withUpdatingInstructorRespondent(null, "email@email.com"));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withUpdatingInstructorRespondent("email@email.com", null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withRemovingStudentRespondent(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withRemovingInstructorRespondent(null));
     }
 
 }

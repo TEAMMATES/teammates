@@ -107,15 +107,21 @@ public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
         feedbackResponse.responseDetails = saveRequest.getResponseDetails();
 
         validResponseOfQuestion(feedbackQuestion, feedbackResponse);
+
         try {
-            logic.updateFeedbackResponse(feedbackResponse);
+            FeedbackResponseAttributes updatedFeedbackResponse = logic.updateFeedbackResponseCascade(
+                    FeedbackResponseAttributes.updateOptionsBuilder(feedbackResponse.getId())
+                            .withGiver(feedbackResponse.giver)
+                            .withGiverSection(feedbackResponse.giverSection)
+                            .withRecipient(feedbackResponse.recipient)
+                            .withRecipientSection(feedbackResponse.recipientSection)
+                            .withResponseDetails(feedbackResponse.getResponseDetails())
+                            .build());
+
+            return new JsonResult(new FeedbackResponseData(updatedFeedbackResponse));
         } catch (Exception e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
-
-        FeedbackResponseAttributes updatedFeedbackResponse = logic.getFeedbackResponse(
-                feedbackQuestion.getId() + "%" + feedbackResponse.giver + "%" + feedbackResponse.recipient);
-        return new JsonResult(new FeedbackResponseData(updatedFeedbackResponse));
     }
 
 }

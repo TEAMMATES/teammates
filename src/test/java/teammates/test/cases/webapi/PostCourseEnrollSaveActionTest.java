@@ -84,9 +84,6 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
 
         EnrollResults output = (EnrollResults) r.getOutput();
 
-        // there are 6 sessions in this course
-        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME, 6);
-
         List<TaskWrapper> tasksAdded = a.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             Map<String, String[]> paramMap = task.getParamMap();
