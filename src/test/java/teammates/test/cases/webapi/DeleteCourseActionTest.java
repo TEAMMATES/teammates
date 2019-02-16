@@ -42,10 +42,35 @@ public class DeleteCourseActionTest
         };
 
         loginAsInstructor(instructorId);
-        CoursesLogic.inst().moveCourseToRecycleBin(courseId);
+        logic.moveCourseToRecycleBin(courseId);
         assertEquals(courseId, CoursesLogic.inst().getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
 
         DeleteCourseAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
+        MessageOutput message = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
+
+    }
+
+    @Test
+    public void testNotMetPreconditions() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        String instructorId = instructor1OfCourse1.googleId;
+        String courseId = instructor1OfCourse1.courseId;
+
+        ______TS("Error case, delete a course not in Recycle Bin");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+
+        loginAsInstructor(instructorId);
+
+        DeleteCourseAction action = getAction(submissionParams);
+        action.checkSpecificAccessControl();
         JsonResult result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
