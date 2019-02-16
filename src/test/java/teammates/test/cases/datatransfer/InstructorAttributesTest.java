@@ -302,4 +302,119 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(expectedBackUpIdentifierMessage, instructorAttributes.getBackupIdentifier());
     }
 
+    @Test
+    public void testUpdateOptionsWithEmail_withTypicalData_shouldUpdateAttributeCorrectly() {
+        InstructorAttributes.UpdateOptionsWithEmail updateOptionsWithEmail =
+                InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "test@test.com")
+                        .withName("test")
+                        .withDisplayedName("Instructor")
+                        .withIsArchived(false)
+                        .withPrivileges(new InstructorPrivileges(
+                                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
+                        .withIsDisplayedToStudents(false)
+                        .withGoogleId("googleId")
+                        .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
+                        .build();
+
+        assertEquals("courseId", updateOptionsWithEmail.getCourseId());
+        assertEquals("test@test.com", updateOptionsWithEmail.getEmail());
+
+        InstructorAttributes instructorAttributes =
+                InstructorAttributes.builder("testGoogleId", "courseId", "test2", "test@test.com")
+                        .withDisplayedName("Tutor")
+                        .withIsArchived(true)
+                        .withPrivileges(new InstructorPrivileges(
+                                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
+                        .withIsDisplayedToStudents(true)
+                        .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                        .build();
+
+        instructorAttributes.update(updateOptionsWithEmail);
+
+        assertEquals("test", instructorAttributes.getName());
+        assertEquals("Instructor", instructorAttributes.getDisplayedName());
+        assertFalse(instructorAttributes.isArchived);
+        assertTrue(instructorAttributes.privileges.hasManagerPrivileges());
+        assertFalse(instructorAttributes.isDisplayedToStudents());
+        assertEquals("googleId", instructorAttributes.getGoogleId());
+        assertEquals(instructorAttributes.getRole(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+    }
+
+    @Test
+    public void testUpdateOptionsWithGoogleId_withTypicalData_shouldUpdateAttributeCorrectly() {
+        InstructorAttributes.UpdateOptionsWithGoogleId updateOptionsWithGoogleId =
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
+                        .withName("test")
+                        .withEmail("test@email.com")
+                        .withDisplayedName("Instructor")
+                        .withIsArchived(false)
+                        .withPrivileges(new InstructorPrivileges(
+                                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
+                        .withIsDisplayedToStudents(false)
+                        .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
+                        .build();
+
+        assertEquals("courseId", updateOptionsWithGoogleId.getCourseId());
+        assertEquals("googleId", updateOptionsWithGoogleId.getGoogleId());
+
+        InstructorAttributes instructorAttributes =
+                InstructorAttributes.builder("googleId", "courseId", "test2", "test@test.com")
+                        .withDisplayedName("Tutor")
+                        .withIsArchived(true)
+                        .withPrivileges(new InstructorPrivileges(
+                                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
+                        .withIsDisplayedToStudents(true)
+                        .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                        .build();
+
+        instructorAttributes.update(updateOptionsWithGoogleId);
+
+        assertEquals("test", instructorAttributes.getName());
+        assertEquals("Instructor", instructorAttributes.getDisplayedName());
+        assertFalse(instructorAttributes.isArchived);
+        assertTrue(instructorAttributes.privileges.hasManagerPrivileges());
+        assertFalse(instructorAttributes.isDisplayedToStudents());
+        assertEquals("test@email.com", instructorAttributes.getEmail());
+        assertEquals(instructorAttributes.getRole(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithEmailBuilder(null, "email@email.com"));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithEmailBuilder("courseId", null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "email@email.com")
+                        .withName(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "email@email.com")
+                        .withDisplayedName(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "email@email.com")
+                        .withPrivileges(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "email@email.com")
+                        .withRole(null));
+
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder(null, "googleId"));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
+                        .withName(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
+                        .withEmail(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
+                        .withDisplayedName(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
+                        .withPrivileges(null));
+        assertThrows(AssertionError.class, () ->
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
+                        .withRole(null));
+    }
 }

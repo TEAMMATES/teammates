@@ -35,33 +35,44 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     }
 
     /**
-     * Updates/Creates the profile based on the given new profile attributes.
+     * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
-     * <p>Will not update {@link StudentProfileAttributes#pictureKey} if it is empty.</p>
-     *
-     * @throws InvalidParametersException if attributes in {@code newSpa} are not valid
+     * @return updated student profile
+     * @throws InvalidParametersException if attributes to update are not valid
      */
-    public void updateOrCreateStudentProfile(StudentProfileAttributes newSpa) throws InvalidParametersException {
-        // TODO: update the profile with whatever given values are valid and ignore those that are not valid.
-        validateNewProfile(newSpa);
+    public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
-        StudentProfile profileToUpdate = getStudentProfileEntityFromDb(newSpa.googleId);
-        if (profileToUpdate == null) {
-            profileToUpdate = new StudentProfile(newSpa.googleId);
-        }
-        if (hasNoNewChangesToProfile(newSpa, profileToUpdate)) {
-            return;
+        StudentProfile studentProfile = getStudentProfileEntityFromDb(updateOptions.getGoogleId());
+        if (studentProfile == null) {
+            studentProfile = new StudentProfile(updateOptions.getGoogleId());
         }
 
-        updateProfileWithNewValues(newSpa, profileToUpdate);
-    }
+        StudentProfileAttributes newAttributes = makeAttributes(studentProfile);
+        newAttributes.update(updateOptions);
 
-    private void validateNewProfile(StudentProfileAttributes newSpa) throws InvalidParametersException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSpa);
-
-        if (!newSpa.isValid()) {
-            throw new InvalidParametersException(newSpa.getInvalidityInfo());
+        newAttributes.sanitizeForSaving();
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
+
+        if (hasNoNewChangesToProfile(newAttributes, studentProfile)) {
+            return newAttributes;
+        }
+
+        studentProfile.setShortName(newAttributes.shortName);
+        studentProfile.setEmail(newAttributes.email);
+        studentProfile.setInstitute(newAttributes.institute);
+        studentProfile.setNationality(newAttributes.nationality);
+        studentProfile.setGender(newAttributes.gender.name().toLowerCase());
+        studentProfile.setMoreInfo(newAttributes.moreInfo);
+        studentProfile.setPictureKey(new BlobKey(newAttributes.pictureKey));
+        studentProfile.setModifiedDate(Instant.now());
+
+        saveEntity(studentProfile);
+
+        return makeAttributes(studentProfile);
     }
 
     private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
@@ -70,26 +81,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
 
         newSpaCopy.modifiedDate = existingProfile.modifiedDate;
         return existingProfile.toString().equals(newSpaCopy.toString());
-    }
-
-    private void updateProfileWithNewValues(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
-        newSpa.sanitizeForSaving();
-
-        profileToUpdate.setShortName(newSpa.shortName);
-        profileToUpdate.setEmail(newSpa.email);
-        profileToUpdate.setInstitute(newSpa.institute);
-        profileToUpdate.setNationality(newSpa.nationality);
-        profileToUpdate.setGender(newSpa.gender.name().toLowerCase());
-        profileToUpdate.setMoreInfo(newSpa.moreInfo);
-        profileToUpdate.setModifiedDate(Instant.now());
-
-        boolean hasNewNonEmptyPictureKey = !newSpa.pictureKey.isEmpty()
-                && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-        if (hasNewNonEmptyPictureKey) {
-            profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
-        }
-
-        saveEntity(profileToUpdate);
     }
 
     /**
@@ -106,32 +97,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
             deletePicture(sp.getPictureKey());
         }
         deleteEntityDirect(sp);
-    }
-
-    /**
-     * Updates the {@code pictureKey} of the profile with given {@code googleId}.
-     *
-     * <p>If there is no stored profile entity, create a new one.</p>
-     */
-    public void updateStudentProfilePicture(String googleId, String newPictureKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newPictureKey);
-        Assumption.assertNotEmpty("GoogleId is empty", googleId);
-        Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
-
-        StudentProfile profileToUpdate = getStudentProfileEntityFromDb(googleId);
-        if (profileToUpdate == null) {
-            profileToUpdate = new StudentProfile(googleId);
-        }
-
-        boolean hasNewNonEmptyPictureKey = !newPictureKey.isEmpty()
-                && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-        if (hasNewNonEmptyPictureKey) {
-            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
-            profileToUpdate.setModifiedDate(Instant.now());
-        }
-
-        saveEntity(profileToUpdate);
     }
 
     /**

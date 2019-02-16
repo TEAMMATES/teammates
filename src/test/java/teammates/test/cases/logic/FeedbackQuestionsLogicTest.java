@@ -12,10 +12,12 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -96,10 +98,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testGetFeedbackQuestionsForStudents();
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
-        testUpdateQuestionNumber();
         testAddQuestion();
         testCopyQuestion();
-        testUpdateQuestion();
         testDeleteQuestion();
         testAddQuestionNoIntegrityCheck();
         testDeleteQuestionsForCourse();
@@ -193,7 +193,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testUpdateQuestionNumber() throws Exception {
+    @Test
+    public void testUpdateQuestionCascade_shouldShiftQuestionNumberCorrectly() throws Exception {
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -215,7 +216,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
-        fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+        fqLogic.updateFeedbackQuestionCascade(
+                FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
+                        .withQuestionNumber(questionToUpdate.questionNumber)
+                        .build());
 
         List<FeedbackQuestionAttributes> actualList =
                 fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
@@ -246,7 +250,30 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 3;
-        fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+        fqLogic.updateFeedbackQuestionCascade(
+                FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
+                        .withQuestionNumber(questionToUpdate.questionNumber)
+                        .build());
+
+        actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+
+        assertEquals(actualList.size(), expectedList.size());
+        for (int i = 0; i < actualList.size(); i++) {
+            assertEquals(expectedList.get(i), actualList.get(i));
+        }
+
+        ______TS("try to shift question up, invalid attributes, questions order remains");
+        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate.questionNumber = 1;
+        String questionId = questionToUpdate.getId();
+        assertThrows(InvalidParametersException.class, () -> {
+            fqLogic.updateFeedbackQuestionCascade(
+                            FeedbackQuestionAttributes.updateOptionsBuilder(questionId)
+                                    .withQuestionNumber(1)
+                                    .withGiverType(FeedbackParticipantType.TEAMS)
+                                    .withRecipientType(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                                    .build());
+        });
 
         actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
 
@@ -384,36 +411,45 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testUpdateQuestion() throws Exception {
-        ______TS("standard update, no existing responses, with 'keep existing' policy");
+    @Test
+    public void testUpdateQuestionCascade() throws Exception {
+        ______TS("standard update, no existing responses");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse2");
-        questionToUpdate.questionMetaData = "new question text";
+
+        FeedbackQuestionDetails fqd = new FeedbackTextQuestionDetails("new question text");
+        questionToUpdate.questionMetaData = JsonUtils.toJson(fqd);
         questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
         questionToUpdate.showResponsesTo = newVisibility;
-        // Check keep existing policy.
-        String originalCourseId = questionToUpdate.courseId;
-        questionToUpdate.courseId = null;
 
-        fqLogic.updateFeedbackQuestion(questionToUpdate);
+        FeedbackQuestionAttributes updatedQuestion = fqLogic.updateFeedbackQuestionCascade(
+                FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
+                        .withQuestionDetails(fqd)
+                        .withQuestionNumber(questionToUpdate.questionNumber)
+                        .withShowResponsesTo(questionToUpdate.showResponsesTo)
+                        .build());
 
-        questionToUpdate.courseId = originalCourseId;
-
-        FeedbackQuestionAttributes updatedQuestion =
+        FeedbackQuestionAttributes actualQuestion =
                 fqLogic.getFeedbackQuestion(questionToUpdate.getId());
-        assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
+        assertEquals(questionToUpdate.toString(), actualQuestion.toString());
+        assertEquals(questionToUpdate.toString(), updatedQuestion.toString());
 
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
-        questionToUpdate.questionMetaData = "new question text 2";
+        fqd = new FeedbackTextQuestionDetails("new question text 2");
+        questionToUpdate.questionMetaData = JsonUtils.toJson(fqd);
         questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
 
         int numberOfResponses =
                 frLogic.getFeedbackResponsesForQuestion(
                         questionToUpdate.getId()).size();
 
-        fqLogic.updateFeedbackQuestion(questionToUpdate);
+        fqLogic.updateFeedbackQuestionCascade(
+                FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
+                        .withQuestionDetails(fqd)
+                        .withNumberOfEntitiesToGiveFeedbackTo(questionToUpdate.numberOfEntitiesToGiveFeedbackTo)
+                        .build());
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
 
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
@@ -423,12 +459,17 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("cascading update, destructive changes, delete all existing responses");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
-        questionToUpdate.questionMetaData = "new question text 3";
+        fqd = new FeedbackTextQuestionDetails("new question text 3");
+        questionToUpdate.questionMetaData = JsonUtils.toJson(fqd);
         questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
 
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());
 
-        fqLogic.updateFeedbackQuestion(questionToUpdate);
+        fqLogic.updateFeedbackQuestionCascade(
+                FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
+                        .withQuestionDetails(fqd)
+                        .withRecipientType(questionToUpdate.recipientType)
+                        .build());
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
 
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
@@ -442,7 +483,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> fqLogic.updateFeedbackQuestion(finalFq[0]));
+                () -> fqLogic.updateFeedbackQuestionCascade(
+                        FeedbackQuestionAttributes.updateOptionsBuilder(finalFq[0].getId())
+                                .withQuestionDetails(new FeedbackTextQuestionDetails("test"))
+                                .build()));
         assertEquals("Trying to update a feedback question that does not exist.", ednee.getMessage());
 
         ______TS("failure: invalid parameters");
@@ -452,7 +496,11 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         questionToUpdate.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
         finalFq[0] = questionToUpdate;
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> fqLogic.updateFeedbackQuestion(finalFq[0]));
+                () -> fqLogic.updateFeedbackQuestionCascade(
+                        FeedbackQuestionAttributes.updateOptionsBuilder(finalFq[0].getId())
+                                .withGiverType(finalFq[0].giverType)
+                                .withRecipientType(finalFq[0].recipientType)
+                                .build()));
         assertEquals(
                 String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                         questionToUpdate.recipientType.toDisplayRecipientName(),

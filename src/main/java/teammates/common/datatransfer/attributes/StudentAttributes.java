@@ -330,6 +330,29 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.newEmailOption.ifPresent(s -> email = s);
+        updateOptions.nameOption.ifPresent(s -> {
+            name = s;
+            lastName = StringHelper.splitName(s)[1];
+        });
+        updateOptions.lastNameOption.ifPresent(s -> lastName = s);
+        updateOptions.commentOption.ifPresent(s -> comments = s);
+        updateOptions.googleIdOption.ifPresent(s -> googleId = s);
+        updateOptions.teamNameOption.ifPresent(s -> team = s);
+        updateOptions.sectionNameOption.ifPresent(s -> section = s);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a student.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String courseId, String email) {
+        return new UpdateOptions.Builder(courseId, email);
+    }
+
+    /**
      * A Builder class for {@link StudentAttributes}.
      */
     public static class Builder {
@@ -424,5 +447,117 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         public StudentAttributes build() {
             return studentAttributes;
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link StudentAttributes}.
+     */
+    public static class UpdateOptions {
+        private String courseId;
+        private String email;
+
+        private UpdateOption<String> newEmailOption = UpdateOption.empty();
+        private UpdateOption<String> nameOption = UpdateOption.empty();
+        private UpdateOption<String> lastNameOption = UpdateOption.empty();
+        private UpdateOption<String> commentOption = UpdateOption.empty();
+        private UpdateOption<String> googleIdOption = UpdateOption.empty();
+        private UpdateOption<String> teamNameOption = UpdateOption.empty();
+        private UpdateOption<String> sectionNameOption = UpdateOption.empty();
+
+        private UpdateOptions(String courseId, String email) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+            this.courseId = courseId;
+            this.email = email;
+        }
+
+        public String getCourseId() {
+            return courseId;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        @Override
+        public String toString() {
+            return "StudentAttributes.UpdateOptions ["
+                    + "courseId = " + courseId
+                    + ", email = " + email
+                    + ", newEmail = " + newEmailOption
+                    + ", name = " + nameOption
+                    + ", lastName = " + lastNameOption
+                    + ", comment = " + commentOption
+                    + ", googleId = " + googleIdOption
+                    + ", teamName = " + teamNameOption
+                    + ", sectionName = " + sectionNameOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private UpdateOptions updateOptions;
+
+            private Builder(String courseId, String email) {
+                updateOptions = new UpdateOptions(courseId, email);
+            }
+
+            public Builder withNewEmail(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+                updateOptions.newEmailOption = UpdateOption.of(email);
+                return this;
+            }
+
+            public Builder withName(String name) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+
+                updateOptions.nameOption = UpdateOption.of(name);
+                return this;
+            }
+
+            public Builder withLastName(String name) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+
+                updateOptions.lastNameOption = UpdateOption.of(name);
+                return this;
+            }
+
+            public Builder withComment(String comment) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, comment);
+
+                updateOptions.commentOption = UpdateOption.of(comment);
+                return this;
+            }
+
+            public Builder withGoogleId(String googleId) {
+                // google id can be set to null
+                updateOptions.googleIdOption = UpdateOption.of(googleId);
+                return this;
+            }
+
+            public Builder withTeamName(String teamName) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, teamName);
+
+                updateOptions.teamNameOption = UpdateOption.of(teamName);
+                return this;
+            }
+
+            public Builder withSectionName(String sectionName) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, sectionName);
+
+                updateOptions.sectionNameOption = UpdateOption.of(sectionName);
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 }
