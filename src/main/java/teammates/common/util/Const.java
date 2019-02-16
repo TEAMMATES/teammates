@@ -942,6 +942,7 @@ public final class Const {
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = "/session/remind/result";
+        public static final String SESSION_STUDENTS_RESPONSE = "/session/students/response";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
@@ -1094,8 +1095,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
                 "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
-                "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION =
