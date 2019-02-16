@@ -5,12 +5,10 @@ import java.time.Instant;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.ApiOutput;
 
@@ -18,8 +16,6 @@ import teammates.ui.webapi.output.ApiOutput;
  * Confirm the submission of a feedback session.
  */
 public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmissionAction {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -98,11 +94,8 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
         }
 
         if (email != null) {
-            try {
-                emailSender.sendEmail(email);
-            } catch (EmailSendingException e) {
-                log.severe("Submission confirmation email failed to send: "
-                        + TeammatesException.toStringWithStackTrace(e));
+            EmailSendingStatus status = emailSender.sendEmail(email);
+            if (!status.isSuccess()) {
                 return new JsonResult(new ConfirmationResponse(ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND,
                         "Submission confirmation email failed to send"));
             }
