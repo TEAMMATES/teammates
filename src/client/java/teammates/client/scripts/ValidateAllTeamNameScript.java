@@ -24,6 +24,11 @@ public class ValidateAllTeamNameScript extends DataMigrationEntitiesBaseScript<C
     }
 
     @Override
+    protected boolean shouldUseTransaction() {
+        return false;
+    }
+
+    @Override
     protected Query<CourseStudent> getFilterQuery() {
         return ofy().load().type(CourseStudent.class);
     }
