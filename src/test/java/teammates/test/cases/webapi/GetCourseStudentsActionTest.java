@@ -52,21 +52,21 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
 
         // invalid query param format
         String[] invalidSubmissionParams1 = new String[] {
-                Const.ParamsNames.COURSE_ID, ",,,,,"
+                Const.ParamsNames.COURSE_ID, ",,,,,",
         };
         GetCourseStudentsAction action = getAction(invalidSubmissionParams1);
         JsonResult result = getJsonResult(action);
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
 
         String[] invalidSubmissionParams3 = new String[] {
-                Const.ParamsNames.COURSE_ID, "&idOfTypicalCourse2&idOfTypicalCourse3"
+                Const.ParamsNames.COURSE_ID, "&idOfTypicalCourse2&idOfTypicalCourse3",
         };
         action = getAction(invalidSubmissionParams3);
         result = getJsonResult(action);
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
 
         String[] invalidSubmissionParams4 = new String[] {
-                Const.ParamsNames.COURSE_ID, "\"idOfTypicalCourse2\""
+                Const.ParamsNames.COURSE_ID, "\"idOfTypicalCourse2\"",
         };
         action = getAction(invalidSubmissionParams4);
         result = getJsonResult(action);
@@ -80,7 +80,7 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
 
         // accessible courseid
         String[] validSubmmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course1.getId()
+                Const.ParamsNames.COURSE_ID, course1.getId(),
         };
 
         action = getAction(validSubmmissionParams);
@@ -108,7 +108,7 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
         InstructorAttributes instructor3 = typicalBundle.instructors.get("instructor3OfCourse2");
 
         String[] validSubmmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course1.getId()
+                Const.ParamsNames.COURSE_ID, course1.getId(),
         };
 
         verifyAccessibleForAdminToMasqueradeAsInstructor(validSubmmissionParams);
@@ -119,7 +119,7 @@ public class GetCourseStudentsActionTest extends BaseActionTest<GetCourseStudent
         // inaccessible courseid
         CourseAttributes course4 = typicalBundle.courses.get("typicalCourse4");
         String[] inaccessibleSubmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course4.getId()
+                Const.ParamsNames.COURSE_ID, course4.getId(),
         };
 
         verifyInaccessibleForSpecificInstructor(instructor3, inaccessibleSubmissionParams);
