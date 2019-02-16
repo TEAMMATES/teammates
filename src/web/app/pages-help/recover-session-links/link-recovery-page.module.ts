@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { LinkRecoveryPageComponent } from './link-recovery-page.component';
 
 /**
@@ -8,6 +9,7 @@ import { LinkRecoveryPageComponent } from './link-recovery-page.component';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
   ],
   declarations: [
     LinkRecoveryPageComponent,
