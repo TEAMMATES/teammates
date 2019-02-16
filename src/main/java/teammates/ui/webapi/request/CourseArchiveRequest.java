@@ -4,19 +4,18 @@ package teammates.ui.webapi.request;
  * The archive request of a course.
  */
 public class CourseArchiveRequest extends BasicRequest {
-    private String archiveStatus;
+    private boolean archiveStatus;
 
     @Override
     public void validate() {
-        assertTrue("true".equals(archiveStatus) || "false".equals(archiveStatus),
-                "Archive status should be either true or false.");
+        //nothing to validate
     }
 
-    public String getArchiveStatus() {
+    public boolean getArchiveStatus() {
         return archiveStatus;
     }
 
-    public void setArchiveStatus(String archiveStatus) {
+    public void setArchiveStatus(boolean archiveStatus) {
         this.archiveStatus = archiveStatus;
     }
 }

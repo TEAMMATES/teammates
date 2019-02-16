@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.ArchiveCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.request.CourseArchiveRequest;
@@ -42,16 +43,20 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         };
 
         CourseArchiveRequest courseArchiveRequest = new CourseArchiveRequest();
-        courseArchiveRequest.setArchiveStatus("true");
+        courseArchiveRequest.setArchiveStatus(true);
 
         ArchiveCourseAction archiveAction = getAction(courseArchiveRequest, submissionParams);
         JsonResult result = getJsonResult(archiveAction);
 
+        InstructorAttributes theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
+
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertTrue(theInstructor.isArchived);
 
         ______TS("Rare case: archive an already archived course");
 
-        courseArchiveRequest.setArchiveStatus("true");
+        courseArchiveRequest.setArchiveStatus(true);
 
         archiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(archiveAction);
@@ -60,16 +65,20 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Typical case: unarchive a course, redirect to Courses page");
 
-        courseArchiveRequest.setArchiveStatus("false");
+        courseArchiveRequest.setArchiveStatus(false);
 
         ArchiveCourseAction unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
 
+        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),
+                instructor1OfCourse1.getGoogleId());
+
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertFalse(theInstructor.isArchived);
 
         ______TS("Rare case: unarchive an active course, redirect to Courses page");
 
-        courseArchiveRequest.setArchiveStatus("false");
+        courseArchiveRequest.setArchiveStatus(false);
 
         unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
@@ -79,7 +88,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         ______TS("Masquerade mode: archive course, redirect to Courses page");
 
         loginAsAdmin();
-        courseArchiveRequest.setArchiveStatus("true");
+        courseArchiveRequest.setArchiveStatus(true);
 
         archiveAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(archiveAction);

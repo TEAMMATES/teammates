@@ -30,8 +30,7 @@ public class ArchiveCourseAction extends Action {
 
         CourseArchiveRequest courseArchiveRequest = getAndValidateRequestBody(CourseArchiveRequest.class);
 
-        String archiveStatus = courseArchiveRequest.getArchiveStatus();
-        boolean isArchive = Boolean.parseBoolean(archiveStatus);
+        boolean isArchive = courseArchiveRequest.getArchiveStatus();
         try {
             // Set the archive status and status shown to user and admin
             logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
