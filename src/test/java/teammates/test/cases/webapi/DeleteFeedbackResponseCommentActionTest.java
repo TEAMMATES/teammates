@@ -1,4 +1,4 @@
-package teammates.test.cases.action;
+package teammates.test.cases.webapi;
 
 import org.testng.annotations.Test;
 
@@ -11,23 +11,28 @@ import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.controller.AjaxResult;
-import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
-import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
+import teammates.ui.webapi.action.DeleteFeedbackResponseCommentAction;
+import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link InstructorFeedbackResponseCommentDeleteAction}.
+ * SUT: {@link DeleteFeedbackResponseCommentAction}.
  */
-public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
+public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<DeleteFeedbackResponseCommentAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
+        return Const.ResourceURIs.RESPONSE_COMMENT;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return DELETE;
     }
 
     @Override
     @Test
-    public void testExecuteAndPostProcess() {
+    public void testExecute() {
         removeAndRestoreTypicalDataBundle();
 
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
@@ -55,7 +60,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
 
         ______TS("Unsuccessful case: not enough parameters");
 
-        verifyAssumptionFailure();
+        verifyHttpParameterFailure();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -64,7 +69,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.USER_ID, instructor.googleId,
         };
 
-        verifyAssumptionFailure(submissionParams);
+        verifyHttpParameterFailure(submissionParams);
 
         ______TS("Typical successful case");
 
@@ -77,16 +82,13 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
-        InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
-        AjaxResult result = getAjaxResult(action);
+        DeleteFeedbackResponseCommentAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
+        MessageOutput output = (MessageOutput) result.getOutput();
 
-        FeedbackResponseCommentAjaxPageData data =
-                (FeedbackResponseCommentAjaxPageData) result.data;
-
-        assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
-        assertEquals("", result.getStatusMessage());
+        assertEquals("Successfully deleted feedback response comment.", output.getMessage());
 
         ______TS("Non-existent feedback response comment");
 
@@ -100,14 +102,12 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
 
         action = getAction(submissionParams);
-        result = getAjaxResult(action);
+        result = getJsonResult(action);
+        output = (MessageOutput) result.getOutput();
 
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-
-        assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
-        assertEquals("", result.getStatusMessage());
+        assertEquals("Successfully deleted feedback response comment.", output.getMessage());
 
         ______TS("Instructor is not feedback response comment giver");
 
@@ -135,19 +135,12 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
 
         action = getAction(submissionParams);
-        result = getAjaxResult(action);
+        result = getJsonResult(action);
+        output = (MessageOutput) result.getOutput();
 
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-
-        assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
-        assertEquals("", result.getStatusMessage());
-    }
-
-    @Override
-    protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
+        assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
 
     @Override
@@ -176,11 +169,11 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
         };
-        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        // verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
 
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }

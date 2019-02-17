@@ -141,6 +141,20 @@ public abstract class Action {
     }
 
     /**
+     * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
+     */
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    protected long getLongRequestParamValue(String paramName) {
+        String value = getNonNullRequestParamValue(paramName);
+        try {
+            return Long.parseLong(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected long value for " + paramName + " parameter, but found: [" + value + "]");
+        }
+    }
+
+    /**
      * Returns the values for the specified parameter in the HTTP request, or null if such parameter is not found.
      */
     protected String[] getRequestParamValues(String paramName) {

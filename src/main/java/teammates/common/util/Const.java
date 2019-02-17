@@ -141,7 +141,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
@@ -929,6 +928,7 @@ public final class Const {
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
@@ -1015,8 +1015,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
-                "/page/instructorFeedbackResponseCommentDelete";
 
         public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/feedbackParticipantFeedbackResponseCommentDelete";
