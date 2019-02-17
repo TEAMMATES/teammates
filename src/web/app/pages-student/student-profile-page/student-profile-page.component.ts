@@ -40,13 +40,13 @@ interface StudentDetails {
 })
 export class StudentProfilePageComponent implements OnInit {
 
+  Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
   student?: StudentDetails;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-  Gender: typeof Gender = Gender;
 
   private backendUrl: string = environment.backendUrl;
 

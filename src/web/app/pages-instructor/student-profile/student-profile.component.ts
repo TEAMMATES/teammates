@@ -14,7 +14,7 @@ import { StudentProfile } from './student-profile';
 })
 export class StudentProfileComponent implements OnInit {
 
-  Gender: typeof Gender = Gender;
+  Gender: typeof Gender = Gender; // enum
 
   @Input() studentProfile: StudentProfile | undefined;
   @Input() studentName: string = '';

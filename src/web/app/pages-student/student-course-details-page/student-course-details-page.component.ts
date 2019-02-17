@@ -53,12 +53,12 @@ interface StudentCourseDetails {
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
 
+  Gender: typeof Gender = Gender; // enum
   user: string = '';
   student?: StudentAttributes;
   course?: CourseAttributes;
   instructorDetails?: InstructorDetails[];
   teammateProfiles?: TeammateProfile[];
-  Gender: typeof Gender = Gender;
 
   private backendUrl: string = environment.backendUrl;
 
