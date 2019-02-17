@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../services/http-request.service';
+import { JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
-
-interface JoinStatus {
-  hasJoined: boolean;
-  userId?: string;
-}
 
 /**
  * User join page component.
