@@ -1,12 +1,15 @@
 package teammates.test.cases.webapi;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -20,6 +23,8 @@ import teammates.ui.webapi.output.MessageOutput;
  */
 public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<DeleteFeedbackResponseCommentAction> {
 
+    private DataBundle dataBundle;
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.RESPONSE_COMMENT;
@@ -28,6 +33,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     @Override
     protected String getRequestMethod() {
         return DELETE;
+    }
+
+    @BeforeMethod
+    protected void refreshTestData() {
+        dataBundle = loadDataBundle("/FeedbackParticipantFeedbackResponseCommentDeleteTest.json");
+        removeAndRestoreDataBundle(dataBundle);
     }
 
     @Override
@@ -144,8 +155,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Override
-    @Test
     protected void testAccessControl() throws Exception {
+        // See each independent test case
+    }
+
+    @Test
+    protected void testAccessControlsForCommentByInstructor() throws Exception {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -177,4 +192,75 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
+
+    @Test
+    public void testAccessControlsForCommentByStudent() {
+
+        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+
+        int questionNumber = 3;
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
+        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromStudent1");
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ3");
+
+        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+                fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
+        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
+        };
+
+        ______TS("Different student of same course cannot delete comment");
+
+        StudentAttributes differentStudentInSameCourse = dataBundle.students.get("student2InCourse1");
+        gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
+        verifyCannotAccess(submissionParams);
+
+    }
+
+    @Test
+    public void testAccessControlsForCommentByTeam() {
+
+        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+
+        int questionNumber = 4;
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
+        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromTeam1");
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ4");
+
+        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+                fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
+        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
+        };
+
+        ______TS("Different student of different team and same course cannot delete comment");
+
+        StudentAttributes differentStudentInSameCourse = dataBundle.students.get("student3InCourse1");
+        gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Different student of same team can delete comment");
+
+        StudentAttributes differentStudentInSameTeam = dataBundle.students.get("student2InCourse1");
+        gaeSimulation.loginAsStudent(differentStudentInSameTeam.googleId);
+        verifyCanAccess(submissionParams);
+
+    }
+
 }
