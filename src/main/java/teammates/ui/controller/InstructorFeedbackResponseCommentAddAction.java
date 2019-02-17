@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -103,7 +104,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             logic.putDocument(createdComment);
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();
             data.isError = true;

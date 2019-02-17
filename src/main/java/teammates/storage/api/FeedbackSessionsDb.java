@@ -4,13 +4,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
@@ -173,173 +170,76 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Updates the feedback session identified by {@code newAttributes.feedbackSesionName}
-     * and {@code newAttributes.courseId}.
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * Preconditions: <br>
-     * * {@code newAttributes.feedbackSesionName} and {@code newAttributes.courseId}
-     *  are non-null and correspond to an existing feedback session. <br>
+     * Update a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
+     *
+     * <p>The update will be done in a transaction.
+     *
+     * @return updated feedback session
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public void updateFeedbackSession(FeedbackSessionAttributes newAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
-
-        newAttributes.sanitizeForSaving();
-
-        if (!newAttributes.isValid()) {
-            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
-        }
-
-        FeedbackSession fs = getEntity(newAttributes);
-
-        if (fs == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
-        }
-        fs.setInstructions(newAttributes.getInstructions());
-        fs.setDeletedTime(newAttributes.getDeletedTime());
-        fs.setStartTime(newAttributes.getStartTime());
-        fs.setEndTime(newAttributes.getEndTime());
-        fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
-        fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
-        fs.setTimeZone(newAttributes.getTimeZone().getId());
-        fs.setGracePeriod(newAttributes.getGracePeriodMinutes());
-        fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
-        fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
-        fs.setSentClosedEmail(newAttributes.isSentClosedEmail());
-        fs.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
-        fs.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled());
-        fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
-        fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
-
-        saveEntity(fs, newAttributes);
-    }
-
-    // The objectify library does not support throwing checked exceptions inside transactions
     @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseTimeZone);
-
-        List<Key<FeedbackSession>> sessionKeys = getFeedbackSessionKeysForCourse(courseId);
-        for (Key<FeedbackSession> sessionKey : sessionKeys) {
-            try {
-                ofy().transact(new VoidWork() {
-                    @Override
-                    public void vrun() {
-                        FeedbackSession session = ofy().load().key(sessionKey).now();
-                        if (session == null) {
-                            throw new RuntimeException(new EntityDoesNotExistException(
-                                    ERROR_UPDATE_NON_EXISTENT + sessionKey.getName()));
-                        }
-                        session.setTimeZone(courseTimeZone.getId());
-                        saveEntity(session);
-                    }
-                });
-            } catch (RuntimeException e) {
-                if (e.getCause() instanceof EntityDoesNotExistException) {
-                    log.severe(e.getMessage());
-                    continue;
-                }
-                throw e;
-            }
-        }
-    }
-
-    public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        List<String> emails = new ArrayList<>();
-        emails.add(email);
-        addInstructorRespondents(emails, feedbackSession);
-    }
-
     // The objectify library does not support throwing checked exceptions inside transactions
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    public void addInstructorRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
+    public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
+        FeedbackSessionAttributes[] newAttributesFinal = new FeedbackSessionAttributes[] { null };
         try {
             ofy().transact(new VoidWork() {
                 @Override
                 public void vrun() {
-                    FeedbackSession fs = getEntity(feedbackSession);
-                    if (fs == null) {
-                        throw new RuntimeException(new EntityDoesNotExistException(
-                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    FeedbackSession feedbackSession =
+                            getFeedbackSessionEntity(updateOptions.getFeedbackSessionName(), updateOptions.getCourseId());
+                    if (feedbackSession == null) {
+                        throw new RuntimeException(
+                                new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions));
                     }
 
-                    fs.getRespondingInstructorList().addAll(emails);
+                    newAttributesFinal[0] = makeAttributes(feedbackSession);
+                    FeedbackSessionAttributes newAttributes = newAttributesFinal[0];
+                    newAttributes.update(updateOptions);
 
-                    saveEntity(fs, feedbackSession);
+                    newAttributes.sanitizeForSaving();
+                    if (!newAttributes.isValid()) {
+                        throw new RuntimeException(
+                                new InvalidParametersException(newAttributes.getInvalidityInfo()));
+                    }
+
+                    feedbackSession.setInstructions(newAttributes.getInstructions());
+                    feedbackSession.setDeletedTime(newAttributes.getDeletedTime());
+                    feedbackSession.setStartTime(newAttributes.getStartTime());
+                    feedbackSession.setEndTime(newAttributes.getEndTime());
+                    feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
+                    feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
+                    feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
+                    feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
+                    feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
+                    feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
+                    feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
+                    feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
+                    feedbackSession.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled());
+                    feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
+                    feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
+
+                    feedbackSession.setRespondingStudentList(newAttributes.getRespondingStudentList());
+                    feedbackSession.setRespondingInstructorList(newAttributes.getRespondingInstructorList());
+
+                    saveEntity(feedbackSession, newAttributes);
+
+                    newAttributesFinal[0] = makeAttributes(feedbackSession);
                 }
             });
         } catch (RuntimeException e) {
             if (e.getCause() instanceof EntityDoesNotExistException) {
                 throw (EntityDoesNotExistException) e.getCause();
+            } else if (e.getCause() instanceof InvalidParametersException) {
+                throw (InvalidParametersException) e.getCause();
+            } else {
+                throw e;
             }
-            throw e;
         }
-    }
-
-    public void updateInstructorRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
-        }
-
-        if (fs.getRespondingInstructorList().contains(oldEmail)) {
-            fs.getRespondingInstructorList().remove(oldEmail);
-            fs.getRespondingInstructorList().add(newEmail);
-        }
-
-        saveEntity(fs, feedbackSession);
-    }
-
-    public void clearInstructorRespondents(FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
-        }
-
-        fs.getRespondingInstructorList().clear();
-
-        saveEntity(fs, feedbackSession);
-    }
-
-    public void addStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        List<String> emails = new ArrayList<>();
-        emails.add(email);
-        addStudentRespondents(emails, feedbackSession);
+        return newAttributesFinal[0];
     }
 
     /**
@@ -381,159 +281,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(sessionEntity);
     }
 
-    // The objectify library does not support throwing checked exceptions inside transactions
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        try {
-            ofy().transact(new VoidWork() {
-                @Override
-                public void vrun() {
-                    FeedbackSession fs = getEntity(feedbackSession);
-                    if (fs == null) {
-                        throw new RuntimeException(new EntityDoesNotExistException(
-                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
-                    }
-
-                    fs.getRespondingInstructorList().remove(email);
-
-                    saveEntity(fs, feedbackSession);
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof EntityDoesNotExistException) {
-                throw (EntityDoesNotExistException) e.getCause();
-            }
-            throw e;
-        }
-    }
-
-    // The objectify library does not support throwing checked exceptions inside transactions
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        try {
-            ofy().transact(new VoidWork() {
-                @Override
-                public void vrun() {
-                    FeedbackSession fs = getEntity(feedbackSession);
-                    if (fs == null) {
-                        throw new RuntimeException(new EntityDoesNotExistException(
-                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
-                    }
-
-                    fs.getRespondingStudentList().addAll(emails);
-
-                    saveEntity(fs, feedbackSession);
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof EntityDoesNotExistException) {
-                throw (EntityDoesNotExistException) e.getCause();
-            }
-            throw e;
-        }
-    }
-
-    public void updateStudentRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
-        }
-
-        if (fs.getRespondingStudentList().contains(oldEmail)) {
-            fs.getRespondingStudentList().remove(oldEmail);
-            fs.getRespondingStudentList().add(newEmail);
-        }
-
-        saveEntity(fs, feedbackSession);
-    }
-
-    public void clearStudentRespondents(FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
-        }
-
-        fs.getRespondingStudentList().clear();
-
-        saveEntity(fs, feedbackSession);
-    }
-
-    // The objectify library does not support throwing checked exceptions inside transactions
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        try {
-            ofy().transact(new VoidWork() {
-                @Override
-                public void vrun() {
-                    FeedbackSession fs = getEntity(feedbackSession);
-                    if (fs == null) {
-                        throw new RuntimeException(new EntityDoesNotExistException(
-                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
-                    }
-
-                    fs.getRespondingStudentList().remove(email);
-
-                    saveEntity(fs, feedbackSession);
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof EntityDoesNotExistException) {
-                throw (EntityDoesNotExistException) e.getCause();
-            }
-            throw e;
-        }
-    }
-
     public void deleteFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
@@ -548,10 +295,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
-    }
-
-    private List<Key<FeedbackSession>> getFeedbackSessionKeysForCourse(String courseId) {
-        return load().filter("courseId =", courseId).keys().list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {

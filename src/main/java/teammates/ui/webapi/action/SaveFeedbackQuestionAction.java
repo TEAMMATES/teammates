@@ -73,7 +73,18 @@ public class SaveFeedbackQuestionAction extends Action {
         }
 
         try {
-            logic.updateFeedbackQuestionNumber(oldQuestion);
+            logic.updateFeedbackQuestionCascade(
+                    FeedbackQuestionAttributes.updateOptionsBuilder(oldQuestion.getId())
+                            .withQuestionNumber(oldQuestion.getQuestionNumber())
+                            .withQuestionDescription(oldQuestion.getQuestionDescription())
+                            .withQuestionDetails(oldQuestion.getQuestionDetails())
+                            .withGiverType(oldQuestion.getGiverType())
+                            .withRecipientType(oldQuestion.getRecipientType())
+                            .withNumberOfEntitiesToGiveFeedbackTo(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())
+                            .withShowResponsesTo(oldQuestion.getShowResponsesTo())
+                            .withShowGiveNameTo(oldQuestion.getShowGiverNameTo())
+                            .withShowRecipientNameTo(oldQuestion.getShowRecipientNameTo())
+                            .build());
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         } catch (EntityDoesNotExistException e) {
