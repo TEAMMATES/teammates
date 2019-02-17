@@ -13,6 +13,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveCourseEditDetailsAction;
+import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
@@ -38,7 +39,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         String courseId = instructor.courseId;
         String courseName = CoursesLogic.inst().getCourse(courseId).getName();
         String courseTimeZone = "UTC";
-        String statusMessage = "";
+        String statusMessage;
         String[] submissionParams;
 
         loginAsInstructor(instructorId);
@@ -63,11 +64,10 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         SaveCourseEditDetailsAction courseEditSaveAction = getAction(submissionParams);
         JsonResult r = getJsonResult(courseEditSaveAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        MessageOutput msg = (MessageOutput) r.getOutput();
-        assertEquals("Updated course [" + courseId + "] details: Name: " + courseName
-                + ", Time zone: " + courseTimeZone, msg.getMessage());
+        CourseData response = (CourseData) r.getOutput();
+        assertEquals(courseId, response.getId());
+        assertEquals(courseName, response.getName());
+        assertEquals(courseTimeZone, response.getTimeZone());
 
         verifySessionsInCourseHaveTimeZone(courseId, courseTimeZone);
 
@@ -83,11 +83,10 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         courseEditSaveAction = getAction(submissionParams);
         r = getJsonResult(courseEditSaveAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
-        msg = (MessageOutput) r.getOutput();
-        assertEquals("Updated course [" + courseId + "] details: Name: " + courseNameWithValidCharacters
-                + ", Time zone: " + courseTimeZone, msg.getMessage());
+        response = (CourseData) r.getOutput();
+        assertEquals(courseId, response.getId());
+        assertEquals(courseNameWithValidCharacters, response.getName());
+        assertEquals(courseTimeZone, response.getTimeZone());
 
         ______TS("Failure case: edit course name with empty string");
 
@@ -103,7 +102,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) r.getOutput();
         statusMessage = getPopulatedEmptyStringErrorMessage(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);

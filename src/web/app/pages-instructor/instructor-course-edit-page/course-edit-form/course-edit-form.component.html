@@ -1,0 +1,58 @@
+<div class="card bg-light top-padded">
+  <div class="card-header bg-primary text-white">
+    <strong>Course:</strong>
+    <span class="float-sm-right">
+      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name"
+              *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)">
+        <i class="fa fa-pen" aria-hidden="true"></i>
+        Edit
+      </button>
+      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
+              (click)="deleteHandler()">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete
+      </button>
+    </span>
+  </div>
+  <div class="card-body fill-plain">
+    <div class="form-row form-group">
+      <label class="col-sm-3">Course ID:</label>
+      <div class="col-sm-3">
+        <input class="col-xs-12 form-control" maxlength="40" tabindex="1" disabled [ngModel]="model.courseId">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3">Course Name:</label>
+      <div class="col-sm-9">
+        <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering."
+               maxlength="64" tabindex="2" [disabled]="!model.isEditable"
+               [ngModel]="model.courseName" (ngModelChange)="triggerModelChange('courseName', $event)">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-xs-12 col-sm-3">Time Zone:</label>
+      <div class="col-xs-12 col-sm-9">
+        <div class="input-group">
+          <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+            device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+                  [disabled]="!model.isEditable" [ngModel]="model.timeZone" (ngModelChange)="triggerModelChange('timeZone', $event)">
+            <option *ngFor="let timezone of TIMEZONE_OPTIONS" [value]="timezone">{{ timezone }}</option>
+          </select>
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type=button [disabled]="!model.isEditable"
+                    (click)="triggerModelChange('timeZone', DETECTED_TIMEZONE)">
+              Auto-Detect
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class=" col-sm-12 align-center">
+        <button class="btn btn-primary" type="submit" [disabled]="model.isSaving || !model.isEditable" (click)="submitFormHandler()">
+          <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

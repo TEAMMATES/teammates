@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { CourseEditFormModule } from './course-edit-form/course-edit-form.module';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 
 /**
@@ -7,7 +12,13 @@ import { InstructorCourseEditPageComponent } from './instructor-course-edit-page
  */
 @NgModule({
   imports: [
+    AjaxLoadingModule,
     CommonModule,
+    FormsModule,
+    NgbModule,
+    ReactiveFormsModule,
+    TeammatesCommonModule,
+    CourseEditFormModule,
   ],
   declarations: [
     InstructorCourseEditPageComponent,
@@ -15,6 +26,5 @@ import { InstructorCourseEditPageComponent } from './instructor-course-edit-page
   exports: [
     InstructorCourseEditPageComponent,
   ],
-  entryComponents: [],
 })
 export class InstructorCourseEditPageModule { }

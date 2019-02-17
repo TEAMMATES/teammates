@@ -21,6 +21,7 @@ import {
   InstructorCourseDetailsPageComponent,
 } from './instructor-course-details-page/instructor-course-details-page.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page/instructor-course-edit-page.component';
+import { InstructorCourseEditPageModule } from './instructor-course-edit-page/instructor-course-edit-page.module';
 import {
   InstructorCourseEnrollPageComponent,
 } from './instructor-course-enroll-page/instructor-course-enroll-page.component';
@@ -185,6 +186,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     PageNotFoundModule,
     InstructorHomePageModule,
+    InstructorCourseEditPageModule,
     InstructorSessionEditPageModule,
     InstructorSessionsPageModule,
     InstructorHelpPageModule,
@@ -201,7 +203,6 @@ const routes: Routes = [
     InstructorStudentRecordsPageComponent,
     InstructorCoursesPageComponent,
     InstructorCourseDetailsPageComponent,
-    InstructorCourseEditPageComponent,
     InstructorCourseEnrollPageComponent,
     InstructorCourseStudentEditPageComponent,
     InstructorCourseStudentDetailsPageComponent,

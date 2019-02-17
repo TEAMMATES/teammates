@@ -1,65 +1,6 @@
-<div class="card bg-light top-padded" *ngIf="this.instructorList.length">
-  <div class="card-header bg-primary text-white">
-    <strong>Course:</strong>
-    <span class="float-sm-right">
-      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name"
-              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']"
-              *ngIf="!isEditingCourse" (click)="toggleIsEditingCourse()">
-        <i class="fa fa-pen" aria-hidden="true"></i>
-        Edit
-      </button>
-      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
-              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']" (click)="deleteCourse()">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-        Delete
-      </button>
-    </span>
-  </div>
-  <div class="card-body fill-plain">
-    <form class="form form-horizontal" [formGroup]="formEditCourse" (ngSubmit)="onSubmitEditCourse(formEditCourse)">
-      <div>
-        <div class="form-row form-group">
-          <label class="col-sm-3">Course ID:</label>
-          <div class="col-sm-3">
-            <input class="col-xs-12 form-control" maxlength="40" tabindex="1" formControlName="id">
-          </div>
-        </div>
-        <div class="form-row form-group">
-          <label class="col-sm-3">Course Name:</label>
-          <div class="col-sm-9">
-            <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering."
-                   maxlength="64" tabindex="2" formControlName="name">
-          </div>
-        </div>
-        <div class="form-row form-group">
-          <label class="col-xs-12 col-sm-3">Time Zone:</label>
-          <div class="col-xs-12 col-sm-9">
-            <div class="input-group">
-              <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
-                device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
-                formControlName="timeZone">
-                <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
-              </select>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
-                  Auto-Detect
-                </button>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class=" col-sm-12 align-center">
-            <button class="btn btn-primary" type="submit" *ngIf="isEditingCourse">
-              Save Changes
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-<div class="right top-padded" *ngIf="!this.timezone">
+<tm-course-edit-form [(model)]="courseEditFormModel" (editCourseEvent)="editCourseHandler()"
+                     (deleteCourseEvent)="deleteCourseHandler()"></tm-course-edit-form>
+<div class="right top-padded">
   <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
     More about configuring access permissions

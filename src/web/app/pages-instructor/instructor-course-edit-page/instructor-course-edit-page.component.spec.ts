@@ -1,9 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
+import { InstructorCourseEditPageModule } from './instructor-course-edit-page.module';
 
 describe('InstructorCourseEditPageComponent', () => {
   let component: InstructorCourseEditPageComponent;
@@ -11,12 +11,11 @@ describe('InstructorCourseEditPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorCourseEditPageComponent],
       imports: [
         NgbModule,
         RouterTestingModule,
-        ReactiveFormsModule,
         HttpClientTestingModule,
+        InstructorCourseEditPageModule,
       ],
     })
     .compileComponents();

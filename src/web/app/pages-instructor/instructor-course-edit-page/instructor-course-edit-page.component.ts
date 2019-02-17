@@ -3,18 +3,17 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import moment from 'moment-timezone';
-
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
 
-interface CourseAttributes {
+interface Course {
   id: string;
   name: string;
+  creationDate: string;
   timeZone: string;
 }
 
@@ -71,7 +70,7 @@ interface InstructorPrivileges {
 }
 
 interface CourseEditDetails {
-  courseToEdit: CourseAttributes;
+  courseToEdit: Course;
   instructorList: InstructorAttributes[];
   instructor: InstructorAttributes;
   instructorToShowIndex: number;
@@ -91,16 +90,20 @@ interface CourseEditDetails {
 export class InstructorCourseEditPageComponent implements OnInit {
 
   user: string = '';
-  timezone: string = '';
-  timezones: string[] = [];
 
-  isEditingCourse: boolean = false;
-  formEditCourse!: FormGroup;
+  // Models
+  courseEditFormModel: CourseEditFormModel = {
+    courseId: '',
+    courseName: '',
+    timeZone: 'UTC',
+
+    isEditable: false,
+    isSaving: false,
+  };
 
   formEditInstructors!: FormGroup;
   formInstructors!: FormArray;
 
-  courseToEdit!: CourseAttributes;
   instructorList: InstructorAttributes[] = [];
   instructor!: InstructorAttributes;
   instructorToShowIndex: number = -1;
@@ -114,7 +117,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private navigationService: NavigationService,
-              private timezoneService: TimezoneService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private fb: FormBuilder,
@@ -125,24 +127,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.user = queryParams.user;
       this.getCourseEditDetails(queryParams.courseid);
     });
-
-    this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
-  }
-
-  /**
-   * Replaces the timezone value with the detected timezone.
-   */
-  detectTimezone(): void {
-    this.formEditCourse.controls.timeZone.setValue(this.timezone);
-  }
-
-  /**
-   * Gets the placeholder content for displayed name when it is not displayed to students.
-   */
-  getPlaceholderForDisplayedName(isDisplayed: boolean): string {
-    return isDisplayed ? 'E.g.Co-lecturer, Teaching Assistant'
-        : '(This instructor will NOT be displayed to students)';
   }
 
   /**
@@ -152,7 +136,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = { courseid };
     this.httpRequestService.get('/instructors/course/details', paramMap)
         .subscribe((resp: CourseEditDetails) => {
-          this.courseToEdit = resp.courseToEdit;
+          this.courseEditFormModel = this.getCourseEditFormModel(resp.courseToEdit);
           this.instructorList = resp.instructorList;
           this.instructor = resp.instructor;
           this.instructorToShowIndex = resp.instructorToShowIndex;
@@ -160,7 +144,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.feedbackNames = resp.feedbackNames;
           this.instructorPrivileges = resp.instructorPrivileges;
 
-          this.initEditCourseForm();
           this.initEditInstructorsForm();
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -168,14 +151,64 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
-   * Initialises the instructor course edit form with fields from the backend.
+   * Gets the {@code courseEditFormModel} with {@link Course} entity.
    */
-  private initEditCourseForm(): void {
-    this.formEditCourse = this.fb.group({
-      id: [{ value: this.courseToEdit.id, disabled: true }],
-      name: [{ value: this.courseToEdit.name, disabled: true }],
-      timeZone: [{ value: this.courseToEdit.timeZone, disabled: true }],
-    });
+  getCourseEditFormModel(course: Course): CourseEditFormModel {
+    const model: CourseEditFormModel = {
+      courseId: course.id,
+      courseName: course.name,
+      timeZone: course.timeZone,
+
+      isEditable: false,
+      isSaving: false,
+    };
+
+    return model;
+  }
+
+  /**
+   * Handles editing course details event.
+   */
+  editCourseHandler(): void {
+    this.courseEditFormModel.isSaving = true;
+
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseEditFormModel.courseId,
+      coursename: this.courseEditFormModel.courseName,
+      coursetimezone: this.courseEditFormModel.timeZone,
+    };
+
+    this.httpRequestService.put('/instructors/course/details/save', paramsMap)
+        .subscribe((course: Course) => {
+          this.courseEditFormModel = this.getCourseEditFormModel(course);
+
+          this.statusMessageService.showSuccessMessage(`Updated course [${course.id}] details: `
+              + `Name: ${course.name}, Time zone: ${course.timeZone}`);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Handles deleting course event.
+   */
+  deleteCourseHandler(): void {
+    const paramsMap: { [key: string]: string } = { courseid: this.courseEditFormModel.courseId };
+
+    this.httpRequestService.delete('/instructors/course/delete', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Gets the placeholder content for displayed name when it is not displayed to students.
+   */
+  getPlaceholderForDisplayedName(isDisplayed: boolean): string {
+    return isDisplayed ? 'E.g.Co-lecturer, Teaching Assistant'
+        : '(This instructor will NOT be displayed to students)';
   }
 
   /**
@@ -329,66 +362,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
-   * Toggles the edit course form depending on whether the edit button is clicked.
-   */
-  toggleIsEditingCourse(): void {
-    this.isEditingCourse = !this.isEditingCourse;
-
-    if (!this.isEditingCourse) {
-      this.formEditCourse.controls.name.disable();
-      this.formEditCourse.controls.timeZone.disable();
-    } else {
-      this.formEditCourse.controls.name.enable();
-      this.formEditCourse.controls.timeZone.enable();
-    }
-  }
-
-  /**
-   * Deletes the current course and redirects to 'Courses' page if action is successful.
-   */
-  deleteCourse(): void {
-    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id };
-
-    this.httpRequestService.delete('/instructors/course/delete', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Saves the updated course details.
-   */
-  onSubmitEditCourse(formEditCourse: FormGroup): void {
-    const newName: string = formEditCourse.controls.name.value;
-    const newTimeZone: string = formEditCourse.controls.timeZone.value;
-
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
-      coursename: newName,
-      coursetimezone: newTimeZone,
-    };
-
-    this.httpRequestService.put('/instructors/course/details/save', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateCourseDetails(newName, newTimeZone);
-          this.toggleIsEditingCourse();
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Updates the stored course attributes entity.
-   */
-  updateCourseDetails(editedCourseName: string, editedCourseTimezone: string): void {
-    this.courseToEdit.name = editedCourseName;
-    this.courseToEdit.timeZone = editedCourseTimezone;
-  }
-
-  /**
    * Checks if the current instructor has a valid google id.
    */
   hasGoogleId(index: number): boolean {
@@ -521,7 +494,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
+      courseid: this.courseEditFormModel.courseId,
       instructorid: editedInstructor.googleId,
       instructorname: editedInstructor.name,
       instructoremail: editedInstructor.email,
@@ -761,7 +734,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
+      courseid: this.courseEditFormModel.courseId,
       instructorname: addedInstructor.name,
       instructoremail: addedInstructor.email,
       instructorrole: addedInstructor.role,
@@ -883,7 +856,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const instructorToDelete: InstructorAttributes = this.instructorList[index];
     const modalId: string = 'delete-instr-modal';
-    const courseId: string = this.courseToEdit.id;
+    const courseId: string = this.courseEditFormModel.courseId;
     let modalContent: string = '';
 
     const modal: (HTMLElement | null) = document.getElementById(modalId);
@@ -908,7 +881,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   deleteInstructor(index: number): void {
     const instructorToDelete: InstructorAttributes = this.instructorList[index];
     const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
+      courseid: this.courseEditFormModel.courseId,
       instructorid: this.instructor.googleId,
       instructoremail: instructorToDelete.email,
     };
@@ -1010,7 +983,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const instructorToResend: InstructorAttributes = this.instructorList[index];
     const modalId: string = 'resend-email-modal';
-    const courseId: string = this.courseToEdit.id;
+    const courseId: string = this.courseEditFormModel.courseId;
 
     const modal: (HTMLElement | null) = document.getElementById(modalId);
     if (modal != null) {
@@ -1025,7 +998,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   resendReminderEmail(index: number): void {
     const instructorToResend: InstructorAttributes = this.instructorList[index];
     const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
+      courseid: this.courseEditFormModel.courseId,
       instructoremail: instructorToResend.email,
     };
 

@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * Action: Save edited course details.
@@ -47,18 +48,17 @@ public class SaveCourseEditDetailsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
         try {
-            logic.updateCourseCascade(
+            CourseAttributes course = logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)
                             .withName(courseName)
                             .withTimezone(ZoneId.of(courseTimeZone))
                             .build());
+
+            return new JsonResult(new CourseData(course));
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException edee) {
             return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
-
-        return new JsonResult("Updated course [" + courseId + "] details: Name: " + courseName
-                + ", Time zone: " + courseTimeZone, HttpStatus.SC_OK);
     }
 }
