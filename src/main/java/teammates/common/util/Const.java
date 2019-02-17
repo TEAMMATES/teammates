@@ -140,7 +140,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
@@ -1011,8 +1010,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
-
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
 
         public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/feedbackParticipantFeedbackResponseCommentDelete";
