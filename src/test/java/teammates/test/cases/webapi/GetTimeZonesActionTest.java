@@ -49,8 +49,10 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
         boolean standardOffsetNY = nyTime.isStandardOffset(Instant.now().getMillis());
         DateTimeZone sydTime = DateTimeZone.forID("Australia/Sydney");
         boolean standardOffsetSYD = sydTime.isStandardOffset(Instant.now().getMillis());
+        DateTimeZone ldnTime = DateTimeZone.forID("Europe/London");
+        boolean standardOffsetLDN = ldnTime.isStandardOffset(Instant.now().getMillis());
         assertEquals(8 * 60 * 60, output.getOffsets().get("Asia/Singapore").intValue());
-        if (!standardOffsetNY) {
+        if (!standardOffsetNY) {    //Daylight Saving Time in New York
             assertEquals(-4 * 60 * 60, output.getOffsets().get("America/New_York").intValue());
         } else {
             assertEquals(-5 * 60 * 60, output.getOffsets().get("America/New_York").intValue());
@@ -60,7 +62,11 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
         } else {
             assertEquals(10 * 60 * 60, output.getOffsets().get("Australia/Sydney").intValue());
         }
-        assertEquals(0, output.getOffsets().get("Europe/London").intValue());
+        if (!standardOffsetLDN) {
+            assertEquals(1, output.getOffsets().get("Europe/London").intValue());
+        } else {
+            assertEquals(0, output.getOffsets().get("Europe/London").intValue());
+        }
     }
 
     @Override
