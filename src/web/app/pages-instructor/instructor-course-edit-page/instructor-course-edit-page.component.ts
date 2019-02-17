@@ -1026,7 +1026,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructoremail: instructorToResend.email,
     };
 
-    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+    this.httpRequestService.post('/join/remind', paramsMap)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {

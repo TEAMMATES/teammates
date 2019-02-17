@@ -188,7 +188,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   remindAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = { courseid: courseId };
-    this.httpRequestService.post('/courses/details/remind', paramsMap)
+    this.httpRequestService.post('/join/remind', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
             '/web/instructor/courses/details', resp.message);

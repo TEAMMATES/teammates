@@ -23,7 +23,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_SEND_REMINDER_EMAILS;
+        return Const.ResourceURIs.JOIN_REMIND;
     }
 
     @Override
