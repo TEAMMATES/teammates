@@ -108,17 +108,12 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
         ______TS("Verify border values");
 
-        //actually fails test case LOL
-        /*
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(Long.MIN_VALUE),
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(Long.MAX_VALUE),
         };
 
-        GetOngoingSessionsAction ongoingSessionsAction = getAction(params);
-        JsonResult r = getJsonResult(ongoingSessionsAction);
-
-        verifyNoExistingSession(r);*/
+        verifyHttpParameterFailure(params);
     }
 
     @Override

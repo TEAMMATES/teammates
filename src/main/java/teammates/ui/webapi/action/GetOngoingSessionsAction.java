@@ -61,8 +61,14 @@ public class GetOngoingSessionsAction extends Action {
             throw new InvalidHttpParameterException("The filter range is not valid. End time should be after start time.");
         }
 
-        List<FeedbackSessionAttributes> allOngoingSessions =
-                logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+        List<FeedbackSessionAttributes> allOngoingSessions;
+
+        try {
+            allOngoingSessions = logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime),
+                    Instant.ofEpochMilli(endTime));
+        } catch (IllegalArgumentException iae) {
+            throw new InvalidHttpParameterException("Invalid parameter");
+        }
 
         int totalOngoingSessions = allOngoingSessions.size();
         int totalOpenSessions = 0;
