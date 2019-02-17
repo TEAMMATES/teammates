@@ -105,7 +105,11 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
 
         session1InCourse1.setResultsVisibleFromTime(session1InCourse1.getStartTime());
-        FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
+                        .withResultsVisibleFromTime(session1InCourse1.getResultsVisibleFromTime())
+                        .build());
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
@@ -182,7 +186,11 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         Instant originalResultVisibleTime = closedSession.getResultsVisibleFromTime();
         // Session is closed but not published; modify result visible time
         closedSession.setResultsVisibleFromTime(Instant.now().plus(Duration.ofDays(1L)));
-        FeedbackSessionsLogic.inst().updateFeedbackSession(closedSession);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(closedSession.getFeedbackSessionName(), closedSession.getCourseId())
+                        .withResultsVisibleFromTime(closedSession.getResultsVisibleFromTime())
+                        .build());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, closedSession.getCourseId(),
@@ -201,7 +209,11 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         // Restore original result visible time
         closedSession.setResultsVisibleFromTime(originalResultVisibleTime);
-        FeedbackSessionsLogic.inst().updateFeedbackSession(closedSession);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(closedSession.getFeedbackSessionName(), closedSession.getCourseId())
+                        .withResultsVisibleFromTime(closedSession.getResultsVisibleFromTime())
+                        .build());
 
         ______TS("access a non-existent session");
 

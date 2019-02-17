@@ -516,7 +516,8 @@ public class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructorName));
+        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),
+                SanitizationHelper.sanitizeForHtml(instructorName)));
         email.setContent(emailBody);
         return email;
     }
@@ -705,7 +706,7 @@ public class EmailGenerator {
         StringBuilder coOwnersEmailsLine = new StringBuilder();
         for (InstructorAttributes coOwner : coOwners) {
             coOwnersEmailsLine
-                    .append(coOwner.getName())
+                    .append(SanitizationHelper.sanitizeForHtml(coOwner.getName()))
                     .append(" (")
                     .append(coOwner.getEmail())
                     .append("), ");

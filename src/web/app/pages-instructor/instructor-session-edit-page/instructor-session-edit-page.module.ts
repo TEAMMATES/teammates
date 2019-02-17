@@ -9,6 +9,9 @@ import {
 } from '../../components/question-types/question-types-session-edit/question-types-session-edit.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
@@ -28,10 +31,12 @@ import { TemplateQuestionModalComponent } from './template-question-modal/templa
   ],
   entryComponents: [
     TemplateQuestionModalComponent,
+    CopyQuestionsFromOtherSessionsModalComponent,
   ],
   declarations: [
     InstructorSessionEditPageComponent,
     TemplateQuestionModalComponent,
+    CopyQuestionsFromOtherSessionsModalComponent,
   ],
   exports: [
     InstructorSessionEditPageComponent,
