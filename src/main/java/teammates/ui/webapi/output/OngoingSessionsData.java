@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The API output format for {@link teammates.ui.webapi.action.GetOngoingSessionsAction}.
+ * The API output format for get ongoing sessions action.
  */
 public class OngoingSessionsData extends ApiOutput {
 
