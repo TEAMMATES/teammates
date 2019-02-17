@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.output.JoinStatus;
 
 /**
- * Action: Gets the "join" status of a student/instructor.
+ * Get the join status of a course.
  */
 public class GetCourseJoinStatusAction extends Action {
 
