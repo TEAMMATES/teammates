@@ -11,6 +11,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
+  FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
   FeedbackResponse,
   FeedbackSession,
@@ -302,7 +303,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     };
     this.httpRequestService.get('/question/recipients', paramMap)
         .subscribe((response: FeedbackQuestionRecipients) => {
-          response.recipients.forEach((recipient: { name: string, identifier: string }) => {
+          response.recipients.forEach((recipient: FeedbackQuestionRecipient) => {
             model.recipientList.push({
               recipientIdentifier: recipient.identifier,
               recipientName: recipient.name,
