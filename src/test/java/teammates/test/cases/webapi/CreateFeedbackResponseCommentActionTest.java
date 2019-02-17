@@ -1,8 +1,9 @@
-package teammates.test.cases.action;
+package teammates.test.cases.webapi;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -16,24 +17,28 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.controller.AjaxResult;
-import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
-import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
+import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
+import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link InstructorFeedbackResponseCommentAddAction}.
+ * SUT: {@link CreateFeedbackResponseCommentAction}.
  */
-public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTest {
+public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<CreateFeedbackResponseCommentAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
+        return Const.ResourceURIs.RESPONSE_COMMENT;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return POST;
     }
 
     @Override
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecute() throws Exception {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
@@ -53,7 +58,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
 
         ______TS("Unsuccessful case: not enough parameters");
 
-        verifyAssumptionFailure();
+        verifyHttpParameterFailure();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -61,7 +66,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
         };
 
-        verifyAssumptionFailure(submissionParams);
+        verifyHttpParameterFailure(submissionParams);
 
         ______TS("typical successful case for unpublished session");
 
@@ -71,17 +76,12 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
-        InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
-        ShowPageResult result = getShowPageResult(action);
-        FeedbackResponseCommentAjaxPageData data =
-                (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        CreateFeedbackResponseCommentAction action = getAction(submissionParams);
+        getJsonResult(action);
+
         List<FeedbackResponseCommentAttributes> frcList =
                 getInstructorComments(response.getId(), "Comment to first response");
         assertEquals(1, frcList.size());
@@ -99,16 +99,11 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty giver permissions",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         ______TS("typical successful case for unpublished session shown to various recipients");
 
@@ -118,15 +113,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Null comment permissions",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -134,16 +124,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty comment permissions",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -151,16 +135,11 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to giver",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -168,16 +147,11 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -185,33 +159,22 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to own team members",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
-
+        getJsonResult(action);
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver team members",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -219,16 +182,11 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to students",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
 
         ______TS("typical successful case for published session");
 
@@ -239,17 +197,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response, published session",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        data = (FeedbackResponseCommentAjaxPageData) result.data;
-        assertFalse(data.isError);
-        assertEquals("", result.getStatusMessage());
+        getJsonResult(action);
+
         frcList = getInstructorComments(response.getId(), "Comment to first response, published session");
         assertEquals(1, frcList.size());
         frc = frcList.get(0);
@@ -266,22 +220,15 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
         action = getAction(submissionParams);
-        AjaxResult ajaxResult = getAjaxResult(action);
-        assertEquals("", ajaxResult.getStatusMessage());
-        data = (FeedbackResponseCommentAjaxPageData) ajaxResult.data;
-        assertTrue(data.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
+        JsonResult result = getJsonResult(action);
+        MessageOutput output = (MessageOutput) result.getOutput();
 
-    }
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
 
-    @Override
-    protected InstructorFeedbackResponseCommentAddAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Override
@@ -309,16 +256,14 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.COURSE_ID, comment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
-                Const.ParamsNames.COMMENT_ID, "1-1-1-1",
         };
 
-        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
+        // verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 
@@ -335,10 +280,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
      */
     private List<FeedbackResponseCommentAttributes> getInstructorComments(String responseId, String commentText) {
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-        List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentsForResponse(responseId);
-        frcList = frcList.stream()
-                       .filter(comment -> comment.commentText.equals(commentText))
-                       .collect(Collectors.toList());
-        return frcList;
+        return frcDb.getFeedbackResponseCommentsForResponse(responseId)
+                .stream()
+                .filter(comment -> comment.commentText.equals(commentText))
+                .collect(Collectors.toList());
     }
+
 }
