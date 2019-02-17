@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseTestCase;
 
@@ -33,7 +34,7 @@ public class JsonUtilsTest extends BaseTestCase {
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumOfEntitiesToGiveFeedbackTo(1)
+                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withQuestionNumber(1)
                 .withQuestionType(FeedbackQuestionType.TEXT)
                 .withQuestionDetails(questionDetails)
@@ -56,7 +57,7 @@ public class JsonUtilsTest extends BaseTestCase {
                     + "  \"questionType\": \"TEXT\",\n"
                     + "  \"giverType\": \"INSTRUCTORS\",\n"
                     + "  \"recipientType\": \"SELF\",\n"
-                    + "  \"numberOfEntitiesToGiveFeedbackTo\": 1,\n"
+                    + "  \"numberOfEntitiesToGiveFeedbackTo\": -100,\n"
                     + "  \"showResponsesTo\": [\n"
                     + "    \"RECEIVER\"\n"
                     + "  ],\n"

@@ -416,7 +416,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse2");
 
         FeedbackQuestionDetails fqd = new FeedbackTextQuestionDetails("new question text");
-        questionToUpdate.questionDetails = fqd;
+        questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
@@ -437,7 +437,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 2");
-        questionToUpdate.questionDetails = fqd;
+        questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
 
         int numberOfResponses =
@@ -459,7 +459,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("cascading update, destructive changes, delete all existing responses");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 3");
-        questionToUpdate.questionDetails = fqd;
+        questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
 
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());
