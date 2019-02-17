@@ -114,6 +114,19 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         };
 
         verifyHttpParameterFailure(params);
+
+        Instant minValuePlus30 = Instant.ofEpochMilli(Long.MIN_VALUE).plus(30, ChronoUnit.DAYS);
+        Instant maxValueMinus30 = Instant.ofEpochMilli(Long.MAX_VALUE).minus(30, ChronoUnit.DAYS);
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(minValuePlus30.toEpochMilli()),
+                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(maxValueMinus30.toEpochMilli()),
+        };
+
+        GetOngoingSessionsAction getOngoingSessionsAction = getAction(params);
+        JsonResult r = getJsonResult(getOngoingSessionsAction);
+
+        verifyNoExistingSession(r);
     }
 
     @Override
