@@ -8,6 +8,9 @@ import teammates.ui.webapi.action.GetTimeZonesAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.TimeZonesData;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * SUT: {@link GetTimeZonesAction}.
  */
@@ -43,8 +46,14 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
          * e.g. New York observes DST, so the offset is not always UTC-05:00 the entire year.
          * e.g. timezones can change, like Caracas modifying their timezone. This affects the offset as well.
          */
+        TimeZone time = TimeZone.getTimeZone("EST");
+        boolean daylightSaving = time.inDaylightTime(new Date());
         assertEquals(8 * 60 * 60, output.getOffsets().get("Asia/Singapore").intValue());
-        assertEquals(-5 * 60 * 60, output.getOffsets().get("America/New_York").intValue());
+        if (daylightSaving) {
+            assertEquals(-4 * 60 * 60, output.getOffsets().get("America/New_York").intValue());
+        } else {
+            assertEquals(-5 * 60 * 60, output.getOffsets().get("America/New_York").intValue());
+        }
         assertEquals(11 * 60 * 60, output.getOffsets().get("Australia/Sydney").intValue());
         assertEquals(0, output.getOffsets().get("Europe/London").intValue());
     }
