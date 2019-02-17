@@ -937,7 +937,7 @@ public final class Const {
         public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
-        public static final String SESSIONS_ADMIN = "/sessions/admin";
+        public static final String SESSIONS_ONGOING = "/sessions/ongoing";
         public static final String SESSION = "/session";
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";

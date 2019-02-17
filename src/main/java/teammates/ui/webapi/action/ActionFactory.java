@@ -51,7 +51,7 @@ public class ActionFactory {
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
-        map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
+        map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, PUT, SaveFeedbackSessionAction.class);

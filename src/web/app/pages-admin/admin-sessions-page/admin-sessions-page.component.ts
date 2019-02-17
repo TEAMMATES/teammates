@@ -3,27 +3,11 @@ import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSessionStats } from '../../../types/api-output';
+import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface OngoingSession {
-  sessionStatus: string;
-  instructorHomePageLink: string;
-  startTime: number;
-  endTime: number;
-  creatorEmail: string;
-  courseId: string;
-  feedbackSessionName: string;
+interface OngoingSessionInternal extends OngoingSession {
   responseRate?: string;
-}
-
-interface OngoingSessionsData {
-  totalOngoingSessions: number;
-  totalOpenSessions: number;
-  totalClosedSessions: number;
-  totalAwaitingSessions: number;
-  totalInstitutes: number;
-  sessions: { [key: string]: OngoingSession[] };
 }
 
 /**
@@ -142,7 +126,7 @@ export class AdminSessionsPageComponent implements OnInit {
       starttime: startTime.toDate().getTime(),
       endtime: endTime.toDate().getTime(),
     };
-    this.httpRequestService.get('/sessions/admin', paramMap).subscribe((resp: OngoingSessionsData) => {
+    this.httpRequestService.get('/sessions/ongoing', paramMap).subscribe((resp: OngoingSessions) => {
       this.totalOngoingSessions = resp.totalOngoingSessions;
       this.totalOpenSessions = resp.totalOpenSessions;
       this.totalClosedSessions = resp.totalClosedSessions;
@@ -172,7 +156,7 @@ export class AdminSessionsPageComponent implements OnInit {
       fsname: feedbackSessionName,
     };
     this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      const sessions: OngoingSession[] = this.sessions[institute].filter((session: OngoingSession) =>
+      const sessions: OngoingSessionInternal[] = this.sessions[institute].filter((session: OngoingSession) =>
           session.courseId === courseId && session.feedbackSessionName === feedbackSessionName,
       );
       if (sessions.length) {
