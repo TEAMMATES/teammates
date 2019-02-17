@@ -80,7 +80,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     }
 
     @Test
-    public void testNotEnoughParameters() {
+    public void testExecute_notEnoughParameters_shouldFail() {
         loginAsAdmin();
 
         ______TS("Not enough parameters");
@@ -99,7 +99,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     }
 
     @Test
-    public void testBoundaryValues() {
+    public void textExecute_boundaryValues_shouldFail() {
         ______TS("Value too high");
 
         String[] params = new String[] {
@@ -117,11 +117,14 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         };
 
         verifyHttpParameterFailure(params);
+    }
 
+    @Test
+    public void testExecute_appropriateBoundaryValues_shouldSucceed() {
         Instant minValuePlus30 = Instant.ofEpochMilli(Long.MIN_VALUE).plus(30, ChronoUnit.DAYS);
         Instant maxValueMinus30 = Instant.ofEpochMilli(Long.MAX_VALUE).minus(30, ChronoUnit.DAYS);
 
-        params = new String[] {
+        String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(minValuePlus30.toEpochMilli()),
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(maxValueMinus30.toEpochMilli()),
         };
