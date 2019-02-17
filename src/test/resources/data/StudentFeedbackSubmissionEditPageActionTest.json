@@ -1240,7 +1240,7 @@
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": true,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-01-01T23:59:00Z",
       "commentText": "Instructor 1 comment to student 1 self feedback Question 3"
     }
