@@ -51,10 +51,14 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         Instant startTime = Instant.now();
         Instant endTime = Instant.now().plus(5, ChronoUnit.DAYS);
 
-        logic.createFeedbackSession(FeedbackSessionAttributes.builder("new-session",
-                courseId, instructor1OfCourse1.email).withStartTime(startTime)
-                .withEndTime(endTime).withCreatedTime(startTime.minusSeconds(1))
-                .withSessionVisibleFromTime(startTime).withResultsVisibleFromTime(endTime).build());
+        logic.createFeedbackSession(
+                FeedbackSessionAttributes.builder("new-session", courseId, instructor1OfCourse1.email)
+                        .withStartTime(startTime)
+                        .withEndTime(endTime)
+                        .withCreatedTime(startTime.minusSeconds(1))
+                        .withSessionVisibleFromTime(startTime)
+                        .withResultsVisibleFromTime(endTime)
+                        .build());
 
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(startTime.toEpochMilli()),
@@ -73,7 +77,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalOngoingSessions());
         assertEquals(1, response.getTotalInstitutes());
         assertEquals(1, response.getSessions().size());
-        assertEquals(null, response.getRequestId());
     }
 
     @Test
@@ -145,7 +148,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(0, response.getTotalOngoingSessions());
         assertEquals(0, response.getTotalInstitutes());
         assertEquals(0, response.getSessions().size());
-        assertEquals(null, response.getRequestId());
     }
 
 }
