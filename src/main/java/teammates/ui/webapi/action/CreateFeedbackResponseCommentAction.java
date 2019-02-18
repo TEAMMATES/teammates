@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -17,6 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
+import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
 
 /**
  * Creates a new feedback response comment.
@@ -30,15 +30,15 @@ public class CreateFeedbackResponseCommentAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+        Assumption.assertNotNull(response);
+
+        String courseId = response.courseId;
+        String feedbackSessionName = response.feedbackSessionName;
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
 
         gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
@@ -48,37 +48,33 @@ public class CreateFeedbackResponseCommentAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        String giverEmail = response.giver;
-        String recipientEmail = response.recipient;
-        FeedbackSessionResultsBundle bundle;
-        try {
-            bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
-        } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
-        }
+        FeedbackResponseCommentSaveRequest comment = getAndValidateRequestBody(FeedbackResponseCommentSaveRequest.class);
 
-        String giverName = bundle.getGiverNameForResponse(response);
-        String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
+        // String giverEmail = response.giver;
+        // String recipientEmail = response.recipient;
+
+        // String giverName = bundle.getGiverNameForResponse(response);
+        // String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
         // data.giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 
-        String recipientName = bundle.getRecipientNameForResponse(response);
-        String recipientTeamName = bundle.getTeamNameForEmail(recipientEmail);
+        // String recipientName = bundle.getRecipientNameForResponse(response);
+        // String recipientTeamName = bundle.getTeamNameForEmail(recipientEmail);
         // data.recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
 
-        //Set up comment text
-        String commentText = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
+        String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
             return new JsonResult(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
         }
+
+        String courseId = response.courseId;
+        String feedbackQuestionId = response.feedbackQuestionId;
+        String feedbackSessionName = response.feedbackSessionName;
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, instructor.email, commentText)
@@ -93,8 +89,8 @@ public class CreateFeedbackResponseCommentAction extends Action {
                 .build();
 
         // Set up visibility settings
-        String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
-        String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
+        String showCommentTo = comment.getShowCommentTo();
+        String showGiverNameTo = comment.getShowGiverNameTo();
         feedbackResponseComment.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");

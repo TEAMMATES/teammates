@@ -21,20 +21,17 @@ public class DeleteFeedbackResponseCommentAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         FeedbackResponseCommentAttributes frc =
                 logic.getFeedbackResponseComment(feedbackResponseCommentId);
         if (frc == null) {
             return;
         }
+
+        String courseId = frc.courseId;
+
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+
         if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
             return;
         }
@@ -42,6 +39,11 @@ public class DeleteFeedbackResponseCommentAction extends Action {
         // Case 1: the delete request comes from instructor
 
         if (instructor != null) {
+            String feedbackSessionName = frc.feedbackSessionName;
+            String feedbackResponseId = frc.feedbackResponseId;
+            FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+            FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,

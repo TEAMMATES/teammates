@@ -286,6 +286,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotAccess(submissionParams);
     }
 
+    protected void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
+
+        ______TS("without Submit-Session-In-Sections privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyInaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) {
 
         ______TS("without View-Student-In-Sections privilege cannot access");
@@ -324,6 +334,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
         loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
+    protected void verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
 

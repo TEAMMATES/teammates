@@ -7,8 +7,15 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
  */
 public class FeedbackResponseCommentData extends ApiOutput {
 
+    private long feedbackResponseCommentId;
+
     public FeedbackResponseCommentData(FeedbackResponseCommentAttributes frc) {
+        this.feedbackResponseCommentId = frc.getId();
         // TODO
+    }
+
+    public long getFeedbackResponseCommentId() {
+        return feedbackResponseCommentId;
     }
 
 }

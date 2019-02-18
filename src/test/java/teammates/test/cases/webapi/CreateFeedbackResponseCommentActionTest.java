@@ -20,6 +20,7 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
 
 /**
  * SUT: {@link CreateFeedbackResponseCommentAction}.
@@ -60,26 +61,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         verifyHttpParameterFailure();
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-        };
-
-        verifyHttpParameterFailure(submissionParams);
-
         ______TS("typical successful case for unpublished session");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
         };
 
-        CreateFeedbackResponseCommentAction action = getAction(submissionParams);
+        FeedbackResponseCommentSaveRequest requestBody =
+                new FeedbackResponseCommentSaveRequest("Comment to first response", null, "GIVER,INSTRUCTORS");
+        CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         List<FeedbackResponseCommentAttributes> frcList =
@@ -94,114 +84,82 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         ______TS("typical successful case for unpublished session empty giver permissions");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty giver permissions",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("Empty giver permissions", null, "");
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         ______TS("typical successful case for unpublished session shown to various recipients");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Null comment permissions",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("Null comment permissions", null, null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty comment permissions",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("Empty comment permissions", "", "");
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to giver",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to giver", "GIVER", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to receiver", "RECEIVER", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to own team members",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
         };
 
-        action = getAction(submissionParams);
-        getJsonResult(action);
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver team members",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
-        };
-
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to own team members", "OWN_TEAM_MEMBERS", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to students",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                "Comment shown to receiver team members", "RECEIVER_TEAM_MEMBERS", null);
+        action = getAction(requestBody, submissionParams);
+        getJsonResult(action);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+        };
+
+        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to students", "STUDENTS", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         ______TS("typical successful case for published session");
 
         FeedbackSessionsLogic.inst().publishFeedbackSession(session);
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response, published session",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                "Comment to first response, published session", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         frcList = getInstructorComments(response.getId(), "Comment to first response, published session");
@@ -215,14 +173,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         ______TS("Unsuccessful case: empty comment text");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest("", null, null);
+        action = getAction(requestBody, submissionParams);
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
@@ -253,14 +208,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 .build();
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, comment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
         };
 
-        // verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);

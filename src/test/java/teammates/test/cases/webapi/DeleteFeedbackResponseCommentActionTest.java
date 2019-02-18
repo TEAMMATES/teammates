@@ -73,24 +73,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         verifyHttpParameterFailure();
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.USER_ID, instructor.googleId,
-        };
-
-        verifyHttpParameterFailure(submissionParams);
-
         ______TS("Typical successful case");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
         DeleteFeedbackResponseCommentAction action = getAction(submissionParams);
@@ -104,12 +90,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         ______TS("Non-existent feedback response comment");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 // non-existent feedback response comment id
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
         action = getAction(submissionParams);
@@ -138,11 +120,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         assertNotNull("response comment not found", feedbackResponseComment);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
         action = getAction(submissionParams);
@@ -177,14 +155,9 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         comment.feedbackResponseId = response.getId();
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
         };
-        // verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
 
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
@@ -211,9 +184,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
         };
 
@@ -243,9 +213,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
         };
 

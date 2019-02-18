@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -17,6 +18,7 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.webapi.action.EditFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
 
 /**
  * SUT: {@link EditFeedbackResponseCommentAction}.
@@ -63,28 +65,15 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
 
         verifyHttpParameterFailure();
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.USER_ID, instructor.googleId,
-        };
-
-        verifyHttpParameterFailure(submissionParams);
-
         ______TS("Typical successful case for unpublished session");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
         };
 
-        EditFeedbackResponseCommentAction action = getAction(submissionParams);
+        FeedbackResponseCommentSaveRequest requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
+        EditFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         FeedbackResponseCommentAttributes frc =
@@ -97,137 +86,101 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
         ______TS("Null show comments and show giver permissions");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(feedbackResponseComment.commentText + " (Edited)", null, null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         ______TS("Empty show comments and show giver permissions");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(feedbackResponseComment.commentText + " (Edited)", "", "");
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         ______TS("Typical successful case for unpublished session public to various recipients");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(feedbackResponseComment.commentText + " (Edited)", "", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "GIVER", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "RECEIVER", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "OWN_TEAM_MEMBERS", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "RECEIVER_TEAM_MEMBERS", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "STUDENTS", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         ______TS("Non-existent feedback response comment id");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
         };
 
-        action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
+        action = getAction(requestBody, submissionParams);
+        EditFeedbackResponseCommentAction action0 = action;
+        assertThrows(EntityNotFoundException.class, () -> getJsonResult(action0));
 
         ______TS("Instructor is not feedback response comment giver");
 
         gaeSimulation.loginAsInstructor("idOfInstructor2OfCourse1");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
         };
-        action = getAction(submissionParams);
+
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
@@ -247,16 +200,12 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
         FeedbackSessionsLogic.inst().publishFeedbackSession(fs);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT,
-                        feedbackResponseComment.commentText + " (Edited for published session)",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
         };
 
-        action = getAction(submissionParams);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                feedbackResponseComment.commentText + " (Edited for published session)", "GIVER,INSTRUCTORS", null);
+        action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
@@ -269,16 +218,13 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
         ______TS("Unsuccessful case: empty comment text");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
         };
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
+        requestBody = new FeedbackResponseCommentSaveRequest(
+                "", null, null);
+        action = getAction(requestBody, submissionParams);
+        JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
@@ -317,7 +263,7 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
         };
         // this person is not the giver. so not accessible
-        // verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
+        verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
 }
