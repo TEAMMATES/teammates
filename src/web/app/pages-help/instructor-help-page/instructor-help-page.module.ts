@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
-import { ScrollSpyDirective } from './scroll-spy.directive';
 
 import {
   InstructorHelpCoursesSectionComponent,
@@ -36,7 +35,6 @@ import {
   declarations: [
     InstructorHelpPageComponent,
     InstructorHelpStudentsSectionComponent,
-    ScrollSpyDirective,
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
