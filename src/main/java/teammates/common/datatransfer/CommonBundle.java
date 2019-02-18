@@ -1,7 +1,10 @@
 package teammates.common.datatransfer;
 
 /**
- * Represents details of an account.
+ * Represents common details of an account.
+ *  * <br> Contains:
+ *  * <br> * account name, email, google id, course name, institution.
+ *  * <br> * link for join course, home page and manage account.
  */
 public class CommonBundle {
     protected String name;

@@ -5,6 +5,9 @@ import java.util.Map;
 
 /**
  * Represents details of a student account.
+ *  * <br> Contains:
+ *  * <br> * The section name, team name, comments.
+ *  * <br> * Associated opened, not opened, and published sessions.
  */
 public class StudentBundle extends CommonBundle {
     private String section;
