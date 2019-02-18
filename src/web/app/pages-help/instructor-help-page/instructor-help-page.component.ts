@@ -11,10 +11,11 @@ import { Sections } from './sections';
   styleUrls: ['./instructor-help-page.component.scss'],
 })
 export class InstructorHelpPageComponent implements OnInit {
+  // enum
+  Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
-  Sections: typeof Sections = Sections;
 
   @ViewChild('helpPage') bodyRef ?: ElementRef;
 
