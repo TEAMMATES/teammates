@@ -21,7 +21,6 @@ import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
  */
 public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetFeedbackQuestionRecipientsAction> {
 
-    private DataBundle testData;
     private FeedbackSessionAttributes firstSessionInCourse1;
     private FeedbackSessionAttributes secondSessionInCourse1;
     private FeedbackSessionAttributes firstSessionInCourse2;
@@ -32,7 +31,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Override
     @BeforeMethod
     public void beforeTestMethodSetup() {
-        testData = loadDataBundle("/FeedbackQuestionRecipientsTest.json");
+        DataBundle testData = loadDataBundle("/FeedbackQuestionRecipientsTest.json");
         removeAndRestoreDataBundle(testData);
         firstSessionInCourse1 = testData.feedbackSessions.get("session1InCourse1");
         secondSessionInCourse1 = testData.feedbackSessions.get("session2InCourse1");
@@ -54,6 +53,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
     @Override
     protected void testExecute() throws Exception {
+        // Method is required to implement. This comment is used to pass lint
     }
 
     @Test
