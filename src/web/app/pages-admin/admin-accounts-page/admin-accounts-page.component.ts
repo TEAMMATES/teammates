@@ -1,24 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from '../../../services/account.service';
+import { AccountAttributes, AccountInfo, AccountService, CourseAttributes } from '../../../services/account.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountInfo } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface CourseAttributes {
-  id: string;
-  name: string;
-}
-
-interface AccountAttributes {
-  googleId: string;
-  name: string;
-  email: string;
-  institute?: string;
-  isInstructor: boolean;
-}
 
 /**
  * Admin accounts page.

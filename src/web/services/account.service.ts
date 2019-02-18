@@ -5,6 +5,34 @@ import { AccountCreateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
+ * Represents course attributes.
+ */
+export interface CourseAttributes {
+  id: string;
+  name: string;
+}
+
+/**
+ * Represents account attributes.
+ */
+export interface AccountAttributes {
+  googleId: string;
+  name: string;
+  email: string;
+  institute?: string;
+  isInstructor: boolean;
+}
+
+/**
+ * Represents detailed information of an account.
+ */
+export interface AccountInfo {
+  accountInfo: AccountAttributes;
+  instructorCourses: CourseAttributes[];
+  studentCourses: CourseAttributes[];
+}
+
+/**
  * Handles account related logic provision
  */
 
