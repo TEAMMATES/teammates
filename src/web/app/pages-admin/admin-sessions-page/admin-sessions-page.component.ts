@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { SessionsService } from '../../../services/sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface OngoingSessionInternal extends OngoingSession {
+interface OngoingSessionModel {
+  ongoingSession: OngoingSession;
   responseRate?: string;
 }
 
@@ -42,8 +44,10 @@ export class AdminSessionsPageComponent implements OnInit {
   startTimeString: string = '';
   endTimeString: string = '';
 
-  constructor(private timezoneService: TimezoneService, private httpRequestService: HttpRequestService,
-      private statusMessageService: StatusMessageService) {}
+  constructor(private timezoneService: TimezoneService,
+              private statusMessageService: StatusMessageService,
+              private sessionsService: SessionsService,
+              private httpRequestService: HttpRequestService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -122,11 +126,7 @@ export class AdminSessionsPageComponent implements OnInit {
     this.endTimeString = endTime.format(displayFormat);
     this.timezoneString = this.timezone;
 
-    const paramMap: { [key: string]: string } = {
-      starttime: startTime.toDate().getTime(),
-      endtime: endTime.toDate().getTime(),
-    };
-    this.httpRequestService.get('/sessions/ongoing', paramMap).subscribe((resp: OngoingSessions) => {
+    this.sessionsService.getOngoingSessions(startTime, endTime).subscribe((resp: OngoingSessions) => {
       this.totalOngoingSessions = resp.totalOngoingSessions;
       this.totalOpenSessions = resp.totalOpenSessions;
       this.totalClosedSessions = resp.totalClosedSessions;
@@ -156,9 +156,13 @@ export class AdminSessionsPageComponent implements OnInit {
       fsname: feedbackSessionName,
     };
     this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      const sessions: OngoingSessionInternal[] = this.sessions[institute].filter((session: OngoingSession) =>
+      const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSession) =>
           session.courseId === courseId && session.feedbackSessionName === feedbackSessionName,
-      );
+      ).map((session: OngoingSession) => {
+        return {
+          ongoingSession: session,
+        };
+      });
       if (sessions.length) {
         sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
       }
