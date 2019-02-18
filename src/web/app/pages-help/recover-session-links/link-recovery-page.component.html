@@ -15,7 +15,10 @@
 
       <div class="top-padded">
         <strong>Email: </strong>
-        <input class="form-control" type="email" [(ngModel)]="recoveryEmail">
+        <input class="form-control" type="email" email="true" [(ngModel)]="recoveryEmail" #recEmail="ngModel">
+      </div>
+      <div *ngIf="recEmail.invalid && recEmail.touched" class="alert alert-danger">
+        Please enter a valid email address
       </div>
 
       <!-- Add Recaptcha -->
@@ -23,7 +26,7 @@
       <!--<div vc-recaptcha key="6LeZSZEUAAAAAO-xCzi314NoCgJILEH9qzFuer3P"></div>-->
 
       <div class="top-padded">
-        <button class="btn btn-primary" (click)="onSubmitLinkRecovery()">Submit</button>
+        <button class="btn btn-primary" [disabled]="recEmail.invalid" (click)="onSubmitLinkRecovery()">Submit</button>
       </div>
     </div>
   </div>
