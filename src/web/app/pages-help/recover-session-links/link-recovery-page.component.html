@@ -15,9 +15,6 @@
           <strong>Email:</strong>
         </label>
         <input class="form-control" type="email" formControlName="email" maxlength="254" email="true">
-        <div *ngIf="formLinkRecovery.controls.email.touched && formLinkRecovery.controls.email.invalid" class="alert alert-danger">
-          Please enter a valid email address
-        </div>
       </div>
 
       <div class="form-row form-group top-padded">
@@ -32,12 +29,9 @@
       </div>
 
       <div class="form-row top-padded">
-        <button [disabled]="!formLinkRecovery.valid" class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" type="submit">
           Submit
         </button>
-      </div>
-      <div *ngIf="formLinkRecovery.controls.email.valid && formLinkRecovery.controls.recaptcha.invalid" class="form-row alert alert-danger">
-        Please complete the reCAPTCHA
       </div>
 
     </form>

@@ -42,16 +42,14 @@ export class LinkRecoveryPageComponent implements OnInit {
    * Sends the feedback session links to the registered email address.
    */
   onSubmitLinkRecovery(linkRecoveryForm: FormGroup): void {
-    const recoveryEmail: string = linkRecoveryForm.controls.email.value;
-
-    if (!recoveryEmail || this.captchaResponse === undefined) {
+    if (!this.formLinkRecovery.valid || this.captchaResponse === undefined) {
       this.statusMessageService.showErrorMessage(
-          'Please enter an email address and click the reCAPTCHA before submitting.');
+          'Please enter a valid email address and click the reCAPTCHA before submitting.');
       return;
     }
 
     const paramsMap: { [key: string]: string } = {
-      recoveryemail: recoveryEmail,
+      recoveryemail: linkRecoveryForm.controls.email.value,
       captcharesponse: this.captchaResponse,
     };
 
