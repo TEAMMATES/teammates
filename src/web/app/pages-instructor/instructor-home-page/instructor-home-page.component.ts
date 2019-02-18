@@ -28,6 +28,7 @@ interface CourseTabModel {
   sessionsTableRowModelsSortBy: SortBy;
   sessionsTableRowModelsSortOrder: SortOrder;
 
+  hasPopulated: boolean;
   isTabExpanded: boolean;
 }
 
@@ -143,6 +144,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           instructorPrivilege: defaultInstructorPrivilege,
           sessionsTableRowModels: [],
           isTabExpanded: false,
+          hasPopulated: false,
           sessionsTableRowModelsSortBy: SortBy.NONE,
           sessionsTableRowModelsSortOrder: SortOrder.ASC,
         };
@@ -171,7 +173,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Loads the feedback session in the course.
    */
   loadFeedbackSessions(model: CourseTabModel): void {
-    if (model.sessionsTableRowModels.length === 0) {
+    if (!model.hasPopulated) {
       this.httpRequestService.get('/sessions', {
         courseid: model.course.courseId,
       }).subscribe((response: FeedbackSessions) => {
@@ -186,6 +188,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           this.updateInstructorPrivilege(m);
         });
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+      model.hasPopulated = true;
     }
     model.isTabExpanded = !model.isTabExpanded;
   }
