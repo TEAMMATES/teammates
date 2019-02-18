@@ -537,6 +537,7 @@
                                 <include class="${test}.driver.MockHttpServletRequest" />
                                 <include class="${test}.driver.MockHttpServletRequest$**" />
                                 <include class="${test}.driver.MockHttpServletResponse" />
+                                <include class="${test}.driver.MockPart" />
                             </from>
                         </allow>
                     </deny>

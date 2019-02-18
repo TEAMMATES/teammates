@@ -56,10 +56,10 @@ public class PostStudentProfilePictureAction extends Action {
 
     private Part extractProfilePicture() throws IllegalStateException {
         try {
-            if (req.getParts() == null || req.getParts().isEmpty()) {
+            Part image = req.getPart("studentprofilephoto");
+            if (image == null) {
                 throw new IllegalArgumentException(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
             }
-            Part image = req.getParts().iterator().next();
             return validateProfilePicture(image);
         } catch (Exception e) {
             return null;
