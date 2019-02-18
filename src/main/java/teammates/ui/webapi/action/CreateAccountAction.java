@@ -42,10 +42,10 @@ public class CreateAccountAction extends Action {
 
     @Override
     public ActionResult execute() {
+        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName();
-        String instructorEmail = createRequest.getInstructorEmail();
 
         String courseId = null;
 

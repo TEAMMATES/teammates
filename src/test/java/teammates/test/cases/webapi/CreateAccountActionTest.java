@@ -45,10 +45,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String emailWithSpaces = "   " + email + "   ";
         String instituteWithSpaces = "   " + institute + "   ";
 
-        String[] params = {};
+        String[] paramWithSpace = {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces
+        };
 
-        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, emailWithSpaces, instituteWithSpaces);
-        CreateAccountAction a = getAction(req, params);
+        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces);
+        CreateAccountAction a = getAction(req, paramWithSpace);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -75,9 +77,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         String invalidName = "James%20Bond99";
 
-        req = buildCreateRequest(invalidName, email, institute);
+        String[] paramInvalid = {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces
+        };
+        req = buildCreateRequest(invalidName, institute);
 
-        CreateAccountAction finalA = getAction(req, params);
+        CreateAccountAction finalA = getAction(req, paramInvalid);
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             getJsonResult(finalA);
         });
@@ -140,11 +145,10 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
-    private AccountCreateRequest buildCreateRequest(String name, String email, String institution) {
+    private AccountCreateRequest buildCreateRequest(String name, String institution) {
         AccountCreateRequest req = new AccountCreateRequest();
 
         req.setInstructorName(name);
-        req.setInstructorEmail(email);
         req.setInstructorInstitution(institution);
 
         return req;

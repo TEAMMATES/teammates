@@ -39,8 +39,7 @@ export class AdminAccountsPageComponent implements OnInit {
    * Loads the account information based on the given ID.
    */
   loadAccountInfo(instructorid: string): void {
-    const paramMap: { [key: string]: string } = { instructorid };
-    this.accountService.getAccount(paramMap).subscribe((resp: AccountInfo) => {
+    this.accountService.getAccount(instructorid).subscribe((resp: AccountInfo) => {
       this.instructorCourses = resp.instructorCourses;
       this.studentCourses = resp.studentCourses;
       this.accountInfo = resp.accountInfo;
@@ -54,10 +53,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   downgradeAccountToStudent(): void {
     const id: string = this.accountInfo.googleId;
-    const paramMap: { [key: string]: string } = {
-      instructorid: id,
-    };
-    this.accountService.downgradeAccount(paramMap).subscribe(() => {
+    this.accountService.downgradeAccount(id).subscribe(() => {
       this.loadAccountInfo(id);
       this.statusMessageService.showSuccessMessage('Instructor account is successfully downgraded to student.');
     }, (resp: ErrorMessageOutput) => {
@@ -70,10 +66,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   deleteAccount(): void {
     const id: string = this.accountInfo.googleId;
-    const paramMap: { [key: string]: string } = {
-      instructorid: id,
-    };
-    this.accountService.deleteAccount(paramMap).subscribe(() => {
+    this.accountService.deleteAccount(id).subscribe(() => {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
           `Instructor account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {

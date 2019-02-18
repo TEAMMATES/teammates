@@ -24,10 +24,7 @@ export class AdminSearchPageComponent {
    * Searches for students and instructors matching the search query.
    */
   search(): void {
-    const paramMap: { [key: string]: string } = {
-      searchkey: this.searchQuery,
-    };
-    this.accountService.searchAccounts(paramMap).subscribe((resp: AdminSearchResult) => {
+    this.accountService.searchAccounts(this.searchQuery).subscribe((resp: AdminSearchResult) => {
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;
@@ -87,11 +84,7 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    const paramMap: { [key: string]: string } = {
-      courseid: instructor.courseId,
-      instructoremail: instructor.email,
-    };
-    this.accountService.resetAccount(paramMap).subscribe(() => {
+    this.accountService.resetAccount(instructor.courseId, instructor.email).subscribe(() => {
       this.search();
       this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
@@ -108,11 +101,7 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    const paramMap: { [key: string]: string } = {
-      courseid: student.courseId,
-      studentemail: student.email,
-    };
-    this.accountService.resetAccount(paramMap).subscribe(() => {
+    this.accountService.resetAccount(student.courseId, student.email).subscribe(() => {
       student.googleId = '';
       this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {

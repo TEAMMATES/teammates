@@ -12,8 +12,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Gender } from '../../../types/gender';
+import { StudentProfileService } from '../../../services/student-profile.service';
+import { StudentProfileUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentProfileUpdateRequest } from "../../../types/api-request";
 
 interface StudentProfile {
   shortName: string;

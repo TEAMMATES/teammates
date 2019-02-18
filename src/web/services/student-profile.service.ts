@@ -12,6 +12,7 @@ import { HttpRequestService } from './http-request.service';
 @Injectable({
   providedIn: 'root',
 })
+
 export class StudentProfileService {
 
   constructor(private httpRequestService: HttpRequestService) {
@@ -31,5 +32,4 @@ export class StudentProfileService {
   getStudentProfile(paramsMap: {[key: string]: string}): Observable<StudentDetails> {
     return this.httpRequestService.get('/student/profile', paramsMap);
   }
-
 }

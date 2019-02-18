@@ -47,42 +47,57 @@ export class AccountService {
   /**
    * Creates an account by calling API.
    */
-  createAccount(paramMap: {[key: string]: string}, request: AccountCreateRequest): Observable<JoinLink> {
+  createAccount(instructorEmail: string, request: AccountCreateRequest): Observable<JoinLink> {
+    const paramMap: { [key: string]: string } = { instructorEmail };
     return this.httpRequestService.post('/account', paramMap, request);
   }
 
   /**
    * Gets an account info by calling API.
    */
-  getAccount(paramMap: {[key: string]: string}): Observable<AccountInfo> {
+  getAccount(instructorid: string): Observable<AccountInfo> {
+    const paramMap: { [key: string]: string } = { instructorid };
     return this.httpRequestService.get('/accounts', paramMap);
   }
 
   /**
    * Downgrades an account from instructor to student by calling API.
    */
-  downgradeAccount(paramMap: {[key: string]: string}): Observable<MessageOutput> {
+  downgradeAccount(id: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = {
+      instructorid: id,
+    };
     return this.httpRequestService.put('/account/downgrade', paramMap);
   }
 
   /**
    * Deletes an account by calling API.
    */
-  deleteAccount(paramMap: {[key: string]: string}): Observable<MessageOutput> {
+  deleteAccount(id: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = {
+      instructorid: id,
+    };
     return this.httpRequestService.delete('/account', paramMap);
   }
 
   /**
    * Resets an account by calling API.
    */
-  resetAccount(paramMap: {[key: string]: string}): Observable<MessageOutput> {
+  resetAccount(courseId: string, instructorEmail: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      instructoremail: instructorEmail,
+    };
     return this.httpRequestService.put('/account/reset', paramMap);
   }
 
   /**
    * Search accounts by calling API.
    */
-  searchAccounts(paramMap: {[key: string]: string}): Observable<AdminSearchResult> {
+  searchAccounts(searchKey: string): Observable<AdminSearchResult> {
+    const paramMap: { [key: string]: string } = {
+      searchkey: searchKey,
+    };
     return this.httpRequestService.get('/accounts/search', paramMap);
   }
 

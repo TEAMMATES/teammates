@@ -78,11 +78,10 @@ export class AdminHomePageComponent {
     this.activeRequests += 1;
     const instructor: InstructorData = this.instructorsConsolidated[i];
     instructor.status = 'ADDING';
-    const paramMap: { [key: string]: string } = {};
+    const instructorEmail: string = instructor.email;
 
-    this.accountService.createAccount(paramMap, {
+    this.accountService.createAccount(instructorEmail, {
       instructorName: instructor.name,
-      instructorEmail: instructor.email,
       instructorInstitution: instructor.institution,
     }).subscribe((resp: JoinLink) => {
       instructor.status = 'SUCCESS';
