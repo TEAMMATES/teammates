@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccountInfo, AdminSearchResult, JoinLink, MessageOutput } from '../types/api-output';
+import { AdminSearchResult, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountCreateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -27,7 +27,7 @@ export class AccountService {
    * Gets an account info by calling API.
    */
   getAccount(paramMap: {[key: string]: string}): Observable<AccountInfo> {
-    return this.httpRequestService.get('/account', paramMap);
+    return this.httpRequestService.get('/accounts', paramMap);
   }
 
   /**

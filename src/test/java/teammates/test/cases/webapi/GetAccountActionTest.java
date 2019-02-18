@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetAccountAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.AccountInfoData;
 
 
 /**
@@ -18,7 +17,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNT;
+        return Const.ResourceURIs.ACCOUNTS;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        AccountInfoData response = (AccountInfoData) r.getOutput();
+        GetAccountAction.AccountInfoData response = (GetAccountAction.AccountInfoData) r.getOutput();
 
         assertEquals(response.getAccountInfo().getGoogleId(), instructor1OfCourse1.getGoogleId());
         assertEquals(response.getAccountInfo().getName(), instructor1OfCourse1.getName());

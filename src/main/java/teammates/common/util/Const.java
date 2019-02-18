@@ -925,6 +925,7 @@ public final class Const {
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
+        public static final String ACCOUNTS = "/accounts";
         public static final String ACCOUNT = "/account";
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNT_RESET = "/account/reset";
@@ -965,7 +966,6 @@ public final class Const {
         public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
-        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/students/csv";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
@@ -976,6 +976,7 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
+        public static final String STUDENTS_CSV = "/students/csv";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
 
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";

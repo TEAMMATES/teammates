@@ -18,7 +18,7 @@ public class GetInstructorCourseAllStudentsInCsvActionTest extends
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV;
+        return Const.ResourceURIs.STUDENTS_CSV;
     }
 
     @Override
