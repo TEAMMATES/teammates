@@ -22,7 +22,7 @@ import teammates.ui.webapi.output.JoinLinkData;
 import teammates.ui.webapi.request.AccountCreateRequest;
 
 /**
- * Action: creates a new instructor account with sample courses.
+ * Creates a new instructor account with sample courses.
  */
 public class CreateAccountAction extends Action {
 

@@ -10,7 +10,7 @@ import teammates.common.util.StringHelper;
 import teammates.ui.webapi.request.StudentProfileUpdateRequest;
 
 /**
- * Action: Update a student's profile.
+ * Update a student's profile.
  */
 public class PutStudentProfileAction extends Action {
 

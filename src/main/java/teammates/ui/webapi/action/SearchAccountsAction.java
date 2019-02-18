@@ -22,7 +22,7 @@ import teammates.ui.webapi.output.AdminSearchResultData;
 
 
 /**
- * Action: searches for accounts.
+ * Searches for accounts.
  */
 public class SearchAccountsAction extends Action {
 

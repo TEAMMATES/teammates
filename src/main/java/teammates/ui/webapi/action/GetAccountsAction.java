@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.output.ApiOutput;
 
 /**
- * Action: gets account's information.
+ * Gets account's information.
  */
 public class GetAccountsAction extends Action {
 
