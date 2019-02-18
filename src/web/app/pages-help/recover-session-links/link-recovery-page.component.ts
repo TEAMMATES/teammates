@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
@@ -12,7 +13,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './link-recovery-page.component.html',
   styleUrls: ['./link-recovery-page.component.scss'],
 })
-export class LinkRecoveryPageComponent {
+export class LinkRecoveryPageComponent implements OnInit {
 
   // ngx-recaptcha2 element properties
   captchaIsLoaded: boolean = false;
@@ -22,24 +23,34 @@ export class LinkRecoveryPageComponent {
   size: 'compact' | 'normal' = 'normal';
   lang: string = 'en';
 
-  recoveryEmail: string = '';
+  formLinkRecovery!: FormGroup;
   readonly siteKey: string = '6LeZSZEUAAAAAO-xCzi314NoCgJILEH9qzFuer3P';
 
   constructor(private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService) {}
+              private statusMessageService: StatusMessageService,
+              private formBuilder: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.formLinkRecovery = this.formBuilder.group({
+      email: ['', Validators.required],
+      recaptcha: ['', Validators.required],
+    });
+  }
 
   /**
    * Sends the feedback session links to the registered email address.
    */
-  onSubmitLinkRecovery(): void {
-    if (!this.recoveryEmail || this.captchaResponse === undefined) {
+  onSubmitLinkRecovery(linkRecoveryForm: FormGroup): void {
+    const recoveryEmail: string = linkRecoveryForm.controls.email.value;
+
+    if (!recoveryEmail || this.captchaResponse === undefined) {
       this.statusMessageService.showErrorMessage(
           'Please enter an email address and click the reCAPTCHA before submitting.');
       return;
     }
 
     const paramsMap: { [key: string]: string } = {
-      recoveryemail: this.recoveryEmail,
+      recoveryemail: recoveryEmail,
       captcharesponse: this.captchaResponse,
     };
 
@@ -48,7 +59,6 @@ export class LinkRecoveryPageComponent {
         this.statusMessageService.showSuccessMessage(resp.message);
 
         // Reset input field and reCAPTCHA
-        this.recoveryEmail = '';
         this.handleReset();
       }, (response: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(response.error.message);

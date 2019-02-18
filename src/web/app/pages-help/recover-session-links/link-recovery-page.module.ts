@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { LinkRecoveryPageComponent } from './link-recovery-page.component';
 
@@ -11,6 +11,7 @@ import { LinkRecoveryPageComponent } from './link-recovery-page.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxCaptchaModule,
   ],
   declarations: [

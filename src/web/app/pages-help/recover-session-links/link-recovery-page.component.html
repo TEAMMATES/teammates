@@ -8,20 +8,19 @@
   </p>
 
   <div class="card bg-light top-padded col-sm-9 col-md-6">
-    <div class="card-body">
-      <div>
-        <strong>Requesting your Session Links</strong>
+    <form class="form form-horizontal" [formGroup]="formLinkRecovery" (ngSubmit)="onSubmitLinkRecovery(formLinkRecovery)">
+
+      <div class="form-group form-row top-padded">
+        <label class="control-label">
+          <strong>Email:</strong>
+        </label>
+        <input class="form-control" type="email" formControlName="email" maxlength="254" email="true">
+        <div *ngIf="formLinkRecovery.controls.email.touched && formLinkRecovery.controls.email.invalid" class="alert alert-danger">
+          Please enter a valid email address
+        </div>
       </div>
 
-      <div class="top-padded">
-        <strong>Email: </strong>
-        <input class="form-control" type="email" email="true" [(ngModel)]="recoveryEmail" #recEmail="ngModel">
-      </div>
-      <div *ngIf="recEmail.invalid && recEmail.touched" class="alert alert-danger">
-        Please enter a valid email address
-      </div>
-
-      <div class="top-padded">
+      <div class="form-row form-group top-padded">
         <ngx-recaptcha2 [siteKey]="siteKey"
                         (reset)="handleReset()"
                         (expire)="handleExpire()"
@@ -29,14 +28,20 @@
                         (success)="handleSuccess($event)"
                         [useGlobalDomain]="false"
                         [size]="size"
-                        [hl]="lang">
+                        [hl]="lang"
+                        formControlName="recaptcha">
         </ngx-recaptcha2>
       </div>
 
-      <div class="top-padded">
-        <button class="btn btn-primary" [disabled]="recEmail.invalid" (click)="onSubmitLinkRecovery()">Submit</button>
+      <div class="form-row top-padded">
+        <button [disabled]="!formLinkRecovery.valid" class="btn btn-primary" type="submit">
+          Submit
+        </button>
+      </div>
+      <div *ngIf="formLinkRecovery.controls.email.valid && formLinkRecovery.controls.recaptcha.invalid" class="form-row alert alert-danger">
+        Please complete the reCAPTCHA
       </div>
 
-    </div>
+    </form>
   </div>
 </main>
