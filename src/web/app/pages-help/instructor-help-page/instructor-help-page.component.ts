@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { Sections } from './sections';
 
 /**
  * Instructor help page.
@@ -13,7 +14,7 @@ export class InstructorHelpPageComponent implements OnInit {
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
-  currentSection: String = 'body';
+  Sections: typeof Sections = Sections;
 
   @ViewChild('helpPage') bodyRef ?: ElementRef;
 
