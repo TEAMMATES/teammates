@@ -2,9 +2,28 @@
  * Represents the different sections of the instructor help page.
  */
 export enum Sections {
-    students = 'students',
-    courses = 'courses',
-    sessions = 'sessions',
-    questions = 'questions',
-    body = 'body',
+  /**
+   * Students section.
+   */
+  students = 'students',
+
+  /**
+   * Courses section.
+   */
+  courses = 'courses',
+
+  /**
+   * Sessions section.
+   */
+  sessions = 'sessions',
+
+  /**
+   * Questions section.
+   */
+  questions = 'questions',
+
+  /**
+   * Reference to the top.
+   */
+  body = 'body',
 }
