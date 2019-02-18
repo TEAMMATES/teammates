@@ -36,11 +36,16 @@ public class GetCourseEditDetailsAction extends Action {
         InstructorPrivileges customPrivileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
 
-        INSTRUCTOR_PRIVILEGES.put("coowner", coOwnerPrivileges);
-        INSTRUCTOR_PRIVILEGES.put("manager", managerPrivileges);
-        INSTRUCTOR_PRIVILEGES.put("observer", observerPrivileges);
-        INSTRUCTOR_PRIVILEGES.put("tutor", tutorPrivileges);
-        INSTRUCTOR_PRIVILEGES.put("custom", customPrivileges);
+        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                coOwnerPrivileges);
+        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
+                managerPrivileges);
+        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+                observerPrivileges);
+        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+                tutorPrivileges);
+        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+                customPrivileges);
     }
 
     @Override
@@ -123,7 +128,7 @@ public class GetCourseEditDetailsAction extends Action {
         int instructorToShowIndex;
         List<String> sectionNames;
         List<String> feedbackNames;
-        Map<String, InstructorPrivileges> instructorPrivileges;
+        Map<String, InstructorPrivileges> defaultPrivileges;
 
         public CourseEditDetails(CourseAttributes courseToEdit, List<InstructorAttributes> instructorList,
                                  InstructorAttributes instructor, int instructorToShowIndex,
@@ -134,7 +139,7 @@ public class GetCourseEditDetailsAction extends Action {
             this.instructorToShowIndex = instructorToShowIndex;
             this.sectionNames = sectionNames;
             this.feedbackNames = feedbackNames;
-            this.instructorPrivileges = INSTRUCTOR_PRIVILEGES;
+            this.defaultPrivileges = INSTRUCTOR_PRIVILEGES;
         }
 
         public CourseAttributes getCourseToEdit() {
@@ -161,8 +166,8 @@ public class GetCourseEditDetailsAction extends Action {
             return feedbackNames;
         }
 
-        public Map<String, InstructorPrivileges> getInstructorPrivileges() {
-            return instructorPrivileges;
+        public Map<String, InstructorPrivileges> getDefaultPrivileges() {
+            return defaultPrivileges;
         }
     }
 

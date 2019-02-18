@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title">Permissions for {{ instructorrole }}</h4>
+  <button class="close" data-dismiss="modal" aria-hidden="true" (click)="activeModal.dismiss()">x</button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-6">
+      <input type="checkbox" [(ngModel)]="model.canmodifycourse">
+      Edit/Delete/Restore Course
+    </div>
+    <div class="col-sm-6">
+      <input type="checkbox" [(ngModel)]="model.canmodifyinstructor">
+      Add/Edit/Delete Instructors
+    </div>
+    <div class="col-sm-6">
+      <input type="checkbox" [(ngModel)]="model.canmodifysession">
+      Create/Edit/Delete/Restore Sessions
+    </div>
+    <div class="col-sm-6">
+      <input type="checkbox" [(ngModel)]="model.canmodifystudent">
+      Enroll/Edit/Delete Students
+    </div>
+    <div class="col-sm-6">
+      <input type="checkbox" [(ngModel)]="model.canviewstudentinsection">
+      View Students' Details
+      <br>
+    </div>
+    <div class="col-sm-6">
+      <input type="checkbox" [(ngModel)]="model.cansubmitsessioninsection">
+      Sessions: Submit Responses and Add Comments
+      <br>
+      <input type="checkbox" [(ngModel)]="model.canviewsessioninsection">
+      Sessions: View Responses and Comments
+      <br>
+      <input type="checkbox" [(ngModel)]="model.canmodifysessioncommentinsection">
+      Sessions: Edit/Delete Responses/Comments by others
+      <br>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -9,6 +9,10 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
+import {
+  DefaultPrivileges, Privileges, SectionLevelPrivileges, SessionLevelPrivileges,
+} from './instructor-privileges-model';
+import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
 
 interface Course {
   id: string;
@@ -17,56 +21,44 @@ interface Course {
   timeZone: string;
 }
 
-interface CourseLevelPrivileges {
-  canmodifycourse: boolean;
-  canmodifyinstructor: boolean;
-  canmodifysession: boolean;
-  canmodifystudent: boolean;
-  canviewstudentinsection: boolean;
-  canviewsessioninsection: boolean;
-  cansubmitsessioninsection: boolean;
-  canmodifysessioncommentinsection: boolean;
-}
+/**
+ * Possible instructor roles.
+ */
+enum Role {
+  /**
+   * Co-owner instructor role.
+   */
+  COOWNER = 'Co-owner',
 
-interface SectionLevelPrivileges {
-  canviewstudentinsection: boolean;
-  canviewsessioninsection: boolean;
-  cansubmitsessioninsection: boolean;
-  canmodifysessioncommentinsection: boolean;
-}
+  /**
+   * Manager instructor role.
+   */
+  MANAGER = 'Manager',
 
-interface SessionLevelPrivileges {
-  canviewsessioninsection: boolean;
-  cansubmitsessioninsection: boolean;
-  canmodifysessioncommentinsection: boolean;
-}
+  /**
+   * Observer instructor role.
+   */
+  OBSERVER = 'Observer',
 
-interface Privileges {
-  courseLevel: CourseLevelPrivileges;
+  /**
+   * Tutor instructor role.
+   */
+  TUTOR = 'Tutor',
 
-  // Maps a section name to section level privileges
-  sectionLevel: { [section: string]: SectionLevelPrivileges };
-
-  // Maps a section name to a map mapping the session name and session privileges
-  sessionLevel: { [section: string]: { [session: string]: SessionLevelPrivileges } };
+  /**
+   * Custom instructor role.
+   */
+  CUSTOM = 'Custom',
 }
 
 interface InstructorAttributes {
   googleId: string;
   name: string;
   email: string;
-  role: string;
+  role: Role;
   isDisplayedToStudents: boolean;
   displayedName: string;
   privileges: Privileges;
-}
-
-interface InstructorPrivileges {
-  coowner: Privileges;
-  manager: Privileges;
-  observer: Privileges;
-  tutor: Privileges;
-  custom: Privileges;
 }
 
 interface CourseEditDetails {
@@ -76,7 +68,7 @@ interface CourseEditDetails {
   instructorToShowIndex: number;
   sectionNames: string[];
   feedbackNames: string[];
-  instructorPrivileges: InstructorPrivileges;
+  defaultPrivileges: DefaultPrivileges;
 }
 
 /**
@@ -91,7 +83,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   user: string = '';
 
-  // Models
+  // enums
+  Role: typeof Role = Role;
+
+  // models
   courseEditFormModel: CourseEditFormModel = {
     courseId: '',
     courseName: '',
@@ -109,7 +104,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   instructorToShowIndex: number = -1;
   sectionNames: string[] = [];
   feedbackNames: string[] = [];
-  instructorPrivileges!: InstructorPrivileges;
+  defaultPrivileges!: DefaultPrivileges;
 
   isAddingInstructor: boolean = false;
   formAddInstructor!: FormGroup;
@@ -120,7 +115,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private fb: FormBuilder,
-              private ngbModal: NgbModal) { }
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -128,6 +123,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.getCourseEditDetails(queryParams.courseid);
     });
   }
+
+  /******************************************************************************
+   * COURSE DETAILS RELATED FUNCTIONS
+   ******************************************************************************/
 
   /**
    * Gets details related to the specified course.
@@ -142,7 +141,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorToShowIndex = resp.instructorToShowIndex;
           this.sectionNames = resp.sectionNames;
           this.feedbackNames = resp.feedbackNames;
-          this.instructorPrivileges = resp.instructorPrivileges;
+          this.defaultPrivileges = resp.defaultPrivileges;
 
           this.initEditInstructorsForm();
         }, (resp: ErrorMessageOutput) => {
@@ -203,6 +202,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
         });
   }
 
+  /******************************************************************************
+   * EDIT INSTRUCTOR RELATED FUNCTIONS
+   ******************************************************************************/
+
   /**
    * Gets the placeholder content for displayed name when it is not displayed to students.
    */
@@ -219,7 +222,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const control: FormArray = this.fb.array([]);
     this.instructorList.forEach((instructor: InstructorAttributes, index: number) => {
-      const instructorPrivileges: Privileges = instructor.privileges;
+      const defaultPrivileges: Privileges = instructor.privileges;
       const instructorEmail: string = instructor.email ? instructor.email : '';
       const instructorDisplayedName: string = instructor.isDisplayedToStudents ? instructor.displayedName : '';
 
@@ -230,7 +233,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
         displayedName: [{ value: instructorDisplayedName, disabled: true }],
         role: [{ value: instructor.role }],
-        privileges: [{ value: instructorPrivileges }],
+        privileges: [{ value: defaultPrivileges }],
         tunePermissions: this.fb.group({
           permissionsForCourse: this.fb.group(instructor.privileges.courseLevel),
           tuneSectionGroupPermissions: this.fb.array([]),
@@ -490,7 +493,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: instr.controls.role.value,
       isDisplayedToStudents: instr.controls.isDisplayedToStudents.value,
       displayedName: instr.controls.displayedName.value,
-      privileges: this.getPrivilegesForRole(instr.controls.role.value),
+      privileges: this.defaultPrivileges[instr.controls.role.value],
     };
 
     const paramsMap: { [key: string]: string } = {
@@ -623,29 +626,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
-   * Gets the privileges for a particular role.
-   */
-  private getPrivilegesForRole(role: string): Privileges {
-    if (role === 'Co-owner') {
-      return this.instructorPrivileges.coowner;
-    }
-
-    if (role === 'Manager') {
-      return this.instructorPrivileges.manager;
-    }
-
-    if (role === 'Observer') {
-      return this.instructorPrivileges.observer;
-    }
-
-    if (role === 'Tutor') {
-      return this.instructorPrivileges.tutor;
-    }
-
-    return this.instructorPrivileges.custom;
-  }
-
-  /**
    * Updates elements and buttons related to the current instructor's privileges.
    */
   private updateElementsForPrivileges(): void {
@@ -671,6 +651,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }
   }
 
+  /******************************************************************************
+   * ADD INSTRUCTOR RELATED FUNCTIONS
+   ******************************************************************************/
+
   /**
    * Initialises a new form for adding an instructor to the current course.
    */
@@ -682,7 +666,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudents: [{ value: true }],
       displayedName: ['Instructor'],
       role: ['Co-owner'],
-      privileges: this.getPrivilegesForRole('Co-owner'),
+      privileges: this.defaultPrivileges.coowner,
       tunePermissions: this.fb.group({
         permissionsForCourse: this.fb.group({
           canmodifycourse: true,
@@ -730,7 +714,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: formAddInstructor.controls.role.value,
       isDisplayedToStudents: formAddInstructor.controls.isDisplayedToStudents.value,
       displayedName: formAddInstructor.controls.displayedName.value,
-      privileges: this.getPrivilegesForRole(formAddInstructor.controls.role.value),
+      privileges: this.defaultPrivileges[formAddInstructor.controls.role.value],
     };
 
     const paramsMap: { [key: string]: string } = {
@@ -852,7 +836,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Opens a modal to confirm deleting an instructor.
    */
   onSubmitDeleteInstructor(deleteInstructorModal: NgbModal, index: number): void {
-    this.ngbModal.open(deleteInstructorModal);
+    this.modalService.open(deleteInstructorModal);
 
     const instructorToDelete: InstructorAttributes = this.instructorList[index];
     const modalId: string = 'delete-instr-modal';
@@ -905,109 +889,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   private removeFromInstructorList(index: number): void {
     this.instructorList.splice(index, 1);
     (this.formEditInstructors.controls.formInstructors as FormArray).removeAt(index);
-  }
-
-  /**
-   * Opens a modal to show the privileges for a given instructor.
-   */
-  viewInstructorRole(viewInstructorRoleModal: NgbModal, index: number): boolean {
-    this.ngbModal.open(viewInstructorRoleModal);
-
-    const instructorToView: InstructorAttributes =  this.instructorList[index];
-    this.initViewInstructorRole(instructorToView.role, instructorToView.privileges.courseLevel);
-    return false;
-  }
-
-  /**
-   * Opens a modal to show the privileges for a given role.
-   */
-  viewRolePrivileges(viewInstructorRoleModal: NgbModal, role: string): boolean {
-    this.ngbModal.open(viewInstructorRoleModal);
-
-    const privileges: Privileges = this.getPrivilegesForRole(role);
-    this.initViewInstructorRole(role, privileges.courseLevel);
-    return false;
-  }
-
-  /**
-   * Initialises the modal showing privileges for given privileges.
-   */
-  initViewInstructorRole(role: string, courseLevelPrivileges: CourseLevelPrivileges): void {
-    const modalTitleId: string = 'role-title';
-    const modifyCourseId: string = 'canmodifycourse';
-    const modifyInstructorId: string = 'canmodifyinstructor';
-    const modifySessionId: string = 'canmodifysession';
-    const modifyStudentId: string = 'canmodifystudent';
-    const viewStudentInSectionId: string = 'canviewstudentinsection';
-    const submitSessionInSectionId: string = 'cansubmitsessioninsection';
-    const viewSessionInSectionId: string = 'canviewsessioninsection';
-    const modifySessionCommentInSectionId: string = 'canmodifysessioncommentinsection';
-
-    const modalTitle: (HTMLElement | null) = document.getElementById(modalTitleId);
-    const canModifyCourse: (HTMLInputElement | null) = document.getElementById(modifyCourseId) as HTMLInputElement;
-    const canModifyInstructor: (HTMLInputElement | null) =
-        document.getElementById(modifyInstructorId) as HTMLInputElement;
-    const canModifySession: (HTMLInputElement | null) = document.getElementById(modifySessionId) as HTMLInputElement;
-    const canModifyStudent: (HTMLInputElement | null) = document.getElementById(modifyStudentId) as HTMLInputElement;
-    const canViewStudentInSection: (HTMLInputElement | null) =
-        document.getElementById(viewStudentInSectionId) as HTMLInputElement;
-    const canSubmitSessionInSection: (HTMLInputElement | null) =
-        document.getElementById(submitSessionInSectionId) as HTMLInputElement;
-    const canViewSessionInSection: (HTMLInputElement | null) =
-        document.getElementById(viewSessionInSectionId) as HTMLInputElement;
-    const canModifySessionCommentInSection: (HTMLInputElement | null) =
-        document.getElementById(modifySessionCommentInSectionId) as HTMLInputElement;
-
-    if (modalTitle != null && canModifyCourse != null && canModifyInstructor != null && canModifySession != null
-        && canModifyStudent != null && canViewStudentInSection != null && canSubmitSessionInSection != null
-        && canViewSessionInSection != null && canModifySessionCommentInSection != null) {
-
-      modalTitle.innerText = `Permissions for ${role}`;
-
-      canModifyCourse.checked = courseLevelPrivileges.canmodifycourse;
-      canModifyInstructor.checked = courseLevelPrivileges.canmodifyinstructor;
-      canModifySession.checked = courseLevelPrivileges.canmodifysession;
-      canModifyStudent.checked = courseLevelPrivileges.canmodifystudent;
-      canViewStudentInSection.checked = courseLevelPrivileges.canviewstudentinsection;
-      canSubmitSessionInSection.checked = courseLevelPrivileges.cansubmitsessioninsection;
-      canViewSessionInSection.checked = courseLevelPrivileges.canviewsessioninsection;
-      canModifySessionCommentInSection.checked = courseLevelPrivileges.canmodifysessioncommentinsection;
-    }
-  }
-
-  /**
-   * Opens a modal to confirm resending an invitation email to an instructor.
-   */
-  onSubmitResendEmail(resendEmailModal: NgbModal, index: number): void {
-    this.ngbModal.open(resendEmailModal);
-
-    const instructorToResend: InstructorAttributes = this.instructorList[index];
-    const modalId: string = 'resend-email-modal';
-    const courseId: string = this.courseEditFormModel.courseId;
-
-    const modal: (HTMLElement | null) = document.getElementById(modalId);
-    if (modal != null) {
-      modal.innerText = `Do you wish to re-send the invitation email to instructor ${instructorToResend.name} `
-          + `from course ${courseId}?`;
-    }
-  }
-
-  /**
-   * Re-sends an invitation email to an instructor in the course.
-   */
-  resendReminderEmail(index: number): void {
-    const instructorToResend: InstructorAttributes = this.instructorList[index];
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseEditFormModel.courseId,
-      instructoremail: instructorToResend.email,
-    };
-
-    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
   }
 
   /**
@@ -1160,5 +1041,54 @@ export class InstructorCourseEditPageComponent implements OnInit {
       hideLink.style.display = 'block';
       showLink.style.display = 'none';
     }
+  }
+
+  /******************************************************************************
+   * MODAL RELATED FUNCTIONS
+   ******************************************************************************/
+
+  /**
+   * Opens a modal to show the privileges for a given instructor.
+   */
+  viewPrivilegesHandler(role: Role, privileges: Privileges): void {
+    const modalRef: NgbModalRef = this.modalService.open(ViewPrivilegesModalComponent);
+
+    modalRef.componentInstance.model = privileges.courseLevel;
+    modalRef.componentInstance.instructorrole = role;
+  }
+
+  /**
+   * Opens a modal to confirm resending an invitation email to an instructor.
+   */
+  onSubmitResendEmail(resendEmailModal: NgbModal, index: number): void {
+    this.modalService.open(resendEmailModal);
+
+    const instructorToResend: InstructorAttributes = this.instructorList[index];
+    const modalId: string = 'resend-email-modal';
+    const courseId: string = this.courseEditFormModel.courseId;
+
+    const modal: (HTMLElement | null) = document.getElementById(modalId);
+    if (modal != null) {
+      modal.innerText = `Do you wish to re-send the invitation email to instructor ${instructorToResend.name} `
+          + `from course ${courseId}?`;
+    }
+  }
+
+  /**
+   * Re-sends an invitation email to an instructor in the course.
+   */
+  resendReminderEmail(index: number): void {
+    const instructorToResend: InstructorAttributes = this.instructorList[index];
+    const paramsMap: { [key: string]: string } = {
+      courseid: this.courseEditFormModel.courseId,
+      instructoremail: instructorToResend.email,
+    };
+
+    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 }
