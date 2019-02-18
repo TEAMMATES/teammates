@@ -5,11 +5,11 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 /**
  * Output format of account data.
  */
-public class AccountData extends ApiOutput {
+public class AccountDetailsData extends ApiOutput {
 
     private final AccountAttributes accountInfo;
 
-    public AccountData(AccountAttributes accountInfo) {
+    public AccountDetailsData(AccountAttributes accountInfo) {
         this.accountInfo = accountInfo;
     }
 

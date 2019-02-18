@@ -3,7 +3,7 @@ package teammates.ui.webapi.action;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.AccountData;
+import teammates.ui.webapi.output.AccountDetailsData;
 
 /**
  * Action: gets account's information.
@@ -29,7 +29,7 @@ public class GetAccountAction extends Action {
 
         AccountAttributes accountInfo = logic.getAccount(googleId);
 
-        AccountData output = new AccountData(accountInfo);
+        AccountDetailsData output = new AccountDetailsData(accountInfo);
         return new JsonResult(output);
     }
 
