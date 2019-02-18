@@ -53,7 +53,6 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         String[] submissionParams = createValidParam(student.googleId);
         StudentProfileUpdateRequest req = createInvalidUpdateRequest();
 
-
         PutStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
@@ -82,7 +81,6 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
 
         submissionParams = createValidParam(student.googleId);
         req = createInvalidUpdateRequestForProfileWithScriptInjection();
-
 
         action = getAction(req, submissionParams);
         result = getJsonResult(action);

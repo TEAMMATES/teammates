@@ -49,7 +49,6 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
 
         assertNull(logic.getAccount(acc.googleId));
 
-
         ______TS("Typical case, delete non-existing account");
 
         submissionParams = new String[] {

@@ -46,7 +46,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String instituteWithSpaces = "   " + institute + "   ";
 
         String[] paramWithSpace = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces
+                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
         };
 
         AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces);
@@ -78,7 +78,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String invalidName = "James%20Bond99";
 
         String[] paramInvalid = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces
+                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
         };
         req = buildCreateRequest(invalidName, institute);
 

@@ -37,8 +37,7 @@ public class PutStudentProfileAction extends Action {
         StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
 
         try {
-<<<<<<< HEAD
-            StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId));
+            StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId, updateRequest));
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(studentId)
                             .withShortName(studentProfile.shortName)
@@ -48,10 +47,6 @@ public class PutStudentProfileAction extends Action {
                             .withInstitute(studentProfile.institute)
                             .withMoreInfo(studentProfile.moreInfo)
                             .build());
-=======
-            StudentProfileAttributes studentProfile = extractProfileData(studentId, updateRequest);
-            logic.updateOrCreateStudentProfile(sanitizeProfile(studentProfile));
->>>>>>> add response DTO for update student profile and update test
             return new JsonResult(Const.StatusMessages.STUDENT_PROFILE_EDITED, HttpStatus.SC_ACCEPTED);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);

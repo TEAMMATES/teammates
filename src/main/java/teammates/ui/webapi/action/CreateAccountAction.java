@@ -18,7 +18,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-
 import teammates.ui.webapi.output.JoinLinkData;
 import teammates.ui.webapi.request.AccountCreateRequest;
 
