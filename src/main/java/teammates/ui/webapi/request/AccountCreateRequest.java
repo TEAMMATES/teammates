@@ -14,7 +14,6 @@ public class AccountCreateRequest extends BasicRequest {
         return this.instructorName;
     }
 
-
     public String getInstructorInstitution() {
         return this.instructorInstitution;
     }
