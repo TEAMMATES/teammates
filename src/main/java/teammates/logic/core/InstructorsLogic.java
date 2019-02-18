@@ -367,7 +367,7 @@ public final class InstructorsLogic {
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         try {
             instructorsDb.updateInstructorByEmail(
-                    InstructorAttributes.updateOptionsWithEmailBuilder(originalEmail, originalEmail)
+                    InstructorAttributes.updateOptionsWithEmailBuilder(courseId, originalEmail)
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException e) {

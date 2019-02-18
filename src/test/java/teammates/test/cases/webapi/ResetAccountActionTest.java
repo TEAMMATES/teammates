@@ -66,7 +66,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
         assertNull(logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId()));
 
-        ______TS("typical success case: reset instructor student account");
+        ______TS("typical success case: reset student account");
 
         String[] paramsStudent = {
                 Const.ParamsNames.STUDENT_EMAIL, student1OfCourse1.getEmail(),
