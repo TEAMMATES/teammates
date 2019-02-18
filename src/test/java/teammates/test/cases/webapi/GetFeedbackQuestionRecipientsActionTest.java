@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -20,6 +21,7 @@ import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
  */
 public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetFeedbackQuestionRecipientsAction> {
 
+    private DataBundle testData;
     private FeedbackSessionAttributes firstSessionInCourse1;
     private FeedbackSessionAttributes secondSessionInCourse1;
     private FeedbackSessionAttributes firstSessionInCourse2;
@@ -30,13 +32,14 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Override
     @BeforeMethod
     public void beforeTestMethodSetup() {
-        super.beforeTestMethodSetup();
-        firstSessionInCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        secondSessionInCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
-        firstSessionInCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
-        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+        testData = loadDataBundle("/FeedbackQuestionRecipientsTest.json");
+        removeAndRestoreDataBundle(testData);
+        firstSessionInCourse1 = testData.feedbackSessions.get("session1InCourse1");
+        secondSessionInCourse1 = testData.feedbackSessions.get("session2InCourse1");
+        firstSessionInCourse2 = testData.feedbackSessions.get("session1InCourse2");
+        student1InCourse1 = testData.students.get("student1InCourse1");
+        instructor1OfCourse1 = testData.instructors.get("instructor1OfCourse1");
+        instructor1OfCourse2 = testData.instructors.get("instructor1OfCourse2");
     }
 
     @Override
@@ -120,16 +123,34 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals(1, teamRecipients.getRecipients().size());
         assertEquals("Team 1.2", teamRecipients.getRecipients().get(0).getIdentifier());
 
+        ______TS("Test typical recipient type: Own team");
+        loginAsStudent(student1InCourse1.googleId);
+        String[] ownTeamQuestionParams =
+                generateParameters(secondSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
+        FeedbackQuestionRecipientsData ownTeamRecipients = getRecipients(ownTeamQuestionParams);
+        assertEquals(1, ownTeamRecipients.getRecipients().size());
+        assertEquals("Team 1.1", ownTeamRecipients.getRecipients().get(0).getIdentifier());
+
         ______TS("Test typical recipient type: Own team member");
         loginAsStudent(student1InCourse1.googleId);
         String[] memberQuestionParams =
-                generateParameters(secondSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
+                generateParameters(secondSessionInCourse1, 3, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData memberRecipients = getRecipients(memberQuestionParams);
         assertEquals(3, memberRecipients.getRecipients().size());
         assertEquals("student2InCourse1@gmail.tmt", memberRecipients.getRecipients().get(0).getIdentifier());
         assertEquals("student3InCourse1@gmail.tmt", memberRecipients.getRecipients().get(1).getIdentifier());
         assertEquals("student4InCourse1@gmail.tmt", memberRecipients.getRecipients().get(2).getIdentifier());
 
+        ______TS("Test typical recipient type: Own team member including self");
+        loginAsStudent(student1InCourse1.googleId);
+        String[] memberWithSelfQuestionParams =
+                generateParameters(secondSessionInCourse1, 4, Intent.STUDENT_SUBMISSION, "", "", "");
+        FeedbackQuestionRecipientsData memberWithSelfRecipients = getRecipients(memberWithSelfQuestionParams);
+        assertEquals(4, memberWithSelfRecipients.getRecipients().size());
+        assertEquals("student1InCourse1@gmail.tmt", memberWithSelfRecipients.getRecipients().get(0).getIdentifier());
+        assertEquals("student2InCourse1@gmail.tmt", memberWithSelfRecipients.getRecipients().get(1).getIdentifier());
+        assertEquals("student3InCourse1@gmail.tmt", memberWithSelfRecipients.getRecipients().get(2).getIdentifier());
+        assertEquals("student4InCourse1@gmail.tmt", memberWithSelfRecipients.getRecipients().get(3).getIdentifier());
 
         ______TS("Test typical recipient type: None");
         loginAsInstructor(instructor1OfCourse1.googleId);
