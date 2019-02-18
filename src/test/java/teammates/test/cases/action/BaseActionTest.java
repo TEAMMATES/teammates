@@ -727,7 +727,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 .withSectionName("Section 3")
                 .withComment("")
                 .build();
-        StudentsLogic.inst().createStudentCascade(student);
+        StudentsLogic.inst().createStudent(student);
     }
 
     protected String getPageResultDestination(String parentUri, boolean isError, String userId) {

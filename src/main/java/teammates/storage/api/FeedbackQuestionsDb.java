@@ -3,7 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
@@ -27,19 +26,6 @@ import teammates.storage.entity.FeedbackQuestion;
  */
 public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-
-    /**
-     * Creates multiple questions without checking for existence. Also calls {@link #flush()},
-     * leading to any previously deferred operations being written immediately. This is needed
-     * to update the question entities with actual question IDs.
-     *
-     * @returns list of created {@link FeedbackQuestionAttributes} containing actual question IDs.
-     */
-    public List<FeedbackQuestionAttributes> createFeedbackQuestionsWithoutExistenceCheck(
-            Collection<FeedbackQuestionAttributes> questions) throws InvalidParametersException {
-        List<FeedbackQuestion> createdQuestions = createEntitiesWithoutExistenceCheck(questions);
-        return makeAttributes(createdQuestions);
-    }
 
     /**
      * Preconditions: <br>
@@ -68,11 +54,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber),
                 "Trying to get non-existent Question: " + questionNumber + "." + feedbackSessionName + "/" + courseId);
-    }
-
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
-            FeedbackQuestionAttributes entityToAdd) throws InvalidParametersException {
-        return makeAttributes(createEntityWithoutExistenceCheck(entityToAdd));
     }
 
     /**
@@ -221,6 +202,17 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         }
 
         return query.keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(FeedbackQuestionAttributes entityToCreate) {
+        return !load()
+                .filter("feedbackSessionName =", entityToCreate.getFeedbackSessionName())
+                .filter("courseId =", entityToCreate.getCourseId())
+                .filter("questionNumber =", entityToCreate.getQuestionNumber())
+                .keys()
+                .list()
+                .isEmpty();
     }
 
     @Override

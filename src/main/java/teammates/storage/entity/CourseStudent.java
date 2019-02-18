@@ -23,7 +23,7 @@ public class CourseStudent extends BaseEntity {
     /**
      * ID of the student.
      *
-     * @see #makeId()
+     * @see #generateId(String, String)
      */
     @Id
     private String id;
@@ -76,12 +76,12 @@ public class CourseStudent extends BaseEntity {
 
         setCreatedAt(Instant.now());
 
-        this.id = makeId();
+        this.id = generateId(getEmail(), getCourseId());
         registrationKey = generateRegistrationKey();
     }
 
-    private String makeId() {
-        return getEmail() + '%' + getCourseId();
+    public static String generateId(String email, String courseId) {
+        return email + '%' + courseId;
     }
 
     public Instant getCreatedAt() {

@@ -1,6 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -9,6 +8,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -107,8 +107,8 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
         validResponseOfQuestion(feedbackQuestion, feedbackResponse);
         try {
-            logic.createFeedbackResponses(Arrays.asList(feedbackResponse));
-        } catch (InvalidParametersException e) {
+            logic.createFeedbackResponse(feedbackResponse);
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 

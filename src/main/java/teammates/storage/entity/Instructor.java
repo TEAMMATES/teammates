@@ -17,7 +17,9 @@ import com.googlecode.objectify.annotation.Unindex;
 public class Instructor extends BaseEntity {
 
     /**
-     * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
+     * The unique id of the entity.
+     *
+     * @see #generateId(String, String)
      */
     @Id
     private String id;
@@ -70,8 +72,13 @@ public class Instructor extends BaseEntity {
         this.setDisplayedName(displayedName);
         this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
-        this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
+        this.setUniqueId(generateId(this.getEmail(), this.getCourseId()));
         this.setRegistrationKey(generateRegistrationKey());
+    }
+
+    public static String generateId(String email, String courseId) {
+        // Format: email%courseId e.g., adam@gmail.com%cs1101
+        return email + '%' + courseId;
     }
 
     /**

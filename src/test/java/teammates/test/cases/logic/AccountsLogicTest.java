@@ -113,7 +113,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withTeamName("teamName")
                 .withComment("")
                 .build();
-        studentsLogic.createStudentCascade(studentData);
+        studentsLogic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
         StudentAttributes finalStudent = studentData;
@@ -144,7 +144,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withComment("")
                 .withGoogleId(existingId)
                 .build();
-        studentsLogic.createStudentCascade(existingStudent);
+        studentsLogic.createStudent(existingStudent);
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), existingId));
@@ -192,7 +192,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withTeamName("teamName")
                 .withComment("")
                 .build();
-        studentsLogic.createStudentCascade(studentData);
+        studentsLogic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
 
@@ -384,7 +384,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withComment("")
                 .withGoogleId(instructor.googleId)
                 .build();
-        studentsLogic.createStudentCascade(student);
+        studentsLogic.createStudent(student);
         verifyPresentInDatastore(account);
         verifyPresentInDatastore(studentProfile);
         verifyPresentInDatastore(instructor);

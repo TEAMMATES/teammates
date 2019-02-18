@@ -121,6 +121,10 @@ public class FeedbackQuestion extends BaseEntity {
         return Key.create(FeedbackQuestion.class, feedbackQuestionId).toWebSafeString();
     }
 
+    public void setFeedbackQuestionId(Long feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
+    }
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
@@ -217,10 +221,6 @@ public class FeedbackQuestion extends BaseEntity {
     public void setShowRecipientNameTo(
             List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
-    }
-
-    public void setFeedbackQuestionId(Long feedbackQuestionId) {
-        this.feedbackQuestionId = feedbackQuestionId;
     }
 
     @OnSave

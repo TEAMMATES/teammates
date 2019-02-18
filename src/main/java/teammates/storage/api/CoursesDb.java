@@ -151,6 +151,12 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         return load().filterKey(keyToFind).keys();
     }
 
+    @Override
+    protected boolean hasExistingEntities(CourseAttributes entityToCreate) {
+        Key<Course> keyToFind = Key.create(Course.class, entityToCreate.getId());
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
+    }
+
     private Course getCourseEntity(String courseId) {
         return load().id(courseId).now();
     }

@@ -402,10 +402,10 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .withGiverSection(newAttributes.getGiverSection())
                     .withRecipientSection(newAttributes.getRecipientSection())
                     .build();
-            FeedbackResponse recreatedResponseEntity = createEntity(newAttributes);
+            newAttributes = createEntity(newAttributes);
             deleteEntityDirect(oldResponse);
 
-            return makeAttributes(recreatedResponseEntity);
+            return newAttributes;
         }
     }
 
@@ -729,6 +729,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         }
 
         return query.keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(FeedbackResponseAttributes entityToCreate) {
+        return !load()
+                .filterKey(Key.create(FeedbackResponse.class,
+                        FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
+                                entityToCreate.getGiver(), entityToCreate.getRecipient())))
+                .list()
+                .isEmpty();
     }
 
     @Override

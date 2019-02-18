@@ -107,8 +107,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 .withTeamName("Team Unregistered")
                 .withComment("")
                 .build();
-        StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
-        StudentsLogic.inst().createStudentCascade(unregisteredStudent2);
+        StudentsLogic.inst().createStudent(unregisteredStudent1);
+        StudentsLogic.inst().createStudent(unregisteredStudent2);
 
         /* Reassign the attributes to retrieve their keys */
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);

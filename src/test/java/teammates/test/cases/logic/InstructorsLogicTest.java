@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -226,7 +228,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: no instructors for a given course");
 
         courseId = "new-course";
-        coursesLogic.createCourse(courseId, "New course", "UTC");
+        coursesLogic.createCourse(
+                CourseAttributes.builder(courseId)
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(0, instructors.size());

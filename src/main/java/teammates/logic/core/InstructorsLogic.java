@@ -72,14 +72,16 @@ public final class InstructorsLogic {
      * ====================================
      */
 
+    /**
+     * Creates an instructor.
+     *
+     * @return the created instructor
+     * @throws InvalidParametersException if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     */
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-
-        Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
-
-        log.info("going to create instructor :\n" + instructorToAdd.toString());
-
-        return instructorsDb.createInstructor(instructorToAdd);
+        return instructorsDb.createEntity(instructorToAdd);
     }
 
     /**

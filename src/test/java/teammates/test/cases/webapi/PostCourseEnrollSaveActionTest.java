@@ -1,5 +1,6 @@
 package teammates.test.cases.webapi;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -134,7 +136,11 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         }
 
         courseId = "new-course";
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, courseId, "New course", "UTC");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId,
+                CourseAttributes.builder(courseId)
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         loginAsAdmin();
 

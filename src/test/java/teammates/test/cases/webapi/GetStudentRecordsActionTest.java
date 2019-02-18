@@ -198,7 +198,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
                 .withComment("No comment")
                 .build();
 
-        logic.createStudent(student);
+        StudentsLogic.inst().createStudent(student);
         return student;
     }
 

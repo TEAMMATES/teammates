@@ -1,7 +1,6 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -145,7 +144,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 .withResponseDetails(responseToUpdate.responseDetails)
                 .build();
 
-        frLogic.createFeedbackResponses(Arrays.asList(existingResponse));
+        frLogic.createFeedbackResponse(existingResponse);
 
         FeedbackResponseAttributes[] finalResponse = new FeedbackResponseAttributes[] { responseToUpdate };
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
@@ -265,7 +264,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 .withResponseDetails(new FeedbackTextResponseDetails("New Response to self"))
                 .build();
 
-        frLogic.createFeedbackResponses(Arrays.asList(responseToAdd));
+        frLogic.createFeedbackResponse(responseToAdd);
 
         // All these responses should be gone after he changes teams
 
@@ -498,7 +497,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 .withResponseDetails(existingResponse.responseDetails)
                 .build();
 
-        frLogic.createFeedbackResponses(Arrays.asList(newResponse));
+        frLogic.createFeedbackResponse(newResponse);
         student = dataBundle.students.get("student2InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
                 null, null);

@@ -54,35 +54,18 @@ public final class FeedbackQuestionsLogic {
      * Creates a new feedback question.
      *
      * @return the created question
+     * @throws InvalidParametersException if the question is invalid
      */
     public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException {
 
-        String feedbackSessionName = fqa.feedbackSessionName;
-        String courseId = fqa.courseId;
-        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            Assumption.fail("Session disappeared.");
-        }
-        List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        if (fqa.questionNumber < 0) {
-            fqa.questionNumber = questions.size() + 1;
-        }
-        // TODO question numbers adjustment cannot be done before a question is created
-        // as the question to create may not be valid
-        adjustQuestionNumbers(questions.size() + 1, fqa.questionNumber, questions);
-        return createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
-    }
+        List<FeedbackQuestionAttributes> questionsBefore =
+                getFeedbackQuestionsForSession(fqa.getFeedbackSessionName(), fqa.getCourseId());
 
-    /**
-     * Used for creating initial questions only.
-     * Does not check if feedback session exists.
-     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
-     */
-    public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(
-            FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException {
-        fqa.questionNumber = questionNumber;
-        fqa.removeIrrelevantVisibilityOptions();
-        return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
+        FeedbackQuestionAttributes createdQuestion = fqDb.putEntity(fqa);
+
+        adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
+        return createdQuestion;
     }
 
     /**

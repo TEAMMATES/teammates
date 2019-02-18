@@ -65,7 +65,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
                 .build();
 
         AccountsDb accountsDb = new AccountsDb();
-        accountsDb.createAccount(studentWithoutCourses);
+        accountsDb.createEntity(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
 
         loginAsUnregistered(studentWithoutCourses.googleId);

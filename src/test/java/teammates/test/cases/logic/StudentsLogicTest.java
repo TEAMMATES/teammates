@@ -132,7 +132,11 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
                         .build());
-        coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
+        coursesLogic.createCourseAndInstructor(instructorId,
+                CourseAttributes.builder(instructorCourse)
+                        .withName("Course for Enroll Testing")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         ______TS("add student into empty course");
 
@@ -389,7 +393,11 @@ public class StudentsLogicTest extends BaseLogicTest {
         String info;
         String enrollLines;
         String courseId = "CourseID";
-        coursesLogic.createCourse(courseId, "CourseName", "UTC");
+        coursesLogic.createCourse(
+                CourseAttributes.builder(courseId)
+                        .withName("CourseName")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
         String invalidInfoString = null;
         String expectedInvalidInfoString;
         List<String> expectedInvalidInfoList = new ArrayList<>();
@@ -524,7 +532,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 + lineWithCorrectInput + System.lineSeparator()
                 + lineWithCorrectInputWithComment;
         // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
-        studentsLogic.createStudents(enrollLines, courseId);
+        studentsLogic.buildStudents(enrollLines, courseId);
 
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
@@ -580,7 +588,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     /**
      * Returns the error message of EnrollException thrown when trying to call
-     * {@link StudentsLogic#createStudents(String, String)} method with
+     * {@link StudentsLogic#buildStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
      * {@link AssertionError}
      *
@@ -588,7 +596,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      */
     private String getExceptionMessageOnCreatingStudentsList(String invalidEnrollLines, String courseId) {
         EnrollException ee = assertThrows(EnrollException.class,
-                () -> studentsLogic.createStudents(invalidEnrollLines, courseId));
+                () -> studentsLogic.buildStudents(invalidEnrollLines, courseId));
         return ee.getMessage();
     }
 
@@ -607,7 +615,11 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
-        coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
+        coursesLogic.createCourseAndInstructor(instructorId,
+                CourseAttributes.builder(courseIdForEnrollTest)
+                        .withName("Course for Enroll Testing")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
         FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
@@ -714,7 +726,11 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
-        coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
+        coursesLogic.createCourseAndInstructor("tes.instructor",
+                CourseAttributes.builder("tes.course")
+                        .withName("TES Course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         String line = headerLine + System.lineSeparator() + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudents(line, "tes.course");

@@ -11,8 +11,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -22,8 +20,6 @@ import teammates.storage.api.AccountsDb;
  * @see AccountsDb
  */
 public final class AccountsLogic {
-
-    private static final Logger log = Logger.getLogger();
 
     private static AccountsLogic instance = new AccountsLogic();
 
@@ -42,17 +38,16 @@ public final class AccountsLogic {
         return instance;
     }
 
-    public void createAccount(AccountAttributes accountData)
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the Datastore.
+     */
+    public AccountAttributes createAccount(AccountAttributes accountData)
             throws InvalidParametersException, EntityAlreadyExistsException {
-
-        List<String> invalidityInfo = accountData.getInvalidityInfo();
-        if (!invalidityInfo.isEmpty()) {
-            throw new InvalidParametersException(invalidityInfo);
-        }
-
-        log.info("going to create account :\n" + JsonUtils.toJson(accountData));
-
-        accountsDb.createAccount(accountData);
+        return accountsDb.createEntity(accountData);
     }
 
     public AccountAttributes getAccount(String googleId) {
@@ -269,6 +264,9 @@ public final class AccountsLogic {
         //TODO: deal with orphan courses, submissions etc.
     }
 
+    /**
+     * Creates a student account.
+     */
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
@@ -279,7 +277,7 @@ public final class AccountsLogic {
                 .withInstitute(getCourseInstitute(student.course))
                 .build();
 
-        accountsDb.createAccount(account);
+        accountsDb.createEntity(account);
     }
 
 }

@@ -18,9 +18,13 @@ import com.googlecode.objectify.annotation.Unindex;
 @Index
 public class FeedbackSession extends BaseEntity {
 
-    // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
     // as feedbackSessionId is persisted to the database
+    /**
+     * The unique id of the entity.
+     *
+     * @see #generateId(String, String)
+     */
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @Id
     private transient String feedbackSessionId;
@@ -111,9 +115,14 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-        this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
+        this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
         this.respondingInstructorList = instructorList == null ? new HashSet<>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<>() : studentList;
+    }
+
+    public static String generateId(String feedbackSessionName, String courseId) {
+        // Format is feedbackSessionName%courseId
+        return feedbackSessionName + '%' + courseId;
     }
 
     public String getFeedbackSessionName() {

@@ -3,6 +3,7 @@ package teammates.test.cases.storage;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -53,14 +54,27 @@ public class AccountsDbTest extends BaseComponentTestCase {
                 .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        accountsDb.createAccount(a);
+        accountsDb.createEntity(a);
+
+        ______TS("duplicate account, creation fail");
+
+        AccountAttributes duplicatedAccount = AccountAttributes.builder("test.account")
+                .withName("name2")
+                .withEmail("test2@email.com")
+                .withInstitute("de2v")
+                .withIsInstructor(false)
+                .build();
+        assertThrows(EntityAlreadyExistsException.class, () -> {
+            accountsDb.createEntity(duplicatedAccount);
+        });
+
         accountsDb.deleteAccount(a.googleId);
 
         // Should we not allow empty fields?
         ______TS("failure case: invalid parameter");
         a.email = "invalid email";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountsDb.createAccount(a));
+                () -> accountsDb.createEntity(a));
         AssertHelper.assertContains(
                 getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
@@ -69,7 +83,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
-        AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.createAccount(null));
+        AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.createEntity(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
@@ -134,7 +148,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountAttributes createNewAccount() throws Exception {
         AccountAttributes a = getNewAccountAttributes();
-        accountsDb.createAccount(a);
+        accountsDb.createEntity(a);
         return a;
     }
 
