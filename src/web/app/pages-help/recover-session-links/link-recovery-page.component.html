@@ -21,10 +21,8 @@
       </div>
 
       <div class="form-row form-group top-padded">
-        <ngx-recaptcha2 [siteKey]="siteKey"
-                        (reset)="handleReset()"
-                        (expire)="handleExpire()"
-                        (load)="handleLoad()"
+        <ngx-recaptcha2 #captchaElem
+                        [siteKey]="siteKey"
                         (success)="handleSuccess($event)"
                         [useGlobalDomain]="false"
                         [size]="size"
