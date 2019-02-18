@@ -85,16 +85,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testGetEntityTypeAsString() {
-        assertEquals("Student Profile", profile.getEntityTypeAsString());
-    }
-
-    @Test
-    public void testGetIdentificationString() {
-        assertEquals(profile.googleId, profile.getIdentificationString());
-    }
-
-    @Test
     public void testGetJsonString() throws Exception {
         StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         spa.modifiedDate = TimeHelper.parseInstant("2015-05-21 8:34 AM +0000");

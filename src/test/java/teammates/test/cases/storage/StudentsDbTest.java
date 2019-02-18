@@ -90,10 +90,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("fail : duplicate");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> studentsDb.createEntity(s));
-        AssertHelper.assertContains(
-                String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
-                        + s.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString()), eaee.getMessage());
 
         ______TS("null params check");
         AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));

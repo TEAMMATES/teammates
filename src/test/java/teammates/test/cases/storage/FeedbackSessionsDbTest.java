@@ -71,10 +71,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("duplicate");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fsDb.createEntity(fsa));
-        AssertHelper.assertContains(
-                String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.getEntityTypeAsString())
-                        + fsa.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.toString()), eaee.getMessage());
 
         fsDb.deleteEntity(fsa);
         verifyAbsentInDatastore(fsa);

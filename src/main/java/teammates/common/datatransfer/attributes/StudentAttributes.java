@@ -20,7 +20,6 @@ import teammates.storage.entity.CourseStudent;
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     private static final String STUDENT_BACKUP_LOG_MSG = "Recently modified student::";
-    private static final String ATTRIBUTE_NAME = "Student";
 
     // Required fields
     public String email;
@@ -255,16 +254,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         sb.append(indentString + "Student:" + name + "[" + email + "]" + System.lineSeparator());
 
         return sb.toString();
-    }
-
-    @Override
-    public String getIdentificationString() {
-        return this.course + "/" + this.email;
-    }
-
-    @Override
-    public String getEntityTypeAsString() {
-        return ATTRIBUTE_NAME;
     }
 
     @Override

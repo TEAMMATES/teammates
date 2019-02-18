@@ -34,18 +34,6 @@ public abstract class EntityAttributes<E extends BaseEntity> {
     public abstract E toEntity();
 
     /**
-     * Returns an abridged string which can sufficiently identify the entity
-     *            this class represents for use in error messages / exceptions.
-     */
-    public abstract String getIdentificationString();
-
-    /**
-     * Returns the type of entity this Attribute class represents as a human
-     *            readable string.
-     */
-    public abstract String getEntityTypeAsString();
-
-    /**
      * Returns the identifier used for logging to perform backup.
      */
     public abstract String getBackupIdentifier();

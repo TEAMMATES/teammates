@@ -94,7 +94,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         EntityAlreadyExistsException ednee = assertThrows(EntityAlreadyExistsException.class,
                 () -> instructorsLogic.createInstructor(instr));
-        AssertHelper.assertContains("Trying to create a Instructor that exists", ednee.getMessage());
+        AssertHelper.assertContains("Trying to create an entity that exists", ednee.getMessage());
 
         instructorsLogic.deleteInstructorCascade(instr.courseId, instr.email);
 

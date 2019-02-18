@@ -27,7 +27,7 @@ public class Account extends BaseEntity {
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
-    
+
     @SuppressWarnings("unused")
     private Account() {
         // required by Objectify

@@ -33,7 +33,7 @@ import teammates.storage.search.SearchQuery;
  */
 public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
-    public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
+    public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
@@ -60,8 +60,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         }
 
         if (shouldCheckExistence && hasEntity(entityToAdd)) {
-            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
-                    + entityToAdd.getIdentificationString();
+            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.toString());
             log.info(error);
             throw new EntityAlreadyExistsException(error);
         }

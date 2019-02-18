@@ -82,10 +82,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("duplicate - with same id.");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fqDb.createEntity(fqa));
-        AssertHelper.assertContains(
-                String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                        fqa.getEntityTypeAsString()) + fqa.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fqa.toString()), eaee.getMessage());
 
         ______TS("delete - with id specified");
 

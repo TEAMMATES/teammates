@@ -50,12 +50,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     }
 
-    @Test
-    public void testGetEntityTypeAsString() {
-        AccountAttributes account = createValidAccountAttributesObject();
-        assertEquals("Account", account.getEntityTypeAsString());
-    }
-
     @Override
     @Test
     public void testToEntity() {
@@ -81,12 +75,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(account.toString(), account1.toString());
         assertFalse("different accounts have different toString() values",
                 account1.toString().equals(account2.toString()));
-    }
-
-    @Test
-    public void testGetIdentificationString() {
-        AccountAttributes account = createValidAccountAttributesObject();
-        assertEquals(account.googleId, account.getIdentificationString());
     }
 
     @Test

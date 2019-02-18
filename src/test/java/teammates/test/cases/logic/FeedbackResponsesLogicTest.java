@@ -154,7 +154,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         FeedbackResponseAttributes.updateOptionsBuilder(finalResponse[0].getId())
                                 .withRecipient("student3InCourse1@gmail.tmt")
                                 .build()));
-        AssertHelper.assertContains("Trying to create a Feedback Response that exists", eaee.getMessage());
+        AssertHelper.assertContains("Trying to create an entity that exists", eaee.getMessage());
 
         ______TS("success: recipient changed to something else");
 

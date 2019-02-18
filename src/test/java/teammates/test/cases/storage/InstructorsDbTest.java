@@ -70,8 +70,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> instructorsDb.createEntity(i));
-        AssertHelper.assertContains(String.format(InstructorsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Instructor"),
-                eaee.getMessage());
+        assertEquals(
+                String.format(InstructorsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, i.toString()), eaee.getMessage());
 
         ______TS("Failure: create an instructor with invalid parameters");
 

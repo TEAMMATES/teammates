@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -43,10 +44,8 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         ______TS("fails: entity already exists");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesDb.createEntity(c));
-        AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                c.getEntityTypeAsString())
-                        + c.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.toString()), eaee.getMessage());
         coursesDb.deleteEntity(c);
 
         ______TS("fails: invalid parameters");
