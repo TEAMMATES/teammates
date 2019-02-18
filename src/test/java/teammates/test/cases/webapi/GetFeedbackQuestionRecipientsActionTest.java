@@ -166,6 +166,10 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Override
     protected void testAccessControl() throws Exception {
 
+        // Use typical bundle for testing access control because we want to make the login account consistent
+        // with "high-level" and "mid-level" access control tests, although accounts are same in two bundles
+        useTypicalDataBundle();
+
         ______TS("Student intends to access instructor's question, should not be accessible");
         loginAsStudent(student1InCourse1.googleId);
         String[] studentAccessInstructorQuestionParams =
@@ -185,7 +189,6 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyInaccessibleWithoutModifyInstructorPrivilege(instructorSubmissionParams);
 
         ______TS("Student access student's question, should be accessible");
-        loginAsStudent(student1InCourse1.googleId);
         String[] studentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
         verifyAccessibleForStudentsOfTheSameCourse(studentSubmissionParams);
@@ -234,6 +237,16 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                         "", "", instructor1OfCourse1.email);
         verifyAccessibleForInstructorsOfTheSameCourse(previewInstructorSubmissionParams);
         verifyInaccessibleWithoutModifyInstructorPrivilege(previewInstructorSubmissionParams);
+    }
+
+    private void useTypicalDataBundle() {
+        removeAndRestoreTypicalDataBundle();
+        firstSessionInCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        secondSessionInCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        firstSessionInCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
     }
 
     private String[] generateParameters(FeedbackSessionAttributes session, int questionNumber, Intent intent,
