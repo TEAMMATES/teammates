@@ -43,8 +43,8 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
          * e.g. timezones can change, like Caracas modifying their timezone. This affects the offset as well.
          */
         assertEquals(8 * 60 * 60, output.getOffsets().get("Asia/Singapore").intValue());
-        assertEquals(-5 * 60 * 60, output.getOffsets().get("America/New_York").intValue());
-        assertEquals(11 * 60 * 60, output.getOffsets().get("Australia/Sydney").intValue());
+        assertEquals(-5 * 60 * 60, output.getOffsets().get("Etc/GMT-5").intValue());
+        assertEquals(11 * 60 * 60, output.getOffsets().get("Etc/GMT+11").intValue());
         assertEquals(0, output.getOffsets().get("Europe/London").intValue());
     }
 
