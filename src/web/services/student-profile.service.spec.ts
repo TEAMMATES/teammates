@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StudentProfileService } from './student-profile.service';
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe('StudentProfileService', () => {
   beforeEach(() => TestBed.configureTestingModule({
