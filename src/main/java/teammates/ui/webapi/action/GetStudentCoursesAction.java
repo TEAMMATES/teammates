@@ -75,44 +75,6 @@ public class GetStudentCoursesAction extends Action {
         return new JsonResult(data);
     }
 
-    /**
-     * Output format for {@link GetStudentCoursesAction}.
-     */
-    public static class StudentCourses extends ApiOutput {
-
-        private final String recentlyJoinedCourseId;
-        private final boolean hasEventualConsistencyMsg;
-        private final List<CourseDetailsBundle> courses;
-        private final Map<String, SessionInfoMap> sessionsInfoMap;
-
-        public StudentCourses(String recentlyJoinedCourseId,
-                              boolean hasEventualConsistencyMsg,
-                              List<CourseDetailsBundle> courses,
-                              Map<String, SessionInfoMap> sessionsInfoMap) {
-            this.recentlyJoinedCourseId = recentlyJoinedCourseId;
-            this.hasEventualConsistencyMsg = hasEventualConsistencyMsg;
-            this.courses = courses;
-            this.sessionsInfoMap = sessionsInfoMap;
-        }
-
-        public String getRecentlyJoinedCourseId() {
-            return recentlyJoinedCourseId;
-        }
-
-        public boolean getHasEventualConsistencyMsg() {
-            return hasEventualConsistencyMsg;
-        }
-
-        public List<CourseDetailsBundle> getCourses() {
-            return courses;
-        }
-
-        public Map<String, SessionInfoMap> getSessionsInfoMap() {
-            return sessionsInfoMap;
-        }
-
-    }
-
     private Map<String, SessionInfoMap> generateFeedbackSessionsInfoMap(
             List<CourseDetailsBundle> courses) {
         Map<String, SessionInfoMap> returnValue = new HashMap<>();
@@ -196,15 +158,53 @@ public class GetStudentCoursesAction extends Action {
         }
     }
 
+    /**
+     * Output format for {@link GetStudentCoursesAction}.
+     */
+    public static class StudentCourses extends ApiOutput {
+
+        private final String recentlyJoinedCourseId;
+        private final boolean hasEventualConsistencyMsg;
+        private final List<CourseDetailsBundle> courses;
+        private final Map<String, SessionInfoMap> sessionsInfoMap;
+
+        public StudentCourses(String recentlyJoinedCourseId,
+                              boolean hasEventualConsistencyMsg,
+                              List<CourseDetailsBundle> courses,
+                              Map<String, SessionInfoMap> sessionsInfoMap) {
+            this.recentlyJoinedCourseId = recentlyJoinedCourseId;
+            this.hasEventualConsistencyMsg = hasEventualConsistencyMsg;
+            this.courses = courses;
+            this.sessionsInfoMap = sessionsInfoMap;
+        }
+
+        public String getRecentlyJoinedCourseId() {
+            return recentlyJoinedCourseId;
+        }
+
+        public boolean getHasEventualConsistencyMsg() {
+            return hasEventualConsistencyMsg;
+        }
+
+        public List<CourseDetailsBundle> getCourses() {
+            return courses;
+        }
+
+        public Map<String, SessionInfoMap> getSessionsInfoMap() {
+            return sessionsInfoMap;
+        }
+
+    }
+
     private static class SessionInfoMap {
-        String endTime;
+        private String endTime;
 
-        boolean isOpened;
-        boolean isWaitingToOpen;
-        boolean isPublished;
-        boolean isSubmitted;
+        private boolean isOpened;
+        private boolean isWaitingToOpen;
+        private boolean isPublished;
+        private boolean isSubmitted;
 
-        SessionInfoMap(String endTime, boolean isOpened, boolean isWaitingToOpen,
+        private SessionInfoMap(String endTime, boolean isOpened, boolean isWaitingToOpen,
                               boolean isPublished, boolean isSubmitted) {
             this.endTime = endTime;
             this.isOpened = isOpened;

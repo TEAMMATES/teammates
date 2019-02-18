@@ -212,7 +212,7 @@ public class InstructorSearchPageData extends PageData {
         sectionNameToTeamNameMap.forEach((sectionName, teamNameList) -> {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
             sdb.name = sectionName;
-            ArrayList<TeamDetailsBundle> teams = new ArrayList<>();
+            List<TeamDetailsBundle> teams = new ArrayList<>();
             for (String teamName : teamNameList) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();
                 tdb.name = teamName;
