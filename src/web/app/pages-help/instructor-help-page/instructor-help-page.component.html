@@ -1,6 +1,6 @@
 <div class="main-body" #helpPage>
   <div id="body">
-    <h1 class="color-orange" id="body"> Help for Instructors</h1>
+    <h1 class="color-orange"> Help for Instructors</h1>
     <div>
       <p>
         Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
@@ -20,19 +20,19 @@
     </div>
   </div>
   <div id="students">
-    <tm-instructor-help-students-section [key]="key"> 1
+    <tm-instructor-help-students-section [key]="key">
     </tm-instructor-help-students-section>
   </div>
   <div id="courses">
-    <tm-instructor-help-courses-section [key]="key"> 2
+    <tm-instructor-help-courses-section [key]="key">
     </tm-instructor-help-courses-section>
   </div>
   <div id="sessions">
-    <tm-instructor-help-sessions-section [key]="key"> 3
+    <tm-instructor-help-sessions-section [key]="key">
     </tm-instructor-help-sessions-section>
   </div>
   <div id="questions">
-    <tm-instructor-help-questions-section [key]="key"> 4
+    <tm-instructor-help-questions-section [key]="key">
     </tm-instructor-help-questions-section>
   </div>
 </div>
@@ -45,26 +45,21 @@
   <ul class="nav nav-pills flex-column">
     <li class="nav-item">
       <a (click)="scroll('students')" [routerLink]="">Students</a>
-      <ng-container *ngIf="currentSection === 'students'"></ng-container>
     </li>
     <li class="nav-item">
       <a (click)="scroll('courses')" [routerLink]="">Courses</a>
-      <ng-container *ngIf="currentSection === 'courses'"></ng-container>
     </li>
     <li class="nav-item">
       <a (click)="scroll('sessions')" [routerLink]="">Sessions</a>
-      <ng-container *ngIf="currentSection === 'sessions'"></ng-container>
     </li>
     <li class="nav-item">
       <a (click)="scroll('questions')" [routerLink]="">Questions</a>
-      <ng-container *ngIf="currentSection === 'questions'"></ng-container>
     </li>
   </ul>
   <br>
   <ul class="nav nav-pills flex-column">
     <li class="nav-item">
       <a (click)="scroll('body')" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
-      <ng-container *ngIf="currentSection==='body'"></ng-container>
     </li>
   </ul>
 </div>
