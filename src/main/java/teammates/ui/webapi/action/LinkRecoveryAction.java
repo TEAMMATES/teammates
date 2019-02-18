@@ -28,7 +28,7 @@ public class LinkRecoveryAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String requestedEmail = getNonNullRequestParamValue(Const.ParamsNames.RESTORE_EMAIL);
+        String requestedEmail = getNonNullRequestParamValue(Const.ParamsNames.RECOVERY_EMAIL);
         boolean hasStudentsWithRestoreEmail = !logic.getAllStudentForEmail(requestedEmail).isEmpty();
 
         if (hasStudentsWithRestoreEmail) {
@@ -47,7 +47,7 @@ public class LinkRecoveryAction extends Action {
             }
 
             return new JsonResult(new EmailRestoreResponse(EmailResponseResult.SUCCESS,
-                    "An recovery link has just been sent to the given email."));
+                    "The recovery links for your feedback sessions have been sent to the specified email."));
         } else {
             return new JsonResult(new EmailRestoreResponse(EmailResponseResult.FAIL,
                     "No response found with given email."));

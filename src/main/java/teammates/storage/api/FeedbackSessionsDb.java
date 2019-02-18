@@ -83,7 +83,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a list of feedback sessions within the given time range.
      */
-    public List<FeedbackSessionAttributes> getAllFeedbackSeesionWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
+    public List<FeedbackSessionAttributes> getFeedbackSeesionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
 
         List<FeedbackSessionAttributes> lst = new LinkedList<>();
 
@@ -110,7 +110,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         resultsVisibleEntities.removeAll(endEntities);
 
         lst.addAll(makeAttributes(startEntities));
-        lst.addAll(makeAttributes(endEntities));
+        lst.addAll(makeAttributes(endTimeEntities));
         lst.addAll(makeAttributes(resultsVisibleEntities));
 
         return lst;

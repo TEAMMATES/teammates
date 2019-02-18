@@ -726,7 +726,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Null if no match found.
+     * @return an empty list if no match found.
      */
     public List<StudentAttributes> getAllStudentForEmail(String email) {
         Assumption.assertNotNull(email);

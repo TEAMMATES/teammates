@@ -120,7 +120,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return The data for list of student(s) with the email. Returns null if
+     * @return The data for list of student(s) with the email. Returns an empty list if
      *         there is no such student.
      */
     public List<StudentAttributes> getAllStudentForEmail(String email) {

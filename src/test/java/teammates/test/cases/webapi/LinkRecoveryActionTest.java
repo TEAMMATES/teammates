@@ -37,7 +37,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         ______TS("Typical case: non-existing email");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.RESTORE_EMAIL, "non-existent email",
+                Const.ParamsNames.RECOVERY_EMAIL, "non-existent email",
         };
 
         LinkRecoveryAction a = getAction(nonExistingParam);
@@ -52,7 +52,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         ______TS("Typical case: successfully sent recovery link email");
 
         String[] param = new String[] {
-                Const.ParamsNames.RESTORE_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.RECOVERY_EMAIL, student1InCourse1.getEmail(),
         };
 
         a = getAction(param);
