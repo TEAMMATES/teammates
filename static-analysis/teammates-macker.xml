@@ -173,11 +173,6 @@
                             </from>
                             <to class="${storage}.api.**" />
                         </allow>
-                        <allow>
-                            <!-- violation that needs fixing -->
-                            <from class="${logic}.core.FeedbackResponsesLogic" />
-                            <to class="${storage}.entity.FeedbackResponse" />
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>

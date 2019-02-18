@@ -1,16 +1,13 @@
 package teammates.ui.automated;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: sends queued email.
  */
 public class SendEmailWorkerAction extends AutomatedAction {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     public void execute() {
@@ -31,10 +28,8 @@ public class SendEmailWorkerAction extends AutomatedAction {
         message.setSubject(emailSubject);
         message.setReplyTo(emailReply);
 
-        try {
-            emailSender.sendEmail(message);
-        } catch (Exception e) {
-            log.severe("Error while sending email via servlet: " + TeammatesException.toStringWithStackTrace(e));
+        EmailSendingStatus status = emailSender.sendEmail(message);
+        if (!status.isSuccess()) {
             setForRetry();
         }
     }

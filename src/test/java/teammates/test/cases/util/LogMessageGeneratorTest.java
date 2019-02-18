@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.LogMessageGenerator;
@@ -29,7 +28,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         UserInfo loginUser = new UserInfo("googleIdABC");
         String url = "/randomPage";
         Map<String, String[]> paramMap = new HashMap<>();
-        Exception e = new PageNotFoundException("randomPage");
+        Exception e = new Exception("randomPage");
         String logMessagePrefix = "TEAMMATESLOG|||Error when getting ActionName for requestUrl : /randomPage"
                                   + "|||Servlet Action Failure|||true|||Unregistered|||Unknown|||googleIdABC|||Unknown|||";
 

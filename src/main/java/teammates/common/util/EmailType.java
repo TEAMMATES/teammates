@@ -5,6 +5,8 @@ package teammates.common.util;
  */
 public enum EmailType {
 
+    // CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
+
     FEEDBACK_OPENING("TEAMMATES: Feedback session now open [Course: %s][Feedback Session: %s]"),
     FEEDBACK_SESSION_REMINDER("TEAMMATES: Feedback session reminder [Course: %s][Feedback Session: %s]"),
     FEEDBACK_SUBMISSION_CONFIRMATION(
