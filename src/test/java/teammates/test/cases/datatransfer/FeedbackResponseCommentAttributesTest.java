@@ -4,9 +4,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 import org.testng.annotations.Test;
+import org.testng.collections.Lists;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.test.cases.BaseTestCase;
 
@@ -123,5 +125,89 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         String expectedBackUpIdentifierMessage = "Recently modified feedback response comment::"
                 + commentAttributes.getId();
         assertEquals(expectedBackUpIdentifierMessage, commentAttributes.getBackupIdentifier());
+    }
+
+    @Test
+    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
+        Instant lastEditorAt = Instant.now();
+        FeedbackResponseCommentAttributes.UpdateOptions updateOptions =
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withFeedbackResponseId("responseId1")
+                        .withCommentText("commentText1")
+                        .withShowCommentTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .withShowGiverNameTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .withLastEditorEmail("editor1@email.com")
+                        .withLastEditorAt(lastEditorAt)
+                        .withGiverSection("section1")
+                        .withReceiverSection("section1")
+                        .build();
+
+        assertEquals(123L, updateOptions.getFeedbackResponseCommentId());
+
+        Instant createdAt = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        FeedbackResponseCommentAttributes feedbackResponseCommentAttributes =
+                FeedbackResponseCommentAttributes.builder("courseId", "sessionName",
+                        "giver@email.com", "testComment")
+                        .withFeedbackResponseId("responseId")
+                        .withFeedbackQuestionId("questionId")
+                        .withFeedbackResponseCommentId(123L)
+                        .withCreatedAt(createdAt)
+                        .withGiverSection("testSection")
+                        .withReceiverSection("testSection")
+                        .withCommentGiverType(FeedbackParticipantType.STUDENTS)
+                        .withLastEditorEmail("editor2@email.com")
+                        .withLastEditedAt(lastEditorAt.minusSeconds(60))
+                        .withVisibilityFollowingFeedbackQuestion(true)
+                        .withShowCommentTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withCommentFromFeedbackParticipant(true)
+                        .build();
+
+        feedbackResponseCommentAttributes.update(updateOptions);
+
+        assertEquals("courseId", feedbackResponseCommentAttributes.courseId);
+        assertEquals("sessionName", feedbackResponseCommentAttributes.feedbackSessionName);
+        assertEquals("giver@email.com", feedbackResponseCommentAttributes.commentGiver);
+        assertEquals("commentText1", feedbackResponseCommentAttributes.commentText);
+        assertEquals("responseId1", feedbackResponseCommentAttributes.feedbackResponseId);
+        assertEquals("questionId", feedbackResponseCommentAttributes.feedbackQuestionId);
+        assertEquals(createdAt, feedbackResponseCommentAttributes.createdAt);
+        assertEquals("section1", feedbackResponseCommentAttributes.giverSection);
+        assertEquals("section1", feedbackResponseCommentAttributes.receiverSection);
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackResponseCommentAttributes.commentGiverType);
+        assertEquals("editor1@email.com", feedbackResponseCommentAttributes.lastEditorEmail);
+        assertEquals(lastEditorAt, feedbackResponseCommentAttributes.lastEditedAt);
+        assertEquals(lastEditorAt, feedbackResponseCommentAttributes.lastEditedAt);
+        assertTrue(feedbackResponseCommentAttributes.isVisibilityFollowingFeedbackQuestion);
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS),
+                feedbackResponseCommentAttributes.showCommentTo);
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS),
+                feedbackResponseCommentAttributes.showGiverNameTo);
+        assertTrue(feedbackResponseCommentAttributes.isCommentFromFeedbackParticipant);
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withFeedbackResponseId(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withShowCommentTo(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withShowGiverNameTo(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withLastEditorEmail(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withLastEditorAt(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withGiverSection(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
+                        .withReceiverSection(null));
     }
 }

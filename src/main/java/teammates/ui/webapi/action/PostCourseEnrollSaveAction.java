@@ -8,7 +8,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.StudentUpdateStatus;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -77,14 +76,6 @@ public class PostCourseEnrollSaveAction extends Action {
             throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         CourseEnrollmentResult enrollResult = logic.enrollStudents(studentsInfo, courseId);
         List<StudentAttributes> students = enrollResult.studentList;
-
-        // Adjust submissions for all feedback responses within the course
-        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes session : feedbackSessions) {
-            // Schedule adjustment of submissions for feedback session in course
-            taskQueuer.scheduleFeedbackResponseAdjustmentForCourse(
-                    courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
-        }
 
         students.sort(Comparator.comparing(obj -> obj.updateStatus.numericRepresentation));
 

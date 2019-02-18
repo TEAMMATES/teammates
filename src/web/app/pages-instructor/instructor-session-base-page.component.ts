@@ -6,7 +6,8 @@ import { FeedbackSessionsService } from '../../services/feedback-sessions.servic
 import { HttpRequestService } from '../../services/http-request.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
-import { FeedbackQuestion, FeedbackQuestions, FeedbackSession } from '../../types/api-output';
+import { FeedbackQuestion, FeedbackQuestions, FeedbackSession, FeedbackSessionStats } from '../../types/api-output';
+import { FeedbackSessionStudentRemindRequest } from '../../types/api-request';
 import {
   CopySessionResult,
   SessionsTableRowModel,
@@ -14,7 +15,6 @@ import {
   SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { FeedbackSessionStats } from '../feedback-session';
 import { InstructorPrivilege } from '../instructor-privilege';
 import { Intent } from '../Intent';
 
@@ -167,7 +167,7 @@ export abstract class InstructorSessionBasePageComponent {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    this.httpRequestService.get('/sessions/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
+    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
       model.isLoadingResponseRate = false;
       model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
@@ -246,15 +246,33 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Sends e-mails to remind students who have not submitted their feedback.
+   * Sends e-mails to remind students on the published results link.
    */
-  sendRemindersToStudents(model: SessionsTableRowModel): void {
+  resendResultsLinkToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
     const paramMap: { [key: string]: string } = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
 
-    this.httpRequestService.post('/session/remind/submission', paramMap).subscribe(() => {
+    this.httpRequestService.post('/session/remind/result', paramMap, request).subscribe(() => {
+      this.statusMessageService.showSuccessMessage(
+          'Session published notification emails have been resent to those students and instructors. '
+          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Sends e-mails to remind students who have not submitted their feedback.
+   */
+  sendRemindersToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+
+    this.httpRequestService.post('/session/remind/submission', paramMap, request).subscribe(() => {
       this.statusMessageService.showSuccessMessage(
           'Reminder e-mails have been sent out to those students and instructors. '
           + 'Please allow up to 1 hour for all the notification emails to be sent out.');

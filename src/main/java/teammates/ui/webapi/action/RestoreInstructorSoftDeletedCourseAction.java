@@ -3,7 +3,6 @@ package teammates.ui.webapi.action;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -40,7 +39,7 @@ public class RestoreInstructorSoftDeletedCourseAction extends Action {
             logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
 
             statusMessage = "The course " + idOfCourseToRestore + " has been restored.";
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 

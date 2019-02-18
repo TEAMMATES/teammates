@@ -3,8 +3,8 @@ import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { FeedbackSessionStats } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackSessionStats } from '../../feedback-session';
 
 interface OngoingSession {
   sessionStatus: string;
@@ -171,7 +171,7 @@ export class AdminSessionsPageComponent implements OnInit {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
-    this.httpRequestService.get('/sessions/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
+    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
       const sessions: OngoingSession[] = this.sessions[institute].filter((session: OngoingSession) =>
           session.courseId === courseId && session.feedbackSessionName === feedbackSessionName,
       );
